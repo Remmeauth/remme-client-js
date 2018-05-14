@@ -1,0 +1,100 @@
+0 silly input [ 'publish' ]
+1 silly flags { _: [ 'publish' ], 'reject-cycles': false, rejectCycles: false }
+2 verbose rootPath /var/www/test
+3 info version 2.11.0
+4 silly isInitialized
+5 silly isInitialized true
+6 silly existsSync /var/www/test/VERSION
+7 silly initialize attempt
+8 info current version 0.0.0
+9 silly isDetachedHead
+10 silly getCurrentBranch
+11 verbose getCurrentBranch master
+12 verbose isDetachedHead false
+13 silly getCurrentBranch
+14 verbose getCurrentBranch master
+15 silly getUpdates
+16 info Checking for updated packages...
+17 silly hasTags
+18 verbose hasTags false
+19 info Comparing with initial commit.
+20 verbose updated type-test
+21 verbose updated type
+22 info Checking for prereleased packages...
+23 silly collectDependents
+24 silly isPackageDependentOf type-test type-test
+25 silly isPackageDependentOf type-test type
+26 silly isPackageDependentOf type type-test
+27 verbose dependent type depends on type-test
+28 silly isPackageDependentOf type type
+29 silly isPackageDependentOf type-test type
+30 silly collectUpdates
+31 verbose has filtered update type-test
+32 verbose has filtered update type
+33 silly initialize success
+34 silly execute attempt
+35 silly addFile /var/www/test/lerna.json
+36 silly runScriptSync preversion artemfrantsiian-test
+37 silly runScriptSync preversion type-test
+38 silly runScriptSync version type-test
+39 silly runScriptSync preversion type
+40 silly runScriptSync version type
+41 silly runScriptSync version artemfrantsiian-test
+42 silly addFile /var/www/test/packages/type-test/package.json
+43 silly addFile /var/www/test/packages/type/package.json
+44 silly commit v0.0.1
+45 verbose commit [ 'commit', '--no-verify', '-m', 'v0.0.1' ]
+46 silly addTag v0.0.1
+47 silly runScriptSync postversion type-test
+48 silly runScriptSync postversion type
+49 silly runScriptSync postversion artemfrantsiian-test
+50 info publish Publishing packages to npm...
+51 silly existsSync /var/www/test/packages/type-test/scripts/prepublish.js
+52 verbose execScript No prepublish script found at /var/www/test/packages/type-test/scripts/prepublish.js
+53 silly existsSync /var/www/test/packages/type/scripts/prepublish.js
+54 verbose execScript No prepublish script found at /var/www/test/packages/type/scripts/prepublish.js
+55 verbose publishing type-test
+56 silly publishTaggedInDir latest type-test
+57 silly getExecOpts { cwd: '/var/www/test/packages/type-test' }
+58 error publish Retrying failed publish: type-test
+59 verbose publish error undefined
+60 verbose publishing type-test
+61 silly publishTaggedInDir latest type-test
+62 silly getExecOpts { cwd: '/var/www/test/packages/type-test' }
+63 error publish Retrying failed publish: type-test
+64 verbose publish error undefined
+65 verbose publishing type-test
+66 silly publishTaggedInDir latest type-test
+67 silly getExecOpts { cwd: '/var/www/test/packages/type-test' }
+68 error publish Retrying failed publish: type-test
+69 verbose publish error undefined
+70 verbose publishing type-test
+71 silly publishTaggedInDir latest type-test
+72 silly getExecOpts { cwd: '/var/www/test/packages/type-test' }
+73 error publish Retrying failed publish: type-test
+74 verbose publish error undefined
+75 verbose publishing type-test
+76 silly publishTaggedInDir latest type-test
+77 silly getExecOpts { cwd: '/var/www/test/packages/type-test' }
+78 error publish Ran out of retries while publishing type-test Error: Command failed: npm publish --tag latest
+78 error publish npm ERR! publish Failed PUT 403
+78 error publish npm ERR! code E403
+78 error publish npm ERR! You do not have permission to publish "type-test". Are you logged in as the correct user? : type-test
+78 error publish
+78 error publish npm ERR! A complete log of this run can be found in:
+78 error publish npm ERR!     /home/artem/.npm/_logs/2018-05-08T10_19_45_546Z-debug.log
+78 error publish
+78 error publish     at Promise.all.then.arr (/usr/lib/node_modules/lerna/node_modules/execa/index.js:236:11)
+78 error publish     at <anonymous>
+78 error publish     at process._tickCallback (internal/process/next_tick.js:188:7)
+79 error execute callback with error
+80 error Error: Command failed: npm publish --tag latest
+80 error npm ERR! publish Failed PUT 403
+80 error npm ERR! code E403
+80 error npm ERR! You do not have permission to publish "type-test". Are you logged in as the correct user? : type-test
+80 error
+80 error npm ERR! A complete log of this run can be found in:
+80 error npm ERR!     /home/artem/.npm/_logs/2018-05-08T10_19_45_546Z-debug.log
+80 error
+80 error     at Promise.all.then.arr (/usr/lib/node_modules/lerna/node_modules/execa/index.js:236:11)
+80 error     at <anonymous>
