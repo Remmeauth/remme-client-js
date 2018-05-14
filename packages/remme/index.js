@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var JsonObject = /** @class */ (function () {
     function JsonObject() {
     }
@@ -17,18 +17,16 @@ var JsonObject = /** @class */ (function () {
     return JsonObject;
 }());
 exports.JsonObject = JsonObject;
-// class User {
-//     private vame: string;
-//     public getVame() {
-//         return this.vame;
-//     }
-// }
-//
-// const json = {
-//     vame: null,
-// };
-//
-// const user = (<any>Object).assign(new User(), json) as User;
-//
-// console.log(user);
-//# sourceMappingURL=index.js.map
+var User = /** @class */ (function () {
+    function User() {
+    }
+    User.prototype.getVame = function () {
+        return this.vame;
+    };
+    return User;
+}());
+var json = {
+    vame: null
+};
+var user = Object.assign(new User(), json);
+console.log(user);

@@ -29,6 +29,11 @@ var packages = [{
   expose: 'RemmeRest',
   src: path.join(__dirname, 'packages/remme-rest'),
   config: path.join(__dirname, 'packages/remme-rest/tsconfig.json')
+}, {
+  fileName: 'remme-certificate',
+  expose: 'RemmeCertificate',
+  src: path.join(__dirname, 'packages/remme-certificate'),
+  config: path.join(__dirname, 'packages/remme-certificate/tsconfig.json')
 }];
 
 var ugliyOptions = {

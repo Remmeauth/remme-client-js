@@ -5,9 +5,8 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "experimentalDecorators": true,
     "lib": [
-      "esnext"
+      "es6"
     ]
   },
   "include": [

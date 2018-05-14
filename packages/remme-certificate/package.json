@@ -1,5 +1,5 @@
 {
-  "name": "remme-rest",
+  "name": "remme-certificate",
   "version": "0.0.0",
   "description": "",
   "main": "./dist/index.js",
@@ -7,13 +7,14 @@
   "scripts": {
     "transpile": "./node_modules/.bin/tsc"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@types/node-forge": "^0.7.3",
+    "remme-rest": "^0.0.0",
+    "node-forge": "^0.7.5"
+  },
   "devDependencies": {
     "typescript": "^2.8.3"
-  },
-  "dependencies": {
-    "axios": "^0.18.0"
   }
 }
