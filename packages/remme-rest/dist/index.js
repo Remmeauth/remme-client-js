@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var axios_1 = require("axios");
 var remme_methods_1 = require("./remme-methods");
 exports.RemmeMethods = remme_methods_1.RemmeMethods;
 var RemmeRest = /** @class */ (function () {
@@ -44,17 +45,46 @@ var RemmeRest = /** @class */ (function () {
     }
     RemmeRest.prototype.putRequest = function (payload, method) {
         return __awaiter(this, void 0, void 0, function () {
+            var url, response;
             return __generator(this, function (_a) {
-                return [2 /*return*/, "true"];
+                switch (_a.label) {
+                    case 0:
+                        url = this.getUrlForRequest(method);
+                        return [4 /*yield*/, axios_1.default.put(url, payload)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.data];
+                }
             });
         });
     };
     RemmeRest.prototype.postRequest = function (payload, method) {
         return __awaiter(this, void 0, void 0, function () {
+            var url, response;
             return __generator(this, function (_a) {
-                return [2 /*return*/, {
-                        revoked: false,
-                    }];
+                switch (_a.label) {
+                    case 0:
+                        url = this.getUrlForRequest(method);
+                        return [4 /*yield*/, axios_1.default.post(url, payload)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.data];
+                }
+            });
+        });
+    };
+    RemmeRest.prototype.deleteRequest = function (payload, method) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url, response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        url = this.getUrlForRequest(method);
+                        return [4 /*yield*/, axios_1.default.delete(url, payload)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.data];
+                }
             });
         });
     };

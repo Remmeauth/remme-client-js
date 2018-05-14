@@ -1,3 +1,4 @@
+import axios from "axios";
 import { RemmeMethods } from "./remme-methods";
 
 class RemmeRest {
@@ -7,15 +8,21 @@ class RemmeRest {
     }
 
     public async putRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
-        // search for http request library
-        return "true";
+        const url = this.getUrlForRequest(method);
+        const response = await axios.put(url, payload);
+        return response.data;
     }
 
     public async postRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
-        // search for http request library
-        return {
-            revoked: false,
-        };
+        const url = this.getUrlForRequest(method);
+        const response = await axios.post(url, payload);
+        return response.data;
+    }
+
+    public async deleteRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
+        const url = this.getUrlForRequest(method);
+        const response = await axios.delete(url, payload);
+        return response.data;
     }
 
     private getUrlForRequest(method: RemmeMethods): string {

@@ -7,12 +7,11 @@
   "scripts": {
     "transpile": "./node_modules/.bin/tsc"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node-forge": "^0.7.3",
-    "remme-rest": "^0.0.0",
-    "node-forge": "^0.7.5"
+    "remme-certificate": "0.0.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

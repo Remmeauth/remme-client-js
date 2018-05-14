@@ -6,6 +6,14 @@
 </head>
 <body>
     <script src="./dist/remme.min.js"></script>
-    <script>console.log(Remme)</script>
+    <script>
+      const remme = new Remme.Client();
+
+      (async () => {
+        const response = await remme.certificate.createCertificate("Test", "test@test.com");
+
+        console.log(response);
+      })()
+    </script>
 </body>
 </html>
