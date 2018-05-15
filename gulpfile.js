@@ -16,6 +16,7 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var buffer = require('vinyl-buffer');
 var exec = require('child_process').exec;
+var Karma = require('karma').Server;
 
 var DEST = path.join(__dirname, 'dist/');
 
@@ -34,6 +35,11 @@ var packages = [{
   expose: 'RemmeCertificate',
   src: path.join(__dirname, 'packages/remme-certificate'),
   config: path.join(__dirname, 'packages/remme-certificate/tsconfig.json')
+}, {
+  fileName: 'remme-http-client',
+  expose: 'RemmeHttpClient',
+  src: path.join(__dirname, 'packages/remme-http-client'),
+  config: path.join(__dirname, 'packages/remme-http-client/tsconfig.json')
 }];
 
 var ugliyOptions = {
@@ -105,6 +111,13 @@ packages.forEach(function (pckg, i) {
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest(DEST));
   });
+});
+
+gulp.task('tests', function (done) {
+  new Karma({
+    configFile: path.join(__dirname, "karma.conf.js"),
+    singleRun: true,
+  }, done).start();
 });
 
 gulp.task('prepublish', function () {

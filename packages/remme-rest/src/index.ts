@@ -1,4 +1,4 @@
-import axios from "axios";
+import { HttpClient, AxiosRequestConfig } from "remme-http-client";
 import { RemmeMethods } from "./remme-methods";
 
 class RemmeRest {
@@ -7,21 +7,55 @@ class RemmeRest {
         this._nodeAddress = nodeAddress;
     }
 
+    public async getRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
+        return await this.sendRequest<Input, Output>("GET", payload, method);
+    }
+
     public async putRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
-        const url = this.getUrlForRequest(method);
-        const response = await axios.put(url, payload);
-        return response.data;
+        // const url = this.getUrlForRequest(method);
+        // const options: AxiosRequestConfig = {
+        //     url,
+        //     method: "PUT",
+        //     data: payload,
+        // };
+        // const response = await HttpClient.send(options);
+        // return response.data;
+        return await this.sendRequest<Input, Output>("PUT", payload, method);
     }
 
     public async postRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
-        const url = this.getUrlForRequest(method);
-        const response = await axios.post(url, payload);
-        return response.data;
+        // const url = this.getUrlForRequest(method);
+        // const options: AxiosRequestConfig = {
+        //     url,
+        //     method: "POST",
+        //     data: payload,
+        // };
+        // const response = await HttpClient.send(options);
+        // return response.data;
+        return await this.sendRequest<Input, Output>("POST", payload, method);
     }
 
     public async deleteRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
-        const url = this.getUrlForRequest(method);
-        const response = await axios.delete(url, payload);
+        // const url = this.getUrlForRequest(method);
+        // const options: AxiosRequestConfig = {
+        //     url,
+        //     method: "DELETE",
+        //     data: payload,
+        // };
+        // const response = await HttpClient.send(options);
+        // return response.data;
+        return await this.sendRequest<Input, Output>("DELETE", payload, method);
+    }
+
+    private async sendRequest<Input, Output>(method: string, payload: Input, remmeMethod: RemmeMethods): Promise<Output> {
+        const url = this.getUrlForRequest(remmeMethod);
+        const options: AxiosRequestConfig = {
+            url,
+            method,
+            [method.toUpperCase() === "GET" ? "params" : "data"]: payload,
+        };
+        console.log(options);
+        const response = await HttpClient.send(options);
         return response.data;
     }
 

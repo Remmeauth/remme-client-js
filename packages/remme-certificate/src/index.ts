@@ -2,7 +2,7 @@ import { md, pki } from "node-forge";
 import { RemmeMethods, RemmeRest } from "remme-rest";
 
 import { IRemmeCertificate } from "./interface";
-import { StorePayload, StoreResult, CheckPayload, CheckResult } from "./models";
+import { StorePayload, StoreResult, CheckPayload, CheckResult, RevokeResult } from "./models";
 
 namespace RemmeCertificate {
     export class Certificate implements IRemmeCertificate {
@@ -37,7 +37,14 @@ namespace RemmeCertificate {
             const payload = new CheckPayload(certificate);
             const result = await this._remmeRest
                 .postRequest<CheckPayload, CheckResult>(payload, RemmeMethods.certificate);
-            return result.isValid();
+            return !result.revoked;
+        }
+
+        public async revokeCertificate(certificate: pki.Certificate): Promise<RevokeResult> {
+            const payload = new CheckPayload(certificate);
+            const result = await this._remmeRest
+                .deleteRequest<CheckPayload, RevokeResult>(payload, RemmeMethods.certificate);
+            return result;
         }
 
         private createSignRequest(subject: pki.CertificateField[], keys: pki.KeyPair): pki.Certificate {
@@ -63,7 +70,6 @@ namespace RemmeCertificate {
         private generateKeyPair(): pki.KeyPair {
             return pki.rsa.generateKeyPair(this._rsaKeySize);
         }
-
     }
 }
 

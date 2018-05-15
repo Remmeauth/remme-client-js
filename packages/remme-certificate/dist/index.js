@@ -71,7 +71,7 @@ var RemmeCertificate;
                         case 0:
                             payload = new models_1.StorePayload(signingRequest);
                             return [4 /*yield*/, this._remmeRest
-                                    .putRequest(payload, remme_rest_1.RemmeMethods.certificate)];
+                                    .putRequest(payload, remme_rest_1.RemmeMethods.certificateStore)];
                         case 1:
                             result = _a.sent();
                             return [2 /*return*/, node_forge_1.pki.certificateFromPem(result.certificate)];
@@ -90,7 +90,23 @@ var RemmeCertificate;
                                     .postRequest(payload, remme_rest_1.RemmeMethods.certificate)];
                         case 1:
                             result = _a.sent();
-                            return [2 /*return*/, result.isValid()];
+                            return [2 /*return*/, !result.revoked];
+                    }
+                });
+            });
+        };
+        Certificate.prototype.revokeCertificate = function (certificate) {
+            return __awaiter(this, void 0, void 0, function () {
+                var payload, result;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            payload = new models_1.CheckPayload(certificate);
+                            return [4 /*yield*/, this._remmeRest
+                                    .deleteRequest(payload, remme_rest_1.RemmeMethods.certificate)];
+                        case 1:
+                            result = _a.sent();
+                            return [2 /*return*/, result];
                     }
                 });
             });
