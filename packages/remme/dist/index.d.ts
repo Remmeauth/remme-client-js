@@ -1,3 +1,7 @@
-export declare class JsonObject {
-    static fromJson<T>(jsonString: string): T;
+import * as RemmeCertificate from "remme-certificate";
+declare namespace Remme {
+    class Client {
+        certificate: RemmeCertificate.Certificate;
+    }
 }
+export = Remme;

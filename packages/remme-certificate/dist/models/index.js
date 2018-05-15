@@ -8,4 +8,6 @@ var CheckPayload_1 = require("./CheckPayload");
 exports.CheckPayload = CheckPayload_1.CheckPayload;
 var CheckResult_1 = require("./CheckResult");
 exports.CheckResult = CheckResult_1.CheckResult;
+var RevokeResult_1 = require("./RevokeResult");
+exports.RevokeResult = RevokeResult_1.RevokeResult;
 //# sourceMappingURL=index.js.map

@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var axios_1 = require("axios");
+var remme_http_client_1 = require("remme-http-client");
 var remme_methods_1 = require("./remme-methods");
 exports.RemmeMethods = remme_methods_1.RemmeMethods;
 var RemmeRest = /** @class */ (function () {
@@ -43,46 +43,90 @@ var RemmeRest = /** @class */ (function () {
         if (nodeAddress === void 0) { nodeAddress = "localhost:8080"; }
         this._nodeAddress = nodeAddress;
     }
-    RemmeRest.prototype.putRequest = function (payload, method) {
+    RemmeRest.prototype.getRequest = function (payload, method) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        url = this.getUrlForRequest(method);
-                        return [4 /*yield*/, axios_1.default.put(url, payload)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.data];
+                    case 0: return [4 /*yield*/, this.sendRequest("GET", payload, method)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    RemmeRest.prototype.putRequest = function (payload, method) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.sendRequest("PUT", payload, method)];
+                    case 1: 
+                    // const url = this.getUrlForRequest(method);
+                    // const options: AxiosRequestConfig = {
+                    //     url,
+                    //     method: "PUT",
+                    //     data: payload,
+                    // };
+                    // const response = await HttpClient.send(options);
+                    // return response.data;
+                    return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
     RemmeRest.prototype.postRequest = function (payload, method) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        url = this.getUrlForRequest(method);
-                        return [4 /*yield*/, axios_1.default.post(url, payload)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.data];
+                    case 0: return [4 /*yield*/, this.sendRequest("POST", payload, method)];
+                    case 1: 
+                    // const url = this.getUrlForRequest(method);
+                    // const options: AxiosRequestConfig = {
+                    //     url,
+                    //     method: "POST",
+                    //     data: payload,
+                    // };
+                    // const response = await HttpClient.send(options);
+                    // return response.data;
+                    return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
     RemmeRest.prototype.deleteRequest = function (payload, method) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.sendRequest("DELETE", payload, method)];
+                    case 1: 
+                    // const url = this.getUrlForRequest(method);
+                    // const options: AxiosRequestConfig = {
+                    //     url,
+                    //     method: "DELETE",
+                    //     data: payload,
+                    // };
+                    // const response = await HttpClient.send(options);
+                    // return response.data;
+                    return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    RemmeRest.prototype.sendRequest = function (method, payload, remmeMethod) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url, options, response, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        url = this.getUrlForRequest(method);
-                        return [4 /*yield*/, axios_1.default.delete(url, payload)];
+                        url = this.getUrlForRequest(remmeMethod);
+                        options = (_a = {
+                                url: url,
+                                method: method
+                            },
+                            _a[method.toUpperCase() === "GET" ? "params" : "data"] = payload,
+                            _a);
+                        console.log(options);
+                        return [4 /*yield*/, remme_http_client_1.HttpClient.send(options)];
                     case 1:
-                        response = _a.sent();
+                        response = _b.sent();
                         return [2 /*return*/, response.data];
                 }
             });

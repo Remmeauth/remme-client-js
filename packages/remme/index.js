@@ -1,32 +1,16 @@
-"use strict";
-exports.__esModule = true;
-var JsonObject = /** @class */ (function () {
-    function JsonObject() {
-    }
-    JsonObject.fromJson = function (jsonString) {
-        var jsonObject = JSON.parse(jsonString);
-        var object = new this();
-        for (var prop in jsonObject) {
-            if (!jsonObject.hasOwnProperty(prop)) {
-                continue;
-            }
-            object[prop] = jsonObject[prop];
-        }
-        return object;
-    };
-    return JsonObject;
-}());
-exports.JsonObject = JsonObject;
-var User = /** @class */ (function () {
-    function User() {
-    }
-    User.prototype.getVame = function () {
-        return this.vame;
-    };
-    return User;
-}());
-var json = {
-    vame: null
-};
-var user = Object.assign(new User(), json);
-console.log(user);
+var Remme = require("./dist/index");
+var pki = require("remme-certificate/node_modules/node-forge").pki;
+
+const remme = new Remme.Client();
+
+(async () => {
+  const response = await remme.certificate.createCertificate("Test", "test@test.com");
+
+  let status = await remme.certificate.checkCertificate(response);
+  console.log(status);
+
+  await remme.certificate.revokeCertificate(response)
+
+  status = await remme.certificate.checkCertificate(response);
+  console.log(status);
+})();
