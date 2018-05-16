@@ -5,12 +5,13 @@ const remme = new Remme.Client();
 
 (async () => {
   const response = await remme.certificate.createCertificate("Test", "test@test.com");
+  console.log(response);
 
-  let status = await remme.certificate.checkCertificate(response);
+  let status = await remme.certificate.checkCertificate(pki.certificateFromPem(response.certificate));
   console.log(status);
-
-  await remme.certificate.revokeCertificate(response)
-
-  status = await remme.certificate.checkCertificate(response);
-  console.log(status);
+  //
+  // await remme.certificate.revokeCertificate(response)
+  //
+  // status = await remme.certificate.checkCertificate(response);
+  // console.log(status);
 })();

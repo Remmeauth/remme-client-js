@@ -1,0 +1,19 @@
+{
+  "name": "remme-token",
+  "version": "0.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "transpile": "./node_modules/.bin/tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-forge": "^0.7.5",
+    "remme-rest": "0.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^2.8.3"
+  }
+}

@@ -9,11 +9,14 @@ namespace RemmeCertificate {
         private readonly _remmeRest: RemmeRest;
         private _rsaKeySize: number = 2048;
 
-        public constructor(nodeAdress: string = "localhost:8080") {
-            this._remmeRest = new RemmeRest(nodeAdress);
+        // public constructor(nodeAdress: string = "localhost:8080") {
+        //     this._remmeRest = new RemmeRest(nodeAdress);
+        // }
+        public constructor(remmeRest: RemmeRest = new RemmeRest()) {
+            this._remmeRest = remmeRest;
         }
 
-        public async createCertificate(commonName: string, email?: string): Promise<pki.Certificate> {
+        public async createCertificate(commonName: string, email?: string): Promise<StoreResult> {
             const keys = this.generateKeyPair();
             const subject = this.createSubject(commonName, email);
             const csr = this.createSignRequest(subject, keys);
@@ -22,14 +25,14 @@ namespace RemmeCertificate {
             return cert;
         }
 
-        public async storeCertificate(signingRequest: pki.Certificate): Promise<pki.Certificate> {
+        public async storeCertificate(signingRequest: pki.Certificate): Promise<StoreResult> {
             // const payload = {
             //     certificate: pki.certificationRequestToPem(signingRequest),
             // };
             const payload = new StorePayload(signingRequest);
             const result = await this._remmeRest
                 .putRequest<StorePayload, StoreResult>(payload, RemmeMethods.certificateStore);
-            return pki.certificateFromPem(result.certificate);
+            return result;
         }
 
         public async checkCertificate(certificate: pki.Certificate): Promise<boolean> {

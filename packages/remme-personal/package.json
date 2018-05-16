@@ -1,0 +1,20 @@
+{
+  "name": "remme-personal",
+  "version": "0.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "transpile": "./node_modules/.bin/tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node-forge": "^0.7.3",
+    "remme-rest": "^0.0.0",
+    "node-forge": "^0.7.5"
+  },
+  "devDependencies": {
+    "typescript": "^2.8.3"
+  }
+}
