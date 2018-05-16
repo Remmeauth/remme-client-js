@@ -40,10 +40,13 @@ var models_1 = require("./models");
 var RemmeCertificate;
 (function (RemmeCertificate) {
     var Certificate = /** @class */ (function () {
-        function Certificate(nodeAdress) {
-            if (nodeAdress === void 0) { nodeAdress = "localhost:8080"; }
+        // public constructor(nodeAdress: string = "localhost:8080") {
+        //     this._remmeRest = new RemmeRest(nodeAdress);
+        // }
+        function Certificate(remmeRest) {
+            if (remmeRest === void 0) { remmeRest = new remme_rest_1.RemmeRest(); }
             this._rsaKeySize = 2048;
-            this._remmeRest = new remme_rest_1.RemmeRest(nodeAdress);
+            this._remmeRest = remmeRest;
         }
         Certificate.prototype.createCertificate = function (commonName, email) {
             return __awaiter(this, void 0, void 0, function () {
@@ -74,7 +77,7 @@ var RemmeCertificate;
                                     .putRequest(payload, remme_rest_1.RemmeMethods.certificateStore)];
                         case 1:
                             result = _a.sent();
-                            return [2 /*return*/, node_forge_1.pki.certificateFromPem(result.certificate)];
+                            return [2 /*return*/, result];
                     }
                 });
             });

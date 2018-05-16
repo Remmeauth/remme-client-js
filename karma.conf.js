@@ -15,14 +15,17 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "packages/**/src/**/*.js",
-      "tests/*.js"
+      "node_modules/chai/chai.js",
+      "node_modules/karma-chai/adapter.js",
+      "node_modules/mocha/mocha.js",
+      "node_modules/karma-mocha/lib/adapter.js",
+      "dist/*.min.js",
+      "tests/*.spec.js"
     ],
 
 
     // list of files / patterns to exclude
     exclude: [
-      "./**/node_modules/**/*.js"
     ],
 
 
@@ -67,5 +70,12 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity,
+
+    client: {
+      mocha: {
+        reporter: 'spec',
+        ui: 'bdd'
+      }
+    }
   })
 };

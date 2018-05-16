@@ -7,10 +7,10 @@
     "outDir": "./dist",
     "lib": ["dom", "es2015.promise", "es5"]
   },
-  "exclude": [
-    "node_modules"
-  ],
   "include": [
     "./**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

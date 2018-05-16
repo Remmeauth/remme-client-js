@@ -47,14 +47,14 @@ class RemmeRest {
         return await this.sendRequest<Input, Output>("DELETE", payload, method);
     }
 
-    private async sendRequest<Input, Output>(method: string, payload: Input, remmeMethod: RemmeMethods): Promise<Output> {
+    private async sendRequest<Input, Output>(method: string, payload: Input, remmeMethod: RemmeMethods)
+        : Promise<Output> {
         const url = this.getUrlForRequest(remmeMethod);
         const options: AxiosRequestConfig = {
             url,
             method,
             [method.toUpperCase() === "GET" ? "params" : "data"]: payload,
         };
-        console.log(options);
         const response = await HttpClient.send(options);
         return response.data;
     }

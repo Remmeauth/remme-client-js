@@ -36,6 +36,16 @@ var packages = [{
   src: path.join(__dirname, 'packages/remme-certificate'),
   config: path.join(__dirname, 'packages/remme-certificate/tsconfig.json')
 }, {
+  fileName: 'remme-token',
+  expose: 'RemmeToken',
+  src: path.join(__dirname, 'packages/remme-token'),
+  config: path.join(__dirname, 'packages/remme-token/tsconfig.json')
+}, {
+  fileName: 'remme-personal',
+  expose: 'RemmePersonal',
+  src: path.join(__dirname, 'packages/remme-personal'),
+  config: path.join(__dirname, 'packages/remme-personal/tsconfig.json')
+}, {
   fileName: 'remme-http-client',
   expose: 'RemmeHttpClient',
   src: path.join(__dirname, 'packages/remme-http-client'),
@@ -113,7 +123,7 @@ packages.forEach(function (pckg, i) {
   });
 });
 
-gulp.task('tests', function (done) {
+gulp.task('tests', [packages[packages.length - 1].fileName], function (done) {
   new Karma({
     configFile: path.join(__dirname, "karma.conf.js"),
     singleRun: true,
@@ -128,6 +138,8 @@ gulp.task('prepublish', function () {
   });
   exec("lerna bootstrap");
 });
+
+gulp.task("build", ['lint', 'clean', packages[packages.length - 1].fileName]);
 
 gulp.task('watch', function () {
   gulp.watch(['./packages/type/**/*.ts'], ['lint', 'clean', packages[0].fileName]);

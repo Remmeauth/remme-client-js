@@ -123,7 +123,6 @@ var RemmeRest = /** @class */ (function () {
                             },
                             _a[method.toUpperCase() === "GET" ? "params" : "data"] = payload,
                             _a);
-                        console.log(options);
                         return [4 /*yield*/, remme_http_client_1.HttpClient.send(options)];
                     case 1:
                         response = _b.sent();
