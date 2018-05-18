@@ -1,5 +1,4 @@
-/// <reference types="node-forge" />
-import { pki } from "node-forge";
+import { pki } from "remme-utils";
 import { RemmeRest } from "remme-rest";
 import { IRemmeCertificate } from "./interface";
 import { StoreResult, RevokeResult } from "./models";

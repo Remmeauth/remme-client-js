@@ -35,7 +35,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var remme_rest_1 = require("remme-rest");
-// import { pki } from "node-forge";
 var models_1 = require("./models");
 var RemmeToken;
 (function (RemmeToken) {

@@ -1,5 +1,5 @@
 {
-  "name": "remme-token",
+  "name": "remme-utils",
   "version": "0.0.0",
   "description": "",
   "main": "./dist/index.js",
@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "remme-rest": "0.0.0",
-    "remme-utils": "0.0.0"
+    "@types/node-forge": "^0.7.4",
+    "node-forge": "^0.7.5"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

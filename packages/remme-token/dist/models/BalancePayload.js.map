@@ -1,1 +1,1 @@
-{"version":3,"file":"BalancePayload.js","sourceRoot":"","sources":["../../src/models/BalancePayload.ts"],"names":[],"mappings":";;AAEA;IAEI,wBAAmB,WAAoB;QACnC,IAAI,CAAC,YAAY,GAAG,WAAW,CAAC;IACpC,CAAC;IACL,qBAAC;AAAD,CAAC,AALD,IAKC;AALY,wCAAc"}
+{"version":3,"file":"BalancePayload.js","sourceRoot":"","sources":["../../src/models/BalancePayload.ts"],"names":[],"mappings":";;AAAA,2CAAgC;AAEhC;IAEI,wBAAmB,WAAoB;QACnC,IAAI,CAAC,YAAY,GAAG,iBAAG,CAAC,cAAc,CAAC,WAAW,CAAC,CAAC;IACxD,CAAC;IACL,qBAAC;AAAD,CAAC,AALD,IAKC;AALY,wCAAc"}

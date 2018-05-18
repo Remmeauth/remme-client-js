@@ -1,4 +1,4 @@
-import { pki } from "node-forge";
+import { pki } from "remme-utils";
 
 export class StoreResult {
     public batch_id: string;
