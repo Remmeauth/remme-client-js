@@ -1,5 +1,5 @@
 import { RemmeMethods, RemmeRest } from "remme-rest";
-// import { pki } from "node-forge";
+import { pki } from "remme-utils";
 import { TransactionPayload, TransactionResult, BalancePayload, BalanceResult } from "./models";
 
 namespace RemmeToken {
@@ -14,14 +14,14 @@ namespace RemmeToken {
             this._remmeRest = remmeRest;
         }
 
-        public async sendToken(publicKeyTo: string, amount: number): Promise<TransactionResult> {
+        public async sendToken(publicKeyTo: pki.Key, amount: number): Promise<TransactionResult> {
             const payload = new TransactionPayload(publicKeyTo, amount);
             const result = this._remmeRest
                 .postRequest<TransactionPayload, TransactionResult>(payload, RemmeMethods.token);
             return result;
         }
 
-        public async getToken(publicKeyTo: string): Promise<BalanceResult> {
+        public async getToken(publicKeyTo: pki.Key): Promise<BalanceResult> {
             const payload = new BalancePayload(publicKeyTo);
             const result = this._remmeRest
                 .getRequest<BalancePayload, BalanceResult>(payload, RemmeMethods.token);

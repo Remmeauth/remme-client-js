@@ -1,1 +1,1 @@
-{"version":3,"file":"CheckPayload.js","sourceRoot":"","sources":["../../src/models/CheckPayload.ts"],"names":[],"mappings":";;AAAA,yCAAiC;AAEjC;IAEI,sBAAmB,WAA4B;QAC3C,IAAI,CAAC,WAAW,GAAG,gBAAG,CAAC,gBAAgB,CAAC,WAAW,CAAC,CAAC;IACzD,CAAC;IACL,mBAAC;AAAD,CAAC,AALD,IAKC;AALY,oCAAY"}
+{"version":3,"file":"CheckPayload.js","sourceRoot":"","sources":["../../src/models/CheckPayload.ts"],"names":[],"mappings":";;AAAA,2CAAkC;AAElC;IAEI,sBAAmB,WAA4B;QAC3C,IAAI,CAAC,WAAW,GAAG,iBAAG,CAAC,gBAAgB,CAAC,WAAW,CAAC,CAAC;IACzD,CAAC;IACL,mBAAC;AAAD,CAAC,AALD,IAKC;AALY,oCAAY"}

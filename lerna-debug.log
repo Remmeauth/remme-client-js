@@ -7,7 +7,7 @@
 3 info version 2.11.0
 4 silly existsSync /var/www/remme-client-js/VERSION
 5 error EPACKAGES Errored while collecting packages and package graph
-6 error JSONError: Unexpected token } in JSON at position 298 while parsing near '...ficate": "0.0.0",  },  "devDependencie...' in packages/remme/package.json
+6 error JSONError: Unexpected token } in JSON at position 314 while parsing near '...-utils": "0.0.0",  },  "devDependencie...' in packages/remme-certificate/package.json
 6 error     at module.exports (/var/www/remme-client-js/node_modules/lerna/node_modules/parse-json/index.js:26:19)
 6 error     at parse (/var/www/remme-client-js/node_modules/lerna/node_modules/load-json-file/index.js:8:29)
 6 error     at Function.module.exports.sync.fp [as sync] (/var/www/remme-client-js/node_modules/lerna/node_modules/load-json-file/index.js:11:29)

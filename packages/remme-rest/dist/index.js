@@ -112,10 +112,11 @@ var RemmeRest = /** @class */ (function () {
     };
     RemmeRest.prototype.sendRequest = function (method, payload, remmeMethod) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, options, response, _a;
+            var url, options, response, e_1, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
+                        _b.trys.push([0, 2, , 3]);
                         url = this.getUrlForRequest(remmeMethod);
                         options = (_a = {
                                 url: url,
@@ -127,6 +128,10 @@ var RemmeRest = /** @class */ (function () {
                     case 1:
                         response = _b.sent();
                         return [2 /*return*/, response.data];
+                    case 2:
+                        e_1 = _b.sent();
+                        throw new Error("Please check if your node running at http://" + this._nodeAddress);
+                    case 3: return [2 /*return*/];
                 }
             });
         });

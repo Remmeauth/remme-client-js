@@ -1,4 +1,4 @@
-import { pki } from "node-forge";
+import { pki } from "remme-utils";
 import {StoreResult} from "./models";
 
 export interface IRemmeCertificate {

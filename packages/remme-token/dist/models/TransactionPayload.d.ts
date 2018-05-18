@@ -1,4 +1,4 @@
-import { pki } from "node-forge";
+import { pki } from "remme-utils";
 export declare class TransactionPayload {
     private pub_key_to;
     private amount;

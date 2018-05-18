@@ -50,6 +50,11 @@ var packages = [{
   expose: 'RemmeHttpClient',
   src: path.join(__dirname, 'packages/remme-http-client'),
   config: path.join(__dirname, 'packages/remme-http-client/tsconfig.json')
+}, {
+  fileName: 'remme-utils',
+  expose: 'RemmeUtils',
+  src: path.join(__dirname, 'packages/remme-utils'),
+  config: path.join(__dirname, 'packages/remme-utils/tsconfig.json')
 }];
 
 var ugliyOptions = {
@@ -110,7 +115,12 @@ packages.forEach(function (pckg, i) {
       packageCache: {}
     })
       .plugin(tsify, {
-        lib: ["es6"]
+        declaration: true,
+        lib: ["es6"],
+        types: ["node-forge"],
+        include: [
+          path.join(pckg.src, '/src/**/*.ts')
+        ]
       })
       .bundle()
       .pipe(source('bundle.js'))

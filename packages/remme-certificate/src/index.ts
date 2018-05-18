@@ -1,4 +1,4 @@
-import { md, pki } from "node-forge";
+import { md, pki } from "remme-utils";
 import { RemmeMethods, RemmeRest } from "remme-rest";
 
 import { IRemmeCertificate } from "./interface";

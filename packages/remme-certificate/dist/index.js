@@ -34,7 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var node_forge_1 = require("node-forge");
+var remme_utils_1 = require("remme-utils");
 var remme_rest_1 = require("remme-rest");
 var models_1 = require("./models");
 var RemmeCertificate;
@@ -115,10 +115,10 @@ var RemmeCertificate;
             });
         };
         Certificate.prototype.createSignRequest = function (subject, keys) {
-            var csr = node_forge_1.pki.createCertificationRequest();
+            var csr = remme_utils_1.pki.createCertificationRequest();
             csr.setSubject(subject);
             csr.publicKey = keys.publicKey;
-            csr.sign(keys.privateKey, node_forge_1.md.sha256.create());
+            csr.sign(keys.privateKey, remme_utils_1.md.sha256.create());
             return csr;
         };
         Certificate.prototype.createSubject = function (commonName, email) {
@@ -133,7 +133,7 @@ var RemmeCertificate;
             ];
         };
         Certificate.prototype.generateKeyPair = function () {
-            return node_forge_1.pki.rsa.generateKeyPair(this._rsaKeySize);
+            return remme_utils_1.pki.rsa.generateKeyPair(this._rsaKeySize);
         };
         return Certificate;
     }());
