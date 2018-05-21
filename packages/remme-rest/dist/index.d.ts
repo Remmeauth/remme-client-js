@@ -2,6 +2,7 @@ import { RemmeMethods } from "./remme-methods";
 declare class RemmeRest {
     private readonly _nodeAddress;
     constructor(nodeAddress?: string);
+    address: () => string;
     getRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output>;
     putRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output>;
     postRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output>;

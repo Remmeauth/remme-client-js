@@ -1,5 +1,6 @@
 /// <reference types="node-forge" />
 import * as forge from "node-forge";
+import { ITransactionResponse } from "./interface";
 declare module "node-forge" {
     namespace pki {
         function certificationRequestToPem(cert: Certificate, maxline?: number): PEM;
@@ -7,4 +8,11 @@ declare module "node-forge" {
         function createCertificationRequest(): Certificate;
     }
 }
-export = forge;
+declare class BaseTransactionResponse implements ITransactionResponse {
+    batchId: string;
+    private _socket;
+    constructor(socket: string);
+    closeConnection(): void;
+    connectToWebSocket(): void;
+}
+export { forge, BaseTransactionResponse };

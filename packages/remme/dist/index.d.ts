@@ -1,10 +1,13 @@
-import * as RemmeCertificate from "remme-certificate";
-import * as RemmeToken from "remme-token";
+import { RemmeCertificate } from "remme-certificate";
+import { RemmeToken } from "remme-token";
+import { RemmePersonal } from "remme-personal";
+import { IRemmeClient } from "./interface";
 declare namespace Remme {
-    class Client {
+    class Client implements IRemmeClient {
         private readonly _remmeRest;
-        certificate: RemmeCertificate.Certificate;
-        token: RemmeToken.Token;
+        certificate: RemmeCertificate;
+        token: RemmeToken;
+        personal: RemmePersonal;
         constructor(nodeAdress?: string);
     }
 }

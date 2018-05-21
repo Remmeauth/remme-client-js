@@ -1,12 +1,10 @@
 import { RemmeRest } from "remme-rest";
-import { pki } from "remme-utils";
-import { TransactionResult, BalanceResult } from "./models";
-declare namespace RemmeToken {
-    class Token {
-        private readonly _remmeRest;
-        constructor(remmeRest?: RemmeRest);
-        sendToken(publicKeyTo: pki.Key, amount: number): Promise<TransactionResult>;
-        getToken(publicKeyTo: pki.Key): Promise<BalanceResult>;
-    }
+import { forge, BaseTransactionResponse } from "remme-utils";
+import { IRemmeToken } from "./interface";
+declare class RemmeToken implements IRemmeToken {
+    private readonly _remmeRest;
+    constructor(remmeRest?: RemmeRest);
+    transfer(publicKeyTo: forge.pki.Key, amount: number): Promise<BaseTransactionResponse>;
+    getBalance(publicKeyTo: forge.pki.Key): Promise<number>;
 }
-export = RemmeToken;
+export { RemmeToken, IRemmeToken };

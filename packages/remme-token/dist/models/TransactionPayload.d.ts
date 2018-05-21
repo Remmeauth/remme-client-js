@@ -1,6 +1,6 @@
-import { pki } from "remme-utils";
+import { forge } from "remme-utils";
 export declare class TransactionPayload {
     private pub_key_to;
     private amount;
-    constructor(publicKeyTo: pki.Key, amount: number);
+    constructor(publicKeyTo: forge.pki.Key, amount: number);
 }

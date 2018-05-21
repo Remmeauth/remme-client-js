@@ -1,5 +1,5 @@
-import { pki } from "remme-utils";
+import { forge } from "remme-utils";
 export declare class StorePayload {
-    certificate: pki.PEM;
-    constructor(certificate: pki.Certificate);
+    certificate: forge.pki.PEM;
+    constructor(certificate: forge.pki.Certificate);
 }

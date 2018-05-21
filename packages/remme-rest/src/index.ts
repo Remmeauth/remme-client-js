@@ -7,6 +7,8 @@ class RemmeRest {
         this._nodeAddress = nodeAddress;
     }
 
+    public address = (): string => this._nodeAddress;
+
     public async getRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
         return await this.sendRequest<Input, Output>("GET", payload, method);
     }
