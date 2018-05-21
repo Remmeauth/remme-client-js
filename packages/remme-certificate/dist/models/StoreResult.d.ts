@@ -1,5 +1,5 @@
-import { pki } from "remme-utils";
+import { forge } from "remme-utils";
 export declare class StoreResult {
     batch_id: string;
-    certificate: pki.PEM;
+    certificate: forge.pki.PEM;
 }

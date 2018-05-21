@@ -1,13 +1,29 @@
 import { RemmeMethods, RemmeRest } from "remme-rest";
 
-namespace RemmePersonal {
-    export class Personal {
-        private readonly _remmeRest: RemmeRest;
+import { IRemmePersonal } from "./interface";
+import { RemmeAccountDto } from "./models";
 
-        public constructor(nodeAdress: string = "localhost:8080") {
-            this._remmeRest = new RemmeRest(nodeAdress);
-        }
+class RemmePersonal implements IRemmePersonal {
+    private readonly _remmeRest: RemmeRest;
+
+    public constructor(remmeRest: RemmeRest = new RemmeRest()) {
+        this._remmeRest = remmeRest;
+    }
+
+    public generateAccount(): RemmeAccountDto {
+        return new RemmeAccountDto();
+    }
+
+    public getAddress(): string {
+        return "";
+    }
+
+    public async getBalance(): Promise<number> {
+        return undefined;
     }
 }
 
-export = RemmePersonal;
+export {
+    RemmePersonal,
+    IRemmePersonal,
+};

@@ -34,43 +34,50 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var remme_rest_1 = require("remme-rest");
+var remme_utils_1 = require("remme-utils");
 var models_1 = require("./models");
-var RemmeToken;
-(function (RemmeToken) {
-    var Token = /** @class */ (function () {
-        // public constructor(nodeAdress: string = "localhost:8080") {
-        //     this._remmeRest = new RemmeRest(nodeAdress);
-        // }
-        function Token(remmeRest) {
-            if (remmeRest === void 0) { remmeRest = new remme_rest_1.RemmeRest(); }
-            this._remmeRest = remmeRest;
-        }
-        Token.prototype.sendToken = function (publicKeyTo, amount) {
-            return __awaiter(this, void 0, void 0, function () {
-                var payload, result;
-                return __generator(this, function (_a) {
-                    payload = new models_1.TransactionPayload(publicKeyTo, amount);
-                    result = this._remmeRest
-                        .postRequest(payload, remme_rest_1.RemmeMethods.token);
-                    return [2 /*return*/, result];
-                });
+var RemmeToken = /** @class */ (function () {
+    function RemmeToken(remmeRest) {
+        if (remmeRest === void 0) { remmeRest = new remme_rest_1.RemmeRest(); }
+        this._remmeRest = remmeRest;
+    }
+    RemmeToken.prototype.transfer = function (publicKeyTo, amount) {
+        return __awaiter(this, void 0, void 0, function () {
+            var payload, apiResult, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        payload = new models_1.TransactionPayload(publicKeyTo, amount);
+                        return [4 /*yield*/, this._remmeRest
+                                .postRequest(payload, remme_rest_1.RemmeMethods.token)];
+                    case 1:
+                        apiResult = _a.sent();
+                        result = new remme_utils_1.BaseTransactionResponse(this._remmeRest.address());
+                        result.batchId = apiResult.batch_id;
+                        return [2 /*return*/, result];
+                }
             });
-        };
-        Token.prototype.getToken = function (publicKeyTo) {
-            return __awaiter(this, void 0, void 0, function () {
-                var payload, result;
-                return __generator(this, function (_a) {
-                    payload = new models_1.BalancePayload(publicKeyTo);
-                    result = this._remmeRest
-                        .getRequest(payload, remme_rest_1.RemmeMethods.token);
-                    return [2 /*return*/, result];
-                });
+        });
+    };
+    RemmeToken.prototype.getBalance = function (publicKeyTo) {
+        return __awaiter(this, void 0, void 0, function () {
+            var payload, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        payload = new models_1.BalancePayload(publicKeyTo);
+                        return [4 /*yield*/, this._remmeRest
+                                .getRequest(payload, remme_rest_1.RemmeMethods.token)];
+                    case 1:
+                        result = _a.sent();
+                        return [2 /*return*/, result.balance];
+                }
             });
-        };
-        return Token;
-    }());
-    RemmeToken.Token = Token;
-})(RemmeToken || (RemmeToken = {}));
-module.exports = RemmeToken;
+        });
+    };
+    return RemmeToken;
+}());
+exports.RemmeToken = RemmeToken;
 //# sourceMappingURL=index.js.map

@@ -1,4 +1,5 @@
 import * as forge from "node-forge";
+import { ITransactionResponse } from "./interface";
 
 declare module "node-forge" {
     namespace pki {
@@ -8,4 +9,25 @@ declare module "node-forge" {
     }
 }
 
-export = forge;
+// TODO
+class BaseTransactionResponse implements ITransactionResponse {
+    public batchId: string;
+    private _socket: string;
+
+    public constructor(socket: string) {
+        this._socket = socket;
+    }
+
+    public closeConnection(): void {
+        return;
+    }
+
+    public connectToWebSocket(): void {
+        return;
+    }
+}
+
+export {
+    forge,
+    BaseTransactionResponse,
+};

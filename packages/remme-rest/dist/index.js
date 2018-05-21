@@ -41,6 +41,8 @@ exports.RemmeMethods = remme_methods_1.RemmeMethods;
 var RemmeRest = /** @class */ (function () {
     function RemmeRest(nodeAddress) {
         if (nodeAddress === void 0) { nodeAddress = "localhost:8080"; }
+        var _this = this;
+        this.address = function () { return _this._nodeAddress; };
         this._nodeAddress = nodeAddress;
     }
     RemmeRest.prototype.getRequest = function (payload, method) {

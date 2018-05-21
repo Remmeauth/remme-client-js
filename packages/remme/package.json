@@ -11,9 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "remme-rest": "0.0.0",
     "remme-certificate": "0.0.0",
     "remme-token": "0.0.0",
-    "remme-rest": "0.0.0"
+    "remme-personal": "0.0.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"
