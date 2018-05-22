@@ -4,4 +4,5 @@ export enum RemmeMethods {
     token,
     batchStatus,
     personal,
+    userCertificates,
 }

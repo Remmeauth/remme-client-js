@@ -116,7 +116,10 @@ packages.forEach(function (pckg, i) {
     })
       .plugin(tsify, {
         declaration: true,
-        lib: ["es6"],
+        lib: [
+          "es6",
+          "DOM"
+        ],
         types: ["node-forge"],
         include: [
           path.join(pckg.src, '/src/**/*.ts')

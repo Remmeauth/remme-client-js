@@ -70,10 +70,10 @@ var RemmeCertificate = /** @class */ (function () {
                     case 0:
                         payload = new models_1.StorePayload(signingRequest);
                         return [4 /*yield*/, this._remmeRest
-                                .putRequest(payload, remme_rest_1.RemmeMethods.certificateStore)];
+                                .putRequest(remme_rest_1.RemmeMethods.certificateStore, payload)];
                     case 1:
                         apiResult = _a.sent();
-                        result = new models_1.CertificateTransactionResponse(this._remmeRest.address());
+                        result = new models_1.CertificateTransactionResponse(this._remmeRest.socketAddress());
                         result.batchId = apiResult.batch_id;
                         result.certificate = remme_utils_1.forge.pki.certificateFromPem(apiResult.certificate);
                         return [2 /*return*/, result];
@@ -81,6 +81,7 @@ var RemmeCertificate = /** @class */ (function () {
             });
         });
     };
+    // TODO
     RemmeCertificate.prototype.storeCertificate = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -96,7 +97,7 @@ var RemmeCertificate = /** @class */ (function () {
                     case 0:
                         payload = new models_1.CheckPayload(certificate);
                         return [4 /*yield*/, this._remmeRest
-                                .postRequest(payload, remme_rest_1.RemmeMethods.certificate)];
+                                .postRequest(remme_rest_1.RemmeMethods.certificate, payload)];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, !result.revoked];
@@ -112,11 +113,26 @@ var RemmeCertificate = /** @class */ (function () {
                     case 0:
                         payload = new models_1.CheckPayload(certificate);
                         return [4 /*yield*/, this._remmeRest
-                                .deleteRequest(payload, remme_rest_1.RemmeMethods.certificate)];
+                                .deleteRequest(remme_rest_1.RemmeMethods.certificate, payload)];
                     case 1:
                         apiResult = _a.sent();
-                        result = new remme_utils_1.BaseTransactionResponse(this._remmeRest.address());
+                        result = new remme_utils_1.BaseTransactionResponse(this._remmeRest.socketAddress());
+                        result.batchId = apiResult.batch_id;
                         return [2 /*return*/, result];
+                }
+            });
+        });
+    };
+    RemmeCertificate.prototype.getUserCertificates = function (publicKey) {
+        return __awaiter(this, void 0, void 0, function () {
+            var apiResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this._remmeRest
+                            .getRequest(remme_rest_1.RemmeMethods.userCertificates, publicKey)];
+                    case 1:
+                        apiResult = _a.sent();
+                        return [2 /*return*/, apiResult.certificates];
                 }
             });
         });
@@ -129,12 +145,45 @@ var RemmeCertificate = /** @class */ (function () {
         return csr;
     };
     RemmeCertificate.prototype.createSubject = function (certificateDataToCreate) {
+        if (!certificateDataToCreate.commonName) {
+            throw new Error("Attribute commonName must have a value");
+        }
+        if (!certificateDataToCreate.validity) {
+            throw new Error("Attribute validity must have a value");
+        }
         return Object.entries(certificateDataToCreate).map(function (_a) {
             var key = _a[0], value = _a[1];
-            return ({
-                name: key,
+            var name;
+            switch (key) {
+                case "email":
+                    name = "emailAddress";
+                    break;
+                case "countryName":
+                    name = "C";
+                    break;
+                case "localityName":
+                    name = "L";
+                    break;
+                case "streetAddress":
+                    name = "street";
+                    break;
+                case "stateName":
+                    name = "SN";
+                    break;
+                case "generationQualifier":
+                    name = "generation";
+                    break;
+                case "title":
+                    name = "T";
+                    break;
+                case "serial":
+                    name = "serialNumber";
+                    break;
+            }
+            return {
+                name: name,
                 value: value,
-            });
+            };
         });
     };
     RemmeCertificate.prototype.generateKeyPair = function () {

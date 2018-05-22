@@ -1,6 +1,6 @@
 import { RemmeMethods, RemmeRest } from "remme-rest";
 import { forge, BaseTransactionResponse } from "remme-utils";
-import { TransactionPayload, TransactionResult, BalancePayload, BalanceResult } from "./models";
+import { TransactionPayload, TransactionResult, BalanceResult } from "./models";
 import { IRemmeToken } from "./interface";
 
 class RemmeToken implements IRemmeToken {
@@ -13,16 +13,15 @@ class RemmeToken implements IRemmeToken {
     public async transfer(publicKeyTo: forge.pki.Key, amount: number): Promise<BaseTransactionResponse> {
         const payload = new TransactionPayload(publicKeyTo, amount);
         const apiResult = await this._remmeRest
-            .postRequest<TransactionPayload, TransactionResult>(payload, RemmeMethods.token);
-        const result = new BaseTransactionResponse(this._remmeRest.address());
+            .postRequest<TransactionPayload, TransactionResult>(RemmeMethods.token, payload);
+        const result = new BaseTransactionResponse(this._remmeRest.socketAddress());
         result.batchId = apiResult.batch_id;
         return result;
     }
 
     public async getBalance(publicKeyTo: forge.pki.Key): Promise<number> {
-        const payload = new BalancePayload(publicKeyTo);
         const result = await this._remmeRest
-            .getRequest<BalancePayload, BalanceResult>(payload, RemmeMethods.token);
+            .getRequest<BalanceResult>(RemmeMethods.token, publicKeyTo);
         return result.balance;
     }
 }

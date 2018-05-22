@@ -51,10 +51,10 @@ var RemmeToken = /** @class */ (function () {
                     case 0:
                         payload = new models_1.TransactionPayload(publicKeyTo, amount);
                         return [4 /*yield*/, this._remmeRest
-                                .postRequest(payload, remme_rest_1.RemmeMethods.token)];
+                                .postRequest(remme_rest_1.RemmeMethods.token, payload)];
                     case 1:
                         apiResult = _a.sent();
-                        result = new remme_utils_1.BaseTransactionResponse(this._remmeRest.address());
+                        result = new remme_utils_1.BaseTransactionResponse(this._remmeRest.socketAddress());
                         result.batchId = apiResult.batch_id;
                         return [2 /*return*/, result];
                 }
@@ -63,13 +63,11 @@ var RemmeToken = /** @class */ (function () {
     };
     RemmeToken.prototype.getBalance = function (publicKeyTo) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, result;
+            var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        payload = new models_1.BalancePayload(publicKeyTo);
-                        return [4 /*yield*/, this._remmeRest
-                                .getRequest(payload, remme_rest_1.RemmeMethods.token)];
+                    case 0: return [4 /*yield*/, this._remmeRest
+                            .getRequest(remme_rest_1.RemmeMethods.token, publicKeyTo)];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, result.balance];

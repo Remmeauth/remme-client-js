@@ -9,7 +9,7 @@ import {
     CheckResult,
     RevokeResult,
     CertificateTransactionResponse,
-    CertificateCreateDto,
+    CertificateCreateDto, UserCertificatesResult,
 } from "./models";
 
 class RemmeCertificate implements IRemmeCertificate {
@@ -34,8 +34,8 @@ class RemmeCertificate implements IRemmeCertificate {
         : Promise<CertificateTransactionResponse> {
         const payload = new StorePayload(signingRequest);
         const apiResult = await this._remmeRest
-            .putRequest<StorePayload, StoreResult>(payload, RemmeMethods.certificateStore);
-        const result = new CertificateTransactionResponse(this._remmeRest.address());
+            .putRequest<StorePayload, StoreResult>(RemmeMethods.certificateStore, payload);
+        const result = new CertificateTransactionResponse(this._remmeRest.socketAddress());
         result.batchId = apiResult.batch_id;
         result.certificate = forge.pki.certificateFromPem(apiResult.certificate);
         return result;
@@ -50,16 +50,23 @@ class RemmeCertificate implements IRemmeCertificate {
         // const payload = pki.certificateToPem(certificate);
         const payload = new CheckPayload(certificate);
         const result = await this._remmeRest
-            .postRequest<CheckPayload, CheckResult>(payload, RemmeMethods.certificate);
+            .postRequest<CheckPayload, CheckResult>(RemmeMethods.certificate, payload);
         return !result.revoked;
     }
 
     public async revokeCertificate(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse> {
         const payload = new CheckPayload(certificate);
         const apiResult = await this._remmeRest
-            .deleteRequest<CheckPayload, RevokeResult>(payload, RemmeMethods.certificate);
-        const result = new BaseTransactionResponse(this._remmeRest.address());
+            .deleteRequest<CheckPayload, RevokeResult>(RemmeMethods.certificate, payload);
+        const result = new BaseTransactionResponse(this._remmeRest.socketAddress());
+        result.batchId = apiResult.batch_id;
         return result;
+    }
+
+    public async getUserCertificates(publicKey: string): Promise<string[]> {
+        const apiResult = await this._remmeRest
+            .getRequest<UserCertificatesResult>(RemmeMethods.userCertificates, publicKey);
+        return apiResult.certificates;
     }
 
     private createSignRequest(subject: forge.pki.CertificateField[], keys: forge.pki.KeyPair): forge.pki.Certificate {
@@ -71,12 +78,29 @@ class RemmeCertificate implements IRemmeCertificate {
     }
 
     private createSubject(certificateDataToCreate: CertificateCreateDto): forge.pki.CertificateField[] {
-        return (Object as any).entries(certificateDataToCreate).map(([key, value]) => (
-            {
-                name: key,
-                value,
+        if (!certificateDataToCreate.commonName) {
+            throw new Error("Attribute commonName must have a value");
+        }
+        if (!certificateDataToCreate.validity) {
+            throw new Error("Attribute validity must have a value");
+        }
+        return (Object as any).entries(certificateDataToCreate).map(([key, value]) => {
+            let name;
+            switch (key) {
+                case "email": name = "emailAddress"; break;
+                case "countryName": name = "C"; break;
+                case "localityName": name = "L"; break;
+                case "streetAddress": name = "street"; break;
+                case "stateName": name = "SN"; break;
+                case "generationQualifier": name = "generation"; break;
+                case "title": name = "T"; break;
+                case "serial": name = "serialNumber"; break;
             }
-        ));
+            return {
+                name,
+                value,
+            };
+        });
     }
 
     private generateKeyPair(): forge.pki.KeyPair {

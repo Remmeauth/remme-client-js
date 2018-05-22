@@ -7,5 +7,6 @@ var RemmeMethods;
     RemmeMethods[RemmeMethods["token"] = 2] = "token";
     RemmeMethods[RemmeMethods["batchStatus"] = 3] = "batchStatus";
     RemmeMethods[RemmeMethods["personal"] = 4] = "personal";
+    RemmeMethods[RemmeMethods["userCertificates"] = 5] = "userCertificates";
 })(RemmeMethods = exports.RemmeMethods || (exports.RemmeMethods = {}));
 //# sourceMappingURL=remme-methods.js.map

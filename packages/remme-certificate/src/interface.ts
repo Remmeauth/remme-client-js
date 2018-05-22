@@ -1,5 +1,5 @@
 import { forge, BaseTransactionResponse } from "remme-utils";
-import { CertificateTransactionResponse, CertificateCreateDto } from "./models";
+import { CertificateTransactionResponse, CertificateCreateDto, UserCertificatesResult } from "./models";
 
 export interface IRemmeCertificate {
     createAndStoreCertificate(certificateDataToCreate: CertificateCreateDto): Promise<CertificateTransactionResponse>;
@@ -11,4 +11,6 @@ export interface IRemmeCertificate {
     checkCertificate(certificate: forge.pki.Certificate): Promise<boolean>;
 
     revokeCertificate(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse>;
+
+    getUserCertificates(publicKey: string): Promise<string[]>;
 }

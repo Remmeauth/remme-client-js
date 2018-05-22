@@ -2,15 +2,52 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var forge = require("node-forge");
 exports.forge = forge;
+var websocket_1 = require("websocket");
+var WS;
+if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
+    WS = window.WebSocket;
+}
+else {
+    WS = websocket_1.w3cwebsocket;
+}
 var BaseTransactionResponse = /** @class */ (function () {
-    function BaseTransactionResponse(socket) {
-        this._socket = socket;
+    function BaseTransactionResponse(socketAddress) {
+        this._socketAddress = "ws://" + socketAddress + "/ws";
     }
-    BaseTransactionResponse.prototype.closeConnection = function () {
-        return;
+    BaseTransactionResponse.prototype.connectToWebSocket = function (callback) {
+        var _this = this;
+        // this._socket = new WS("ws://localhost:9080/ws");
+        this._socket = new WS(this._socketAddress);
+        this._socket.onopen = function () {
+            _this._socket.send(_this.getSocketQuery());
+        };
+        this._socket.onmessage = function (e) {
+            var response = JSON.parse(e.data);
+            if (response.type === "message" && Object.getOwnPropertyNames(response.data).length !== 0) {
+                callback(null, response.data.batch_statuses);
+            }
+        };
+        this._socket.onerror = function (err) {
+            callback(err);
+        };
     };
-    BaseTransactionResponse.prototype.connectToWebSocket = function () {
-        return;
+    BaseTransactionResponse.prototype.closeConnection = function () {
+        this._socket.send(this.getSocketQuery(false));
+        this._socket.close();
+    };
+    BaseTransactionResponse.prototype.getSocketQuery = function (subscribe) {
+        if (subscribe === void 0) { subscribe = true; }
+        return JSON.stringify({
+            type: "request",
+            action: subscribe ? "subscribe" : "unsubscribe",
+            entity: "batch_state",
+            id: Math.random() * 1000,
+            parameters: {
+                batch_ids: [
+                    this.batchId,
+                ],
+            },
+        });
     };
     return BaseTransactionResponse;
 }());

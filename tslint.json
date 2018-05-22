@@ -5,6 +5,8 @@
     "no-namespace": false,
     "ordered-imports": false,
     "object-literal-sort-keys": false,
-    "member-ordering": false
+    "member-ordering": false,
+    "interface-name": false,
+    "no-console": false
   }
 }

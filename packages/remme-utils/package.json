@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@types/node-forge": "^0.7.4",
-    "node-forge": "^0.7.5"
+    "node-forge": "^0.7.5",
+    "websocket": "^1.0.26"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

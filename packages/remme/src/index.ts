@@ -12,8 +12,8 @@ namespace Remme {
         public token: RemmeToken = new RemmeToken(this._remmeRest);
         public personal: RemmePersonal = new RemmePersonal(this._remmeRest);
 
-        public constructor(nodeAdress: string = "localhost:8080") {
-            this._remmeRest = new RemmeRest(nodeAdress);
+        public constructor(nodeAdress: string = "localhost:8080", socketAddress: string = "localhost:9080") {
+            this._remmeRest = new RemmeRest(nodeAdress, socketAddress);
         }
     }
 }

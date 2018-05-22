@@ -14,4 +14,6 @@ var CertificateTransactionResponse_1 = require("./CertificateTransactionResponse
 exports.CertificateTransactionResponse = CertificateTransactionResponse_1.CertificateTransactionResponse;
 var CertificateCreateDto_1 = require("./CertificateCreateDto");
 exports.CertificateCreateDto = CertificateCreateDto_1.CertificateCreateDto;
+var UserCertificatesResult_1 = require("./UserCertificatesResult");
+exports.UserCertificatesResult = UserCertificatesResult_1.UserCertificatesResult;
 //# sourceMappingURL=index.js.map

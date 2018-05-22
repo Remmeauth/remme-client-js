@@ -10,8 +10,17 @@
       const remme = new Remme.Client();
 
       (async () => {
-        const response = await remme.certificate.createCertificate("Test", "test@test.com");
+        const response = await remme.certificate.createAndStoreCertificate({
+          commonName: "Test",
+          email: "test@test.test"
+        });
         console.log(response);
+        response.connectToWebSocket((err, data) => {
+          if (err) return;
+          console.log(data);
+          console.log(response.batchId === data.batch_id);
+        });
+        console.log(await remme.certificate.getUserCertificates(response.certificate.publicKey));
       })()
     </script>
 </body>
