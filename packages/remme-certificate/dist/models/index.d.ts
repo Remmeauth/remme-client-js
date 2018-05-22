@@ -5,3 +5,4 @@ export { CheckResult } from "./CheckResult";
 export { RevokeResult } from "./RevokeResult";
 export { CertificateTransactionResponse } from "./CertificateTransactionResponse";
 export { CertificateCreateDto } from "./CertificateCreateDto";
+export { UserCertificatesResult } from "./UserCertificatesResult";

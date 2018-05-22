@@ -8,7 +8,7 @@ declare namespace Remme {
         certificate: RemmeCertificate;
         token: RemmeToken;
         personal: RemmePersonal;
-        constructor(nodeAdress?: string);
+        constructor(nodeAdress?: string, socketAddress?: string);
     }
 }
 export = Remme;

@@ -4,4 +4,5 @@ export declare enum RemmeMethods {
     token = 2,
     batchStatus = 3,
     personal = 4,
+    userCertificates = 5,
 }

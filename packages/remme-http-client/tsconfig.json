@@ -5,7 +5,11 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "lib": ["dom", "es2015.promise", "es5"]
+    "lib": [
+      "dom",
+      "es2015.promise",
+      "es5"
+    ]
   },
   "include": [
     "./**/*.ts"

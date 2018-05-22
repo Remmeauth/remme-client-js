@@ -39,87 +39,63 @@ var remme_http_client_1 = require("remme-http-client");
 var remme_methods_1 = require("./remme-methods");
 exports.RemmeMethods = remme_methods_1.RemmeMethods;
 var RemmeRest = /** @class */ (function () {
-    function RemmeRest(nodeAddress) {
+    function RemmeRest(nodeAddress, socketAddress) {
         if (nodeAddress === void 0) { nodeAddress = "localhost:8080"; }
+        if (socketAddress === void 0) { socketAddress = "localhost:9080"; }
         var _this = this;
-        this.address = function () { return _this._nodeAddress; };
+        this.nodeAddress = function () { return _this._nodeAddress; };
+        this.socketAddress = function () { return _this._socketAddress; };
         this._nodeAddress = nodeAddress;
+        this._socketAddress = socketAddress;
     }
-    RemmeRest.prototype.getRequest = function (payload, method) {
+    RemmeRest.prototype.getRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sendRequest("GET", payload, method)];
+                    case 0: return [4 /*yield*/, this.sendRequest("GET", method, payload)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    RemmeRest.prototype.putRequest = function (payload, method) {
+    RemmeRest.prototype.putRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sendRequest("PUT", payload, method)];
-                    case 1: 
-                    // const url = this.getUrlForRequest(method);
-                    // const options: AxiosRequestConfig = {
-                    //     url,
-                    //     method: "PUT",
-                    //     data: payload,
-                    // };
-                    // const response = await HttpClient.send(options);
-                    // return response.data;
-                    return [2 /*return*/, _a.sent()];
+                    case 0: return [4 /*yield*/, this.sendRequest("PUT", method, payload)];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    RemmeRest.prototype.postRequest = function (payload, method) {
+    RemmeRest.prototype.postRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sendRequest("POST", payload, method)];
-                    case 1: 
-                    // const url = this.getUrlForRequest(method);
-                    // const options: AxiosRequestConfig = {
-                    //     url,
-                    //     method: "POST",
-                    //     data: payload,
-                    // };
-                    // const response = await HttpClient.send(options);
-                    // return response.data;
-                    return [2 /*return*/, _a.sent()];
+                    case 0: return [4 /*yield*/, this.sendRequest("POST", method, payload)];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    RemmeRest.prototype.deleteRequest = function (payload, method) {
+    RemmeRest.prototype.deleteRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sendRequest("DELETE", payload, method)];
-                    case 1: 
-                    // const url = this.getUrlForRequest(method);
-                    // const options: AxiosRequestConfig = {
-                    //     url,
-                    //     method: "DELETE",
-                    //     data: payload,
-                    // };
-                    // const response = await HttpClient.send(options);
-                    // return response.data;
-                    return [2 /*return*/, _a.sent()];
+                    case 0: return [4 /*yield*/, this.sendRequest("DELETE", method, payload)];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    RemmeRest.prototype.sendRequest = function (method, payload, remmeMethod) {
+    RemmeRest.prototype.sendRequest = function (method, remmeMethod, payload) {
         return __awaiter(this, void 0, void 0, function () {
             var url, options, response, e_1, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
-                        url = this.getUrlForRequest(remmeMethod);
+                        url = this.getUrlForRequest(remmeMethod, method.toUpperCase() === "GET" ? payload : null);
                         options = (_a = {
                                 url: url,
                                 method: method
@@ -138,7 +114,8 @@ var RemmeRest = /** @class */ (function () {
             });
         });
     };
-    RemmeRest.prototype.getUrlForRequest = function (method) {
+    RemmeRest.prototype.getUrlForRequest = function (method, payload) {
+        if (payload === void 0) { payload = null; }
         var methodUrl;
         switch (method) {
             case remme_methods_1.RemmeMethods.certificate:
@@ -156,6 +133,12 @@ var RemmeRest = /** @class */ (function () {
             case remme_methods_1.RemmeMethods.personal:
                 methodUrl = "personal";
                 break;
+            case remme_methods_1.RemmeMethods.userCertificates:
+                methodUrl = "user";
+                break;
+        }
+        if (payload) {
+            methodUrl += "/" + payload + (method === remme_methods_1.RemmeMethods.userCertificates ? "/certificates" : "");
         }
         return "http://" + this._nodeAddress + "/api/v1/" + methodUrl;
     };

@@ -1,14 +1,12 @@
 var Remme = require("./dist/index");
-var pki = require("remme-certificate/node_modules/node-forge").pki;
+var forge = require("remme-utils");
 
 const remme = new Remme.Client();
 
 (async () => {
   try {
-    const response = await remme.certificate.createCertificate("Test", "test@test.com");
+    const response = await remme.certificate.createAndStoreCertificate("Test", "test@test.com");
     console.log(response);
-    let status = await remme.certificate.checkCertificate(pki.certificateFromPem(response.certificate));
-    console.log(status);
   } catch (e) {
     console.log(e);
   }

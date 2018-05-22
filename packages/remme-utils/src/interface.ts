@@ -1,7 +1,7 @@
 export interface ITransactionResponse {
     batchId: string;
 
-    connectToWebSocket(): void;
+    connectToWebSocket(callback: any): void;
 
     closeConnection(): void;
 }

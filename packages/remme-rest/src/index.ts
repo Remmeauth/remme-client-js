@@ -3,56 +3,36 @@ import { RemmeMethods } from "./remme-methods";
 
 class RemmeRest {
     private readonly _nodeAddress: string;
-    public constructor(nodeAddress: string = "localhost:8080") {
+    private readonly _socketAddress: string;
+
+    public constructor(nodeAddress: string = "localhost:8080", socketAddress: string = "localhost:9080") {
         this._nodeAddress = nodeAddress;
+        this._socketAddress = socketAddress;
     }
 
-    public address = (): string => this._nodeAddress;
+    public nodeAddress = (): string => this._nodeAddress;
+    public socketAddress = (): string => this._socketAddress;
 
-    public async getRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
-        return await this.sendRequest<Input, Output>("GET", payload, method);
+    public async getRequest<Output>(method: RemmeMethods, payload: string): Promise<Output> {
+        return await this.sendRequest<string, Output>("GET", method, payload);
     }
 
-    public async putRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
-        // const url = this.getUrlForRequest(method);
-        // const options: AxiosRequestConfig = {
-        //     url,
-        //     method: "PUT",
-        //     data: payload,
-        // };
-        // const response = await HttpClient.send(options);
-        // return response.data;
-        return await this.sendRequest<Input, Output>("PUT", payload, method);
+    public async putRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output> {
+        return await this.sendRequest<Input, Output>("PUT", method, payload);
     }
 
-    public async postRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
-        // const url = this.getUrlForRequest(method);
-        // const options: AxiosRequestConfig = {
-        //     url,
-        //     method: "POST",
-        //     data: payload,
-        // };
-        // const response = await HttpClient.send(options);
-        // return response.data;
-        return await this.sendRequest<Input, Output>("POST", payload, method);
+    public async postRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output> {
+        return await this.sendRequest<Input, Output>("POST", method, payload);
     }
 
-    public async deleteRequest<Input, Output>(payload: Input, method: RemmeMethods): Promise<Output> {
-        // const url = this.getUrlForRequest(method);
-        // const options: AxiosRequestConfig = {
-        //     url,
-        //     method: "DELETE",
-        //     data: payload,
-        // };
-        // const response = await HttpClient.send(options);
-        // return response.data;
-        return await this.sendRequest<Input, Output>("DELETE", payload, method);
+    public async deleteRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output> {
+        return await this.sendRequest<Input, Output>("DELETE", method, payload);
     }
 
-    private async sendRequest<Input, Output>(method: string, payload: Input, remmeMethod: RemmeMethods)
+    private async sendRequest<Input, Output>(method: string, remmeMethod: RemmeMethods, payload: Input)
         : Promise<Output> {
         try {
-            const url = this.getUrlForRequest(remmeMethod);
+            const url = this.getUrlForRequest<Input>(remmeMethod, method.toUpperCase() === "GET" ? payload : null);
             const options: AxiosRequestConfig = {
                 url,
                 method,
@@ -65,7 +45,7 @@ class RemmeRest {
         }
     }
 
-    private getUrlForRequest(method: RemmeMethods): string {
+    private getUrlForRequest<Input>(method: RemmeMethods, payload: Input = null): string {
         let methodUrl: string;
         switch (method) {
             case RemmeMethods.certificate:
@@ -83,7 +63,15 @@ class RemmeRest {
             case RemmeMethods.personal:
                 methodUrl = "personal";
                 break;
+            case RemmeMethods.userCertificates:
+                methodUrl = "user";
+                break;
         }
+
+        if (payload) {
+           methodUrl += `/${payload}${method === RemmeMethods.userCertificates ? "/certificates" : ""}`;
+        }
+
         return `http://${this._nodeAddress}/api/v1/${methodUrl}`;
     }
 }
