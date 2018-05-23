@@ -19,7 +19,7 @@ declare class BaseTransactionResponse implements ITransactionResponse {
     private _socketAddress;
     constructor(socketAddress: string);
     connectToWebSocket(callback: any): void;
-    closeConnection(): void;
+    closeWebSocket(): void;
     private getSocketQuery(subscribe?);
 }
 export { forge, BaseTransactionResponse };

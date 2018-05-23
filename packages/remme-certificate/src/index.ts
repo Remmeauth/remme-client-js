@@ -85,20 +85,24 @@ class RemmeCertificate implements IRemmeCertificate {
             throw new Error("Attribute validity must have a value");
         }
         return (Object as any).entries(certificateDataToCreate).map(([key, value]) => {
-            let name;
+            let name: string;
+            let type: string;
             switch (key) {
                 case "email": name = "emailAddress"; break;
-                case "countryName": name = "C"; break;
-                case "localityName": name = "L"; break;
                 case "streetAddress": name = "street"; break;
-                case "stateName": name = "SN"; break;
+                case "stateName": name = "ST"; break;
                 case "generationQualifier": name = "generation"; break;
                 case "title": name = "T"; break;
                 case "serial": name = "serialNumber"; break;
+                default: name = key;
+            }
+            if (!(name in forge.pki.oids)) {
+                type = name;
             }
             return {
                 name,
                 value,
+                type,
             };
         });
     }

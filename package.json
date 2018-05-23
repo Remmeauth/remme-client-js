@@ -7,7 +7,7 @@
     "postinstall": "./node_modules/.bin/lerna bootstrap",
     "publish": "npm run bootstrap && ./node_modules/.bin/lerna publish",
     "bootstrap": "./node_modules/.bin/gulp prepublish; ./node_modules/.bin/lerna bootstrap;",
-    "build": "./node_modules/.bin/gulp",
+    "build": "npm run bootstrap && ./node_modules/.bin/gulp",
     "watch": "./node_modules/.bin/gulp watch"
   },
   "keywords": [
@@ -18,9 +18,14 @@
   "devDependencies": {
     "@types/chai": "^4.1.3",
     "@types/mocha": "^5.2.0",
-    "@types/node-forge": "^0.7.4",
-    "browserify": "^16.2.0",
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.2",
     "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-cli": "^2.0.1",
@@ -31,7 +36,10 @@
     "gulp-tslint": "^8.1.3",
     "gulp-uglify": "^3.0.0",
     "karma": "^2.0.2",
+    "karma-babel-preprocessor": "^7.0.0",
+    "karma-browserify": "^5.2.0",
     "karma-chai": "^0.1.0",
+    "karma-chai-as-promised": "^0.1.2",
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.1.0",
     "karma-ie-launcher": "^1.0.0",
@@ -41,7 +49,6 @@
     "karma-typescript-preprocessor": "^0.3.1",
     "lerna": "^2.11.0",
     "mocha": "^5.1.1",
-    "node-forge": "^0.7.5",
     "ts-node": "^6.0.3",
     "tsify": "^4.0.0",
     "tslint": "^5.10.0",
@@ -50,5 +57,7 @@
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
 }
