@@ -115,6 +115,7 @@ packages.forEach(function (pckg, i) {
       packageCache: {}
     })
       .plugin(tsify, {
+        target: "es5",
         declaration: true,
         lib: [
           "es6",
@@ -136,12 +137,14 @@ packages.forEach(function (pckg, i) {
   });
 });
 
-gulp.task('tests', [packages[packages.length - 1].fileName], function (done) {
+gulp.task('only_test', function (done) {
   new Karma({
     configFile: path.join(__dirname, "karma.conf.js"),
     singleRun: true,
   }, done).start();
 });
+
+gulp.task('tests', [packages[packages.length - 1].fileName, 'only_test']);
 
 gulp.task('prepublish', function () {
   packages.forEach(function (pckg) {

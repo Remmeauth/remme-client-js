@@ -34,7 +34,9 @@ class BaseTransactionResponse implements ITransactionResponse {
     }
 
     public connectToWebSocket(callback: any): void {
-        // this._socket = new WS("ws://localhost:9080/ws");
+        if (this._socket) {
+            this.closeWebSocket();
+        }
         this._socket = new WS(this._socketAddress);
         this._socket.onopen = () => {
             this._socket.send(this.getSocketQuery());
@@ -50,13 +52,17 @@ class BaseTransactionResponse implements ITransactionResponse {
         };
     }
 
-    public closeConnection(): void {
+    public closeWebSocket(): void {
+        if (!this._socket) {
+            throw new Error("WebSocket is not running");
+        }
         this._socket.send(this.getSocketQuery(false));
         this._socket.close();
+        this._socket = null;
     }
 
     private getSocketQuery(subscribe: boolean = true): string {
-        return JSON.stringify({
+        const query = {
             type: "request",
             action: subscribe ? "subscribe" : "unsubscribe",
             entity: "batch_state",
@@ -66,7 +72,8 @@ class BaseTransactionResponse implements ITransactionResponse {
                     this.batchId,
                 ],
             },
-        });
+        };
+        return JSON.stringify(query);
     }
 }
 

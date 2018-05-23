@@ -154,21 +154,16 @@ var RemmeCertificate = /** @class */ (function () {
         return Object.entries(certificateDataToCreate).map(function (_a) {
             var key = _a[0], value = _a[1];
             var name;
+            var type;
             switch (key) {
                 case "email":
                     name = "emailAddress";
-                    break;
-                case "countryName":
-                    name = "C";
-                    break;
-                case "localityName":
-                    name = "L";
                     break;
                 case "streetAddress":
                     name = "street";
                     break;
                 case "stateName":
-                    name = "SN";
+                    name = "ST";
                     break;
                 case "generationQualifier":
                     name = "generation";
@@ -179,10 +174,15 @@ var RemmeCertificate = /** @class */ (function () {
                 case "serial":
                     name = "serialNumber";
                     break;
+                default: name = key;
+            }
+            if (!(name in remme_utils_1.forge.pki.oids)) {
+                type = name;
             }
             return {
                 name: name,
                 value: value,
+                type: type,
             };
         });
     };

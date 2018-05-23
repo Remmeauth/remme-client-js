@@ -10,7 +10,7 @@ class RemmeToken implements IRemmeToken {
         this._remmeRest = remmeRest;
     }
 
-    public async transfer(publicKeyTo: forge.pki.Key, amount: number): Promise<BaseTransactionResponse> {
+    public async transfer(publicKeyTo: string, amount: number): Promise<BaseTransactionResponse> {
         const payload = new TransactionPayload(publicKeyTo, amount);
         const apiResult = await this._remmeRest
             .postRequest<TransactionPayload, TransactionResult>(RemmeMethods.token, payload);
@@ -19,7 +19,7 @@ class RemmeToken implements IRemmeToken {
         return result;
     }
 
-    public async getBalance(publicKeyTo: forge.pki.Key): Promise<number> {
+    public async getBalance(publicKeyTo: string): Promise<number> {
         const result = await this._remmeRest
             .getRequest<BalanceResult>(RemmeMethods.token, publicKeyTo);
         return result.balance;

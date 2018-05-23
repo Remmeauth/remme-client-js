@@ -1,10 +1,8 @@
-import { forge } from "remme-utils";
-
 export class TransactionPayload {
-    private pub_key_to: forge.pki.PEM;
+    private pub_key_to: string;
     private amount: number;
-    public constructor(publicKeyTo: forge.pki.Key, amount: number) {
-        this.pub_key_to = forge.pki.publicKeyToPem(publicKeyTo);
+    public constructor(publicKeyTo: string, amount: number) {
+        this.pub_key_to = publicKeyTo;
         this.amount = amount;
     }
 }

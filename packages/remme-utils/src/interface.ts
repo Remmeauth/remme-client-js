@@ -3,5 +3,5 @@ export interface ITransactionResponse {
 
     connectToWebSocket(callback: any): void;
 
-    closeConnection(): void;
+    closeWebSocket(): void;
 }

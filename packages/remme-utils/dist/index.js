@@ -16,7 +16,9 @@ var BaseTransactionResponse = /** @class */ (function () {
     }
     BaseTransactionResponse.prototype.connectToWebSocket = function (callback) {
         var _this = this;
-        // this._socket = new WS("ws://localhost:9080/ws");
+        if (this._socket) {
+            this.closeWebSocket();
+        }
         this._socket = new WS(this._socketAddress);
         this._socket.onopen = function () {
             _this._socket.send(_this.getSocketQuery());
@@ -31,13 +33,17 @@ var BaseTransactionResponse = /** @class */ (function () {
             callback(err);
         };
     };
-    BaseTransactionResponse.prototype.closeConnection = function () {
+    BaseTransactionResponse.prototype.closeWebSocket = function () {
+        if (!this._socket) {
+            throw new Error("WebSocket is not running");
+        }
         this._socket.send(this.getSocketQuery(false));
         this._socket.close();
+        this._socket = null;
     };
     BaseTransactionResponse.prototype.getSocketQuery = function (subscribe) {
         if (subscribe === void 0) { subscribe = true; }
-        return JSON.stringify({
+        var query = {
             type: "request",
             action: subscribe ? "subscribe" : "unsubscribe",
             entity: "batch_state",
@@ -47,7 +53,8 @@ var BaseTransactionResponse = /** @class */ (function () {
                     this.batchId,
                 ],
             },
-        });
+        };
+        return JSON.stringify(query);
     };
     return BaseTransactionResponse;
 }());
