@@ -1,19 +1,83 @@
-0 silly input []
-1 silly flags { _: [ 'bootstrap' ],
-1 silly flags   'reject-cycles': false,
-1 silly flags   rejectCycles: false,
-1 silly flags   args: [] }
+0 silly input [ 'publish' ]
+1 silly flags { _: [ 'publish' ], 'reject-cycles': false, rejectCycles: false }
 2 verbose rootPath /var/www/remme-client-js
 3 info version 2.11.0
-4 silly existsSync /var/www/remme-client-js/VERSION
-5 error EPACKAGES Errored while collecting packages and package graph
-6 error JSONError: Unexpected token } in JSON at position 314 while parsing near '...-utils": "0.0.0",  },  "devDependencie...' in packages/remme-certificate/package.json
-6 error     at module.exports (/var/www/remme-client-js/node_modules/lerna/node_modules/parse-json/index.js:26:19)
-6 error     at parse (/var/www/remme-client-js/node_modules/lerna/node_modules/load-json-file/index.js:8:29)
-6 error     at Function.module.exports.sync.fp [as sync] (/var/www/remme-client-js/node_modules/lerna/node_modules/load-json-file/index.js:11:29)
-6 error     at Function.module.exports.sync (/var/www/remme-client-js/node_modules/lerna/node_modules/read-pkg/index.js:40:25)
-6 error     at /var/www/remme-client-js/node_modules/lerna/lib/PackageUtilities.js:138:47
-6 error     at Array.forEach (<anonymous>)
-6 error     at /var/www/remme-client-js/node_modules/lerna/lib/PackageUtilities.js:132:86
-6 error     at Array.forEach (<anonymous>)
-6 error     at Function.getPackages (/var/www/remme-client-js/node_modules/lerna/lib/PackageUtilities.js:131:22)
+4 silly isInitialized
+5 silly isInitialized true
+6 silly existsSync /var/www/remme-client-js/VERSION
+7 silly initialize attempt
+8 info current version 0.1.0
+9 silly isDetachedHead
+10 silly getCurrentBranch
+11 verbose getCurrentBranch master
+12 verbose isDetachedHead false
+13 silly getCurrentBranch
+14 verbose getCurrentBranch master
+15 silly getUpdates
+16 info Checking for updated packages...
+17 silly hasTags
+18 verbose hasTags true
+19 silly getLastTag
+20 verbose getLastTag v0.1.0
+21 info Comparing with v0.1.0.
+22 silly diffSinceIn v0.1.0 packages/remme-certificate
+23 silly diff
+24 silly diffSinceIn v0.1.0 packages/remme-http-client
+25 silly diff
+26 silly diffSinceIn v0.1.0 packages/remme-personal
+27 silly diff
+28 silly diffSinceIn v0.1.0 packages/remme-rest
+29 silly diff
+30 silly diffSinceIn v0.1.0 packages/remme-token
+31 silly diff
+32 silly diffSinceIn v0.1.0 packages/remme-utils
+33 silly diff
+34 silly diffSinceIn v0.1.0 packages/remme
+35 silly diff packages/remme/README.md
+36 verbose updated remme
+37 info Checking for prereleased packages...
+38 silly collectDependents
+39 silly isPackageDependentOf remme-certificate remme
+40 silly isPackageDependentOf remme-rest remme
+41 silly isPackageDependentOf remme-http-client remme
+42 silly isPackageDependentOf remme-utils remme
+43 silly isPackageDependentOf remme-http-client remme
+44 silly isPackageDependentOf remme-personal remme
+45 silly isPackageDependentOf remme-rest remme
+46 silly isPackageDependentOf remme-utils remme
+47 silly isPackageDependentOf remme-rest remme
+48 silly isPackageDependentOf remme-token remme
+49 silly isPackageDependentOf remme-rest remme
+50 silly isPackageDependentOf remme-utils remme
+51 silly isPackageDependentOf remme-utils remme
+52 silly isPackageDependentOf remme remme
+53 silly isPackageDependentOf remme-certificate remme
+54 silly isPackageDependentOf remme-personal remme
+55 silly isPackageDependentOf remme-rest remme
+56 silly isPackageDependentOf remme-token remme
+57 silly collectUpdates
+58 verbose has filtered update remme
+59 silly initialize success
+60 silly execute attempt
+61 silly addFile /var/www/remme-client-js/lerna.json
+62 silly runScriptSync preversion remme-client
+63 silly runScriptSync preversion remme
+64 silly runScriptSync version remme
+65 silly runScriptSync version remme-client
+66 silly addFile /var/www/remme-client-js/packages/remme/package.json
+67 silly commit v0.1.0
+68 verbose commit [ 'commit', '--no-verify', '-m', 'v0.1.0' ]
+69 error execute caught error
+70 error Error: On branch master
+70 error Changes not staged for commit:
+70 error 	modified:   README.md
+70 error 	modified:   lerna-debug.log
+70 error
+70 error no changes added to commit
+70 error
+70 error     at Function.module.exports.sync (/var/www/remme-client-js/node_modules/execa/index.js:303:26)
+70 error     at Function.execSync (/var/www/remme-client-js/node_modules/lerna/lib/ChildProcessUtilities.js:59:30)
+70 error     at Function.commit (/var/www/remme-client-js/node_modules/lerna/lib/GitUtilities.js:94:39)
+70 error     at PublishCommand.gitCommitAndTagVersion (/var/www/remme-client-js/node_modules/lerna/lib/commands/PublishCommand.js:778:30)
+70 error     at PublishCommand.commitAndTagUpdates (/var/www/remme-client-js/node_modules/lerna/lib/commands/PublishCommand.js:740:27)
+70 error     at PublishCommand.execute (/var/www/remme-client-js/node_modules/lerna/lib/commands/PublishCommand.js:329:14)
