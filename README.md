@@ -9,7 +9,7 @@ REMME JavaScript Client
 ## How to use
 ### 1. Install and run REMME node with required REST API methods  enabled.
 You can check out how to do that at [REMME core repo](https://github.com/Remmeauth/remme-core/).
-*Note: you can enable/disable methods by modifying **REMME_REST_API_AVAILABLE_METHODS** eviroment variable at the .env file. *
+*Note: you can enable/disable methods by modifying **REMME_REST_API_AVAILABLE_METHODS** eviroment variable at the .env file.*
 
 ### 2. Install the latest version of library to your JS project
 #### Node
