@@ -6,7 +6,9 @@ REMME JavaScript Client
 
 **An open source JS integration library for REMChain, simplifying the access and interaction with REMME nodes both public or permissioned.**
 
-# How to use
+#How to use
+------------
+
 ## 1. Install and run REMME node with required REST API methods  enabled.
 You can check out how to do that at [REMME core repo](https://github.com/Remmeauth/remme-core/).
 *Note: you can enable/disable methods by modifying **REMME_REST_API_AVAILABLE_METHODS** eviroment variable at the .env file. *
@@ -38,7 +40,8 @@ This will expose `Remme` on the window object.
 
 ##3. Run methods of **RemmeClient** class to interract with REMME node.
 
-# Examples
+#Examples
+----------
 #### Implement Remme client
 ```js
 var Remme = require("remme");
@@ -94,6 +97,6 @@ certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
 
 
 
-# License
-
+#License
+---------
 REMME software and documentation are licensed under `Apache License Version 2.0 <LICENSE>`_.
