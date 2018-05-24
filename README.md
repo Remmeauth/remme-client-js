@@ -7,7 +7,6 @@ REMME JavaScript Client
 **An open source JS integration library for REMChain, simplifying the access and interaction with REMME nodes both public or permissioned.**
 
 # How to use
-----------
 ## 1. Install and run REMME node with required REST API methods  enabled.
 You can check out how to do that at [REMME core repo](https://github.com/Remmeauth/remme-core/).
 *Note: you can enable/disable methods by modifying **REMME_REST_API_AVAILABLE_METHODS** eviroment variable at the .env file. *
@@ -39,15 +38,14 @@ This will expose `Remme` on the window object.
 
 ##3. Run methods of **RemmeClient** class to interract with REMME node.
 
-#Examples
-------------
+# Examples
 #### Implement Remme client
 ```js
 var Remme = require("remme");
 // import Remme from "remme";
 
 const nodeAddress = "192.168.0.1:8080"; // <-- Address of your local node's REST API server (localhost:8080) by default
-const socketAddress = "192.168.0.1:9080"; <-- Address of local node's WebSocket server (localhost:9080) by default
+const socketAddress = "192.168.0.1:9080"; // <-- Address of local node's WebSocket server (localhost:9080) by default
 const remme = new Remme.Client(nodeAddress, socketAddress);
 ```
 
@@ -55,10 +53,10 @@ const remme = new Remme.Client(nodeAddress, socketAddress);
 ```js
 const someRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759";
 const balance = await remme.token.getBalance(someRemmeAddress);
-console.log(`Account ${someRemmeAddress} balance - ${balance} REM`); // 1
+console.log(`Account ${someRemmeAddress} balance - ${balance} REM`);
 
 const transactionResult = await remme.token.transfer(someRemmeAddress, 100);
-console.log(`Sending tokens...BatchId: ${transactionResult.batchId}`); // 2
+console.log(`Sending tokens...BatchId: ${transactionResult.batchId}`);
 
 const transactionCallback = async (err, result) => {
     if (err) return;
@@ -96,7 +94,6 @@ certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
 
 
 
-#License
--------
+# License
 
 REMME software and documentation are licensed under `Apache License Version 2.0 <LICENSE>`_.
