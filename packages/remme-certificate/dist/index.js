@@ -64,10 +64,11 @@ var RemmeCertificate = /** @class */ (function () {
     };
     RemmeCertificate.prototype.signAndStoreCertificate = function (signingRequest) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, apiResult, result;
+            var payload, apiResult, result, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        _a.trys.push([0, 2, , 3]);
                         payload = new models_1.StorePayload(signingRequest);
                         return [4 /*yield*/, this._remmeRest
                                 .putRequest(remme_rest_1.RemmeMethods.certificateStore, payload)];
@@ -77,6 +78,10 @@ var RemmeCertificate = /** @class */ (function () {
                         result.batchId = apiResult.batch_id;
                         result.certificate = remme_utils_1.forge.pki.certificateFromPem(apiResult.certificate);
                         return [2 /*return*/, result];
+                    case 2:
+                        e_1 = _a.sent();
+                        throw new Error("Given certificate is not a valid");
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -91,26 +96,32 @@ var RemmeCertificate = /** @class */ (function () {
     };
     RemmeCertificate.prototype.checkCertificate = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, result;
+            var payload, result, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        _a.trys.push([0, 2, , 3]);
                         payload = new models_1.CheckPayload(certificate);
                         return [4 /*yield*/, this._remmeRest
                                 .postRequest(remme_rest_1.RemmeMethods.certificate, payload)];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, !result.revoked];
+                    case 2:
+                        e_2 = _a.sent();
+                        throw new Error("Given certificate is not a valid");
+                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
     RemmeCertificate.prototype.revokeCertificate = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, apiResult, result;
+            var payload, apiResult, result, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        _a.trys.push([0, 2, , 3]);
                         payload = new models_1.CheckPayload(certificate);
                         return [4 /*yield*/, this._remmeRest
                                 .deleteRequest(remme_rest_1.RemmeMethods.certificate, payload)];
@@ -119,6 +130,10 @@ var RemmeCertificate = /** @class */ (function () {
                         result = new remme_utils_1.BaseTransactionResponse(this._remmeRest.socketAddress());
                         result.batchId = apiResult.batch_id;
                         return [2 /*return*/, result];
+                    case 2:
+                        e_3 = _a.sent();
+                        throw new Error("Given certificate is not a valid");
+                    case 3: return [2 /*return*/];
                 }
             });
         });

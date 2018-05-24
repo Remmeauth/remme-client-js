@@ -32,13 +32,17 @@ class RemmeCertificate implements IRemmeCertificate {
 
     public async signAndStoreCertificate(signingRequest: forge.pki.Certificate)
         : Promise<CertificateTransactionResponse> {
-        const payload = new StorePayload(signingRequest);
-        const apiResult = await this._remmeRest
-            .putRequest<StorePayload, StoreResult>(RemmeMethods.certificateStore, payload);
-        const result = new CertificateTransactionResponse(this._remmeRest.socketAddress());
-        result.batchId = apiResult.batch_id;
-        result.certificate = forge.pki.certificateFromPem(apiResult.certificate);
-        return result;
+       try {
+            const payload = new StorePayload(signingRequest);
+            const apiResult = await this._remmeRest
+                .putRequest<StorePayload, StoreResult>(RemmeMethods.certificateStore, payload);
+            const result = new CertificateTransactionResponse(this._remmeRest.socketAddress());
+            result.batchId = apiResult.batch_id;
+            result.certificate = forge.pki.certificateFromPem(apiResult.certificate);
+            return result;
+        } catch (e) {
+            throw new Error("Given certificate is not a valid");
+        }
     }
 
     // TODO
@@ -47,20 +51,27 @@ class RemmeCertificate implements IRemmeCertificate {
     }
 
     public async checkCertificate(certificate: forge.pki.Certificate): Promise<boolean> {
-        // const payload = pki.certificateToPem(certificate);
-        const payload = new CheckPayload(certificate);
-        const result = await this._remmeRest
-            .postRequest<CheckPayload, CheckResult>(RemmeMethods.certificate, payload);
-        return !result.revoked;
+        try {
+            const payload = new CheckPayload(certificate);
+            const result = await this._remmeRest
+                .postRequest<CheckPayload, CheckResult>(RemmeMethods.certificate, payload);
+            return !result.revoked;
+        } catch (e) {
+            throw new Error("Given certificate is not a valid");
+        }
     }
 
     public async revokeCertificate(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse> {
-        const payload = new CheckPayload(certificate);
-        const apiResult = await this._remmeRest
-            .deleteRequest<CheckPayload, RevokeResult>(RemmeMethods.certificate, payload);
-        const result = new BaseTransactionResponse(this._remmeRest.socketAddress());
-        result.batchId = apiResult.batch_id;
-        return result;
+        try {
+            const payload = new CheckPayload(certificate);
+            const apiResult = await this._remmeRest
+                .deleteRequest<CheckPayload, RevokeResult>(RemmeMethods.certificate, payload);
+            const result = new BaseTransactionResponse(this._remmeRest.socketAddress());
+            result.batchId = apiResult.batch_id;
+            return result;
+        } catch (e) {
+            throw new Error("Given certificate is not a valid");
+        }
     }
 
     public async getUserCertificates(publicKey: string): Promise<string[]> {

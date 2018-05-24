@@ -36,22 +36,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_rest_1 = require("remme-rest");
-var models_1 = require("./models");
 var RemmePersonal = /** @class */ (function () {
     function RemmePersonal(remmeRest) {
         if (remmeRest === void 0) { remmeRest = new remme_rest_1.RemmeRest(); }
         this._remmeRest = remmeRest;
     }
     RemmePersonal.prototype.generateAccount = function () {
-        return new models_1.RemmeAccountDto();
+        throw new Error("not implemented");
     };
     RemmePersonal.prototype.getAddress = function () {
-        return "";
+        throw new Error("not implemented");
     };
     RemmePersonal.prototype.getBalance = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, undefined];
+                throw new Error("not implemented");
             });
         });
     };

@@ -1,7 +1,8 @@
 import { HttpClient, AxiosRequestConfig } from "remme-http-client";
 import { RemmeMethods } from "./remme-methods";
+import { IRemmeRest } from "./interface";
 
-class RemmeRest {
+class RemmeRest implements IRemmeRest {
     private readonly _nodeAddress: string;
     private readonly _socketAddress: string;
 

@@ -8,7 +8,8 @@
     "publish": "npm run bootstrap && ./node_modules/.bin/lerna publish",
     "bootstrap": "./node_modules/.bin/gulp prepublish; ./node_modules/.bin/lerna bootstrap;",
     "build": "npm run bootstrap && ./node_modules/.bin/gulp",
-    "watch": "./node_modules/.bin/gulp watch"
+    "watch": "./node_modules/.bin/gulp watch",
+    "tests": "npm run bootstrap && ./node_modules/.bin/gulp tests"
   },
   "keywords": [
     "test"

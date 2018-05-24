@@ -49,6 +49,12 @@ var RemmeToken = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (publicKeyTo.search(/^[0-9a-f]{66}$/) === -1) {
+                            throw new Error("Given PublicKey is not a valid");
+                        }
+                        if (amount <= 0) {
+                            throw new Error("amount must be higher than 0");
+                        }
                         payload = new models_1.TransactionPayload(publicKeyTo, amount);
                         return [4 /*yield*/, this._remmeRest
                                 .postRequest(remme_rest_1.RemmeMethods.token, payload)];
@@ -66,8 +72,12 @@ var RemmeToken = /** @class */ (function () {
             var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._remmeRest
-                            .getRequest(remme_rest_1.RemmeMethods.token, publicKeyTo)];
+                    case 0:
+                        if (publicKeyTo.search(/^[0-9a-f]{66}$/) === -1) {
+                            throw new Error("Given PublicKey is not a valid");
+                        }
+                        return [4 /*yield*/, this._remmeRest
+                                .getRequest(remme_rest_1.RemmeMethods.token, publicKeyTo)];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, result.balance];

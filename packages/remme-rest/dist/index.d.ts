@@ -1,5 +1,6 @@
 import { RemmeMethods } from "./remme-methods";
-declare class RemmeRest {
+import { IRemmeRest } from "./interface";
+declare class RemmeRest implements IRemmeRest {
     private readonly _nodeAddress;
     private readonly _socketAddress;
     constructor(nodeAddress?: string, socketAddress?: string);
