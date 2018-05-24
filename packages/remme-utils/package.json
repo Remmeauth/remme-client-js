@@ -1,14 +1,15 @@
 {
   "name": "remme-utils",
   "version": "0.1.0",
-  "description": "",
+  "description": "REMME utils internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "namespace": "remme",
+  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-utils",
   "scripts": {
     "transpile": "./node_modules/.bin/tsc"
   },
-  "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "@types/node-forge": "^0.7.4",
     "node-forge": "^0.7.5",

@@ -1,17 +1,18 @@
 {
   "name": "remme-personal",
   "version": "0.1.0",
-  "description": "",
+  "description": "REMME personal internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "namespace": "remme",
+  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-personal",
   "scripts": {
     "transpile": "./node_modules/.bin/tsc"
   },
-  "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "remme-rest": "^0.1.0",
-    "remme-utils": "0.1.0"
+    "remme-utils": "^0.1.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

@@ -1,20 +1,36 @@
 {
   "name": "remme",
   "version": "0.1.0",
-  "description": "",
+  "description": "REMME Javascipt API",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "namespace": "remme",
+  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme",
   "scripts": {
     "transpile": "./node_modules/.bin/tsc"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "REMME",
+    "Javascript",
+    "API"
+  ],
+  "author": {
+    "name": "REMME",
+    "url": "remme.io"
+  },
+  "authors": [
+    {
+      "name": "Artem Frantsiian",
+      "url": "https://github.com/ArtemFrantsiian",
+      "email": "artemfrantsiian@gmail.com"
+    }
+  ],
+  "license": "Apache-2.0",
   "dependencies": {
-    "remme-rest": "0.1.0",
-    "remme-certificate": "0.1.0",
-    "remme-token": "0.1.0",
-    "remme-personal": "0.1.0"
+    "remme-certificate": "^0.1.0",
+    "remme-personal": "^0.1.0",
+    "remme-rest": "^0.1.0",
+    "remme-token": "^0.1.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"
