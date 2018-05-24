@@ -1,8 +1,9 @@
 {
   "name": "remme-client",
-  "version": "0.0.0",
-  "description": "Test",
-  "main": "./packages/type/src/index.js",
+  "namespace": "remme",
+  "version": "0.1.0",
+  "description": "REMME external package",
+  "main": "./packages/remme/dist/index.js",
   "scripts": {
     "postinstall": "./node_modules/.bin/lerna bootstrap",
     "publish": "npm run bootstrap && ./node_modules/.bin/lerna publish",
@@ -12,10 +13,20 @@
     "tests": "npm run bootstrap && ./node_modules/.bin/gulp tests"
   },
   "keywords": [
-    "test"
+    "Remme",
+    "Javascript",
+    "API"
   ],
-  "author": "ArtemFrantsiian",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Remmeauth/remme-client-js.git"
+  },
+  "homepage": "https://github.com/Remmeauth/remme-client-js",
+  "author": {
+    "name": "REMME",
+    "url": "remme.io"
+  },
+  "license": "Apache-2.0",
   "devDependencies": {
     "@types/chai": "^4.1.3",
     "@types/mocha": "^5.2.0",
@@ -56,9 +67,7 @@
     "tslint-config-airbnb": "^5.8.0",
     "typescript": "^2.8.3",
     "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0"
-  },
-  "dependencies": {
+    "vinyl-source-stream": "^2.0.0",
     "axios": "^0.18.0"
   }
 }
