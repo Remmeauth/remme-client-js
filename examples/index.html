@@ -30,9 +30,9 @@
           const newBalance = await remme.token.getBalance(someRemmeAddress);
           console.log(`Account ${someRemmeAddress} balance - ${newBalance} REM`);
           transactionResult.closeWebSocket()
-        }; // 6
+        };
 
-        transactionResult.connectToWebSocket(transactionCallback); // 3
+        transactionResult.connectToWebSocket(transactionCallback);
 
         // Certificates Operations
 
@@ -43,7 +43,7 @@
             surname: "Smith",
             countryName: "US",
             validity: 360
-        }); // 4
+        });
 
         const certificateTransactionCallback = async (err, response) => {
           if (err) return;
@@ -52,7 +52,7 @@
           const certificateStatus = await remme.certificate.checkCertificate(certificateTransactionResult.certificate);
           console.log(`Certificate IsValid = ${certificateStatus}`);
           certificateTransactionResult.closeWebSocket();
-        }; // 7
+        };
 
         certificateTransactionResult.connectToWebSocket(certificateTransactionCallback); // 5
       })()

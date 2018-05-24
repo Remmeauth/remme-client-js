@@ -1,6 +1,6 @@
 {
   "name": "remme-certificate",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "remme-rest": "^0.0.0",
-    "remme-utils": "0.0.0"
+    "remme-rest": "^0.1.0",
+    "remme-utils": "0.1.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

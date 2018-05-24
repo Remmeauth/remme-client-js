@@ -137,14 +137,16 @@ packages.forEach(function (pckg, i) {
   });
 });
 
-gulp.task('only_test', function (done) {
+function test(done) {
   new Karma({
     configFile: path.join(__dirname, "karma.conf.js"),
     singleRun: true,
   }, done).start();
-});
+}
 
-gulp.task('tests', [packages[packages.length - 1].fileName, 'only_test']);
+gulp.task('only_test', test);
+
+gulp.task('tests', ["build"], test);
 
 gulp.task('prepublish', function () {
   packages.forEach(function (pckg) {

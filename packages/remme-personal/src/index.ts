@@ -11,15 +11,15 @@ class RemmePersonal implements IRemmePersonal {
     }
 
     public generateAccount(): RemmeAccountDto {
-        return new RemmeAccountDto();
+        throw new Error("not implemented");
     }
 
     public getAddress(): string {
-        return "";
+        throw new Error("not implemented");
     }
 
     public async getBalance(): Promise<number> {
-        return undefined;
+        throw new Error("not implemented");
     }
 }
 

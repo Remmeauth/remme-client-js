@@ -74,6 +74,8 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: Infinity,
 
+    browserNoActivityTimeout: 0,
+
     client: {
       mocha: {
         reporter: "spec",

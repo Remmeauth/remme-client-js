@@ -1,4 +1,4 @@
-import { forge, BaseTransactionResponse } from "remme-utils";
+import { BaseTransactionResponse } from "remme-utils";
 
 export interface IRemmeToken {
 
