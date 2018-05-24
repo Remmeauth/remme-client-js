@@ -7,7 +7,7 @@ REMME JavaScript Client
 **An open source JS integration library for REMChain, simplifying the access and interaction with REMME nodes both public or permissioned.**
 
 ## How to use
-## 1. Install and run REMME node with required REST API methods  enabled.
+### 1. Install and run REMME node with required REST API methods  enabled.
 You can check out how to do that at [REMME core repo](https://github.com/Remmeauth/remme-core/).
 *Note: you can enable/disable methods by modifying **REMME_REST_API_AVAILABLE_METHODS** eviroment variable at the .env file. *
 
