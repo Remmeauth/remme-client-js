@@ -1,0 +1,19 @@
+{
+  "name": "remme-batch",
+  "version": "0.1.0",
+  "description": "REMME batch internal package",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "namespace": "remme",
+  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-certificate",
+  "scripts": {
+    "transpile": "./node_modules/.bin/tsc"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "remme-rest": "^0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^2.8.3"
+  }
+}

@@ -1,7 +1,7 @@
 import * as forge from "node-forge";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { ITransactionResponse } from "./interface";
-import { BatchStateUpdateDto } from "./models";
+import { BatchStateUpdateDto, oids } from "./models";
 
 declare global {
     interface Window {
@@ -18,6 +18,9 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
 
 declare module "node-forge" {
     export namespace pki {
+        interface Certificate {
+            privateKey: Key;
+        }
         function certificationRequestToPem(cert: Certificate, maxline?: number): PEM;
         function certificationRequestFromPem(pem: PEM, computeHash?: boolean, strict?: boolean): Certificate;
         function createCertificationRequest(): Certificate;
@@ -80,4 +83,5 @@ class BaseTransactionResponse implements ITransactionResponse {
 export {
     forge,
     BaseTransactionResponse,
+    oids,
 };

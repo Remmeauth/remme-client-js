@@ -35,22 +35,37 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var signing_1 = require("sawtooth-sdk/signing");
 var remme_rest_1 = require("remme-rest");
+var remme_token_1 = require("remme-token");
+var models_1 = require("./models");
 var RemmePersonal = /** @class */ (function () {
-    function RemmePersonal(remmeRest) {
+    function RemmePersonal(remmeRest, pathToKeyStore) {
         if (remmeRest === void 0) { remmeRest = new remme_rest_1.RemmeRest(); }
+        if (pathToKeyStore === void 0) { pathToKeyStore = ""; }
         this._remmeRest = remmeRest;
+        this._pathToKeyStore = pathToKeyStore;
     }
     RemmePersonal.prototype.generateAccount = function () {
-        throw new Error("not implemented");
+        var context = signing_1.createContext("secp256k1");
+        var privateKey = context.newRandomPrivateKey();
+        var signer = signing_1.CryptoFactory(context).newSigner(privateKey);
+        this._remmeAccount = new models_1.RemmeAccount(signer, privateKey);
+        return this._remmeAccount;
     };
     RemmePersonal.prototype.getAddress = function () {
-        throw new Error("not implemented");
+        return this._remmeAccount.remChainAdress;
     };
     RemmePersonal.prototype.getBalance = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var token;
             return __generator(this, function (_a) {
-                throw new Error("not implemented");
+                switch (_a.label) {
+                    case 0:
+                        token = new remme_token_1.RemmeToken(this._remmeRest);
+                        return [4 /*yield*/, token.getBalance(this._remmeAccount.remChainAdress)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
             });
         });
     };

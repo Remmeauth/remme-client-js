@@ -30,7 +30,8 @@
     "remme-certificate": "^0.1.2",
     "remme-personal": "^0.1.0",
     "remme-rest": "^0.1.0",
-    "remme-token": "^0.1.0"
+    "remme-token": "^0.1.0",
+    "remme-batch": "^0.1.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

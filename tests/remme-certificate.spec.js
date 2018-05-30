@@ -11,7 +11,7 @@ describe("RemmeCertificate", function() {
 
   it("Create and store certificate [validity reject]", async () => {
     const { certificate } = new Remme.Client();
-    await certificate.createAndStoreCertificate({
+    await certificate.createAndStore({
       commonName: "userName1",
     }).should.be.rejectedWith("Attribute validity must have a value");
   });
@@ -19,14 +19,14 @@ describe("RemmeCertificate", function() {
 
   it("Create and store certificate [commonName reject]", async () => {
     const { certificate } = new Remme.Client();
-    await certificate.createAndStoreCertificate({
+    await certificate.createAndStore({
       validity: 360
     }).should.be.rejectedWith("Attribute commonName must have a value");
   });
 
   it("Create and store certificate [check returning object]", async () => {
     const { certificate } = new Remme.Client();
-    const result = await certificate.createAndStoreCertificate({
+    const result = await certificate.createAndStore({
       commonName: "userName1",
       validity: 360
     });
@@ -38,7 +38,7 @@ describe("RemmeCertificate", function() {
 
   it("Check certificate [true]", async () => {
     const { certificate } = new Remme.Client();
-    const certificateTransactionResult = await certificate.createAndStoreCertificate({
+    const certificateTransactionResult = await certificate.createAndStore({
       commonName: "userName1",
       email: "user@email.com",
       name: "John",
@@ -47,34 +47,34 @@ describe("RemmeCertificate", function() {
       validity: 360
     });
 
-    const certificateStatusTrue = await certificate.checkCertificate(certificateTransactionResult.certificate);
+    const certificateStatusTrue = await certificate.check(certificateTransactionResult.certificate);
     certificateStatusTrue.should.equal(true);
   });
 
   it("Check certificate [not valid]", async () => {
     const { certificate } = new Remme.Client();
-    await certificate.checkCertificate({
+    await certificate.check({
       bad: "certificate"
     }).should.be.rejectedWith("Given certificate is not a valid");
   });
 
   it("Revoke certificate [not valid]", async () => {
     const { certificate } = new Remme.Client();
-    await certificate.revokeCertificate({
+    await certificate.revoke({
       bad: "certificate"
     }).should.be.rejectedWith("Given certificate is not a valid");
   });
 
   it("Sign and store certificate [not valid]", async () => {
     const { certificate } = new Remme.Client();
-    await certificate.signAndStoreCertificate({
+    await certificate.signAndStore({
       bad: "certificate"
     }).should.be.rejectedWith("Given certificate is not a valid");
   });
 
   it("Store certificate [not implemented]", async () => {
     const { certificate } = new Remme.Client();
-    await certificate.storeCertificate({
+    await certificate.store({
       bad: "certificate"
     }).should.be.rejectedWith("not implemented");
   });

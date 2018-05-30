@@ -31,7 +31,7 @@ const someRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d7
 
   // Certificates Operations
 
-  const certificateTransactionResult = await remme.certificate.createAndStoreCertificate({
+  const certificateTransactionResult = await remme.certificate.createAndStore({
     commonName: "userName1",
     email: "user@email.com",
     name: "John",
@@ -44,7 +44,7 @@ const someRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d7
     if (err) return;
     console.log("certificate", response);
     console.log(`Certificate was saved on REMchain at block number: ${response.block_number}`);
-    const certificateStatus = await remme.certificate.checkCertificate(certificateTransactionResult.certificate);
+    const certificateStatus = await remme.certificate.check(certificateTransactionResult.certificate);
     console.log(`Certificate IsValid = ${certificateStatus}`);
     certificateTransactionResult.closeWebSocket();
   }; // 7

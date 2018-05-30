@@ -14,6 +14,7 @@ var source = require('vinyl-source-stream');
 var tsify = require("tsify");
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
+var babel = require('gulp-babel');
 var buffer = require('vinyl-buffer');
 var exec = require('child_process').exec;
 var Karma = require('karma').Server;
@@ -46,6 +47,11 @@ var packages = [{
   src: path.join(__dirname, 'packages/remme-personal'),
   config: path.join(__dirname, 'packages/remme-personal/tsconfig.json')
 }, {
+  fileName: 'remme-batch',
+  expose: 'RemmeBatch',
+  src: path.join(__dirname, 'packages/remme-batch'),
+  config: path.join(__dirname, 'packages/remme-batch/tsconfig.json')
+}, {
   fileName: 'remme-http-client',
   expose: 'RemmeHttpClient',
   src: path.join(__dirname, 'packages/remme-http-client'),
@@ -57,7 +63,7 @@ var packages = [{
   config: path.join(__dirname, 'packages/remme-utils/tsconfig.json')
 }];
 
-var ugliyOptions = {
+var uglifyOptions = {
   compress: {
     dead_code: true,
     drop_debugger: true,
@@ -121,7 +127,6 @@ packages.forEach(function (pckg, i) {
           "es6",
           "DOM"
         ],
-        types: ["node-forge"],
         include: [
           path.join(pckg.src, '/src/**/*.ts')
         ]
@@ -130,7 +135,15 @@ packages.forEach(function (pckg, i) {
       .pipe(source('bundle.js'))
       .pipe(buffer())
       .pipe(sourcemaps.init({loadMaps: true}))
-      .pipe(streamify(uglify(ugliyOptions)))
+      .pipe(streamify(babel({
+        compact: true,
+        presets: [
+          ['env', {
+            "modules": false
+          }]
+        ]
+      })))
+      .pipe(streamify(uglify(uglifyOptions)))
       .pipe(rename(pckg.fileName + '.min.js'))
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest(DEST));

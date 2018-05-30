@@ -67,17 +67,13 @@
 66 silly addFile /var/www/remme-client-js/packages/remme/package.json
 67 silly commit v0.1.0
 68 verbose commit [ 'commit', '--no-verify', '-m', 'v0.1.0' ]
-69 error execute caught error
-70 error Error: On branch master
-70 error Changes not staged for commit:
-70 error 	modified:   README.md
-70 error 	modified:   lerna-debug.log
-70 error
-70 error no changes added to commit
-70 error
-70 error     at Function.module.exports.sync (/var/www/remme-client-js/node_modules/execa/index.js:303:26)
-70 error     at Function.execSync (/var/www/remme-client-js/node_modules/lerna/lib/ChildProcessUtilities.js:59:30)
-70 error     at Function.commit (/var/www/remme-client-js/node_modules/lerna/lib/GitUtilities.js:94:39)
-70 error     at PublishCommand.gitCommitAndTagVersion (/var/www/remme-client-js/node_modules/lerna/lib/commands/PublishCommand.js:778:30)
-70 error     at PublishCommand.commitAndTagUpdates (/var/www/remme-client-js/node_modules/lerna/lib/commands/PublishCommand.js:740:27)
-70 error     at PublishCommand.execute (/var/www/remme-client-js/node_modules/lerna/lib/commands/PublishCommand.js:329:14)
+69 silly addTag v0.1.0
+70 error execute caught error
+71 error Error: fatal: tag 'v0.1.0' already exists
+71 error
+71 error     at Function.module.exports.sync (/var/www/remme-client-js/node_modules/execa/index.js:303:26)
+71 error     at Function.execSync (/var/www/remme-client-js/node_modules/lerna/lib/ChildProcessUtilities.js:59:30)
+71 error     at Function.addTag (/var/www/remme-client-js/node_modules/lerna/lib/GitUtilities.js:100:39)
+71 error     at PublishCommand.gitCommitAndTagVersion (/var/www/remme-client-js/node_modules/lerna/lib/commands/PublishCommand.js:779:30)
+71 error     at PublishCommand.commitAndTagUpdates (/var/www/remme-client-js/node_modules/lerna/lib/commands/PublishCommand.js:740:27)
+71 error     at PublishCommand.execute (/var/www/remme-client-js/node_modules/lerna/lib/commands/PublishCommand.js:329:14)

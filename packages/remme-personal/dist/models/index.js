@@ -1,5 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var RemmeAccountDto_1 = require("./RemmeAccountDto");
-exports.RemmeAccountDto = RemmeAccountDto_1.RemmeAccountDto;
+var RemmeAccount_1 = require("./RemmeAccount");
+exports.RemmeAccount = RemmeAccount_1.RemmeAccount;
 //# sourceMappingURL=index.js.map

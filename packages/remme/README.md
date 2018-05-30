@@ -71,7 +71,7 @@ transactionResult.connectToWebSocket(transactionCallback);
 ```
 #### Certificates
 ```js
-const certificateTransactionResult = await remme.certificate.createAndStoreCertificate({
+const certificateTransactionResult = await remme.certificate.createAndStore({
     commonName: "userName1",
     email: "user@email.com",
     name: "John",
@@ -84,7 +84,7 @@ const certificateTransactionCallback = async (err, response) => {
     if (err) return;
     console.log("certificate", response);
     console.log(`Certificate was saved on REMchain at block number: ${response.block_number}`);
-    const certificateStatus = await remme.certificate.checkCertificate(certificateTransactionResult.certificate);
+    const certificateStatus = await remme.certificate.check(certificateTransactionResult.certificate);
     console.log(`Certificate IsValid = ${certificateStatus}`);
     certificateTransactionResult.closeWebSocket();
 };
