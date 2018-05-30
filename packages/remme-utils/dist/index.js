@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var forge = require("node-forge");
 exports.forge = forge;
 var websocket_1 = require("websocket");
+var models_1 = require("./models");
+exports.oids = models_1.oids;
 var WS;
 if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
     WS = window.WebSocket;

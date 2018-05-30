@@ -1,6 +1,6 @@
-import { RemmeAccountDto } from "./models/RemmeAccountDto";
+import { RemmeAccount } from "./models";
 export interface IRemmePersonal {
     getBalance(): Promise<number>;
     getAddress(): string;
-    generateAccount(): RemmeAccountDto;
+    generateAccount(): RemmeAccount;
 }

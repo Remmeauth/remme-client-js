@@ -1,1 +1,1 @@
-export { RemmeAccountDto } from "./RemmeAccountDto";
+export { RemmeAccount } from "./RemmeAccount";

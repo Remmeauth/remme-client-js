@@ -1,4 +1,4 @@
-import { forge, BaseTransactionResponse } from "remme-utils";
+import { forge, BaseTransactionResponse, oids } from "remme-utils";
 import { RemmeMethods, RemmeRest } from "remme-rest";
 
 import { IRemmeCertificate } from "./interface";
@@ -20,17 +20,17 @@ class RemmeCertificate implements IRemmeCertificate {
         this._remmeRest = remmeRest;
     }
 
-    public async createAndStoreCertificate(certificateDataToCreate: CertificateCreateDto)
+    public async createAndStore(certificateDataToCreate: CertificateCreateDto)
         : Promise<CertificateTransactionResponse> {
         const keys = this.generateKeyPair();
         const subject = this.createSubject(certificateDataToCreate);
         const csr = this.createSignRequest(subject, keys);
-        const certResponse = await this.signAndStoreCertificate(csr);
-        // certResponse.certificate.privateKey = keys.privateKey;
+        const certResponse = await this.signAndStore(csr);
+        certResponse.certificate.privateKey = keys.privateKey;
         return certResponse;
     }
 
-    public async signAndStoreCertificate(signingRequest: forge.pki.Certificate)
+    public async signAndStore(signingRequest: forge.pki.Certificate)
         : Promise<CertificateTransactionResponse> {
        try {
             const payload = new StorePayload(signingRequest);
@@ -46,11 +46,11 @@ class RemmeCertificate implements IRemmeCertificate {
     }
 
     // TODO
-    public async storeCertificate(certificate: forge.pki.Certificate): Promise<Error> {
+    public async store(certificate: forge.pki.Certificate): Promise<Error> {
         throw new Error("not implemented");
     }
 
-    public async checkCertificate(certificate: forge.pki.Certificate): Promise<boolean> {
+    public async check(certificate: forge.pki.Certificate): Promise<boolean> {
         try {
             const payload = new CheckPayload(certificate);
             const result = await this._remmeRest
@@ -61,7 +61,7 @@ class RemmeCertificate implements IRemmeCertificate {
         }
     }
 
-    public async revokeCertificate(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse> {
+    public async revoke(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse> {
         try {
             const payload = new CheckPayload(certificate);
             const apiResult = await this._remmeRest
@@ -101,13 +101,17 @@ class RemmeCertificate implements IRemmeCertificate {
             switch (key) {
                 case "email": name = "emailAddress"; break;
                 case "streetAddress": name = "street"; break;
-                case "stateName": name = "ST"; break;
+                case "stateName": name = "stateOrProvinceName"; break;
                 case "generationQualifier": name = "generation"; break;
-                case "title": name = "T"; break;
                 case "serial": name = "serialNumber"; break;
                 default: name = key;
             }
-            if (!(name in forge.pki.oids)) {
+            [ type ] = (Object as any).entries(oids).map(([oidsKey, oidsValue]) => {
+                if (oidsKey === name) {
+                    return oidsValue;
+                }
+            });
+            if (!(name in forge.pki.oids) && !(name in oids)) {
                 type = name;
             }
             return {

@@ -44,7 +44,7 @@ var RemmeCertificate = /** @class */ (function () {
         this._rsaKeySize = 2048;
         this._remmeRest = remmeRest;
     }
-    RemmeCertificate.prototype.createAndStoreCertificate = function (certificateDataToCreate) {
+    RemmeCertificate.prototype.createAndStore = function (certificateDataToCreate) {
         return __awaiter(this, void 0, void 0, function () {
             var keys, subject, csr, certResponse;
             return __generator(this, function (_a) {
@@ -53,16 +53,16 @@ var RemmeCertificate = /** @class */ (function () {
                         keys = this.generateKeyPair();
                         subject = this.createSubject(certificateDataToCreate);
                         csr = this.createSignRequest(subject, keys);
-                        return [4 /*yield*/, this.signAndStoreCertificate(csr)];
+                        return [4 /*yield*/, this.signAndStore(csr)];
                     case 1:
                         certResponse = _a.sent();
-                        // certResponse.certificate.privateKey = keys.privateKey;
+                        certResponse.certificate.privateKey = keys.privateKey;
                         return [2 /*return*/, certResponse];
                 }
             });
         });
     };
-    RemmeCertificate.prototype.signAndStoreCertificate = function (signingRequest) {
+    RemmeCertificate.prototype.signAndStore = function (signingRequest) {
         return __awaiter(this, void 0, void 0, function () {
             var payload, apiResult, result, e_1;
             return __generator(this, function (_a) {
@@ -87,14 +87,14 @@ var RemmeCertificate = /** @class */ (function () {
         });
     };
     // TODO
-    RemmeCertificate.prototype.storeCertificate = function (certificate) {
+    RemmeCertificate.prototype.store = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 throw new Error("not implemented");
             });
         });
     };
-    RemmeCertificate.prototype.checkCertificate = function (certificate) {
+    RemmeCertificate.prototype.check = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
             var payload, result, e_2;
             return __generator(this, function (_a) {
@@ -115,7 +115,7 @@ var RemmeCertificate = /** @class */ (function () {
             });
         });
     };
-    RemmeCertificate.prototype.revokeCertificate = function (certificate) {
+    RemmeCertificate.prototype.revoke = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
             var payload, apiResult, result, e_3;
             return __generator(this, function (_a) {
@@ -178,20 +178,23 @@ var RemmeCertificate = /** @class */ (function () {
                     name = "street";
                     break;
                 case "stateName":
-                    name = "ST";
+                    name = "stateOrProvinceName";
                     break;
                 case "generationQualifier":
                     name = "generation";
-                    break;
-                case "title":
-                    name = "T";
                     break;
                 case "serial":
                     name = "serialNumber";
                     break;
                 default: name = key;
             }
-            if (!(name in remme_utils_1.forge.pki.oids)) {
+            type = Object.entries(remme_utils_1.oids).map(function (_a) {
+                var oidsKey = _a[0], oidsValue = _a[1];
+                if (oidsKey === name) {
+                    return oidsValue;
+                }
+            })[0];
+            if (!(name in remme_utils_1.forge.pki.oids) && !(name in remme_utils_1.oids)) {
                 type = name;
             }
             return {

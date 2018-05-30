@@ -6,11 +6,11 @@ declare class RemmeCertificate implements IRemmeCertificate {
     private readonly _remmeRest;
     private _rsaKeySize;
     constructor(remmeRest?: RemmeRest);
-    createAndStoreCertificate(certificateDataToCreate: CertificateCreateDto): Promise<CertificateTransactionResponse>;
-    signAndStoreCertificate(signingRequest: forge.pki.Certificate): Promise<CertificateTransactionResponse>;
-    storeCertificate(certificate: forge.pki.Certificate): Promise<Error>;
-    checkCertificate(certificate: forge.pki.Certificate): Promise<boolean>;
-    revokeCertificate(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse>;
+    createAndStore(certificateDataToCreate: CertificateCreateDto): Promise<CertificateTransactionResponse>;
+    signAndStore(signingRequest: forge.pki.Certificate): Promise<CertificateTransactionResponse>;
+    store(certificate: forge.pki.Certificate): Promise<Error>;
+    check(certificate: forge.pki.Certificate): Promise<boolean>;
+    revoke(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse>;
     getUserCertificates(publicKey: string): Promise<string[]>;
     private createSignRequest(subject, keys);
     private createSubject(certificateDataToCreate);

@@ -12,6 +12,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "remme-rest": "^0.1.0",
+    "remme-token": "^0.1.0",
     "remme-utils": "^0.1.0"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 /// <reference types="node-forge" />
 import * as forge from "node-forge";
 import { ITransactionResponse } from "./interface";
+import { oids } from "./models";
 declare global  {
     interface Window {
         WebSocket: any;
@@ -8,6 +9,9 @@ declare global  {
 }
 declare module "node-forge" {
     namespace pki {
+        interface Certificate {
+            privateKey: Key;
+        }
         function certificationRequestToPem(cert: Certificate, maxline?: number): PEM;
         function certificationRequestFromPem(pem: PEM, computeHash?: boolean, strict?: boolean): Certificate;
         function createCertificationRequest(): Certificate;
@@ -22,4 +26,4 @@ declare class BaseTransactionResponse implements ITransactionResponse {
     closeWebSocket(): void;
     private getSocketQuery(subscribe?);
 }
-export { forge, BaseTransactionResponse };
+export { forge, BaseTransactionResponse, oids };
