@@ -5,6 +5,9 @@ exports.forge = forge;
 var websocket_1 = require("websocket");
 var models_1 = require("./models");
 exports.oids = models_1.oids;
+var functions_1 = require("./functions");
+exports.hexToBytes = functions_1.hexToBytes;
+exports.bytesToHex = functions_1.bytesToHex;
 var WS;
 if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
     WS = window.WebSocket;

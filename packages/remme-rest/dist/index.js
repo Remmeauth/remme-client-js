@@ -115,28 +115,30 @@ var RemmeRest = /** @class */ (function () {
         });
     };
     RemmeRest.prototype.getUrlForRequest = function (method, payload) {
-        if (payload === void 0) { payload = null; }
-        var methodUrl;
-        switch (method) {
-            case remme_methods_1.RemmeMethods.certificate:
-                methodUrl = "certificate";
-                break;
-            case remme_methods_1.RemmeMethods.certificateStore:
-                methodUrl = "certificate/store";
-                break;
-            case remme_methods_1.RemmeMethods.token:
-                methodUrl = "token";
-                break;
-            case remme_methods_1.RemmeMethods.batchStatus:
-                methodUrl = "batch_status";
-                break;
-            case remme_methods_1.RemmeMethods.personal:
-                methodUrl = "personal";
-                break;
-            case remme_methods_1.RemmeMethods.userCertificates:
-                methodUrl = "user";
-                break;
-        }
+        var methodUrl = method;
+        // switch (method) {
+        //     case RemmeMethods.certificate:
+        //         methodUrl = "certificate";
+        //         break;
+        //     case RemmeMethods.certificateStore:
+        //         methodUrl = "certificate/store";
+        //         break;
+        //     case RemmeMethods.token:
+        //         methodUrl = "token";
+        //         break;
+        //     case RemmeMethods.batchStatus:
+        //         methodUrl = "batch_status";
+        //         break;
+        //     case RemmeMethods.personal:
+        //         methodUrl = "personal";
+        //         break;
+        //     case RemmeMethods.userCertificates:
+        //         methodUrl = "user";
+        //         break;
+        //     case RemmeMethods.atomicSwap:
+        //         methodUrl = "atomic-swap";
+        //         break;
+        // }
         if (payload) {
             methodUrl += "/" + payload + (method === remme_methods_1.RemmeMethods.userCertificates ? "/certificates" : "");
         }

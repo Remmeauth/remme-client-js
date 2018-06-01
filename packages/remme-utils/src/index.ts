@@ -2,6 +2,7 @@ import * as forge from "node-forge";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { ITransactionResponse } from "./interface";
 import { BatchStateUpdateDto, oids } from "./models";
+import { hexToBytes, bytesToHex } from "./functions";
 
 declare global {
     interface Window {
@@ -84,4 +85,6 @@ export {
     forge,
     BaseTransactionResponse,
     oids,
+    hexToBytes,
+    bytesToHex,
 };

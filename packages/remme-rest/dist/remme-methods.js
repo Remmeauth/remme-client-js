@@ -2,11 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var RemmeMethods;
 (function (RemmeMethods) {
-    RemmeMethods[RemmeMethods["certificate"] = 0] = "certificate";
-    RemmeMethods[RemmeMethods["certificateStore"] = 1] = "certificateStore";
-    RemmeMethods[RemmeMethods["token"] = 2] = "token";
-    RemmeMethods[RemmeMethods["batchStatus"] = 3] = "batchStatus";
-    RemmeMethods[RemmeMethods["personal"] = 4] = "personal";
-    RemmeMethods[RemmeMethods["userCertificates"] = 5] = "userCertificates";
+    RemmeMethods["certificate"] = "certificate";
+    RemmeMethods["certificateStore"] = "certificate/store";
+    RemmeMethods["token"] = "token";
+    RemmeMethods["batchStatus"] = "batch_status";
+    RemmeMethods["personal"] = "personal";
+    RemmeMethods["userCertificates"] = "user";
+    RemmeMethods["atomicSwap"] = "atomic-swap";
+    RemmeMethods["atomicSwapInit"] = "atomic-swap/init";
+    RemmeMethods["atomicSwapApprove"] = "atomic-swap/approve";
+    RemmeMethods["atomicSwapExpire"] = "atomic-swap/expire";
+    RemmeMethods["atomicSwapSecretLock"] = "atomic-swap/set-secret-lock";
+    RemmeMethods["atomicSwapClose"] = "atomic-swap/close";
+    RemmeMethods["atomicSwapPublicKey"] = "atomic-swap/pub-key-encryption";
 })(RemmeMethods = exports.RemmeMethods || (exports.RemmeMethods = {}));
 //# sourceMappingURL=remme-methods.js.map

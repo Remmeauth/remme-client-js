@@ -4,7 +4,7 @@ chai.use(chaiAsPromised);
 chai.should();
 
 describe("RemmeCertificate", function() {
-  this.timeout(12000);
+  this.timeout(15000);
   beforeEach(() => {
     window.onbeforeunload = () => 'Oh no!';
   });

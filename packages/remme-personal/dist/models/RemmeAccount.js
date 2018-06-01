@@ -4,7 +4,7 @@ var RemmeAccount = /** @class */ (function () {
     function RemmeAccount(signer, privateKey) {
         this._signer = signer;
         this.privateKey = privateKey;
-        this.remChainAdress = signer.getPublicKey().asHex();
+        this.remChainAddress = signer.getPublicKey().asHex();
     }
     RemmeAccount.prototype.sign = function (transaction) {
         return this._signer.sign(transaction);

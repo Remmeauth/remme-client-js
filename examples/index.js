@@ -1,4 +1,8 @@
 const Remme = require("../packages/remme");
+const {createHash} = require('crypto');
+const {protobuf} = require('sawtooth-sdk');
+const cbor = require("cbor");
+const axios = require("axios");
 // const Remme = require("remme");
 // import Remme from "remme";
 
@@ -8,7 +12,7 @@ const socketAddress = "192.168.88.242:9080";
 
 //Initialize client
 // const remme = new Remme.Client() <-- nodeAddress = localhost:8080, socketAddress = localhost:9080 by default
-const remme = new Remme.Client(nodeAddress, socketAddress);
+const remme = new Remme.Client({nodeAddress, socketAddress});
 const someRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759";
 
 (async () => {
@@ -50,4 +54,44 @@ const someRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d7
   }; // 7
 
   certificateTransactionResult.connectToWebSocket(certificateTransactionCallback); // 5
+  const account = remme.personal.generateAccount();
+  const payload = {
+    Verb: 'set',
+    Name: 'foo',
+    Value: 42
+  };
+
+  const payloadBytes = cbor.encode(payload);
+  const transactionHeaderBytes = protobuf.TransactionHeader.encode({
+    familyName: 'intkey',
+    familyVersion: '1.0',
+    inputs: ['1cf1266e282c41be5e4254d8820772c5518a2c5a8c0c7f7eda19594a7eb539453e1ed7'],
+    outputs: ['1cf1266e282c41be5e4254d8820772c5518a2c5a8c0c7f7eda19594a7eb539453e1ed7'],
+    signerPublicKey: account.remChainAdress,
+    // In this example, we're signing the batch with the same private key,
+    // but the batch can be signed by another party, in which case, the
+    // public key will need to be associated with that key.
+    batcherPublicKey: "0292c364ef9ee51cb3749769b34c1d8998f72ce273a173a4e32433cc7cfb06c7f5",
+    // In this example, there are no dependencies.  This list should include
+    // an previous transaction header signatures that must be applied for
+    // this transaction to successfully commit.
+    // For example,
+    // dependencies: ['540a6803971d1880ec73a96cb97815a95d374cbad5d865925e5aa0432fcf1931539afe10310c122c5eaae15df61236079abbf4f258889359c4d175516934484a'],
+    dependencies: [],
+    payloadSha512: createHash('sha512').update(payloadBytes).digest('hex')
+  }).finish();
+  const signature = account.sign(transactionHeaderBytes);
+  const transaction = protobuf.Transaction.create({
+    header: transactionHeaderBytes,
+    headerSignature: signature,
+    payload: payloadBytes
+  }).toString('base64');
+  console.log(transaction);
+  try {
+    const response = await axios.post("http://localhost:8080/api/v1/transaction", {
+      transaction
+    });
+  } catch(e) {
+    console.log(e);
+  }
 })();

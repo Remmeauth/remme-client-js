@@ -11,6 +11,9 @@ class RemmeBatch implements IRemmeBatch {
     }
 
     public async getStatus(batchId: string): Promise<BatchResult> {
+        if (batchId.search(/^[0-9a-f]{128}$/) === -1) {
+            throw new Error("Given batchId is not a valid");
+        }
         return await this._remmeRest.getRequest<BatchResult>(RemmeMethods.batchStatus, batchId);
     }
 }
