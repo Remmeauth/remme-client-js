@@ -188,12 +188,9 @@ var RemmeCertificate = /** @class */ (function () {
                     break;
                 default: name = key;
             }
-            type = Object.entries(remme_utils_1.oids).map(function (_a) {
-                var oidsKey = _a[0], oidsValue = _a[1];
-                if (oidsKey === name) {
-                    return oidsValue;
-                }
-            })[0];
+            if (name in remme_utils_1.oids) {
+                type = remme_utils_1.oids[name];
+            }
             if (!(name in remme_utils_1.forge.pki.oids) && !(name in remme_utils_1.oids)) {
                 type = name;
             }

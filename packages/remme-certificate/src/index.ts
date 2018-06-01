@@ -106,11 +106,9 @@ class RemmeCertificate implements IRemmeCertificate {
                 case "serial": name = "serialNumber"; break;
                 default: name = key;
             }
-            [ type ] = (Object as any).entries(oids).map(([oidsKey, oidsValue]) => {
-                if (oidsKey === name) {
-                    return oidsValue;
-                }
-            });
+            if (name in oids) {
+                type = oids[name];
+            }
             if (!(name in forge.pki.oids) && !(name in oids)) {
                 type = name;
             }

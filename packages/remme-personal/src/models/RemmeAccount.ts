@@ -1,12 +1,12 @@
 export class RemmeAccount {
     private _signer: any;
-    public remChainAdress: string;
-    public privateKey: string;
+    public remChainAddress: string;
+    public privateKey: any;
 
     constructor(signer: any, privateKey: any) {
         this._signer = signer;
         this.privateKey = privateKey;
-        this.remChainAdress = signer.getPublicKey().asHex();
+        this.remChainAddress = signer.getPublicKey().asHex();
     }
 
     public sign(transaction: any) {

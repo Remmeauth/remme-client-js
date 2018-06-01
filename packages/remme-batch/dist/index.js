@@ -45,7 +45,11 @@ var RemmeBatch = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.batchStatus, batchId)];
+                    case 0:
+                        if (batchId.search(/^[0-9a-f]{128}$/) === -1) {
+                            throw new Error("Given batchId is not a valid");
+                        }
+                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.batchStatus, batchId)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

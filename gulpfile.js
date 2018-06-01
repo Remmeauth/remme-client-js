@@ -52,6 +52,11 @@ var packages = [{
   src: path.join(__dirname, 'packages/remme-batch'),
   config: path.join(__dirname, 'packages/remme-batch/tsconfig.json')
 }, {
+  fileName: 'remme-atomic-swap',
+  expose: 'RemmeAtomicSwap',
+  src: path.join(__dirname, 'packages/remme-atomic-swap'),
+  config: path.join(__dirname, 'packages/remme-atomic-swap/tsconfig.json')
+}, {
   fileName: 'remme-http-client',
   expose: 'RemmeHttpClient',
   src: path.join(__dirname, 'packages/remme-http-client'),

@@ -14,7 +14,7 @@ class RemmeRest implements IRemmeRest {
     public nodeAddress = (): string => this._nodeAddress;
     public socketAddress = (): string => this._socketAddress;
 
-    public async getRequest<Output>(method: RemmeMethods, payload: string): Promise<Output> {
+    public async getRequest<Output>(method: RemmeMethods, payload?: string): Promise<Output> {
         return await this.sendRequest<string, Output>("GET", method, payload);
     }
 
@@ -30,7 +30,7 @@ class RemmeRest implements IRemmeRest {
         return await this.sendRequest<Input, Output>("DELETE", method, payload);
     }
 
-    private async sendRequest<Input, Output>(method: string, remmeMethod: RemmeMethods, payload: Input)
+    private async sendRequest<Input, Output>(method: string, remmeMethod: RemmeMethods, payload?: Input)
         : Promise<Output> {
         try {
             const url = this.getUrlForRequest<Input>(remmeMethod, method.toUpperCase() === "GET" ? payload : null);
@@ -46,28 +46,31 @@ class RemmeRest implements IRemmeRest {
         }
     }
 
-    private getUrlForRequest<Input>(method: RemmeMethods, payload: Input = null): string {
-        let methodUrl: string;
-        switch (method) {
-            case RemmeMethods.certificate:
-                methodUrl = "certificate";
-                break;
-            case RemmeMethods.certificateStore:
-                methodUrl = "certificate/store";
-                break;
-            case RemmeMethods.token:
-                methodUrl = "token";
-                break;
-            case RemmeMethods.batchStatus:
-                methodUrl = "batch_status";
-                break;
-            case RemmeMethods.personal:
-                methodUrl = "personal";
-                break;
-            case RemmeMethods.userCertificates:
-                methodUrl = "user";
-                break;
-        }
+    private getUrlForRequest<Input>(method: RemmeMethods, payload?: Input): string {
+        let methodUrl: string = method;
+        // switch (method) {
+        //     case RemmeMethods.certificate:
+        //         methodUrl = "certificate";
+        //         break;
+        //     case RemmeMethods.certificateStore:
+        //         methodUrl = "certificate/store";
+        //         break;
+        //     case RemmeMethods.token:
+        //         methodUrl = "token";
+        //         break;
+        //     case RemmeMethods.batchStatus:
+        //         methodUrl = "batch_status";
+        //         break;
+        //     case RemmeMethods.personal:
+        //         methodUrl = "personal";
+        //         break;
+        //     case RemmeMethods.userCertificates:
+        //         methodUrl = "user";
+        //         break;
+        //     case RemmeMethods.atomicSwap:
+        //         methodUrl = "atomic-swap";
+        //         break;
+        // }
 
         if (payload) {
            methodUrl += `/${payload}${method === RemmeMethods.userCertificates ? "/certificates" : ""}`;

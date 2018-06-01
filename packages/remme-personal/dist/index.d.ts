@@ -3,10 +3,12 @@ import { IRemmePersonal } from "./interface";
 import { RemmeAccount } from "./models";
 declare class RemmePersonal implements IRemmePersonal {
     private readonly _remmeRest;
-    private readonly _pathToKeyStore;
+    private readonly _context;
     private _remmeAccount;
-    constructor(remmeRest?: RemmeRest, pathToKeyStore?: string);
-    generateAccount(): RemmeAccount;
+    constructor(remmeRest?: RemmeRest);
+    generateAccount(privateKeyHex?: string): RemmeAccount;
+    setAccount(remmeAccount: RemmeAccount): void;
+    getAccount(): RemmeAccount;
     getAddress(): string;
     getBalance(): Promise<number>;
 }

@@ -36,25 +36,44 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var signing_1 = require("sawtooth-sdk/signing");
+var secp256k1_1 = require("sawtooth-sdk/signing/secp256k1");
 var remme_rest_1 = require("remme-rest");
 var remme_token_1 = require("remme-token");
 var models_1 = require("./models");
 var RemmePersonal = /** @class */ (function () {
-    function RemmePersonal(remmeRest, pathToKeyStore) {
+    function RemmePersonal(remmeRest) {
         if (remmeRest === void 0) { remmeRest = new remme_rest_1.RemmeRest(); }
-        if (pathToKeyStore === void 0) { pathToKeyStore = ""; }
         this._remmeRest = remmeRest;
-        this._pathToKeyStore = pathToKeyStore;
+        this._context = signing_1.createContext("secp256k1");
     }
-    RemmePersonal.prototype.generateAccount = function () {
-        var context = signing_1.createContext("secp256k1");
-        var privateKey = context.newRandomPrivateKey();
-        var signer = signing_1.CryptoFactory(context).newSigner(privateKey);
-        this._remmeAccount = new models_1.RemmeAccount(signer, privateKey);
+    RemmePersonal.prototype.generateAccount = function (privateKeyHex) {
+        if (privateKeyHex && privateKeyHex.search(/^[0-9a-f]{64}$/) === -1) {
+            throw new Error("Given privateKey is not a valid");
+        }
+        var privateKey;
+        if (!privateKeyHex) {
+            privateKey = this._context.newRandomPrivateKey();
+        }
+        else {
+            privateKey = secp256k1_1.Secp256k1PrivateKey.fromHex(privateKeyHex);
+        }
+        var signer = new signing_1.CryptoFactory(this._context).newSigner(privateKey);
+        return new models_1.RemmeAccount(signer, privateKey);
+    };
+    RemmePersonal.prototype.setAccount = function (remmeAccount) {
+        if (!remmeAccount) {
+            throw new Error("Account is missing in attributes. Please give the account.");
+        }
+        if (!remmeAccount.privateKey || !remmeAccount.sign || !remmeAccount.remChainAddress) {
+            throw new Error("Given remmeAccount is not a valid");
+        }
+        this._remmeAccount = remmeAccount;
+    };
+    RemmePersonal.prototype.getAccount = function () {
         return this._remmeAccount;
     };
     RemmePersonal.prototype.getAddress = function () {
-        return this._remmeAccount.remChainAdress;
+        return this._remmeAccount.remChainAddress;
     };
     RemmePersonal.prototype.getBalance = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -63,7 +82,7 @@ var RemmePersonal = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         token = new remme_token_1.RemmeToken(this._remmeRest);
-                        return [4 /*yield*/, token.getBalance(this._remmeAccount.remChainAdress)];
+                        return [4 /*yield*/, token.getBalance(this._remmeAccount.remChainAddress)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
