@@ -2,7 +2,7 @@
 import * as forge from "node-forge";
 import { ITransactionResponse } from "./interface";
 import { oids } from "./models";
-import { hexToBytes, bytesToHex } from "./functions";
+import { hexToBytes, bytesToHex, getAddressFromData } from "./functions";
 declare global  {
     interface Window {
         WebSocket: any;
@@ -27,4 +27,4 @@ declare class BaseTransactionResponse implements ITransactionResponse {
     closeWebSocket(): void;
     private getSocketQuery(subscribe?);
 }
-export { forge, BaseTransactionResponse, oids, hexToBytes, bytesToHex };
+export { forge, BaseTransactionResponse, oids, hexToBytes, bytesToHex, getAddressFromData };

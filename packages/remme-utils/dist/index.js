@@ -8,6 +8,7 @@ exports.oids = models_1.oids;
 var functions_1 = require("./functions");
 exports.hexToBytes = functions_1.hexToBytes;
 exports.bytesToHex = functions_1.bytesToHex;
+exports.getAddressFromData = functions_1.getAddressFromData;
 var WS;
 if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
     WS = window.WebSocket;
@@ -30,8 +31,10 @@ var BaseTransactionResponse = /** @class */ (function () {
         };
         this._socket.onmessage = function (e) {
             var response = JSON.parse(e.data);
-            if (response.type === "message" && Object.getOwnPropertyNames(response.data).length !== 0) {
-                callback(null, response.data.batch_statuses);
+            if (response.type === "message" &&
+                Object.getOwnPropertyNames(response.data).length !== 0 &&
+                response.data.batch_statuses.status === "OK") {
+                callback(null, new models_1.BatchStatusesDto(response.data.batch_statuses));
             }
         };
         this._socket.onerror = function (err) {

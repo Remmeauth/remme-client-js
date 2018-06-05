@@ -8,4 +8,7 @@ export class SwapInfoDto {
     public secret_key: string;
     public created_at: number;
     public is_initiator: boolean;
+    public sender_address: string;
+    public sender_address_non_local: string;
+    public swap_id: string;
 }

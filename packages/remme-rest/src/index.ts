@@ -48,29 +48,6 @@ class RemmeRest implements IRemmeRest {
 
     private getUrlForRequest<Input>(method: RemmeMethods, payload?: Input): string {
         let methodUrl: string = method;
-        // switch (method) {
-        //     case RemmeMethods.certificate:
-        //         methodUrl = "certificate";
-        //         break;
-        //     case RemmeMethods.certificateStore:
-        //         methodUrl = "certificate/store";
-        //         break;
-        //     case RemmeMethods.token:
-        //         methodUrl = "token";
-        //         break;
-        //     case RemmeMethods.batchStatus:
-        //         methodUrl = "batch_status";
-        //         break;
-        //     case RemmeMethods.personal:
-        //         methodUrl = "personal";
-        //         break;
-        //     case RemmeMethods.userCertificates:
-        //         methodUrl = "user";
-        //         break;
-        //     case RemmeMethods.atomicSwap:
-        //         methodUrl = "atomic-swap";
-        //         break;
-        // }
 
         if (payload) {
            methodUrl += `/${payload}${method === RemmeMethods.userCertificates ? "/certificates" : ""}`;
@@ -83,4 +60,5 @@ class RemmeRest implements IRemmeRest {
 export {
     RemmeMethods,
     RemmeRest,
+    IRemmeRest,
 };

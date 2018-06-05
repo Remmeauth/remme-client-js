@@ -116,29 +116,6 @@ var RemmeRest = /** @class */ (function () {
     };
     RemmeRest.prototype.getUrlForRequest = function (method, payload) {
         var methodUrl = method;
-        // switch (method) {
-        //     case RemmeMethods.certificate:
-        //         methodUrl = "certificate";
-        //         break;
-        //     case RemmeMethods.certificateStore:
-        //         methodUrl = "certificate/store";
-        //         break;
-        //     case RemmeMethods.token:
-        //         methodUrl = "token";
-        //         break;
-        //     case RemmeMethods.batchStatus:
-        //         methodUrl = "batch_status";
-        //         break;
-        //     case RemmeMethods.personal:
-        //         methodUrl = "personal";
-        //         break;
-        //     case RemmeMethods.userCertificates:
-        //         methodUrl = "user";
-        //         break;
-        //     case RemmeMethods.atomicSwap:
-        //         methodUrl = "atomic-swap";
-        //         break;
-        // }
         if (payload) {
             methodUrl += "/" + payload + (method === remme_methods_1.RemmeMethods.userCertificates ? "/certificates" : "");
         }

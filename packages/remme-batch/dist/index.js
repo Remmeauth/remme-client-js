@@ -38,7 +38,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var remme_rest_1 = require("remme-rest");
 var RemmeBatch = /** @class */ (function () {
     function RemmeBatch(remmeRest) {
-        if (remmeRest === void 0) { remmeRest = new remme_rest_1.RemmeRest(); }
         this._remmeRest = remmeRest;
     }
     RemmeBatch.prototype.getStatus = function (batchId) {

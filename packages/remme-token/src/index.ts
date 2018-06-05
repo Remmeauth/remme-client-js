@@ -1,13 +1,20 @@
-import { RemmeMethods, RemmeRest } from "remme-rest";
-import { BaseTransactionResponse } from "remme-utils";
-import { TransactionPayload, TransactionResult, BalanceResult } from "./models";
+import { RemmeMethods, IRemmeRest } from "remme-rest";
+import { BaseTransactionResponse, getAddressFromData } from "remme-utils";
+import { IRemmeTransactionService } from "remme-transaction-service";
+import { TransferPayload } from "remme-protobuf";
+
+import { BalanceResult } from "./models";
 import { IRemmeToken } from "./interface";
 
 class RemmeToken implements IRemmeToken {
-    private readonly _remmeRest: RemmeRest;
+    private readonly _remmeRest: IRemmeRest;
+    private readonly _remmeTransaction: IRemmeTransactionService;
+    private readonly familyName = "token";
+    private readonly familyVersion = "0.1";
 
-    public constructor(remmeRest: RemmeRest = new RemmeRest()) {
+    public constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService) {
         this._remmeRest = remmeRest;
+        this._remmeTransaction = remmeTransaction;
     }
 
     public async transfer(publicKeyTo: string, amount: number): Promise<BaseTransactionResponse> {
@@ -17,12 +24,25 @@ class RemmeToken implements IRemmeToken {
         if (amount <= 0) {
             throw new Error("amount must be higher than 0");
         }
-        const payload = new TransactionPayload(publicKeyTo, amount);
-        const apiResult = await this._remmeRest
-            .postRequest<TransactionPayload, TransactionResult>(RemmeMethods.token, payload);
-        const result = new BaseTransactionResponse(this._remmeRest.socketAddress());
-        result.batchId = apiResult.batch_id;
-        return result;
+        const receiverAddress = getAddressFromData(publicKeyTo, "token");
+        const payloadBytes = TransferPayload.encode({
+            addressTo: receiverAddress,
+            value: amount,
+        }).finish();
+        const transactionPayload = await this._remmeTransaction.create({
+            familyName: this.familyName,
+            familyVersion: this.familyVersion,
+            inputs: [receiverAddress],
+            outputs: [receiverAddress],
+            payloadBytes,
+        });
+        return await this._remmeTransaction.send(transactionPayload);
+        // const payload = new TransactionPayload(publicKeyTo, amount);
+        // const apiResult = await this._remmeRest
+        //     .postRequest<TransactionPayload, TransactionResult>(RemmeMethods.token, payload);
+        // const result = new BaseTransactionResponse(this._remmeRest.socketAddress());
+        // result.batchId = apiResult.batch_id;
+        // return result;
     }
 
     public async getBalance(publicKeyTo: string): Promise<number> {

@@ -1,8 +1,8 @@
 import * as forge from "node-forge";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { ITransactionResponse } from "./interface";
-import { BatchStateUpdateDto, oids } from "./models";
-import { hexToBytes, bytesToHex } from "./functions";
+import { BatchStateUpdateDto, BatchStatusesDto, oids } from "./models";
+import { hexToBytes, bytesToHex, getAddressFromData } from "./functions";
 
 declare global {
     interface Window {
@@ -47,8 +47,12 @@ class BaseTransactionResponse implements ITransactionResponse {
         };
         this._socket.onmessage = (e) => {
             const response: BatchStateUpdateDto = JSON.parse(e.data);
-            if (response.type === "message" && Object.getOwnPropertyNames(response.data).length !== 0) {
-                callback(null, response.data.batch_statuses);
+            if (
+                response.type === "message" &&
+                Object.getOwnPropertyNames(response.data).length !== 0 &&
+                response.data.batch_statuses.status === "OK"
+            ) {
+                callback(null, new BatchStatusesDto(response.data.batch_statuses));
             }
         };
         this._socket.onerror = (err) => {
@@ -87,4 +91,5 @@ export {
     oids,
     hexToBytes,
     bytesToHex,
+    getAddressFromData,
 };

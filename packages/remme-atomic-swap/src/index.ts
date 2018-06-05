@@ -1,4 +1,4 @@
-import { RemmeMethods, RemmeRest } from "remme-rest";
+import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { BaseTransactionResponse } from "remme-utils";
 
 import { IRemmeSwap } from "./interface";
@@ -15,9 +15,9 @@ import {
 } from "./models";
 
 class RemmeSwap implements IRemmeSwap {
-    private readonly _remmeRest: RemmeRest;
+    private readonly _remmeRest: IRemmeRest;
 
-    public constructor(remmeRest: RemmeRest = new RemmeRest()) {
+    public constructor(remmeRest: IRemmeRest) {
         this._remmeRest = remmeRest;
     }
 

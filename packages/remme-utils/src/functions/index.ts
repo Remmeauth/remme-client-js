@@ -1,3 +1,5 @@
+import { sha512 } from "js-sha512";
+
 export const hexToBytes = (str: string) => {
     const bytes = [];
     const len = str.length;
@@ -15,4 +17,8 @@ export const bytesToHex = (uint8arr: Uint8Array) => {
         hexStr += hex;
     });
     return hexStr;
+};
+
+export const getAddressFromData = (data: string, familyName: string): string => {
+    return `${sha512(familyName).slice(0, 6)}${sha512(data).slice(0, 64)}`;
 };

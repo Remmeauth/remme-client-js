@@ -39,10 +39,10 @@ var remme_utils_1 = require("remme-utils");
 var remme_rest_1 = require("remme-rest");
 var models_1 = require("./models");
 var RemmeCertificate = /** @class */ (function () {
-    function RemmeCertificate(remmeRest) {
-        if (remmeRest === void 0) { remmeRest = new remme_rest_1.RemmeRest(); }
+    function RemmeCertificate(remmeRest, remmeTransaction) {
         this._rsaKeySize = 2048;
         this._remmeRest = remmeRest;
+        this._remmeTransaction = remmeTransaction;
     }
     RemmeCertificate.prototype.createAndStore = function (certificateDataToCreate) {
         return __awaiter(this, void 0, void 0, function () {

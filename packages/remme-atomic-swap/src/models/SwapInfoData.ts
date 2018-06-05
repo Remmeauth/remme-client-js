@@ -10,6 +10,9 @@ export class SwapInfoData {
     public secretKey: string;
     public createdAt: number;
     public isInitiator: boolean;
+    public senderAddress: string;
+    public senderAddressNonLocal: string;
+    public swapId: string;
 
     constructor(data: SwapInfoDto) {
         this.isClosed = data.is_closed;
@@ -21,5 +24,8 @@ export class SwapInfoData {
         this.secretKey = data.secret_key;
         this.createdAt = data.created_at;
         this.isInitiator = data.is_initiator;
+        this.senderAddress = data.sender_address;
+        this.senderAddressNonLocal = data.sender_address_non_local;
+        this.swapId = data.swap_id;
     }
 }

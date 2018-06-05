@@ -29,6 +29,7 @@ describe("RemmeToken", function() {
     const transaction = await token.transfer(goodRemmeAddress, 100);
     const transactionCallback = async () => {
       const balanceAfter = await token.getBalance(goodRemmeAddress);
+      console.log("balanceAfter", balanceAfter, "balanceBefore", balanceBefore);
       balanceAfter.should.equal(balanceBefore + 100);
       transaction.closeWebSocket();
     };
@@ -43,7 +44,7 @@ describe("RemmeToken", function() {
 
   it("Get Balance [valid user]", async () => {
     const { token } = new Remme.Client();
-    const goodRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759";
+    const goodRemmeAddress = "03058b9e39cedd096f093f0df816776fdc8e5cb392d38a8b9920a801e8a0d25ff5";
     const result = await token.getBalance(goodRemmeAddress);
     result.should.be.a("number");
   });

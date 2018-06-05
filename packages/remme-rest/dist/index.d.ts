@@ -13,4 +13,4 @@ declare class RemmeRest implements IRemmeRest {
     private sendRequest<Input, Output>(method, remmeMethod, payload?);
     private getUrlForRequest<Input>(method, payload?);
 }
-export { RemmeMethods, RemmeRest };
+export { RemmeMethods, RemmeRest, IRemmeRest };

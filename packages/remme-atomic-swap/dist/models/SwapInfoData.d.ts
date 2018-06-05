@@ -9,5 +9,8 @@ export declare class SwapInfoData {
     secretKey: string;
     createdAt: number;
     isInitiator: boolean;
+    senderAddress: string;
+    senderAddressNonLocal: string;
+    swapId: string;
     constructor(data: SwapInfoDto);
 }
