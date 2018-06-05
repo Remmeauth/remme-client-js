@@ -1,5 +1,7 @@
 import { forge, BaseTransactionResponse, oids } from "remme-utils";
-import { RemmeMethods, RemmeRest } from "remme-rest";
+import { RemmeMethods, IRemmeRest } from "remme-rest";
+import { IRemmeTransactionService } from "remme-transaction-service";
+// import { RevokeCertificatePayload } from "remme-protobuf";
 
 import { IRemmeCertificate } from "./interface";
 import {
@@ -9,15 +11,18 @@ import {
     CheckResult,
     RevokeResult,
     CertificateTransactionResponse,
-    CertificateCreateDto, UserCertificatesResult,
+    CertificateCreateDto,
+    UserCertificatesResult,
 } from "./models";
 
 class RemmeCertificate implements IRemmeCertificate {
-    private readonly _remmeRest: RemmeRest;
+    private readonly _remmeRest: IRemmeRest;
+    private readonly _remmeTransaction: IRemmeTransactionService;
     private _rsaKeySize: number = 2048;
 
-    public constructor(remmeRest: RemmeRest = new RemmeRest()) {
+    public constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService) {
         this._remmeRest = remmeRest;
+        this._remmeTransaction = remmeTransaction;
     }
 
     public async createAndStore(certificateDataToCreate: CertificateCreateDto)
@@ -63,6 +68,9 @@ class RemmeCertificate implements IRemmeCertificate {
 
     public async revoke(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse> {
         try {
+            // const payload = RevokeCertificatePayload.encode({
+            //     address: ""
+            // }).finish();
             const payload = new CheckPayload(certificate);
             const apiResult = await this._remmeRest
                 .deleteRequest<CheckPayload, RevokeResult>(RemmeMethods.certificate, payload);

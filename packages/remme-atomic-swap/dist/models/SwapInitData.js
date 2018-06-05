@@ -22,8 +22,8 @@ var SwapInitData = /** @class */ (function () {
             }
         });
         keys = null;
-        this.receiver_address = data.recieverAddress;
-        this.sender_address_non_local = data.senderAddress;
+        this.receiver_address = data.receiverAddress;
+        this.sender_address_non_local = data.senderAddressNonLocal;
         this.amount = data.amount;
         this.swap_id = data.swapId;
         this.email_address_encrypted_by_initiator = data.email;

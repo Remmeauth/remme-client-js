@@ -1,12 +1,12 @@
-import { RemmeMethods, RemmeRest } from "remme-rest";
+import { RemmeMethods, IRemmeRest } from "remme-rest";
 
 import { IRemmeBatch } from "./interface";
 import { BatchResult } from "./models";
 
 class RemmeBatch implements IRemmeBatch {
-    private readonly _remmeRest: RemmeRest;
+    private readonly _remmeRest: IRemmeRest;
 
-    public constructor(remmeRest: RemmeRest = new RemmeRest()) {
+    public constructor(remmeRest: IRemmeRest) {
         this._remmeRest = remmeRest;
     }
 

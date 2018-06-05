@@ -1,6 +1,6 @@
 export class SwapInitDto {
-    public recieverAddress: string;
-    public senderAddress: string;
+    public receiverAddress: string;
+    public senderAddressNonLocal: string;
     public amount: number;
     public swapId: string;
     public email: string;

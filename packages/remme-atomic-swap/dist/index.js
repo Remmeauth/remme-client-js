@@ -40,7 +40,6 @@ var remme_utils_1 = require("remme-utils");
 var models_1 = require("./models");
 var RemmeSwap = /** @class */ (function () {
     function RemmeSwap(remmeRest) {
-        if (remmeRest === void 0) { remmeRest = new remme_rest_1.RemmeRest(); }
         this._remmeRest = remmeRest;
     }
     RemmeSwap.prototype.approve = function (swapId) {

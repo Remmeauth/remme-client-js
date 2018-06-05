@@ -31,7 +31,7 @@ describe("RemmeHttpClient", () => {
     expect(result.statusText).to.equal("UNPROCESSABLE ENTITY");
   });
 
-  it("all good", async () => {
+  it("all good", async () => { // BAD
     var options = {
       url: "http://localhost:8080/api/v1/certificate/store",
       method: "PUT",

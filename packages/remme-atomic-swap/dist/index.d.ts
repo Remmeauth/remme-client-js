@@ -1,10 +1,10 @@
-import { RemmeRest } from "remme-rest";
+import { IRemmeRest } from "remme-rest";
 import { BaseTransactionResponse } from "remme-utils";
 import { IRemmeSwap } from "./interface";
 import { SwapInitDto, SwapInfoData } from "./models";
 declare class RemmeSwap implements IRemmeSwap {
     private readonly _remmeRest;
-    constructor(remmeRest?: RemmeRest);
+    constructor(remmeRest: IRemmeRest);
     approve(swapId: string): Promise<BaseTransactionResponse>;
     close(swapId: string, secretKey: string): Promise<BaseTransactionResponse>;
     expire(swapId: string): Promise<BaseTransactionResponse>;

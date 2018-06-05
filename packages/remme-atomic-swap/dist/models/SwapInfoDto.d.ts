@@ -8,4 +8,7 @@ export declare class SwapInfoDto {
     secret_key: string;
     created_at: number;
     is_initiator: boolean;
+    sender_address: string;
+    sender_address_non_local: string;
+    swap_id: string;
 }

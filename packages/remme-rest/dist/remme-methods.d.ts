@@ -12,4 +12,6 @@ export declare enum RemmeMethods {
     atomicSwapSecretLock = "atomic-swap/set-secret-lock",
     atomicSwapClose = "atomic-swap/close",
     atomicSwapPublicKey = "atomic-swap/pub-key-encryption",
+    nodeKey = "node_key",
+    transaction = "transaction",
 }

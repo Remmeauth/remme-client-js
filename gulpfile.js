@@ -18,6 +18,8 @@ var babel = require('gulp-babel');
 var buffer = require('vinyl-buffer');
 var exec = require('child_process').exec;
 var Karma = require('karma').Server;
+var fs = require('fs');
+
 
 var DEST = path.join(__dirname, 'dist/');
 
@@ -42,10 +44,15 @@ var packages = [{
   src: path.join(__dirname, 'packages/remme-token'),
   config: path.join(__dirname, 'packages/remme-token/tsconfig.json')
 }, {
-  fileName: 'remme-personal',
-  expose: 'RemmePersonal',
-  src: path.join(__dirname, 'packages/remme-personal'),
-  config: path.join(__dirname, 'packages/remme-personal/tsconfig.json')
+  fileName: 'remme-transaction-service',
+  expose: 'RemmeTransactionService',
+  src: path.join(__dirname, 'packages/remme-transaction-service'),
+  config: path.join(__dirname, 'packages/remme-transaction-service/tsconfig.json')
+}, {
+  fileName: 'remme-account',
+  expose: 'RemmeAccount',
+  src: path.join(__dirname, 'packages/remme-account'),
+  config: path.join(__dirname, 'packages/remme-account/tsconfig.json')
 }, {
   fileName: 'remme-batch',
   expose: 'RemmeBatch',
@@ -66,6 +73,11 @@ var packages = [{
   expose: 'RemmeUtils',
   src: path.join(__dirname, 'packages/remme-utils'),
   config: path.join(__dirname, 'packages/remme-utils/tsconfig.json')
+}, {
+  fileName: 'remme-protobuf',
+  expose: 'RemmeProtobuf',
+  src: path.join(__dirname, 'packages/remme-protobuf'),
+  config: path.join(__dirname, 'packages/remme-protobuf/tsconfig.json')
 }];
 
 var uglifyOptions = {
@@ -96,13 +108,23 @@ gulp.task('version', function () {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('lint', [], function () {
+gulp.task('lint', function () {
   return gulp.src(['./packages/**/*.ts', '!./packages/**/node_modules/**/*.ts', "!./packages/**/*.d.ts"])
     .pipe(tslint({
       formatter: "prose",
       configuration: "./tslint.json"
     }))
     .pipe(tslint.report());
+});
+
+gulp.task('protobuf-compile', function () {
+  const files = fs.readdirSync('./remme-protobuf')
+    .map(f => path.resolve('./remme-protobuf', f))
+    .filter(f => f.endsWith('.proto'));
+  const filesInString = files.join(" ");
+  exec('./node_modules/.bin/pbjs -t static-module -w commonjs -o ./packages/remme-protobuf/dist/index.js ' +
+    filesInString +
+    '; ./node_modules/.bin/pbts -o ./packages/remme-protobuf/dist/index.d.ts ./packages/remme-protobuf/dist/index.js');
 });
 
 gulp.task('clean', ['lint'], function (cb) {
@@ -134,6 +156,9 @@ packages.forEach(function (pckg, i) {
         ],
         include: [
           path.join(pckg.src, '/src/**/*.ts')
+        ],
+        exclude: [
+          "node_modules"
         ]
       })
       .bundle()
@@ -168,14 +193,17 @@ gulp.task('tests', ["build"], test);
 
 gulp.task('prepublish', function () {
   packages.forEach(function (pckg) {
-    del([path.join(pckg.src, "dist")]).then(
-      exec("cd " + pckg.src + " && npm run transpile;")
-    )
+    if (pckg.fileName !== "remme-protobuf") {
+      del([path.join(pckg.src, "dist")]).then(
+        exec("cd " + pckg.src + " && npm run transpile;")
+      )
+    } else {
+      exec("gulp protobuf-compile");
+    }
   });
-  exec("lerna bootstrap");
 });
 
-gulp.task("build", ['lint', 'clean', packages[packages.length - 1].fileName]);
+gulp.task("build", ['lint', 'clean', packages[packages.length - 2].fileName]);
 
 gulp.task('watch', function () {
   gulp.watch(['./packages/type/**/*.ts'], ['lint', 'clean', packages[0].fileName]);

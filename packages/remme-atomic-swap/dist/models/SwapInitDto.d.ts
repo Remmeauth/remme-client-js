@@ -1,6 +1,6 @@
 export declare class SwapInitDto {
-    recieverAddress: string;
-    senderAddress: string;
+    receiverAddress: string;
+    senderAddressNonLocal: string;
     amount: number;
     swapId: string;
     email: string;

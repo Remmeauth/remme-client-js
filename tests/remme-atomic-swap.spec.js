@@ -129,7 +129,7 @@ describe("RemmeAtomicSwap", function() {
     result.should.have.property("secretLock");
   });
 
-  it("Get public key Atomic Swap [all good]", async () => {
+  it("Get public key Atomic Swap [all good]", async () => {  // BAD
     const { swap } = new Remme.Client();
     const result = await swap.getPublicKey();
     result.should.match(/^[a-f0-9]{66}$/);

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var js_sha512_1 = require("js-sha512");
 exports.hexToBytes = function (str) {
     var bytes = [];
     var len = str.length;
@@ -16,5 +17,8 @@ exports.bytesToHex = function (uint8arr) {
         hexStr += hex;
     });
     return hexStr;
+};
+exports.getAddressFromData = function (data, familyName) {
+    return "" + js_sha512_1.sha512(familyName).slice(0, 6) + js_sha512_1.sha512(data).slice(0, 64);
 };
 //# sourceMappingURL=index.js.map

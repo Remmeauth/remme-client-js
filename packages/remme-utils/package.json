@@ -12,6 +12,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@types/node-forge": "^0.7.4",
+    "js-sha512": "^0.7.1",
     "node-forge": "^0.7.5",
     "websocket": "^1.0.26"
   },
