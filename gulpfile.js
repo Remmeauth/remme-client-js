@@ -206,7 +206,7 @@ gulp.task('prepublish', function () {
 gulp.task("build", ['lint', 'clean', packages[packages.length - 2].fileName]);
 
 gulp.task('watch', function () {
-  gulp.watch(['./packages/type/**/*.ts'], ['lint', 'clean', packages[0].fileName]);
+  gulp.watch(['./packages/**/*.ts'], ['lint', 'clean', packages[0].fileName]);
 });
 
 gulp.task('default', ['version', 'lint', 'clean', packages[0].fileName]);

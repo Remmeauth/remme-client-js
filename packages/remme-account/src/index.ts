@@ -24,7 +24,7 @@ class RemmeAccount implements IRemmeAccount {
         this._signer = new CryptoFactory(context).newSigner(privateKey);
         this.privateKeyHex = privateKey.asHex();
         this.publicKeyHex = this._signer.getPublicKey().asHex();
-        this.address = getAddressFromData(privateKeyHex, "account");
+        this.address = getAddressFromData("account", this.publicKeyHex);
     }
 
     public get privateKey(): any {

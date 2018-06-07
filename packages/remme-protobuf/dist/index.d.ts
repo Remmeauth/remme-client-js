@@ -465,6 +465,399 @@ export class GenesisStatus implements IGenesisStatus {
     public toJSON(): { [k: string]: any };
 }
 
+/** Properties of a CertificateMethod. */
+export interface ICertificateMethod {
+}
+
+/** Represents a CertificateMethod. */
+export class CertificateMethod implements ICertificateMethod {
+
+    /**
+     * Constructs a new CertificateMethod.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: ICertificateMethod);
+
+    /**
+     * Creates a new CertificateMethod instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns CertificateMethod instance
+     */
+    public static create(properties?: ICertificateMethod): CertificateMethod;
+
+    /**
+     * Encodes the specified CertificateMethod message. Does not implicitly {@link CertificateMethod.verify|verify} messages.
+     * @param message CertificateMethod message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: ICertificateMethod, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified CertificateMethod message, length delimited. Does not implicitly {@link CertificateMethod.verify|verify} messages.
+     * @param message CertificateMethod message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: ICertificateMethod, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a CertificateMethod message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns CertificateMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): CertificateMethod;
+
+    /**
+     * Decodes a CertificateMethod message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns CertificateMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): CertificateMethod;
+
+    /**
+     * Verifies a CertificateMethod message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a CertificateMethod message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns CertificateMethod
+     */
+    public static fromObject(object: { [k: string]: any }): CertificateMethod;
+
+    /**
+     * Creates a plain object from a CertificateMethod message. Also converts values to other types if specified.
+     * @param message CertificateMethod
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: CertificateMethod, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this CertificateMethod to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+export namespace CertificateMethod {
+
+    /** Method enum. */
+    enum Method {
+        STORE = 0,
+        REVOKE = 1
+    }
+}
+
+/** Properties of a NewCertificatePayload. */
+export interface INewCertificatePayload {
+
+    /** NewCertificatePayload certificateRaw */
+    certificateRaw?: (string|null);
+
+    /** NewCertificatePayload signatureRem */
+    signatureRem?: (string|null);
+
+    /** NewCertificatePayload signatureCrt */
+    signatureCrt?: (string|null);
+
+    /** NewCertificatePayload certSignerPublicKey */
+    certSignerPublicKey?: (string|null);
+}
+
+/** Represents a NewCertificatePayload. */
+export class NewCertificatePayload implements INewCertificatePayload {
+
+    /**
+     * Constructs a new NewCertificatePayload.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: INewCertificatePayload);
+
+    /** NewCertificatePayload certificateRaw. */
+    public certificateRaw: string;
+
+    /** NewCertificatePayload signatureRem. */
+    public signatureRem: string;
+
+    /** NewCertificatePayload signatureCrt. */
+    public signatureCrt: string;
+
+    /** NewCertificatePayload certSignerPublicKey. */
+    public certSignerPublicKey: string;
+
+    /**
+     * Creates a new NewCertificatePayload instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns NewCertificatePayload instance
+     */
+    public static create(properties?: INewCertificatePayload): NewCertificatePayload;
+
+    /**
+     * Encodes the specified NewCertificatePayload message. Does not implicitly {@link NewCertificatePayload.verify|verify} messages.
+     * @param message NewCertificatePayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: INewCertificatePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified NewCertificatePayload message, length delimited. Does not implicitly {@link NewCertificatePayload.verify|verify} messages.
+     * @param message NewCertificatePayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: INewCertificatePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a NewCertificatePayload message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns NewCertificatePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): NewCertificatePayload;
+
+    /**
+     * Decodes a NewCertificatePayload message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns NewCertificatePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): NewCertificatePayload;
+
+    /**
+     * Verifies a NewCertificatePayload message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a NewCertificatePayload message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns NewCertificatePayload
+     */
+    public static fromObject(object: { [k: string]: any }): NewCertificatePayload;
+
+    /**
+     * Creates a plain object from a NewCertificatePayload message. Also converts values to other types if specified.
+     * @param message NewCertificatePayload
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: NewCertificatePayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this NewCertificatePayload to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of a RevokeCertificatePayload. */
+export interface IRevokeCertificatePayload {
+
+    /** RevokeCertificatePayload address */
+    address?: (string|null);
+}
+
+/** Represents a RevokeCertificatePayload. */
+export class RevokeCertificatePayload implements IRevokeCertificatePayload {
+
+    /**
+     * Constructs a new RevokeCertificatePayload.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IRevokeCertificatePayload);
+
+    /** RevokeCertificatePayload address. */
+    public address: string;
+
+    /**
+     * Creates a new RevokeCertificatePayload instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns RevokeCertificatePayload instance
+     */
+    public static create(properties?: IRevokeCertificatePayload): RevokeCertificatePayload;
+
+    /**
+     * Encodes the specified RevokeCertificatePayload message. Does not implicitly {@link RevokeCertificatePayload.verify|verify} messages.
+     * @param message RevokeCertificatePayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IRevokeCertificatePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified RevokeCertificatePayload message, length delimited. Does not implicitly {@link RevokeCertificatePayload.verify|verify} messages.
+     * @param message RevokeCertificatePayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IRevokeCertificatePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a RevokeCertificatePayload message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns RevokeCertificatePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): RevokeCertificatePayload;
+
+    /**
+     * Decodes a RevokeCertificatePayload message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns RevokeCertificatePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): RevokeCertificatePayload;
+
+    /**
+     * Verifies a RevokeCertificatePayload message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a RevokeCertificatePayload message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns RevokeCertificatePayload
+     */
+    public static fromObject(object: { [k: string]: any }): RevokeCertificatePayload;
+
+    /**
+     * Creates a plain object from a RevokeCertificatePayload message. Also converts values to other types if specified.
+     * @param message RevokeCertificatePayload
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: RevokeCertificatePayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this RevokeCertificatePayload to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of a CertificateStorage. */
+export interface ICertificateStorage {
+
+    /** CertificateStorage hash */
+    hash?: (string|null);
+
+    /** CertificateStorage owner */
+    owner?: (string|null);
+
+    /** CertificateStorage revoked */
+    revoked?: (boolean|null);
+}
+
+/** Represents a CertificateStorage. */
+export class CertificateStorage implements ICertificateStorage {
+
+    /**
+     * Constructs a new CertificateStorage.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: ICertificateStorage);
+
+    /** CertificateStorage hash. */
+    public hash: string;
+
+    /** CertificateStorage owner. */
+    public owner: string;
+
+    /** CertificateStorage revoked. */
+    public revoked: boolean;
+
+    /**
+     * Creates a new CertificateStorage instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns CertificateStorage instance
+     */
+    public static create(properties?: ICertificateStorage): CertificateStorage;
+
+    /**
+     * Encodes the specified CertificateStorage message. Does not implicitly {@link CertificateStorage.verify|verify} messages.
+     * @param message CertificateStorage message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: ICertificateStorage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified CertificateStorage message, length delimited. Does not implicitly {@link CertificateStorage.verify|verify} messages.
+     * @param message CertificateStorage message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: ICertificateStorage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a CertificateStorage message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns CertificateStorage
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): CertificateStorage;
+
+    /**
+     * Decodes a CertificateStorage message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns CertificateStorage
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): CertificateStorage;
+
+    /**
+     * Verifies a CertificateStorage message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a CertificateStorage message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns CertificateStorage
+     */
+    public static fromObject(object: { [k: string]: any }): CertificateStorage;
+
+    /**
+     * Creates a plain object from a CertificateStorage message. Also converts values to other types if specified.
+     * @param message CertificateStorage
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: CertificateStorage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this CertificateStorage to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
 /** Properties of a TransactionPayload. */
 export interface ITransactionPayload {
 

@@ -9,11 +9,11 @@ export interface Data {
 }
 
 export class BatchStatusesDto {
-    public status: string;
+    public status: Statuses;
     public batchId: string;
 
     constructor(data: BatchStatuses) {
-        this.status = data.status;
+        this.status = Statuses[data.status];
         this.batchId = data.batch_id;
     }
 }
@@ -21,4 +21,8 @@ export class BatchStatusesDto {
 export interface BatchStatuses {
     status: string;
     batch_id: string;
+}
+
+export enum Statuses {
+    OK = "OK",
 }

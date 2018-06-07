@@ -40,14 +40,14 @@ var remme_utils_1 = require("remme-utils");
 var remme_protobuf_1 = require("remme-protobuf");
 var RemmeToken = /** @class */ (function () {
     function RemmeToken(remmeRest, remmeTransaction) {
-        this.familyName = "token";
+        this.familyName = "account";
         this.familyVersion = "0.1";
         this._remmeRest = remmeRest;
         this._remmeTransaction = remmeTransaction;
     }
     RemmeToken.prototype.transfer = function (publicKeyTo, amount) {
         return __awaiter(this, void 0, void 0, function () {
-            var receiverAddress, payloadBytes, transactionPayload;
+            var receiverAddress, transferPayload, transactionPayload, transaction;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -57,21 +57,25 @@ var RemmeToken = /** @class */ (function () {
                         if (amount <= 0) {
                             throw new Error("amount must be higher than 0");
                         }
-                        receiverAddress = remme_utils_1.getAddressFromData(publicKeyTo, "token");
-                        payloadBytes = remme_protobuf_1.TransferPayload.encode({
+                        receiverAddress = remme_utils_1.getAddressFromData(this.familyName, publicKeyTo);
+                        transferPayload = remme_protobuf_1.TransferPayload.encode({
                             addressTo: receiverAddress,
                             value: amount,
+                        }).finish();
+                        transactionPayload = remme_protobuf_1.TransactionPayload.encode({
+                            method: 0,
+                            data: transferPayload,
                         }).finish();
                         return [4 /*yield*/, this._remmeTransaction.create({
                                 familyName: this.familyName,
                                 familyVersion: this.familyVersion,
                                 inputs: [receiverAddress],
                                 outputs: [receiverAddress],
-                                payloadBytes: payloadBytes,
+                                payloadBytes: transactionPayload,
                             })];
                     case 1:
-                        transactionPayload = _a.sent();
-                        return [4 /*yield*/, this._remmeTransaction.send(transactionPayload)];
+                        transaction = _a.sent();
+                        return [4 /*yield*/, this._remmeTransaction.send(transaction)];
                     case 2: return [2 /*return*/, _a.sent()];
                 }
             });

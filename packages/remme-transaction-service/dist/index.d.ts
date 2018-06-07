@@ -9,5 +9,6 @@ declare class RemmeTransactionService implements IRemmeTransactionService {
     constructor(remmeRest: IRemmeRest, remmeAccount: IRemmeAccount);
     create<Input>(settings: TransactionCreatePayload): Promise<string>;
     send(transaction: string): Promise<BaseTransactionResponse>;
+    private getNonce();
 }
 export { RemmeTransactionService, IRemmeTransactionService };

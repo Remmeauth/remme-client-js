@@ -16,6 +16,8 @@ declare module "node-forge" {
         function certificationRequestToPem(cert: Certificate, maxline?: number): PEM;
         function certificationRequestFromPem(pem: PEM, computeHash?: boolean, strict?: boolean): Certificate;
         function createCertificationRequest(): Certificate;
+        function publicKeyToAsn1(publicKey: Key): any;
+        function publicKeyToRSAPublicKey(publicKey: Key): any;
     }
 }
 declare class BaseTransactionResponse implements ITransactionResponse {

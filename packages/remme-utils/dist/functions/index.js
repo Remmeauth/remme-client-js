@@ -18,7 +18,7 @@ exports.bytesToHex = function (uint8arr) {
     });
     return hexStr;
 };
-exports.getAddressFromData = function (data, familyName) {
+exports.getAddressFromData = function (familyName, data) {
     return "" + js_sha512_1.sha512(familyName).slice(0, 6) + js_sha512_1.sha512(data).slice(0, 64);
 };
 //# sourceMappingURL=index.js.map

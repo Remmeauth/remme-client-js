@@ -19,7 +19,7 @@ var RemmeAccount = /** @class */ (function () {
         this._signer = new signing_1.CryptoFactory(context).newSigner(privateKey);
         this.privateKeyHex = privateKey.asHex();
         this.publicKeyHex = this._signer.getPublicKey().asHex();
-        this.address = remme_utils_1.getAddressFromData(privateKeyHex, "account");
+        this.address = remme_utils_1.getAddressFromData("account", this.publicKeyHex);
     }
     Object.defineProperty(RemmeAccount.prototype, "privateKey", {
         get: function () {
