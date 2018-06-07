@@ -1035,6 +1035,853 @@ $root.GenesisStatus = (function() {
     return GenesisStatus;
 })();
 
+$root.CertificateMethod = (function() {
+
+    /**
+     * Properties of a CertificateMethod.
+     * @exports ICertificateMethod
+     * @interface ICertificateMethod
+     */
+
+    /**
+     * Constructs a new CertificateMethod.
+     * @exports CertificateMethod
+     * @classdesc Represents a CertificateMethod.
+     * @implements ICertificateMethod
+     * @constructor
+     * @param {ICertificateMethod=} [properties] Properties to set
+     */
+    function CertificateMethod(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Creates a new CertificateMethod instance using the specified properties.
+     * @function create
+     * @memberof CertificateMethod
+     * @static
+     * @param {ICertificateMethod=} [properties] Properties to set
+     * @returns {CertificateMethod} CertificateMethod instance
+     */
+    CertificateMethod.create = function create(properties) {
+        return new CertificateMethod(properties);
+    };
+
+    /**
+     * Encodes the specified CertificateMethod message. Does not implicitly {@link CertificateMethod.verify|verify} messages.
+     * @function encode
+     * @memberof CertificateMethod
+     * @static
+     * @param {ICertificateMethod} message CertificateMethod message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    CertificateMethod.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified CertificateMethod message, length delimited. Does not implicitly {@link CertificateMethod.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof CertificateMethod
+     * @static
+     * @param {ICertificateMethod} message CertificateMethod message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    CertificateMethod.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a CertificateMethod message from the specified reader or buffer.
+     * @function decode
+     * @memberof CertificateMethod
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {CertificateMethod} CertificateMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    CertificateMethod.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CertificateMethod();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a CertificateMethod message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof CertificateMethod
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {CertificateMethod} CertificateMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    CertificateMethod.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a CertificateMethod message.
+     * @function verify
+     * @memberof CertificateMethod
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    CertificateMethod.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        return null;
+    };
+
+    /**
+     * Creates a CertificateMethod message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof CertificateMethod
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {CertificateMethod} CertificateMethod
+     */
+    CertificateMethod.fromObject = function fromObject(object) {
+        if (object instanceof $root.CertificateMethod)
+            return object;
+        return new $root.CertificateMethod();
+    };
+
+    /**
+     * Creates a plain object from a CertificateMethod message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof CertificateMethod
+     * @static
+     * @param {CertificateMethod} message CertificateMethod
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    CertificateMethod.toObject = function toObject() {
+        return {};
+    };
+
+    /**
+     * Converts this CertificateMethod to JSON.
+     * @function toJSON
+     * @memberof CertificateMethod
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    CertificateMethod.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Method enum.
+     * @name CertificateMethod.Method
+     * @enum {string}
+     * @property {number} STORE=0 STORE value
+     * @property {number} REVOKE=1 REVOKE value
+     */
+    CertificateMethod.Method = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "STORE"] = 0;
+        values[valuesById[1] = "REVOKE"] = 1;
+        return values;
+    })();
+
+    return CertificateMethod;
+})();
+
+$root.NewCertificatePayload = (function() {
+
+    /**
+     * Properties of a NewCertificatePayload.
+     * @exports INewCertificatePayload
+     * @interface INewCertificatePayload
+     * @property {string|null} [certificateRaw] NewCertificatePayload certificateRaw
+     * @property {string|null} [signatureRem] NewCertificatePayload signatureRem
+     * @property {string|null} [signatureCrt] NewCertificatePayload signatureCrt
+     * @property {string|null} [certSignerPublicKey] NewCertificatePayload certSignerPublicKey
+     */
+
+    /**
+     * Constructs a new NewCertificatePayload.
+     * @exports NewCertificatePayload
+     * @classdesc Represents a NewCertificatePayload.
+     * @implements INewCertificatePayload
+     * @constructor
+     * @param {INewCertificatePayload=} [properties] Properties to set
+     */
+    function NewCertificatePayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * NewCertificatePayload certificateRaw.
+     * @member {string} certificateRaw
+     * @memberof NewCertificatePayload
+     * @instance
+     */
+    NewCertificatePayload.prototype.certificateRaw = "";
+
+    /**
+     * NewCertificatePayload signatureRem.
+     * @member {string} signatureRem
+     * @memberof NewCertificatePayload
+     * @instance
+     */
+    NewCertificatePayload.prototype.signatureRem = "";
+
+    /**
+     * NewCertificatePayload signatureCrt.
+     * @member {string} signatureCrt
+     * @memberof NewCertificatePayload
+     * @instance
+     */
+    NewCertificatePayload.prototype.signatureCrt = "";
+
+    /**
+     * NewCertificatePayload certSignerPublicKey.
+     * @member {string} certSignerPublicKey
+     * @memberof NewCertificatePayload
+     * @instance
+     */
+    NewCertificatePayload.prototype.certSignerPublicKey = "";
+
+    /**
+     * Creates a new NewCertificatePayload instance using the specified properties.
+     * @function create
+     * @memberof NewCertificatePayload
+     * @static
+     * @param {INewCertificatePayload=} [properties] Properties to set
+     * @returns {NewCertificatePayload} NewCertificatePayload instance
+     */
+    NewCertificatePayload.create = function create(properties) {
+        return new NewCertificatePayload(properties);
+    };
+
+    /**
+     * Encodes the specified NewCertificatePayload message. Does not implicitly {@link NewCertificatePayload.verify|verify} messages.
+     * @function encode
+     * @memberof NewCertificatePayload
+     * @static
+     * @param {INewCertificatePayload} message NewCertificatePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NewCertificatePayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.certificateRaw != null && message.hasOwnProperty("certificateRaw"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.certificateRaw);
+        if (message.signatureRem != null && message.hasOwnProperty("signatureRem"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.signatureRem);
+        if (message.signatureCrt != null && message.hasOwnProperty("signatureCrt"))
+            writer.uint32(/* id 3, wireType 2 =*/26).string(message.signatureCrt);
+        if (message.certSignerPublicKey != null && message.hasOwnProperty("certSignerPublicKey"))
+            writer.uint32(/* id 4, wireType 2 =*/34).string(message.certSignerPublicKey);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified NewCertificatePayload message, length delimited. Does not implicitly {@link NewCertificatePayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof NewCertificatePayload
+     * @static
+     * @param {INewCertificatePayload} message NewCertificatePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NewCertificatePayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a NewCertificatePayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof NewCertificatePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {NewCertificatePayload} NewCertificatePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NewCertificatePayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.NewCertificatePayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.certificateRaw = reader.string();
+                break;
+            case 2:
+                message.signatureRem = reader.string();
+                break;
+            case 3:
+                message.signatureCrt = reader.string();
+                break;
+            case 4:
+                message.certSignerPublicKey = reader.string();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a NewCertificatePayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof NewCertificatePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {NewCertificatePayload} NewCertificatePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NewCertificatePayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a NewCertificatePayload message.
+     * @function verify
+     * @memberof NewCertificatePayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    NewCertificatePayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.certificateRaw != null && message.hasOwnProperty("certificateRaw"))
+            if (!$util.isString(message.certificateRaw))
+                return "certificateRaw: string expected";
+        if (message.signatureRem != null && message.hasOwnProperty("signatureRem"))
+            if (!$util.isString(message.signatureRem))
+                return "signatureRem: string expected";
+        if (message.signatureCrt != null && message.hasOwnProperty("signatureCrt"))
+            if (!$util.isString(message.signatureCrt))
+                return "signatureCrt: string expected";
+        if (message.certSignerPublicKey != null && message.hasOwnProperty("certSignerPublicKey"))
+            if (!$util.isString(message.certSignerPublicKey))
+                return "certSignerPublicKey: string expected";
+        return null;
+    };
+
+    /**
+     * Creates a NewCertificatePayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof NewCertificatePayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {NewCertificatePayload} NewCertificatePayload
+     */
+    NewCertificatePayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.NewCertificatePayload)
+            return object;
+        var message = new $root.NewCertificatePayload();
+        if (object.certificateRaw != null)
+            message.certificateRaw = String(object.certificateRaw);
+        if (object.signatureRem != null)
+            message.signatureRem = String(object.signatureRem);
+        if (object.signatureCrt != null)
+            message.signatureCrt = String(object.signatureCrt);
+        if (object.certSignerPublicKey != null)
+            message.certSignerPublicKey = String(object.certSignerPublicKey);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a NewCertificatePayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof NewCertificatePayload
+     * @static
+     * @param {NewCertificatePayload} message NewCertificatePayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    NewCertificatePayload.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.certificateRaw = "";
+            object.signatureRem = "";
+            object.signatureCrt = "";
+            object.certSignerPublicKey = "";
+        }
+        if (message.certificateRaw != null && message.hasOwnProperty("certificateRaw"))
+            object.certificateRaw = message.certificateRaw;
+        if (message.signatureRem != null && message.hasOwnProperty("signatureRem"))
+            object.signatureRem = message.signatureRem;
+        if (message.signatureCrt != null && message.hasOwnProperty("signatureCrt"))
+            object.signatureCrt = message.signatureCrt;
+        if (message.certSignerPublicKey != null && message.hasOwnProperty("certSignerPublicKey"))
+            object.certSignerPublicKey = message.certSignerPublicKey;
+        return object;
+    };
+
+    /**
+     * Converts this NewCertificatePayload to JSON.
+     * @function toJSON
+     * @memberof NewCertificatePayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    NewCertificatePayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return NewCertificatePayload;
+})();
+
+$root.RevokeCertificatePayload = (function() {
+
+    /**
+     * Properties of a RevokeCertificatePayload.
+     * @exports IRevokeCertificatePayload
+     * @interface IRevokeCertificatePayload
+     * @property {string|null} [address] RevokeCertificatePayload address
+     */
+
+    /**
+     * Constructs a new RevokeCertificatePayload.
+     * @exports RevokeCertificatePayload
+     * @classdesc Represents a RevokeCertificatePayload.
+     * @implements IRevokeCertificatePayload
+     * @constructor
+     * @param {IRevokeCertificatePayload=} [properties] Properties to set
+     */
+    function RevokeCertificatePayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * RevokeCertificatePayload address.
+     * @member {string} address
+     * @memberof RevokeCertificatePayload
+     * @instance
+     */
+    RevokeCertificatePayload.prototype.address = "";
+
+    /**
+     * Creates a new RevokeCertificatePayload instance using the specified properties.
+     * @function create
+     * @memberof RevokeCertificatePayload
+     * @static
+     * @param {IRevokeCertificatePayload=} [properties] Properties to set
+     * @returns {RevokeCertificatePayload} RevokeCertificatePayload instance
+     */
+    RevokeCertificatePayload.create = function create(properties) {
+        return new RevokeCertificatePayload(properties);
+    };
+
+    /**
+     * Encodes the specified RevokeCertificatePayload message. Does not implicitly {@link RevokeCertificatePayload.verify|verify} messages.
+     * @function encode
+     * @memberof RevokeCertificatePayload
+     * @static
+     * @param {IRevokeCertificatePayload} message RevokeCertificatePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    RevokeCertificatePayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.address != null && message.hasOwnProperty("address"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.address);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified RevokeCertificatePayload message, length delimited. Does not implicitly {@link RevokeCertificatePayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof RevokeCertificatePayload
+     * @static
+     * @param {IRevokeCertificatePayload} message RevokeCertificatePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    RevokeCertificatePayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a RevokeCertificatePayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof RevokeCertificatePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {RevokeCertificatePayload} RevokeCertificatePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    RevokeCertificatePayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.RevokeCertificatePayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.address = reader.string();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a RevokeCertificatePayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof RevokeCertificatePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {RevokeCertificatePayload} RevokeCertificatePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    RevokeCertificatePayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a RevokeCertificatePayload message.
+     * @function verify
+     * @memberof RevokeCertificatePayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    RevokeCertificatePayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.address != null && message.hasOwnProperty("address"))
+            if (!$util.isString(message.address))
+                return "address: string expected";
+        return null;
+    };
+
+    /**
+     * Creates a RevokeCertificatePayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof RevokeCertificatePayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {RevokeCertificatePayload} RevokeCertificatePayload
+     */
+    RevokeCertificatePayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.RevokeCertificatePayload)
+            return object;
+        var message = new $root.RevokeCertificatePayload();
+        if (object.address != null)
+            message.address = String(object.address);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a RevokeCertificatePayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof RevokeCertificatePayload
+     * @static
+     * @param {RevokeCertificatePayload} message RevokeCertificatePayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    RevokeCertificatePayload.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults)
+            object.address = "";
+        if (message.address != null && message.hasOwnProperty("address"))
+            object.address = message.address;
+        return object;
+    };
+
+    /**
+     * Converts this RevokeCertificatePayload to JSON.
+     * @function toJSON
+     * @memberof RevokeCertificatePayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    RevokeCertificatePayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return RevokeCertificatePayload;
+})();
+
+$root.CertificateStorage = (function() {
+
+    /**
+     * Properties of a CertificateStorage.
+     * @exports ICertificateStorage
+     * @interface ICertificateStorage
+     * @property {string|null} [hash] CertificateStorage hash
+     * @property {string|null} [owner] CertificateStorage owner
+     * @property {boolean|null} [revoked] CertificateStorage revoked
+     */
+
+    /**
+     * Constructs a new CertificateStorage.
+     * @exports CertificateStorage
+     * @classdesc Represents a CertificateStorage.
+     * @implements ICertificateStorage
+     * @constructor
+     * @param {ICertificateStorage=} [properties] Properties to set
+     */
+    function CertificateStorage(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * CertificateStorage hash.
+     * @member {string} hash
+     * @memberof CertificateStorage
+     * @instance
+     */
+    CertificateStorage.prototype.hash = "";
+
+    /**
+     * CertificateStorage owner.
+     * @member {string} owner
+     * @memberof CertificateStorage
+     * @instance
+     */
+    CertificateStorage.prototype.owner = "";
+
+    /**
+     * CertificateStorage revoked.
+     * @member {boolean} revoked
+     * @memberof CertificateStorage
+     * @instance
+     */
+    CertificateStorage.prototype.revoked = false;
+
+    /**
+     * Creates a new CertificateStorage instance using the specified properties.
+     * @function create
+     * @memberof CertificateStorage
+     * @static
+     * @param {ICertificateStorage=} [properties] Properties to set
+     * @returns {CertificateStorage} CertificateStorage instance
+     */
+    CertificateStorage.create = function create(properties) {
+        return new CertificateStorage(properties);
+    };
+
+    /**
+     * Encodes the specified CertificateStorage message. Does not implicitly {@link CertificateStorage.verify|verify} messages.
+     * @function encode
+     * @memberof CertificateStorage
+     * @static
+     * @param {ICertificateStorage} message CertificateStorage message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    CertificateStorage.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.hash != null && message.hasOwnProperty("hash"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.hash);
+        if (message.owner != null && message.hasOwnProperty("owner"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.owner);
+        if (message.revoked != null && message.hasOwnProperty("revoked"))
+            writer.uint32(/* id 3, wireType 0 =*/24).bool(message.revoked);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified CertificateStorage message, length delimited. Does not implicitly {@link CertificateStorage.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof CertificateStorage
+     * @static
+     * @param {ICertificateStorage} message CertificateStorage message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    CertificateStorage.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a CertificateStorage message from the specified reader or buffer.
+     * @function decode
+     * @memberof CertificateStorage
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {CertificateStorage} CertificateStorage
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    CertificateStorage.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CertificateStorage();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.hash = reader.string();
+                break;
+            case 2:
+                message.owner = reader.string();
+                break;
+            case 3:
+                message.revoked = reader.bool();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a CertificateStorage message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof CertificateStorage
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {CertificateStorage} CertificateStorage
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    CertificateStorage.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a CertificateStorage message.
+     * @function verify
+     * @memberof CertificateStorage
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    CertificateStorage.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.hash != null && message.hasOwnProperty("hash"))
+            if (!$util.isString(message.hash))
+                return "hash: string expected";
+        if (message.owner != null && message.hasOwnProperty("owner"))
+            if (!$util.isString(message.owner))
+                return "owner: string expected";
+        if (message.revoked != null && message.hasOwnProperty("revoked"))
+            if (typeof message.revoked !== "boolean")
+                return "revoked: boolean expected";
+        return null;
+    };
+
+    /**
+     * Creates a CertificateStorage message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof CertificateStorage
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {CertificateStorage} CertificateStorage
+     */
+    CertificateStorage.fromObject = function fromObject(object) {
+        if (object instanceof $root.CertificateStorage)
+            return object;
+        var message = new $root.CertificateStorage();
+        if (object.hash != null)
+            message.hash = String(object.hash);
+        if (object.owner != null)
+            message.owner = String(object.owner);
+        if (object.revoked != null)
+            message.revoked = Boolean(object.revoked);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a CertificateStorage message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof CertificateStorage
+     * @static
+     * @param {CertificateStorage} message CertificateStorage
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    CertificateStorage.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.hash = "";
+            object.owner = "";
+            object.revoked = false;
+        }
+        if (message.hash != null && message.hasOwnProperty("hash"))
+            object.hash = message.hash;
+        if (message.owner != null && message.hasOwnProperty("owner"))
+            object.owner = message.owner;
+        if (message.revoked != null && message.hasOwnProperty("revoked"))
+            object.revoked = message.revoked;
+        return object;
+    };
+
+    /**
+     * Converts this CertificateStorage to JSON.
+     * @function toJSON
+     * @memberof CertificateStorage
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    CertificateStorage.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return CertificateStorage;
+})();
+
 $root.TransactionPayload = (function() {
 
     /**

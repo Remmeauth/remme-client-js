@@ -61,10 +61,11 @@ var RemmeTransactionService = /** @class */ (function () {
                             inputs: inputs.concat([this._remmeAccount.address]),
                             outputs: outputs.concat([this._remmeAccount.address]),
                             signerPublicKey: this._remmeAccount.publicKeyHex,
+                            nonce: this.getNonce(),
                             batcherPublicKey: batcherPublicKey,
-                            dependencies: [],
                             payloadSha512: crypto_1.createHash("sha512").update(payloadBytes).digest("hex"),
                         }).finish();
+                        console.log(protobuf.TransactionHeader.decode(transactionHeaderBytes));
                         signature = this._remmeAccount.sign(transactionHeaderBytes);
                         transaction = protobuf.Transaction.encode({
                             header: transactionHeaderBytes,
@@ -97,6 +98,9 @@ var RemmeTransactionService = /** @class */ (function () {
                 }
             });
         });
+    };
+    RemmeTransactionService.prototype.getNonce = function () {
+        return crypto_1.createHash("sha512").update(new Buffer(Math.floor(Math.random() * 1000))).digest("hex");
     };
     return RemmeTransactionService;
 }());

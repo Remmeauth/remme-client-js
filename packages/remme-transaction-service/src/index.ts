@@ -34,10 +34,12 @@ class RemmeTransactionService implements IRemmeTransactionService {
             inputs: [ ...inputs, this._remmeAccount.address ],
             outputs: [ ...outputs, this._remmeAccount.address ],
             signerPublicKey: this._remmeAccount.publicKeyHex,
+            nonce: this.getNonce(),
             batcherPublicKey,
-            dependencies: [],
             payloadSha512: createHash("sha512").update(payloadBytes).digest("hex"),
         }).finish();
+
+        console.log(protobuf.TransactionHeader.decode(transactionHeaderBytes));
 
         const signature = this._remmeAccount.sign(transactionHeaderBytes);
 
@@ -62,6 +64,10 @@ class RemmeTransactionService implements IRemmeTransactionService {
         const result = new BaseTransactionResponse(this._remmeRest.socketAddress());
         result.batchId = apiResult.batch_id;
         return result;
+    }
+
+    private getNonce(): string {
+        return createHash("sha512").update(new Buffer(Math.floor(Math.random() * 1000))).digest("hex");
     }
 }
 

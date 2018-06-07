@@ -19,6 +19,6 @@ export const bytesToHex = (uint8arr: Uint8Array) => {
     return hexStr;
 };
 
-export const getAddressFromData = (data: string, familyName: string): string => {
+export const getAddressFromData = (familyName: string, data: string): string => {
     return `${sha512(familyName).slice(0, 6)}${sha512(data).slice(0, 64)}`;
 };

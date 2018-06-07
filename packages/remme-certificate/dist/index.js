@@ -37,9 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_utils_1 = require("remme-utils");
 var remme_rest_1 = require("remme-rest");
+var remme_protobuf_1 = require("remme-protobuf");
 var models_1 = require("./models");
 var RemmeCertificate = /** @class */ (function () {
     function RemmeCertificate(remmeRest, remmeTransaction) {
+        this.familyName = "certificate";
+        this.familyVersion = "0.1";
         this._rsaKeySize = 2048;
         this._remmeRest = remmeRest;
         this._remmeTransaction = remmeTransaction;
@@ -77,6 +80,7 @@ var RemmeCertificate = /** @class */ (function () {
                         result = new models_1.CertificateTransactionResponse(this._remmeRest.socketAddress());
                         result.batchId = apiResult.batch_id;
                         result.certificate = remme_utils_1.forge.pki.certificateFromPem(apiResult.certificate);
+                        console.log(apiResult.certificate);
                         return [2 /*return*/, result];
                     case 2:
                         e_1 = _a.sent();
@@ -117,23 +121,34 @@ var RemmeCertificate = /** @class */ (function () {
     };
     RemmeCertificate.prototype.revoke = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, apiResult, result, e_3;
+            var publicKeyHex, address, revokePayload, payloadBytes, transaction, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        payload = new models_1.CheckPayload(certificate);
-                        return [4 /*yield*/, this._remmeRest
-                                .deleteRequest(remme_rest_1.RemmeMethods.certificate, payload)];
+                        _a.trys.push([0, 3, , 4]);
+                        publicKeyHex = remme_utils_1.forge.pki.pemToDer(remme_utils_1.forge.pki.certificateToPem(certificate)).toHex();
+                        address = remme_utils_1.getAddressFromData(this.familyName, publicKeyHex);
+                        console.log(address);
+                        revokePayload = remme_protobuf_1.RevokeCertificatePayload.encode({
+                            address: address,
+                        }).finish();
+                        payloadBytes = this.generateTransactionPayload(remme_protobuf_1.CertificateMethod.Method.REVOKE, revokePayload);
+                        return [4 /*yield*/, this._remmeTransaction.create({
+                                familyName: this.familyName,
+                                familyVersion: this.familyVersion,
+                                inputs: [],
+                                outputs: [],
+                                payloadBytes: payloadBytes,
+                            })];
                     case 1:
-                        apiResult = _a.sent();
-                        result = new remme_utils_1.BaseTransactionResponse(this._remmeRest.socketAddress());
-                        result.batchId = apiResult.batch_id;
-                        return [2 /*return*/, result];
-                    case 2:
+                        transaction = _a.sent();
+                        return [4 /*yield*/, this._remmeTransaction.send(transaction)];
+                    case 2: return [2 /*return*/, _a.sent()];
+                    case 3:
                         e_3 = _a.sent();
+                        console.log(e_3);
                         throw new Error("Given certificate is not a valid");
-                    case 3: return [2 /*return*/];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -151,6 +166,12 @@ var RemmeCertificate = /** @class */ (function () {
                 }
             });
         });
+    };
+    RemmeCertificate.prototype.generateTransactionPayload = function (method, data) {
+        return remme_protobuf_1.TransactionPayload.encode({
+            method: method,
+            data: data,
+        }).finish();
     };
     RemmeCertificate.prototype.createSignRequest = function (subject, keys) {
         var csr = remme_utils_1.forge.pki.createCertificationRequest();
