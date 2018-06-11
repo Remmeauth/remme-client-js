@@ -1035,6 +1035,1758 @@ $root.GenesisStatus = (function() {
     return GenesisStatus;
 })();
 
+$root.AtomicSwapMethod = (function() {
+
+    /**
+     * Properties of an AtomicSwapMethod.
+     * @exports IAtomicSwapMethod
+     * @interface IAtomicSwapMethod
+     */
+
+    /**
+     * Constructs a new AtomicSwapMethod.
+     * @exports AtomicSwapMethod
+     * @classdesc Represents an AtomicSwapMethod.
+     * @implements IAtomicSwapMethod
+     * @constructor
+     * @param {IAtomicSwapMethod=} [properties] Properties to set
+     */
+    function AtomicSwapMethod(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Creates a new AtomicSwapMethod instance using the specified properties.
+     * @function create
+     * @memberof AtomicSwapMethod
+     * @static
+     * @param {IAtomicSwapMethod=} [properties] Properties to set
+     * @returns {AtomicSwapMethod} AtomicSwapMethod instance
+     */
+    AtomicSwapMethod.create = function create(properties) {
+        return new AtomicSwapMethod(properties);
+    };
+
+    /**
+     * Encodes the specified AtomicSwapMethod message. Does not implicitly {@link AtomicSwapMethod.verify|verify} messages.
+     * @function encode
+     * @memberof AtomicSwapMethod
+     * @static
+     * @param {IAtomicSwapMethod} message AtomicSwapMethod message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapMethod.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified AtomicSwapMethod message, length delimited. Does not implicitly {@link AtomicSwapMethod.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof AtomicSwapMethod
+     * @static
+     * @param {IAtomicSwapMethod} message AtomicSwapMethod message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapMethod.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an AtomicSwapMethod message from the specified reader or buffer.
+     * @function decode
+     * @memberof AtomicSwapMethod
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {AtomicSwapMethod} AtomicSwapMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapMethod.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AtomicSwapMethod();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an AtomicSwapMethod message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof AtomicSwapMethod
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {AtomicSwapMethod} AtomicSwapMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapMethod.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an AtomicSwapMethod message.
+     * @function verify
+     * @memberof AtomicSwapMethod
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    AtomicSwapMethod.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        return null;
+    };
+
+    /**
+     * Creates an AtomicSwapMethod message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof AtomicSwapMethod
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {AtomicSwapMethod} AtomicSwapMethod
+     */
+    AtomicSwapMethod.fromObject = function fromObject(object) {
+        if (object instanceof $root.AtomicSwapMethod)
+            return object;
+        return new $root.AtomicSwapMethod();
+    };
+
+    /**
+     * Creates a plain object from an AtomicSwapMethod message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof AtomicSwapMethod
+     * @static
+     * @param {AtomicSwapMethod} message AtomicSwapMethod
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    AtomicSwapMethod.toObject = function toObject() {
+        return {};
+    };
+
+    /**
+     * Converts this AtomicSwapMethod to JSON.
+     * @function toJSON
+     * @memberof AtomicSwapMethod
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    AtomicSwapMethod.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Method enum.
+     * @name AtomicSwapMethod.Method
+     * @enum {string}
+     * @property {number} INIT=0 INIT value
+     * @property {number} APPROVE=1 APPROVE value
+     * @property {number} EXPIRE=2 EXPIRE value
+     * @property {number} SET_SECRET_LOCK=3 SET_SECRET_LOCK value
+     * @property {number} CLOSE=4 CLOSE value
+     */
+    AtomicSwapMethod.Method = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "INIT"] = 0;
+        values[valuesById[1] = "APPROVE"] = 1;
+        values[valuesById[2] = "EXPIRE"] = 2;
+        values[valuesById[3] = "SET_SECRET_LOCK"] = 3;
+        values[valuesById[4] = "CLOSE"] = 4;
+        return values;
+    })();
+
+    return AtomicSwapMethod;
+})();
+
+$root.AtomicSwapInitPayload = (function() {
+
+    /**
+     * Properties of an AtomicSwapInitPayload.
+     * @exports IAtomicSwapInitPayload
+     * @interface IAtomicSwapInitPayload
+     * @property {string|null} [receiverAddress] AtomicSwapInitPayload receiverAddress
+     * @property {string|null} [senderAddressNonLocal] AtomicSwapInitPayload senderAddressNonLocal
+     * @property {number|Long|null} [amount] AtomicSwapInitPayload amount
+     * @property {string|null} [swapId] AtomicSwapInitPayload swapId
+     * @property {string|null} [secretLockBySolicitor] AtomicSwapInitPayload secretLockBySolicitor
+     * @property {string|null} [emailAddressEncryptedByInitiator] AtomicSwapInitPayload emailAddressEncryptedByInitiator
+     * @property {number|null} [createdAt] AtomicSwapInitPayload createdAt
+     */
+
+    /**
+     * Constructs a new AtomicSwapInitPayload.
+     * @exports AtomicSwapInitPayload
+     * @classdesc Represents an AtomicSwapInitPayload.
+     * @implements IAtomicSwapInitPayload
+     * @constructor
+     * @param {IAtomicSwapInitPayload=} [properties] Properties to set
+     */
+    function AtomicSwapInitPayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * AtomicSwapInitPayload receiverAddress.
+     * @member {string} receiverAddress
+     * @memberof AtomicSwapInitPayload
+     * @instance
+     */
+    AtomicSwapInitPayload.prototype.receiverAddress = "";
+
+    /**
+     * AtomicSwapInitPayload senderAddressNonLocal.
+     * @member {string} senderAddressNonLocal
+     * @memberof AtomicSwapInitPayload
+     * @instance
+     */
+    AtomicSwapInitPayload.prototype.senderAddressNonLocal = "";
+
+    /**
+     * AtomicSwapInitPayload amount.
+     * @member {number|Long} amount
+     * @memberof AtomicSwapInitPayload
+     * @instance
+     */
+    AtomicSwapInitPayload.prototype.amount = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * AtomicSwapInitPayload swapId.
+     * @member {string} swapId
+     * @memberof AtomicSwapInitPayload
+     * @instance
+     */
+    AtomicSwapInitPayload.prototype.swapId = "";
+
+    /**
+     * AtomicSwapInitPayload secretLockBySolicitor.
+     * @member {string} secretLockBySolicitor
+     * @memberof AtomicSwapInitPayload
+     * @instance
+     */
+    AtomicSwapInitPayload.prototype.secretLockBySolicitor = "";
+
+    /**
+     * AtomicSwapInitPayload emailAddressEncryptedByInitiator.
+     * @member {string} emailAddressEncryptedByInitiator
+     * @memberof AtomicSwapInitPayload
+     * @instance
+     */
+    AtomicSwapInitPayload.prototype.emailAddressEncryptedByInitiator = "";
+
+    /**
+     * AtomicSwapInitPayload createdAt.
+     * @member {number} createdAt
+     * @memberof AtomicSwapInitPayload
+     * @instance
+     */
+    AtomicSwapInitPayload.prototype.createdAt = 0;
+
+    /**
+     * Creates a new AtomicSwapInitPayload instance using the specified properties.
+     * @function create
+     * @memberof AtomicSwapInitPayload
+     * @static
+     * @param {IAtomicSwapInitPayload=} [properties] Properties to set
+     * @returns {AtomicSwapInitPayload} AtomicSwapInitPayload instance
+     */
+    AtomicSwapInitPayload.create = function create(properties) {
+        return new AtomicSwapInitPayload(properties);
+    };
+
+    /**
+     * Encodes the specified AtomicSwapInitPayload message. Does not implicitly {@link AtomicSwapInitPayload.verify|verify} messages.
+     * @function encode
+     * @memberof AtomicSwapInitPayload
+     * @static
+     * @param {IAtomicSwapInitPayload} message AtomicSwapInitPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapInitPayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.receiverAddress != null && message.hasOwnProperty("receiverAddress"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.receiverAddress);
+        if (message.amount != null && message.hasOwnProperty("amount"))
+            writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.amount);
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            writer.uint32(/* id 3, wireType 2 =*/26).string(message.swapId);
+        if (message.secretLockBySolicitor != null && message.hasOwnProperty("secretLockBySolicitor"))
+            writer.uint32(/* id 4, wireType 2 =*/34).string(message.secretLockBySolicitor);
+        if (message.emailAddressEncryptedByInitiator != null && message.hasOwnProperty("emailAddressEncryptedByInitiator"))
+            writer.uint32(/* id 5, wireType 2 =*/42).string(message.emailAddressEncryptedByInitiator);
+        if (message.createdAt != null && message.hasOwnProperty("createdAt"))
+            writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.createdAt);
+        if (message.senderAddressNonLocal != null && message.hasOwnProperty("senderAddressNonLocal"))
+            writer.uint32(/* id 7, wireType 2 =*/58).string(message.senderAddressNonLocal);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified AtomicSwapInitPayload message, length delimited. Does not implicitly {@link AtomicSwapInitPayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof AtomicSwapInitPayload
+     * @static
+     * @param {IAtomicSwapInitPayload} message AtomicSwapInitPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapInitPayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an AtomicSwapInitPayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof AtomicSwapInitPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {AtomicSwapInitPayload} AtomicSwapInitPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapInitPayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AtomicSwapInitPayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.receiverAddress = reader.string();
+                break;
+            case 7:
+                message.senderAddressNonLocal = reader.string();
+                break;
+            case 2:
+                message.amount = reader.uint64();
+                break;
+            case 3:
+                message.swapId = reader.string();
+                break;
+            case 4:
+                message.secretLockBySolicitor = reader.string();
+                break;
+            case 5:
+                message.emailAddressEncryptedByInitiator = reader.string();
+                break;
+            case 6:
+                message.createdAt = reader.uint32();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an AtomicSwapInitPayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof AtomicSwapInitPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {AtomicSwapInitPayload} AtomicSwapInitPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapInitPayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an AtomicSwapInitPayload message.
+     * @function verify
+     * @memberof AtomicSwapInitPayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    AtomicSwapInitPayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.receiverAddress != null && message.hasOwnProperty("receiverAddress"))
+            if (!$util.isString(message.receiverAddress))
+                return "receiverAddress: string expected";
+        if (message.senderAddressNonLocal != null && message.hasOwnProperty("senderAddressNonLocal"))
+            if (!$util.isString(message.senderAddressNonLocal))
+                return "senderAddressNonLocal: string expected";
+        if (message.amount != null && message.hasOwnProperty("amount"))
+            if (!$util.isInteger(message.amount) && !(message.amount && $util.isInteger(message.amount.low) && $util.isInteger(message.amount.high)))
+                return "amount: integer|Long expected";
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            if (!$util.isString(message.swapId))
+                return "swapId: string expected";
+        if (message.secretLockBySolicitor != null && message.hasOwnProperty("secretLockBySolicitor"))
+            if (!$util.isString(message.secretLockBySolicitor))
+                return "secretLockBySolicitor: string expected";
+        if (message.emailAddressEncryptedByInitiator != null && message.hasOwnProperty("emailAddressEncryptedByInitiator"))
+            if (!$util.isString(message.emailAddressEncryptedByInitiator))
+                return "emailAddressEncryptedByInitiator: string expected";
+        if (message.createdAt != null && message.hasOwnProperty("createdAt"))
+            if (!$util.isInteger(message.createdAt))
+                return "createdAt: integer expected";
+        return null;
+    };
+
+    /**
+     * Creates an AtomicSwapInitPayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof AtomicSwapInitPayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {AtomicSwapInitPayload} AtomicSwapInitPayload
+     */
+    AtomicSwapInitPayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.AtomicSwapInitPayload)
+            return object;
+        var message = new $root.AtomicSwapInitPayload();
+        if (object.receiverAddress != null)
+            message.receiverAddress = String(object.receiverAddress);
+        if (object.senderAddressNonLocal != null)
+            message.senderAddressNonLocal = String(object.senderAddressNonLocal);
+        if (object.amount != null)
+            if ($util.Long)
+                (message.amount = $util.Long.fromValue(object.amount)).unsigned = true;
+            else if (typeof object.amount === "string")
+                message.amount = parseInt(object.amount, 10);
+            else if (typeof object.amount === "number")
+                message.amount = object.amount;
+            else if (typeof object.amount === "object")
+                message.amount = new $util.LongBits(object.amount.low >>> 0, object.amount.high >>> 0).toNumber(true);
+        if (object.swapId != null)
+            message.swapId = String(object.swapId);
+        if (object.secretLockBySolicitor != null)
+            message.secretLockBySolicitor = String(object.secretLockBySolicitor);
+        if (object.emailAddressEncryptedByInitiator != null)
+            message.emailAddressEncryptedByInitiator = String(object.emailAddressEncryptedByInitiator);
+        if (object.createdAt != null)
+            message.createdAt = object.createdAt >>> 0;
+        return message;
+    };
+
+    /**
+     * Creates a plain object from an AtomicSwapInitPayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof AtomicSwapInitPayload
+     * @static
+     * @param {AtomicSwapInitPayload} message AtomicSwapInitPayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    AtomicSwapInitPayload.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.receiverAddress = "";
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.amount = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.amount = options.longs === String ? "0" : 0;
+            object.swapId = "";
+            object.secretLockBySolicitor = "";
+            object.emailAddressEncryptedByInitiator = "";
+            object.createdAt = 0;
+            object.senderAddressNonLocal = "";
+        }
+        if (message.receiverAddress != null && message.hasOwnProperty("receiverAddress"))
+            object.receiverAddress = message.receiverAddress;
+        if (message.amount != null && message.hasOwnProperty("amount"))
+            if (typeof message.amount === "number")
+                object.amount = options.longs === String ? String(message.amount) : message.amount;
+            else
+                object.amount = options.longs === String ? $util.Long.prototype.toString.call(message.amount) : options.longs === Number ? new $util.LongBits(message.amount.low >>> 0, message.amount.high >>> 0).toNumber(true) : message.amount;
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            object.swapId = message.swapId;
+        if (message.secretLockBySolicitor != null && message.hasOwnProperty("secretLockBySolicitor"))
+            object.secretLockBySolicitor = message.secretLockBySolicitor;
+        if (message.emailAddressEncryptedByInitiator != null && message.hasOwnProperty("emailAddressEncryptedByInitiator"))
+            object.emailAddressEncryptedByInitiator = message.emailAddressEncryptedByInitiator;
+        if (message.createdAt != null && message.hasOwnProperty("createdAt"))
+            object.createdAt = message.createdAt;
+        if (message.senderAddressNonLocal != null && message.hasOwnProperty("senderAddressNonLocal"))
+            object.senderAddressNonLocal = message.senderAddressNonLocal;
+        return object;
+    };
+
+    /**
+     * Converts this AtomicSwapInitPayload to JSON.
+     * @function toJSON
+     * @memberof AtomicSwapInitPayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    AtomicSwapInitPayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return AtomicSwapInitPayload;
+})();
+
+$root.AtomicSwapApprovePayload = (function() {
+
+    /**
+     * Properties of an AtomicSwapApprovePayload.
+     * @exports IAtomicSwapApprovePayload
+     * @interface IAtomicSwapApprovePayload
+     * @property {string|null} [swapId] AtomicSwapApprovePayload swapId
+     */
+
+    /**
+     * Constructs a new AtomicSwapApprovePayload.
+     * @exports AtomicSwapApprovePayload
+     * @classdesc Represents an AtomicSwapApprovePayload.
+     * @implements IAtomicSwapApprovePayload
+     * @constructor
+     * @param {IAtomicSwapApprovePayload=} [properties] Properties to set
+     */
+    function AtomicSwapApprovePayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * AtomicSwapApprovePayload swapId.
+     * @member {string} swapId
+     * @memberof AtomicSwapApprovePayload
+     * @instance
+     */
+    AtomicSwapApprovePayload.prototype.swapId = "";
+
+    /**
+     * Creates a new AtomicSwapApprovePayload instance using the specified properties.
+     * @function create
+     * @memberof AtomicSwapApprovePayload
+     * @static
+     * @param {IAtomicSwapApprovePayload=} [properties] Properties to set
+     * @returns {AtomicSwapApprovePayload} AtomicSwapApprovePayload instance
+     */
+    AtomicSwapApprovePayload.create = function create(properties) {
+        return new AtomicSwapApprovePayload(properties);
+    };
+
+    /**
+     * Encodes the specified AtomicSwapApprovePayload message. Does not implicitly {@link AtomicSwapApprovePayload.verify|verify} messages.
+     * @function encode
+     * @memberof AtomicSwapApprovePayload
+     * @static
+     * @param {IAtomicSwapApprovePayload} message AtomicSwapApprovePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapApprovePayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.swapId);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified AtomicSwapApprovePayload message, length delimited. Does not implicitly {@link AtomicSwapApprovePayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof AtomicSwapApprovePayload
+     * @static
+     * @param {IAtomicSwapApprovePayload} message AtomicSwapApprovePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapApprovePayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an AtomicSwapApprovePayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof AtomicSwapApprovePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {AtomicSwapApprovePayload} AtomicSwapApprovePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapApprovePayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AtomicSwapApprovePayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.swapId = reader.string();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an AtomicSwapApprovePayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof AtomicSwapApprovePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {AtomicSwapApprovePayload} AtomicSwapApprovePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapApprovePayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an AtomicSwapApprovePayload message.
+     * @function verify
+     * @memberof AtomicSwapApprovePayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    AtomicSwapApprovePayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            if (!$util.isString(message.swapId))
+                return "swapId: string expected";
+        return null;
+    };
+
+    /**
+     * Creates an AtomicSwapApprovePayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof AtomicSwapApprovePayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {AtomicSwapApprovePayload} AtomicSwapApprovePayload
+     */
+    AtomicSwapApprovePayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.AtomicSwapApprovePayload)
+            return object;
+        var message = new $root.AtomicSwapApprovePayload();
+        if (object.swapId != null)
+            message.swapId = String(object.swapId);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from an AtomicSwapApprovePayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof AtomicSwapApprovePayload
+     * @static
+     * @param {AtomicSwapApprovePayload} message AtomicSwapApprovePayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    AtomicSwapApprovePayload.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults)
+            object.swapId = "";
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            object.swapId = message.swapId;
+        return object;
+    };
+
+    /**
+     * Converts this AtomicSwapApprovePayload to JSON.
+     * @function toJSON
+     * @memberof AtomicSwapApprovePayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    AtomicSwapApprovePayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return AtomicSwapApprovePayload;
+})();
+
+$root.AtomicSwapExpirePayload = (function() {
+
+    /**
+     * Properties of an AtomicSwapExpirePayload.
+     * @exports IAtomicSwapExpirePayload
+     * @interface IAtomicSwapExpirePayload
+     * @property {string|null} [swapId] AtomicSwapExpirePayload swapId
+     */
+
+    /**
+     * Constructs a new AtomicSwapExpirePayload.
+     * @exports AtomicSwapExpirePayload
+     * @classdesc Represents an AtomicSwapExpirePayload.
+     * @implements IAtomicSwapExpirePayload
+     * @constructor
+     * @param {IAtomicSwapExpirePayload=} [properties] Properties to set
+     */
+    function AtomicSwapExpirePayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * AtomicSwapExpirePayload swapId.
+     * @member {string} swapId
+     * @memberof AtomicSwapExpirePayload
+     * @instance
+     */
+    AtomicSwapExpirePayload.prototype.swapId = "";
+
+    /**
+     * Creates a new AtomicSwapExpirePayload instance using the specified properties.
+     * @function create
+     * @memberof AtomicSwapExpirePayload
+     * @static
+     * @param {IAtomicSwapExpirePayload=} [properties] Properties to set
+     * @returns {AtomicSwapExpirePayload} AtomicSwapExpirePayload instance
+     */
+    AtomicSwapExpirePayload.create = function create(properties) {
+        return new AtomicSwapExpirePayload(properties);
+    };
+
+    /**
+     * Encodes the specified AtomicSwapExpirePayload message. Does not implicitly {@link AtomicSwapExpirePayload.verify|verify} messages.
+     * @function encode
+     * @memberof AtomicSwapExpirePayload
+     * @static
+     * @param {IAtomicSwapExpirePayload} message AtomicSwapExpirePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapExpirePayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.swapId);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified AtomicSwapExpirePayload message, length delimited. Does not implicitly {@link AtomicSwapExpirePayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof AtomicSwapExpirePayload
+     * @static
+     * @param {IAtomicSwapExpirePayload} message AtomicSwapExpirePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapExpirePayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an AtomicSwapExpirePayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof AtomicSwapExpirePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {AtomicSwapExpirePayload} AtomicSwapExpirePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapExpirePayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AtomicSwapExpirePayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.swapId = reader.string();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an AtomicSwapExpirePayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof AtomicSwapExpirePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {AtomicSwapExpirePayload} AtomicSwapExpirePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapExpirePayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an AtomicSwapExpirePayload message.
+     * @function verify
+     * @memberof AtomicSwapExpirePayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    AtomicSwapExpirePayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            if (!$util.isString(message.swapId))
+                return "swapId: string expected";
+        return null;
+    };
+
+    /**
+     * Creates an AtomicSwapExpirePayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof AtomicSwapExpirePayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {AtomicSwapExpirePayload} AtomicSwapExpirePayload
+     */
+    AtomicSwapExpirePayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.AtomicSwapExpirePayload)
+            return object;
+        var message = new $root.AtomicSwapExpirePayload();
+        if (object.swapId != null)
+            message.swapId = String(object.swapId);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from an AtomicSwapExpirePayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof AtomicSwapExpirePayload
+     * @static
+     * @param {AtomicSwapExpirePayload} message AtomicSwapExpirePayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    AtomicSwapExpirePayload.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults)
+            object.swapId = "";
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            object.swapId = message.swapId;
+        return object;
+    };
+
+    /**
+     * Converts this AtomicSwapExpirePayload to JSON.
+     * @function toJSON
+     * @memberof AtomicSwapExpirePayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    AtomicSwapExpirePayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return AtomicSwapExpirePayload;
+})();
+
+$root.AtomicSwapSetSecretLockPayload = (function() {
+
+    /**
+     * Properties of an AtomicSwapSetSecretLockPayload.
+     * @exports IAtomicSwapSetSecretLockPayload
+     * @interface IAtomicSwapSetSecretLockPayload
+     * @property {string|null} [swapId] AtomicSwapSetSecretLockPayload swapId
+     * @property {string|null} [secretLock] AtomicSwapSetSecretLockPayload secretLock
+     */
+
+    /**
+     * Constructs a new AtomicSwapSetSecretLockPayload.
+     * @exports AtomicSwapSetSecretLockPayload
+     * @classdesc Represents an AtomicSwapSetSecretLockPayload.
+     * @implements IAtomicSwapSetSecretLockPayload
+     * @constructor
+     * @param {IAtomicSwapSetSecretLockPayload=} [properties] Properties to set
+     */
+    function AtomicSwapSetSecretLockPayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * AtomicSwapSetSecretLockPayload swapId.
+     * @member {string} swapId
+     * @memberof AtomicSwapSetSecretLockPayload
+     * @instance
+     */
+    AtomicSwapSetSecretLockPayload.prototype.swapId = "";
+
+    /**
+     * AtomicSwapSetSecretLockPayload secretLock.
+     * @member {string} secretLock
+     * @memberof AtomicSwapSetSecretLockPayload
+     * @instance
+     */
+    AtomicSwapSetSecretLockPayload.prototype.secretLock = "";
+
+    /**
+     * Creates a new AtomicSwapSetSecretLockPayload instance using the specified properties.
+     * @function create
+     * @memberof AtomicSwapSetSecretLockPayload
+     * @static
+     * @param {IAtomicSwapSetSecretLockPayload=} [properties] Properties to set
+     * @returns {AtomicSwapSetSecretLockPayload} AtomicSwapSetSecretLockPayload instance
+     */
+    AtomicSwapSetSecretLockPayload.create = function create(properties) {
+        return new AtomicSwapSetSecretLockPayload(properties);
+    };
+
+    /**
+     * Encodes the specified AtomicSwapSetSecretLockPayload message. Does not implicitly {@link AtomicSwapSetSecretLockPayload.verify|verify} messages.
+     * @function encode
+     * @memberof AtomicSwapSetSecretLockPayload
+     * @static
+     * @param {IAtomicSwapSetSecretLockPayload} message AtomicSwapSetSecretLockPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapSetSecretLockPayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.swapId);
+        if (message.secretLock != null && message.hasOwnProperty("secretLock"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.secretLock);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified AtomicSwapSetSecretLockPayload message, length delimited. Does not implicitly {@link AtomicSwapSetSecretLockPayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof AtomicSwapSetSecretLockPayload
+     * @static
+     * @param {IAtomicSwapSetSecretLockPayload} message AtomicSwapSetSecretLockPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapSetSecretLockPayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an AtomicSwapSetSecretLockPayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof AtomicSwapSetSecretLockPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {AtomicSwapSetSecretLockPayload} AtomicSwapSetSecretLockPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapSetSecretLockPayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AtomicSwapSetSecretLockPayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.swapId = reader.string();
+                break;
+            case 2:
+                message.secretLock = reader.string();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an AtomicSwapSetSecretLockPayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof AtomicSwapSetSecretLockPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {AtomicSwapSetSecretLockPayload} AtomicSwapSetSecretLockPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapSetSecretLockPayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an AtomicSwapSetSecretLockPayload message.
+     * @function verify
+     * @memberof AtomicSwapSetSecretLockPayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    AtomicSwapSetSecretLockPayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            if (!$util.isString(message.swapId))
+                return "swapId: string expected";
+        if (message.secretLock != null && message.hasOwnProperty("secretLock"))
+            if (!$util.isString(message.secretLock))
+                return "secretLock: string expected";
+        return null;
+    };
+
+    /**
+     * Creates an AtomicSwapSetSecretLockPayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof AtomicSwapSetSecretLockPayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {AtomicSwapSetSecretLockPayload} AtomicSwapSetSecretLockPayload
+     */
+    AtomicSwapSetSecretLockPayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.AtomicSwapSetSecretLockPayload)
+            return object;
+        var message = new $root.AtomicSwapSetSecretLockPayload();
+        if (object.swapId != null)
+            message.swapId = String(object.swapId);
+        if (object.secretLock != null)
+            message.secretLock = String(object.secretLock);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from an AtomicSwapSetSecretLockPayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof AtomicSwapSetSecretLockPayload
+     * @static
+     * @param {AtomicSwapSetSecretLockPayload} message AtomicSwapSetSecretLockPayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    AtomicSwapSetSecretLockPayload.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.swapId = "";
+            object.secretLock = "";
+        }
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            object.swapId = message.swapId;
+        if (message.secretLock != null && message.hasOwnProperty("secretLock"))
+            object.secretLock = message.secretLock;
+        return object;
+    };
+
+    /**
+     * Converts this AtomicSwapSetSecretLockPayload to JSON.
+     * @function toJSON
+     * @memberof AtomicSwapSetSecretLockPayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    AtomicSwapSetSecretLockPayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return AtomicSwapSetSecretLockPayload;
+})();
+
+$root.AtomicSwapClosePayload = (function() {
+
+    /**
+     * Properties of an AtomicSwapClosePayload.
+     * @exports IAtomicSwapClosePayload
+     * @interface IAtomicSwapClosePayload
+     * @property {string|null} [swapId] AtomicSwapClosePayload swapId
+     * @property {string|null} [secretKey] AtomicSwapClosePayload secretKey
+     */
+
+    /**
+     * Constructs a new AtomicSwapClosePayload.
+     * @exports AtomicSwapClosePayload
+     * @classdesc Represents an AtomicSwapClosePayload.
+     * @implements IAtomicSwapClosePayload
+     * @constructor
+     * @param {IAtomicSwapClosePayload=} [properties] Properties to set
+     */
+    function AtomicSwapClosePayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * AtomicSwapClosePayload swapId.
+     * @member {string} swapId
+     * @memberof AtomicSwapClosePayload
+     * @instance
+     */
+    AtomicSwapClosePayload.prototype.swapId = "";
+
+    /**
+     * AtomicSwapClosePayload secretKey.
+     * @member {string} secretKey
+     * @memberof AtomicSwapClosePayload
+     * @instance
+     */
+    AtomicSwapClosePayload.prototype.secretKey = "";
+
+    /**
+     * Creates a new AtomicSwapClosePayload instance using the specified properties.
+     * @function create
+     * @memberof AtomicSwapClosePayload
+     * @static
+     * @param {IAtomicSwapClosePayload=} [properties] Properties to set
+     * @returns {AtomicSwapClosePayload} AtomicSwapClosePayload instance
+     */
+    AtomicSwapClosePayload.create = function create(properties) {
+        return new AtomicSwapClosePayload(properties);
+    };
+
+    /**
+     * Encodes the specified AtomicSwapClosePayload message. Does not implicitly {@link AtomicSwapClosePayload.verify|verify} messages.
+     * @function encode
+     * @memberof AtomicSwapClosePayload
+     * @static
+     * @param {IAtomicSwapClosePayload} message AtomicSwapClosePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapClosePayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.swapId);
+        if (message.secretKey != null && message.hasOwnProperty("secretKey"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.secretKey);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified AtomicSwapClosePayload message, length delimited. Does not implicitly {@link AtomicSwapClosePayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof AtomicSwapClosePayload
+     * @static
+     * @param {IAtomicSwapClosePayload} message AtomicSwapClosePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapClosePayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an AtomicSwapClosePayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof AtomicSwapClosePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {AtomicSwapClosePayload} AtomicSwapClosePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapClosePayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AtomicSwapClosePayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.swapId = reader.string();
+                break;
+            case 2:
+                message.secretKey = reader.string();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an AtomicSwapClosePayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof AtomicSwapClosePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {AtomicSwapClosePayload} AtomicSwapClosePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapClosePayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an AtomicSwapClosePayload message.
+     * @function verify
+     * @memberof AtomicSwapClosePayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    AtomicSwapClosePayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            if (!$util.isString(message.swapId))
+                return "swapId: string expected";
+        if (message.secretKey != null && message.hasOwnProperty("secretKey"))
+            if (!$util.isString(message.secretKey))
+                return "secretKey: string expected";
+        return null;
+    };
+
+    /**
+     * Creates an AtomicSwapClosePayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof AtomicSwapClosePayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {AtomicSwapClosePayload} AtomicSwapClosePayload
+     */
+    AtomicSwapClosePayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.AtomicSwapClosePayload)
+            return object;
+        var message = new $root.AtomicSwapClosePayload();
+        if (object.swapId != null)
+            message.swapId = String(object.swapId);
+        if (object.secretKey != null)
+            message.secretKey = String(object.secretKey);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from an AtomicSwapClosePayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof AtomicSwapClosePayload
+     * @static
+     * @param {AtomicSwapClosePayload} message AtomicSwapClosePayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    AtomicSwapClosePayload.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.swapId = "";
+            object.secretKey = "";
+        }
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            object.swapId = message.swapId;
+        if (message.secretKey != null && message.hasOwnProperty("secretKey"))
+            object.secretKey = message.secretKey;
+        return object;
+    };
+
+    /**
+     * Converts this AtomicSwapClosePayload to JSON.
+     * @function toJSON
+     * @memberof AtomicSwapClosePayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    AtomicSwapClosePayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return AtomicSwapClosePayload;
+})();
+
+$root.AtomicSwapInfo = (function() {
+
+    /**
+     * Properties of an AtomicSwapInfo.
+     * @exports IAtomicSwapInfo
+     * @interface IAtomicSwapInfo
+     * @property {boolean|null} [isClosed] AtomicSwapInfo isClosed
+     * @property {boolean|null} [isApproved] AtomicSwapInfo isApproved
+     * @property {string|null} [senderAddress] AtomicSwapInfo senderAddress
+     * @property {string|null} [senderAddressNonLocal] AtomicSwapInfo senderAddressNonLocal
+     * @property {string|null} [receiverAddress] AtomicSwapInfo receiverAddress
+     * @property {number|Long|null} [amount] AtomicSwapInfo amount
+     * @property {string|null} [emailAddressEncryptedOptional] AtomicSwapInfo emailAddressEncryptedOptional
+     * @property {string|null} [swapId] AtomicSwapInfo swapId
+     * @property {string|null} [secretLock] AtomicSwapInfo secretLock
+     * @property {string|null} [secretKey] AtomicSwapInfo secretKey
+     * @property {number|null} [createdAt] AtomicSwapInfo createdAt
+     * @property {boolean|null} [isInitiator] AtomicSwapInfo isInitiator
+     */
+
+    /**
+     * Constructs a new AtomicSwapInfo.
+     * @exports AtomicSwapInfo
+     * @classdesc Represents an AtomicSwapInfo.
+     * @implements IAtomicSwapInfo
+     * @constructor
+     * @param {IAtomicSwapInfo=} [properties] Properties to set
+     */
+    function AtomicSwapInfo(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * AtomicSwapInfo isClosed.
+     * @member {boolean} isClosed
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.isClosed = false;
+
+    /**
+     * AtomicSwapInfo isApproved.
+     * @member {boolean} isApproved
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.isApproved = false;
+
+    /**
+     * AtomicSwapInfo senderAddress.
+     * @member {string} senderAddress
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.senderAddress = "";
+
+    /**
+     * AtomicSwapInfo senderAddressNonLocal.
+     * @member {string} senderAddressNonLocal
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.senderAddressNonLocal = "";
+
+    /**
+     * AtomicSwapInfo receiverAddress.
+     * @member {string} receiverAddress
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.receiverAddress = "";
+
+    /**
+     * AtomicSwapInfo amount.
+     * @member {number|Long} amount
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.amount = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * AtomicSwapInfo emailAddressEncryptedOptional.
+     * @member {string} emailAddressEncryptedOptional
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.emailAddressEncryptedOptional = "";
+
+    /**
+     * AtomicSwapInfo swapId.
+     * @member {string} swapId
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.swapId = "";
+
+    /**
+     * AtomicSwapInfo secretLock.
+     * @member {string} secretLock
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.secretLock = "";
+
+    /**
+     * AtomicSwapInfo secretKey.
+     * @member {string} secretKey
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.secretKey = "";
+
+    /**
+     * AtomicSwapInfo createdAt.
+     * @member {number} createdAt
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.createdAt = 0;
+
+    /**
+     * AtomicSwapInfo isInitiator.
+     * @member {boolean} isInitiator
+     * @memberof AtomicSwapInfo
+     * @instance
+     */
+    AtomicSwapInfo.prototype.isInitiator = false;
+
+    /**
+     * Creates a new AtomicSwapInfo instance using the specified properties.
+     * @function create
+     * @memberof AtomicSwapInfo
+     * @static
+     * @param {IAtomicSwapInfo=} [properties] Properties to set
+     * @returns {AtomicSwapInfo} AtomicSwapInfo instance
+     */
+    AtomicSwapInfo.create = function create(properties) {
+        return new AtomicSwapInfo(properties);
+    };
+
+    /**
+     * Encodes the specified AtomicSwapInfo message. Does not implicitly {@link AtomicSwapInfo.verify|verify} messages.
+     * @function encode
+     * @memberof AtomicSwapInfo
+     * @static
+     * @param {IAtomicSwapInfo} message AtomicSwapInfo message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapInfo.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.isClosed != null && message.hasOwnProperty("isClosed"))
+            writer.uint32(/* id 1, wireType 0 =*/8).bool(message.isClosed);
+        if (message.senderAddress != null && message.hasOwnProperty("senderAddress"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.senderAddress);
+        if (message.receiverAddress != null && message.hasOwnProperty("receiverAddress"))
+            writer.uint32(/* id 3, wireType 2 =*/26).string(message.receiverAddress);
+        if (message.amount != null && message.hasOwnProperty("amount"))
+            writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.amount);
+        if (message.emailAddressEncryptedOptional != null && message.hasOwnProperty("emailAddressEncryptedOptional"))
+            writer.uint32(/* id 5, wireType 2 =*/42).string(message.emailAddressEncryptedOptional);
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            writer.uint32(/* id 6, wireType 2 =*/50).string(message.swapId);
+        if (message.secretLock != null && message.hasOwnProperty("secretLock"))
+            writer.uint32(/* id 7, wireType 2 =*/58).string(message.secretLock);
+        if (message.secretKey != null && message.hasOwnProperty("secretKey"))
+            writer.uint32(/* id 8, wireType 2 =*/66).string(message.secretKey);
+        if (message.createdAt != null && message.hasOwnProperty("createdAt"))
+            writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.createdAt);
+        if (message.isInitiator != null && message.hasOwnProperty("isInitiator"))
+            writer.uint32(/* id 10, wireType 0 =*/80).bool(message.isInitiator);
+        if (message.isApproved != null && message.hasOwnProperty("isApproved"))
+            writer.uint32(/* id 11, wireType 0 =*/88).bool(message.isApproved);
+        if (message.senderAddressNonLocal != null && message.hasOwnProperty("senderAddressNonLocal"))
+            writer.uint32(/* id 12, wireType 2 =*/98).string(message.senderAddressNonLocal);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified AtomicSwapInfo message, length delimited. Does not implicitly {@link AtomicSwapInfo.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof AtomicSwapInfo
+     * @static
+     * @param {IAtomicSwapInfo} message AtomicSwapInfo message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AtomicSwapInfo.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an AtomicSwapInfo message from the specified reader or buffer.
+     * @function decode
+     * @memberof AtomicSwapInfo
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {AtomicSwapInfo} AtomicSwapInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapInfo.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AtomicSwapInfo();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.isClosed = reader.bool();
+                break;
+            case 11:
+                message.isApproved = reader.bool();
+                break;
+            case 2:
+                message.senderAddress = reader.string();
+                break;
+            case 12:
+                message.senderAddressNonLocal = reader.string();
+                break;
+            case 3:
+                message.receiverAddress = reader.string();
+                break;
+            case 4:
+                message.amount = reader.uint64();
+                break;
+            case 5:
+                message.emailAddressEncryptedOptional = reader.string();
+                break;
+            case 6:
+                message.swapId = reader.string();
+                break;
+            case 7:
+                message.secretLock = reader.string();
+                break;
+            case 8:
+                message.secretKey = reader.string();
+                break;
+            case 9:
+                message.createdAt = reader.uint32();
+                break;
+            case 10:
+                message.isInitiator = reader.bool();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an AtomicSwapInfo message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof AtomicSwapInfo
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {AtomicSwapInfo} AtomicSwapInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AtomicSwapInfo.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an AtomicSwapInfo message.
+     * @function verify
+     * @memberof AtomicSwapInfo
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    AtomicSwapInfo.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.isClosed != null && message.hasOwnProperty("isClosed"))
+            if (typeof message.isClosed !== "boolean")
+                return "isClosed: boolean expected";
+        if (message.isApproved != null && message.hasOwnProperty("isApproved"))
+            if (typeof message.isApproved !== "boolean")
+                return "isApproved: boolean expected";
+        if (message.senderAddress != null && message.hasOwnProperty("senderAddress"))
+            if (!$util.isString(message.senderAddress))
+                return "senderAddress: string expected";
+        if (message.senderAddressNonLocal != null && message.hasOwnProperty("senderAddressNonLocal"))
+            if (!$util.isString(message.senderAddressNonLocal))
+                return "senderAddressNonLocal: string expected";
+        if (message.receiverAddress != null && message.hasOwnProperty("receiverAddress"))
+            if (!$util.isString(message.receiverAddress))
+                return "receiverAddress: string expected";
+        if (message.amount != null && message.hasOwnProperty("amount"))
+            if (!$util.isInteger(message.amount) && !(message.amount && $util.isInteger(message.amount.low) && $util.isInteger(message.amount.high)))
+                return "amount: integer|Long expected";
+        if (message.emailAddressEncryptedOptional != null && message.hasOwnProperty("emailAddressEncryptedOptional"))
+            if (!$util.isString(message.emailAddressEncryptedOptional))
+                return "emailAddressEncryptedOptional: string expected";
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            if (!$util.isString(message.swapId))
+                return "swapId: string expected";
+        if (message.secretLock != null && message.hasOwnProperty("secretLock"))
+            if (!$util.isString(message.secretLock))
+                return "secretLock: string expected";
+        if (message.secretKey != null && message.hasOwnProperty("secretKey"))
+            if (!$util.isString(message.secretKey))
+                return "secretKey: string expected";
+        if (message.createdAt != null && message.hasOwnProperty("createdAt"))
+            if (!$util.isInteger(message.createdAt))
+                return "createdAt: integer expected";
+        if (message.isInitiator != null && message.hasOwnProperty("isInitiator"))
+            if (typeof message.isInitiator !== "boolean")
+                return "isInitiator: boolean expected";
+        return null;
+    };
+
+    /**
+     * Creates an AtomicSwapInfo message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof AtomicSwapInfo
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {AtomicSwapInfo} AtomicSwapInfo
+     */
+    AtomicSwapInfo.fromObject = function fromObject(object) {
+        if (object instanceof $root.AtomicSwapInfo)
+            return object;
+        var message = new $root.AtomicSwapInfo();
+        if (object.isClosed != null)
+            message.isClosed = Boolean(object.isClosed);
+        if (object.isApproved != null)
+            message.isApproved = Boolean(object.isApproved);
+        if (object.senderAddress != null)
+            message.senderAddress = String(object.senderAddress);
+        if (object.senderAddressNonLocal != null)
+            message.senderAddressNonLocal = String(object.senderAddressNonLocal);
+        if (object.receiverAddress != null)
+            message.receiverAddress = String(object.receiverAddress);
+        if (object.amount != null)
+            if ($util.Long)
+                (message.amount = $util.Long.fromValue(object.amount)).unsigned = true;
+            else if (typeof object.amount === "string")
+                message.amount = parseInt(object.amount, 10);
+            else if (typeof object.amount === "number")
+                message.amount = object.amount;
+            else if (typeof object.amount === "object")
+                message.amount = new $util.LongBits(object.amount.low >>> 0, object.amount.high >>> 0).toNumber(true);
+        if (object.emailAddressEncryptedOptional != null)
+            message.emailAddressEncryptedOptional = String(object.emailAddressEncryptedOptional);
+        if (object.swapId != null)
+            message.swapId = String(object.swapId);
+        if (object.secretLock != null)
+            message.secretLock = String(object.secretLock);
+        if (object.secretKey != null)
+            message.secretKey = String(object.secretKey);
+        if (object.createdAt != null)
+            message.createdAt = object.createdAt >>> 0;
+        if (object.isInitiator != null)
+            message.isInitiator = Boolean(object.isInitiator);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from an AtomicSwapInfo message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof AtomicSwapInfo
+     * @static
+     * @param {AtomicSwapInfo} message AtomicSwapInfo
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    AtomicSwapInfo.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.isClosed = false;
+            object.senderAddress = "";
+            object.receiverAddress = "";
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.amount = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.amount = options.longs === String ? "0" : 0;
+            object.emailAddressEncryptedOptional = "";
+            object.swapId = "";
+            object.secretLock = "";
+            object.secretKey = "";
+            object.createdAt = 0;
+            object.isInitiator = false;
+            object.isApproved = false;
+            object.senderAddressNonLocal = "";
+        }
+        if (message.isClosed != null && message.hasOwnProperty("isClosed"))
+            object.isClosed = message.isClosed;
+        if (message.senderAddress != null && message.hasOwnProperty("senderAddress"))
+            object.senderAddress = message.senderAddress;
+        if (message.receiverAddress != null && message.hasOwnProperty("receiverAddress"))
+            object.receiverAddress = message.receiverAddress;
+        if (message.amount != null && message.hasOwnProperty("amount"))
+            if (typeof message.amount === "number")
+                object.amount = options.longs === String ? String(message.amount) : message.amount;
+            else
+                object.amount = options.longs === String ? $util.Long.prototype.toString.call(message.amount) : options.longs === Number ? new $util.LongBits(message.amount.low >>> 0, message.amount.high >>> 0).toNumber(true) : message.amount;
+        if (message.emailAddressEncryptedOptional != null && message.hasOwnProperty("emailAddressEncryptedOptional"))
+            object.emailAddressEncryptedOptional = message.emailAddressEncryptedOptional;
+        if (message.swapId != null && message.hasOwnProperty("swapId"))
+            object.swapId = message.swapId;
+        if (message.secretLock != null && message.hasOwnProperty("secretLock"))
+            object.secretLock = message.secretLock;
+        if (message.secretKey != null && message.hasOwnProperty("secretKey"))
+            object.secretKey = message.secretKey;
+        if (message.createdAt != null && message.hasOwnProperty("createdAt"))
+            object.createdAt = message.createdAt;
+        if (message.isInitiator != null && message.hasOwnProperty("isInitiator"))
+            object.isInitiator = message.isInitiator;
+        if (message.isApproved != null && message.hasOwnProperty("isApproved"))
+            object.isApproved = message.isApproved;
+        if (message.senderAddressNonLocal != null && message.hasOwnProperty("senderAddressNonLocal"))
+            object.senderAddressNonLocal = message.senderAddressNonLocal;
+        return object;
+    };
+
+    /**
+     * Converts this AtomicSwapInfo to JSON.
+     * @function toJSON
+     * @memberof AtomicSwapInfo
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    AtomicSwapInfo.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return AtomicSwapInfo;
+})();
+
 $root.CertificateMethod = (function() {
 
     /**

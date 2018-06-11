@@ -63,7 +63,7 @@ var RemmeToken = /** @class */ (function () {
                             value: amount,
                         }).finish();
                         transactionPayload = remme_protobuf_1.TransactionPayload.encode({
-                            method: 0,
+                            method: remme_protobuf_1.AccountMethod.Method.TRANSFER,
                             data: transferPayload,
                         }).finish();
                         return [4 /*yield*/, this._remmeTransaction.create({

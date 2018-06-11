@@ -80,7 +80,7 @@ var RemmeCertificate = /** @class */ (function () {
                         result = new models_1.CertificateTransactionResponse(this._remmeRest.socketAddress());
                         result.batchId = apiResult.batch_id;
                         result.certificate = remme_utils_1.forge.pki.certificateFromPem(apiResult.certificate);
-                        console.log(apiResult.certificate);
+                        // console.log(apiResult.certificate);
                         return [2 /*return*/, result];
                     case 2:
                         e_1 = _a.sent();
@@ -128,7 +128,6 @@ var RemmeCertificate = /** @class */ (function () {
                         _a.trys.push([0, 3, , 4]);
                         publicKeyHex = remme_utils_1.forge.pki.pemToDer(remme_utils_1.forge.pki.certificateToPem(certificate)).toHex();
                         address = remme_utils_1.getAddressFromData(this.familyName, publicKeyHex);
-                        console.log(address);
                         revokePayload = remme_protobuf_1.RevokeCertificatePayload.encode({
                             address: address,
                         }).finish();
@@ -146,7 +145,7 @@ var RemmeCertificate = /** @class */ (function () {
                     case 2: return [2 /*return*/, _a.sent()];
                     case 3:
                         e_3 = _a.sent();
-                        console.log(e_3);
+                        // console.log(e);
                         throw new Error("Given certificate is not a valid");
                     case 4: return [2 /*return*/];
                 }

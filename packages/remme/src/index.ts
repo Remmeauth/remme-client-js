@@ -33,7 +33,7 @@ namespace Remme {
             this.token = new RemmeToken(this._remmeRest, this.transaction);
             this.certificate = new RemmeCertificate(this._remmeRest, this.transaction);
             this.batch = new RemmeBatch(this._remmeRest);
-            this.swap = new RemmeSwap(this._remmeRest);
+            this.swap = new RemmeSwap(this._remmeRest, this.transaction);
         }
 
         public set account(remmeAccount: IRemmeAccount) {

@@ -19,7 +19,7 @@ const someRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d7
 const account = remme.account;
 
 (async () => {
-  // Token Operations
+  // // Token Operations
   // const receiverBalance = await remme.token.getBalance(someRemmeAddress);
   // console.log(`Account ${someRemmeAddress} as receiver, balance - ${receiverBalance} REM`); // 1
   //
@@ -39,32 +39,52 @@ const account = remme.account;
   //
   // transactionResult.connectToWebSocket(transactionCallback); // 3
 
-  // Certificates Operations
+  // // Certificates Operations
+  //
+  // const certificateTransactionResult = await remme.certificate.createAndStore({
+  //   commonName: "userName1",
+  //   email: "user@email.com",
+  //   name: "John",
+  //   surname: "Smith",
+  //   countryName: "US",
+  //   validity: 360
+  // }); // 4
+  //
+  // let i = 0;
+  // const certificateTransactionCallback = async (err, response) => {
+  //   if (err) return;
+  //   console.log("certificate", response);
+  //   const certificateStatus = await remme.certificate.check(certificateTransactionResult.certificate);
+  //   console.log(`Certificate IsValid = ${certificateStatus}`);
+  //   certificateTransactionResult.closeWebSocket();
+  //   if (i === 0) {
+  //     i = 1;
+  //     const revoke = await remme.certificate.revoke(certificateTransactionResult.certificate);
+  //     revoke.connectToWebSocket(certificateTransactionCallback);
+  //   }
+  // }; // 7
+  //
+  // certificateTransactionResult.connectToWebSocket(certificateTransactionCallback); // 5
+  const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce4821";
+  const init = await remme.swap.init({
+    receiverAddress: "112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1",
+    senderAddressNonLocal: "0xe6ca0e7c974f06471759e9a05d18b538c5ced11e",
+    amount: 100,
+    swapId,
+    secretLock: "039eaa877ff63694f8f09c8034403f8b5165a7418812a642396d5d539f90b170",
+    email: "0x656d61696c",
+    createdAt: Math.floor(Date.now() / 1000)
+  });
 
-  const certificateTransactionResult = await remme.certificate.createAndStore({
-    commonName: "userName1",
-    email: "user@email.com",
-    name: "John",
-    surname: "Smith",
-    countryName: "US",
-    validity: 360
-  }); // 4
-
-  let i = 0;
-  const certificateTransactionCallback = async (err, response) => {
-    if (err) return;
-    console.log("certificate", response);
-    const certificateStatus = await remme.certificate.check(certificateTransactionResult.certificate);
-    console.log(`Certificate IsValid = ${certificateStatus}`);
-    certificateTransactionResult.closeWebSocket();
-    if (i === 0) {
-      i = 1;
-      const revoke = await remme.certificate.revoke(certificateTransactionResult.certificate);
-      revoke.connectToWebSocket(certificateTransactionCallback);
-    }
-  }; // 7
-
-  certificateTransactionResult.connectToWebSocket(certificateTransactionCallback); // 5
+  init.connectToWebSocket(async (err, data) => {
+    const res = await remme.swap.getInfo(swapId);
+    console.log(res);
+    const close = await remme.swap.close(swapId, "secretKey");
+    close.connectToWebSocket(async (err, data) => {
+      const res = await remme.swap.getInfo(swapId);
+      console.log(res);
+    });
+  })
   // const account = Remme.Client.generateAccount();
   // const payload = {
   //   value: 100,

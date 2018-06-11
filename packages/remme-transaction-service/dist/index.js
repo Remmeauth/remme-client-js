@@ -65,7 +65,6 @@ var RemmeTransactionService = /** @class */ (function () {
                             batcherPublicKey: batcherPublicKey,
                             payloadSha512: crypto_1.createHash("sha512").update(payloadBytes).digest("hex"),
                         }).finish();
-                        console.log(protobuf.TransactionHeader.decode(transactionHeaderBytes));
                         signature = this._remmeAccount.sign(transactionHeaderBytes);
                         transaction = protobuf.Transaction.encode({
                             header: transactionHeaderBytes,

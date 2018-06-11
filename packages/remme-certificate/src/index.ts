@@ -46,7 +46,7 @@ class RemmeCertificate implements IRemmeCertificate {
             const result = new CertificateTransactionResponse(this._remmeRest.socketAddress());
             result.batchId = apiResult.batch_id;
             result.certificate = forge.pki.certificateFromPem(apiResult.certificate);
-            console.log(apiResult.certificate);
+            // console.log(apiResult.certificate);
             return result;
         } catch (e) {
             throw new Error("Given certificate is not a valid");
@@ -73,7 +73,7 @@ class RemmeCertificate implements IRemmeCertificate {
         try {
             const publicKeyHex = forge.pki.pemToDer(forge.pki.certificateToPem(certificate)).toHex();
             const address = getAddressFromData(this.familyName, publicKeyHex);
-            console.log(address);
+            // console.log(address);
             const revokePayload = RevokeCertificatePayload.encode({
                 address,
             }).finish();
@@ -93,7 +93,7 @@ class RemmeCertificate implements IRemmeCertificate {
             // result.batchId = apiResult.batch_id;
             // return result;
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             throw new Error("Given certificate is not a valid");
         }
     }

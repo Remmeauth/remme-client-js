@@ -51,8 +51,7 @@ class BaseTransactionResponse implements ITransactionResponse {
             const response: BatchStateUpdateDto = JSON.parse(e.data);
             if (
                 response.type === "message" &&
-                Object.getOwnPropertyNames(response.data).length !== 0 &&
-                response.data.batch_statuses.status === "OK"
+                Object.getOwnPropertyNames(response.data).length !== 0
             ) {
                 callback(null, new BatchStatusesDto(response.data.batch_statuses));
             }

@@ -1,7 +1,7 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { BaseTransactionResponse, getAddressFromData } from "remme-utils";
 import { IRemmeTransactionService } from "remme-transaction-service";
-import { TransferPayload, TransactionPayload } from "remme-protobuf";
+import { TransferPayload, TransactionPayload, AccountMethod } from "remme-protobuf";
 
 import { BalanceResult } from "./models";
 import { IRemmeToken } from "./interface";
@@ -30,7 +30,7 @@ class RemmeToken implements IRemmeToken {
             value: amount,
         }).finish();
         const transactionPayload = TransactionPayload.encode({
-            method: 0,
+            method: AccountMethod.Method.TRANSFER,
             data: transferPayload,
         }).finish();
         const transaction = await this._remmeTransaction.create({

@@ -465,6 +465,756 @@ export class GenesisStatus implements IGenesisStatus {
     public toJSON(): { [k: string]: any };
 }
 
+/** Properties of an AtomicSwapMethod. */
+export interface IAtomicSwapMethod {
+}
+
+/** Represents an AtomicSwapMethod. */
+export class AtomicSwapMethod implements IAtomicSwapMethod {
+
+    /**
+     * Constructs a new AtomicSwapMethod.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IAtomicSwapMethod);
+
+    /**
+     * Creates a new AtomicSwapMethod instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns AtomicSwapMethod instance
+     */
+    public static create(properties?: IAtomicSwapMethod): AtomicSwapMethod;
+
+    /**
+     * Encodes the specified AtomicSwapMethod message. Does not implicitly {@link AtomicSwapMethod.verify|verify} messages.
+     * @param message AtomicSwapMethod message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IAtomicSwapMethod, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified AtomicSwapMethod message, length delimited. Does not implicitly {@link AtomicSwapMethod.verify|verify} messages.
+     * @param message AtomicSwapMethod message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IAtomicSwapMethod, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an AtomicSwapMethod message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns AtomicSwapMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AtomicSwapMethod;
+
+    /**
+     * Decodes an AtomicSwapMethod message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns AtomicSwapMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AtomicSwapMethod;
+
+    /**
+     * Verifies an AtomicSwapMethod message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an AtomicSwapMethod message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns AtomicSwapMethod
+     */
+    public static fromObject(object: { [k: string]: any }): AtomicSwapMethod;
+
+    /**
+     * Creates a plain object from an AtomicSwapMethod message. Also converts values to other types if specified.
+     * @param message AtomicSwapMethod
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: AtomicSwapMethod, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this AtomicSwapMethod to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+export namespace AtomicSwapMethod {
+
+    /** Method enum. */
+    enum Method {
+        INIT = 0,
+        APPROVE = 1,
+        EXPIRE = 2,
+        SET_SECRET_LOCK = 3,
+        CLOSE = 4
+    }
+}
+
+/** Properties of an AtomicSwapInitPayload. */
+export interface IAtomicSwapInitPayload {
+
+    /** AtomicSwapInitPayload receiverAddress */
+    receiverAddress?: (string|null);
+
+    /** AtomicSwapInitPayload senderAddressNonLocal */
+    senderAddressNonLocal?: (string|null);
+
+    /** AtomicSwapInitPayload amount */
+    amount?: (number|Long|null);
+
+    /** AtomicSwapInitPayload swapId */
+    swapId?: (string|null);
+
+    /** AtomicSwapInitPayload secretLockBySolicitor */
+    secretLockBySolicitor?: (string|null);
+
+    /** AtomicSwapInitPayload emailAddressEncryptedByInitiator */
+    emailAddressEncryptedByInitiator?: (string|null);
+
+    /** AtomicSwapInitPayload createdAt */
+    createdAt?: (number|null);
+}
+
+/** Represents an AtomicSwapInitPayload. */
+export class AtomicSwapInitPayload implements IAtomicSwapInitPayload {
+
+    /**
+     * Constructs a new AtomicSwapInitPayload.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IAtomicSwapInitPayload);
+
+    /** AtomicSwapInitPayload receiverAddress. */
+    public receiverAddress: string;
+
+    /** AtomicSwapInitPayload senderAddressNonLocal. */
+    public senderAddressNonLocal: string;
+
+    /** AtomicSwapInitPayload amount. */
+    public amount: (number|Long);
+
+    /** AtomicSwapInitPayload swapId. */
+    public swapId: string;
+
+    /** AtomicSwapInitPayload secretLockBySolicitor. */
+    public secretLockBySolicitor: string;
+
+    /** AtomicSwapInitPayload emailAddressEncryptedByInitiator. */
+    public emailAddressEncryptedByInitiator: string;
+
+    /** AtomicSwapInitPayload createdAt. */
+    public createdAt: number;
+
+    /**
+     * Creates a new AtomicSwapInitPayload instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns AtomicSwapInitPayload instance
+     */
+    public static create(properties?: IAtomicSwapInitPayload): AtomicSwapInitPayload;
+
+    /**
+     * Encodes the specified AtomicSwapInitPayload message. Does not implicitly {@link AtomicSwapInitPayload.verify|verify} messages.
+     * @param message AtomicSwapInitPayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IAtomicSwapInitPayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified AtomicSwapInitPayload message, length delimited. Does not implicitly {@link AtomicSwapInitPayload.verify|verify} messages.
+     * @param message AtomicSwapInitPayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IAtomicSwapInitPayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an AtomicSwapInitPayload message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns AtomicSwapInitPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AtomicSwapInitPayload;
+
+    /**
+     * Decodes an AtomicSwapInitPayload message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns AtomicSwapInitPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AtomicSwapInitPayload;
+
+    /**
+     * Verifies an AtomicSwapInitPayload message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an AtomicSwapInitPayload message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns AtomicSwapInitPayload
+     */
+    public static fromObject(object: { [k: string]: any }): AtomicSwapInitPayload;
+
+    /**
+     * Creates a plain object from an AtomicSwapInitPayload message. Also converts values to other types if specified.
+     * @param message AtomicSwapInitPayload
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: AtomicSwapInitPayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this AtomicSwapInitPayload to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of an AtomicSwapApprovePayload. */
+export interface IAtomicSwapApprovePayload {
+
+    /** AtomicSwapApprovePayload swapId */
+    swapId?: (string|null);
+}
+
+/** Represents an AtomicSwapApprovePayload. */
+export class AtomicSwapApprovePayload implements IAtomicSwapApprovePayload {
+
+    /**
+     * Constructs a new AtomicSwapApprovePayload.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IAtomicSwapApprovePayload);
+
+    /** AtomicSwapApprovePayload swapId. */
+    public swapId: string;
+
+    /**
+     * Creates a new AtomicSwapApprovePayload instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns AtomicSwapApprovePayload instance
+     */
+    public static create(properties?: IAtomicSwapApprovePayload): AtomicSwapApprovePayload;
+
+    /**
+     * Encodes the specified AtomicSwapApprovePayload message. Does not implicitly {@link AtomicSwapApprovePayload.verify|verify} messages.
+     * @param message AtomicSwapApprovePayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IAtomicSwapApprovePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified AtomicSwapApprovePayload message, length delimited. Does not implicitly {@link AtomicSwapApprovePayload.verify|verify} messages.
+     * @param message AtomicSwapApprovePayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IAtomicSwapApprovePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an AtomicSwapApprovePayload message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns AtomicSwapApprovePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AtomicSwapApprovePayload;
+
+    /**
+     * Decodes an AtomicSwapApprovePayload message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns AtomicSwapApprovePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AtomicSwapApprovePayload;
+
+    /**
+     * Verifies an AtomicSwapApprovePayload message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an AtomicSwapApprovePayload message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns AtomicSwapApprovePayload
+     */
+    public static fromObject(object: { [k: string]: any }): AtomicSwapApprovePayload;
+
+    /**
+     * Creates a plain object from an AtomicSwapApprovePayload message. Also converts values to other types if specified.
+     * @param message AtomicSwapApprovePayload
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: AtomicSwapApprovePayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this AtomicSwapApprovePayload to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of an AtomicSwapExpirePayload. */
+export interface IAtomicSwapExpirePayload {
+
+    /** AtomicSwapExpirePayload swapId */
+    swapId?: (string|null);
+}
+
+/** Represents an AtomicSwapExpirePayload. */
+export class AtomicSwapExpirePayload implements IAtomicSwapExpirePayload {
+
+    /**
+     * Constructs a new AtomicSwapExpirePayload.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IAtomicSwapExpirePayload);
+
+    /** AtomicSwapExpirePayload swapId. */
+    public swapId: string;
+
+    /**
+     * Creates a new AtomicSwapExpirePayload instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns AtomicSwapExpirePayload instance
+     */
+    public static create(properties?: IAtomicSwapExpirePayload): AtomicSwapExpirePayload;
+
+    /**
+     * Encodes the specified AtomicSwapExpirePayload message. Does not implicitly {@link AtomicSwapExpirePayload.verify|verify} messages.
+     * @param message AtomicSwapExpirePayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IAtomicSwapExpirePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified AtomicSwapExpirePayload message, length delimited. Does not implicitly {@link AtomicSwapExpirePayload.verify|verify} messages.
+     * @param message AtomicSwapExpirePayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IAtomicSwapExpirePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an AtomicSwapExpirePayload message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns AtomicSwapExpirePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AtomicSwapExpirePayload;
+
+    /**
+     * Decodes an AtomicSwapExpirePayload message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns AtomicSwapExpirePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AtomicSwapExpirePayload;
+
+    /**
+     * Verifies an AtomicSwapExpirePayload message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an AtomicSwapExpirePayload message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns AtomicSwapExpirePayload
+     */
+    public static fromObject(object: { [k: string]: any }): AtomicSwapExpirePayload;
+
+    /**
+     * Creates a plain object from an AtomicSwapExpirePayload message. Also converts values to other types if specified.
+     * @param message AtomicSwapExpirePayload
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: AtomicSwapExpirePayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this AtomicSwapExpirePayload to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of an AtomicSwapSetSecretLockPayload. */
+export interface IAtomicSwapSetSecretLockPayload {
+
+    /** AtomicSwapSetSecretLockPayload swapId */
+    swapId?: (string|null);
+
+    /** AtomicSwapSetSecretLockPayload secretLock */
+    secretLock?: (string|null);
+}
+
+/** Represents an AtomicSwapSetSecretLockPayload. */
+export class AtomicSwapSetSecretLockPayload implements IAtomicSwapSetSecretLockPayload {
+
+    /**
+     * Constructs a new AtomicSwapSetSecretLockPayload.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IAtomicSwapSetSecretLockPayload);
+
+    /** AtomicSwapSetSecretLockPayload swapId. */
+    public swapId: string;
+
+    /** AtomicSwapSetSecretLockPayload secretLock. */
+    public secretLock: string;
+
+    /**
+     * Creates a new AtomicSwapSetSecretLockPayload instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns AtomicSwapSetSecretLockPayload instance
+     */
+    public static create(properties?: IAtomicSwapSetSecretLockPayload): AtomicSwapSetSecretLockPayload;
+
+    /**
+     * Encodes the specified AtomicSwapSetSecretLockPayload message. Does not implicitly {@link AtomicSwapSetSecretLockPayload.verify|verify} messages.
+     * @param message AtomicSwapSetSecretLockPayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IAtomicSwapSetSecretLockPayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified AtomicSwapSetSecretLockPayload message, length delimited. Does not implicitly {@link AtomicSwapSetSecretLockPayload.verify|verify} messages.
+     * @param message AtomicSwapSetSecretLockPayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IAtomicSwapSetSecretLockPayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an AtomicSwapSetSecretLockPayload message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns AtomicSwapSetSecretLockPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AtomicSwapSetSecretLockPayload;
+
+    /**
+     * Decodes an AtomicSwapSetSecretLockPayload message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns AtomicSwapSetSecretLockPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AtomicSwapSetSecretLockPayload;
+
+    /**
+     * Verifies an AtomicSwapSetSecretLockPayload message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an AtomicSwapSetSecretLockPayload message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns AtomicSwapSetSecretLockPayload
+     */
+    public static fromObject(object: { [k: string]: any }): AtomicSwapSetSecretLockPayload;
+
+    /**
+     * Creates a plain object from an AtomicSwapSetSecretLockPayload message. Also converts values to other types if specified.
+     * @param message AtomicSwapSetSecretLockPayload
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: AtomicSwapSetSecretLockPayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this AtomicSwapSetSecretLockPayload to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of an AtomicSwapClosePayload. */
+export interface IAtomicSwapClosePayload {
+
+    /** AtomicSwapClosePayload swapId */
+    swapId?: (string|null);
+
+    /** AtomicSwapClosePayload secretKey */
+    secretKey?: (string|null);
+}
+
+/** Represents an AtomicSwapClosePayload. */
+export class AtomicSwapClosePayload implements IAtomicSwapClosePayload {
+
+    /**
+     * Constructs a new AtomicSwapClosePayload.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IAtomicSwapClosePayload);
+
+    /** AtomicSwapClosePayload swapId. */
+    public swapId: string;
+
+    /** AtomicSwapClosePayload secretKey. */
+    public secretKey: string;
+
+    /**
+     * Creates a new AtomicSwapClosePayload instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns AtomicSwapClosePayload instance
+     */
+    public static create(properties?: IAtomicSwapClosePayload): AtomicSwapClosePayload;
+
+    /**
+     * Encodes the specified AtomicSwapClosePayload message. Does not implicitly {@link AtomicSwapClosePayload.verify|verify} messages.
+     * @param message AtomicSwapClosePayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IAtomicSwapClosePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified AtomicSwapClosePayload message, length delimited. Does not implicitly {@link AtomicSwapClosePayload.verify|verify} messages.
+     * @param message AtomicSwapClosePayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IAtomicSwapClosePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an AtomicSwapClosePayload message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns AtomicSwapClosePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AtomicSwapClosePayload;
+
+    /**
+     * Decodes an AtomicSwapClosePayload message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns AtomicSwapClosePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AtomicSwapClosePayload;
+
+    /**
+     * Verifies an AtomicSwapClosePayload message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an AtomicSwapClosePayload message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns AtomicSwapClosePayload
+     */
+    public static fromObject(object: { [k: string]: any }): AtomicSwapClosePayload;
+
+    /**
+     * Creates a plain object from an AtomicSwapClosePayload message. Also converts values to other types if specified.
+     * @param message AtomicSwapClosePayload
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: AtomicSwapClosePayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this AtomicSwapClosePayload to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of an AtomicSwapInfo. */
+export interface IAtomicSwapInfo {
+
+    /** AtomicSwapInfo isClosed */
+    isClosed?: (boolean|null);
+
+    /** AtomicSwapInfo isApproved */
+    isApproved?: (boolean|null);
+
+    /** AtomicSwapInfo senderAddress */
+    senderAddress?: (string|null);
+
+    /** AtomicSwapInfo senderAddressNonLocal */
+    senderAddressNonLocal?: (string|null);
+
+    /** AtomicSwapInfo receiverAddress */
+    receiverAddress?: (string|null);
+
+    /** AtomicSwapInfo amount */
+    amount?: (number|Long|null);
+
+    /** AtomicSwapInfo emailAddressEncryptedOptional */
+    emailAddressEncryptedOptional?: (string|null);
+
+    /** AtomicSwapInfo swapId */
+    swapId?: (string|null);
+
+    /** AtomicSwapInfo secretLock */
+    secretLock?: (string|null);
+
+    /** AtomicSwapInfo secretKey */
+    secretKey?: (string|null);
+
+    /** AtomicSwapInfo createdAt */
+    createdAt?: (number|null);
+
+    /** AtomicSwapInfo isInitiator */
+    isInitiator?: (boolean|null);
+}
+
+/** Represents an AtomicSwapInfo. */
+export class AtomicSwapInfo implements IAtomicSwapInfo {
+
+    /**
+     * Constructs a new AtomicSwapInfo.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IAtomicSwapInfo);
+
+    /** AtomicSwapInfo isClosed. */
+    public isClosed: boolean;
+
+    /** AtomicSwapInfo isApproved. */
+    public isApproved: boolean;
+
+    /** AtomicSwapInfo senderAddress. */
+    public senderAddress: string;
+
+    /** AtomicSwapInfo senderAddressNonLocal. */
+    public senderAddressNonLocal: string;
+
+    /** AtomicSwapInfo receiverAddress. */
+    public receiverAddress: string;
+
+    /** AtomicSwapInfo amount. */
+    public amount: (number|Long);
+
+    /** AtomicSwapInfo emailAddressEncryptedOptional. */
+    public emailAddressEncryptedOptional: string;
+
+    /** AtomicSwapInfo swapId. */
+    public swapId: string;
+
+    /** AtomicSwapInfo secretLock. */
+    public secretLock: string;
+
+    /** AtomicSwapInfo secretKey. */
+    public secretKey: string;
+
+    /** AtomicSwapInfo createdAt. */
+    public createdAt: number;
+
+    /** AtomicSwapInfo isInitiator. */
+    public isInitiator: boolean;
+
+    /**
+     * Creates a new AtomicSwapInfo instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns AtomicSwapInfo instance
+     */
+    public static create(properties?: IAtomicSwapInfo): AtomicSwapInfo;
+
+    /**
+     * Encodes the specified AtomicSwapInfo message. Does not implicitly {@link AtomicSwapInfo.verify|verify} messages.
+     * @param message AtomicSwapInfo message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IAtomicSwapInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified AtomicSwapInfo message, length delimited. Does not implicitly {@link AtomicSwapInfo.verify|verify} messages.
+     * @param message AtomicSwapInfo message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IAtomicSwapInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an AtomicSwapInfo message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns AtomicSwapInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AtomicSwapInfo;
+
+    /**
+     * Decodes an AtomicSwapInfo message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns AtomicSwapInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AtomicSwapInfo;
+
+    /**
+     * Verifies an AtomicSwapInfo message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an AtomicSwapInfo message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns AtomicSwapInfo
+     */
+    public static fromObject(object: { [k: string]: any }): AtomicSwapInfo;
+
+    /**
+     * Creates a plain object from an AtomicSwapInfo message. Also converts values to other types if specified.
+     * @param message AtomicSwapInfo
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: AtomicSwapInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this AtomicSwapInfo to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
 /** Properties of a CertificateMethod. */
 export interface ICertificateMethod {
 }
