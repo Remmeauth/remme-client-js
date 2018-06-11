@@ -1,11 +1,11 @@
 import { SwapInitDto } from "./SwapInitDto";
 export declare class SwapInitData {
-    private receiver_address;
-    private sender_address_non_local;
-    private amount;
-    private swap_id;
-    private email_address_encrypted_by_initiator;
-    private secret_lock_by_solicitor;
-    private created_at;
+    receiver_address: string;
+    sender_address_non_local: string;
+    amount: number;
+    swap_id: string;
+    secret_lock_by_solicitor: string;
+    email_address_encrypted_by_initiator: string;
+    created_at: number;
     constructor(data: SwapInitDto);
 }

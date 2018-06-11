@@ -21,7 +21,7 @@ var Remme;
             this.token = new remme_token_1.RemmeToken(this._remmeRest, this.transaction);
             this.certificate = new remme_certificate_1.RemmeCertificate(this._remmeRest, this.transaction);
             this.batch = new remme_batch_1.RemmeBatch(this._remmeRest);
-            this.swap = new remme_atomic_swap_1.RemmeSwap(this._remmeRest);
+            this.swap = new remme_atomic_swap_1.RemmeSwap(this._remmeRest, this.transaction);
         }
         Object.defineProperty(Client.prototype, "account", {
             get: function () {

@@ -32,8 +32,7 @@ var BaseTransactionResponse = /** @class */ (function () {
         this._socket.onmessage = function (e) {
             var response = JSON.parse(e.data);
             if (response.type === "message" &&
-                Object.getOwnPropertyNames(response.data).length !== 0 &&
-                response.data.batch_statuses.status === "OK") {
+                Object.getOwnPropertyNames(response.data).length !== 0) {
                 callback(null, new models_1.BatchStatusesDto(response.data.batch_statuses));
             }
         };

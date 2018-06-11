@@ -39,7 +39,7 @@ class RemmeTransactionService implements IRemmeTransactionService {
             payloadSha512: createHash("sha512").update(payloadBytes).digest("hex"),
         }).finish();
 
-        console.log(protobuf.TransactionHeader.decode(transactionHeaderBytes));
+        // console.log(protobuf.TransactionHeader.decode(transactionHeaderBytes));
 
         const signature = this._remmeAccount.sign(transactionHeaderBytes);
 

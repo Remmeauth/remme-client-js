@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var SwapInitData = /** @class */ (function () {
     function SwapInitData(data) {
-        var keys = ["recieverAddress", "senderAddress", "amount", "swapId", "email", "secretLock", "createdAt"];
+        var keys = ["receiverAddress", "senderAddressNonLocal", "amount", "swapId", "email", "secretLock", "createdAt"];
         keys.map(function (item) {
             if (!data[item]) {
                 throw new Error("Attribute " + item + " was not specified");
@@ -14,7 +14,7 @@ var SwapInitData = /** @class */ (function () {
                         throw new Error(item + " is not a valid");
                     }
                     break;
-                case "recieverAddress":
+                case "receiverAddress":
                     if (data[item].search(/^[0-9a-f]{70}$/) === -1) {
                         throw new Error(item + " is not a valid");
                     }

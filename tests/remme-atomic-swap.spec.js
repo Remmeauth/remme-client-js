@@ -11,24 +11,24 @@ describe("RemmeAtomicSwap", function() {
     window.onbeforeunload = () => 'Oh no!';
   });
 
-  it("Init Atomic Swap [reciever address not a valid]", async () => {
+  it("Init Atomic Swap [receiver address not a valid]", async () => {
     const { swap } = new Remme.Client();
     await swap.init({
-      recieverAddress: "111",
-      senderAddress: "000",
+      receiverAddress: "111",
+      senderAddressNonLocal: "000",
       amount: 1,
       swapId: "asd",
       email: "asd@asd.com",
       secretLock: "secret-lock",
       createdAt: 3,
-    }).should.be.rejectedWith("recieverAddress is not a valid");
+    }).should.be.rejectedWith("receiverAddress is not a valid");
   });
 
   it("Init Atomic Swap [swapId not a valid]", async () => {
     const { swap } = new Remme.Client();
     await swap.init({
-      recieverAddress: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9bd8f7b",
-      senderAddress: "000",
+      receiverAddress: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9bd8f7b",
+      senderAddressNonLocal: "000",
       amount: 1,
       swapId: "asd",
       email: "asd@asd.com",
@@ -40,8 +40,8 @@ describe("RemmeAtomicSwap", function() {
   it("Init Atomic Swap [secret-lock not a valid]", async () => {
     const { swap } = new Remme.Client();
     await swap.init({
-      recieverAddress: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9bd8f7b",
-      senderAddress: "000",
+      receiverAddress: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9bd8f7b",
+      senderAddressNonLocal: "000",
       amount: 1,
       swapId: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9",
       email: "asd@asd.com",
@@ -53,8 +53,8 @@ describe("RemmeAtomicSwap", function() {
   it("Init Atomic Swap [attr missing]", async () => {
     const { swap } = new Remme.Client();
     await swap.init({
-      recieverAddress: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9bd8f7b",
-      senderAddress: "000",
+      receiverAddress: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9bd8f7b",
+      senderAddressNonLocal: "000",
       swapId: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9",
       email: "asd@asd.com",
       secretLock: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db79f",
@@ -65,8 +65,8 @@ describe("RemmeAtomicSwap", function() {
   it("Init Atomic Swap [all good]", async () => {
     const { swap } = new Remme.Client();
     const result = await swap.init({
-      recieverAddress: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9bd8f7b",
-      senderAddress: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9bd8fb7",
+      receiverAddress: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9bd8f7b",
+      senderAddressNonLocal: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9bd8fb7",
       amount: 1,
       swapId: "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9",
       email: "asd@asd.com",
@@ -172,14 +172,7 @@ describe("RemmeAtomicSwap", function() {
     await swap.close(swapId, secretKey).should.be.rejectedWith("Given swapId is not a valid");
   });
 
-  it("Close Atomic Swap [bad secretKey]", async () => {
-    const { swap } = new Remme.Client();
-    const swapId = "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9";
-    const secretKey = "not a valid secret lock";
-    await swap.close(swapId, secretKey).should.be.rejectedWith("Given secretKey is not a valid");
-  });
-
-  it("Close Atomic Swap [missing secretLock]", async () => {
+  it("Close Atomic Swap [missing secretKey]", async () => {
     const { swap } = new Remme.Client();
     const swapId = "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9";
     await swap.close(swapId).should.be.rejectedWith("The 'secretKey' was missing in parameters");
@@ -188,7 +181,7 @@ describe("RemmeAtomicSwap", function() {
   it("Close Atomic Swap [all good]", async () => {
     const { swap } = new Remme.Client();
     const swapId = "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db7f9";
-    const secretKey = "abdafd787fd8fdad687afd6af87d8af7df7ad6a8fd67a8a7bd68ab7d698db79f";
+    const secretKey = "veryverysecretkey";
     const result = await swap.close(swapId, secretKey);
     result.should.have.property("batchId");
     result.should.have.property("connectToWebSocket");

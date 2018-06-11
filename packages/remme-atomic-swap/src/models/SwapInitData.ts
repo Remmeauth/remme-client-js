@@ -1,16 +1,16 @@
 import { SwapInitDto } from "./SwapInitDto";
 
 export class SwapInitData {
-    private receiver_address: string;
-    private sender_address_non_local: string;
-    private amount: number;
-    private swap_id: string;
-    private email_address_encrypted_by_initiator: string;
-    private secret_lock_by_solicitor: string;
-    private created_at: number;
+    public receiver_address: string;
+    public sender_address_non_local: string;
+    public amount: number;
+    public swap_id: string;
+    public secret_lock_by_solicitor: string;
+    public email_address_encrypted_by_initiator: string;
+    public created_at: number;
 
     constructor(data: SwapInitDto) {
-        let keys = ["recieverAddress", "senderAddress", "amount", "swapId", "email", "secretLock", "createdAt"];
+        let keys = ["receiverAddress", "senderAddressNonLocal", "amount", "swapId", "email", "secretLock", "createdAt"];
         keys.map((item) => {
             if (!data[item]) {
                 throw new Error(`Attribute ${item} was not specified`);
@@ -22,7 +22,7 @@ export class SwapInitData {
                         throw new Error(`${item} is not a valid`);
                     }
                     break;
-                case "recieverAddress":
+                case "receiverAddress":
                     if (data[item].search(/^[0-9a-f]{70}$/) === -1) {
                         throw new Error(`${item} is not a valid`);
                     }
