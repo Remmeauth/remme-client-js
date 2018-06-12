@@ -41,66 +41,58 @@ var remme_protobuf_1 = require("remme-protobuf");
 var models_1 = require("./models");
 var RemmeCertificate = /** @class */ (function () {
     function RemmeCertificate(remmeRest, remmeTransaction) {
-        this.familyName = "certificate";
-        this.familyVersion = "0.1";
+        this._familyName = "pub_key";
+        this._familyVersion = "0.1";
         this._rsaKeySize = 2048;
         this._remmeRest = remmeRest;
         this._remmeTransaction = remmeTransaction;
     }
     RemmeCertificate.prototype.createAndStore = function (certificateDataToCreate) {
         return __awaiter(this, void 0, void 0, function () {
-            var keys, subject, csr, certResponse;
+            var keys, subject, cert, batchResponse, certResponse;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        keys = this.generateKeyPair();
-                        subject = this.createSubject(certificateDataToCreate);
-                        csr = this.createSignRequest(subject, keys);
-                        return [4 /*yield*/, this.signAndStore(csr)];
+                        keys = this._generateKeyPair();
+                        subject = this._createSubject(certificateDataToCreate);
+                        cert = this._createCertificate(subject, keys, certificateDataToCreate.validity);
+                        return [4 /*yield*/, this.store(cert)];
                     case 1:
-                        certResponse = _a.sent();
+                        batchResponse = _a.sent();
+                        certResponse = new models_1.CertificateTransactionResponse(this._remmeRest.socketAddress());
                         certResponse.certificate.privateKey = keys.privateKey;
+                        certResponse.batchId = batchResponse.batchId;
                         return [2 /*return*/, certResponse];
                 }
             });
         });
     };
-    RemmeCertificate.prototype.signAndStore = function (signingRequest) {
+    RemmeCertificate.prototype.store = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, apiResult, result, e_1;
+            var payload, transactionPayload, transaction;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        payload = new models_1.StorePayload(signingRequest);
-                        return [4 /*yield*/, this._remmeRest
-                                .putRequest(remme_rest_1.RemmeMethods.certificateStore, payload)];
+                        payload = this._generatePayload(certificate);
+                        transactionPayload = this._generateTransactionPayload(remme_protobuf_1.PubKeyMethod.Method.STORE, payload);
+                        return [4 /*yield*/, this._remmeTransaction.create({
+                                familyName: this._familyName,
+                                familyVersion: this._familyVersion,
+                                inputs: [],
+                                outputs: [],
+                                payloadBytes: transactionPayload,
+                            })];
                     case 1:
-                        apiResult = _a.sent();
-                        result = new models_1.CertificateTransactionResponse(this._remmeRest.socketAddress());
-                        result.batchId = apiResult.batch_id;
-                        result.certificate = remme_utils_1.forge.pki.certificateFromPem(apiResult.certificate);
-                        // console.log(apiResult.certificate);
-                        return [2 /*return*/, result];
-                    case 2:
-                        e_1 = _a.sent();
-                        throw new Error("Given certificate is not a valid");
-                    case 3: return [2 /*return*/];
+                        transaction = _a.sent();
+                        return [4 /*yield*/, this._remmeTransaction.send(transaction)];
+                    case 2: return [2 /*return*/, _a.sent()];
                 }
-            });
-        });
-    };
-    // TODO
-    RemmeCertificate.prototype.store = function (certificate) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                throw new Error("not implemented");
             });
         });
     };
     RemmeCertificate.prototype.check = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, result, e_2;
+            var payload, result, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -112,7 +104,7 @@ var RemmeCertificate = /** @class */ (function () {
                         result = _a.sent();
                         return [2 /*return*/, !result.revoked];
                     case 2:
-                        e_2 = _a.sent();
+                        e_1 = _a.sent();
                         throw new Error("Given certificate is not a valid");
                     case 3: return [2 /*return*/];
                 }
@@ -121,20 +113,20 @@ var RemmeCertificate = /** @class */ (function () {
     };
     RemmeCertificate.prototype.revoke = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
-            var publicKeyHex, address, revokePayload, payloadBytes, transaction, e_3;
+            var publicKeyPEM, address, revokePayload, payloadBytes, transaction, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        publicKeyHex = remme_utils_1.forge.pki.pemToDer(remme_utils_1.forge.pki.certificateToPem(certificate)).toHex();
-                        address = remme_utils_1.getAddressFromData(this.familyName, publicKeyHex);
-                        revokePayload = remme_protobuf_1.RevokeCertificatePayload.encode({
+                        publicKeyPEM = remme_utils_1.forge.pki.publicKeyToPem(certificate.publicKey);
+                        address = remme_utils_1.getAddressFromData(this._familyName, publicKeyPEM);
+                        revokePayload = remme_protobuf_1.RevokePubKeyPayload.encode({
                             address: address,
                         }).finish();
-                        payloadBytes = this.generateTransactionPayload(remme_protobuf_1.CertificateMethod.Method.REVOKE, revokePayload);
+                        payloadBytes = this._generateTransactionPayload(remme_protobuf_1.PubKeyMethod.Method.REVOKE, revokePayload);
                         return [4 /*yield*/, this._remmeTransaction.create({
-                                familyName: this.familyName,
-                                familyVersion: this.familyVersion,
+                                familyName: this._familyName,
+                                familyVersion: this._familyVersion,
                                 inputs: [],
                                 outputs: [],
                                 payloadBytes: payloadBytes,
@@ -144,8 +136,7 @@ var RemmeCertificate = /** @class */ (function () {
                         return [4 /*yield*/, this._remmeTransaction.send(transaction)];
                     case 2: return [2 /*return*/, _a.sent()];
                     case 3:
-                        e_3 = _a.sent();
-                        // console.log(e);
+                        e_2 = _a.sent();
                         throw new Error("Given certificate is not a valid");
                     case 4: return [2 /*return*/];
                 }
@@ -166,20 +157,52 @@ var RemmeCertificate = /** @class */ (function () {
             });
         });
     };
-    RemmeCertificate.prototype.generateTransactionPayload = function (method, data) {
+    RemmeCertificate.prototype._generateEntityHash = function (certificate) {
+        var certSHA512 = remme_utils_1.forge.md.sha512.create().update(certificate);
+        return certSHA512.digest().toHex();
+    };
+    RemmeCertificate.prototype._generateSignature = function (certificate, privateKey) {
+        var md = remme_utils_1.forge.md.sha512.create();
+        md.update(certificate);
+        var pss = remme_utils_1.forge.pss.create({
+            md: remme_utils_1.forge.md.sha512.create(),
+            mgf: remme_utils_1.forge.mgf.mgf1.create(remme_utils_1.forge.md.sha512.create()),
+            saltLength: 20,
+        });
+        return privateKey.sign(md, pss);
+    };
+    RemmeCertificate.prototype._generatePayload = function (certificate) {
+        var publicKey = remme_utils_1.forge.pki.publicKeyToPem(certificate.publicKey);
+        var certificatePEM = remme_utils_1.forge.pki.certificateToPem(certificate);
+        var entityHash = this._generateEntityHash(certificatePEM);
+        var entityHashSignature = this._generateSignature(certificatePEM, certificate.privateKey);
+        return remme_protobuf_1.NewPubKeyPayload.encode({
+            publicKey: publicKey,
+            publicKeyType: remme_protobuf_1.NewPubKeyPayload.PubKeyType.RSA,
+            entityType: remme_protobuf_1.NewPubKeyPayload.EntityType.PERSONAL,
+            entityHash: entityHash,
+            entityHashSignature: entityHashSignature,
+            validFrom: Math.floor(Math.round(certificate.validity.notBefore.getTime()) / 1000),
+            validTo: Math.floor(Math.round(certificate.validity.notAfter.getTime()) / 1000),
+        }).finish();
+    };
+    RemmeCertificate.prototype._generateTransactionPayload = function (method, data) {
         return remme_protobuf_1.TransactionPayload.encode({
             method: method,
             data: data,
         }).finish();
     };
-    RemmeCertificate.prototype.createSignRequest = function (subject, keys) {
-        var csr = remme_utils_1.forge.pki.createCertificationRequest();
-        csr.setSubject(subject);
-        csr.publicKey = keys.publicKey;
-        csr.sign(keys.privateKey, remme_utils_1.forge.md.sha256.create());
-        return csr;
+    RemmeCertificate.prototype._createCertificate = function (subject, keys, validity) {
+        var cert = remme_utils_1.forge.pki.createCertificate();
+        cert.setSubject(subject);
+        cert.publicKey = keys.publicKey;
+        cert.validity.notBefore = new Date();
+        cert.validity.notAfter = new Date();
+        cert.validity.notAfter.setDate(cert.validity.notBefore.getDate() + validity);
+        cert.sign(keys.privateKey, remme_utils_1.forge.md.sha256.create());
+        return cert;
     };
-    RemmeCertificate.prototype.createSubject = function (certificateDataToCreate) {
+    RemmeCertificate.prototype._createSubject = function (certificateDataToCreate) {
         if (!certificateDataToCreate.commonName) {
             throw new Error("Attribute commonName must have a value");
         }
@@ -221,7 +244,7 @@ var RemmeCertificate = /** @class */ (function () {
             };
         });
     };
-    RemmeCertificate.prototype.generateKeyPair = function () {
+    RemmeCertificate.prototype._generateKeyPair = function () {
         return remme_utils_1.forge.pki.rsa.generateKeyPair(this._rsaKeySize);
     };
     return RemmeCertificate;

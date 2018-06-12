@@ -9,8 +9,8 @@ import { IRemmeToken } from "./interface";
 class RemmeToken implements IRemmeToken {
     private readonly _remmeRest: IRemmeRest;
     private readonly _remmeTransaction: IRemmeTransactionService;
-    private readonly familyName = "account";
-    private readonly familyVersion = "0.1";
+    private readonly _familyName = "account";
+    private readonly _familyVersion = "0.1";
 
     public constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService) {
         this._remmeRest = remmeRest;
@@ -24,7 +24,7 @@ class RemmeToken implements IRemmeToken {
         if (amount <= 0) {
             throw new Error("amount must be higher than 0");
         }
-        const receiverAddress = getAddressFromData(this.familyName, publicKeyTo);
+        const receiverAddress = getAddressFromData(this._familyName, publicKeyTo);
         const transferPayload = TransferPayload.encode({
             addressTo: receiverAddress,
             value: amount,
@@ -34,8 +34,8 @@ class RemmeToken implements IRemmeToken {
             data: transferPayload,
         }).finish();
         const transaction = await this._remmeTransaction.create({
-            familyName: this.familyName,
-            familyVersion: this.familyVersion,
+            familyName: this._familyName,
+            familyVersion: this._familyVersion,
             inputs: [receiverAddress],
             outputs: [receiverAddress],
             payloadBytes: transactionPayload,

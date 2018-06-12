@@ -19,6 +19,19 @@ declare module "node-forge" {
         function publicKeyToAsn1(publicKey: Key): any;
         function publicKeyToRSAPublicKey(publicKey: Key): any;
     }
+    namespace md {
+        namespace sha512 {
+            function create(): MessageDigest;
+        }
+    }
+    namespace pss {
+        function create(any: any): any;
+    }
+    namespace mgf {
+        namespace mgf1 {
+            function create(any: any): any;
+        }
+    }
 }
 declare class BaseTransactionResponse implements ITransactionResponse {
     batchId: string;

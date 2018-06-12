@@ -65,7 +65,7 @@ const account = remme.account;
   // }; // 7
   //
   // certificateTransactionResult.connectToWebSocket(certificateTransactionCallback); // 5
-  const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce4821";
+  const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce4822";
   const init = await remme.swap.init({
     receiverAddress: "112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1",
     senderAddressNonLocal: "0xe6ca0e7c974f06471759e9a05d18b538c5ced11e",
@@ -77,6 +77,7 @@ const account = remme.account;
   });
 
   init.connectToWebSocket(async (err, data) => {
+    console.log("data", data);
     const res = await remme.swap.getInfo(swapId);
     console.log(res);
     const close = await remme.swap.close(swapId, "secretKey");

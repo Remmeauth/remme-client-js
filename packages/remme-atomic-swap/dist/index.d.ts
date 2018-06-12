@@ -6,9 +6,10 @@ import { SwapInitDto, SwapInfoData } from "./models";
 declare class RemmeSwap implements IRemmeSwap {
     private readonly _remmeRest;
     private readonly _remmeTransactionService;
-    private readonly familyName;
-    private readonly familyVersion;
-    private readonly zeroAddress;
+    private readonly _familyName;
+    private readonly _familyVersion;
+    private readonly _zeroAddress;
+    private readonly _fiAddress;
     constructor(remmeRest: IRemmeRest, remmeTransactionService: IRemmeTransactionService);
     approve(swapId: string): Promise<BaseTransactionResponse>;
     close(swapId: string, secretKey: string): Promise<BaseTransactionResponse>;
@@ -17,7 +18,6 @@ declare class RemmeSwap implements IRemmeSwap {
     getPublicKey(): Promise<string>;
     init(data: SwapInitDto): Promise<BaseTransactionResponse>;
     setSecretLock(swapId: string, secretLock: string): Promise<BaseTransactionResponse>;
-    private baseRequest<Input>(method, payload);
     private generateTransactionPayload(method, data);
     private validateData(data);
     private getAddresses(method, swapId, receiverAddress?);
