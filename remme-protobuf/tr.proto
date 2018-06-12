@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message TransactionPayload {
+    uint32 method = 1;
+    bytes data = 2;
+}

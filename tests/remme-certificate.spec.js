@@ -4,7 +4,7 @@ chai.use(chaiAsPromised);
 chai.should();
 
 describe("RemmeCertificate", function() {
-  this.timeout(12000);
+  this.timeout(15000);
   beforeEach(() => {
     window.onbeforeunload = () => 'Oh no!';
   });
@@ -24,7 +24,7 @@ describe("RemmeCertificate", function() {
     }).should.be.rejectedWith("Attribute commonName must have a value");
   });
 
-  it("Create and store certificate [check returning object]", async () => {
+  it("Create and store certificate [check returning object]", async () => { // BAD
     const { certificate } = new Remme.Client();
     const result = await certificate.createAndStore({
       commonName: "userName1",
@@ -36,7 +36,7 @@ describe("RemmeCertificate", function() {
     result.should.have.property("closeWebSocket");
   });
 
-  it("Check certificate [true]", async () => {
+  it("Check certificate [true]", async () => { // BAD
     const { certificate } = new Remme.Client();
     const certificateTransactionResult = await certificate.createAndStore({
       commonName: "userName1",
