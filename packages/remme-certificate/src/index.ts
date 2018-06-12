@@ -1,7 +1,7 @@
 import { forge, BaseTransactionResponse, oids, getAddressFromData } from "remme-utils";
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { IRemmeTransactionService } from "remme-transaction-service";
-import { TransactionPayload, RevokeCertificatePayload, CertificateMethod } from "remme-protobuf";
+import { TransactionPayload, NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload } from "remme-protobuf";
 
 import { IRemmeCertificate } from "./interface";
 import {
@@ -18,9 +18,9 @@ import {
 class RemmeCertificate implements IRemmeCertificate {
     private readonly _remmeRest: IRemmeRest;
     private readonly _remmeTransaction: IRemmeTransactionService;
-    private readonly familyName = "certificate";
-    private readonly familyVersion = "0.1";
-    private _rsaKeySize: number = 2048;
+    private readonly _familyName = "pub_key";
+    private readonly _familyVersion = "0.1";
+    private readonly _rsaKeySize: number = 2048;
 
     public constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService) {
         this._remmeRest = remmeRest;
@@ -28,34 +28,28 @@ class RemmeCertificate implements IRemmeCertificate {
     }
 
     public async createAndStore(certificateDataToCreate: CertificateCreateDto)
-        : Promise<CertificateTransactionResponse> {
-        const keys = this.generateKeyPair();
-        const subject = this.createSubject(certificateDataToCreate);
-        const csr = this.createSignRequest(subject, keys);
-        const certResponse = await this.signAndStore(csr);
+        : Promise<BaseTransactionResponse> {
+        const keys = this._generateKeyPair();
+        const subject = this._createSubject(certificateDataToCreate);
+        const cert = this._createCertificate(subject, keys, certificateDataToCreate.validity);
+        const batchResponse = await this.store(cert);
+        const certResponse = new CertificateTransactionResponse(this._remmeRest.socketAddress());
         certResponse.certificate.privateKey = keys.privateKey;
+        certResponse.batchId = batchResponse.batchId;
         return certResponse;
     }
 
-    public async signAndStore(signingRequest: forge.pki.Certificate)
-        : Promise<CertificateTransactionResponse> {
-       try {
-            const payload = new StorePayload(signingRequest);
-            const apiResult = await this._remmeRest
-                .putRequest<StorePayload, StoreResult>(RemmeMethods.certificateStore, payload);
-            const result = new CertificateTransactionResponse(this._remmeRest.socketAddress());
-            result.batchId = apiResult.batch_id;
-            result.certificate = forge.pki.certificateFromPem(apiResult.certificate);
-            // console.log(apiResult.certificate);
-            return result;
-        } catch (e) {
-            throw new Error("Given certificate is not a valid");
-        }
-    }
-
-    // TODO
-    public async store(certificate: forge.pki.Certificate): Promise<Error> {
-        throw new Error("not implemented");
+    public async store(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse> {
+        const payload = this._generatePayload(certificate);
+        const transactionPayload = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
+        const transaction = await this._remmeTransaction.create({
+            familyName: this._familyName,
+            familyVersion: this._familyVersion,
+            inputs: [],
+            outputs: [],
+            payloadBytes: transactionPayload,
+        });
+        return await this._remmeTransaction.send(transaction);
     }
 
     public async check(certificate: forge.pki.Certificate): Promise<boolean> {
@@ -71,16 +65,16 @@ class RemmeCertificate implements IRemmeCertificate {
 
     public async revoke(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse> {
         try {
-            const publicKeyHex = forge.pki.pemToDer(forge.pki.certificateToPem(certificate)).toHex();
-            const address = getAddressFromData(this.familyName, publicKeyHex);
+            const publicKeyPEM = forge.pki.publicKeyToPem(certificate.publicKey);
+            const address = getAddressFromData(this._familyName, publicKeyPEM);
             // console.log(address);
-            const revokePayload = RevokeCertificatePayload.encode({
+            const revokePayload = RevokePubKeyPayload.encode({
                 address,
             }).finish();
-            const payloadBytes = this.generateTransactionPayload(CertificateMethod.Method.REVOKE, revokePayload);
+            const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.REVOKE, revokePayload);
             const transaction = await this._remmeTransaction.create({
-                familyName: this.familyName,
-                familyVersion: this.familyVersion,
+                familyName: this._familyName,
+                familyVersion: this._familyVersion,
                 inputs: [],
                 outputs: [],
                 payloadBytes,
@@ -93,7 +87,6 @@ class RemmeCertificate implements IRemmeCertificate {
             // result.batchId = apiResult.batch_id;
             // return result;
         } catch (e) {
-            // console.log(e);
             throw new Error("Given certificate is not a valid");
         }
     }
@@ -104,22 +97,58 @@ class RemmeCertificate implements IRemmeCertificate {
         return apiResult.certificates;
     }
 
-    private generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
+    private _generateEntityHash(certificate: forge.pki.PEM): string {
+        const certSHA512 = forge.md.sha512.create().update(certificate);
+        return certSHA512.digest().toHex();
+    }
+
+    private _generateSignature(certificate: forge.pki.PEM, privateKey: forge.pki.Key): string {
+        const md = forge.md.sha512.create();
+        md.update(certificate);
+        const pss = forge.pss.create({
+            md: forge.md.sha512.create(),
+            mgf: forge.mgf.mgf1.create(forge.md.sha512.create()),
+            saltLength: 20,
+        });
+        return privateKey.sign(md, pss);
+    }
+
+    private _generatePayload(certificate: forge.pki.Certificate): Uint8Array {
+        const publicKey = forge.pki.publicKeyToPem(certificate.publicKey);
+        const certificatePEM = forge.pki.certificateToPem(certificate);
+        const entityHash = this._generateEntityHash(certificatePEM);
+        const entityHashSignature = this._generateSignature(certificatePEM, certificate.privateKey);
+        return NewPubKeyPayload.encode({
+            publicKey,
+            publicKeyType: NewPubKeyPayload.PubKeyType.RSA,
+            entityType: NewPubKeyPayload.EntityType.PERSONAL,
+            entityHash,
+            entityHashSignature,
+            validFrom: Math.floor(Math.round(certificate.validity.notBefore.getTime()) / 1000),
+            validTo: Math.floor(Math.round(certificate.validity.notAfter.getTime()) / 1000),
+        }).finish();
+    }
+
+    private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
         return TransactionPayload.encode({
             method,
             data,
         }).finish();
     }
 
-    private createSignRequest(subject: forge.pki.CertificateField[], keys: forge.pki.KeyPair): forge.pki.Certificate {
-        const csr = forge.pki.createCertificationRequest();
-        csr.setSubject(subject);
-        csr.publicKey = keys.publicKey;
-        csr.sign(keys.privateKey, forge.md.sha256.create());
-        return csr;
+    private _createCertificate(subject: forge.pki.CertificateField[], keys: forge.pki.KeyPair, validity: number)
+        : forge.pki.Certificate {
+        const cert = forge.pki.createCertificate();
+        cert.setSubject(subject);
+        cert.publicKey = keys.publicKey;
+        cert.validity.notBefore = new Date();
+        cert.validity.notAfter = new Date();
+        cert.validity.notAfter.setDate(cert.validity.notBefore.getDate() + validity);
+        cert.sign(keys.privateKey, forge.md.sha256.create());
+        return cert;
     }
 
-    private createSubject(certificateDataToCreate: CertificateCreateDto): forge.pki.CertificateField[] {
+    private _createSubject(certificateDataToCreate: CertificateCreateDto): forge.pki.CertificateField[] {
         if (!certificateDataToCreate.commonName) {
             throw new Error("Attribute commonName must have a value");
         }
@@ -151,7 +180,7 @@ class RemmeCertificate implements IRemmeCertificate {
         });
     }
 
-    private generateKeyPair(): forge.pki.KeyPair {
+    private _generateKeyPair(): forge.pki.KeyPair {
         return forge.pki.rsa.generateKeyPair(this._rsaKeySize);
     }
 }

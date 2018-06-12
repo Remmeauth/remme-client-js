@@ -40,8 +40,8 @@ var remme_utils_1 = require("remme-utils");
 var remme_protobuf_1 = require("remme-protobuf");
 var RemmeToken = /** @class */ (function () {
     function RemmeToken(remmeRest, remmeTransaction) {
-        this.familyName = "account";
-        this.familyVersion = "0.1";
+        this._familyName = "account";
+        this._familyVersion = "0.1";
         this._remmeRest = remmeRest;
         this._remmeTransaction = remmeTransaction;
     }
@@ -57,7 +57,7 @@ var RemmeToken = /** @class */ (function () {
                         if (amount <= 0) {
                             throw new Error("amount must be higher than 0");
                         }
-                        receiverAddress = remme_utils_1.getAddressFromData(this.familyName, publicKeyTo);
+                        receiverAddress = remme_utils_1.getAddressFromData(this._familyName, publicKeyTo);
                         transferPayload = remme_protobuf_1.TransferPayload.encode({
                             addressTo: receiverAddress,
                             value: amount,
@@ -67,8 +67,8 @@ var RemmeToken = /** @class */ (function () {
                             data: transferPayload,
                         }).finish();
                         return [4 /*yield*/, this._remmeTransaction.create({
-                                familyName: this.familyName,
-                                familyVersion: this.familyVersion,
+                                familyName: this._familyName,
+                                familyVersion: this._familyVersion,
                                 inputs: [receiverAddress],
                                 outputs: [receiverAddress],
                                 payloadBytes: transactionPayload,

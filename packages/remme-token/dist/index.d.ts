@@ -5,8 +5,8 @@ import { IRemmeToken } from "./interface";
 declare class RemmeToken implements IRemmeToken {
     private readonly _remmeRest;
     private readonly _remmeTransaction;
-    private readonly familyName;
-    private readonly familyVersion;
+    private readonly _familyName;
+    private readonly _familyVersion;
     constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService);
     transfer(publicKeyTo: string, amount: number): Promise<BaseTransactionResponse>;
     getBalance(publicKeyTo: string): Promise<number>;
