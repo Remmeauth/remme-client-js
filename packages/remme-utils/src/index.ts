@@ -1,7 +1,8 @@
 import * as forge from "node-forge";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { ITransactionResponse } from "./interface";
-import { BatchStateUpdateDto, oids } from "./models";
+import { BatchStateUpdateDto, BatchStatusesDto, oids } from "./models";
+import { hexToBytes, bytesToHex, getAddressFromData } from "./functions";
 
 declare global {
     interface Window {
@@ -24,6 +25,8 @@ declare module "node-forge" {
         function certificationRequestToPem(cert: Certificate, maxline?: number): PEM;
         function certificationRequestFromPem(pem: PEM, computeHash?: boolean, strict?: boolean): Certificate;
         function createCertificationRequest(): Certificate;
+        function publicKeyToAsn1(publicKey: Key): any;
+        function publicKeyToRSAPublicKey(publicKey: Key): any;
     }
 }
 
@@ -46,8 +49,11 @@ class BaseTransactionResponse implements ITransactionResponse {
         };
         this._socket.onmessage = (e) => {
             const response: BatchStateUpdateDto = JSON.parse(e.data);
-            if (response.type === "message" && Object.getOwnPropertyNames(response.data).length !== 0) {
-                callback(null, response.data.batch_statuses);
+            if (
+                response.type === "message" &&
+                Object.getOwnPropertyNames(response.data).length !== 0
+            ) {
+                callback(null, new BatchStatusesDto(response.data.batch_statuses));
             }
         };
         this._socket.onerror = (err) => {
@@ -84,4 +90,7 @@ export {
     forge,
     BaseTransactionResponse,
     oids,
+    hexToBytes,
+    bytesToHex,
+    getAddressFromData,
 };

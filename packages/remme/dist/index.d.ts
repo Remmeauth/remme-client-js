@@ -1,17 +1,22 @@
-import { RemmeCertificate } from "remme-certificate";
-import { RemmeToken } from "remme-token";
-import { RemmePersonal } from "remme-personal";
-import { RemmeBatch } from "remme-batch";
-import { IRemmeClient } from "./interface";
+import { IRemmeTransactionService } from "remme-transaction-service";
+import { IRemmeCertificate } from "remme-certificate";
+import { IRemmeToken } from "remme-token";
+import { IRemmeAccount } from "remme-account";
+import { IRemmeBatch } from "remme-batch";
+import { IRemmeSwap } from "remme-atomic-swap";
+import { IRemmeClient, ClientInitInterface } from "./interface";
 declare namespace Remme {
     class Client implements IRemmeClient {
         private readonly _remmeRest;
-        private readonly _pathToKeyStore;
-        certificate: RemmeCertificate;
-        token: RemmeToken;
-        personal: RemmePersonal;
-        batch: RemmeBatch;
-        constructor(nodeAdress?: string, socketAddress?: string, pathToKeyStore?: string);
+        private _account;
+        transaction: IRemmeTransactionService;
+        certificate: IRemmeCertificate;
+        token: IRemmeToken;
+        batch: IRemmeBatch;
+        swap: IRemmeSwap;
+        constructor({privateKeyHex, nodeAddress, socketAddress}?: ClientInitInterface);
+        account: IRemmeAccount;
+        static generateAccount(): IRemmeAccount;
     }
 }
 export = Remme;

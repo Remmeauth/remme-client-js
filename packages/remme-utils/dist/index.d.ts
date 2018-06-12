@@ -2,6 +2,7 @@
 import * as forge from "node-forge";
 import { ITransactionResponse } from "./interface";
 import { oids } from "./models";
+import { hexToBytes, bytesToHex, getAddressFromData } from "./functions";
 declare global  {
     interface Window {
         WebSocket: any;
@@ -15,6 +16,8 @@ declare module "node-forge" {
         function certificationRequestToPem(cert: Certificate, maxline?: number): PEM;
         function certificationRequestFromPem(pem: PEM, computeHash?: boolean, strict?: boolean): Certificate;
         function createCertificationRequest(): Certificate;
+        function publicKeyToAsn1(publicKey: Key): any;
+        function publicKeyToRSAPublicKey(publicKey: Key): any;
     }
 }
 declare class BaseTransactionResponse implements ITransactionResponse {
@@ -26,4 +29,4 @@ declare class BaseTransactionResponse implements ITransactionResponse {
     closeWebSocket(): void;
     private getSocketQuery(subscribe?);
 }
-export { forge, BaseTransactionResponse, oids };
+export { forge, BaseTransactionResponse, oids, hexToBytes, bytesToHex, getAddressFromData };

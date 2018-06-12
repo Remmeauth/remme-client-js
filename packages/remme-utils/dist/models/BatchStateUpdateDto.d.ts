@@ -6,8 +6,15 @@ export interface BatchStateUpdateDto {
 export interface Data {
     batch_statuses: BatchStatuses;
 }
+export declare class BatchStatusesDto {
+    status: Statuses;
+    batchId: string;
+    constructor(data: BatchStatuses);
+}
 export interface BatchStatuses {
     status: string;
     batch_id: string;
-    block_number?: number;
+}
+export declare enum Statuses {
+    OK = "OK",
 }

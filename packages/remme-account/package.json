@@ -1,0 +1,22 @@
+{
+  "name": "remme-account",
+  "version": "0.1.3",
+  "description": "REMME account internal package",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "namespace": "remme",
+  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-account",
+  "scripts": {
+    "transpile": "./node_modules/.bin/tsc"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "remme-rest": "^0.1.3",
+    "remme-token": "^0.1.3",
+    "remme-utils": "^0.1.3",
+    "sawtooth-sdk": "^1.0.4"
+  },
+  "devDependencies": {
+    "typescript": "^2.8.3"
+  }
+}
