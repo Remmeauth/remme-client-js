@@ -11,10 +11,8 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-rest": "^0.1.3",
     "remme-utils": "^0.1.3",
-    "remme-transaction-service": "0.1.3",
-    "remme-protobuf": "0.1.3"
+    "remme-public-key-storage": "0.1.3"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

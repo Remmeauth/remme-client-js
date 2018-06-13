@@ -40,6 +40,11 @@ const packages = [{
   src: path.join(__dirname, 'packages/remme-certificate'),
   config: path.join(__dirname, 'packages/remme-certificate/tsconfig.json')
 }, {
+  fileName: 'remme-public-key-storage',
+  expose: 'RemmePublicKeyStorage',
+  src: path.join(__dirname, 'packages/remme-public-key-storage'),
+  config: path.join(__dirname, 'packages/remme-public-key-storage/tsconfig.json')
+}, {
   fileName: 'remme-token',
   expose: 'RemmeToken',
   src: path.join(__dirname, 'packages/remme-token'),

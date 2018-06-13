@@ -65,18 +65,11 @@ describe("RemmeCertificate", function() {
     }).should.be.rejectedWith("Given certificate is not a valid");
   });
 
-  it("Sign and store certificate [not valid]", async () => {
-    const { certificate } = new Remme.Client();
-    await certificate.signAndStore({
-      bad: "certificate"
-    }).should.be.rejectedWith("Given certificate is not a valid");
-  });
-
   it("Store certificate [not implemented]", async () => {
     const { certificate } = new Remme.Client();
     await certificate.store({
       bad: "certificate"
-    }).should.be.rejectedWith("not implemented");
+    }).should.be.rejectedWith("Given certificate is not a valid");
   });
 
 });
