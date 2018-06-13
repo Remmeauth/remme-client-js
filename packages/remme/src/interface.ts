@@ -4,7 +4,7 @@ import { IRemmeAccount } from "remme-account";
 import { IRemmeBatch } from "remme-batch";
 import { IRemmeSwap } from "remme-atomic-swap";
 import { IRemmeTransactionService } from "remme-transaction-service";
-// import { IRemmePublicKeyStorage } from "remme-public-key-storage";
+import { IRemmePublicKeyStorage } from "remme-public-key-storage";
 
 export interface IRemmeClient {
     certificate: IRemmeCertificate;
@@ -13,7 +13,7 @@ export interface IRemmeClient {
     batch: IRemmeBatch;
     swap: IRemmeSwap;
     transaction: IRemmeTransactionService;
-    // publicKeyStorage: IRemmePublicKeyStorage;
+    publicKeyStorage: IRemmePublicKeyStorage;
 }
 
 export interface ClientInitInterface {
