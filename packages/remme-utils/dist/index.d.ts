@@ -36,7 +36,7 @@ declare module "node-forge" {
 declare class BaseTransactionResponse implements ITransactionResponse {
     batchId: string;
     private _socket;
-    private _socketAddress;
+    socketAddress: string;
     constructor(socketAddress: string);
     connectToWebSocket(callback: any): void;
     closeWebSocket(): void;

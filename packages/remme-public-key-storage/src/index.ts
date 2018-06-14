@@ -1,4 +1,4 @@
-import { forge, BaseTransactionResponse, oids, getAddressFromData } from "remme-utils";
+import { forge, BaseTransactionResponse, getAddressFromData } from "remme-utils";
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { IRemmeTransactionService } from "remme-transaction-service";
 import { TransactionPayload, NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload } from "remme-protobuf";
@@ -8,6 +8,7 @@ import {
     CheckPayload,
     CheckResult,
     PublicKeyStorageStoreDto,
+    UserStorePublicKeysResult,
 } from "./models";
 
 class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
@@ -50,7 +51,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         this._checkPublicKey(publicKeyPEM);
         const payload = new CheckPayload(publicKeyPEM);
         const result = await this._remmeRest
-            .postRequest<CheckPayload, CheckResult>(RemmeMethods.certificate, payload);
+            .postRequest<CheckPayload, CheckResult>(RemmeMethods.publicKey, payload);
         return !result.revoked;
     }
 
@@ -64,11 +65,11 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         return await this._createAndSendTransaction(payloadBytes);
     }
 
-    // public async getUserPublicKeys(publicKey: string): Promise<string[]> {
-    //     const apiResult = await this._remmeRest
-    //         .getRequest<UserCertificatesResult>(RemmeMethods.userCertificates, publicKey);
-    //     return apiResult.certificates;
-    // }
+    public async getUserPublicKeys(userAccountPublicKey: string): Promise<string[]> {
+        const apiResult = await this._remmeRest
+            .getRequest<UserStorePublicKeysResult>(RemmeMethods.userPublicKeys, userAccountPublicKey);
+        return apiResult.pub_keys;
+    }
 
     private _generateEntityHash(certificate: forge.pki.PEM): string {
         const certSHA512 = forge.md.sha512.create().update(certificate);

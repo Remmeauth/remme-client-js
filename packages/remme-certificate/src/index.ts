@@ -3,20 +3,16 @@ import { IRemmePublicKeyStorage } from "remme-public-key-storage";
 
 import { IRemmeCertificate } from "./interface";
 import {
-    CheckPayload,
     CertificateTransactionResponse,
     CertificateCreateDto,
-    UserCertificatesResult,
 } from "./models";
 
 class RemmeCertificate implements IRemmeCertificate {
     private readonly _remmePublicKeyStorage: IRemmePublicKeyStorage;
     private readonly _rsaKeySize: number = 2048;
-    private readonly _socketAddress: () => string;
 
-    public constructor(remmePublicKeyStorage: IRemmePublicKeyStorage, socketAddress: () => string) {
+    public constructor(remmePublicKeyStorage: IRemmePublicKeyStorage) {
         this._remmePublicKeyStorage = remmePublicKeyStorage;
-        this._socketAddress = socketAddress;
     }
 
     public async createAndStore(certificateDataToCreate: CertificateCreateDto)
@@ -24,7 +20,7 @@ class RemmeCertificate implements IRemmeCertificate {
         const keys = this._generateKeyPair();
         const cert = this._createCertificate(keys, certificateDataToCreate);
         const batchResponse = await this.store(cert);
-        const certResponse = new CertificateTransactionResponse(this._socketAddress());
+        const certResponse = new CertificateTransactionResponse(batchResponse.socketAddress);
         certResponse.certificate = cert;
         certResponse.batchId = batchResponse.batchId;
         return certResponse;
@@ -53,12 +49,6 @@ class RemmeCertificate implements IRemmeCertificate {
         const publicKeyPEM = this._getPublicKeyPEM(certificate);
         return await this._remmePublicKeyStorage.revoke(publicKeyPEM);
     }
-
-    // public async getUserCertificates(publicKey: string): Promise<string[]> {
-    //     const apiResult = await this._remmeRest
-    //         .getRequest<UserCertificatesResult>(RemmeMethods.userCertificates, publicKey);
-    //     return apiResult.certificates;
-    // }
 
     private _createCertificate(keys: forge.pki.KeyPair, certificateDataToCreate: CertificateCreateDto)
         : forge.pki.Certificate {

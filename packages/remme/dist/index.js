@@ -20,7 +20,7 @@ var Remme;
             this._account = new remme_account_1.RemmeAccount(privateKeyHex);
             this.transaction = new remme_transaction_service_1.RemmeTransactionService(this._remmeRest, this._account);
             this.publicKeyStorage = new remme_public_key_storage_1.RemmePublicKeyStorage(this._remmeRest, this.transaction);
-            this.certificate = new remme_certificate_1.RemmeCertificate(this.publicKeyStorage, this._remmeRest.socketAddress);
+            this.certificate = new remme_certificate_1.RemmeCertificate(this.publicKeyStorage);
             this.token = new remme_token_1.RemmeToken(this._remmeRest, this.transaction);
             this.batch = new remme_batch_1.RemmeBatch(this._remmeRest);
             this.swap = new remme_atomic_swap_1.RemmeSwap(this._remmeRest, this.transaction);

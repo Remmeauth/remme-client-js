@@ -18,14 +18,14 @@ else {
 }
 var BaseTransactionResponse = /** @class */ (function () {
     function BaseTransactionResponse(socketAddress) {
-        this._socketAddress = "ws://" + socketAddress + "/ws";
+        this.socketAddress = "ws://" + socketAddress + "/ws";
     }
     BaseTransactionResponse.prototype.connectToWebSocket = function (callback) {
         var _this = this;
         if (this._socket) {
             this.closeWebSocket();
         }
-        this._socket = new WS(this._socketAddress);
+        this._socket = new WS(this.socketAddress);
         this._socket.onopen = function () {
             _this._socket.send(_this.getSocketQuery());
         };
