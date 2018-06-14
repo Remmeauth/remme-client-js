@@ -49,13 +49,15 @@ var RemmePublicKeyStorage = /** @class */ (function () {
     RemmePublicKeyStorage.prototype.store = function (_a) {
         var data = _a.data, publicKey = _a.publicKey, privateKey = _a.privateKey, validTo = _a.validTo, validFrom = _a.validFrom, _b = _a.publicKeyType, publicKeyType = _b === void 0 ? remme_protobuf_1.NewPubKeyPayload.PubKeyType.RSA : _b, _c = _a.entityType, entityType = _c === void 0 ? remme_protobuf_1.NewPubKeyPayload.EntityType.PERSONAL : _c;
         return __awaiter(this, void 0, void 0, function () {
-            var publicKeyPEM, entityHash, entityHashSignature, payload, payloadBytes;
+            var publicKeyPEM, entityHash, privateKeyPEM, entityHashSignature, payload, pubKeyAddress, payloadBytes;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
                         publicKeyPEM = remme_utils_1.forge.pki.publicKeyToPem(publicKey);
                         entityHash = this._generateEntityHash(data);
-                        entityHashSignature = this._generateSignature(data, privateKey);
+                        privateKeyPEM = remme_utils_1.forge.pki.privateKeyToPem(privateKey);
+                        console.log(privateKeyPEM);
+                        entityHashSignature = this._generateSignature(entityHash, privateKey);
                         payload = remme_protobuf_1.NewPubKeyPayload.encode({
                             publicKey: publicKeyPEM,
                             publicKeyType: publicKeyType,
@@ -65,8 +67,9 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                             validFrom: validFrom,
                             validTo: validTo,
                         }).finish();
+                        pubKeyAddress = remme_utils_1.getAddressFromData(this._familyName, publicKeyPEM);
                         payloadBytes = this._generateTransactionPayload(remme_protobuf_1.PubKeyMethod.Method.STORE, payload);
-                        return [4 /*yield*/, this._createAndSendTransaction(payloadBytes)];
+                        return [4 /*yield*/, this._createAndSendTransaction([pubKeyAddress], payloadBytes)];
                     case 1: return [2 /*return*/, _d.sent()];
                 }
             });
@@ -84,7 +87,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                                 .postRequest(remme_rest_1.RemmeMethods.publicKey, payload)];
                     case 1:
                         result = _a.sent();
-                        return [2 /*return*/, !result.revoked];
+                        return [2 /*return*/, !!result && !result.revoked];
                 }
             });
         });
@@ -101,7 +104,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                             address: address,
                         }).finish();
                         payloadBytes = this._generateTransactionPayload(remme_protobuf_1.PubKeyMethod.Method.REVOKE, revokePayload);
-                        return [4 /*yield*/, this._createAndSendTransaction(payloadBytes)];
+                        return [4 /*yield*/, this._createAndSendTransaction([address], payloadBytes)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -122,18 +125,14 @@ var RemmePublicKeyStorage = /** @class */ (function () {
         });
     };
     RemmePublicKeyStorage.prototype._generateEntityHash = function (certificate) {
-        var certSHA512 = remme_utils_1.forge.md.sha512.create().update(certificate);
+        var certSHA512 = remme_utils_1.forge.md.sha256.create().update(certificate);
         return certSHA512.digest().toHex();
     };
-    RemmePublicKeyStorage.prototype._generateSignature = function (certificate, privateKey) {
+    RemmePublicKeyStorage.prototype._generateSignature = function (data, privateKey) {
         var md = remme_utils_1.forge.md.sha512.create();
-        md.update(certificate);
-        var pss = remme_utils_1.forge.pss.create({
-            md: remme_utils_1.forge.md.sha512.create(),
-            mgf: remme_utils_1.forge.mgf.mgf1.create(remme_utils_1.forge.md.sha512.create()),
-            saltLength: 20,
-        });
-        return privateKey.sign(md, pss);
+        md.update(data);
+        var signature = privateKey.sign(md);
+        return remme_utils_1.toHex(signature);
     };
     RemmePublicKeyStorage.prototype._generateTransactionPayload = function (method, data) {
         return remme_protobuf_1.TransactionPayload.encode({
@@ -141,7 +140,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             data: data,
         }).finish();
     };
-    RemmePublicKeyStorage.prototype._createAndSendTransaction = function (payloadBytes) {
+    RemmePublicKeyStorage.prototype._createAndSendTransaction = function (inputsOutputs, payloadBytes) {
         return __awaiter(this, void 0, void 0, function () {
             var transaction;
             return __generator(this, function (_a) {
@@ -149,8 +148,8 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this._remmeTransaction.create({
                             familyName: this._familyName,
                             familyVersion: this._familyVersion,
-                            inputs: [],
-                            outputs: [],
+                            inputs: inputsOutputs,
+                            outputs: inputsOutputs,
                             payloadBytes: payloadBytes,
                         })];
                     case 1:
