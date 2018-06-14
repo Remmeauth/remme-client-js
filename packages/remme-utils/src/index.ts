@@ -2,7 +2,7 @@ import * as forge from "node-forge";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { ITransactionResponse } from "./interface";
 import { BatchStateUpdateDto, BatchStatusesDto, oids } from "./models";
-import { hexToBytes, bytesToHex, getAddressFromData } from "./functions";
+import { hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData } from "./functions";
 
 declare global {
     interface Window {
@@ -52,16 +52,16 @@ class BaseTransactionResponse implements ITransactionResponse {
     public socketAddress: string;
 
     public constructor(socketAddress: string) {
-        this.socketAddress = `ws://${socketAddress}/ws`;
+        this.socketAddress = socketAddress;
     }
 
     public connectToWebSocket(callback: any): void {
         if (this._socket) {
             this.closeWebSocket();
         }
-        this._socket = new WS(this.socketAddress);
+        this._socket = new WS(this._getSubscribeUrl());
         this._socket.onopen = () => {
-            this._socket.send(this.getSocketQuery());
+            this._socket.send(this._getSocketQuery());
         };
         this._socket.onmessage = (e) => {
             const response: BatchStateUpdateDto = JSON.parse(e.data);
@@ -81,12 +81,16 @@ class BaseTransactionResponse implements ITransactionResponse {
         if (!this._socket) {
             throw new Error("WebSocket is not running");
         }
-        this._socket.send(this.getSocketQuery(false));
+        this._socket.send(this._getSocketQuery(false));
         this._socket.close();
         this._socket = null;
     }
 
-    private getSocketQuery(subscribe: boolean = true): string {
+    private _getSubscribeUrl(): string {
+        return `ws://${this.socketAddress}/ws`;
+    }
+
+    private _getSocketQuery(subscribe: boolean = true): string {
         const query = {
             type: "request",
             action: subscribe ? "subscribe" : "unsubscribe",
@@ -108,5 +112,7 @@ export {
     oids,
     hexToBytes,
     bytesToHex,
+    utf8ToBytes,
+    toHex,
     getAddressFromData,
 };

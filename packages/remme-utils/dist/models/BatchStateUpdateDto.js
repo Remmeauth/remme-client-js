@@ -12,6 +12,7 @@ var Statuses;
 (function (Statuses) {
     Statuses["OK"] = "OK";
     Statuses["NOT_CONFIRMED"] = "NOT_CONFIRMED";
+    Statuses["NO_RESOURCE"] = "NO_RESOURCE";
     Statuses["PENDING"] = "PENDING";
 })(Statuses = exports.Statuses || (exports.Statuses = {}));
 //# sourceMappingURL=BatchStateUpdateDto.js.map

@@ -1,4 +1,4 @@
-import { forge, BaseTransactionResponse, getAddressFromData } from "remme-utils";
+import { forge, BaseTransactionResponse, utf8ToBytes, bytesToHex, toHex, getAddressFromData } from "remme-utils";
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { IRemmeTransactionService } from "remme-transaction-service";
 import { TransactionPayload, NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload } from "remme-protobuf";
@@ -33,7 +33,9 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                        }: PublicKeyStorageStoreDto): Promise<BaseTransactionResponse> {
         const publicKeyPEM = forge.pki.publicKeyToPem(publicKey);
         const entityHash = this._generateEntityHash(data);
-        const entityHashSignature = this._generateSignature(data, privateKey);
+        const privateKeyPEM = forge.pki.privateKeyToPem(privateKey);
+        console.log(privateKeyPEM);
+        const entityHashSignature = this._generateSignature(entityHash, privateKey);
         const payload =  NewPubKeyPayload.encode({
             publicKey: publicKeyPEM,
             publicKeyType,
@@ -43,8 +45,9 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             validFrom,
             validTo,
         }).finish();
+        const pubKeyAddress = getAddressFromData(this._familyName, publicKeyPEM);
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
-        return await this._createAndSendTransaction(payloadBytes);
+        return await this._createAndSendTransaction([pubKeyAddress], payloadBytes);
     }
 
     public async check(publicKeyPEM: forge.pki.PEM): Promise<boolean> {
@@ -52,7 +55,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         const payload = new CheckPayload(publicKeyPEM);
         const result = await this._remmeRest
             .postRequest<CheckPayload, CheckResult>(RemmeMethods.publicKey, payload);
-        return !result.revoked;
+        return !!result && !result.revoked;
     }
 
     public async revoke(publicKeyPEM: forge.pki.PEM): Promise<BaseTransactionResponse> {
@@ -62,7 +65,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             address,
         }).finish();
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.REVOKE, revokePayload);
-        return await this._createAndSendTransaction(payloadBytes);
+        return await this._createAndSendTransaction([address], payloadBytes);
     }
 
     public async getUserPublicKeys(userAccountPublicKey: string): Promise<string[]> {
@@ -72,19 +75,15 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     }
 
     private _generateEntityHash(certificate: forge.pki.PEM): string {
-        const certSHA512 = forge.md.sha512.create().update(certificate);
+        const certSHA512 = forge.md.sha256.create().update(certificate);
         return certSHA512.digest().toHex();
     }
 
-    private _generateSignature(certificate: forge.pki.PEM, privateKey: forge.pki.Key): string {
+    private _generateSignature(data: string, privateKey: forge.pki.Key): string {
         const md = forge.md.sha512.create();
-        md.update(certificate);
-        const pss = forge.pss.create({
-            md: forge.md.sha512.create(),
-            mgf: forge.mgf.mgf1.create(forge.md.sha512.create()),
-            saltLength: 20,
-        });
-        return privateKey.sign(md, pss);
+        md.update(data);
+        const signature = privateKey.sign(md);
+        return toHex(signature);
     }
 
     private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
@@ -94,12 +93,13 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         }).finish();
     }
 
-    private async _createAndSendTransaction(payloadBytes: Uint8Array): Promise<BaseTransactionResponse> {
+    private async _createAndSendTransaction(inputsOutputs: string[], payloadBytes: Uint8Array)
+        : Promise<BaseTransactionResponse> {
         const transaction = await this._remmeTransaction.create({
             familyName: this._familyName,
             familyVersion: this._familyVersion,
-            inputs: [],
-            outputs: [],
+            inputs: inputsOutputs,
+            outputs: inputsOutputs,
             payloadBytes,
         });
         return await this._remmeTransaction.send(transaction);

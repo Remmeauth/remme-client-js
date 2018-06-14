@@ -14,9 +14,9 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     revoke(publicKeyPEM: forge.pki.PEM): Promise<BaseTransactionResponse>;
     getUserPublicKeys(userAccountPublicKey: string): Promise<string[]>;
     private _generateEntityHash(certificate);
-    private _generateSignature(certificate, privateKey);
+    private _generateSignature(data, privateKey);
     private _generateTransactionPayload(method, data);
-    private _createAndSendTransaction(payloadBytes);
+    private _createAndSendTransaction(inputsOutputs, payloadBytes);
     private _checkPublicKey(publicKeyPEM);
 }
 export { RemmePublicKeyStorage, IRemmePublicKeyStorage };

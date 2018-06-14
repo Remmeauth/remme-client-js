@@ -18,5 +18,6 @@ export interface BatchStatuses {
 export declare enum Statuses {
     OK = "OK",
     NOT_CONFIRMED = "NOT_CONFIRMED",
+    NO_RESOURCE = "NO_RESOURCE",
     PENDING = "PENDING",
 }
