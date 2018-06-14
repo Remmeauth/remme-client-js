@@ -117,7 +117,7 @@ var RemmeRest = /** @class */ (function () {
     RemmeRest.prototype.getUrlForRequest = function (method, payload) {
         var methodUrl = method;
         if (payload) {
-            methodUrl += "/" + payload + (method === remme_methods_1.RemmeMethods.userCertificates ? "/certificates" : "");
+            methodUrl += "/" + payload + (method === remme_methods_1.RemmeMethods.userPublicKeys ? "/pub_keys" : "");
         }
         return "http://" + this._nodeAddress + "/api/v1/" + methodUrl;
     };

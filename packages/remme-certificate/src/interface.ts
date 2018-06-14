@@ -9,6 +9,4 @@ export interface IRemmeCertificate {
     check(certificate: forge.pki.Certificate): Promise<boolean>;
 
     revoke(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse>;
-
-    // getUserCertificates(publicKey: string): Promise<string[]>;
 }

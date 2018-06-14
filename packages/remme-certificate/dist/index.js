@@ -38,10 +38,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var remme_utils_1 = require("remme-utils");
 var models_1 = require("./models");
 var RemmeCertificate = /** @class */ (function () {
-    function RemmeCertificate(remmePublicKeyStorage, socketAddress) {
+    function RemmeCertificate(remmePublicKeyStorage) {
         this._rsaKeySize = 2048;
         this._remmePublicKeyStorage = remmePublicKeyStorage;
-        this._socketAddress = socketAddress;
     }
     RemmeCertificate.prototype.createAndStore = function (certificateDataToCreate) {
         return __awaiter(this, void 0, void 0, function () {
@@ -54,7 +53,7 @@ var RemmeCertificate = /** @class */ (function () {
                         return [4 /*yield*/, this.store(cert)];
                     case 1:
                         batchResponse = _a.sent();
-                        certResponse = new models_1.CertificateTransactionResponse(this._socketAddress());
+                        certResponse = new models_1.CertificateTransactionResponse(batchResponse.socketAddress);
                         certResponse.certificate = cert;
                         certResponse.batchId = batchResponse.batchId;
                         return [2 /*return*/, certResponse];
@@ -110,11 +109,6 @@ var RemmeCertificate = /** @class */ (function () {
             });
         });
     };
-    // public async getUserCertificates(publicKey: string): Promise<string[]> {
-    //     const apiResult = await this._remmeRest
-    //         .getRequest<UserCertificatesResult>(RemmeMethods.userCertificates, publicKey);
-    //     return apiResult.certificates;
-    // }
     RemmeCertificate.prototype._createCertificate = function (keys, certificateDataToCreate) {
         var subject = this._createSubject(certificateDataToCreate);
         var cert = remme_utils_1.forge.pki.createCertificate();

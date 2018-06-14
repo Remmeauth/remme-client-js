@@ -5,8 +5,7 @@ import { CertificateTransactionResponse, CertificateCreateDto } from "./models";
 declare class RemmeCertificate implements IRemmeCertificate {
     private readonly _remmePublicKeyStorage;
     private readonly _rsaKeySize;
-    private readonly _socketAddress;
-    constructor(remmePublicKeyStorage: IRemmePublicKeyStorage, socketAddress: () => string);
+    constructor(remmePublicKeyStorage: IRemmePublicKeyStorage);
     createAndStore(certificateDataToCreate: CertificateCreateDto): Promise<CertificateTransactionResponse>;
     store(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse>;
     check(certificate: forge.pki.Certificate): Promise<boolean>;

@@ -81,7 +81,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                         this._checkPublicKey(publicKeyPEM);
                         payload = new models_1.CheckPayload(publicKeyPEM);
                         return [4 /*yield*/, this._remmeRest
-                                .postRequest(remme_rest_1.RemmeMethods.certificate, payload)];
+                                .postRequest(remme_rest_1.RemmeMethods.publicKey, payload)];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, !result.revoked];
@@ -107,11 +107,20 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             });
         });
     };
-    // public async getUserPublicKeys(publicKey: string): Promise<string[]> {
-    //     const apiResult = await this._remmeRest
-    //         .getRequest<UserCertificatesResult>(RemmeMethods.userCertificates, publicKey);
-    //     return apiResult.certificates;
-    // }
+    RemmePublicKeyStorage.prototype.getUserPublicKeys = function (userAccountPublicKey) {
+        return __awaiter(this, void 0, void 0, function () {
+            var apiResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this._remmeRest
+                            .getRequest(remme_rest_1.RemmeMethods.userPublicKeys, userAccountPublicKey)];
+                    case 1:
+                        apiResult = _a.sent();
+                        return [2 /*return*/, apiResult.pub_keys];
+                }
+            });
+        });
+    };
     RemmePublicKeyStorage.prototype._generateEntityHash = function (certificate) {
         var certSHA512 = remme_utils_1.forge.md.sha512.create().update(certificate);
         return certSHA512.digest().toHex();

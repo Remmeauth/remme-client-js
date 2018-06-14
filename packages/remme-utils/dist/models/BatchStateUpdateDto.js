@@ -11,5 +11,7 @@ exports.BatchStatusesDto = BatchStatusesDto;
 var Statuses;
 (function (Statuses) {
     Statuses["OK"] = "OK";
+    Statuses["NOT_CONFIRMED"] = "NOT_CONFIRMED";
+    Statuses["PENDING"] = "PENDING";
 })(Statuses = exports.Statuses || (exports.Statuses = {}));
 //# sourceMappingURL=BatchStateUpdateDto.js.map

@@ -33,7 +33,7 @@ namespace Remme {
             this._account = new RemmeAccount(privateKeyHex);
             this.transaction = new RemmeTransactionService(this._remmeRest, this._account);
             this.publicKeyStorage = new RemmePublicKeyStorage(this._remmeRest, this.transaction);
-            this.certificate = new RemmeCertificate(this.publicKeyStorage, this._remmeRest.socketAddress);
+            this.certificate = new RemmeCertificate(this.publicKeyStorage);
             this.token = new RemmeToken(this._remmeRest, this.transaction);
             this.batch = new RemmeBatch(this._remmeRest);
             this.swap = new RemmeSwap(this._remmeRest, this.transaction);

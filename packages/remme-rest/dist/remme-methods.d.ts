@@ -1,10 +1,8 @@
 export declare enum RemmeMethods {
-    certificate = "certificate",
-    certificateStore = "certificate/store",
+    publicKey = "pub_key",
     token = "token",
     batchStatus = "batch_status",
-    personal = "personal",
-    userCertificates = "user",
+    userPublicKeys = "user",
     atomicSwap = "atomic-swap",
     atomicSwapInit = "atomic-swap/init",
     atomicSwapApprove = "atomic-swap/approve",

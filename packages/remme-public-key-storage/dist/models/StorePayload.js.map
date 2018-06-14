@@ -1,1 +1,0 @@
-{"version":3,"file":"StorePayload.js","sourceRoot":"","sources":["../../src/models/StorePayload.ts"],"names":[],"mappings":";;AAAA,2CAAoC;AAEpC;IAEI,sBAAmB,WAAkC;QACjD,IAAI,CAAC,WAAW,GAAG,mBAAK,CAAC,GAAG,CAAC,yBAAyB,CAAC,WAAW,CAAC,CAAC;IACxE,CAAC;IACL,mBAAC;AAAD,CAAC,AALD,IAKC;AALY,oCAAY"}

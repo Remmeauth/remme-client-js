@@ -49,17 +49,17 @@ declare module "node-forge" {
 class BaseTransactionResponse implements ITransactionResponse {
     public batchId: string;
     private _socket: any;
-    private _socketAddress: string;
+    public socketAddress: string;
 
     public constructor(socketAddress: string) {
-        this._socketAddress = `ws://${socketAddress}/ws`;
+        this.socketAddress = `ws://${socketAddress}/ws`;
     }
 
     public connectToWebSocket(callback: any): void {
         if (this._socket) {
             this.closeWebSocket();
         }
-        this._socket = new WS(this._socketAddress);
+        this._socket = new WS(this.socketAddress);
         this._socket.onopen = () => {
             this._socket.send(this.getSocketQuery());
         };

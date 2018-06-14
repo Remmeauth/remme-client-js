@@ -2,12 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var RemmeMethods;
 (function (RemmeMethods) {
-    RemmeMethods["certificate"] = "certificate";
-    RemmeMethods["certificateStore"] = "certificate/store";
+    RemmeMethods["publicKey"] = "pub_key";
     RemmeMethods["token"] = "token";
     RemmeMethods["batchStatus"] = "batch_status";
-    RemmeMethods["personal"] = "personal";
-    RemmeMethods["userCertificates"] = "user";
+    RemmeMethods["userPublicKeys"] = "user";
     RemmeMethods["atomicSwap"] = "atomic-swap";
     RemmeMethods["atomicSwapInit"] = "atomic-swap/init";
     RemmeMethods["atomicSwapApprove"] = "atomic-swap/approve";
