@@ -1215,91 +1215,91 @@ export class AtomicSwapInfo implements IAtomicSwapInfo {
     public toJSON(): { [k: string]: any };
 }
 
-/** Properties of a CertificateMethod. */
-export interface ICertificateMethod {
+/** Properties of a PubKeyMethod. */
+export interface IPubKeyMethod {
 }
 
-/** Represents a CertificateMethod. */
-export class CertificateMethod implements ICertificateMethod {
+/** Represents a PubKeyMethod. */
+export class PubKeyMethod implements IPubKeyMethod {
 
     /**
-     * Constructs a new CertificateMethod.
+     * Constructs a new PubKeyMethod.
      * @param [properties] Properties to set
      */
-    constructor(properties?: ICertificateMethod);
+    constructor(properties?: IPubKeyMethod);
 
     /**
-     * Creates a new CertificateMethod instance using the specified properties.
+     * Creates a new PubKeyMethod instance using the specified properties.
      * @param [properties] Properties to set
-     * @returns CertificateMethod instance
+     * @returns PubKeyMethod instance
      */
-    public static create(properties?: ICertificateMethod): CertificateMethod;
+    public static create(properties?: IPubKeyMethod): PubKeyMethod;
 
     /**
-     * Encodes the specified CertificateMethod message. Does not implicitly {@link CertificateMethod.verify|verify} messages.
-     * @param message CertificateMethod message or plain object to encode
+     * Encodes the specified PubKeyMethod message. Does not implicitly {@link PubKeyMethod.verify|verify} messages.
+     * @param message PubKeyMethod message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: ICertificateMethod, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(message: IPubKeyMethod, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Encodes the specified CertificateMethod message, length delimited. Does not implicitly {@link CertificateMethod.verify|verify} messages.
-     * @param message CertificateMethod message or plain object to encode
+     * Encodes the specified PubKeyMethod message, length delimited. Does not implicitly {@link PubKeyMethod.verify|verify} messages.
+     * @param message PubKeyMethod message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: ICertificateMethod, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(message: IPubKeyMethod, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Decodes a CertificateMethod message from the specified reader or buffer.
+     * Decodes a PubKeyMethod message from the specified reader or buffer.
      * @param reader Reader or buffer to decode from
      * @param [length] Message length if known beforehand
-     * @returns CertificateMethod
+     * @returns PubKeyMethod
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): CertificateMethod;
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): PubKeyMethod;
 
     /**
-     * Decodes a CertificateMethod message from the specified reader or buffer, length delimited.
+     * Decodes a PubKeyMethod message from the specified reader or buffer, length delimited.
      * @param reader Reader or buffer to decode from
-     * @returns CertificateMethod
+     * @returns PubKeyMethod
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): CertificateMethod;
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): PubKeyMethod;
 
     /**
-     * Verifies a CertificateMethod message.
+     * Verifies a PubKeyMethod message.
      * @param message Plain object to verify
      * @returns `null` if valid, otherwise the reason why it is not
      */
     public static verify(message: { [k: string]: any }): (string|null);
 
     /**
-     * Creates a CertificateMethod message from a plain object. Also converts values to their respective internal types.
+     * Creates a PubKeyMethod message from a plain object. Also converts values to their respective internal types.
      * @param object Plain object
-     * @returns CertificateMethod
+     * @returns PubKeyMethod
      */
-    public static fromObject(object: { [k: string]: any }): CertificateMethod;
+    public static fromObject(object: { [k: string]: any }): PubKeyMethod;
 
     /**
-     * Creates a plain object from a CertificateMethod message. Also converts values to other types if specified.
-     * @param message CertificateMethod
+     * Creates a plain object from a PubKeyMethod message. Also converts values to other types if specified.
+     * @param message PubKeyMethod
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: CertificateMethod, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(message: PubKeyMethod, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
     /**
-     * Converts this CertificateMethod to JSON.
+     * Converts this PubKeyMethod to JSON.
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };
 }
 
-export namespace CertificateMethod {
+export namespace PubKeyMethod {
 
     /** Method enum. */
     enum Method {
@@ -1308,301 +1308,333 @@ export namespace CertificateMethod {
     }
 }
 
-/** Properties of a NewCertificatePayload. */
-export interface INewCertificatePayload {
+/** Properties of a NewPubKeyPayload. */
+export interface INewPubKeyPayload {
 
-    /** NewCertificatePayload certificateRaw */
-    certificateRaw?: (string|null);
+    /** NewPubKeyPayload publicKey */
+    publicKey?: (string|null);
 
-    /** NewCertificatePayload signatureRem */
-    signatureRem?: (string|null);
+    /** NewPubKeyPayload publicKeyType */
+    publicKeyType?: (NewPubKeyPayload.PubKeyType|null);
 
-    /** NewCertificatePayload signatureCrt */
-    signatureCrt?: (string|null);
+    /** NewPubKeyPayload entityType */
+    entityType?: (NewPubKeyPayload.EntityType|null);
 
-    /** NewCertificatePayload certSignerPublicKey */
-    certSignerPublicKey?: (string|null);
+    /** NewPubKeyPayload entityHash */
+    entityHash?: (string|null);
+
+    /** NewPubKeyPayload entityHashSignature */
+    entityHashSignature?: (string|null);
+
+    /** NewPubKeyPayload validFrom */
+    validFrom?: (number|null);
+
+    /** NewPubKeyPayload validTo */
+    validTo?: (number|null);
 }
 
-/** Represents a NewCertificatePayload. */
-export class NewCertificatePayload implements INewCertificatePayload {
+/** Represents a NewPubKeyPayload. */
+export class NewPubKeyPayload implements INewPubKeyPayload {
 
     /**
-     * Constructs a new NewCertificatePayload.
+     * Constructs a new NewPubKeyPayload.
      * @param [properties] Properties to set
      */
-    constructor(properties?: INewCertificatePayload);
+    constructor(properties?: INewPubKeyPayload);
 
-    /** NewCertificatePayload certificateRaw. */
-    public certificateRaw: string;
+    /** NewPubKeyPayload publicKey. */
+    public publicKey: string;
 
-    /** NewCertificatePayload signatureRem. */
-    public signatureRem: string;
+    /** NewPubKeyPayload publicKeyType. */
+    public publicKeyType: NewPubKeyPayload.PubKeyType;
 
-    /** NewCertificatePayload signatureCrt. */
-    public signatureCrt: string;
+    /** NewPubKeyPayload entityType. */
+    public entityType: NewPubKeyPayload.EntityType;
 
-    /** NewCertificatePayload certSignerPublicKey. */
-    public certSignerPublicKey: string;
+    /** NewPubKeyPayload entityHash. */
+    public entityHash: string;
+
+    /** NewPubKeyPayload entityHashSignature. */
+    public entityHashSignature: string;
+
+    /** NewPubKeyPayload validFrom. */
+    public validFrom: number;
+
+    /** NewPubKeyPayload validTo. */
+    public validTo: number;
 
     /**
-     * Creates a new NewCertificatePayload instance using the specified properties.
+     * Creates a new NewPubKeyPayload instance using the specified properties.
      * @param [properties] Properties to set
-     * @returns NewCertificatePayload instance
+     * @returns NewPubKeyPayload instance
      */
-    public static create(properties?: INewCertificatePayload): NewCertificatePayload;
+    public static create(properties?: INewPubKeyPayload): NewPubKeyPayload;
 
     /**
-     * Encodes the specified NewCertificatePayload message. Does not implicitly {@link NewCertificatePayload.verify|verify} messages.
-     * @param message NewCertificatePayload message or plain object to encode
+     * Encodes the specified NewPubKeyPayload message. Does not implicitly {@link NewPubKeyPayload.verify|verify} messages.
+     * @param message NewPubKeyPayload message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: INewCertificatePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(message: INewPubKeyPayload, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Encodes the specified NewCertificatePayload message, length delimited. Does not implicitly {@link NewCertificatePayload.verify|verify} messages.
-     * @param message NewCertificatePayload message or plain object to encode
+     * Encodes the specified NewPubKeyPayload message, length delimited. Does not implicitly {@link NewPubKeyPayload.verify|verify} messages.
+     * @param message NewPubKeyPayload message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: INewCertificatePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(message: INewPubKeyPayload, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Decodes a NewCertificatePayload message from the specified reader or buffer.
+     * Decodes a NewPubKeyPayload message from the specified reader or buffer.
      * @param reader Reader or buffer to decode from
      * @param [length] Message length if known beforehand
-     * @returns NewCertificatePayload
+     * @returns NewPubKeyPayload
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): NewCertificatePayload;
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): NewPubKeyPayload;
 
     /**
-     * Decodes a NewCertificatePayload message from the specified reader or buffer, length delimited.
+     * Decodes a NewPubKeyPayload message from the specified reader or buffer, length delimited.
      * @param reader Reader or buffer to decode from
-     * @returns NewCertificatePayload
+     * @returns NewPubKeyPayload
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): NewCertificatePayload;
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): NewPubKeyPayload;
 
     /**
-     * Verifies a NewCertificatePayload message.
+     * Verifies a NewPubKeyPayload message.
      * @param message Plain object to verify
      * @returns `null` if valid, otherwise the reason why it is not
      */
     public static verify(message: { [k: string]: any }): (string|null);
 
     /**
-     * Creates a NewCertificatePayload message from a plain object. Also converts values to their respective internal types.
+     * Creates a NewPubKeyPayload message from a plain object. Also converts values to their respective internal types.
      * @param object Plain object
-     * @returns NewCertificatePayload
+     * @returns NewPubKeyPayload
      */
-    public static fromObject(object: { [k: string]: any }): NewCertificatePayload;
+    public static fromObject(object: { [k: string]: any }): NewPubKeyPayload;
 
     /**
-     * Creates a plain object from a NewCertificatePayload message. Also converts values to other types if specified.
-     * @param message NewCertificatePayload
+     * Creates a plain object from a NewPubKeyPayload message. Also converts values to other types if specified.
+     * @param message NewPubKeyPayload
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: NewCertificatePayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(message: NewPubKeyPayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
     /**
-     * Converts this NewCertificatePayload to JSON.
+     * Converts this NewPubKeyPayload to JSON.
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };
 }
 
-/** Properties of a RevokeCertificatePayload. */
-export interface IRevokeCertificatePayload {
+export namespace NewPubKeyPayload {
 
-    /** RevokeCertificatePayload address */
+    /** EntityType enum. */
+    enum EntityType {
+        PERSONAL = 0,
+        SERVER = 1
+    }
+
+    /** PubKeyType enum. */
+    enum PubKeyType {
+        RSA = 0
+    }
+}
+
+/** Properties of a RevokePubKeyPayload. */
+export interface IRevokePubKeyPayload {
+
+    /** RevokePubKeyPayload address */
     address?: (string|null);
 }
 
-/** Represents a RevokeCertificatePayload. */
-export class RevokeCertificatePayload implements IRevokeCertificatePayload {
+/** Represents a RevokePubKeyPayload. */
+export class RevokePubKeyPayload implements IRevokePubKeyPayload {
 
     /**
-     * Constructs a new RevokeCertificatePayload.
+     * Constructs a new RevokePubKeyPayload.
      * @param [properties] Properties to set
      */
-    constructor(properties?: IRevokeCertificatePayload);
+    constructor(properties?: IRevokePubKeyPayload);
 
-    /** RevokeCertificatePayload address. */
+    /** RevokePubKeyPayload address. */
     public address: string;
 
     /**
-     * Creates a new RevokeCertificatePayload instance using the specified properties.
+     * Creates a new RevokePubKeyPayload instance using the specified properties.
      * @param [properties] Properties to set
-     * @returns RevokeCertificatePayload instance
+     * @returns RevokePubKeyPayload instance
      */
-    public static create(properties?: IRevokeCertificatePayload): RevokeCertificatePayload;
+    public static create(properties?: IRevokePubKeyPayload): RevokePubKeyPayload;
 
     /**
-     * Encodes the specified RevokeCertificatePayload message. Does not implicitly {@link RevokeCertificatePayload.verify|verify} messages.
-     * @param message RevokeCertificatePayload message or plain object to encode
+     * Encodes the specified RevokePubKeyPayload message. Does not implicitly {@link RevokePubKeyPayload.verify|verify} messages.
+     * @param message RevokePubKeyPayload message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: IRevokeCertificatePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(message: IRevokePubKeyPayload, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Encodes the specified RevokeCertificatePayload message, length delimited. Does not implicitly {@link RevokeCertificatePayload.verify|verify} messages.
-     * @param message RevokeCertificatePayload message or plain object to encode
+     * Encodes the specified RevokePubKeyPayload message, length delimited. Does not implicitly {@link RevokePubKeyPayload.verify|verify} messages.
+     * @param message RevokePubKeyPayload message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: IRevokeCertificatePayload, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(message: IRevokePubKeyPayload, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Decodes a RevokeCertificatePayload message from the specified reader or buffer.
+     * Decodes a RevokePubKeyPayload message from the specified reader or buffer.
      * @param reader Reader or buffer to decode from
      * @param [length] Message length if known beforehand
-     * @returns RevokeCertificatePayload
+     * @returns RevokePubKeyPayload
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): RevokeCertificatePayload;
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): RevokePubKeyPayload;
 
     /**
-     * Decodes a RevokeCertificatePayload message from the specified reader or buffer, length delimited.
+     * Decodes a RevokePubKeyPayload message from the specified reader or buffer, length delimited.
      * @param reader Reader or buffer to decode from
-     * @returns RevokeCertificatePayload
+     * @returns RevokePubKeyPayload
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): RevokeCertificatePayload;
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): RevokePubKeyPayload;
 
     /**
-     * Verifies a RevokeCertificatePayload message.
+     * Verifies a RevokePubKeyPayload message.
      * @param message Plain object to verify
      * @returns `null` if valid, otherwise the reason why it is not
      */
     public static verify(message: { [k: string]: any }): (string|null);
 
     /**
-     * Creates a RevokeCertificatePayload message from a plain object. Also converts values to their respective internal types.
+     * Creates a RevokePubKeyPayload message from a plain object. Also converts values to their respective internal types.
      * @param object Plain object
-     * @returns RevokeCertificatePayload
+     * @returns RevokePubKeyPayload
      */
-    public static fromObject(object: { [k: string]: any }): RevokeCertificatePayload;
+    public static fromObject(object: { [k: string]: any }): RevokePubKeyPayload;
 
     /**
-     * Creates a plain object from a RevokeCertificatePayload message. Also converts values to other types if specified.
-     * @param message RevokeCertificatePayload
+     * Creates a plain object from a RevokePubKeyPayload message. Also converts values to other types if specified.
+     * @param message RevokePubKeyPayload
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: RevokeCertificatePayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(message: RevokePubKeyPayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
     /**
-     * Converts this RevokeCertificatePayload to JSON.
+     * Converts this RevokePubKeyPayload to JSON.
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };
 }
 
-/** Properties of a CertificateStorage. */
-export interface ICertificateStorage {
+/** Properties of a PubKeyStorage. */
+export interface IPubKeyStorage {
 
-    /** CertificateStorage hash */
-    hash?: (string|null);
-
-    /** CertificateStorage owner */
+    /** PubKeyStorage owner */
     owner?: (string|null);
 
-    /** CertificateStorage revoked */
+    /** PubKeyStorage payload */
+    payload?: (INewPubKeyPayload|null);
+
+    /** PubKeyStorage revoked */
     revoked?: (boolean|null);
 }
 
-/** Represents a CertificateStorage. */
-export class CertificateStorage implements ICertificateStorage {
+/** Represents a PubKeyStorage. */
+export class PubKeyStorage implements IPubKeyStorage {
 
     /**
-     * Constructs a new CertificateStorage.
+     * Constructs a new PubKeyStorage.
      * @param [properties] Properties to set
      */
-    constructor(properties?: ICertificateStorage);
+    constructor(properties?: IPubKeyStorage);
 
-    /** CertificateStorage hash. */
-    public hash: string;
-
-    /** CertificateStorage owner. */
+    /** PubKeyStorage owner. */
     public owner: string;
 
-    /** CertificateStorage revoked. */
+    /** PubKeyStorage payload. */
+    public payload?: (INewPubKeyPayload|null);
+
+    /** PubKeyStorage revoked. */
     public revoked: boolean;
 
     /**
-     * Creates a new CertificateStorage instance using the specified properties.
+     * Creates a new PubKeyStorage instance using the specified properties.
      * @param [properties] Properties to set
-     * @returns CertificateStorage instance
+     * @returns PubKeyStorage instance
      */
-    public static create(properties?: ICertificateStorage): CertificateStorage;
+    public static create(properties?: IPubKeyStorage): PubKeyStorage;
 
     /**
-     * Encodes the specified CertificateStorage message. Does not implicitly {@link CertificateStorage.verify|verify} messages.
-     * @param message CertificateStorage message or plain object to encode
+     * Encodes the specified PubKeyStorage message. Does not implicitly {@link PubKeyStorage.verify|verify} messages.
+     * @param message PubKeyStorage message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: ICertificateStorage, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(message: IPubKeyStorage, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Encodes the specified CertificateStorage message, length delimited. Does not implicitly {@link CertificateStorage.verify|verify} messages.
-     * @param message CertificateStorage message or plain object to encode
+     * Encodes the specified PubKeyStorage message, length delimited. Does not implicitly {@link PubKeyStorage.verify|verify} messages.
+     * @param message PubKeyStorage message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: ICertificateStorage, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(message: IPubKeyStorage, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Decodes a CertificateStorage message from the specified reader or buffer.
+     * Decodes a PubKeyStorage message from the specified reader or buffer.
      * @param reader Reader or buffer to decode from
      * @param [length] Message length if known beforehand
-     * @returns CertificateStorage
+     * @returns PubKeyStorage
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): CertificateStorage;
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): PubKeyStorage;
 
     /**
-     * Decodes a CertificateStorage message from the specified reader or buffer, length delimited.
+     * Decodes a PubKeyStorage message from the specified reader or buffer, length delimited.
      * @param reader Reader or buffer to decode from
-     * @returns CertificateStorage
+     * @returns PubKeyStorage
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): CertificateStorage;
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): PubKeyStorage;
 
     /**
-     * Verifies a CertificateStorage message.
+     * Verifies a PubKeyStorage message.
      * @param message Plain object to verify
      * @returns `null` if valid, otherwise the reason why it is not
      */
     public static verify(message: { [k: string]: any }): (string|null);
 
     /**
-     * Creates a CertificateStorage message from a plain object. Also converts values to their respective internal types.
+     * Creates a PubKeyStorage message from a plain object. Also converts values to their respective internal types.
      * @param object Plain object
-     * @returns CertificateStorage
+     * @returns PubKeyStorage
      */
-    public static fromObject(object: { [k: string]: any }): CertificateStorage;
+    public static fromObject(object: { [k: string]: any }): PubKeyStorage;
 
     /**
-     * Creates a plain object from a CertificateStorage message. Also converts values to other types if specified.
-     * @param message CertificateStorage
+     * Creates a plain object from a PubKeyStorage message. Also converts values to other types if specified.
+     * @param message PubKeyStorage
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: CertificateStorage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(message: PubKeyStorage, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
     /**
-     * Converts this CertificateStorage to JSON.
+     * Converts this PubKeyStorage to JSON.
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };

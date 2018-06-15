@@ -1,8 +1,7 @@
 /// <reference types="node-forge" />
 import * as forge from "node-forge";
-import { ITransactionResponse } from "./interface";
 import { oids } from "./models";
-import { hexToBytes, bytesToHex, getAddressFromData } from "./functions";
+import { hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData, toHexString, toUTF8Array } from "./functions";
 declare global  {
     interface Window {
         WebSocket: any;
@@ -18,15 +17,22 @@ declare module "node-forge" {
         function createCertificationRequest(): Certificate;
         function publicKeyToAsn1(publicKey: Key): any;
         function publicKeyToRSAPublicKey(publicKey: Key): any;
+        namespace rsa {
+            function setPublicKey(n: any, e: any): any;
+        }
+    }
+    namespace md {
+        namespace sha512 {
+            function create(): MessageDigest;
+        }
+    }
+    namespace pss {
+        function create(any: any): any;
+    }
+    namespace mgf {
+        namespace mgf1 {
+            function create(any: any): any;
+        }
     }
 }
-declare class BaseTransactionResponse implements ITransactionResponse {
-    batchId: string;
-    private _socket;
-    private _socketAddress;
-    constructor(socketAddress: string);
-    connectToWebSocket(callback: any): void;
-    closeWebSocket(): void;
-    private getSocketQuery(subscribe?);
-}
-export { forge, BaseTransactionResponse, oids, hexToBytes, bytesToHex, getAddressFromData };
+export { forge, oids, hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData, toHexString, toUTF8Array };

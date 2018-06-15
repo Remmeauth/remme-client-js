@@ -1,6 +1,6 @@
-import { BaseTransactionResponse } from "remme-utils";
+import { IBaseTransactionResponse } from "remme-base-transaction-response";
 import { TransactionCreatePayload } from "./models";
 export interface IRemmeTransactionService {
     create(settings: TransactionCreatePayload): Promise<string>;
-    send(transaction: string): Promise<BaseTransactionResponse>;
+    send(transaction: string): Promise<IBaseTransactionResponse>;
 }

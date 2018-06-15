@@ -50,7 +50,7 @@ class RemmeRest implements IRemmeRest {
         let methodUrl: string = method;
 
         if (payload) {
-           methodUrl += `/${payload}${method === RemmeMethods.userCertificates ? "/certificates" : ""}`;
+           methodUrl += `/${payload}${method === RemmeMethods.userPublicKeys ? "/pub_keys" : ""}`;
         }
 
         return `http://${this._nodeAddress}/api/v1/${methodUrl}`;

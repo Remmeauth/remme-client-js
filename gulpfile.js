@@ -1,29 +1,30 @@
 'use strict';
 
-var lernaJSON = require('./lerna.json');
-var path = require('path');
+const lernaJSON = require('./lerna.json');
+const path = require('path');
 
-var del = require('del');
-var gulp = require('gulp');
-var tslint = require("gulp-tslint");
-var rename = require('gulp-rename');
-var streamify = require('gulp-streamify');
-var replace = require('gulp-replace');
-var browserify = require("browserify");
-var source = require('vinyl-source-stream');
-var tsify = require("tsify");
-var uglify = require('gulp-uglify');
-var sourcemaps = require('gulp-sourcemaps');
-var babel = require('gulp-babel');
-var buffer = require('vinyl-buffer');
-var exec = require('child_process').exec;
-var Karma = require('karma').Server;
-var fs = require('fs');
+const del = require('del');
+const gulp = require('gulp');
+const tslint = require("gulp-tslint");
+const rename = require('gulp-rename');
+const streamify = require('gulp-streamify');
+const replace = require('gulp-replace');
+const browserify = require("browserify");
+const source = require('vinyl-source-stream');
+const tsify = require("tsify");
+const uglify = require('gulp-uglify');
+const sourcemaps = require('gulp-sourcemaps');
+const babel = require('gulp-babel');
+const buffer = require('vinyl-buffer');
+const exec = require('child_process').exec;
+const Karma = require('karma').Server;
+const fs = require('fs');
 
 
-var DEST = path.join(__dirname, 'dist/');
+const DEST = path.join(__dirname, 'dist/');
+const srcProtobuf = path.join(__dirname, 'remme-protobuf');
 
-var packages = [{
+const packages = [{
   fileName: 'remme',
   expose: 'Remme',
   src: path.join(__dirname, 'packages/remme'),
@@ -39,6 +40,11 @@ var packages = [{
   src: path.join(__dirname, 'packages/remme-certificate'),
   config: path.join(__dirname, 'packages/remme-certificate/tsconfig.json')
 }, {
+  fileName: 'remme-public-key-storage',
+  expose: 'RemmePublicKeyStorage',
+  src: path.join(__dirname, 'packages/remme-public-key-storage'),
+  config: path.join(__dirname, 'packages/remme-public-key-storage/tsconfig.json')
+}, {
   fileName: 'remme-token',
   expose: 'RemmeToken',
   src: path.join(__dirname, 'packages/remme-token'),
@@ -48,6 +54,11 @@ var packages = [{
   expose: 'RemmeTransactionService',
   src: path.join(__dirname, 'packages/remme-transaction-service'),
   config: path.join(__dirname, 'packages/remme-transaction-service/tsconfig.json')
+},{
+  fileName: 'remme-base-transaction-response',
+  expose: 'RemmeBaseTransactionResponse',
+  src: path.join(__dirname, 'packages/remme-base-transaction-response'),
+  config: path.join(__dirname, 'packages/remme-base-transaction-response/tsconfig.json')
 }, {
   fileName: 'remme-account',
   expose: 'RemmeAccount',
@@ -80,7 +91,7 @@ var packages = [{
   config: path.join(__dirname, 'packages/remme-protobuf/tsconfig.json')
 }];
 
-var uglifyOptions = {
+const uglifyOptions = {
   compress: {
     dead_code: true,
     drop_debugger: true,
@@ -95,9 +106,9 @@ gulp.task('version', function () {
     throw new Error("version property is missing from lerna.json");
   }
 
-  var version = lernaJSON.version;
-  var jsonPattern = /"version": "[.0-9\-a-z]*"/;
-  var glob = [
+  const version = lernaJSON.version;
+  const jsonPattern = /"version": "[.0-9\-a-z]*"/;
+  const glob = [
     './package.json',
   ];
 
@@ -118,8 +129,8 @@ gulp.task('lint', function () {
 });
 
 gulp.task('protobuf-compile', function () {
-  const files = fs.readdirSync('./remme-protobuf')
-    .map(f => path.resolve('./remme-protobuf', f))
+  const files = fs.readdirSync(srcProtobuf)
+    .map(f => path.resolve(srcProtobuf, f))
     .filter(f => f.endsWith('.proto'));
   const filesInString = files.join(" ");
   exec('./node_modules/.bin/pbjs -t static-module -w commonjs -o ./packages/remme-protobuf/dist/index.js ' +
@@ -132,7 +143,7 @@ gulp.task('clean', ['lint'], function (cb) {
 });
 
 packages.forEach(function (pckg, i) {
-  var prevPckg = (!i) ? 'clean' : packages[i - 1].fileName;
+  const prevPckg = (!i) ? 'clean' : packages[i - 1].fileName;
 
   gulp.task(pckg.fileName, [prevPckg], function () {
     return browserify({

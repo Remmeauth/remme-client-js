@@ -6,8 +6,8 @@ var SwapInitDto = /** @class */ (function () {
         this.senderAddressNonLocal = "";
         this.amount = 0;
         this.swapId = "";
-        this.email = "";
-        this.secretLock = "";
+        this.secretLockBySolicitor = "";
+        this.emailAddressEncryptedByInitiator = "";
         this.createdAt = 0;
     }
     return SwapInitDto;

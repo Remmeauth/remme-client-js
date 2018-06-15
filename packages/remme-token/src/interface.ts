@@ -1,8 +1,8 @@
-import { BaseTransactionResponse } from "remme-utils";
+import { IBaseTransactionResponse } from "remme-base-transaction-response";
 
 export interface IRemmeToken {
 
-    transfer(publicKeyTo: string, amount: number): Promise<BaseTransactionResponse>;
+    transfer(publicKeyTo: string, amount: number): Promise<IBaseTransactionResponse>;
 
     getBalance(publicKeyTo: string): Promise<number>;
 

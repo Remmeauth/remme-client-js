@@ -2,7 +2,7 @@ import * as forge from "node-forge";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { ITransactionResponse } from "./interface";
 import { BatchStateUpdateDto, BatchStatusesDto, oids } from "./models";
-import { hexToBytes, bytesToHex, getAddressFromData } from "./functions";
+import { hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData, toHexString, toUTF8Array } from "./functions";
 
 declare global {
     interface Window {
@@ -27,25 +27,44 @@ declare module "node-forge" {
         function createCertificationRequest(): Certificate;
         function publicKeyToAsn1(publicKey: Key): any;
         function publicKeyToRSAPublicKey(publicKey: Key): any;
+        namespace rsa {
+            function setPublicKey(n: any, e: any): any;
+        }
+    }
+
+    export namespace md {
+        namespace sha512 {
+            function create(): MessageDigest;
+        }
+    }
+
+    export namespace pss {
+        function create(any: any): any;
+    }
+
+    export namespace mgf {
+        namespace mgf1 {
+            function create(any: any): any;
+        }
     }
 }
 
 class BaseTransactionResponse implements ITransactionResponse {
     public batchId: string;
     private _socket: any;
-    private _socketAddress: string;
+    public socketAddress: string;
 
     public constructor(socketAddress: string) {
-        this._socketAddress = `ws://${socketAddress}/ws`;
+        this.socketAddress = socketAddress;
     }
 
     public connectToWebSocket(callback: any): void {
         if (this._socket) {
             this.closeWebSocket();
         }
-        this._socket = new WS(this._socketAddress);
+        this._socket = new WS(this._getSubscribeUrl());
         this._socket.onopen = () => {
-            this._socket.send(this.getSocketQuery());
+            this._socket.send(this._getSocketQuery());
         };
         this._socket.onmessage = (e) => {
             const response: BatchStateUpdateDto = JSON.parse(e.data);
@@ -65,12 +84,16 @@ class BaseTransactionResponse implements ITransactionResponse {
         if (!this._socket) {
             throw new Error("WebSocket is not running");
         }
-        this._socket.send(this.getSocketQuery(false));
+        this._socket.send(this._getSocketQuery(false));
         this._socket.close();
         this._socket = null;
     }
 
-    private getSocketQuery(subscribe: boolean = true): string {
+    private _getSubscribeUrl(): string {
+        return `ws://${this.socketAddress}/ws`;
+    }
+
+    private _getSocketQuery(subscribe: boolean = true): string {
         const query = {
             type: "request",
             action: subscribe ? "subscribe" : "unsubscribe",
@@ -88,9 +111,12 @@ class BaseTransactionResponse implements ITransactionResponse {
 
 export {
     forge,
-    BaseTransactionResponse,
     oids,
     hexToBytes,
     bytesToHex,
+    utf8ToBytes,
+    toHex,
     getAddressFromData,
+    toHexString,
+    toUTF8Array,
 };
