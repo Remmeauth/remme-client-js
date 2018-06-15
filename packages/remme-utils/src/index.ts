@@ -2,7 +2,7 @@ import * as forge from "node-forge";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { ITransactionResponse } from "./interface";
 import { BatchStateUpdateDto, BatchStatusesDto, oids } from "./models";
-import { hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData } from "./functions";
+import { hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData, toHexString, toUTF8Array } from "./functions";
 
 declare global {
     interface Window {
@@ -27,6 +27,9 @@ declare module "node-forge" {
         function createCertificationRequest(): Certificate;
         function publicKeyToAsn1(publicKey: Key): any;
         function publicKeyToRSAPublicKey(publicKey: Key): any;
+        namespace rsa {
+            function setPublicKey(n: any, e: any): any;
+        }
     }
 
     export namespace md {
@@ -108,11 +111,12 @@ class BaseTransactionResponse implements ITransactionResponse {
 
 export {
     forge,
-    BaseTransactionResponse,
     oids,
     hexToBytes,
     bytesToHex,
     utf8ToBytes,
     toHex,
     getAddressFromData,
+    toHexString,
+    toUTF8Array,
 };

@@ -1,1 +1,0 @@
-{"version":3,"file":"SwapBaseRequest.js","sourceRoot":"","sources":["../../src/models/SwapBaseRequest.ts"],"names":[],"mappings":";;AAAA;IAGI,yBAAY,MAAc;QACtB,IAAI,MAAM,CAAC,MAAM,CAAC,gBAAgB,CAAC,KAAK,CAAC,CAAC,EAAE;YACxC,MAAM,IAAI,KAAK,CAAC,6BAA6B,CAAC,CAAC;SAClD;QACD,IAAI,CAAC,OAAO,GAAG,MAAM,CAAC;IAC1B,CAAC;IACL,sBAAC;AAAD,CAAC,AATD,IASC;AATY,0CAAe"}

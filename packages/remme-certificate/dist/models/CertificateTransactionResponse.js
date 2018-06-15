@@ -10,13 +10,13 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var remme_utils_1 = require("remme-utils");
+var remme_base_transaction_response_1 = require("remme-base-transaction-response");
 var CertificateTransactionResponse = /** @class */ (function (_super) {
     __extends(CertificateTransactionResponse, _super);
     function CertificateTransactionResponse(socketAddress) {
         return _super.call(this, socketAddress) || this;
     }
     return CertificateTransactionResponse;
-}(remme_utils_1.BaseTransactionResponse));
+}(remme_base_transaction_response_1.BaseTransactionResponse));
 exports.CertificateTransactionResponse = CertificateTransactionResponse;
 //# sourceMappingURL=CertificateTransactionResponse.js.map

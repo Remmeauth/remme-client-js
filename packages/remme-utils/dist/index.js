@@ -11,6 +11,8 @@ exports.bytesToHex = functions_1.bytesToHex;
 exports.utf8ToBytes = functions_1.utf8ToBytes;
 exports.toHex = functions_1.toHex;
 exports.getAddressFromData = functions_1.getAddressFromData;
+exports.toHexString = functions_1.toHexString;
+exports.toUTF8Array = functions_1.toUTF8Array;
 var WS;
 if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
     WS = window.WebSocket;
@@ -70,5 +72,4 @@ var BaseTransactionResponse = /** @class */ (function () {
     };
     return BaseTransactionResponse;
 }());
-exports.BaseTransactionResponse = BaseTransactionResponse;
 //# sourceMappingURL=index.js.map

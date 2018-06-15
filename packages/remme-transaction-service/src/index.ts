@@ -1,5 +1,5 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
-import { BaseTransactionResponse } from "remme-utils";
+import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
 import { IRemmeAccount } from "remme-account";
 import { createHash } from "crypto";
 import * as protobuf from "sawtooth-sdk/protobuf";
@@ -39,8 +39,6 @@ class RemmeTransactionService implements IRemmeTransactionService {
             payloadSha512: createHash("sha512").update(payloadBytes).digest("hex"),
         }).finish();
 
-        // console.log(protobuf.TransactionHeader.decode(transactionHeaderBytes));
-
         const signature = this._remmeAccount.sign(transactionHeaderBytes);
 
         let transaction = protobuf.Transaction.encode({
@@ -58,7 +56,7 @@ class RemmeTransactionService implements IRemmeTransactionService {
         return transaction;
     }
 
-    public async send(transaction: string): Promise<BaseTransactionResponse> {
+    public async send(transaction: string): Promise<IBaseTransactionResponse> {
         const apiResult = await this._remmeRest
             .postRequest<{transaction: string}, {batch_id: string}>(RemmeMethods.transaction, { transaction });
         const result = new BaseTransactionResponse(this._remmeRest.socketAddress());
