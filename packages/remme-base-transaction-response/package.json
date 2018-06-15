@@ -1,0 +1,19 @@
+{
+  "name": "remme-base-transaction-response",
+  "version": "0.2.0",
+  "description": "REMME base transaction response internal package",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "namespace": "remme",
+  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-base-transaction-response",
+  "scripts": {
+    "transpile": "./node_modules/.bin/tsc"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "websocket": "^1.0.26"
+  },
+  "devDependencies": {
+    "typescript": "^2.8.3"
+  }
+}

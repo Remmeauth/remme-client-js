@@ -1,1 +1,0 @@
-{"version":3,"file":"CheckPayload.js","sourceRoot":"","sources":["../../src/models/CheckPayload.ts"],"names":[],"mappings":";;AAAA,2CAAoC;AAEpC;IAEI,sBAAmB,WAAkC;QACjD,IAAI,CAAC,WAAW,GAAG,mBAAK,CAAC,GAAG,CAAC,gBAAgB,CAAC,WAAW,CAAC,CAAC;IAC/D,CAAC;IACL,mBAAC;AAAD,CAAC,AALD,IAKC;AALY,oCAAY"}

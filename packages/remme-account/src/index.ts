@@ -6,6 +6,7 @@ import { IRemmeAccount } from "./interface";
 
 class RemmeAccount implements IRemmeAccount {
     private _signer: any;
+    private _familyName = "account";
     public address: string;
     public publicKeyHex: string;
     public privateKeyHex: string;
@@ -24,7 +25,7 @@ class RemmeAccount implements IRemmeAccount {
         this._signer = new CryptoFactory(context).newSigner(privateKey);
         this.privateKeyHex = privateKey.asHex();
         this.publicKeyHex = this._signer.getPublicKey().asHex();
-        this.address = getAddressFromData("account", this.publicKeyHex);
+        this.address = getAddressFromData(this._familyName, this.publicKeyHex);
     }
 
     public get privateKey(): any {

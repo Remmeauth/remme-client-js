@@ -41,9 +41,10 @@ var remme_protobuf_1 = require("remme-protobuf");
 var models_1 = require("./models");
 var RemmeSwap = /** @class */ (function () {
     function RemmeSwap(remmeRest, remmeTransactionService) {
-        this.familyName = "AtomicSwap";
-        this.familyVersion = "0.1";
-        this.zeroAddress = "0".repeat(70);
+        this._familyName = "AtomicSwap";
+        this._familyVersion = "0.1";
+        this._zeroAddress = "0".repeat(70);
+        this._fiAddress = "00000059c88e4dbdb786bce3b0c44298fc1c14e3b0c44298fc1c14e3b0c44298fc1c14";
         this._remmeRest = remmeRest;
         this._remmeTransactionService = remmeTransactionService;
     }
@@ -53,8 +54,6 @@ var RemmeSwap = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        // const payload = new SwapBaseRequest(swapId);
-                        // return await this.baseRequest<SwapBaseRequest>(RemmeMethods.atomicSwapApprove, payload);
                         this.checkParameters({ swapId: swapId });
                         payload = remme_protobuf_1.AtomicSwapApprovePayload.encode({
                             swapId: swapId,
@@ -73,8 +72,6 @@ var RemmeSwap = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        // const payload = new SwapCloseRequest(swapId, secretKey);
-                        // return await this.baseRequest<SwapCloseRequest>(RemmeMethods.atomicSwapClose, payload);
                         this.checkParameters({ swapId: swapId, secretKey: secretKey });
                         return [4 /*yield*/, this.getInfo(swapId)];
                     case 1:
@@ -97,8 +94,6 @@ var RemmeSwap = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        // const payload = new SwapBaseRequest(swapId);
-                        // return await this.baseRequest<SwapBaseRequest>(RemmeMethods.atomicSwapExpire, payload);
                         this.checkParameters({ swapId: swapId });
                         payload = remme_protobuf_1.AtomicSwapExpirePayload.encode({
                             swapId: swapId,
@@ -151,16 +146,7 @@ var RemmeSwap = /** @class */ (function () {
                         transactionPayload = this.generateTransactionPayload(remme_protobuf_1.AtomicSwapMethod.Method.INIT, payload);
                         inputsOutputs = this.getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.INIT, swapId);
                         return [4 /*yield*/, this.createAndSendTransaction(transactionPayload, inputsOutputs)];
-                    case 1: 
-                    // const transaction = await this._remmeTransactionService.create({
-                    //     familyName: this.familyName,
-                    //     familyVersion: this.familyVersion,
-                    //     inputs: inputsOutputs,
-                    //     outputs: inputsOutputs,
-                    //     payloadBytes: transactionPayload,
-                    // });
-                    // return await this._remmeTransactionService.send(transaction);
-                    return [2 /*return*/, _a.sent()];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -171,11 +157,6 @@ var RemmeSwap = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        // const payload = new SwapSetSecretRequest(swapId, secretLock);
-                        // return await this.baseRequest<SwapSetSecretRequest>(
-                        //     RemmeMethods.atomicSwapSecretLock,
-                        //     payload,
-                        // );
                         this.checkParameters({ swapId: swapId, secretLock: secretLock });
                         payload = remme_protobuf_1.AtomicSwapSetSecretLockPayload.encode({
                             swapId: swapId,
@@ -185,22 +166,6 @@ var RemmeSwap = /** @class */ (function () {
                         inputsOutputs = this.getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.SET_SECRET_LOCK, swapId);
                         return [4 /*yield*/, this.createAndSendTransaction(transactionPayload, inputsOutputs)];
                     case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    RemmeSwap.prototype.baseRequest = function (method, payload) {
-        return __awaiter(this, void 0, void 0, function () {
-            var apiResult, result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._remmeRest
-                            .postRequest(method, payload)];
-                    case 1:
-                        apiResult = _a.sent();
-                        result = new remme_utils_1.BaseTransactionResponse(this._remmeRest.socketAddress());
-                        result.batchId = apiResult.batch_id;
-                        return [2 /*return*/, result];
                 }
             });
         });
@@ -233,17 +198,17 @@ var RemmeSwap = /** @class */ (function () {
         }
     };
     RemmeSwap.prototype.getAddresses = function (method, swapId, receiverAddress) {
-        var addresses = [remme_utils_1.getAddressFromData(this.familyName, swapId)];
+        var addresses = [remme_utils_1.getAddressFromData(this._familyName, swapId)];
         var methodToAddresses = (_a = {},
             _a[remme_protobuf_1.AtomicSwapMethod.Method.INIT] = [
-                "00000059c88e4dbdb786bce3b0c44298fc1c14e3b0c44298fc1c14e3b0c44298fc1c14",
-                this.zeroAddress,
+                this._fiAddress,
+                this._zeroAddress,
             ],
             _a[remme_protobuf_1.AtomicSwapMethod.Method.EXPIRE] = [
-                this.zeroAddress,
+                this._zeroAddress,
             ],
             _a[remme_protobuf_1.AtomicSwapMethod.Method.CLOSE] = [
-                this.zeroAddress,
+                this._zeroAddress,
                 receiverAddress,
             ],
             _a);
@@ -256,8 +221,8 @@ var RemmeSwap = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this._remmeTransactionService.create({
-                            familyName: this.familyName,
-                            familyVersion: this.familyVersion,
+                            familyName: this._familyName,
+                            familyVersion: this._familyVersion,
                             inputs: inputsOutputs,
                             outputs: inputsOutputs,
                             payloadBytes: transactionPayload,

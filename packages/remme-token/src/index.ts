@@ -1,5 +1,6 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
-import { BaseTransactionResponse, getAddressFromData } from "remme-utils";
+import { getAddressFromData } from "remme-utils";
+import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
 import { IRemmeTransactionService } from "remme-transaction-service";
 import { TransferPayload, TransactionPayload, AccountMethod } from "remme-protobuf";
 
@@ -9,22 +10,22 @@ import { IRemmeToken } from "./interface";
 class RemmeToken implements IRemmeToken {
     private readonly _remmeRest: IRemmeRest;
     private readonly _remmeTransaction: IRemmeTransactionService;
-    private readonly familyName = "account";
-    private readonly familyVersion = "0.1";
+    private readonly _familyName = "account";
+    private readonly _familyVersion = "0.1";
 
     public constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService) {
         this._remmeRest = remmeRest;
         this._remmeTransaction = remmeTransaction;
     }
 
-    public async transfer(publicKeyTo: string, amount: number): Promise<BaseTransactionResponse> {
+    public async transfer(publicKeyTo: string, amount: number): Promise<IBaseTransactionResponse> {
         if (publicKeyTo.search(/^[0-9a-f]{66}$/) === -1) {
             throw new Error("Given PublicKey is not a valid");
         }
         if (amount <= 0) {
             throw new Error("amount must be higher than 0");
         }
-        const receiverAddress = getAddressFromData(this.familyName, publicKeyTo);
+        const receiverAddress = getAddressFromData(this._familyName, publicKeyTo);
         const transferPayload = TransferPayload.encode({
             addressTo: receiverAddress,
             value: amount,
@@ -34,8 +35,8 @@ class RemmeToken implements IRemmeToken {
             data: transferPayload,
         }).finish();
         const transaction = await this._remmeTransaction.create({
-            familyName: this.familyName,
-            familyVersion: this.familyVersion,
+            familyName: this._familyName,
+            familyVersion: this._familyVersion,
             inputs: [receiverAddress],
             outputs: [receiverAddress],
             payloadBytes: transactionPayload,

@@ -5,6 +5,7 @@ var secp256k1_1 = require("sawtooth-sdk/signing/secp256k1");
 var remme_utils_1 = require("remme-utils");
 var RemmeAccount = /** @class */ (function () {
     function RemmeAccount(privateKeyHex) {
+        this._familyName = "account";
         if (privateKeyHex && privateKeyHex.search(/^[0-9a-f]{64}$/) === -1) {
             throw new Error("Given privateKey is not a valid");
         }
@@ -19,7 +20,7 @@ var RemmeAccount = /** @class */ (function () {
         this._signer = new signing_1.CryptoFactory(context).newSigner(privateKey);
         this.privateKeyHex = privateKey.asHex();
         this.publicKeyHex = this._signer.getPublicKey().asHex();
-        this.address = remme_utils_1.getAddressFromData("account", this.publicKeyHex);
+        this.address = remme_utils_1.getAddressFromData(this._familyName, this.publicKeyHex);
     }
     Object.defineProperty(RemmeAccount.prototype, "privateKey", {
         get: function () {

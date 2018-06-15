@@ -1,6 +1,6 @@
 {
   "name": "remme-account",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "REMME account internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,9 +11,9 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-rest": "^0.1.3",
-    "remme-token": "^0.1.3",
-    "remme-utils": "^0.1.3",
+    "remme-rest": "^0.2.0",
+    "remme-token": "^0.2.0",
+    "remme-utils": "^0.2.0",
     "sawtooth-sdk": "^1.0.4"
   },
   "devDependencies": {
