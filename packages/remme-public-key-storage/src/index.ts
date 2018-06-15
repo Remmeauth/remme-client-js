@@ -1,4 +1,10 @@
-import { forge, BaseTransactionResponse, utf8ToBytes, bytesToHex, toHex, getAddressFromData } from "remme-utils";
+import {
+    forge,
+    getAddressFromData,
+    toHexString,
+    toUTF8Array,
+} from "remme-utils";
+import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { IRemmeTransactionService } from "remme-transaction-service";
 import { TransactionPayload, NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload } from "remme-protobuf";
@@ -30,13 +36,12 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            validFrom,
                            publicKeyType = NewPubKeyPayload.PubKeyType.RSA,
                            entityType = NewPubKeyPayload.EntityType.PERSONAL,
-                       }: PublicKeyStorageStoreDto): Promise<BaseTransactionResponse> {
+                       }: PublicKeyStorageStoreDto): Promise<IBaseTransactionResponse> {
         const publicKeyPEM = forge.pki.publicKeyToPem(publicKey);
-        const entityHash = this._generateEntityHash(data);
-        const privateKeyPEM = forge.pki.privateKeyToPem(privateKey);
-        console.log(privateKeyPEM);
-        const entityHashSignature = this._generateSignature(entityHash, privateKey);
-        const payload =  NewPubKeyPayload.encode({
+        const message = this._generateMessage(data);
+        const entityHash = this._generateEntityHash(message);
+        const entityHashSignature = this._generateSignature(message, privateKey);
+        const  payload =  NewPubKeyPayload.encode({
             publicKey: publicKeyPEM,
             publicKeyType,
             entityType,
@@ -58,7 +63,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         return !!result && !result.revoked;
     }
 
-    public async revoke(publicKeyPEM: forge.pki.PEM): Promise<BaseTransactionResponse> {
+    public async revoke(publicKeyPEM: forge.pki.PEM): Promise<IBaseTransactionResponse> {
         this._checkPublicKey(publicKeyPEM);
         const address = getAddressFromData(this._familyName, publicKeyPEM);
         const revokePayload = RevokePubKeyPayload.encode({
@@ -74,16 +79,21 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         return apiResult.pub_keys;
     }
 
-    private _generateEntityHash(certificate: forge.pki.PEM): string {
-        const certSHA512 = forge.md.sha256.create().update(certificate);
+    private _generateMessage(certificate: forge.pki.PEM): string {
+        const certSHA512 = forge.md.sha512.create().update(certificate);
         return certSHA512.digest().toHex();
+    }
+
+    private _generateEntityHash(message: string): string {
+        const entityHashBytes = toUTF8Array(message);
+        return toHexString(entityHashBytes);
     }
 
     private _generateSignature(data: string, privateKey: forge.pki.Key): string {
         const md = forge.md.sha512.create();
-        md.update(data);
+        md.update(data, "utf8");
         const signature = privateKey.sign(md);
-        return toHex(signature);
+        return forge.util.bytesToHex(signature);
     }
 
     private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {

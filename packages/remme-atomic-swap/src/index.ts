@@ -1,5 +1,6 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
-import { BaseTransactionResponse, getAddressFromData } from "remme-utils";
+import { getAddressFromData } from "remme-utils";
+import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
 import { IRemmeTransactionService } from "remme-transaction-service";
 import { AtomicSwapMethod,
     AtomicSwapInitPayload,
@@ -31,7 +32,7 @@ class RemmeSwap implements IRemmeSwap {
         this._remmeTransactionService = remmeTransactionService;
     }
 
-    public async approve(swapId: string): Promise<BaseTransactionResponse> {
+    public async approve(swapId: string): Promise<IBaseTransactionResponse> {
         this.checkParameters({ swapId });
         const payload = AtomicSwapApprovePayload.encode({
             swapId,
@@ -41,7 +42,7 @@ class RemmeSwap implements IRemmeSwap {
         return await this.createAndSendTransaction(transactionPayload, inputsOutputs);
     }
 
-    public async close(swapId: string, secretKey: string): Promise<BaseTransactionResponse> {
+    public async close(swapId: string, secretKey: string): Promise<IBaseTransactionResponse> {
         this.checkParameters({ swapId, secretKey });
         const { receiverAddress } = await this.getInfo(swapId);
         const payload = AtomicSwapClosePayload.encode({
@@ -53,7 +54,7 @@ class RemmeSwap implements IRemmeSwap {
         return await this.createAndSendTransaction(transactionPayload, inputsOutputs);
     }
 
-    public async expire(swapId: string): Promise<BaseTransactionResponse> {
+    public async expire(swapId: string): Promise<IBaseTransactionResponse> {
         this.checkParameters({ swapId });
         const payload = AtomicSwapExpirePayload.encode({
             swapId,
@@ -74,7 +75,7 @@ class RemmeSwap implements IRemmeSwap {
         return apiResult.pub_key;
     }
 
-    public async init(data: SwapInitDto): Promise<BaseTransactionResponse> {
+    public async init(data: SwapInitDto): Promise<IBaseTransactionResponse> {
         this.validateData(data);
         // const swapId =
         const { swapId } = data;
@@ -84,7 +85,7 @@ class RemmeSwap implements IRemmeSwap {
         return await this.createAndSendTransaction(transactionPayload, inputsOutputs);
     }
 
-    public async setSecretLock(swapId: string, secretLock: string): Promise<BaseTransactionResponse> {
+    public async setSecretLock(swapId: string, secretLock: string): Promise<IBaseTransactionResponse> {
         this.checkParameters({ swapId, secretLock });
         const payload = AtomicSwapSetSecretLockPayload.encode({
             swapId,

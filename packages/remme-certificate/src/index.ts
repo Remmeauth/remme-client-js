@@ -1,4 +1,5 @@
-import { forge, BaseTransactionResponse, oids } from "remme-utils";
+import { forge, oids } from "remme-utils";
+import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
 import { IRemmePublicKeyStorage } from "remme-public-key-storage";
 
 import { IRemmeCertificate } from "./interface";
@@ -26,7 +27,7 @@ class RemmeCertificate implements IRemmeCertificate {
         return certResponse;
     }
 
-    public async store(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse> {
+    public async store(certificate: forge.pki.Certificate): Promise<IBaseTransactionResponse> {
         const certificatePEM = this._getCertificatePEM(certificate);
         const { publicKey, privateKey } = certificate;
         const validFrom = Math.floor(certificate.validity.notBefore.getTime() / 1000);
@@ -45,7 +46,7 @@ class RemmeCertificate implements IRemmeCertificate {
         return await this._remmePublicKeyStorage.check(publicKeyPEM);
     }
 
-    public async revoke(certificate: forge.pki.Certificate): Promise<BaseTransactionResponse> {
+    public async revoke(certificate: forge.pki.Certificate): Promise<IBaseTransactionResponse> {
         const publicKeyPEM = this._getPublicKeyPEM(certificate);
         return await this._remmePublicKeyStorage.revoke(publicKeyPEM);
     }

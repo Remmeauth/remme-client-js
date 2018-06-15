@@ -3,7 +3,7 @@ export declare class SwapInitDto {
     senderAddressNonLocal: string;
     amount: number;
     swapId: string;
-    email: string;
-    secretLock: string;
+    secretLockBySolicitor: string;
+    emailAddressEncryptedByInitiator: string;
     createdAt: number;
 }

@@ -49,15 +49,14 @@ var RemmePublicKeyStorage = /** @class */ (function () {
     RemmePublicKeyStorage.prototype.store = function (_a) {
         var data = _a.data, publicKey = _a.publicKey, privateKey = _a.privateKey, validTo = _a.validTo, validFrom = _a.validFrom, _b = _a.publicKeyType, publicKeyType = _b === void 0 ? remme_protobuf_1.NewPubKeyPayload.PubKeyType.RSA : _b, _c = _a.entityType, entityType = _c === void 0 ? remme_protobuf_1.NewPubKeyPayload.EntityType.PERSONAL : _c;
         return __awaiter(this, void 0, void 0, function () {
-            var publicKeyPEM, entityHash, privateKeyPEM, entityHashSignature, payload, pubKeyAddress, payloadBytes;
+            var publicKeyPEM, message, entityHash, entityHashSignature, payload, pubKeyAddress, payloadBytes;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
                         publicKeyPEM = remme_utils_1.forge.pki.publicKeyToPem(publicKey);
-                        entityHash = this._generateEntityHash(data);
-                        privateKeyPEM = remme_utils_1.forge.pki.privateKeyToPem(privateKey);
-                        console.log(privateKeyPEM);
-                        entityHashSignature = this._generateSignature(entityHash, privateKey);
+                        message = this._generateMessage(data);
+                        entityHash = this._generateEntityHash(message);
+                        entityHashSignature = this._generateSignature(message, privateKey);
                         payload = remme_protobuf_1.NewPubKeyPayload.encode({
                             publicKey: publicKeyPEM,
                             publicKeyType: publicKeyType,
@@ -124,15 +123,19 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             });
         });
     };
-    RemmePublicKeyStorage.prototype._generateEntityHash = function (certificate) {
-        var certSHA512 = remme_utils_1.forge.md.sha256.create().update(certificate);
+    RemmePublicKeyStorage.prototype._generateMessage = function (certificate) {
+        var certSHA512 = remme_utils_1.forge.md.sha512.create().update(certificate);
         return certSHA512.digest().toHex();
+    };
+    RemmePublicKeyStorage.prototype._generateEntityHash = function (message) {
+        var entityHashBytes = remme_utils_1.toUTF8Array(message);
+        return remme_utils_1.toHexString(entityHashBytes);
     };
     RemmePublicKeyStorage.prototype._generateSignature = function (data, privateKey) {
         var md = remme_utils_1.forge.md.sha512.create();
-        md.update(data);
+        md.update(data, "utf8");
         var signature = privateKey.sign(md);
-        return remme_utils_1.toHex(signature);
+        return remme_utils_1.forge.util.bytesToHex(signature);
     };
     RemmePublicKeyStorage.prototype._generateTransactionPayload = function (method, data) {
         return remme_protobuf_1.TransactionPayload.encode({

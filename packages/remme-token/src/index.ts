@@ -1,5 +1,6 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
-import { BaseTransactionResponse, getAddressFromData } from "remme-utils";
+import { getAddressFromData } from "remme-utils";
+import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
 import { IRemmeTransactionService } from "remme-transaction-service";
 import { TransferPayload, TransactionPayload, AccountMethod } from "remme-protobuf";
 
@@ -17,7 +18,7 @@ class RemmeToken implements IRemmeToken {
         this._remmeTransaction = remmeTransaction;
     }
 
-    public async transfer(publicKeyTo: string, amount: number): Promise<BaseTransactionResponse> {
+    public async transfer(publicKeyTo: string, amount: number): Promise<IBaseTransactionResponse> {
         if (publicKeyTo.search(/^[0-9a-f]{66}$/) === -1) {
             throw new Error("Given PublicKey is not a valid");
         }

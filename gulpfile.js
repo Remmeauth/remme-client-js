@@ -54,6 +54,11 @@ const packages = [{
   expose: 'RemmeTransactionService',
   src: path.join(__dirname, 'packages/remme-transaction-service'),
   config: path.join(__dirname, 'packages/remme-transaction-service/tsconfig.json')
+},{
+  fileName: 'remme-base-transaction-response',
+  expose: 'RemmeBaseTransactionResponse',
+  src: path.join(__dirname, 'packages/remme-base-transaction-response'),
+  config: path.join(__dirname, 'packages/remme-base-transaction-response/tsconfig.json')
 }, {
   fileName: 'remme-account',
   expose: 'RemmeAccount',

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_rest_1 = require("remme-rest");
-var remme_utils_1 = require("remme-utils");
+var remme_base_transaction_response_1 = require("remme-base-transaction-response");
 var crypto_1 = require("crypto");
 var protobuf = require("sawtooth-sdk/protobuf");
 var RemmeTransactionService = /** @class */ (function () {
@@ -91,7 +91,7 @@ var RemmeTransactionService = /** @class */ (function () {
                             .postRequest(remme_rest_1.RemmeMethods.transaction, { transaction: transaction })];
                     case 1:
                         apiResult = _a.sent();
-                        result = new remme_utils_1.BaseTransactionResponse(this._remmeRest.socketAddress());
+                        result = new remme_base_transaction_response_1.BaseTransactionResponse(this._remmeRest.socketAddress());
                         result.batchId = apiResult.batch_id;
                         return [2 /*return*/, result];
                 }

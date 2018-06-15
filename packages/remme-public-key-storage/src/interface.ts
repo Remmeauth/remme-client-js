@@ -1,12 +1,14 @@
-import { forge, BaseTransactionResponse } from "remme-utils";
+import { forge } from "remme-utils";
+import { IBaseTransactionResponse } from "remme-base-transaction-response";
+
 import { PublicKeyStorageStoreDto } from "./models";
 
 export interface IRemmePublicKeyStorage {
-    store(data: PublicKeyStorageStoreDto): Promise<BaseTransactionResponse>;
+    store(data: PublicKeyStorageStoreDto): Promise<IBaseTransactionResponse>;
 
     check(publicKeyPEM: forge.pki.PEM): Promise<boolean>;
 
-    revoke(publicKeyPEM: forge.pki.PEM): Promise<BaseTransactionResponse>;
+    revoke(publicKeyPEM: forge.pki.PEM): Promise<IBaseTransactionResponse>;
 
-    // getUserPublicKeys(publicKey: string): Promise<string[]>;
+    getUserPublicKeys(publicKey: string): Promise<string[]>;
 }
