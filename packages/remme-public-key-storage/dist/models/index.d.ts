@@ -1,4 +1,4 @@
-export { CheckPayload } from "./CheckPayload";
-export { CheckResult } from "./CheckResult";
+export { PublicKeyStorageCheckPayload } from "./PublicKeyStorageCheckPayload";
+export { PublicKeyStorageCheckResult } from "./PublicKeyStorageCheckResult";
 export { PublicKeyStorageStoreDto } from "./PublicKeyStorageStoreDto";
-export { UserStorePublicKeysResult } from "./UserStorePublicKeysResult";
+export { PublicKeyStorageUserStoreResult } from "./PublicKeyStorageUserStoreResult";

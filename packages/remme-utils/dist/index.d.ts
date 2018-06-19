@@ -2,11 +2,6 @@
 import * as forge from "node-forge";
 import { oids } from "./models";
 import { hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData, toHexString, toUTF8Array } from "./functions";
-declare global  {
-    interface Window {
-        WebSocket: any;
-    }
-}
 declare module "node-forge" {
     namespace pki {
         interface Certificate {

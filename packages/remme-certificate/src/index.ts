@@ -1,6 +1,6 @@
 import { forge, oids } from "remme-utils";
-import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
-import { IRemmePublicKeyStorage } from "remme-public-key-storage";
+import { IBaseTransactionResponse } from "remme-base-transaction-response";
+import { IRemmePublicKeyStorage, PublicKeyStorageCheckResult } from "remme-public-key-storage";
 
 import { IRemmeCertificate } from "./interface";
 import {
@@ -41,9 +41,18 @@ class RemmeCertificate implements IRemmeCertificate {
         });
     }
 
-    public async check(certificate: forge.pki.Certificate): Promise<boolean> {
+    public async check(certificate: forge.pki.Certificate): Promise<PublicKeyStorageCheckResult> {
         const publicKeyPEM = this._getPublicKeyPEM(certificate);
-        return await this._remmePublicKeyStorage.check(publicKeyPEM);
+        const checkResult = await this._remmePublicKeyStorage.check(publicKeyPEM);
+        const message = this._remmePublicKeyStorage.generateMessage(forge.pki.certificateToPem(certificate));
+        const entityHash = this._remmePublicKeyStorage.generateEntityHash(message);
+        const currentTime = Math.floor(Date.now() / 1000);
+        checkResult.valid = checkResult &&
+            !checkResult.revoked &&
+            entityHash === checkResult.entity_hash &&
+            currentTime >= checkResult.valid_from &&
+            currentTime < checkResult.valid_to;
+        return checkResult;
     }
 
     public async revoke(certificate: forge.pki.Certificate): Promise<IBaseTransactionResponse> {
