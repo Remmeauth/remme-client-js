@@ -1,5 +1,7 @@
 import { forge } from "remme-utils";
-import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
+import { IBaseTransactionResponse } from "remme-base-transaction-response";
+import { PublicKeyStorageCheckResult } from "remme-public-key-storage";
+
 import { CertificateCreateDto, CertificateTransactionResponse } from "./models";
 
 export interface IRemmeCertificate {
@@ -7,7 +9,7 @@ export interface IRemmeCertificate {
 
     store(certificate: forge.pki.Certificate): Promise<IBaseTransactionResponse>;
 
-    check(certificate: forge.pki.Certificate): Promise<boolean>;
+    check(certificate: forge.pki.Certificate): Promise<PublicKeyStorageCheckResult>;
 
     revoke(certificate: forge.pki.Certificate): Promise<IBaseTransactionResponse>;
 }

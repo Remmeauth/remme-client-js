@@ -64,7 +64,7 @@ class BaseTransactionResponse implements IBaseTransactionResponse {
             type: "request",
             action: subscribe ? "subscribe" : "unsubscribe",
             entity: "batch_state",
-            id: Math.random() * 1000,
+            id: Math.floor(Math.random() * 1000),
             parameters: {
                 batch_ids: [
                     this.batchId,
