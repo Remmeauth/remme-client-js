@@ -4,17 +4,17 @@ import {
     toHexString,
     toUTF8Array,
 } from "remme-utils";
-import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
+import { IBaseTransactionResponse } from "remme-base-transaction-response";
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { IRemmeTransactionService } from "remme-transaction-service";
 import { TransactionPayload, NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload } from "remme-protobuf";
 
 import { IRemmePublicKeyStorage } from "./interface";
 import {
-    CheckPayload,
-    CheckResult,
+    PublicKeyStorageCheckPayload,
+    PublicKeyStorageCheckResult,
     PublicKeyStorageStoreDto,
-    UserStorePublicKeysResult,
+    PublicKeyStorageUserStoreResult,
 } from "./models";
 
 class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
@@ -38,8 +38,8 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            entityType = NewPubKeyPayload.EntityType.PERSONAL,
                        }: PublicKeyStorageStoreDto): Promise<IBaseTransactionResponse> {
         const publicKeyPEM = forge.pki.publicKeyToPem(publicKey);
-        const message = this._generateMessage(data);
-        const entityHash = this._generateEntityHash(message);
+        const message = this.generateMessage(data);
+        const entityHash = this.generateEntityHash(message);
         const entityHashSignature = this._generateSignature(message, privateKey);
         const  payload =  NewPubKeyPayload.encode({
             publicKey: publicKeyPEM,
@@ -55,12 +55,11 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         return await this._createAndSendTransaction([pubKeyAddress], payloadBytes);
     }
 
-    public async check(publicKeyPEM: forge.pki.PEM): Promise<boolean> {
+    public async check(publicKeyPEM: forge.pki.PEM): Promise<PublicKeyStorageCheckResult> {
         this._checkPublicKey(publicKeyPEM);
-        const payload = new CheckPayload(publicKeyPEM);
-        const result = await this._remmeRest
-            .postRequest<CheckPayload, CheckResult>(RemmeMethods.publicKey, payload);
-        return !!result && !result.revoked;
+        const payload = new PublicKeyStorageCheckPayload(publicKeyPEM);
+        return await this._remmeRest
+            .postRequest<PublicKeyStorageCheckPayload, PublicKeyStorageCheckResult>(RemmeMethods.publicKey, payload);
     }
 
     public async revoke(publicKeyPEM: forge.pki.PEM): Promise<IBaseTransactionResponse> {
@@ -75,16 +74,16 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
 
     public async getUserPublicKeys(userAccountPublicKey: string): Promise<string[]> {
         const apiResult = await this._remmeRest
-            .getRequest<UserStorePublicKeysResult>(RemmeMethods.userPublicKeys, userAccountPublicKey);
+            .getRequest<PublicKeyStorageUserStoreResult>(RemmeMethods.userPublicKeys, userAccountPublicKey);
         return apiResult.pub_keys;
     }
 
-    private _generateMessage(certificate: forge.pki.PEM): string {
-        const certSHA512 = forge.md.sha512.create().update(certificate);
+    public generateMessage(data: string): string {
+        const certSHA512 = forge.md.sha512.create().update(data);
         return certSHA512.digest().toHex();
     }
 
-    private _generateEntityHash(message: string): string {
+    public generateEntityHash(message: string): string {
         const entityHashBytes = toUTF8Array(message);
         return toHexString(entityHashBytes);
     }
@@ -104,7 +103,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     }
 
     private async _createAndSendTransaction(inputsOutputs: string[], payloadBytes: Uint8Array)
-        : Promise<BaseTransactionResponse> {
+        : Promise<IBaseTransactionResponse> {
         const transaction = await this._remmeTransaction.create({
             familyName: this._familyName,
             familyVersion: this._familyVersion,
@@ -127,4 +126,5 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
 export {
     RemmePublicKeyStorage,
     IRemmePublicKeyStorage,
+    PublicKeyStorageCheckResult,
 };
