@@ -39,6 +39,7 @@ var remme_utils_1 = require("remme-utils");
 var remme_rest_1 = require("remme-rest");
 var remme_protobuf_1 = require("remme-protobuf");
 var models_1 = require("./models");
+exports.PublicKeyStorageCheckResult = models_1.PublicKeyStorageCheckResult;
 var RemmePublicKeyStorage = /** @class */ (function () {
     function RemmePublicKeyStorage(remmeRest, remmeTransaction) {
         this._familyName = "pub_key";
@@ -54,8 +55,8 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                 switch (_d.label) {
                     case 0:
                         publicKeyPEM = remme_utils_1.forge.pki.publicKeyToPem(publicKey);
-                        message = this._generateMessage(data);
-                        entityHash = this._generateEntityHash(message);
+                        message = this.generateMessage(data);
+                        entityHash = this.generateEntityHash(message);
                         entityHashSignature = this._generateSignature(message, privateKey);
                         payload = remme_protobuf_1.NewPubKeyPayload.encode({
                             publicKey: publicKeyPEM,
@@ -76,17 +77,15 @@ var RemmePublicKeyStorage = /** @class */ (function () {
     };
     RemmePublicKeyStorage.prototype.check = function (publicKeyPEM) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, result;
+            var payload;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this._checkPublicKey(publicKeyPEM);
-                        payload = new models_1.CheckPayload(publicKeyPEM);
+                        payload = new models_1.PublicKeyStorageCheckPayload(publicKeyPEM);
                         return [4 /*yield*/, this._remmeRest
                                 .postRequest(remme_rest_1.RemmeMethods.publicKey, payload)];
-                    case 1:
-                        result = _a.sent();
-                        return [2 /*return*/, !!result && !result.revoked];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -123,11 +122,11 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             });
         });
     };
-    RemmePublicKeyStorage.prototype._generateMessage = function (certificate) {
-        var certSHA512 = remme_utils_1.forge.md.sha512.create().update(certificate);
+    RemmePublicKeyStorage.prototype.generateMessage = function (data) {
+        var certSHA512 = remme_utils_1.forge.md.sha512.create().update(data);
         return certSHA512.digest().toHex();
     };
-    RemmePublicKeyStorage.prototype._generateEntityHash = function (message) {
+    RemmePublicKeyStorage.prototype.generateEntityHash = function (message) {
         var entityHashBytes = remme_utils_1.toUTF8Array(message);
         return remme_utils_1.toHexString(entityHashBytes);
     };
