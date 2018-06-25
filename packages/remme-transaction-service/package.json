@@ -1,6 +1,6 @@
 {
   "name": "remme-transaction-service",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "REMME transaction service internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -15,8 +15,8 @@
     "crypto": "^1.0.1",
     "js-base64": "^2.4.5",
     "remme-account": "^0.2.2",
-    "remme-base-transaction-response": "^0.2.3",
-    "remme-rest": "^0.2.3",
+    "remme-base-transaction-response": "^0.2.4",
+    "remme-rest": "^0.2.4",
     "remme-utils": "^0.2.2",
     "sawtooth-sdk": "^1.0.4"
   },
