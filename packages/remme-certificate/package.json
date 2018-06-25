@@ -1,6 +1,6 @@
 {
   "name": "remme-certificate",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "REMME certificate internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,8 +11,8 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-base-transaction-response": "^0.2.3",
-    "remme-public-key-storage": "^0.2.3",
+    "remme-base-transaction-response": "^0.2.4",
+    "remme-public-key-storage": "^0.2.4",
     "remme-utils": "^0.2.2"
   },
   "devDependencies": {
