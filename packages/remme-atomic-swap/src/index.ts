@@ -77,7 +77,6 @@ class RemmeSwap implements IRemmeSwap {
 
     public async init(data: SwapInitDto): Promise<IBaseTransactionResponse> {
         this.validateData(data);
-        // const swapId =
         const { swapId } = data;
         const payload = AtomicSwapInitPayload.encode(data).finish();
         const transactionPayload = this.generateTransactionPayload(AtomicSwapMethod.Method.INIT, payload);
@@ -143,7 +142,7 @@ class RemmeSwap implements IRemmeSwap {
     }
 
     private async createAndSendTransaction(transactionPayload: Uint8Array, inputsOutputs: string[])
-        : Promise<BaseTransactionResponse> {
+        : Promise<IBaseTransactionResponse> {
         const transaction = await this._remmeTransactionService.create({
             familyName: this._familyName,
             familyVersion: this._familyVersion,

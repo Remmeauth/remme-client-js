@@ -2,6 +2,10 @@ import { HttpClient, AxiosRequestConfig } from "remme-http-client";
 import { RemmeMethods } from "./remme-methods";
 import { IRemmeRest } from "./interface";
 
+export interface ErrorReceive {
+    error?: string;
+}
+
 class RemmeRest implements IRemmeRest {
     private readonly _nodeAddress: string;
     private readonly _socketAddress: string;
@@ -15,45 +19,56 @@ class RemmeRest implements IRemmeRest {
     public socketAddress = (): string => this._socketAddress;
 
     public async getRequest<Output>(method: RemmeMethods, payload?: string): Promise<Output> {
-        return await this.sendRequest<string, Output>("GET", method, payload);
+        return await this._sendRequest<string, Output>("GET", method, payload);
     }
 
     public async putRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output> {
-        return await this.sendRequest<Input, Output>("PUT", method, payload);
+        return await this._sendRequest<Input, Output>("PUT", method, payload);
     }
 
-    public async postRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output> {
-        return await this.sendRequest<Input, Output>("POST", method, payload);
-    }
-
-    public async deleteRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output> {
-        return await this.sendRequest<Input, Output>("DELETE", method, payload);
-    }
-
-    private async sendRequest<Input, Output>(method: string, remmeMethod: RemmeMethods, payload?: Input)
+    public async postRequest<Input, Output>(method: RemmeMethods, payload: Input)
         : Promise<Output> {
+        return await this._sendRequest<Input, Output>("POST", method, payload);
+    }
+
+    public async deleteRequest<Input, Output>(method: RemmeMethods, payload: Input)
+        : Promise<Output> {
+        return await this._sendRequest<Input, Output>("DELETE", method, payload);
+    }
+
+    private async _sendRequest<Input, Output>(method: string, remmeMethod: RemmeMethods, payload?: Input)
+        : Promise<Output> {
+        const url = this._getUrlForRequest<Input>(remmeMethod, method.toUpperCase() === "GET" ? payload : null);
+        const options: AxiosRequestConfig = {
+            url,
+            method,
+            [method.toUpperCase() === "GET" ? "params" : "data"]: payload,
+        };
+        let response;
         try {
-            const url = this.getUrlForRequest<Input>(remmeMethod, method.toUpperCase() === "GET" ? payload : null);
-            const options: AxiosRequestConfig = {
-                url,
-                method,
-                [method.toUpperCase() === "GET" ? "params" : "data"]: payload,
-            };
-            const response = await HttpClient.send(options);
-            return response.data;
+            response = await HttpClient.send(options);
         } catch (e) {
             throw new Error(`Please check if your node running at http://${this._nodeAddress}`);
         }
+        this._checkIfErrorReceive(response.data);
+        return response.data;
     }
 
-    private getUrlForRequest<Input>(method: RemmeMethods, payload?: Input): string {
+    private _getUrlForRequest<Input>(method: RemmeMethods, payload?: Input): string {
         let methodUrl: string = method;
 
         if (payload) {
            methodUrl += `/${payload}${method === RemmeMethods.userPublicKeys ? "/pub_keys" : ""}`;
         }
 
-        return `http://${this._nodeAddress}/api/v1/${methodUrl}`;
+        const protocol = this._nodeAddress.search(/^http(s)?:\/\//) === -1 ? "http://" : "";
+        return `${protocol}${this._nodeAddress}/api/v1/${methodUrl}`;
+    }
+
+    private _checkIfErrorReceive({ error }: ErrorReceive): void {
+        if (error) {
+            throw new Error(error);
+        }
     }
 }
 

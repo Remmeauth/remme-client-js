@@ -89,6 +89,9 @@ var RemmeCertificate = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (typeof certificate === "string") {
+                            certificate = this._getCertificateFromPEM(certificate);
+                        }
                         publicKeyPEM = this._getPublicKeyPEM(certificate);
                         return [4 /*yield*/, this._remmePublicKeyStorage.check(publicKeyPEM)];
                     case 1:
@@ -112,6 +115,9 @@ var RemmeCertificate = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (typeof certificate === "string") {
+                            certificate = this._getCertificateFromPEM(certificate);
+                        }
                         publicKeyPEM = this._getPublicKeyPEM(certificate);
                         return [4 /*yield*/, this._remmePublicKeyStorage.revoke(publicKeyPEM)];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -125,6 +131,7 @@ var RemmeCertificate = /** @class */ (function () {
         cert.setSubject(subject);
         cert.publicKey = keys.publicKey;
         cert.privateKey = keys.privateKey;
+        cert.serialNumber = certificateDataToCreate.serial;
         cert.validity.notBefore = new Date();
         cert.validity.notAfter = new Date();
         if (certificateDataToCreate.validAfter) {
@@ -190,6 +197,14 @@ var RemmeCertificate = /** @class */ (function () {
     RemmeCertificate.prototype._getCertificatePEM = function (certificate) {
         try {
             return remme_utils_1.forge.pki.certificateToPem(certificate);
+        }
+        catch (e) {
+            throw new Error("Given certificate is not a valid");
+        }
+    };
+    RemmeCertificate.prototype._getCertificateFromPEM = function (certificate) {
+        try {
+            return remme_utils_1.forge.pki.certificateFromPem(certificate);
         }
         catch (e) {
             throw new Error("Given certificate is not a valid");
