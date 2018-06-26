@@ -26,6 +26,11 @@ var BaseTransactionResponse = /** @class */ (function () {
             var response = JSON.parse(e.data);
             if (response.type === "message" &&
                 Object.getOwnPropertyNames(response.data).length !== 0) {
+                console.log(e.data);
+                if (response.data.batch_statuses.invalid_transactions) {
+                    _this.closeWebSocket();
+                    throw new Error(response.data.batch_statuses.invalid_transactions.message);
+                }
                 callback(null, new models_1.BatchStatusesDto(response.data.batch_statuses));
             }
         };
@@ -42,7 +47,8 @@ var BaseTransactionResponse = /** @class */ (function () {
         this._socket = null;
     };
     BaseTransactionResponse.prototype._getSubscribeUrl = function () {
-        return "ws://" + this.socketAddress + "/ws";
+        var protocol = this.socketAddress.search(/^ws(s)?:\/\//) === -1 ? "ws://" : "";
+        return "" + protocol + this.socketAddress + "/ws";
     };
     BaseTransactionResponse.prototype._getSocketQuery = function (subscribe) {
         if (subscribe === void 0) { subscribe = true; }

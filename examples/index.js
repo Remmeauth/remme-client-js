@@ -1,14 +1,17 @@
 const Remme = require("../packages/remme");
+const forge = require("../packages/remme-utils/node_modules/node-forge");
 // const Remme = require("remme");
 // import Remme from "remme";
 
 //Addresses of Docker container ports
-const nodeAddress = "192.168.88.242:8080";
-const socketAddress = "192.168.88.242:9080";
+const nodeAddress = "localhost:8080";
+const socketAddress = "localhost:9080";
 
 //Initialize client
 const remme = new Remme.Client({
   privateKeyHex: "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4ff5",
+  nodeAddress,
+  socketAddress,
 });
 const someRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759";
 const account = remme.account;
@@ -42,7 +45,8 @@ const account = remme.account;
     name: "John",
     surname: "Smith",
     countryName: "US",
-    validity: 360
+    validity: 360,
+    serial: `${Date.now()}`
   }); // 4
 
   const certificateTransactionCallback = async (err, response) => {
@@ -50,16 +54,22 @@ const account = remme.account;
       console.log(err);
       return;
     }
-    console.log("certificate", response);
+    console.log("store", response);
+    const check = await remme.certificate.revoke(certificateTransactionResult.certificate);
+    certificateTransactionResult.closeWebSocket();
+    check.connectToWebSocket((err, response) => {
+      console.log("revoke", response);
+    });
     // const batch_status = await remme.batch.getStatus(certificateTransactionResult.batchId);
     // console.log("status", batch_status);
     // const certificateStatus = await remme.certificate.check(certificateTransactionResult.certificate);
     // console.log(`Certificate IsValid = ${certificateStatus}`);
-    certificateTransactionResult.closeWebSocket();
   }; // 7
-
+  //
   certificateTransactionResult.connectToWebSocket(certificateTransactionCallback); // 5
-  // const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce4831";
+
+  // console.log(await remme.transaction.send("afa"));
+  // const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce4832";
   // const secretKey = "secretkey";
   // const secretLock = "aa273f38cf1d9c0fda0ee67b08927278b368db5927e4bf4c0aac15b95ac12df6";
   //
@@ -84,11 +94,11 @@ const account = remme.account;
   //
   //   const res = await remme.swap.getInfo(swapId);
   //   console.log("after init info", res);
-  //   init.closeWebSocket();
   //
+
   //   const balance = await remme.token.getBalance(account.publicKeyHex);
   //   console.log(`Account ${account.publicKeyHex} as sender, balance - ${balance} REM`); // 1
-  //
+
   //   const pubkey = await remme.swap.getPublicKey();
   //   console.log(pubkey);
 
@@ -125,15 +135,15 @@ const account = remme.account;
       //     console.log("after expire", res);
       //     expire.closeWebSocket();
       //
-  //         const close = await remme.swap.close(swapId, secretKey);
-  //         close.connectToWebSocket(async (err, data) => {
-  //           if (err) {
-  //             console.log("err close", err);
-  //           }
-  //           console.log("data close", data);
-  //           const res = await remme.swap.getInfo(swapId);
-  //           console.log("after close info", res);
-  //           close.closeWebSocket();
+      //     const close = await remme.swap.close(swapId, secretKey);
+      //     close.connectToWebSocket(async (err, data) => {
+      //       if (err) {
+      //         console.log("err close", err);
+      //       }
+      //       console.log("data close", data);
+      //       const res = await remme.swap.getInfo(swapId);
+      //       console.log("after close info", res);
+      //       close.closeWebSocket();
   //     //     });
   //     //   })
   //     // })

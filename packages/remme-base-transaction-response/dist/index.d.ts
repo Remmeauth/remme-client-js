@@ -6,8 +6,8 @@ declare global  {
 }
 declare class BaseTransactionResponse implements IBaseTransactionResponse {
     batchId: string;
-    private _socket;
     socketAddress: string;
+    private _socket;
     constructor(socketAddress: string);
     connectToWebSocket(callback: any): void;
     closeWebSocket(): void;

@@ -17,8 +17,8 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
 
 class BaseTransactionResponse implements IBaseTransactionResponse {
     public batchId: string;
-    private _socket: any;
     public socketAddress: string;
+    private _socket: any;
 
     public constructor(socketAddress: string) {
         this.socketAddress = socketAddress;
@@ -38,6 +38,11 @@ class BaseTransactionResponse implements IBaseTransactionResponse {
                 response.type === "message" &&
                 Object.getOwnPropertyNames(response.data).length !== 0
             ) {
+                console.log(e.data);
+                if (response.data.batch_statuses.invalid_transactions) {
+                    this.closeWebSocket();
+                    throw new Error(response.data.batch_statuses.invalid_transactions.message);
+                }
                 callback(null, new BatchStatusesDto(response.data.batch_statuses));
             }
         };
@@ -56,7 +61,8 @@ class BaseTransactionResponse implements IBaseTransactionResponse {
     }
 
     private _getSubscribeUrl(): string {
-        return `ws://${this.socketAddress}/ws`;
+        const protocol = this.socketAddress.search(/^ws(s)?:\/\//) === -1 ? "ws://" : "";
+        return `${protocol}${this.socketAddress}/ws`;
     }
 
     private _getSocketQuery(subscribe: boolean = true): string {
