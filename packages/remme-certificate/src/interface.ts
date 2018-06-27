@@ -9,7 +9,7 @@ export interface IRemmeCertificate {
 
     store(certificate: forge.pki.Certificate): Promise<IBaseTransactionResponse>;
 
-    check(certificate: forge.pki.Certificate): Promise<PublicKeyStorageCheckResult>;
+    check(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<PublicKeyStorageCheckResult>;
 
-    revoke(certificate: forge.pki.Certificate): Promise<IBaseTransactionResponse>;
+    revoke(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<IBaseTransactionResponse>;
 }

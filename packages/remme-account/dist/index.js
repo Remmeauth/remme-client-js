@@ -30,6 +30,9 @@ var RemmeAccount = /** @class */ (function () {
         configurable: true
     });
     RemmeAccount.prototype.sign = function (transaction) {
+        if (typeof transaction === "string") {
+            transaction = remme_utils_1.hexToBytes(transaction);
+        }
         return this._signer.sign(transaction);
     };
     return RemmeAccount;
