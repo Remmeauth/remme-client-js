@@ -41,7 +41,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         const message = this.generateMessage(data);
         const entityHash = this.generateEntityHash(message);
         const entityHashSignature = this._generateSignature(message, privateKey);
-        const  payload =  NewPubKeyPayload.encode({
+        const payload =  NewPubKeyPayload.encode({
             publicKey: publicKeyPEM,
             publicKeyType,
             entityType,
