@@ -2,7 +2,7 @@ import { HttpClient, AxiosRequestConfig } from "remme-http-client";
 import { RemmeMethods } from "./remme-methods";
 import { IRemmeRest } from "./interface";
 
-export interface ErrorReceive {
+export interface ErrorReceived {
     error?: string;
 }
 
@@ -65,7 +65,7 @@ class RemmeRest implements IRemmeRest {
         return `${protocol}${this._nodeAddress}/api/v1/${methodUrl}`;
     }
 
-    private _checkIfErrorReceive({ error }: ErrorReceive): void {
+    private _checkIfErrorReceive({ error }: ErrorReceived): void {
         if (error) {
             throw new Error(error);
         }

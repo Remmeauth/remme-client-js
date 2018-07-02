@@ -34,6 +34,38 @@ declare module "node-forge" {
     }
 }
 
+const certificateToPem = (certificate: forge.pki.Certificate): forge.pki.PEM => {
+    try {
+        return forge.pki.certificateToPem(certificate);
+    } catch (e) {
+        throw new Error("Given certificate is not a valid");
+    }
+};
+
+const certificateFromPem = (certificate: forge.pki.PEM): forge.pki.Certificate => {
+    try {
+        return forge.pki.certificateFromPem(certificate);
+    } catch (e) {
+        throw new Error("Given certificate is not a valid");
+    }
+};
+
+const publicKeyToPem = (publicKey: forge.pki.Key): forge.pki.PEM => {
+    try {
+        return forge.pki.publicKeyToPem(publicKey);
+    } catch (e) {
+        throw new Error("Given publicKey is not a valid");
+    }
+};
+
+const publicKeyFromPem = (publicKey: forge.pki.PEM): forge.pki.Certificate => {
+    try {
+        return forge.pki.publicKeyFromPem(publicKey);
+    } catch (e) {
+        throw new Error("Given publicKey is not a valid");
+    }
+};
+
 export {
     forge,
     oids,
@@ -44,4 +76,8 @@ export {
     getAddressFromData,
     toHexString,
     toUTF8Array,
+    certificateToPem,
+    certificateFromPem,
+    publicKeyToPem,
+    publicKeyFromPem,
 };

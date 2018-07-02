@@ -12,4 +12,40 @@ exports.toHex = functions_1.toHex;
 exports.getAddressFromData = functions_1.getAddressFromData;
 exports.toHexString = functions_1.toHexString;
 exports.toUTF8Array = functions_1.toUTF8Array;
+var certificateToPem = function (certificate) {
+    try {
+        return forge.pki.certificateToPem(certificate);
+    }
+    catch (e) {
+        throw new Error("Given certificate is not a valid");
+    }
+};
+exports.certificateToPem = certificateToPem;
+var certificateFromPem = function (certificate) {
+    try {
+        return forge.pki.certificateFromPem(certificate);
+    }
+    catch (e) {
+        throw new Error("Given certificate is not a valid");
+    }
+};
+exports.certificateFromPem = certificateFromPem;
+var publicKeyToPem = function (publicKey) {
+    try {
+        return forge.pki.publicKeyToPem(publicKey);
+    }
+    catch (e) {
+        throw new Error("Given publicKey is not a valid");
+    }
+};
+exports.publicKeyToPem = publicKeyToPem;
+var publicKeyFromPem = function (publicKey) {
+    try {
+        return forge.pki.publicKeyFromPem(publicKey);
+    }
+    catch (e) {
+        throw new Error("Given publicKey is not a valid");
+    }
+};
+exports.publicKeyFromPem = publicKeyFromPem;
 //# sourceMappingURL=index.js.map

@@ -27,7 +27,10 @@ class RemmeCertificate implements IRemmeCertificate {
         return certResponse;
     }
 
-    public async store(certificate: forge.pki.Certificate): Promise<IBaseTransactionResponse> {
+    public async store(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<IBaseTransactionResponse> {
+        if (typeof certificate === "string") {
+            certificate = this._getCertificateFromPEM(certificate);
+        }
         const certificatePEM = this._getCertificatePEM(certificate);
         const { publicKey, privateKey } = certificate;
         const validFrom = Math.floor(certificate.validity.notBefore.getTime() / 1000);

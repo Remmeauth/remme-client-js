@@ -75,14 +75,17 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             });
         });
     };
-    RemmePublicKeyStorage.prototype.check = function (publicKeyPEM) {
+    RemmePublicKeyStorage.prototype.check = function (publicKey) {
         return __awaiter(this, void 0, void 0, function () {
             var payload;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this._checkPublicKey(publicKeyPEM);
-                        payload = new models_1.PublicKeyStorageCheckPayload(publicKeyPEM);
+                        this._checkPublicKey(publicKey);
+                        if (typeof publicKey === "object") {
+                            publicKey = remme_utils_1.forge.pki.publicKeyToPem(publicKey);
+                        }
+                        payload = new models_1.PublicKeyStorageCheckPayload(publicKey);
                         return [4 /*yield*/, this._remmeRest
                                 .postRequest(remme_rest_1.RemmeMethods.publicKey, payload)];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -90,14 +93,17 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             });
         });
     };
-    RemmePublicKeyStorage.prototype.revoke = function (publicKeyPEM) {
+    RemmePublicKeyStorage.prototype.revoke = function (publicKey) {
         return __awaiter(this, void 0, void 0, function () {
             var address, revokePayload, payloadBytes;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this._checkPublicKey(publicKeyPEM);
-                        address = remme_utils_1.getAddressFromData(this._familyName, publicKeyPEM);
+                        this._checkPublicKey(publicKey);
+                        if (typeof publicKey === "object") {
+                            publicKey = remme_utils_1.forge.pki.publicKeyToPem(publicKey);
+                        }
+                        address = remme_utils_1.getAddressFromData(this._familyName, publicKey);
                         revokePayload = remme_protobuf_1.RevokePubKeyPayload.encode({
                             address: address,
                         }).finish();
@@ -162,9 +168,14 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             });
         });
     };
-    RemmePublicKeyStorage.prototype._checkPublicKey = function (publicKeyPEM) {
+    RemmePublicKeyStorage.prototype._checkPublicKey = function (publicKey) {
         try {
-            remme_utils_1.forge.pki.publicKeyFromPem(publicKeyPEM);
+            if (typeof publicKey === "string") {
+                remme_utils_1.forge.pki.publicKeyFromPem(publicKey);
+            }
+            else {
+                remme_utils_1.forge.pki.publicKeyToPem(publicKey);
+            }
         }
         catch (e) {
             throw new Error("Given publicKey is not a valid");
