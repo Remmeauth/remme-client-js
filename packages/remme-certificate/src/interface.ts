@@ -7,7 +7,7 @@ import { CertificateCreateDto, CertificateTransactionResponse } from "./models";
 export interface IRemmeCertificate {
     createAndStore(certificateDataToCreate: CertificateCreateDto): Promise<CertificateTransactionResponse>;
 
-    store(certificate: forge.pki.Certificate): Promise<IBaseTransactionResponse>;
+    store(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<IBaseTransactionResponse>;
 
     check(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<PublicKeyStorageCheckResult>;
 

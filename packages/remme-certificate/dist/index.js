@@ -67,6 +67,9 @@ var RemmeCertificate = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (typeof certificate === "string") {
+                            certificate = this._getCertificateFromPEM(certificate);
+                        }
                         certificatePEM = this._getCertificatePEM(certificate);
                         publicKey = certificate.publicKey, privateKey = certificate.privateKey;
                         validFrom = Math.floor(certificate.validity.notBefore.getTime() / 1000);
