@@ -18,32 +18,37 @@ class RemmeRest implements IRemmeRest {
     public nodeAddress = (): string => this._nodeAddress;
     public socketAddress = (): string => this._socketAddress;
 
-    public async getRequest<Output>(method: RemmeMethods, payload?: string): Promise<Output> {
-        return await this._sendRequest<string, Output>("GET", method, payload);
+    public async getRequest<Output>(method: RemmeMethods, payload?: string, params?: any): Promise<Output> {
+        const url = this._getUrlForRequest(method, payload);
+        return await this._sendRequest<string, Output>("GET", url, payload);
     }
 
     public async putRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output> {
-        return await this._sendRequest<Input, Output>("PUT", method, payload);
+        const url = this._getUrlForRequest(method);
+        return await this._sendRequest<Input, Output>("PUT", url, payload);
     }
 
     public async postRequest<Input, Output>(method: RemmeMethods, payload: Input)
         : Promise<Output> {
-        return await this._sendRequest<Input, Output>("POST", method, payload);
+        const url = this._getUrlForRequest(method);
+        return await this._sendRequest<Input, Output>("POST", url, payload);
     }
 
     public async deleteRequest<Input, Output>(method: RemmeMethods, payload: Input)
         : Promise<Output> {
-        return await this._sendRequest<Input, Output>("DELETE", method, payload);
+        const url = this._getUrlForRequest(method);
+        return await this._sendRequest<Input, Output>("DELETE", url, payload);
     }
 
-    private async _sendRequest<Input, Output>(method: string, remmeMethod: RemmeMethods, payload?: Input)
+    private async _sendRequest<Input, Output>(method: string, url: string, payload?: Input)
         : Promise<Output> {
-        const url = this._getUrlForRequest<Input>(remmeMethod, method.toUpperCase() === "GET" ? payload : null);
         const options: AxiosRequestConfig = {
             url,
             method,
-            [method.toUpperCase() === "GET" ? "params" : "data"]: payload,
         };
+        if (method.toUpperCase() !== "GET") {
+            options.data = payload;
+        }
         let response;
         try {
             response = await HttpClient.send(options);
@@ -54,7 +59,7 @@ class RemmeRest implements IRemmeRest {
         return response.data;
     }
 
-    private _getUrlForRequest<Input>(method: RemmeMethods, payload?: Input): string {
+    private _getUrlForRequest(method: RemmeMethods, payload?: string): string {
         let methodUrl: string = method;
 
         if (payload) {

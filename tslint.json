@@ -8,6 +8,7 @@
     "member-ordering": false,
     "interface-name": false,
     "no-console": false,
-    "no-bitwise": false
+    "no-bitwise": false,
+    "max-classes-per-file": []
   }
 }

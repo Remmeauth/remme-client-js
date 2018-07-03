@@ -70,6 +70,11 @@ const packages = [{
   src: path.join(__dirname, 'packages/remme-batch'),
   config: path.join(__dirname, 'packages/remme-batch/tsconfig.json')
 }, {
+  fileName: 'remme-blockchain-info',
+  expose: 'RemmeBlockchainInfo',
+  src: path.join(__dirname, 'packages/remme-blockchain-info'),
+  config: path.join(__dirname, 'packages/remme-blockchain-info/tsconfig.json')
+}, {
   fileName: 'remme-atomic-swap',
   expose: 'RemmeAtomicSwap',
   src: path.join(__dirname, 'packages/remme-atomic-swap'),
