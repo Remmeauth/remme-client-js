@@ -30,4 +30,8 @@ declare module "node-forge" {
         }
     }
 }
-export { forge, oids, hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData, toHexString, toUTF8Array };
+declare const certificateToPem: (certificate: forge.pki.Certificate) => string;
+declare const certificateFromPem: (certificate: string) => forge.pki.Certificate;
+declare const publicKeyToPem: (publicKey: any) => string;
+declare const publicKeyFromPem: (publicKey: string) => forge.pki.Certificate;
+export { forge, oids, hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData, toHexString, toUTF8Array, certificateToPem, certificateFromPem, publicKeyToPem, publicKeyFromPem };

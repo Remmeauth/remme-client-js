@@ -48,11 +48,14 @@ var RemmeRest = /** @class */ (function () {
         this._nodeAddress = nodeAddress;
         this._socketAddress = socketAddress;
     }
-    RemmeRest.prototype.getRequest = function (method, payload) {
+    RemmeRest.prototype.getRequest = function (method, payload, params) {
         return __awaiter(this, void 0, void 0, function () {
+            var url;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._sendRequest("GET", method, payload)];
+                    case 0:
+                        url = this._getUrlForRequest(method, payload);
+                        return [4 /*yield*/, this._sendRequest("GET", url, payload)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -60,9 +63,12 @@ var RemmeRest = /** @class */ (function () {
     };
     RemmeRest.prototype.putRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
+            var url;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._sendRequest("PUT", method, payload)];
+                    case 0:
+                        url = this._getUrlForRequest(method);
+                        return [4 /*yield*/, this._sendRequest("PUT", url, payload)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -70,9 +76,12 @@ var RemmeRest = /** @class */ (function () {
     };
     RemmeRest.prototype.postRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
+            var url;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._sendRequest("POST", method, payload)];
+                    case 0:
+                        url = this._getUrlForRequest(method);
+                        return [4 /*yield*/, this._sendRequest("POST", url, payload)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -80,36 +89,39 @@ var RemmeRest = /** @class */ (function () {
     };
     RemmeRest.prototype.deleteRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
+            var url;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._sendRequest("DELETE", method, payload)];
+                    case 0:
+                        url = this._getUrlForRequest(method);
+                        return [4 /*yield*/, this._sendRequest("DELETE", url, payload)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    RemmeRest.prototype._sendRequest = function (method, remmeMethod, payload) {
+    RemmeRest.prototype._sendRequest = function (method, url, payload) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, options, response, e_1, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var options, response, e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        url = this._getUrlForRequest(remmeMethod, method.toUpperCase() === "GET" ? payload : null);
-                        options = (_a = {
-                                url: url,
-                                method: method
-                            },
-                            _a[method.toUpperCase() === "GET" ? "params" : "data"] = payload,
-                            _a);
-                        _b.label = 1;
+                        options = {
+                            url: url,
+                            method: method,
+                        };
+                        if (method.toUpperCase() !== "GET") {
+                            options.data = payload;
+                        }
+                        _a.label = 1;
                     case 1:
-                        _b.trys.push([1, 3, , 4]);
+                        _a.trys.push([1, 3, , 4]);
                         return [4 /*yield*/, remme_http_client_1.HttpClient.send(options)];
                     case 2:
-                        response = _b.sent();
+                        response = _a.sent();
                         return [3 /*break*/, 4];
                     case 3:
-                        e_1 = _b.sent();
+                        e_1 = _a.sent();
                         throw new Error("Please check if your node running at http://" + this._nodeAddress);
                     case 4:
                         this._checkIfErrorReceive(response.data);

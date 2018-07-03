@@ -14,6 +14,11 @@ export declare class BatchStatusesDto {
 export interface BatchStatuses {
     status: string;
     batch_id: string;
+    invalid_transactions?: InvalidTransactions;
+}
+export interface InvalidTransactions {
+    transaction_id: string;
+    message: string;
 }
 export declare enum Statuses {
     OK = "OK",

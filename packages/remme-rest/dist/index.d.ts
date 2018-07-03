@@ -1,5 +1,8 @@
 import { RemmeMethods } from "./remme-methods";
 import { IRemmeRest } from "./interface";
+export interface ErrorReceived {
+    error?: string;
+}
 declare class RemmeRest implements IRemmeRest {
     private readonly _nodeAddress;
     private readonly _socketAddress;
@@ -10,7 +13,8 @@ declare class RemmeRest implements IRemmeRest {
     putRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output>;
     postRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output>;
     deleteRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output>;
-    private sendRequest<Input, Output>(method, remmeMethod, payload?);
-    private getUrlForRequest<Input>(method, payload?);
+    private _sendRequest<Input, Output>(method, remmeMethod, payload?);
+    private _getUrlForRequest<Input>(method, payload?);
+    private _checkIfErrorReceive({error});
 }
 export { RemmeMethods, RemmeRest, IRemmeRest };
