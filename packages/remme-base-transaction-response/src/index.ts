@@ -18,10 +18,12 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
 class BaseTransactionResponse implements IBaseTransactionResponse {
     public batchId: string;
     public socketAddress: string;
-    private _socket: any;
+    private _socket: W3CWebSocket;
+    private readonly _sslMode: boolean;
 
-    public constructor(socketAddress: string) {
+    public constructor(socketAddress: string, sslMode: boolean) {
         this.socketAddress = socketAddress;
+        this._sslMode = sslMode;
     }
 
     public connectToWebSocket(callback: any): void {
@@ -61,7 +63,7 @@ class BaseTransactionResponse implements IBaseTransactionResponse {
     }
 
     private _getSubscribeUrl(): string {
-        const protocol = this.socketAddress.search(/^ws(s)?:\/\//) === -1 ? "ws://" : "";
+        const protocol = this._sslMode ? "wss://" : "ws://";
         return `${protocol}${this.socketAddress}/ws`;
     }
 

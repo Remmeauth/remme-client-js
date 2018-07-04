@@ -7,16 +7,23 @@ var remme_token_1 = require("remme-token");
 var remme_account_1 = require("remme-account");
 var remme_batch_1 = require("remme-batch");
 var remme_atomic_swap_1 = require("remme-atomic-swap");
+var remme_blockchain_info_1 = require("remme-blockchain-info");
+var defaultConfig = {
+    nodeAddress: "localhost",
+    socketPort: "9080",
+    apiPort: "8080",
+    validatorPort: "8008",
+    sslMode: false,
+};
 var Remme;
 (function (Remme) {
     var Client = /** @class */ (function () {
         function Client(_a) {
             var _b = _a === void 0 ? {
                 privateKeyHex: "",
-                nodeAddress: "localhost:8080",
-                socketAddress: "localhost:9080",
-            } : _a, _c = _b.privateKeyHex, privateKeyHex = _c === void 0 ? "" : _c, _d = _b.nodeAddress, nodeAddress = _d === void 0 ? "localhost:8080" : _d, _e = _b.socketAddress, socketAddress = _e === void 0 ? "localhost:9080" : _e;
-            this._remmeRest = new remme_rest_1.RemmeRest(nodeAddress, socketAddress);
+                networkConfig: defaultConfig,
+            } : _a, _c = _b.privateKeyHex, privateKeyHex = _c === void 0 ? "" : _c, _d = _b.networkConfig, networkConfig = _d === void 0 ? defaultConfig : _d;
+            this._remmeRest = new remme_rest_1.RemmeRest(networkConfig);
             this._account = new remme_account_1.RemmeAccount(privateKeyHex);
             this.transaction = new remme_transaction_service_1.RemmeTransactionService(this._remmeRest, this._account);
             this.publicKeyStorage = new remme_public_key_storage_1.RemmePublicKeyStorage(this._remmeRest, this.transaction);
@@ -24,6 +31,7 @@ var Remme;
             this.token = new remme_token_1.RemmeToken(this._remmeRest, this.transaction);
             this.batch = new remme_batch_1.RemmeBatch(this._remmeRest);
             this.swap = new remme_atomic_swap_1.RemmeSwap(this._remmeRest, this.transaction);
+            this.blockchainInfo = new remme_blockchain_info_1.RemmeBlockchainInfo(this._remmeRest);
         }
         Object.defineProperty(Client.prototype, "account", {
             get: function () {

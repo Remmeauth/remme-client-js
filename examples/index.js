@@ -10,8 +10,13 @@ const socketAddress = "localhost:9080";
 //Initialize client
 const remme = new Remme.Client({
   privateKeyHex: "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4ff5",
-  nodeAddress,
-  socketAddress,
+  networkConfig: {
+    nodeAddress: "localhost",
+    socketPort: 9080,
+    apiPort: 8080,
+    validatorPort: 8008,
+    sslMode: false
+  }
 });
 const someRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759";
 const account = remme.account;
@@ -55,10 +60,13 @@ const account = remme.account;
       return;
     }
     console.log("store", response);
+    const chec = await remme.blockchainInfo.getBatches();
+    console.log(chec);
     const check = await remme.certificate.revoke(certificateTransactionResult.certificate);
     certificateTransactionResult.closeWebSocket();
     check.connectToWebSocket((err, response) => {
       console.log("revoke", response);
+      check.closeWebSocket();
     });
     // const batch_status = await remme.batch.getStatus(certificateTransactionResult.batchId);
     // console.log("status", batch_status);

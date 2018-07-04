@@ -34,7 +34,8 @@
     "remme-public-key-storage": "^0.2.4",
     "remme-rest": "^0.2.4",
     "remme-token": "^0.2.4",
-    "remme-transaction-service": "^0.2.4"
+    "remme-transaction-service": "^0.2.4",
+    "remme-blockchain-info": "^0.2.1"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

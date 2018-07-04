@@ -8,7 +8,8 @@ declare class BaseTransactionResponse implements IBaseTransactionResponse {
     batchId: string;
     socketAddress: string;
     private _socket;
-    constructor(socketAddress: string);
+    private readonly _sslMode;
+    constructor(socketAddress: string, sslMode: boolean);
     connectToWebSocket(callback: any): void;
     closeWebSocket(): void;
     private _getSubscribeUrl();

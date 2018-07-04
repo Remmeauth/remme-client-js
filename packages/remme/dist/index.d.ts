@@ -5,6 +5,7 @@ import { IRemmeToken } from "remme-token";
 import { IRemmeAccount } from "remme-account";
 import { IRemmeBatch } from "remme-batch";
 import { IRemmeSwap } from "remme-atomic-swap";
+import { IRemmeBlockchainInfo } from "remme-blockchain-info";
 import { IRemmeClient, ClientInitInterface } from "./interface";
 declare namespace Remme {
     class Client implements IRemmeClient {
@@ -16,7 +17,8 @@ declare namespace Remme {
         token: IRemmeToken;
         batch: IRemmeBatch;
         swap: IRemmeSwap;
-        constructor({privateKeyHex, nodeAddress, socketAddress}?: ClientInitInterface);
+        blockchainInfo: IRemmeBlockchainInfo;
+        constructor({privateKeyHex, networkConfig}?: ClientInitInterface);
         account: IRemmeAccount;
         static generateAccount(): IRemmeAccount;
     }

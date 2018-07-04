@@ -60,7 +60,7 @@ class RemmeTransactionService implements IRemmeTransactionService {
         const apiResult = await this._remmeRest
             .postRequest<{transaction: string}, {batch_id: string, error?: string}>
             (RemmeMethods.transaction, { transaction });
-        const result = new BaseTransactionResponse(this._remmeRest.socketAddress());
+        const result = new BaseTransactionResponse(this._remmeRest.socketAddress(), this._remmeRest.sslMode());
         result.batchId = apiResult.batch_id;
         return result;
     }

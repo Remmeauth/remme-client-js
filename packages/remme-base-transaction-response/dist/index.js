@@ -10,8 +10,9 @@ else {
     WS = websocket_1.w3cwebsocket;
 }
 var BaseTransactionResponse = /** @class */ (function () {
-    function BaseTransactionResponse(socketAddress) {
+    function BaseTransactionResponse(socketAddress, sslMode) {
         this.socketAddress = socketAddress;
+        this._sslMode = sslMode;
     }
     BaseTransactionResponse.prototype.connectToWebSocket = function (callback) {
         var _this = this;
@@ -47,7 +48,7 @@ var BaseTransactionResponse = /** @class */ (function () {
         this._socket = null;
     };
     BaseTransactionResponse.prototype._getSubscribeUrl = function () {
-        var protocol = this.socketAddress.search(/^ws(s)?:\/\//) === -1 ? "ws://" : "";
+        var protocol = this._sslMode ? "wss://" : "ws://";
         return "" + protocol + this.socketAddress + "/ws";
     };
     BaseTransactionResponse.prototype._getSocketQuery = function (subscribe) {

@@ -1,5 +1,4 @@
-import { RemmeMethods, IRemmeRest } from "remme-rest";
-import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
+import { RemmeMethods, ValidatorMethods, IRemmeRest } from "remme-rest";
 
 import { IRemmeBlockchainInfo } from "./interface";
 import {
@@ -20,44 +19,48 @@ import {
 class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     private readonly _remmeRest: IRemmeRest;
 
-    public getBatchById(id: string): Batch {
-        return undefined;
+    public constructor(remmeRest: IRemmeRest) {
+        this._remmeRest = remmeRest;
     }
 
-    public getBatches(query?: BaseQuery): BatchList {
-        return undefined;
+    public async getBatchById(id: string): Promise<Batch> {
+        return await this._remmeRest.getRequest<Batch>(ValidatorMethods.batches, id);
     }
 
-    public getBlockById(id: string): Block {
-        return undefined;
+    public async getBatches(query?: BaseQuery): Promise<BatchList> {
+        return await this._remmeRest.getRequest<BatchList>(ValidatorMethods.batches, "", query);
     }
 
-    public getBlocks(query?: BaseQuery): BlockList {
-        return undefined;
+    public async getBlockById(id: string): Promise<Block> {
+        return await this._remmeRest.getRequest<Block>(ValidatorMethods.blocks, id);
     }
 
-    public getState(query?: StateQuery): StateList {
-        return undefined;
+    public async getBlocks(query?: BaseQuery): Promise<BlockList> {
+        return await this._remmeRest.getRequest<BlockList>(ValidatorMethods.blocks, "", query);
     }
 
-    public getStateByAddress(address: string): State {
-        return undefined;
+    public async getPeers(): Promise<PeerList> {
+        return await this._remmeRest.getRequest<PeerList>(ValidatorMethods.peers);
     }
 
-    public getTransactionById(id: string): Transaction {
-        return undefined;
+    public async getReceipts(id: string): Promise<ReceiptList> {
+        return await this._remmeRest.getRequest<ReceiptList>(ValidatorMethods.receipts, "", { id });
     }
 
-    public getTransactions(query?: BaseQuery): TransactionList {
-        return undefined;
+    public async getState(query?: StateQuery): Promise<StateList> {
+        return await this._remmeRest.getRequest<StateList>(ValidatorMethods.state, "", query);
     }
 
-    public getPeers(): PeerList {
-        return undefined;
+    public async getStateByAddress(address: string): Promise<State> {
+        return await this._remmeRest.getRequest<State>(ValidatorMethods.state, address);
     }
 
-    public getReceipts(id: string): ReceiptList {
-        return undefined;
+    public async getTransactionById(id: string): Promise<Transaction> {
+        return await this._remmeRest.getRequest<Transaction>(ValidatorMethods.transactions, id);
+    }
+
+    public async getTransactions(query?: BaseQuery): Promise<TransactionList> {
+        return await this._remmeRest.getRequest<TransactionList>(ValidatorMethods.transactions, "", query);
     }
 }
 
