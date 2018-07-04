@@ -1,9 +1,10 @@
-import { RemmeMethods } from "./remme-methods";
+import { RemmeMethods, IQueryParams } from "./models";
 
 export interface IRemmeRest {
     nodeAddress(): string;
     socketAddress(): string;
-    getRequest<Output>(method: RemmeMethods, requestPayload?: string): Promise<Output>;
+    sslMode(): boolean;
+    getRequest<Output>(method: RemmeMethods, urlParams?: string, queryParams?: IQueryParams): Promise<Output>;
     putRequest<Input, Output>(method: RemmeMethods, requestPayload: Input): Promise<Output>;
     postRequest<Input, Output>(method: RemmeMethods, requestPayload: Input): Promise<Output>;
     deleteRequest<Input, Output>(method: RemmeMethods, requestPayload: Input): Promise<Output>;

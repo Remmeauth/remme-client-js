@@ -14,19 +14,19 @@ import {
 } from "./models";
 
 export interface IRemmeBlockchainInfo {
-    getTransactions(query?: BaseQuery): TransactionList;
-    getTransactionById(id: string): Transaction;
+    getTransactions(query?: BaseQuery): Promise<TransactionList>;
+    getTransactionById(id: string): Promise<Transaction>;
 
-    getBlocks(query?: BaseQuery): BlockList;
-    getBlockById(id: string): Block;
+    getBlocks(query?: BaseQuery): Promise<BlockList>;
+    getBlockById(id: string): Promise<Block>;
 
-    getBatches(query?: BaseQuery): BatchList;
-    getBatchById(id: string): Batch;
+    getBatches(query?: BaseQuery): Promise<BatchList>;
+    getBatchById(id: string): Promise<Batch>;
 
-    getState(query?: StateQuery): StateList;
-    getStateByAddress(address: string): State;
+    getState(query?: StateQuery): Promise<StateList>;
+    getStateByAddress(address: string): Promise<State>;
 
-    getPeers(): PeerList;
+    getPeers(): Promise<PeerList>;
 
-    getReceipts(id: string): ReceiptList;
+    getReceipts(id: string): Promise<ReceiptList>;
 }
