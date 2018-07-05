@@ -12,6 +12,7 @@ exports.toHex = functions_1.toHex;
 exports.getAddressFromData = functions_1.getAddressFromData;
 exports.toHexString = functions_1.toHexString;
 exports.toUTF8Array = functions_1.toUTF8Array;
+exports.base64ToArrayBuffer = functions_1.base64ToArrayBuffer;
 var certificateToPem = function (certificate) {
     try {
         return forge.pki.certificateToPem(certificate);

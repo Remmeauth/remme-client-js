@@ -15,6 +15,6 @@ declare class RemmeRest implements IRemmeRest {
     deleteRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output>;
     private _sendRequest<Input, Output>(method, url, payload?);
     private _getUrlForRequest(method, payload?);
-    private _checkIfErrorReceive({error});
+    private _throwErrorReceive({error});
 }
 export { RemmeMethods, ValidatorMethods, RemmeRest, IRemmeRest };

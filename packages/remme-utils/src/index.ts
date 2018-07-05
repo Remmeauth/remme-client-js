@@ -1,6 +1,15 @@
 import * as forge from "node-forge";
 import { oids } from "./models";
-import { hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData, toHexString, toUTF8Array } from "./functions";
+import {
+    hexToBytes,
+    bytesToHex,
+    utf8ToBytes,
+    toHex,
+    getAddressFromData,
+    toHexString,
+    toUTF8Array,
+    base64ToArrayBuffer,
+} from "./functions";
 
 declare module "node-forge" {
     export namespace pki {
@@ -80,4 +89,5 @@ export {
     certificateFromPem,
     publicKeyToPem,
     publicKeyFromPem,
+    base64ToArrayBuffer,
 };

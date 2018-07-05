@@ -1,5 +1,5 @@
 const Remme = require("../packages/remme");
-const forge = require("../packages/remme-utils/node_modules/node-forge");
+const utils = require("../packages/remme-utils");
 // const Remme = require("remme");
 // import Remme from "remme";
 
@@ -43,38 +43,52 @@ const account = remme.account;
   // transactionResult.connectToWebSocket(transactionCallback); // 3
 
   // Certificates Operations
-
-  const certificateTransactionResult = await remme.certificate.createAndStore({
-    commonName: "userName1",
-    email: "user@email.com",
-    name: "John",
-    surname: "Smith",
-    countryName: "US",
-    validity: 360,
-    serial: `${Date.now()}`
-  }); // 4
-
-  const certificateTransactionCallback = async (err, response) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log("store", response);
-    const chec = await remme.blockchainInfo.getBatches();
-    console.log(chec);
-    const check = await remme.certificate.revoke(certificateTransactionResult.certificate);
-    certificateTransactionResult.closeWebSocket();
-    check.connectToWebSocket((err, response) => {
-      console.log("revoke", response);
-      check.closeWebSocket();
-    });
-    // const batch_status = await remme.batch.getStatus(certificateTransactionResult.batchId);
-    // console.log("status", batch_status);
-    // const certificateStatus = await remme.certificate.check(certificateTransactionResult.certificate);
-    // console.log(`Certificate IsValid = ${certificateStatus}`);
-  }; // 7
+  const blocks = await remme.blockchainInfo.getBatches();
+  console.log(blocks);
+  const block = await remme.blockchainInfo.getBatchById(blocks.data[0].header_signature);
+  console.log(block);
+  const batches = await remme.blockchainInfo.getBatches({ reverse: true });
+  console.log(batches);
+  const batch = await remme.blockchainInfo.getBatchById(batches.data[0].header_signature);
+  console.log(batch);
+  const transactions = await remme.blockchainInfo.getTransactions();
+  console.log(transactions);
+  const transaction = await remme.blockchainInfo.getTransactionById(transactions.data[1].header_signature);
+  console.log(transaction);
+  console.log(utils.base64ToArrayBuffer(transactions.data[1].payload));
+  console.log(transactions.data[1].payload);
+  console.log(transactions.data[1].transactionProtobuf.decode(utils.base64ToArrayBuffer(transactions.data[1].payload)));
+  console.log(transactions.data[1].protobuf.decode(transactions.data[1].transactionProtobuf.decode(utils.base64ToArrayBuffer(transactions.data[1].payload)).data));
+  // const certificateTransactionResult = await remme.certificate.createAndStore({
+  //   commonName: "userName1",
+  //   email: "user@email.com",
+  //   name: "John",
+  //   surname: "Smith",
+  //   countryName: "US",
+  //   validity: 360,
+  //   serial: `${Date.now()}`
+  // }); // 4
   //
-  certificateTransactionResult.connectToWebSocket(certificateTransactionCallback); // 5
+  // const certificateTransactionCallback = async (err, response) => {
+  //   if (err) {
+  //     console.log(err);
+  //     return;
+  //   }
+  //   console.log("store", response);
+  //
+  //   const check = await remme.certificate.revoke(certificateTransactionResult.certificate);
+  //   certificateTransactionResult.closeWebSocket();
+  //   check.connectToWebSocket((err, response) => {
+  //     console.log("revoke", response);
+  //     check.closeWebSocket();
+  //   });
+  //   // const batch_status = await remme.batch.getStatus(certificateTransactionResult.batchId);
+  //   // console.log("status", batch_status);
+  //   // const certificateStatus = await remme.certificate.check(certificateTransactionResult.certificate);
+  //   // console.log(`Certificate IsValid = ${certificateStatus}`);
+  // }; // 7
+  // //
+  // certificateTransactionResult.connectToWebSocket(certificateTransactionCallback); // 5
 
   // console.log(await remme.transaction.send("afa"));
   // const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce4832";

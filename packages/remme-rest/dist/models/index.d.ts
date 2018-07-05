@@ -1,5 +1,10 @@
 export interface ErrorReceived {
-    error?: string;
+    error?: string | IValidatorError;
+}
+export interface IValidatorError {
+    code: number;
+    title: string;
+    message: string;
 }
 export interface IQueryParams {
     [propName: string]: string | number;

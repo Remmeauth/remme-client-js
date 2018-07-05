@@ -1,5 +1,6 @@
 import * as bytes from "utf8-bytes";
 import { sha512 } from "js-sha512";
+import * as b64 from "base64-js";
 
 export const hexToBytes = (str: string) => {
     const arr = [];
@@ -18,6 +19,10 @@ export const bytesToHex = (uint8arr: Uint8Array): string => {
         hexStr += hex;
     });
     return hexStr;
+};
+
+export const base64ToArrayBuffer = (base64: string): Uint8Array => {
+   return b64.toByteArray(base64);
 };
 
 export const utf8ToBytes = (str: string): any => {

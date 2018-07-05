@@ -12,7 +12,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "remme-base-transaction-response": "^0.2.4",
-    "remme-rest": "^0.2.4"
+    "remme-rest": "^0.2.4",
+    "remme-protobuf": "^0.2.0",
+    "remme-utils": "^0.2.2"
   },
   "devDependencies": {
     "typescript": "^2.8.3"
