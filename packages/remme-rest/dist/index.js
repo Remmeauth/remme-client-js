@@ -121,7 +121,9 @@ var RemmeRest = /** @class */ (function () {
                         return [4 /*yield*/, remme_http_client_1.HttpClient.send(options)];
                     case 1:
                         response = _a.sent();
-                        this._checkIfErrorReceive(response.data);
+                        if (response.data.error) {
+                            this._throwErrorReceive(response.data);
+                        }
                         return [2 /*return*/, response.data];
                     case 2:
                         e_1 = _a.sent();
@@ -146,10 +148,13 @@ var RemmeRest = /** @class */ (function () {
         }
         return "" + protocol + url + methodUrl;
     };
-    RemmeRest.prototype._checkIfErrorReceive = function (_a) {
+    RemmeRest.prototype._throwErrorReceive = function (_a) {
         var error = _a.error;
-        if (error) {
+        if (typeof error === "string") {
             throw new Error(error);
+        }
+        if (error.message) {
+            throw new Error(error.message);
         }
     };
     return RemmeRest;

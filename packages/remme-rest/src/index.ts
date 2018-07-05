@@ -55,7 +55,9 @@ class RemmeRest implements IRemmeRest {
             }
             let response;
             response = await HttpClient.send(options);
-            this._checkIfErrorReceive(response.data);
+            if (response.data.error) {
+                this._throwErrorReceive(response.data);
+            }
             return response.data;
         } catch (e) {
             throw new Error(`Please check if your node running at http://${this._nodeAddress}`);
@@ -79,9 +81,12 @@ class RemmeRest implements IRemmeRest {
         return `${protocol}${url}${methodUrl}`;
     }
 
-    private _checkIfErrorReceive({ error }: ErrorReceived): void {
-        if (error) {
+    private _throwErrorReceive({ error }: ErrorReceived): void {
+        if (typeof error === "string") {
             throw new Error(error);
+        }
+        if (error.message) {
+            throw new Error(error.message);
         }
     }
 }

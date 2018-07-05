@@ -1,13 +1,13 @@
 export interface IBaseResponse<T> {
     data: T;
     head?: string;
-    link: string;
+    link?: string;
     paging?: IPaging;
 }
 export declare class BaseResponse<T> implements IBaseResponse<T> {
     data: T;
-    head: string;
-    link: string;
+    head?: string;
+    link?: string;
     paging?: IPaging;
     constructor(data: IBaseResponse<T>);
 }

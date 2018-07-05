@@ -14,5 +14,9 @@ declare class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     getStateByAddress(address: string): Promise<State>;
     getTransactionById(id: string): Promise<Transaction>;
     getTransactions(query?: BaseQuery): Promise<TransactionList>;
+    private _checkId(id?);
+    private _checkAddress(address?);
+    private _checkQuery(query);
+    private _prepareTransaction(transaction);
 }
 export { RemmeBlockchainInfo, IRemmeBlockchainInfo };

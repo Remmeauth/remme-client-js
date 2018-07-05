@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var bytes = require("utf8-bytes");
 var js_sha512_1 = require("js-sha512");
+var b64 = require("base64-js");
 exports.hexToBytes = function (str) {
     var arr = [];
     var len = str.length;
@@ -18,6 +19,9 @@ exports.bytesToHex = function (uint8arr) {
         hexStr += hex;
     });
     return hexStr;
+};
+exports.base64ToArrayBuffer = function (base64) {
+    return b64.toByteArray(base64);
 };
 exports.utf8ToBytes = function (str) {
     return bytes(str);

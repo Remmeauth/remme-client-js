@@ -2,7 +2,7 @@ export interface BaseQuery {
     head?: string;
     start?: string;
     limit?: number;
-    reverse?: string;
+    // reverse?: boolean;
 }
 
 export interface StateQuery extends BaseQuery {
