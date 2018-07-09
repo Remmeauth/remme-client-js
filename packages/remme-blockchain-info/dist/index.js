@@ -52,18 +52,24 @@ var RemmeBlockchainInfo = /** @class */ (function () {
     }
     RemmeBlockchainInfo.prototype.getBatchById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
+            var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this._checkId(id);
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.batches, id)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        apiResult = _a.sent();
+                        apiResult.data = this._prepareBatch(apiResult.data);
+                        return [2 /*return*/, apiResult];
                 }
             });
         });
     };
     RemmeBlockchainInfo.prototype.getBatches = function (query) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -71,25 +77,36 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                             query = this._checkQuery(query);
                         }
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.batches, "", query)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        apiResult = _a.sent();
+                        apiResult.data = apiResult.data.map(function (item) {
+                            _this._prepareBatch(item);
+                        });
+                        return [2 /*return*/, apiResult];
                 }
             });
         });
     };
     RemmeBlockchainInfo.prototype.getBlockById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
+            var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this._checkId(id);
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.blocks, id)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        apiResult = _a.sent();
+                        apiResult.data = this._prepareBlock(apiResult.data);
+                        return [2 /*return*/, apiResult];
                 }
             });
         });
     };
     RemmeBlockchainInfo.prototype.getBlocks = function (query) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -97,7 +114,12 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                             query = this._checkQuery(query);
                         }
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.blocks, "", query)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        apiResult = _a.sent();
+                        apiResult.data = apiResult.data.map(function (block) {
+                            return _this._prepareBlock(block);
+                        });
+                        return [2 /*return*/, apiResult];
                 }
             });
         });
@@ -243,6 +265,13 @@ var RemmeBlockchainInfo = /** @class */ (function () {
     // private _prepareAddress(): void {
     //
     // }
+    RemmeBlockchainInfo.prototype._prepareBlock = function (block) {
+        var _this = this;
+        block.batches = block.batches.map(function (batch) {
+            return _this._prepareBatch(batch);
+        });
+        return block;
+    };
     RemmeBlockchainInfo.prototype._prepareBatch = function (batch) {
         var _this = this;
         batch.transactions = batch.transactions.map(function (transaction) {
@@ -259,23 +288,24 @@ var RemmeBlockchainInfo = /** @class */ (function () {
         return transaction;
     };
     RemmeBlockchainInfo.correspond = {
-        account: [
-            protobufs.TransferPayload,
-            protobufs.GenesisPayload,
-        ],
-        AtomicSwap: [
-            protobufs.AtomicSwapInitPayload,
-            protobufs.AtomicSwapApprovePayload,
-            protobufs.AtomicSwapExpirePayload,
-            protobufs.AtomicSwapSetSecretLockPayload,
-            protobufs.AtomicSwapClosePayload,
-        ],
-        pub_key: [
-            protobufs.NewPubKeyPayload,
-            protobufs.RevokePubKeyPayload,
-        ],
+        account: (_a = {},
+            _a[protobufs.AccountMethod.Method.TRANSFER] = protobufs.TransferPayload,
+            _a[protobufs.AccountMethod.Method.GENESIS] = protobufs.GenesisPayload,
+            _a),
+        AtomicSwap: (_b = {},
+            _b[protobufs.AtomicSwapMethod.Method.INIT] = protobufs.AtomicSwapInitPayload,
+            _b[protobufs.AtomicSwapMethod.Method.APPROVE] = protobufs.AtomicSwapApprovePayload,
+            _b[protobufs.AtomicSwapMethod.Method.EXPIRE] = protobufs.AtomicSwapExpirePayload,
+            _b[protobufs.AtomicSwapMethod.Method.SET_SECRET_LOCK] = protobufs.AtomicSwapSetSecretLockPayload,
+            _b[protobufs.AtomicSwapMethod.Method.CLOSE] = protobufs.AtomicSwapClosePayload,
+            _b),
+        pub_key: (_c = {},
+            _c[protobufs.PubKeyMethod.Method.STORE] = protobufs.NewPubKeyPayload,
+            _c[protobufs.PubKeyMethod.Method.REVOKE] = protobufs.RevokePubKeyPayload,
+            _c),
     };
     return RemmeBlockchainInfo;
 }());
 exports.RemmeBlockchainInfo = RemmeBlockchainInfo;
+var _a, _b, _c;
 //# sourceMappingURL=index.js.map

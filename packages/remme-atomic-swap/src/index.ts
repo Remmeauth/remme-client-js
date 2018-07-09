@@ -1,7 +1,7 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { getAddressFromData } from "remme-utils";
-import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
-import { IRemmeTransactionService } from "remme-transaction-service";
+import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
+import { RemmeWebSocket, Events } from "remme-web-socket";
 import { AtomicSwapMethod,
     AtomicSwapInitPayload,
     AtomicSwapApprovePayload,
@@ -26,6 +26,7 @@ class RemmeSwap implements IRemmeSwap {
     private readonly _familyVersion = "0.1";
     private readonly _zeroAddress = "0".repeat(70);
     private readonly _fiAddress = "00000059c88e4dbdb786bce3b0c44298fc1c14e3b0c44298fc1c14e3b0c44298fc1c14";
+    private _socket;
 
     public constructor(remmeRest: IRemmeRest, remmeTransactionService: IRemmeTransactionService) {
         this._remmeRest = remmeRest;
@@ -109,7 +110,7 @@ class RemmeSwap implements IRemmeSwap {
             }
             switch (key) {
                 case "swapId":
-                case "secretLock":
+                case "secretLockBySolicitor":
                     if (data[key].search(/^[0-9a-f]{64}$/) === -1) {
                         throw new Error(`${key} is not a valid`);
                     }
@@ -162,6 +163,19 @@ class RemmeSwap implements IRemmeSwap {
                 throw new Error(`Given ${key} is not a valid`);
             }
         }
+    }
+
+    public subscribeToEvents(event: Events, callback: any): void {
+        this._socket = new RemmeWebSocket(this._remmeRest.socketAddress(), this._remmeRest.sslMode());
+        this._socket.isEvent = true;
+        this._socket.data = {
+            entity: "events",
+        };
+        this._socket.connectToWebSocket(callback);
+    }
+
+    public unsubscribe(): void {
+        this._socket.closeWebSocket();
     }
 }
 

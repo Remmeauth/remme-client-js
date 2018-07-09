@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var websocket_1 = require("websocket");
 var models_1 = require("./models");
+exports.Events = models_1.Events;
 var WS;
 if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
     WS = window.WebSocket;
@@ -9,12 +10,13 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
 else {
     WS = websocket_1.w3cwebsocket;
 }
-var BaseTransactionResponse = /** @class */ (function () {
-    function BaseTransactionResponse(socketAddress, sslMode) {
+var RemmeWebSocket = /** @class */ (function () {
+    function RemmeWebSocket(socketAddress, sslMode) {
+        this.isEvent = false;
         this.socketAddress = socketAddress;
-        this._sslMode = sslMode;
+        this.sslMode = sslMode;
     }
-    BaseTransactionResponse.prototype.connectToWebSocket = function (callback) {
+    RemmeWebSocket.prototype.connectToWebSocket = function (callback) {
         var _this = this;
         if (this._socket) {
             this.closeWebSocket();
@@ -27,19 +29,18 @@ var BaseTransactionResponse = /** @class */ (function () {
             var response = JSON.parse(e.data);
             if (response.type === "message" &&
                 Object.getOwnPropertyNames(response.data).length !== 0) {
-                console.log(e.data);
-                if (response.data.batch_statuses.invalid_transactions) {
+                if (response.data.batch_statuses && response.data.batch_statuses.invalid_transactions) {
                     _this.closeWebSocket();
                     throw new Error(response.data.batch_statuses.invalid_transactions.message);
                 }
-                callback(null, new models_1.BatchStatusesDto(response.data.batch_statuses));
+                callback(null, _this.isEvent ? response.data : new models_1.BatchStatusesDto(response.data.batch_statuses));
             }
         };
         this._socket.onerror = function (err) {
             callback(err);
         };
     };
-    BaseTransactionResponse.prototype.closeWebSocket = function () {
+    RemmeWebSocket.prototype.closeWebSocket = function () {
         if (!this._socket) {
             throw new Error("WebSocket is not running");
         }
@@ -47,26 +48,25 @@ var BaseTransactionResponse = /** @class */ (function () {
         this._socket.close();
         this._socket = null;
     };
-    BaseTransactionResponse.prototype._getSubscribeUrl = function () {
-        var protocol = this._sslMode ? "wss://" : "ws://";
-        return "" + protocol + this.socketAddress + "/ws";
+    RemmeWebSocket.prototype._getSubscribeUrl = function () {
+        var protocol = this.sslMode ? "wss://" : "ws://";
+        return "" + protocol + this.socketAddress + "/ws" + (this.isEvent ? "/events" : "");
     };
-    BaseTransactionResponse.prototype._getSocketQuery = function (subscribe) {
+    RemmeWebSocket.prototype._getSocketQuery = function (subscribe) {
         if (subscribe === void 0) { subscribe = true; }
-        var query = {
+        var query = this.isEvent ? {
+            action: subscribe ? "subscribe" : "unsubscribe",
+            data: this.data,
+        } : {
             type: "request",
             action: subscribe ? "subscribe" : "unsubscribe",
             entity: "batch_state",
             id: Math.floor(Math.random() * 1000),
-            parameters: {
-                batch_ids: [
-                    this.batchId,
-                ],
-            },
+            parameters: this.data,
         };
         return JSON.stringify(query);
     };
-    return BaseTransactionResponse;
+    return RemmeWebSocket;
 }());
-exports.BaseTransactionResponse = BaseTransactionResponse;
+exports.RemmeWebSocket = RemmeWebSocket;
 //# sourceMappingURL=index.js.map

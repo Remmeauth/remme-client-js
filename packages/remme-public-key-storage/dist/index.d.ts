@@ -1,7 +1,6 @@
 import { forge } from "remme-utils";
-import { IBaseTransactionResponse } from "remme-base-transaction-response";
 import { IRemmeRest } from "remme-rest";
-import { IRemmeTransactionService } from "remme-transaction-service";
+import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
 import { IRemmePublicKeyStorage } from "./interface";
 import { PublicKeyStorageCheckResult, PublicKeyStorageStoreDto } from "./models";
 declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {

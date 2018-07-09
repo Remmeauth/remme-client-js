@@ -1,10 +1,11 @@
 import { forge, oids } from "remme-utils";
-import { IBaseTransactionResponse } from "remme-base-transaction-response";
+import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-transaction-service";
 import { IRemmePublicKeyStorage, PublicKeyStorageCheckResult } from "remme-public-key-storage";
 
 import { IRemmeCertificate } from "./interface";
 import {
     CertificateTransactionResponse,
+    ICertificateTransactionResponse,
     CertificateCreateDto,
 } from "./models";
 
@@ -17,13 +18,16 @@ class RemmeCertificate implements IRemmeCertificate {
     }
 
     public async createAndStore(certificateDataToCreate: CertificateCreateDto)
-        : Promise<CertificateTransactionResponse> {
-        const keys = this._generateKeyPair();
+        : Promise<ICertificateTransactionResponse> {
+        const keys = await this._generateKeyPair();
         const cert = this._createCertificate(keys, certificateDataToCreate);
         const batchResponse = await this.store(cert);
-        const certResponse = new CertificateTransactionResponse(batchResponse.socketAddress);
+        const certResponse = new CertificateTransactionResponse(
+            batchResponse.socketAddress,
+            batchResponse.sslMode,
+            batchResponse.batchId,
+        );
         certResponse.certificate = cert;
-        certResponse.batchId = batchResponse.batchId;
         return certResponse;
     }
 
@@ -119,8 +123,8 @@ class RemmeCertificate implements IRemmeCertificate {
         });
     }
 
-    private _generateKeyPair(): forge.pki.KeyPair {
-        return forge.pki.rsa.generateKeyPair(this._rsaKeySize);
+    private async _generateKeyPair(): Promise<forge.pki.KeyPair> {
+        return await forge.pki.rsa.generateKeyPair(this._rsaKeySize);
     }
 
     private _getPublicKeyPEM(certificate: forge.pki.Certificate): forge.pki.PEM {

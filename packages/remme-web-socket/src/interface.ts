@@ -1,5 +1,6 @@
-export interface IBaseTransactionResponse {
-    batchId: string;
+export interface IRemmeWebSocket {
+    data: object;
+    isEvent: boolean;
     socketAddress: string;
 
     connectToWebSocket(callback: any): void;

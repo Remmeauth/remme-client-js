@@ -3,6 +3,7 @@ import { IRemmeBlockchainInfo } from "./interface";
 import { BaseQuery, Batch, BatchList, Block, BlockList, State, StateList, StateQuery, Transaction, TransactionList, PeerList, ReceiptList } from "./models";
 declare class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     private readonly _remmeRest;
+    private static correspond;
     constructor(remmeRest: IRemmeRest);
     getBatchById(id: string): Promise<Batch>;
     getBatches(query?: BaseQuery): Promise<BatchList>;
@@ -17,6 +18,8 @@ declare class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     private _checkId(id?);
     private _checkAddress(address?);
     private _checkQuery(query);
+    private _prepareBlock(block);
+    private _prepareBatch(batch);
     private _prepareTransaction(transaction);
 }
 export { RemmeBlockchainInfo, IRemmeBlockchainInfo };

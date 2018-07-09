@@ -1,5 +1,5 @@
 import { forge } from "remme-utils";
-import { IBaseTransactionResponse } from "remme-base-transaction-response";
+import { IBaseTransactionResponse } from "remme-transaction-service";
 import { PublicKeyStorageCheckResult, PublicKeyStorageStoreDto } from "./models";
 export interface IRemmePublicKeyStorage {
     store(data: PublicKeyStorageStoreDto): Promise<IBaseTransactionResponse>;

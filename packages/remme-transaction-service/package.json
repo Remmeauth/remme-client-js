@@ -15,7 +15,7 @@
     "crypto": "^1.0.1",
     "js-base64": "^2.4.5",
     "remme-account": "^0.2.2",
-    "remme-base-transaction-response": "^0.2.4",
+    "remme-web-socket": "^0.2.4",
     "remme-rest": "^0.2.4",
     "remme-utils": "^0.2.2",
     "sawtooth-sdk": "^1.0.4"

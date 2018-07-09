@@ -24,21 +24,21 @@ import {
 class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     private readonly _remmeRest: IRemmeRest;
     private static correspond = {
-        account: [
-            protobufs.TransferPayload,
-            protobufs.GenesisPayload,
-        ],
-        AtomicSwap: [
-            protobufs.AtomicSwapInitPayload,
-            protobufs.AtomicSwapApprovePayload,
-            protobufs.AtomicSwapExpirePayload,
-            protobufs.AtomicSwapSetSecretLockPayload,
-            protobufs.AtomicSwapClosePayload,
-        ],
-        pub_key: [
-            protobufs.NewPubKeyPayload,
-            protobufs.RevokePubKeyPayload,
-        ],
+        account: {
+            [protobufs.AccountMethod.Method.TRANSFER]: protobufs.TransferPayload,
+            [protobufs.AccountMethod.Method.GENESIS]: protobufs.GenesisPayload,
+        },
+        AtomicSwap: {
+            [protobufs.AtomicSwapMethod.Method.INIT]: protobufs.AtomicSwapInitPayload,
+            [protobufs.AtomicSwapMethod.Method.APPROVE]: protobufs.AtomicSwapApprovePayload,
+            [protobufs.AtomicSwapMethod.Method.EXPIRE]: protobufs.AtomicSwapExpirePayload,
+            [protobufs.AtomicSwapMethod.Method.SET_SECRET_LOCK]: protobufs.AtomicSwapSetSecretLockPayload,
+            [protobufs.AtomicSwapMethod.Method.CLOSE]: protobufs.AtomicSwapClosePayload,
+        },
+        pub_key: {
+            [protobufs.PubKeyMethod.Method.STORE]: protobufs.NewPubKeyPayload,
+            [protobufs.PubKeyMethod.Method.REVOKE]: protobufs.RevokePubKeyPayload,
+        },
     };
 
     public constructor(remmeRest: IRemmeRest) {
@@ -47,26 +47,38 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
 
     public async getBatchById(id: string): Promise<Batch> {
         this._checkId(id);
-        return await this._remmeRest.getRequest<Batch>(ValidatorMethods.batches, id);
+        const apiResult = await this._remmeRest.getRequest<Batch>(ValidatorMethods.batches, id);
+        apiResult.data = this._prepareBatch(apiResult.data);
+        return apiResult;
     }
 
     public async getBatches(query?: BaseQuery): Promise<BatchList> {
         if (query) {
             query = this._checkQuery(query);
         }
-        return await this._remmeRest.getRequest<BatchList>(ValidatorMethods.batches, "", query);
+        const apiResult = await this._remmeRest.getRequest<BatchList>(ValidatorMethods.batches, "", query);
+        apiResult.data = apiResult.data.map((item) => {
+            this._prepareBatch(item);
+        });
+        return apiResult;
     }
 
     public async getBlockById(id: string): Promise<Block> {
         this._checkId(id);
-        return await this._remmeRest.getRequest<Block>(ValidatorMethods.blocks, id);
+        const apiResult = await this._remmeRest.getRequest<Block>(ValidatorMethods.blocks, id);
+        apiResult.data = this._prepareBlock(apiResult.data);
+        return apiResult;
     }
 
     public async getBlocks(query?: BaseQuery): Promise<BlockList> {
         if (query) {
             query = this._checkQuery(query);
         }
-        return await this._remmeRest.getRequest<BlockList>(ValidatorMethods.blocks, "", query);
+        const apiResult = await this._remmeRest.getRequest<BlockList>(ValidatorMethods.blocks, "", query);
+        apiResult.data = apiResult.data.map((block) => {
+            return this._prepareBlock(block);
+        });
+        return apiResult;
     }
 
     public async getPeers(): Promise<PeerList> {
@@ -171,6 +183,13 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     // private _prepareAddress(): void {
     //
     // }
+
+    private _prepareBlock(block: BlockData): BlockData {
+        block.batches = block.batches.map((batch) => {
+            return this._prepareBatch(batch);
+        });
+        return block;
+    }
 
     private _prepareBatch(batch: BatchData): BatchData {
         batch.transactions = batch.transactions.map((transaction) => {

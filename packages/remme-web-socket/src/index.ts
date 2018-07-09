@@ -1,6 +1,6 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { IBaseTransactionResponse } from "./interface";
-import { BatchStateUpdateDto, BatchStatusesDto } from "./models";
+import { IRemmeWebSocket } from "./interface";
+import { BatchStateUpdateDto, BatchStatusesDto, IWebSocketsEvents, Events } from "./models";
 
 declare global {
     interface Window {
@@ -15,15 +15,16 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
     WS = W3CWebSocket;
 }
 
-class BaseTransactionResponse implements IBaseTransactionResponse {
-    public batchId: string;
+class RemmeWebSocket implements IRemmeWebSocket {
     public socketAddress: string;
+    public sslMode: boolean;
+    public isEvent: boolean = false;
+    public data: object;
     private _socket: W3CWebSocket;
-    private readonly _sslMode: boolean;
 
     public constructor(socketAddress: string, sslMode: boolean) {
         this.socketAddress = socketAddress;
-        this._sslMode = sslMode;
+        this.sslMode = sslMode;
     }
 
     public connectToWebSocket(callback: any): void {
@@ -40,12 +41,11 @@ class BaseTransactionResponse implements IBaseTransactionResponse {
                 response.type === "message" &&
                 Object.getOwnPropertyNames(response.data).length !== 0
             ) {
-                console.log(e.data);
-                if (response.data.batch_statuses.invalid_transactions) {
+                if (response.data.batch_statuses && response.data.batch_statuses.invalid_transactions) {
                     this.closeWebSocket();
                     throw new Error(response.data.batch_statuses.invalid_transactions.message);
                 }
-                callback(null, new BatchStatusesDto(response.data.batch_statuses));
+                callback(null, this.isEvent ? response.data : new BatchStatusesDto(response.data.batch_statuses));
             }
         };
         this._socket.onerror = (err) => {
@@ -63,27 +63,28 @@ class BaseTransactionResponse implements IBaseTransactionResponse {
     }
 
     private _getSubscribeUrl(): string {
-        const protocol = this._sslMode ? "wss://" : "ws://";
-        return `${protocol}${this.socketAddress}/ws`;
+        const protocol = this.sslMode ? "wss://" : "ws://";
+        return `${protocol}${this.socketAddress}/ws${this.isEvent ? "/events" : ""}`;
     }
 
     private _getSocketQuery(subscribe: boolean = true): string {
-        const query = {
+        const query = this.isEvent ? {
+            action: subscribe ? "subscribe" : "unsubscribe",
+            data: this.data,
+        } : {
             type: "request",
             action: subscribe ? "subscribe" : "unsubscribe",
             entity: "batch_state",
             id: Math.floor(Math.random() * 1000),
-            parameters: {
-                batch_ids: [
-                    this.batchId,
-                ],
-            },
+            parameters: this.data,
         };
         return JSON.stringify(query);
     }
 }
 
 export {
-    BaseTransactionResponse,
-    IBaseTransactionResponse,
+    RemmeWebSocket,
+    IRemmeWebSocket,
+    IWebSocketsEvents,
+    Events,
 };
