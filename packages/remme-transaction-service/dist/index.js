@@ -36,9 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_rest_1 = require("remme-rest");
-var remme_base_transaction_response_1 = require("remme-base-transaction-response");
 var crypto_1 = require("crypto");
 var protobuf = require("sawtooth-sdk/protobuf");
+var models_1 = require("./models");
+exports.BaseTransactionResponse = models_1.BaseTransactionResponse;
 var RemmeTransactionService = /** @class */ (function () {
     function RemmeTransactionService(remmeRest, remmeAccount) {
         this._remmeRest = remmeRest;
@@ -84,16 +85,14 @@ var RemmeTransactionService = /** @class */ (function () {
     };
     RemmeTransactionService.prototype.send = function (transaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var apiResult, result;
+            var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this._remmeRest
                             .postRequest(remme_rest_1.RemmeMethods.transaction, { transaction: transaction })];
                     case 1:
                         apiResult = _a.sent();
-                        result = new remme_base_transaction_response_1.BaseTransactionResponse(this._remmeRest.socketAddress(), this._remmeRest.sslMode());
-                        result.batchId = apiResult.batch_id;
-                        return [2 /*return*/, result];
+                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeRest.socketAddress(), this._remmeRest.sslMode(), apiResult.batch_id)];
                 }
             });
         });

@@ -1,6 +1,6 @@
 export { BaseQuery, StateQuery } from "./Query";
-export { Block, BlockList } from "./Blocks";
-export { Batch, BatchList } from "./Batches";
+export { Block, BlockData, BlockList } from "./Blocks";
+export { Batch, BatchData, BatchList } from "./Batches";
 export { Transaction, TransactionData, TransactionList } from "./Transactions";
 export { State, StateList } from "./State";
 export { PeerList } from "./Peers";

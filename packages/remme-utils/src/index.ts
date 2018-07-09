@@ -1,5 +1,7 @@
 import * as forge from "node-forge";
-import { oids } from "./models";
+import {
+    oids,
+} from "./models";
 import {
     hexToBytes,
     bytesToHex,

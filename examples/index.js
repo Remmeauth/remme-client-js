@@ -10,13 +10,6 @@ const socketAddress = "localhost:9080";
 //Initialize client
 const remme = new Remme.Client({
   privateKeyHex: "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4ff5",
-  networkConfig: {
-    nodeAddress: "localhost",
-    socketPort: 9080,
-    apiPort: 8080,
-    validatorPort: 8008,
-    sslMode: false
-  }
 });
 const someRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759";
 const account = remme.account;
@@ -43,22 +36,22 @@ const account = remme.account;
   // transactionResult.connectToWebSocket(transactionCallback); // 3
 
   // Certificates Operations
-  const blocks = await remme.blockchainInfo.getBatches();
-  console.log(blocks);
-  const block = await remme.blockchainInfo.getBatchById(blocks.data[0].header_signature);
-  console.log(block);
-  const batches = await remme.blockchainInfo.getBatches({ reverse: true });
-  console.log(batches);
-  const batch = await remme.blockchainInfo.getBatchById(batches.data[0].header_signature);
-  console.log(batch);
-  const transactions = await remme.blockchainInfo.getTransactions();
-  console.log(transactions);
-  const transaction = await remme.blockchainInfo.getTransactionById(transactions.data[1].header_signature);
-  console.log(transaction);
-  console.log(utils.base64ToArrayBuffer(transactions.data[1].payload));
-  console.log(transactions.data[1].payload);
-  console.log(transactions.data[1].transactionProtobuf.decode(utils.base64ToArrayBuffer(transactions.data[1].payload)));
-  console.log(transactions.data[1].protobuf.decode(transactions.data[1].transactionProtobuf.decode(utils.base64ToArrayBuffer(transactions.data[1].payload)).data));
+  // const blocks = await remme.blockchainInfo.getBatches();
+  // console.log(blocks);
+  // const block = await remme.blockchainInfo.getBatchById(blocks.data[0].header_signature);
+  // console.log(block);
+  // const batches = await remme.blockchainInfo.getBatches({ reverse: true });
+  // console.log(batches);
+  // const batch = await remme.blockchainInfo.getBatchById(batches.data[0].header_signature);
+  // console.log(batch);
+  // const transactions = await remme.blockchainInfo.getTransactions();
+  // console.log(transactions);
+  // const transaction = await remme.blockchainInfo.getTransactionById(transactions.data[1].header_signature);
+  // console.log(transaction);
+  // console.log(utils.base64ToArrayBuffer(transactions.data[1].payload));
+  // console.log(transactions.data[1].payload);
+  // console.log(transactions.data[1].transactionProtobuf.decode(utils.base64ToArrayBuffer(transactions.data[1].payload)));
+  // console.log(transactions.data[1].protobuf.decode(transactions.data[1].transactionProtobuf.decode(utils.base64ToArrayBuffer(transactions.data[1].payload)).data));
   // const certificateTransactionResult = await remme.certificate.createAndStore({
   //   commonName: "userName1",
   //   email: "user@email.com",
@@ -75,47 +68,51 @@ const account = remme.account;
   //     return;
   //   }
   //   console.log("store", response);
-  //
-  //   const check = await remme.certificate.revoke(certificateTransactionResult.certificate);
-  //   certificateTransactionResult.closeWebSocket();
-  //   check.connectToWebSocket((err, response) => {
+  //   const status = await remme.certificate.check(certificateTransactionResult.certificate);
+  //   console.log(status);
+  //   const revoke = await remme.certificate.revoke(certificateTransactionResult.certificate);
+  //   revoke.connectToWebSocket(async (err, response) => {
   //     console.log("revoke", response);
-  //     check.closeWebSocket();
-  //   });
-  //   // const batch_status = await remme.batch.getStatus(certificateTransactionResult.batchId);
-  //   // console.log("status", batch_status);
-  //   // const certificateStatus = await remme.certificate.check(certificateTransactionResult.certificate);
-  //   // console.log(`Certificate IsValid = ${certificateStatus}`);
+  //     const status = await remme.certificate.check(certificateTransactionResult.certificate);
+  //     console.log(status);
+  //   })
   // }; // 7
   // //
   // certificateTransactionResult.connectToWebSocket(certificateTransactionCallback); // 5
 
   // console.log(await remme.transaction.send("afa"));
-  // const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce4832";
-  // const secretKey = "secretkey";
-  // const secretLock = "aa273f38cf1d9c0fda0ee67b08927278b368db5927e4bf4c0aac15b95ac12df6";
-  //
-  // const balance = await remme.token.getBalance(account.publicKeyHex);
-  // console.log(`Account ${account.publicKeyHex} as sender, balance - ${balance} REM`); // 1
-  //
-  // const init = await remme.swap.init({
-  //   receiverAddress: "112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1",
-  //   senderAddressNonLocal: "0xe6ca0e7c974f06471759e9a05d18b538c5ced11e",
-  //   amount: 100,
-  //   secretLockBySolicitor: secretLock,
-  //   swapId,
-  //   emailAddressEncryptedByInitiator: "0x656d61696c",
-  //   createdAt: Math.floor(Date.now() / 1000)
-  // });
-  //
-  // init.connectToWebSocket(async (err, data) => {
-  //   if (err) {
-  //     console.log("err init", err);
-  //   }
-  //   console.log("data init", data);
-  //
-  //   const res = await remme.swap.getInfo(swapId);
-  //   console.log("after init info", res);
+  remme.swap.subscribeToEvents("", (err, res) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log(res);
+  });
+  const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce6892";
+  const secretKey = "secretkey";
+  const secretLock = "aa273f38cf1d9c0fda0ee67b08927278b368db5927e4bf4c0aac15b95ac12df6";
+
+  const balance = await remme.token.getBalance(account.publicKeyHex);
+  console.log(`Account ${account.publicKeyHex} as sender, balance - ${balance} REM`); // 1
+
+  const init = await remme.swap.init({
+    receiverAddress: "112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1",
+    senderAddressNonLocal: "0xe6ca0e7c974f06471759e9a05d18b538c5ced11e",
+    amount: 100,
+    secretLockBySolicitor: secretLock,
+    swapId,
+    emailAddressEncryptedByInitiator: "0x656d61696c",
+    createdAt: Math.floor(Date.now() / 1000)
+  });
+
+  init.connectToWebSocket(async (err, data) => {
+    if (err) {
+      console.log("err init", err);
+    }
+    console.log("data init", data);
+
+    // const res = await remme.swap.getInfo(swapId);
+    // console.log("after init info", res);
   //
 
   //   const balance = await remme.token.getBalance(account.publicKeyHex);
@@ -170,7 +167,7 @@ const account = remme.account;
   //     //   })
   //     // })
   //   });
-  // });
+  });
   // const account = Remme.Client.generateAccount();
   // const payload = {
   //   value: 100,

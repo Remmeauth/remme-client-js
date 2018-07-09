@@ -1,8 +1,7 @@
 import { IRemmeRest } from "remme-rest";
-import { IBaseTransactionResponse } from "remme-base-transaction-response";
 import { IRemmeAccount } from "remme-account";
 import { IRemmeTransactionService } from "./interface";
-import { TransactionCreatePayload } from "./models";
+import { TransactionCreatePayload, BaseTransactionResponse, IBaseTransactionResponse } from "./models";
 declare class RemmeTransactionService implements IRemmeTransactionService {
     private readonly _remmeRest;
     private readonly _remmeAccount;
@@ -11,4 +10,4 @@ declare class RemmeTransactionService implements IRemmeTransactionService {
     send(transaction: string): Promise<IBaseTransactionResponse>;
     private getNonce();
 }
-export { RemmeTransactionService, IRemmeTransactionService };
+export { RemmeTransactionService, IRemmeTransactionService, BaseTransactionResponse, IBaseTransactionResponse };

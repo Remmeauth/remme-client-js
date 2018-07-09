@@ -4,9 +4,8 @@ import {
     toHexString,
     toUTF8Array,
 } from "remme-utils";
-import { IBaseTransactionResponse } from "remme-base-transaction-response";
 import { RemmeMethods, IRemmeRest } from "remme-rest";
-import { IRemmeTransactionService } from "remme-transaction-service";
+import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
 import { TransactionPayload, NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload } from "remme-protobuf";
 
 import { IRemmePublicKeyStorage } from "./interface";

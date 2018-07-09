@@ -45,21 +45,22 @@ class RemmeRest implements IRemmeRest {
 
     private async _sendRequest<Input, Output>(method: string, url: string, payload?: Input)
         : Promise<Output> {
-        try {
-            const options: AxiosRequestConfig = {
-                url,
-                method,
-            };
-            if (payload) {
-                options[method.toUpperCase() === "GET" ? "params" : "data"] = payload;
-            }
-            let response;
-            response = await HttpClient.send(options);
+        const options: AxiosRequestConfig = {
+            url,
+            method,
+        };
+        if (payload) {
+            options[method.toUpperCase() === "GET" ? "params" : "data"] = payload;
+        }
+        let response;
+        response = await HttpClient.send(options);
+        if (response) {
             if (response.data.error) {
                 this._throwErrorReceive(response.data);
+            } else {
+                return response.data;
             }
-            return response.data;
-        } catch (e) {
+        } else {
             throw new Error(`Please check if your node running at http://${this._nodeAddress}`);
         }
     }

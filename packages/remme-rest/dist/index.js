@@ -105,11 +105,10 @@ var RemmeRest = /** @class */ (function () {
     };
     RemmeRest.prototype._sendRequest = function (method, url, payload) {
         return __awaiter(this, void 0, void 0, function () {
-            var options, response, e_1;
+            var options, response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
                         options = {
                             url: url,
                             method: method,
@@ -117,18 +116,21 @@ var RemmeRest = /** @class */ (function () {
                         if (payload) {
                             options[method.toUpperCase() === "GET" ? "params" : "data"] = payload;
                         }
-                        response = void 0;
                         return [4 /*yield*/, remme_http_client_1.HttpClient.send(options)];
                     case 1:
                         response = _a.sent();
-                        if (response.data.error) {
-                            this._throwErrorReceive(response.data);
+                        if (response) {
+                            if (response.data.error) {
+                                this._throwErrorReceive(response.data);
+                            }
+                            else {
+                                return [2 /*return*/, response.data];
+                            }
                         }
-                        return [2 /*return*/, response.data];
-                    case 2:
-                        e_1 = _a.sent();
-                        throw new Error("Please check if your node running at http://" + this._nodeAddress);
-                    case 3: return [2 /*return*/];
+                        else {
+                            throw new Error("Please check if your node running at http://" + this._nodeAddress);
+                        }
+                        return [2 /*return*/];
                 }
             });
         });

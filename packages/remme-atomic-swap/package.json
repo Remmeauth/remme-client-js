@@ -11,7 +11,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-base-transaction-response": "^0.2.4",
+    "remme-web-socket": "^0.2.4",
     "remme-protobuf": "^0.2.0",
     "remme-rest": "^0.2.4",
     "remme-transaction-service": "^0.2.4",

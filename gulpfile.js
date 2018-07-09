@@ -55,10 +55,10 @@ const packages = [{
   src: path.join(__dirname, 'packages/remme-transaction-service'),
   config: path.join(__dirname, 'packages/remme-transaction-service/tsconfig.json')
 },{
-  fileName: 'remme-base-transaction-response',
-  expose: 'RemmeBaseTransactionResponse',
-  src: path.join(__dirname, 'packages/remme-base-transaction-response'),
-  config: path.join(__dirname, 'packages/remme-base-transaction-response/tsconfig.json')
+  fileName: 'remme-web-socket',
+  expose: 'RemmeWebSocket',
+  src: path.join(__dirname, 'packages/remme-web-socket'),
+  config: path.join(__dirname, 'packages/remme-web-socket/tsconfig.json')
 }, {
   fileName: 'remme-account',
   expose: 'RemmeAccount',

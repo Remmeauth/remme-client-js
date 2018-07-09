@@ -9,7 +9,7 @@ export interface IValidatorError {
 }
 
 export interface IQueryParams {
-    [propName: string]: string | number;
+    [propName: string]: string | number | boolean;
 }
 
 export { RemmeMethods } from "./remme-methods";

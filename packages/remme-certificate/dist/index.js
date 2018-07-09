@@ -47,15 +47,15 @@ var RemmeCertificate = /** @class */ (function () {
             var keys, cert, batchResponse, certResponse;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        keys = this._generateKeyPair();
+                    case 0: return [4 /*yield*/, this._generateKeyPair()];
+                    case 1:
+                        keys = _a.sent();
                         cert = this._createCertificate(keys, certificateDataToCreate);
                         return [4 /*yield*/, this.store(cert)];
-                    case 1:
+                    case 2:
                         batchResponse = _a.sent();
-                        certResponse = new models_1.CertificateTransactionResponse(batchResponse.socketAddress);
+                        certResponse = new models_1.CertificateTransactionResponse(batchResponse.socketAddress, batchResponse.sslMode, batchResponse.batchId);
                         certResponse.certificate = cert;
-                        certResponse.batchId = batchResponse.batchId;
                         return [2 /*return*/, certResponse];
                 }
             });
@@ -187,7 +187,14 @@ var RemmeCertificate = /** @class */ (function () {
         });
     };
     RemmeCertificate.prototype._generateKeyPair = function () {
-        return remme_utils_1.forge.pki.rsa.generateKeyPair(this._rsaKeySize);
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, remme_utils_1.forge.pki.rsa.generateKeyPair(this._rsaKeySize)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     };
     RemmeCertificate.prototype._getPublicKeyPEM = function (certificate) {
         try {
