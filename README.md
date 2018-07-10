@@ -47,7 +47,14 @@ var Remme = require("remme");
 const nodeAddress = "192.168.0.1:8080"; // <-- Address of your local node's REST API server (localhost:8080) by default
 const socketAddress = "192.168.0.1:9080"; // <-- Address of local node's WebSocket server (localhost:9080) by default
 const privateKeyHex = "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4f10";
-const remme = new Remme.Client({ privateKeyHex, nodeAddress, socketAddress });
+const networkConfig = {
+    nodeAddress: "localhost",
+    socketPort: "9080",
+    apiPort: "8080",
+    validatorPort: "8008",
+    sslMode: false,
+};
+const remme = new Remme.Client({ privateKeyHex, networkConfig });
 ```
 
 #### Tokens
@@ -78,7 +85,8 @@ const certificateTransactionResult = await remme.certificate.createAndStore({
     name: "John",
     surname: "Smith",
     countryName: "US",
-    validity: 360
+    validity: 360,
+    serial: "some serial"
 });
 
 const certificateTransactionCallback = async (err, response) => {
