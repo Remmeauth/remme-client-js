@@ -45,7 +45,8 @@ var RemmeSwap = /** @class */ (function () {
         this._familyName = "AtomicSwap";
         this._familyVersion = "0.1";
         this._zeroAddress = "0".repeat(70);
-        this._fiAddress = "00000059c88e4dbdb786bce3b0c44298fc1c14e3b0c44298fc1c14e3b0c44298fc1c14";
+        // private readonly _fiAddress = "00000059c88e4dbdb786bce3b0c44298fc1c14e3b0c44298fc1c14e3b0c44298fc1c14";
+        this._swapComission = "0000007ca83d6bbb759da9cde0fb0dec1400c55cc3bbcd6b1243b2e3b0c44298fc1c14";
         this._remmeRest = remmeRest;
         this._remmeTransactionService = remmeTransactionService;
     }
@@ -202,7 +203,7 @@ var RemmeSwap = /** @class */ (function () {
         var addresses = [remme_utils_1.getAddressFromData(this._familyName, swapId)];
         var methodToAddresses = (_a = {},
             _a[remme_protobuf_1.AtomicSwapMethod.Method.INIT] = [
-                this._fiAddress,
+                this._swapComission,
                 this._zeroAddress,
             ],
             _a[remme_protobuf_1.AtomicSwapMethod.Method.EXPIRE] = [
@@ -253,6 +254,7 @@ var RemmeSwap = /** @class */ (function () {
         this._socket.data = {
             entity: "events",
         };
+        this._socket.eventToSubscribe = event;
         this._socket.connectToWebSocket(callback);
     };
     RemmeSwap.prototype.unsubscribe = function () {

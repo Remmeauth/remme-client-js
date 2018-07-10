@@ -20,9 +20,17 @@ import {
     PeerList,
     ReceiptList,
 } from "./models";
+import {RemmeBlockchainInfo} from "../dist";
 
 class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     private readonly _remmeRest: IRemmeRest;
+
+    private static address = {
+        "78173b": protobufs.AtomicSwapInfo,
+        "112007": protobufs.Account,
+        "a23be1": protobufs.PubKeyStorage,
+    };
+
     private static correspond = {
         account: {
             [protobufs.AccountMethod.Method.TRANSFER]: protobufs.TransferPayload,
@@ -94,12 +102,16 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         if (query) {
             query = this._checkQuery(query);
         }
-        return await this._remmeRest.getRequest<StateList>(ValidatorMethods.state, "", query);
+        const apiResult = await this._remmeRest.getRequest<StateList>(ValidatorMethods.state, "", query);
+        apiResult.data = apiResult.data.map((state) => this._prepareAddress(state));
+        return apiResult;
     }
 
     public async getStateByAddress(address: string): Promise<State> {
         this._checkAddress(address);
-        return await this._remmeRest.getRequest<State>(ValidatorMethods.state, address);
+        const apiResult = await this._remmeRest.getRequest<State>(ValidatorMethods.state, address);
+        apiResult.protobuf = this._prepareAddress(address);
+        return apiResult;
     }
 
     public async getTransactionById(id: string): Promise<Transaction> {
@@ -180,9 +192,12 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         }, {});
     }
 
-    // private _prepareAddress(): void {
-    //
-    // }
+    private _prepareAddress(state): void {
+        return {
+            ...state,
+            protobuf: RemmeBlockchainInfo.address[state.address.slice(0, 6)],
+        };
+    }
 
     private _prepareBlock(block: BlockData): BlockData {
         block.batches = block.batches.map((batch) => {
