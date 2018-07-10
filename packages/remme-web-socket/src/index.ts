@@ -19,6 +19,7 @@ class RemmeWebSocket implements IRemmeWebSocket {
     public socketAddress: string;
     public sslMode: boolean;
     public isEvent: boolean = false;
+    public eventToSubscribe: Events;
     public data: object;
     private _socket: W3CWebSocket;
 

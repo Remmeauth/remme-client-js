@@ -148,6 +148,8 @@ var RemmeBlockchainInfo = /** @class */ (function () {
     };
     RemmeBlockchainInfo.prototype.getState = function (query) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -155,19 +157,26 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                             query = this._checkQuery(query);
                         }
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.state, "", query)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        apiResult = _a.sent();
+                        apiResult.data = apiResult.data.map(function (state) { return _this._prepareAddress(state); });
+                        return [2 /*return*/, apiResult];
                 }
             });
         });
     };
     RemmeBlockchainInfo.prototype.getStateByAddress = function (address) {
         return __awaiter(this, void 0, void 0, function () {
+            var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this._checkAddress(address);
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.state, address)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        apiResult = _a.sent();
+                        apiResult.protobuf = this._prepareAddress(address);
+                        return [2 /*return*/, apiResult];
                 }
             });
         });
@@ -262,9 +271,9 @@ var RemmeBlockchainInfo = /** @class */ (function () {
             var _b, _c, _d;
         }, {});
     };
-    // private _prepareAddress(): void {
-    //
-    // }
+    RemmeBlockchainInfo.prototype._prepareAddress = function (state) {
+        return __assign({}, state, { protobuf: RemmeBlockchainInfo.address[state.address.slice(0, 6)] });
+    };
     RemmeBlockchainInfo.prototype._prepareBlock = function (block) {
         var _this = this;
         block.batches = block.batches.map(function (batch) {
@@ -286,6 +295,11 @@ var RemmeBlockchainInfo = /** @class */ (function () {
             return __assign({}, transaction, { transactionProtobuf: protobufs.TransactionPayload, protobuf: RemmeBlockchainInfo.correspond[family_name][data.method] });
         }
         return transaction;
+    };
+    RemmeBlockchainInfo.address = {
+        "78173b": protobufs.AtomicSwapInfo,
+        "112007": protobufs.Account,
+        "a23be1": protobufs.PubKeyStorage,
     };
     RemmeBlockchainInfo.correspond = {
         account: (_a = {},

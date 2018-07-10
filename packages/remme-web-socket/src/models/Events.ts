@@ -1,3 +1,7 @@
 export enum Events {
-    "atomic-swap-init",
+    All,
+    SwapInit,
+    SwapApprove,
+    SwapExpire,
+    SwapClose,
 }

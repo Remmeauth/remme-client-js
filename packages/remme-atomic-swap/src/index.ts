@@ -1,7 +1,7 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { getAddressFromData } from "remme-utils";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
-import { RemmeWebSocket, Events } from "remme-web-socket";
+import { RemmeWebSocket, IRemmeWebSocket, Events } from "remme-web-socket";
 import { AtomicSwapMethod,
     AtomicSwapInitPayload,
     AtomicSwapApprovePayload,
@@ -25,8 +25,9 @@ class RemmeSwap implements IRemmeSwap {
     private readonly _familyName = "AtomicSwap";
     private readonly _familyVersion = "0.1";
     private readonly _zeroAddress = "0".repeat(70);
-    private readonly _fiAddress = "00000059c88e4dbdb786bce3b0c44298fc1c14e3b0c44298fc1c14e3b0c44298fc1c14";
-    private _socket;
+    // private readonly _fiAddress = "00000059c88e4dbdb786bce3b0c44298fc1c14e3b0c44298fc1c14e3b0c44298fc1c14";
+    private readonly _swapComission = "0000007ca83d6bbb759da9cde0fb0dec1400c55cc3bbcd6b1243b2e3b0c44298fc1c14";
+    private _socket: IRemmeWebSocket;
 
     public constructor(remmeRest: IRemmeRest, remmeTransactionService: IRemmeTransactionService) {
         this._remmeRest = remmeRest;
@@ -128,7 +129,7 @@ class RemmeSwap implements IRemmeSwap {
         const addresses: string[] = [ getAddressFromData(this._familyName, swapId) ];
         const methodToAddresses = {
             [AtomicSwapMethod.Method.INIT]: [
-                this._fiAddress,
+                this._swapComission,
                 this._zeroAddress,
             ],
             [AtomicSwapMethod.Method.EXPIRE]: [
@@ -171,6 +172,7 @@ class RemmeSwap implements IRemmeSwap {
         this._socket.data = {
             entity: "events",
         };
+        this._socket.eventToSubscribe = event;
         this._socket.connectToWebSocket(callback);
     }
 

@@ -3,10 +3,11 @@ import {BaseResponse, IBaseResponse} from "./Response";
 export interface StateData {
     address: string;
     data: string;
+    protobuf?: any;
 }
 
-export class StateList extends BaseResponse<StateData> {
-    constructor(data: IBaseResponse<StateData>) {
+export class StateList extends BaseResponse<StateData[]> {
+    constructor(data: IBaseResponse<StateData[]>) {
         super(data);
     }
 }
