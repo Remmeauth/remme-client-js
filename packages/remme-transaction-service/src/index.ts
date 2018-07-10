@@ -1,11 +1,10 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
-import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
 import { IRemmeAccount } from "remme-account";
 import { createHash } from "crypto";
 import * as protobuf from "sawtooth-sdk/protobuf";
 
 import { IRemmeTransactionService } from "./interface";
-import { TransactionCreatePayload } from "./models";
+import { TransactionCreatePayload, BaseTransactionResponse, IBaseTransactionResponse } from "./models";
 
 class RemmeTransactionService implements IRemmeTransactionService {
     private readonly _remmeRest: IRemmeRest;
@@ -58,10 +57,13 @@ class RemmeTransactionService implements IRemmeTransactionService {
 
     public async send(transaction: string): Promise<IBaseTransactionResponse> {
         const apiResult = await this._remmeRest
-            .postRequest<{transaction: string}, {batch_id: string}>(RemmeMethods.transaction, { transaction });
-        const result = new BaseTransactionResponse(this._remmeRest.socketAddress());
-        result.batchId = apiResult.batch_id;
-        return result;
+            .postRequest<{transaction: string}, {batch_id: string, error?: string}>
+            (RemmeMethods.transaction, { transaction });
+        return new BaseTransactionResponse(
+            this._remmeRest.socketAddress(),
+            this._remmeRest.sslMode(),
+            apiResult.batch_id,
+        );
     }
 
     private getNonce(): string {
@@ -72,4 +74,6 @@ class RemmeTransactionService implements IRemmeTransactionService {
 export {
     RemmeTransactionService,
     IRemmeTransactionService,
+    BaseTransactionResponse,
+    IBaseTransactionResponse,
 };

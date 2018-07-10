@@ -12,7 +12,7 @@ export class CertificateCreateDto {
     public pseudonym?: string;
     public generationQualifier?: string;
     public title?: string;
-    public serial?: string;
+    public serial: string;
     public businessCategory?: string;
     public validity: number;
     public validAfter?: number;

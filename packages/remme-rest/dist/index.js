@@ -36,23 +36,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_http_client_1 = require("remme-http-client");
-var remme_methods_1 = require("./remme-methods");
-exports.RemmeMethods = remme_methods_1.RemmeMethods;
+var models_1 = require("./models");
+exports.RemmeMethods = models_1.RemmeMethods;
+exports.ValidatorMethods = models_1.ValidatorMethods;
 var RemmeRest = /** @class */ (function () {
-    function RemmeRest(nodeAddress, socketAddress) {
-        if (nodeAddress === void 0) { nodeAddress = "localhost:8080"; }
-        if (socketAddress === void 0) { socketAddress = "localhost:9080"; }
+    function RemmeRest(_a) {
+        var nodeAddress = _a.nodeAddress, apiPort = _a.apiPort, socketPort = _a.socketPort, validatorPort = _a.validatorPort, sslMode = _a.sslMode;
         var _this = this;
         this.nodeAddress = function () { return _this._nodeAddress; };
         this.socketAddress = function () { return _this._socketAddress; };
-        this._nodeAddress = nodeAddress;
-        this._socketAddress = socketAddress;
+        this.sslMode = function () { return _this._sslMode; };
+        this._nodeAddress = nodeAddress + ":" + apiPort;
+        this._socketAddress = nodeAddress + ":" + socketPort;
+        this._validatorAddress = nodeAddress + ":" + validatorPort;
+        this._sslMode = sslMode;
     }
-    RemmeRest.prototype.getRequest = function (method, payload) {
+    RemmeRest.prototype.getRequest = function (method, urlParam, queryParam) {
         return __awaiter(this, void 0, void 0, function () {
+            var url;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sendRequest("GET", method, payload)];
+                    case 0:
+                        url = this._getUrlForRequest(method, urlParam);
+                        return [4 /*yield*/, this._sendRequest("GET", url, queryParam)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -60,9 +66,12 @@ var RemmeRest = /** @class */ (function () {
     };
     RemmeRest.prototype.putRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
+            var url;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sendRequest("PUT", method, payload)];
+                    case 0:
+                        url = this._getUrlForRequest(method);
+                        return [4 /*yield*/, this._sendRequest("PUT", url, payload)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -70,9 +79,12 @@ var RemmeRest = /** @class */ (function () {
     };
     RemmeRest.prototype.postRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
+            var url;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sendRequest("POST", method, payload)];
+                    case 0:
+                        url = this._getUrlForRequest(method);
+                        return [4 /*yield*/, this._sendRequest("POST", url, payload)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -80,46 +92,72 @@ var RemmeRest = /** @class */ (function () {
     };
     RemmeRest.prototype.deleteRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
+            var url;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sendRequest("DELETE", method, payload)];
+                    case 0:
+                        url = this._getUrlForRequest(method);
+                        return [4 /*yield*/, this._sendRequest("DELETE", url, payload)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    RemmeRest.prototype.sendRequest = function (method, remmeMethod, payload) {
+    RemmeRest.prototype._sendRequest = function (method, url, payload) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, options, response, e_1, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var options, response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
-                        url = this.getUrlForRequest(remmeMethod, method.toUpperCase() === "GET" ? payload : null);
-                        options = (_a = {
-                                url: url,
-                                method: method
-                            },
-                            _a[method.toUpperCase() === "GET" ? "params" : "data"] = payload,
-                            _a);
+                        options = {
+                            url: url,
+                            method: method,
+                        };
+                        if (payload) {
+                            options[method.toUpperCase() === "GET" ? "params" : "data"] = payload;
+                        }
                         return [4 /*yield*/, remme_http_client_1.HttpClient.send(options)];
                     case 1:
-                        response = _b.sent();
-                        return [2 /*return*/, response.data];
-                    case 2:
-                        e_1 = _b.sent();
-                        throw new Error("Please check if your node running at http://" + this._nodeAddress);
-                    case 3: return [2 /*return*/];
+                        response = _a.sent();
+                        if (response) {
+                            if (response.data.error) {
+                                this._throwErrorReceive(response.data);
+                            }
+                            else {
+                                return [2 /*return*/, response.data];
+                            }
+                        }
+                        else {
+                            throw new Error("Please check if your node running at http://" + this._nodeAddress);
+                        }
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    RemmeRest.prototype.getUrlForRequest = function (method, payload) {
+    RemmeRest.prototype._getUrlForRequest = function (method, payload) {
         var methodUrl = method;
         if (payload) {
-            methodUrl += "/" + payload + (method === remme_methods_1.RemmeMethods.userPublicKeys ? "/pub_keys" : "");
+            methodUrl += "/" + payload + (method === models_1.RemmeMethods.userPublicKeys ? "/pub_keys" : "");
         }
-        return "http://" + this._nodeAddress + "/api/v1/" + methodUrl;
+        var protocol = this._sslMode ? "https://" : "http://";
+        var url;
+        if (Object.values(models_1.RemmeMethods).includes(method)) {
+            url = this._nodeAddress + "/api/v1/";
+        }
+        else if (Object.values(models_1.ValidatorMethods).includes(method)) {
+            url = this._validatorAddress + "/";
+        }
+        return "" + protocol + url + methodUrl;
+    };
+    RemmeRest.prototype._throwErrorReceive = function (_a) {
+        var error = _a.error;
+        if (typeof error === "string") {
+            throw new Error(error);
+        }
+        if (error.message) {
+            throw new Error(error.message);
+        }
     };
     return RemmeRest;
 }());

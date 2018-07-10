@@ -3,5 +3,5 @@ export interface IRemmeAccount {
     privateKeyHex: string;
     privateKey: any;
     address: string;
-    sign(transaction: any): any;
+    sign(transaction: Uint8Array | string): any;
 }

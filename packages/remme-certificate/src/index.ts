@@ -1,10 +1,11 @@
 import { forge, oids } from "remme-utils";
-import { IBaseTransactionResponse } from "remme-base-transaction-response";
+import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-transaction-service";
 import { IRemmePublicKeyStorage, PublicKeyStorageCheckResult } from "remme-public-key-storage";
 
 import { IRemmeCertificate } from "./interface";
 import {
     CertificateTransactionResponse,
+    ICertificateTransactionResponse,
     CertificateCreateDto,
 } from "./models";
 
@@ -17,17 +18,23 @@ class RemmeCertificate implements IRemmeCertificate {
     }
 
     public async createAndStore(certificateDataToCreate: CertificateCreateDto)
-        : Promise<CertificateTransactionResponse> {
-        const keys = this._generateKeyPair();
+        : Promise<ICertificateTransactionResponse> {
+        const keys = await this._generateKeyPair();
         const cert = this._createCertificate(keys, certificateDataToCreate);
         const batchResponse = await this.store(cert);
-        const certResponse = new CertificateTransactionResponse(batchResponse.socketAddress);
+        const certResponse = new CertificateTransactionResponse(
+            batchResponse.socketAddress,
+            batchResponse.sslMode,
+            batchResponse.batchId,
+        );
         certResponse.certificate = cert;
-        certResponse.batchId = batchResponse.batchId;
         return certResponse;
     }
 
-    public async store(certificate: forge.pki.Certificate): Promise<IBaseTransactionResponse> {
+    public async store(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<IBaseTransactionResponse> {
+        if (typeof certificate === "string") {
+            certificate = this._getCertificateFromPEM(certificate);
+        }
         const certificatePEM = this._getCertificatePEM(certificate);
         const { publicKey, privateKey } = certificate;
         const validFrom = Math.floor(certificate.validity.notBefore.getTime() / 1000);
@@ -41,7 +48,10 @@ class RemmeCertificate implements IRemmeCertificate {
         });
     }
 
-    public async check(certificate: forge.pki.Certificate): Promise<PublicKeyStorageCheckResult> {
+    public async check(certificate: forge.pki.Certificate  | forge.pki.PEM): Promise<PublicKeyStorageCheckResult> {
+        if (typeof certificate === "string") {
+            certificate = this._getCertificateFromPEM(certificate);
+        }
         const publicKeyPEM = this._getPublicKeyPEM(certificate);
         const checkResult = await this._remmePublicKeyStorage.check(publicKeyPEM);
         const message = this._remmePublicKeyStorage.generateMessage(forge.pki.certificateToPem(certificate));
@@ -55,7 +65,10 @@ class RemmeCertificate implements IRemmeCertificate {
         return checkResult;
     }
 
-    public async revoke(certificate: forge.pki.Certificate): Promise<IBaseTransactionResponse> {
+    public async revoke(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<IBaseTransactionResponse> {
+        if (typeof certificate === "string") {
+            certificate = this._getCertificateFromPEM(certificate);
+        }
         const publicKeyPEM = this._getPublicKeyPEM(certificate);
         return await this._remmePublicKeyStorage.revoke(publicKeyPEM);
     }
@@ -67,6 +80,7 @@ class RemmeCertificate implements IRemmeCertificate {
         cert.setSubject(subject);
         cert.publicKey = keys.publicKey;
         cert.privateKey = keys.privateKey;
+        cert.serialNumber = certificateDataToCreate.serial;
         cert.validity.notBefore = new Date();
         cert.validity.notAfter = new Date();
         if (certificateDataToCreate.validAfter) {
@@ -109,11 +123,11 @@ class RemmeCertificate implements IRemmeCertificate {
         });
     }
 
-    private _generateKeyPair(): forge.pki.KeyPair {
-        return forge.pki.rsa.generateKeyPair(this._rsaKeySize);
+    private async _generateKeyPair(): Promise<forge.pki.KeyPair> {
+        return await forge.pki.rsa.generateKeyPair(this._rsaKeySize);
     }
 
-    private _getPublicKeyPEM(certificate): forge.pki.PEM {
+    private _getPublicKeyPEM(certificate: forge.pki.Certificate): forge.pki.PEM {
         try {
             return forge.pki.publicKeyToPem(certificate.publicKey);
         } catch (e) {
@@ -121,9 +135,17 @@ class RemmeCertificate implements IRemmeCertificate {
         }
     }
 
-    private _getCertificatePEM(certificate): forge.pki.PEM {
+    private _getCertificatePEM(certificate: forge.pki.Certificate): forge.pki.PEM {
         try {
             return forge.pki.certificateToPem(certificate);
+        } catch (e) {
+            throw new Error("Given certificate is not a valid");
+        }
+    }
+
+    private _getCertificateFromPEM(certificate: forge.pki.PEM): forge.pki.Certificate {
+        try {
+            return forge.pki.certificateFromPem(certificate);
         } catch (e) {
             throw new Error("Given certificate is not a valid");
         }

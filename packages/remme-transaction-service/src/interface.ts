@@ -1,5 +1,4 @@
-import { IBaseTransactionResponse } from "remme-base-transaction-response";
-import { TransactionCreatePayload } from "./models";
+import { TransactionCreatePayload, IBaseTransactionResponse } from "./models";
 
 export interface IRemmeTransactionService {
 

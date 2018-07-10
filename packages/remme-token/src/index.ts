@@ -1,7 +1,6 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { getAddressFromData } from "remme-utils";
-import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-base-transaction-response";
-import { IRemmeTransactionService } from "remme-transaction-service";
+import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
 import { TransferPayload, TransactionPayload, AccountMethod } from "remme-protobuf";
 
 import { BalanceResult } from "./models";

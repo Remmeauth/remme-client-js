@@ -6,8 +6,17 @@ import { RemmeToken, IRemmeToken } from "remme-token";
 import { RemmeAccount, IRemmeAccount } from "remme-account";
 import { RemmeBatch, IRemmeBatch } from "remme-batch";
 import { RemmeSwap, IRemmeSwap } from "remme-atomic-swap";
+import { RemmeBlockchainInfo, IRemmeBlockchainInfo} from "remme-blockchain-info";
 
 import { IRemmeClient, ClientInitInterface } from "./interface";
+
+const defaultConfig = {
+    nodeAddress: "localhost",
+    socketPort: "9080",
+    apiPort: "8080",
+    validatorPort: "8008",
+    sslMode: false,
+};
 
 namespace Remme {
     export class Client implements IRemmeClient {
@@ -19,17 +28,16 @@ namespace Remme {
         public token: IRemmeToken;
         public batch: IRemmeBatch;
         public swap: IRemmeSwap;
+        public blockchainInfo: IRemmeBlockchainInfo;
 
         public constructor({
                                privateKeyHex = "",
-                               nodeAddress = "localhost:8080",
-                               socketAddress = "localhost:9080",
+                               networkConfig = defaultConfig,
                            }: ClientInitInterface = {
             privateKeyHex: "",
-            nodeAddress: "localhost:8080",
-            socketAddress: "localhost:9080",
+            networkConfig: defaultConfig,
         }) {
-            this._remmeRest = new RemmeRest(nodeAddress, socketAddress);
+            this._remmeRest = new RemmeRest(networkConfig);
             this._account = new RemmeAccount(privateKeyHex);
             this.transaction = new RemmeTransactionService(this._remmeRest, this._account);
             this.publicKeyStorage = new RemmePublicKeyStorage(this._remmeRest, this.transaction);
@@ -37,6 +45,7 @@ namespace Remme {
             this.token = new RemmeToken(this._remmeRest, this.transaction);
             this.batch = new RemmeBatch(this._remmeRest);
             this.swap = new RemmeSwap(this._remmeRest, this.transaction);
+            this.blockchainInfo = new RemmeBlockchainInfo(this._remmeRest);
         }
 
         public set account(remmeAccount: IRemmeAccount) {
