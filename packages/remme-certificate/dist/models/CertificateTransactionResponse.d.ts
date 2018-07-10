@@ -1,6 +1,9 @@
 import { forge } from "remme-utils";
-import { BaseTransactionResponse } from "remme-base-transaction-response";
-export declare class CertificateTransactionResponse extends BaseTransactionResponse {
-    constructor(socketAddress: string);
+import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-transaction-service";
+export declare class CertificateTransactionResponse extends BaseTransactionResponse implements ICertificateTransactionResponse {
+    certificate: forge.pki.Certificate;
+    constructor(socketAddress: string, sslMode: boolean);
+}
+export interface ICertificateTransactionResponse extends IBaseTransactionResponse {
     certificate: forge.pki.Certificate;
 }

@@ -1,2 +1,2 @@
-export { CertificateTransactionResponse } from "./CertificateTransactionResponse";
+export { CertificateTransactionResponse, ICertificateTransactionResponse } from "./CertificateTransactionResponse";
 export { CertificateCreateDto } from "./CertificateCreateDto";

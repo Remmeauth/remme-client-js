@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var bytes = require("utf8-bytes");
 var js_sha512_1 = require("js-sha512");
+var b64 = require("base64-js");
 exports.hexToBytes = function (str) {
     var arr = [];
     var len = str.length;
@@ -18,6 +19,9 @@ exports.bytesToHex = function (uint8arr) {
         hexStr += hex;
     });
     return hexStr;
+};
+exports.base64ToArrayBuffer = function (base64) {
+    return b64.toByteArray(base64);
 };
 exports.utf8ToBytes = function (str) {
     return bytes(str);
@@ -40,24 +44,24 @@ exports.toHexString = function (byteArray) {
 exports.toUTF8Array = function (str) {
     var utf8 = [];
     for (var i = 0; i < str.length; i++) {
-        var charcode = str.charCodeAt(i);
-        if (charcode < 0x80) {
-            utf8.push(charcode);
+        var charCode = str.charCodeAt(i);
+        if (charCode < 0x80) {
+            utf8.push(charCode);
         }
-        else if (charcode < 0x800) {
-            utf8.push(0xc0 | (charcode >> 6), 0x80 | (charcode & 0x3f));
+        else if (charCode < 0x800) {
+            utf8.push(0xc0 | (charCode >> 6), 0x80 | (charCode & 0x3f));
         }
-        else if (charcode < 0xd800 || charcode >= 0xe000) {
-            utf8.push(0xe0 | (charcode >> 12), 0x80 | ((charcode >> 6) & 0x3f), 0x80 | (charcode & 0x3f));
+        else if (charCode < 0xd800 || charCode >= 0xe000) {
+            utf8.push(0xe0 | (charCode >> 12), 0x80 | ((charCode >> 6) & 0x3f), 0x80 | (charCode & 0x3f));
         }
         else {
             i++;
             // UTF-16 encodes 0x10000-0x10FFFF by
             // subtracting 0x10000 and splitting the
             // 20 bits of 0x0-0xFFFFF into two halves
-            charcode = 0x10000 + (((charcode & 0x3ff) << 10)
+            charCode = 0x10000 + (((charCode & 0x3ff) << 10)
                 | (str.charCodeAt(i) & 0x3ff));
-            utf8.push(0xf0 | (charcode >> 18), 0x80 | ((charcode >> 12) & 0x3f), 0x80 | ((charcode >> 6) & 0x3f), 0x80 | (charcode & 0x3f));
+            utf8.push(0xf0 | (charCode >> 18), 0x80 | ((charCode >> 12) & 0x3f), 0x80 | ((charCode >> 6) & 0x3f), 0x80 | (charCode & 0x3f));
         }
     }
     return utf8;

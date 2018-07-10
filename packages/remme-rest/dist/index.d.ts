@@ -1,16 +1,20 @@
-import { RemmeMethods } from "./remme-methods";
 import { IRemmeRest } from "./interface";
+import { IQueryParams, RemmeMethods, ValidatorMethods, INetworkConfig } from "./models";
 declare class RemmeRest implements IRemmeRest {
     private readonly _nodeAddress;
     private readonly _socketAddress;
-    constructor(nodeAddress?: string, socketAddress?: string);
+    private readonly _validatorAddress;
+    private readonly _sslMode;
+    constructor({nodeAddress, apiPort, socketPort, validatorPort, sslMode}: INetworkConfig);
     nodeAddress: () => string;
     socketAddress: () => string;
-    getRequest<Output>(method: RemmeMethods, payload?: string): Promise<Output>;
+    sslMode: () => boolean;
+    getRequest<Output>(method: RemmeMethods | ValidatorMethods, urlParam?: string, queryParam?: IQueryParams): Promise<Output>;
     putRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output>;
     postRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output>;
     deleteRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output>;
-    private sendRequest<Input, Output>(method, remmeMethod, payload?);
-    private getUrlForRequest<Input>(method, payload?);
+    private _sendRequest<Input, Output>(method, url, payload?);
+    private _getUrlForRequest(method, payload?);
+    private _throwErrorReceive({error});
 }
-export { RemmeMethods, RemmeRest, IRemmeRest };
+export { RemmeMethods, ValidatorMethods, RemmeRest, IRemmeRest };

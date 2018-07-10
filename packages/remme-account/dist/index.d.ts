@@ -7,6 +7,6 @@ declare class RemmeAccount implements IRemmeAccount {
     privateKeyHex: string;
     constructor(privateKeyHex?: string);
     readonly privateKey: any;
-    sign(transaction: any): any;
+    sign(transaction: Uint8Array | string): any;
 }
 export { RemmeAccount, IRemmeAccount };

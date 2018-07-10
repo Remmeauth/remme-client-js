@@ -1,6 +1,6 @@
 import { createContext, CryptoFactory } from "sawtooth-sdk/signing";
 import { Secp256k1PrivateKey } from "sawtooth-sdk/signing/secp256k1";
-import { getAddressFromData } from "remme-utils";
+import { getAddressFromData, hexToBytes } from "remme-utils";
 
 import { IRemmeAccount } from "./interface";
 
@@ -32,7 +32,10 @@ class RemmeAccount implements IRemmeAccount {
         return Secp256k1PrivateKey.fromHex(this.privateKeyHex);
     }
 
-    public sign(transaction: any): any {
+    public sign(transaction: Uint8Array | string): any {
+        if (typeof transaction === "string") {
+            transaction = hexToBytes(transaction);
+        }
         return this._signer.sign(transaction);
     }
 }
