@@ -1,6 +1,6 @@
 {
   "name": "remme-web-socket",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "REMME web socket internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
