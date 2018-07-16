@@ -69,6 +69,10 @@ class RemmeSwap implements IRemmeSwap {
     public async getInfo(swapId: string): Promise<SwapInfoData> {
         this.checkParameters({ swapId });
         const apiResult = await this._remmeRest.getRequest<SwapInfoDto>(RemmeMethods.atomicSwap, swapId);
+        /**
+         * TODO: check if result is undefined or no batch with this id,
+         * block: https://remmeio.atlassian.net/browse/REM-330
+         */
         return new SwapInfoData(apiResult);
     }
 
@@ -105,7 +109,11 @@ class RemmeSwap implements IRemmeSwap {
     }
 
     private validateData(data: SwapInitDto) {
-        for (const key of (Object as any).keys(new SwapInitDto())) {
+        const example = new SwapInitDto();
+        if ("secretLockBySolicitor" in data) {
+            example.secretLockBySolicitor = data.secretLockBySolicitor;
+        }
+        for (const key of (Object as any).keys(example)) {
             if (!data[key]) {
                 throw new Error(`Attribute ${key} was not specified`);
             }

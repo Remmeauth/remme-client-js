@@ -4,13 +4,12 @@ const Events = require("../packages/remme-web-socket").Events;
 // const Remme = require("remme");
 // import Remme from "remme";
 
-//Addresses of Docker container ports
-const nodeAddress = "localhost:8080";
-const socketAddress = "localhost:9080";
-
 //Initialize client
 const remme = new Remme.Client({
   privateKeyHex: "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4ff5",
+  networkConfig: {
+    nodeAddress: "localhost",
+  }
 });
 const someRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759";
 const account = remme.account;
@@ -27,7 +26,10 @@ const account = remme.account;
   // console.log(`Sending tokens...BatchId: ${transactionResult.batchId}`); // 2
   //
   // const transactionCallback = async (err, result) => {
-  //   if (err) return;
+  //   if (err) {
+  //     console.log(err);
+  //     return;
+  //   }
   //   console.log("token", result);
   //   const newBalance = await remme.token.getBalance(someRemmeAddress);
   //   console.log(`Account ${someRemmeAddress} balance - ${newBalance} REM`);
@@ -66,13 +68,13 @@ const account = remme.account;
   // const certificateTransactionCallback = async (err, response) => {
   //   if (err) {
   //     console.log(err);
-  //     return;
   //   }
   //   console.log("store", response);
   //   const status = await remme.certificate.check(certificateTransactionResult.certificate);
   //   console.log(status);
   //   const revoke = await remme.certificate.revoke(certificateTransactionResult.certificate);
   //   revoke.connectToWebSocket(async (err, response) => {
+  //     console.log("error", err);
   //     console.log("revoke", response);
   //     const status = await remme.certificate.check(certificateTransactionResult.certificate);
   //     console.log(status);
@@ -81,20 +83,19 @@ const account = remme.account;
   // //
   // certificateTransactionResult.connectToWebSocket(certificateTransactionCallback); // 5
 
-  // console.log(await remme.transaction.send("afa"));
-  remme.swap.subscribeToEvents(Events.All, (err, res) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log(res);
-  });
-  const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce6878";
+  // remme.swap.subscribeToEvents(Events.All, (err, res) => {
+  //   if (err) {
+  //     console.log(err);
+  //     return;
+  //   }
+  //   console.log(res);
+  // });
+  const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce6803";
   const secretKey = "secretkey";
   const secretLock = "aa273f38cf1d9c0fda0ee67b08927278b368db5927e4bf4c0aac15b95ac12df6";
 
-  const balance = await remme.token.getBalance(account.publicKeyHex);
-  console.log(`Account ${account.publicKeyHex} as sender, balance - ${balance} REM`); // 1
+  // const balance = await remme.token.getBalance(account.publicKeyHex);
+  // console.log(`Account ${account.publicKeyHex} as sender, balance - ${balance} REM`); // 1
   // setTimeout(async () => {
   //   const swapId1 = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce6879";
   //   const init1 = await remme.swap.init({
@@ -114,21 +115,20 @@ const account = remme.account;
   //     console.log("data init", data);
   //   });
   // }, 1000);
-  const init = await remme.swap.init({
-    receiverAddress: "112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1",
-    senderAddressNonLocal: "0xe6ca0e7c974f06471759e9a05d18b538c5ced11e",
-    amount: 100,
-    secretLockBySolicitor: secretLock,
-    swapId,
-    emailAddressEncryptedByInitiator: "0x656d61696c",
-    createdAt: Math.floor(Date.now() / 1000)
-  });
-
-  init.connectToWebSocket(async (err, data) => {
-    if (err) {
-      console.log("err init", err);
-    }
-    console.log("data init", data);
+  // const init = await remme.swap.init({
+  //   receiverAddress: "112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1",
+  //   senderAddressNonLocal: "0xe6ca0e7c974f06471759e9a05d18b538c5ced11e",
+  //   amount: 100,
+  //   secretLockBySolicitor: secretLock,
+  //   swapId,
+  //   createdAt: Math.floor(Date.now() / 1000)
+  // });
+  //
+  // init.connectToWebSocket(async (err, data) => {
+  //   if (err) {
+  //     console.log("err init", err);
+  //   }
+  //   console.log("data init", data);
 
     // const res = await remme.swap.getInfo(swapId);
     // console.log("after init info", res);
@@ -157,7 +157,7 @@ const account = remme.account;
       //     console.log("approve err", err);
       //   }
       //   console.log("data approve", data);
-      //
+
       //   const res = await remme.swap.getInfo(swapId);
       //   console.log("after approve", res);
       //   approve.closeWebSocket();
@@ -168,7 +168,7 @@ const account = remme.account;
       //       console.log("expire err", err);
       //     }
       //     console.log("data expire", data);
-      //
+
       //     const res = await remme.swap.getInfo(swapId);
       //     console.log("after expire", res);
       //     expire.closeWebSocket();
@@ -182,11 +182,11 @@ const account = remme.account;
       //       const res = await remme.swap.getInfo(swapId);
       //       console.log("after close info", res);
       //       close.closeWebSocket();
-  //     //     });
+      //     });
   //     //   })
   //     // })
   //   });
-  });
+  // });
   // const account = Remme.Client.generateAccount();
   // const payload = {
   //   value: 100,

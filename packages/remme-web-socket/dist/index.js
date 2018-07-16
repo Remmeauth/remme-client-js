@@ -26,12 +26,14 @@ var RemmeWebSocket = /** @class */ (function () {
             _this._socket.send(_this._getSocketQuery());
         };
         this._socket.onmessage = function (e) {
+            // console.log(e.data);
             var response = JSON.parse(e.data);
             if (response.type === "message" &&
                 Object.getOwnPropertyNames(response.data).length !== 0) {
-                if (response.data.batch_statuses && response.data.batch_statuses.invalid_transactions) {
+                if (response.data.batch_statuses && response.data.batch_statuses.invalid_transactions.length) {
                     _this.closeWebSocket();
-                    throw new Error(response.data.batch_statuses.invalid_transactions.message);
+                    callback(new models_1.ErrorMessage(response.data.batch_statuses.invalid_transactions[0]));
+                    return;
                 }
                 callback(null, _this.isEvent ? response.data : new models_1.BatchStatusesDto(response.data.batch_statuses));
             }

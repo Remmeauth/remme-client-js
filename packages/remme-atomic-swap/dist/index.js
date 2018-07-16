@@ -118,6 +118,10 @@ var RemmeSwap = /** @class */ (function () {
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.atomicSwap, swapId)];
                     case 1:
                         apiResult = _a.sent();
+                        /**
+                         * TODO: check if result is undefined or no batch with this id,
+                         * block: https://remmeio.atlassian.net/browse/REM-330
+                         */
                         return [2 /*return*/, new models_1.SwapInfoData(apiResult)];
                 }
             });
@@ -179,7 +183,11 @@ var RemmeSwap = /** @class */ (function () {
         }).finish();
     };
     RemmeSwap.prototype.validateData = function (data) {
-        for (var _i = 0, _a = Object.keys(new models_1.SwapInitDto()); _i < _a.length; _i++) {
+        var example = new models_1.SwapInitDto();
+        if ("secretLockBySolicitor" in data) {
+            example.secretLockBySolicitor = data.secretLockBySolicitor;
+        }
+        for (var _i = 0, _a = Object.keys(example); _i < _a.length; _i++) {
             var key = _a[_i];
             if (!data[key]) {
                 throw new Error("Attribute " + key + " was not specified");

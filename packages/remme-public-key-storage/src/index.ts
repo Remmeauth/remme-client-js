@@ -7,6 +7,7 @@ import {
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
 import { TransactionPayload, NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload } from "remme-protobuf";
+import {IRemmeAccount} from "remme-account";
 
 import { IRemmePublicKeyStorage } from "./interface";
 import {
@@ -19,12 +20,14 @@ import {
 class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _remmeRest: IRemmeRest;
     private readonly _remmeTransaction: IRemmeTransactionService;
+    private readonly _remmeAccount: IRemmeAccount;
     private readonly _familyName = "pub_key";
     private readonly _familyVersion = "0.1";
 
-    public constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService) {
+    public constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService, remmeAccount: IRemmeAccount) {
         this._remmeRest = remmeRest;
         this._remmeTransaction = remmeTransaction;
+        this._remmeAccount = remmeAccount;
     }
 
     public async store({
@@ -50,8 +53,14 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             validTo,
         }).finish();
         const pubKeyAddress = getAddressFromData(this._familyName, publicKeyPEM);
+        /*
+        TODO: addr = this._remmeAccount.addres + pub_key_serial.
+        pub_key_serial - from rest endpoint
+         */
+        const addr = this._remmeAccount.address;
+        const mappingAddress = getAddressFromData(this._remmeAccount.mapping, addr);
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
-        return await this._createAndSendTransaction([pubKeyAddress], payloadBytes);
+        return await this._createAndSendTransaction([pubKeyAddress, mappingAddress], payloadBytes);
     }
 
     public async check(publicKey: forge.pki.PEM | forge.pki.Key): Promise<PublicKeyStorageCheckResult> {

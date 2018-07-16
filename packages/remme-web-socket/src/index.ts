@@ -1,6 +1,6 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { IRemmeWebSocket } from "./interface";
-import { BatchStateUpdateDto, BatchStatusesDto, IWebSocketsEvents, Events } from "./models";
+import {BatchStateUpdateDto, BatchStatusesDto, IWebSocketsEvents, Events, ErrorMessage} from "./models";
 
 declare global {
     interface Window {
@@ -37,14 +37,16 @@ class RemmeWebSocket implements IRemmeWebSocket {
             this._socket.send(this._getSocketQuery());
         };
         this._socket.onmessage = (e) => {
+            // console.log(e.data);
             const response: BatchStateUpdateDto = JSON.parse(e.data);
             if (
                 response.type === "message" &&
                 Object.getOwnPropertyNames(response.data).length !== 0
             ) {
-                if (response.data.batch_statuses && response.data.batch_statuses.invalid_transactions) {
+                if (response.data.batch_statuses && response.data.batch_statuses.invalid_transactions.length) {
                     this.closeWebSocket();
-                    throw new Error(response.data.batch_statuses.invalid_transactions.message);
+                    callback(new ErrorMessage(response.data.batch_statuses.invalid_transactions[0]));
+                    return;
                 }
                 callback(null, this.isEvent ? response.data : new BatchStatusesDto(response.data.batch_statuses));
             }

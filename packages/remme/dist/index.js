@@ -1,4 +1,12 @@
 "use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var remme_rest_1 = require("remme-rest");
 var remme_transaction_service_1 = require("remme-transaction-service");
 var remme_certificate_1 = require("remme-certificate");
@@ -23,10 +31,11 @@ var Remme;
                 privateKeyHex: "",
                 networkConfig: defaultConfig,
             } : _a, _c = _b.privateKeyHex, privateKeyHex = _c === void 0 ? "" : _c, _d = _b.networkConfig, networkConfig = _d === void 0 ? defaultConfig : _d;
+            networkConfig = __assign({}, defaultConfig, networkConfig);
             this._remmeRest = new remme_rest_1.RemmeRest(networkConfig);
             this._account = new remme_account_1.RemmeAccount(privateKeyHex);
             this.transaction = new remme_transaction_service_1.RemmeTransactionService(this._remmeRest, this._account);
-            this.publicKeyStorage = new remme_public_key_storage_1.RemmePublicKeyStorage(this._remmeRest, this.transaction);
+            this.publicKeyStorage = new remme_public_key_storage_1.RemmePublicKeyStorage(this._remmeRest, this.transaction, this._account);
             this.certificate = new remme_certificate_1.RemmeCertificate(this.publicKeyStorage);
             this.token = new remme_token_1.RemmeToken(this._remmeRest, this.transaction);
             this.batch = new remme_batch_1.RemmeBatch(this._remmeRest);
