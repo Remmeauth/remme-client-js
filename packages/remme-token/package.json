@@ -1,6 +1,6 @@
 {
   "name": "remme-token",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "REMME token internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,8 +13,8 @@
   "dependencies": {
     "remme-protobuf": "^0.2.0",
     "remme-rest": "^0.2.5",
-    "remme-transaction-service": "^0.2.8",
-    "remme-utils": "^0.2.8"
+    "remme-transaction-service": "^0.2.9",
+    "remme-utils": "^0.2.9"
   },
   "devDependencies": {
     "typescript": "^2.8.3"
