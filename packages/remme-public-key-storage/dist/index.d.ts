@@ -1,14 +1,16 @@
 import { forge } from "remme-utils";
 import { IRemmeRest } from "remme-rest";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
+import { IRemmeAccount } from "remme-account";
 import { IRemmePublicKeyStorage } from "./interface";
 import { PublicKeyStorageCheckResult, PublicKeyStorageStoreDto } from "./models";
 declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _remmeRest;
     private readonly _remmeTransaction;
+    private readonly _remmeAccount;
     private readonly _familyName;
     private readonly _familyVersion;
-    constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService);
+    constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService, remmeAccount: IRemmeAccount);
     store({data, publicKey, privateKey, validTo, validFrom, publicKeyType, entityType}: PublicKeyStorageStoreDto): Promise<IBaseTransactionResponse>;
     check(publicKey: forge.pki.PEM | forge.pki.Key): Promise<PublicKeyStorageCheckResult>;
     revoke(publicKey: forge.pki.PEM | forge.pki.Key): Promise<IBaseTransactionResponse>;

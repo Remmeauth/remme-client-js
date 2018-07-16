@@ -9,7 +9,7 @@ declare class RemmeSwap implements IRemmeSwap {
     private readonly _familyName;
     private readonly _familyVersion;
     private readonly _zeroAddress;
-    private readonly _fiAddress;
+    private readonly _swapComission;
     private _socket;
     constructor(remmeRest: IRemmeRest, remmeTransactionService: IRemmeTransactionService);
     approve(swapId: string): Promise<IBaseTransactionResponse>;

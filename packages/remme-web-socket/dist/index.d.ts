@@ -9,6 +9,7 @@ declare class RemmeWebSocket implements IRemmeWebSocket {
     socketAddress: string;
     sslMode: boolean;
     isEvent: boolean;
+    eventToSubscribe: Events;
     data: object;
     private _socket;
     constructor(socketAddress: string, sslMode: boolean);

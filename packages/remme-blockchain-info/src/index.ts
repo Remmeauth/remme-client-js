@@ -20,7 +20,6 @@ import {
     PeerList,
     ReceiptList,
 } from "./models";
-import {RemmeBlockchainInfo} from "../dist";
 
 class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     private readonly _remmeRest: IRemmeRest;

@@ -57,11 +57,13 @@ class RemmeCertificate implements IRemmeCertificate {
         const message = this._remmePublicKeyStorage.generateMessage(forge.pki.certificateToPem(certificate));
         const entityHash = this._remmePublicKeyStorage.generateEntityHash(message);
         const currentTime = Math.floor(Date.now() / 1000);
-        checkResult.valid = checkResult &&
-            !checkResult.revoked &&
-            entityHash === checkResult.entity_hash &&
-            currentTime >= checkResult.valid_from &&
-            currentTime < checkResult.valid_to;
+        if (checkResult) {
+            checkResult.valid = checkResult &&
+                !checkResult.revoked &&
+                entityHash === checkResult.entity_hash &&
+                currentTime >= checkResult.valid_from &&
+                currentTime < checkResult.valid_to;
+        }
         return checkResult;
     }
 
