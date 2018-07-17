@@ -1,5 +1,5 @@
 export enum Events {
-    All,
+    SwapAll = "",
     SwapInit,
     SwapApprove,
     SwapExpire,

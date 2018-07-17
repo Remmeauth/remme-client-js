@@ -1,6 +1,6 @@
 {
   "name": "remme-protobuf",
-  "version": "0.2.0",
+  "version": "0.2.12",
   "description": "REMME protobuf internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
