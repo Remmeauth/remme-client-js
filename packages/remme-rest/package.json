@@ -1,6 +1,6 @@
 {
   "name": "remme-rest",
-  "version": "0.2.24",
+  "version": "0.2.25",
   "description": "REMME rest internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
