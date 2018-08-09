@@ -1,7 +1,7 @@
 {
   "name": "remme-client",
   "namespace": "remme",
-  "version": "0.2.8",
+  "version": "0.2.26",
   "description": "REMME external package",
   "main": "./packages/remme/dist/index.js",
   "scripts": {
@@ -10,7 +10,8 @@
     "bootstrap": "./node_modules/.bin/gulp prepublish; ./node_modules/.bin/lerna bootstrap;",
     "build": "npm run bootstrap && ./node_modules/.bin/gulp",
     "watch": "./node_modules/.bin/gulp watch",
-    "tests": "npm run bootstrap && ./node_modules/.bin/gulp tests"
+    "tests": "npm run bootstrap && ./node_modules/.bin/gulp tests",
+    "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json"
   },
   "keywords": [
     "Remme",
@@ -49,6 +50,7 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-streamify": "^1.0.2",
     "gulp-tslint": "^8.1.3",
+    "gulp-typedoc": "^2.2.0",
     "gulp-uglify": "^3.0.0",
     "karma": "^2.0.2",
     "karma-babel-preprocessor": "^7.0.0",
@@ -68,6 +70,7 @@
     "tsify": "^4.0.0",
     "tslint": "^5.10.0",
     "tslint-config-airbnb": "^5.8.0",
+    "typedoc": "^0.11.1",
     "typescript": "^2.8.3",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
@@ -75,7 +78,9 @@
   "dependencies": {
     "cbor": "^4.0.0",
     "crypto": "^1.0.1",
+    "docdash": "^0.4.0",
     "gulp-babel": "^7.0.1",
+    "jsdoc": "^3.5.5",
     "sawtooth-sdk": "^1.0.4"
   }
 }

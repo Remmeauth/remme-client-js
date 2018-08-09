@@ -14,7 +14,8 @@ export interface TransactionHeader extends BaseHeader {
 export interface TransactionData extends BaseData<TransactionHeader> {
     payload: string;
     transactionProtobuf?: any;
-    protobuf: any;
+    protobuf?: any;
+    transactionType?: string;
 }
 
 export class TransactionList extends BaseResponse<TransactionData[]> {

@@ -1,6 +1,7 @@
 import { IRemmeRest } from "./interface";
 import { IQueryParams, RemmeMethods, ValidatorMethods, INetworkConfig } from "./models";
 declare class RemmeRest implements IRemmeRest {
+    [key: string]: any;
     private readonly _nodeAddress;
     private readonly _socketAddress;
     private readonly _validatorAddress;

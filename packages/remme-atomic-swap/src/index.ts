@@ -1,7 +1,7 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { getAddressFromData } from "remme-utils";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
-import { RemmeWebSocket, IRemmeWebSocket, Events } from "remme-web-socket";
+import { RemmeWebSocket, IRemmeWebSocket } from "remme-web-socket";
 import { AtomicSwapMethod,
     AtomicSwapInitPayload,
     AtomicSwapApprovePayload,
@@ -17,15 +17,18 @@ import {
     SwapInfoDto,
     SwapInfoData,
     SwapPublicKeyDto,
+    SwapEvents,
 } from "./models";
 
 class RemmeSwap implements IRemmeSwap {
+    // index signature
+    [key: string]: any;
+
     private readonly _remmeRest: IRemmeRest;
     private readonly _remmeTransactionService: IRemmeTransactionService;
     private readonly _familyName = "AtomicSwap";
     private readonly _familyVersion = "0.1";
     private readonly _zeroAddress = "0".repeat(70);
-    // private readonly _fiAddress = "00000059c88e4dbdb786bce3b0c44298fc1c14e3b0c44298fc1c14e3b0c44298fc1c14";
     private readonly _swapComission = "0000007ca83d6bbb759da9cde0fb0dec1400c55cc3bbcd6b1243b2e3b0c44298fc1c14";
     private _socket: IRemmeWebSocket;
 
@@ -163,24 +166,40 @@ class RemmeSwap implements IRemmeSwap {
         return await this._remmeTransactionService.send(transaction);
     }
 
-    private checkParameters(parameters: {swapId: string, secretLock?: string, secretKey?: string}) {
+    private checkParameters(parameters: { swapId: string, secretLock?: string, secretKey?: string }) {
         for (const [key, value] of (Object as any).entries(parameters)) {
             if (!value) {
                 throw new Error(`The '${key}' was missing in parameters`);
             }
-            if (key !== "secretKey" && value.search(/^[0-9a-f]{64}$/) === -1) {
+            if (value.search(/^[0-9a-f]{64}$/) === -1) {
                 throw new Error(`Given ${key} is not a valid`);
             }
         }
     }
 
-    public subscribeToEvents(event: Events, callback: any): void {
+    public subscribeToEvents(events: SwapEvents | SwapEvents[], callback: any): void {
+        if (typeof events !== "object") {
+            if (events === SwapEvents.All) {
+                events = [
+                    SwapEvents.Init,
+                    SwapEvents.SetSecretLock,
+                    SwapEvents.Approve,
+                    SwapEvents.Expire,
+                    SwapEvents.Close,
+                ];
+            } else {
+                events = [ events ];
+            }
+        }
+        if (this._socket) {
+            this._socket.closeWebSocket();
+        }
         this._socket = new RemmeWebSocket(this._remmeRest.socketAddress(), this._remmeRest.sslMode());
         this._socket.isEvent = true;
         this._socket.data = {
             entity: "events",
+            events,
         };
-        this._socket.eventToSubscribe = event;
         this._socket.connectToWebSocket(callback);
     }
 
@@ -192,4 +211,5 @@ class RemmeSwap implements IRemmeSwap {
 export {
     RemmeSwap,
     IRemmeSwap,
+    SwapEvents,
 };

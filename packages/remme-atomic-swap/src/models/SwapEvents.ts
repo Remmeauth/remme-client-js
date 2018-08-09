@@ -1,7 +1,8 @@
-export enum Events {
-    SwapAll = "",
-    SwapInit,
-    SwapApprove,
-    SwapExpire,
-    SwapClose,
+export enum SwapEvents {
+    All = "atomic-swap-all",
+    Init = "atomic-swap-init",
+    SetSecretLock = "atomic-swap-set-secret-lock",
+    Approve = "atomic-swap-approve",
+    Expire = "atomic-swap-expire",
+    Close = "atomic-swap-close",
 }

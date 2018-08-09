@@ -4,6 +4,7 @@ export interface StateData {
     address: string;
     data: string;
     protobuf?: any;
+    addressType?: string;
 }
 
 export class StateList extends BaseResponse<StateData[]> {

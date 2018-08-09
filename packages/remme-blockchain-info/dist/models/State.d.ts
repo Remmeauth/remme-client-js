@@ -3,6 +3,7 @@ export interface StateData {
     address: string;
     data: string;
     protobuf?: any;
+    addressType?: string;
 }
 export declare class StateList extends BaseResponse<StateData[]> {
     constructor(data: IBaseResponse<StateData[]>);

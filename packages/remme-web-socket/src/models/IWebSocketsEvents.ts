@@ -1,6 +1,4 @@
-import { Events } from "./Events";
-
 export interface IWebSocketsEvents {
-    subscribeToEvents(event: Events, callback: any): void;
+    subscribeToEvents(event: any, callback: any): void;
     unsubscribe(): void;
 }

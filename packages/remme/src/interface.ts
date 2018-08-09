@@ -18,7 +18,7 @@ export interface IRemmeClient {
     blockchainInfo: IRemmeBlockchainInfo;
 }
 
-export interface ClientInitInterface {
+export interface IClientInit {
     privateKeyHex?: string;
     networkConfig?: INetworkConfig;
 }
