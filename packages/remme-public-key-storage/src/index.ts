@@ -18,6 +18,9 @@ import {
 } from "./models";
 
 class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
+    // index signature
+    [key: string]: any;
+
     private readonly _remmeRest: IRemmeRest;
     private readonly _remmeTransaction: IRemmeTransactionService;
     private readonly _remmeAccount: IRemmeAccount;
@@ -39,6 +42,12 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            publicKeyType = NewPubKeyPayload.PubKeyType.RSA,
                            entityType = NewPubKeyPayload.EntityType.PERSONAL,
                        }: PublicKeyStorageStoreDto): Promise<IBaseTransactionResponse> {
+        if (typeof publicKey === "string") {
+            publicKey = forge.pki.publicKeyFromPem(publicKey);
+        }
+        if (typeof privateKey === "string") {
+            privateKey = forge.pki.privateKeyFromPem(privateKey);
+        }
         const publicKeyPEM = forge.pki.publicKeyToPem(publicKey);
         const message = this.generateMessage(data);
         const entityHash = this.generateEntityHash(message);
@@ -53,10 +62,6 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             validTo,
         }).finish();
         const pubKeyAddress = getAddressFromData(this._familyName, publicKeyPEM);
-        /*
-        TODO: addr = this._remmeAccount.addres + pub_key_serial.
-        pub_key_serial - from rest endpoint
-         */
         const addr = this._remmeAccount.address;
         const mappingAddress = getAddressFromData(this._remmeAccount.mapping, addr);
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);

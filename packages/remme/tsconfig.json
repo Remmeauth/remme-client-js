@@ -15,5 +15,24 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "typedocOptions": {
+    "out": "./docs",
+    "exclude": "**/*+(e2e|spec).ts",
+    "excludeExternals": true,
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "externalPattern": "**/node_modules/**",
+    "includeDeclarations": false,
+    "ignoreCompilerErrors": true,
+    "target": "es5",
+    "moduleResolution": "node",
+    "preserveConstEnums": "true",
+    "skipLibCheck": true,
+    "stripInternal": "true",
+    "suppressExcessPropertyErrors": "true",
+    "suppressImplicitAnyIndexErrors": "true",
+    "module": "commonjs",
+    "mode": "file"
+  }
 }

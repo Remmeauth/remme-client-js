@@ -285,8 +285,8 @@ export interface IAccount {
     /** Account balance */
     balance?: (number|Long|null);
 
-    /** Account certificates */
-    certificates?: (string[]|null);
+    /** Account pubKeys */
+    pubKeys?: (string[]|null);
 }
 
 /** Represents an Account. */
@@ -301,8 +301,8 @@ export class Account implements IAccount {
     /** Account balance. */
     public balance: (number|Long);
 
-    /** Account certificates. */
-    public certificates: string[];
+    /** Account pubKeys. */
+    public pubKeys: string[];
 
     /**
      * Creates a new Account instance using the specified properties.

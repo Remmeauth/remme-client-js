@@ -46,6 +46,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var remme_rest_1 = require("remme-rest");
 var protobufs = require("remme-protobuf");
 var remme_utils_1 = require("remme-utils");
+var models_1 = require("./models");
 var RemmeBlockchainInfo = /** @class */ (function () {
     function RemmeBlockchainInfo(remmeRest) {
         this._remmeRest = remmeRest;
@@ -74,13 +75,13 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (query) {
-                            query = this._checkQuery(query);
+                            query = new models_1.BaseQuery(query);
                         }
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.batches, "", query)];
                     case 1:
                         apiResult = _a.sent();
                         apiResult.data = apiResult.data.map(function (item) {
-                            _this._prepareBatch(item);
+                            return _this._prepareBatch(item);
                         });
                         return [2 /*return*/, apiResult];
                 }
@@ -111,7 +112,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (query) {
-                            query = this._checkQuery(query);
+                            query = new models_1.BaseQuery(query);
                         }
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.blocks, "", query)];
                     case 1:
@@ -154,7 +155,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (query) {
-                            query = this._checkQuery(query);
+                            query = new models_1.StateQuery(query);
                         }
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.state, "", query)];
                     case 1:
@@ -175,7 +176,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.state, address)];
                     case 1:
                         apiResult = _a.sent();
-                        apiResult.protobuf = this._prepareAddress(address);
+                        apiResult = this._prepareAddress(__assign({ address: address }, apiResult));
                         return [2 /*return*/, apiResult];
                 }
             });
@@ -205,7 +206,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (query) {
-                            query = this._checkQuery(query);
+                            query = new models_1.BaseQuery(query);
                         }
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.transactions, "", query)];
                     case 1:
@@ -228,51 +229,13 @@ var RemmeBlockchainInfo = /** @class */ (function () {
             throw new Error("Given 'address' is not a valid");
         }
     };
-    RemmeBlockchainInfo.prototype._checkQuery = function (query) {
-        return Object.entries(query).reduce(function (prev, _a) {
-            var key = _a[0], value = _a[1];
-            var error;
-            switch (key) {
-                case "head":
-                case "start":
-                    if (value.search(/[a-f0-9]{128}/) === -1) {
-                        error = "Parameter '" + key + "' need to a valid";
-                    }
-                    else {
-                        return __assign({}, prev, (_b = {}, _b[key] = value, _b));
-                    }
-                    break;
-                case "limit":
-                    if (typeof value !== "number") {
-                        error = "Parameter '" + key + "' need to be a number";
-                    }
-                    else {
-                        return __assign({}, prev, (_c = {}, _c[key] = value, _c));
-                    }
-                    break;
-                case "address":
-                    if (value.search(/[a-f0-9]{70}/) === -1) {
-                        error = "Given '" + key + "' is not a valid";
-                    }
-                    else {
-                        return __assign({}, prev, (_d = {}, _d[key] = value, _d));
-                    }
-                    break;
-                // case "reverse":
-                //     if (typeof value !== "boolean") {
-                //         error = `Parameter '${key}' need to be a boolean`;
-                //     }
-                //     break;
-                default: return prev;
-            }
-            if (error) {
-                throw new Error(error);
-            }
-            var _b, _c, _d;
-        }, {});
-    };
     RemmeBlockchainInfo.prototype._prepareAddress = function (state) {
-        return __assign({}, state, { protobuf: RemmeBlockchainInfo.address[state.address.slice(0, 6)] });
+        if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
+            var _a = RemmeBlockchainInfo.address[state.address.slice(0, 6)], protobuf_1 = _a.parser, addressType = _a.type;
+            return __assign({}, state, { protobuf: protobuf_1,
+                addressType: addressType });
+        }
+        return state;
     };
     RemmeBlockchainInfo.prototype._prepareBlock = function (block) {
         var _this = this;
@@ -283,39 +246,75 @@ var RemmeBlockchainInfo = /** @class */ (function () {
     };
     RemmeBlockchainInfo.prototype._prepareBatch = function (batch) {
         var _this = this;
-        batch.transactions = batch.transactions.map(function (transaction) {
-            return _this._prepareTransaction(transaction);
-        });
+        batch.transactions = batch.transactions.map(function (transaction) { return _this._prepareTransaction(transaction); });
         return batch;
     };
     RemmeBlockchainInfo.prototype._prepareTransaction = function (transaction) {
         var family_name = transaction.header.family_name;
         if (family_name in RemmeBlockchainInfo.correspond) {
             var data = protobufs.TransactionPayload.decode(remme_utils_1.base64ToArrayBuffer(transaction.payload));
-            return __assign({}, transaction, { transactionProtobuf: protobufs.TransactionPayload, protobuf: RemmeBlockchainInfo.correspond[family_name][data.method] });
+            var _a = RemmeBlockchainInfo.correspond[family_name][data.method], protobuf_2 = _a.parser, transactionType = _a.type;
+            return __assign({}, transaction, { transactionProtobuf: protobufs.TransactionPayload, protobuf: protobuf_2,
+                transactionType: transactionType });
         }
         return transaction;
     };
     RemmeBlockchainInfo.address = {
-        "78173b": protobufs.AtomicSwapInfo,
-        "112007": protobufs.Account,
-        "a23be1": protobufs.PubKeyStorage,
+        "78173b": {
+            type: "info atomic swap",
+            parser: protobufs.AtomicSwapInfo,
+        },
+        "112007": {
+            type: "account",
+            parser: protobufs.Account,
+        },
+        "a23be1": {
+            type: "storage public key",
+            parser: protobufs.PubKeyStorage,
+        },
     };
     RemmeBlockchainInfo.correspond = {
         account: (_a = {},
-            _a[protobufs.AccountMethod.Method.TRANSFER] = protobufs.TransferPayload,
-            _a[protobufs.AccountMethod.Method.GENESIS] = protobufs.GenesisPayload,
+            _a[protobufs.AccountMethod.Method.TRANSFER] = {
+                type: "transfer token",
+                parser: protobufs.TransferPayload,
+            },
+            _a[protobufs.AccountMethod.Method.GENESIS] = {
+                type: "genesis",
+                parser: protobufs.GenesisPayload,
+            },
             _a),
         AtomicSwap: (_b = {},
-            _b[protobufs.AtomicSwapMethod.Method.INIT] = protobufs.AtomicSwapInitPayload,
-            _b[protobufs.AtomicSwapMethod.Method.APPROVE] = protobufs.AtomicSwapApprovePayload,
-            _b[protobufs.AtomicSwapMethod.Method.EXPIRE] = protobufs.AtomicSwapExpirePayload,
-            _b[protobufs.AtomicSwapMethod.Method.SET_SECRET_LOCK] = protobufs.AtomicSwapSetSecretLockPayload,
-            _b[protobufs.AtomicSwapMethod.Method.CLOSE] = protobufs.AtomicSwapClosePayload,
+            _b[protobufs.AtomicSwapMethod.Method.INIT] = {
+                type: "atomic-swap-init",
+                parser: protobufs.AtomicSwapInitPayload,
+            },
+            _b[protobufs.AtomicSwapMethod.Method.APPROVE] = {
+                type: "atomic-swap-approve",
+                parser: protobufs.AtomicSwapApprovePayload,
+            },
+            _b[protobufs.AtomicSwapMethod.Method.EXPIRE] = {
+                type: "atomic-swap-expire",
+                parser: protobufs.AtomicSwapExpirePayload,
+            },
+            _b[protobufs.AtomicSwapMethod.Method.SET_SECRET_LOCK] = {
+                type: "atomic-swap-set-secret-lock",
+                parser: protobufs.AtomicSwapSetSecretLockPayload,
+            },
+            _b[protobufs.AtomicSwapMethod.Method.CLOSE] = {
+                type: "atomic-swap-close",
+                parser: protobufs.AtomicSwapClosePayload,
+            },
             _b),
         pub_key: (_c = {},
-            _c[protobufs.PubKeyMethod.Method.STORE] = protobufs.NewPubKeyPayload,
-            _c[protobufs.PubKeyMethod.Method.REVOKE] = protobufs.RevokePubKeyPayload,
+            _c[protobufs.PubKeyMethod.Method.STORE] = {
+                type: "store public key",
+                parser: protobufs.NewPubKeyPayload,
+            },
+            _c[protobufs.PubKeyMethod.Method.REVOKE] = {
+                type: "revoke public key",
+                parser: protobufs.RevokePubKeyPayload,
+            },
             _c),
     };
     return RemmeBlockchainInfo;

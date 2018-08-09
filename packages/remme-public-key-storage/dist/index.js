@@ -55,6 +55,12 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
+                        if (typeof publicKey === "string") {
+                            publicKey = remme_utils_1.forge.pki.publicKeyFromPem(publicKey);
+                        }
+                        if (typeof privateKey === "string") {
+                            privateKey = remme_utils_1.forge.pki.privateKeyFromPem(privateKey);
+                        }
                         publicKeyPEM = remme_utils_1.forge.pki.publicKeyToPem(publicKey);
                         message = this.generateMessage(data);
                         entityHash = this.generateEntityHash(message);

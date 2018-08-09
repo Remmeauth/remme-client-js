@@ -38,6 +38,7 @@
     "remme-transaction-service": "^0.2.26"
   },
   "devDependencies": {
+    "typedoc": "^0.11.1",
     "typescript": "^2.8.3"
   }
 }

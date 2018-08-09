@@ -23,14 +23,78 @@ var defaultConfig = {
     validatorPort: "8008",
     sslMode: false,
 };
+/**
+ * Main namespace. Which include all interaction with our client for developers.
+ */
 var Remme;
 (function (Remme) {
+    /**
+     * Class representing a client for Remme.
+     */
     var Client = /** @class */ (function () {
-        function Client(_a) {
-            var _b = _a === void 0 ? {
+        /**
+         * @param clientInit.privateKeyHex - The hex of private key. Which is used for creating account in library
+         * which would sign transactions.
+         * @param clientInit.networkConfig - The config of network.
+         *
+         * @example
+         *
+         * Create a client. With all configuration.
+         *
+         * ```typescript
+         * const networkConfig = {
+         *      nodeAddress: "localhost",
+         *      socketPort: "9080",
+         *      apiPort: "8080",
+         *      validatorPort: "8008",
+         *      sslMode: false,
+         * };
+         *
+         * const privateKeyHex = "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4ff5";
+         *
+         * const remme = new Remme.Client({
+         *      privateKeyHex,
+         *      newtworkConfig,
+         * });
+         * ```
+         *
+         * But you also can initialize Client only with one networkConfig parameter.
+         * In this case account would be creating from newly creating private key.
+         *
+         * ```typescript
+         * const remme = new Remme.Client({
+         *      networkConfig: {
+         *          nodeAddress: "localhost",
+         *      }
+         * });
+         * ```
+         *
+         * Also you can set only a privateKeyHex parameter. So networkConfig would be this: {
+         *      nodeAddress: "localhost",
+         *      socketPort: "9080",
+         *      apiPort: "8080",
+         *      validatorPort: "8008",
+         *      sslMode: false
+         * }.
+         *
+         * ```typescript
+         * const remme = new Remme.Client({
+         *      privateKeyHex,
+         * });
+         * ```
+         *
+         * Or initialize client without any parameters
+         *
+         * ```typescript
+         * const remme = new Remme.Client();
+         * ```
+         */
+        function Client(clientInit) {
+            if (clientInit === void 0) { clientInit = {
                 privateKeyHex: "",
                 networkConfig: defaultConfig,
-            } : _a, _c = _b.privateKeyHex, privateKeyHex = _c === void 0 ? "" : _c, _d = _b.networkConfig, networkConfig = _d === void 0 ? defaultConfig : _d;
+            }; }
+            var _a = clientInit.privateKeyHex, privateKeyHex = _a === void 0 ? "" : _a, _b = clientInit.networkConfig, networkConfig = _b === void 0 ? defaultConfig : _b;
             networkConfig = __assign({}, defaultConfig, networkConfig);
             this._remmeRest = new remme_rest_1.RemmeRest(networkConfig);
             this._account = new remme_account_1.RemmeAccount(privateKeyHex);

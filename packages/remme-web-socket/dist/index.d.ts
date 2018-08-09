@@ -1,21 +1,22 @@
 import { IRemmeWebSocket } from "./interface";
-import { IWebSocketsEvents, Events } from "./models";
+import { BatchStatuses, Statuses, IWebSocketsEvents } from "./models";
 declare global  {
     interface Window {
         WebSocket: any;
     }
 }
 declare class RemmeWebSocket implements IRemmeWebSocket {
+    [key: string]: any;
     socketAddress: string;
     sslMode: boolean;
     isEvent: boolean;
-    eventToSubscribe: Events;
     data: object;
     private _socket;
     constructor(socketAddress: string, sslMode: boolean);
     connectToWebSocket(callback: any): void;
     closeWebSocket(): void;
+    private _sendAnError(error, callback);
     private _getSubscribeUrl();
     private _getSocketQuery(subscribe?);
 }
-export { RemmeWebSocket, IRemmeWebSocket, IWebSocketsEvents, Events };
+export { RemmeWebSocket, IRemmeWebSocket, IWebSocketsEvents, BatchStatuses, Statuses };

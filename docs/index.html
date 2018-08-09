@@ -1,0 +1,537 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>remme</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">remme</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> remme</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<p><img src="https://avatars1.githubusercontent.com/u/29229038" /></p>
+				<h1 id="remme-javascript-client">REMME JavaScript Client</h1>
+				<p><a href="https://www.npmjs.com/package/remme"><img src="https://img.shields.io/npm/dm/remme.svg" alt="npm"></a></p>
+				<p><strong>An open source JS integration library for REMChain, simplifying the access and interaction with REMME nodes both public or permissioned.</strong></p>
+				<h2 id="how-to-use">How to use</h2>
+				<h3 id="1-install-and-run-remme-node-with-required-rest-api-methods-enabled-">1. Install and run REMME node with required REST API methods  enabled.</h3>
+				<p>You can check out how to do that at <a href="https://github.com/Remmeauth/remme-core/">REMME core repo</a>.
+				<em>Note: you can enable/disable methods by modifying <strong>REMME_REST_API_AVAILABLE_METHODS</strong> eviroment variable at the .env file.</em></p>
+				<h3 id="2-install-the-latest-version-of-library-to-your-js-project">2. Install the latest version of library to your JS project</h3>
+				<h4 id="node">Node</h4>
+				<pre><code class="lang-bash">npm install remme
+</code></pre>
+				<h4 id="yarn">Yarn</h4>
+				<pre><code class="lang-bash">yarn add remme
+</code></pre>
+				<h4 id="in-the-browser">In the Browser</h4>
+				<p>Use the prebuild <code>dist/remme.min.js</code>, or
+				build using the [remme][repo] repository:</p>
+				<pre><code class="lang-bash">npm run build
+</code></pre>
+				<p>Then include <code>dist/remme.min.js</code> in your html file.
+				This will expose <code>Remme</code> on the window object.</p>
+				<h3 id="3-run-methods-of-remmeclient-class-to-interract-with-remme-node-">3. Run methods of <strong>RemmeClient</strong> class to interract with REMME node.</h3>
+				<h2 id="examples">Examples</h2>
+				<h4 id="implement-remme-client">Implement Remme client</h4>
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> Remme = <span class="hljs-built_in">require</span>(<span class="hljs-string">"remme"</span>);
+<span class="hljs-comment">// import Remme from "remme";</span>
+
+<span class="hljs-keyword">const</span> nodeAddress = <span class="hljs-string">"192.168.0.1:8080"</span>; <span class="hljs-comment">// &lt;-- Address of your local node's REST API server (localhost:8080) by default</span>
+<span class="hljs-keyword">const</span> socketAddress = <span class="hljs-string">"192.168.0.1:9080"</span>; <span class="hljs-comment">// &lt;-- Address of local node's WebSocket server (localhost:9080) by default</span>
+<span class="hljs-keyword">const</span> privateKeyHex = <span class="hljs-string">"7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4f10"</span>;
+<span class="hljs-keyword">const</span> networkConfig = {
+    <span class="hljs-attr">nodeAddress</span>: <span class="hljs-string">"localhost"</span>,
+    <span class="hljs-attr">socketPort</span>: <span class="hljs-string">"9080"</span>,
+    <span class="hljs-attr">apiPort</span>: <span class="hljs-string">"8080"</span>,
+    <span class="hljs-attr">validatorPort</span>: <span class="hljs-string">"8008"</span>,
+    <span class="hljs-attr">sslMode</span>: <span class="hljs-literal">false</span>,
+};
+<span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client({ privateKeyHex, networkConfig });
+</code></pre>
+				<h4 id="tokens">Tokens</h4>
+				<pre><code class="lang-js"><span class="hljs-keyword">const</span> someRemmeAddress = <span class="hljs-string">"0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759"</span>;
+<span class="hljs-keyword">const</span> balance = <span class="hljs-keyword">await</span> remme.token.getBalance(someRemmeAddress);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${someRemmeAddress}</span> balance - <span class="hljs-subst">${balance}</span> REM`</span>);
+
+<span class="hljs-keyword">const</span> transactionResult = <span class="hljs-keyword">await</span> remme.token.transfer(someRemmeAddress, <span class="hljs-number">100</span>);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Sending tokens...BatchId: <span class="hljs-subst">${transactionResult.batchId}</span>`</span>);
+
+<span class="hljs-keyword">const</span> transactionCallback = <span class="hljs-keyword">async</span> (err, result) =&gt; {
+    <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span>;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"token"</span>, result);
+    <span class="hljs-keyword">const</span> newBalance = <span class="hljs-keyword">await</span> remme.token.getBalance(someRemmeAddress);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${someRemmeAddress}</span> balance - <span class="hljs-subst">${newBalance}</span> REM`</span>);
+    transactionResult.closeWebSocket()
+};
+
+transactionResult.connectToWebSocket(transactionCallback);
+
+</code></pre>
+				<h4 id="certificates">Certificates</h4>
+				<pre><code class="lang-js"><span class="hljs-keyword">const</span> certificateTransactionResult = <span class="hljs-keyword">await</span> remme.certificate.createAndStore({
+    <span class="hljs-attr">commonName</span>: <span class="hljs-string">"userName1"</span>,
+    <span class="hljs-attr">email</span>: <span class="hljs-string">"user@email.com"</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">"John"</span>,
+    <span class="hljs-attr">surname</span>: <span class="hljs-string">"Smith"</span>,
+    <span class="hljs-attr">countryName</span>: <span class="hljs-string">"US"</span>,
+    <span class="hljs-attr">validity</span>: <span class="hljs-number">360</span>,
+    <span class="hljs-attr">serial</span>: <span class="hljs-string">"some serial"</span>
+});
+
+<span class="hljs-keyword">const</span> certificateTransactionCallback = <span class="hljs-keyword">async</span> (err, response) =&gt; {
+    <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span>;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"certificate"</span>, response);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Certificate was saved on REMchain at block number: <span class="hljs-subst">${response.block_number}</span>`</span>);
+    <span class="hljs-keyword">const</span> certificateStatus = <span class="hljs-keyword">await</span> remme.certificate.check(certificateTransactionResult.certificate);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Certificate IsValid = <span class="hljs-subst">${certificateStatus.valid}</span>`</span>);
+    certificateTransactionResult.closeWebSocket();
+};
+
+certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
+</code></pre>
+				<h2 id="license">License</h2>
+				<p>REMME software and documentation are licensed under <code>Apache License Version 2.0 &lt;LICENSE&gt;</code>_.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/remme.html">Remme</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/remmemethods.html" class="tsd-kind-icon">Remme<wbr>Methods</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/statuses.html" class="tsd-kind-icon">Statuses</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/swapevents.html" class="tsd-kind-icon">Swap<wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/validatormethods.html" class="tsd-kind-icon">Validator<wbr>Methods</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/balanceresult.html" class="tsd-kind-icon">Balance<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/basequery.html" class="tsd-kind-icon">Base<wbr>Query</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/baseresponse.html" class="tsd-kind-icon">Base<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/basetransactionresponse.html" class="tsd-kind-icon">Base<wbr>Transaction<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batch.html" class="tsd-kind-icon">Batch</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batchlist.html" class="tsd-kind-icon">Batch<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batchresult.html" class="tsd-kind-icon">Batch<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batchstatusesdto.html" class="tsd-kind-icon">Batch<wbr>Statuses<wbr>Dto</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batcherpublickeyresponse.html" class="tsd-kind-icon">Batcher<wbr>Public<wbr>Key<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/block.html" class="tsd-kind-icon">Block</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/blocklist.html" class="tsd-kind-icon">Block<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/certificatecheckresult.html" class="tsd-kind-icon">Certificate<wbr>Check<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/certificatecreatedto.html" class="tsd-kind-icon">Certificate<wbr>Create<wbr>Dto</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/certificatetransactionresponse.html" class="tsd-kind-icon">Certificate<wbr>Transaction<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/errorfromevent.html" class="tsd-kind-icon">Error<wbr>From<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/errormessage.html" class="tsd-kind-icon">Error<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/httpclient.html" class="tsd-kind-icon">Http<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/publickeystoragecheckpayload.html" class="tsd-kind-icon">Public<wbr>Key<wbr>Storage<wbr>Check<wbr>Payload</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/publickeystoragecheckresult.html" class="tsd-kind-icon">Public<wbr>Key<wbr>Storage<wbr>Check<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/publickeystorageuserstoreresult.html" class="tsd-kind-icon">Public<wbr>Key<wbr>Storage<wbr>User<wbr>Store<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/remmeaccount.html" class="tsd-kind-icon">Remme<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/remmebatch.html" class="tsd-kind-icon">Remme<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/remmeblockchaininfo.html" class="tsd-kind-icon">Remme<wbr>Blockchain<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/remmecertificate.html" class="tsd-kind-icon">Remme<wbr>Certificate</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/remmepublickeystorage.html" class="tsd-kind-icon">Remme<wbr>Public<wbr>Key<wbr>Storage</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/remmerest.html" class="tsd-kind-icon">Remme<wbr>Rest</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/remmeswap.html" class="tsd-kind-icon">Remme<wbr>Swap</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/remmetoken.html" class="tsd-kind-icon">Remme<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/remmetransactionservice.html" class="tsd-kind-icon">Remme<wbr>Transaction<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/remmewebsocket.html" class="tsd-kind-icon">Remme<wbr>Web<wbr>Socket</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/state.html" class="tsd-kind-icon">State</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/statelist.html" class="tsd-kind-icon">State<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/statequery.html" class="tsd-kind-icon">State<wbr>Query</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/swapinfodata.html" class="tsd-kind-icon">Swap<wbr>Info<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/swapinfodto.html" class="tsd-kind-icon">Swap<wbr>Info<wbr>Dto</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/swapinitdto.html" class="tsd-kind-icon">Swap<wbr>Init<wbr>Dto</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/swappublickeydto.html" class="tsd-kind-icon">Swap<wbr>Public<wbr>Key<wbr>Dto</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/transaction.html" class="tsd-kind-icon">Transaction</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/transactionlist.html" class="tsd-kind-icon">Transaction<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/transactionpayload.html" class="tsd-kind-icon">Transaction<wbr>Payload</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/transactionresult.html" class="tsd-kind-icon">Transaction<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/basedata.html" class="tsd-kind-icon">Base<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/baseheader.html" class="tsd-kind-icon">Base<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchdata.html" class="tsd-kind-icon">Batch<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchheader.html" class="tsd-kind-icon">Batch<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchstateupdatedto.html" class="tsd-kind-icon">Batch<wbr>State<wbr>Update<wbr>Dto</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchstatuses.html" class="tsd-kind-icon">Batch<wbr>Statuses</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blockdata.html" class="tsd-kind-icon">Block<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blockheader.html" class="tsd-kind-icon">Block<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/data.html" class="tsd-kind-icon">Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorreceived.html" class="tsd-kind-icon">Error<wbr>Received</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ibasequery.html" class="tsd-kind-icon">IBase<wbr>Query</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/ibaseresponse.html" class="tsd-kind-icon">IBase<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ibasetransactionresponse.html" class="tsd-kind-icon">IBase<wbr>Transaction<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icertificatetransactionresponse.html" class="tsd-kind-icon">ICertificate<wbr>Transaction<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iclientinit.html" class="tsd-kind-icon">IClient<wbr>Init</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inetworkconfig.html" class="tsd-kind-icon">INetwork<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipaging.html" class="tsd-kind-icon">IPaging</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iqueryparams.html" class="tsd-kind-icon">IQuery<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iremmeaccount.html" class="tsd-kind-icon">IRemme<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iremmebatch.html" class="tsd-kind-icon">IRemme<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iremmeblockchaininfo.html" class="tsd-kind-icon">IRemme<wbr>Blockchain<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iremmecertificate.html" class="tsd-kind-icon">IRemme<wbr>Certificate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iremmeclient.html" class="tsd-kind-icon">IRemme<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iremmepublickeystorage.html" class="tsd-kind-icon">IRemme<wbr>Public<wbr>Key<wbr>Storage</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iremmerest.html" class="tsd-kind-icon">IRemme<wbr>Rest</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iremmeswap.html" class="tsd-kind-icon">IRemme<wbr>Swap</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iremmetoken.html" class="tsd-kind-icon">IRemme<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iremmetransactionservice.html" class="tsd-kind-icon">IRemme<wbr>Transaction<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iremmewebsocket.html" class="tsd-kind-icon">IRemme<wbr>Web<wbr>Socket</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/istatequery.html" class="tsd-kind-icon">IState<wbr>Query</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/itransactionresponse.html" class="tsd-kind-icon">ITransaction<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ivalidatorerror.html" class="tsd-kind-icon">IValidator<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iwebsocketsevents.html" class="tsd-kind-icon">IWeb<wbr>Sockets<wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/invalidtransactions.html" class="tsd-kind-icon">Invalid<wbr>Transactions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/peerlist.html" class="tsd-kind-icon">Peer<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/publickeystoragestoredto.html" class="tsd-kind-icon">Public<wbr>Key<wbr>Storage<wbr>Store<wbr>Dto</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/receiptlist.html" class="tsd-kind-icon">Receipt<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/statedata.html" class="tsd-kind-icon">State<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transactioncreatepayload.html" class="tsd-kind-icon">Transaction<wbr>Create<wbr>Payload</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transactiondata.html" class="tsd-kind-icon">Transaction<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transactionheader.html" class="tsd-kind-icon">Transaction<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#base64toarraybuffer" class="tsd-kind-icon">base64<wbr>ToArray<wbr>Buffer</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#bytestohex" class="tsd-kind-icon">bytes<wbr>ToHex</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#certificatefrompem" class="tsd-kind-icon">certificate<wbr>From<wbr>Pem</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#certificatetopem" class="tsd-kind-icon">certificate<wbr>ToPem</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getaddressfromdata" class="tsd-kind-icon">get<wbr>Address<wbr>From<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#hextobytes" class="tsd-kind-icon">hex<wbr>ToBytes</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#publickeyfrompem" class="tsd-kind-icon">public<wbr>Key<wbr>From<wbr>Pem</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#publickeytopem" class="tsd-kind-icon">public<wbr>Key<wbr>ToPem</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#tohex" class="tsd-kind-icon">to<wbr>Hex</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#tohexstring" class="tsd-kind-icon">to<wbr>Hex<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#toutf8array" class="tsd-kind-icon">toUTF8<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#utf8tobytes" class="tsd-kind-icon">utf8<wbr>ToBytes</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#statusevent" class="tsd-kind-icon">Status<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="globals.html#defaultconfig" class="tsd-kind-icon">default<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#oids" class="tsd-kind-icon">oids</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

@@ -1,25 +1,28 @@
 'use strict';
 
-const lernaJSON = require('./lerna.json');
 const path = require('path');
+const fs = require('fs');
 
-const del = require('del');
+// gulp and gulp plugins
 const gulp = require('gulp');
 const tslint = require("gulp-tslint");
 const rename = require('gulp-rename');
 const streamify = require('gulp-streamify');
 const replace = require('gulp-replace');
+const sourcemaps = require('gulp-sourcemaps');
+const babel = require('gulp-babel');
+const uglify = require('gulp-uglify');
+const typedoc = require("gulp-typedoc");
+
+const del = require('del');
 const browserify = require("browserify");
 const source = require('vinyl-source-stream');
 const tsify = require("tsify");
-const uglify = require('gulp-uglify');
-const sourcemaps = require('gulp-sourcemaps');
-const babel = require('gulp-babel');
 const buffer = require('vinyl-buffer');
 const exec = require('child_process').exec;
 const Karma = require('karma').Server;
-const fs = require('fs');
 
+const lernaJSON = require('./lerna.json');
 
 const DEST = path.join(__dirname, 'dist/');
 const srcProtobuf = path.join(__dirname, 'remme-protobuf');
@@ -105,6 +108,34 @@ const uglifyOptions = {
     }
   }
 };
+
+gulp.task('build_docs', function () {
+  return gulp
+    .src(["packages/**/*.ts", '!./packages/**/node_modules/**/*.ts', "!./packages/**/*.d.ts"])
+    .pipe(typedoc({
+      // TypeScript options (see typescript docs)
+      module: "commonjs",
+      target: "es5",
+      includeDeclarations: false,
+      lib: [ "lib.esnext.full.d.ts" ],
+
+      // TypeDoc options (see typedoc docs)
+      out: "./docs",
+      exclude: "**/*+(e2e|spec).ts",
+      excludeExternals: true,
+      excludePrivate: true,
+      excludeProtected: true,
+      ignoreCompilerErrors: true,
+      moduleResolution: "node",
+      preserveConstEnums: true,
+      skipLibCheck: true,
+      stripInternal: true,
+      suppressExcessPropertyErrors: true,
+      suppressImplicitAnyIndexErrors: true,
+      mode: "file",
+      // externalPattern: "**/node_modules/**",
+    }));
+});
 
 gulp.task('version', function () {
   if (!lernaJSON.version) {

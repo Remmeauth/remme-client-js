@@ -3,6 +3,7 @@ import { IRemmeAccount } from "remme-account";
 import { IRemmeTransactionService } from "./interface";
 import { TransactionCreatePayload, BaseTransactionResponse, IBaseTransactionResponse } from "./models";
 declare class RemmeTransactionService implements IRemmeTransactionService {
+    [key: string]: any;
     private readonly _remmeRest;
     private readonly _remmeAccount;
     constructor(remmeRest: IRemmeRest, remmeAccount: IRemmeAccount);

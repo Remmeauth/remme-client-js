@@ -2,6 +2,7 @@ import { IRemmeRest } from "remme-rest";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
 import { IRemmeToken } from "./interface";
 declare class RemmeToken implements IRemmeToken {
+    [key: string]: any;
     private readonly _remmeRest;
     private readonly _remmeTransaction;
     private readonly _familyName;

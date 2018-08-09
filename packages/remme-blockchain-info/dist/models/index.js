@@ -1,5 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var Query_1 = require("./Query");
+exports.BaseQuery = Query_1.BaseQuery;
+exports.StateQuery = Query_1.StateQuery;
 var Blocks_1 = require("./Blocks");
 exports.Block = Blocks_1.Block;
 exports.BlockList = Blocks_1.BlockList;

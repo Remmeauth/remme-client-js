@@ -1,5 +1,5 @@
 import { forge, oids } from "remme-utils";
-import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-transaction-service";
+import { IBaseTransactionResponse } from "remme-transaction-service";
 import { IRemmePublicKeyStorage, PublicKeyStorageCheckResult } from "remme-public-key-storage";
 
 import { IRemmeCertificate } from "./interface";

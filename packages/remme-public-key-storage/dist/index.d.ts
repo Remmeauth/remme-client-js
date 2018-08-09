@@ -5,6 +5,7 @@ import { IRemmeAccount } from "remme-account";
 import { IRemmePublicKeyStorage } from "./interface";
 import { PublicKeyStorageCheckResult, PublicKeyStorageStoreDto } from "./models";
 declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
+    [key: string]: any;
     private readonly _remmeRest;
     private readonly _remmeTransaction;
     private readonly _remmeAccount;
