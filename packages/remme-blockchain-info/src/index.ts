@@ -5,6 +5,7 @@ import { base64ToArrayBuffer } from "remme-utils";
 import { IRemmeBlockchainInfo } from "./interface";
 import {
     BaseQuery,
+    IBaseQuery,
     Batch,
     BatchData,
     BatchList,
@@ -19,33 +20,72 @@ import {
     TransactionList,
     PeerList,
     ReceiptList,
+    IStateQuery,
 } from "./models";
-import {RemmeBlockchainInfo} from "../dist";
 
 class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
+    // index signature
+    [key: string]: any;
+
     private readonly _remmeRest: IRemmeRest;
 
     private static address = {
-        "78173b": protobufs.AtomicSwapInfo,
-        "112007": protobufs.Account,
-        "a23be1": protobufs.PubKeyStorage,
+        "78173b": {
+            type: "info atomic swap",
+            parser: protobufs.AtomicSwapInfo,
+        },
+        "112007": {
+            type: "account",
+            parser: protobufs.Account,
+        },
+        "a23be1": {
+            type: "storage public key",
+            parser: protobufs.PubKeyStorage,
+        },
     };
 
     private static correspond = {
         account: {
-            [protobufs.AccountMethod.Method.TRANSFER]: protobufs.TransferPayload,
-            [protobufs.AccountMethod.Method.GENESIS]: protobufs.GenesisPayload,
+            [protobufs.AccountMethod.Method.TRANSFER]: {
+                type: "transfer token",
+                parser: protobufs.TransferPayload,
+            },
+            [protobufs.AccountMethod.Method.GENESIS]: {
+                type: "genesis",
+                parser: protobufs.GenesisPayload,
+            },
         },
         AtomicSwap: {
-            [protobufs.AtomicSwapMethod.Method.INIT]: protobufs.AtomicSwapInitPayload,
-            [protobufs.AtomicSwapMethod.Method.APPROVE]: protobufs.AtomicSwapApprovePayload,
-            [protobufs.AtomicSwapMethod.Method.EXPIRE]: protobufs.AtomicSwapExpirePayload,
-            [protobufs.AtomicSwapMethod.Method.SET_SECRET_LOCK]: protobufs.AtomicSwapSetSecretLockPayload,
-            [protobufs.AtomicSwapMethod.Method.CLOSE]: protobufs.AtomicSwapClosePayload,
+            [protobufs.AtomicSwapMethod.Method.INIT]: {
+                type: "atomic-swap-init",
+                parser: protobufs.AtomicSwapInitPayload,
+            },
+            [protobufs.AtomicSwapMethod.Method.APPROVE]: {
+                type: "atomic-swap-approve",
+                parser: protobufs.AtomicSwapApprovePayload,
+            },
+            [protobufs.AtomicSwapMethod.Method.EXPIRE]: {
+                type: "atomic-swap-expire",
+                parser: protobufs.AtomicSwapExpirePayload,
+            },
+            [protobufs.AtomicSwapMethod.Method.SET_SECRET_LOCK]: {
+                type: "atomic-swap-set-secret-lock",
+                parser: protobufs.AtomicSwapSetSecretLockPayload,
+            },
+            [protobufs.AtomicSwapMethod.Method.CLOSE]: {
+                type: "atomic-swap-close",
+                parser: protobufs.AtomicSwapClosePayload,
+            },
         },
         pub_key: {
-            [protobufs.PubKeyMethod.Method.STORE]: protobufs.NewPubKeyPayload,
-            [protobufs.PubKeyMethod.Method.REVOKE]: protobufs.RevokePubKeyPayload,
+            [protobufs.PubKeyMethod.Method.STORE]: {
+                type: "store public key",
+                parser: protobufs.NewPubKeyPayload,
+            },
+            [protobufs.PubKeyMethod.Method.REVOKE]: {
+                type: "revoke public key",
+                parser: protobufs.RevokePubKeyPayload,
+            },
         },
     };
 
@@ -60,13 +100,13 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         return apiResult;
     }
 
-    public async getBatches(query?: BaseQuery): Promise<BatchList> {
+    public async getBatches(query?: IBaseQuery): Promise<BatchList> {
         if (query) {
-            query = this._checkQuery(query);
+            query = new BaseQuery(query);
         }
         const apiResult = await this._remmeRest.getRequest<BatchList>(ValidatorMethods.batches, "", query);
         apiResult.data = apiResult.data.map((item) => {
-            this._prepareBatch(item);
+            return this._prepareBatch(item);
         });
         return apiResult;
     }
@@ -78,9 +118,9 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         return apiResult;
     }
 
-    public async getBlocks(query?: BaseQuery): Promise<BlockList> {
+    public async getBlocks(query?: IBaseQuery): Promise<BlockList> {
         if (query) {
-            query = this._checkQuery(query);
+            query = new BaseQuery(query);
         }
         const apiResult = await this._remmeRest.getRequest<BlockList>(ValidatorMethods.blocks, "", query);
         apiResult.data = apiResult.data.map((block) => {
@@ -98,9 +138,9 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         return await this._remmeRest.getRequest<ReceiptList>(ValidatorMethods.receipts, "", { id });
     }
 
-    public async getState(query?: StateQuery): Promise<StateList> {
+    public async getState(query?: IStateQuery): Promise<StateList> {
         if (query) {
-            query = this._checkQuery(query);
+            query = new StateQuery(query);
         }
         const apiResult = await this._remmeRest.getRequest<StateList>(ValidatorMethods.state, "", query);
         apiResult.data = apiResult.data.map((state) => this._prepareAddress(state));
@@ -109,8 +149,8 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
 
     public async getStateByAddress(address: string): Promise<State> {
         this._checkAddress(address);
-        const apiResult = await this._remmeRest.getRequest<State>(ValidatorMethods.state, address);
-        apiResult.protobuf = this._prepareAddress(address);
+        let apiResult = await this._remmeRest.getRequest<State>(ValidatorMethods.state, address);
+        apiResult = this._prepareAddress({ address, ...apiResult });
         return apiResult;
     }
 
@@ -121,9 +161,9 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         return apiResult;
     }
 
-    public async getTransactions(query?: BaseQuery): Promise<TransactionList> {
+    public async getTransactions(query?: IBaseQuery): Promise<TransactionList> {
         if (query) {
-            query = this._checkQuery(query);
+            query = new BaseQuery(query);
         }
         const apiResult = await this._remmeRest.getRequest<TransactionList>(ValidatorMethods.transactions, "", query);
         apiResult.data = apiResult.data.map((item) => {
@@ -144,59 +184,16 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         }
     }
 
-    private _checkQuery(query: StateQuery): StateQuery {
-        return (Object as any).entries(query).reduce((prev, [key, value]) => {
-            let error: string;
-            switch (key) {
-                case "head":
-                case "start":
-                    if (value.search(/[a-f0-9]{128}/) === -1) {
-                        error = `Parameter '${key}' need to a valid`;
-                    } else {
-                        return {
-                            ...prev,
-                            [key]: value,
-                        };
-                    }
-                    break;
-                case "limit":
-                    if (typeof value !== "number") {
-                        error = `Parameter '${key}' need to be a number`;
-                    } else {
-                        return {
-                            ...prev,
-                            [key]: value,
-                        };
-                    }
-                    break;
-                case "address":
-                    if (value.search(/[a-f0-9]{70}/) === -1) {
-                        error = `Given '${key}' is not a valid`;
-                    } else {
-                        return {
-                            ...prev,
-                            [key]: value,
-                        };
-                    }
-                    break;
-                // case "reverse":
-                //     if (typeof value !== "boolean") {
-                //         error = `Parameter '${key}' need to be a boolean`;
-                //     }
-                //     break;
-                default: return prev;
-            }
-            if (error) {
-                throw new Error(error);
-            }
-        }, {});
-    }
-
-    private _prepareAddress(state): void {
-        return {
-            ...state,
-            protobuf: RemmeBlockchainInfo.address[state.address.slice(0, 6)],
-        };
+    private _prepareAddress(state): State {
+        if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
+            const { parser: protobuf, type: addressType } = RemmeBlockchainInfo.address[state.address.slice(0, 6)];
+            return {
+                ...state,
+                protobuf,
+                addressType,
+            };
+        }
+        return state;
     }
 
     private _prepareBlock(block: BlockData): BlockData {
@@ -207,9 +204,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     }
 
     private _prepareBatch(batch: BatchData): BatchData {
-        batch.transactions = batch.transactions.map((transaction) => {
-            return this._prepareTransaction(transaction);
-        };
+        batch.transactions = batch.transactions.map((transaction) => this._prepareTransaction(transaction));
         return batch;
     }
 
@@ -217,10 +212,15 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         const { family_name } = transaction.header;
         if (family_name in RemmeBlockchainInfo.correspond) {
             const data = protobufs.TransactionPayload.decode(base64ToArrayBuffer(transaction.payload));
+            const {
+                parser: protobuf,
+                type: transactionType,
+            } = RemmeBlockchainInfo.correspond[family_name][data.method];
             return {
                 ...transaction,
                 transactionProtobuf: protobufs.TransactionPayload,
-                protobuf: RemmeBlockchainInfo.correspond[family_name][data.method],
+                protobuf,
+                transactionType,
             };
         }
         return transaction;

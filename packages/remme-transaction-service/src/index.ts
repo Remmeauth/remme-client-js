@@ -7,6 +7,9 @@ import { IRemmeTransactionService } from "./interface";
 import { TransactionCreatePayload, BaseTransactionResponse, IBaseTransactionResponse } from "./models";
 
 class RemmeTransactionService implements IRemmeTransactionService {
+    // index signature
+    [key: string]: any;
+
     private readonly _remmeRest: IRemmeRest;
     private readonly _remmeAccount: IRemmeAccount;
 

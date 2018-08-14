@@ -41,19 +41,26 @@ var remme_protobuf_1 = require("remme-protobuf");
 var models_1 = require("./models");
 exports.PublicKeyStorageCheckResult = models_1.PublicKeyStorageCheckResult;
 var RemmePublicKeyStorage = /** @class */ (function () {
-    function RemmePublicKeyStorage(remmeRest, remmeTransaction) {
+    function RemmePublicKeyStorage(remmeRest, remmeTransaction, remmeAccount) {
         this._familyName = "pub_key";
         this._familyVersion = "0.1";
         this._remmeRest = remmeRest;
         this._remmeTransaction = remmeTransaction;
+        this._remmeAccount = remmeAccount;
     }
     RemmePublicKeyStorage.prototype.store = function (_a) {
         var data = _a.data, publicKey = _a.publicKey, privateKey = _a.privateKey, validTo = _a.validTo, validFrom = _a.validFrom, _b = _a.publicKeyType, publicKeyType = _b === void 0 ? remme_protobuf_1.NewPubKeyPayload.PubKeyType.RSA : _b, _c = _a.entityType, entityType = _c === void 0 ? remme_protobuf_1.NewPubKeyPayload.EntityType.PERSONAL : _c;
         return __awaiter(this, void 0, void 0, function () {
-            var publicKeyPEM, message, entityHash, entityHashSignature, payload, pubKeyAddress, payloadBytes;
+            var publicKeyPEM, message, entityHash, entityHashSignature, payload, pubKeyAddress, addr, mappingAddress, payloadBytes;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
+                        if (typeof publicKey === "string") {
+                            publicKey = remme_utils_1.forge.pki.publicKeyFromPem(publicKey);
+                        }
+                        if (typeof privateKey === "string") {
+                            privateKey = remme_utils_1.forge.pki.privateKeyFromPem(privateKey);
+                        }
                         publicKeyPEM = remme_utils_1.forge.pki.publicKeyToPem(publicKey);
                         message = this.generateMessage(data);
                         entityHash = this.generateEntityHash(message);
@@ -68,8 +75,10 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                             validTo: validTo,
                         }).finish();
                         pubKeyAddress = remme_utils_1.getAddressFromData(this._familyName, publicKeyPEM);
+                        addr = this._remmeAccount.address;
+                        mappingAddress = remme_utils_1.getAddressFromData(this._remmeAccount.mapping, addr);
                         payloadBytes = this._generateTransactionPayload(remme_protobuf_1.PubKeyMethod.Method.STORE, payload);
-                        return [4 /*yield*/, this._createAndSendTransaction([pubKeyAddress], payloadBytes)];
+                        return [4 /*yield*/, this._createAndSendTransaction([pubKeyAddress, mappingAddress], payloadBytes)];
                     case 1: return [2 /*return*/, _d.sent()];
                 }
             });

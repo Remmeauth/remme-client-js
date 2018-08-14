@@ -6,6 +6,7 @@ var remme_utils_1 = require("remme-utils");
 var RemmeAccount = /** @class */ (function () {
     function RemmeAccount(privateKeyHex) {
         this._familyName = "account";
+        this.mapping = "account_pub_key_mapping";
         if (privateKeyHex && privateKeyHex.search(/^[0-9a-f]{64}$/) === -1) {
             throw new Error("Given privateKey is not a valid");
         }

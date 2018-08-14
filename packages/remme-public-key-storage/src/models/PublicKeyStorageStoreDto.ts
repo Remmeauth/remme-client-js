@@ -3,10 +3,10 @@ import { forge } from "remme-utils";
 
 export interface PublicKeyStorageStoreDto {
     data: string;
-    publicKey: forge.pki.Key;
+    publicKey: forge.pki.Key | forge.pki.PEM;
     validFrom: number;
     validTo: number;
-    privateKey: forge.pki.Key;
+    privateKey: forge.pki.Key | forge.pki.PEM;
     publicKeyType?: NewPubKeyPayload.PubKeyType;
     entityType?: NewPubKeyPayload.EntityType;
 }

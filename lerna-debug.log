@@ -1,19 +1,579 @@
-0 silly input []
-1 silly flags { _: [ 'bootstrap' ],
-1 silly flags   'reject-cycles': false,
-1 silly flags   rejectCycles: false,
-1 silly flags   args: [] }
+0 silly input [ 'publish' ]
+1 silly flags { _: [ 'publish' ], 'reject-cycles': false, rejectCycles: false }
 2 verbose rootPath /var/www/remme-client-js
 3 info version 2.11.0
-4 silly existsSync /var/www/remme-client-js/VERSION
-5 error EPACKAGES Errored while collecting packages and package graph
-6 error JSONError: Unexpected token } in JSON at position 499 while parsing near '...-rest": "^0.2.4",  },  "devDependencie...' in packages/remme-blockchain-info/package.json
-6 error     at module.exports (/var/www/remme-client-js/node_modules/lerna/node_modules/parse-json/index.js:26:19)
-6 error     at parse (/var/www/remme-client-js/node_modules/lerna/node_modules/load-json-file/index.js:8:29)
-6 error     at Function.module.exports.sync.fp [as sync] (/var/www/remme-client-js/node_modules/lerna/node_modules/load-json-file/index.js:11:29)
-6 error     at Function.module.exports.sync (/var/www/remme-client-js/node_modules/lerna/node_modules/read-pkg/index.js:40:25)
-6 error     at /var/www/remme-client-js/node_modules/lerna/lib/PackageUtilities.js:138:47
-6 error     at Array.forEach (<anonymous>)
-6 error     at /var/www/remme-client-js/node_modules/lerna/lib/PackageUtilities.js:132:86
-6 error     at Array.forEach (<anonymous>)
-6 error     at Function.getPackages (/var/www/remme-client-js/node_modules/lerna/lib/PackageUtilities.js:131:22)
+4 silly isInitialized
+5 silly isInitialized true
+6 silly existsSync /var/www/remme-client-js/VERSION
+7 silly initialize attempt
+8 info current version 0.2.9
+9 silly isDetachedHead
+10 silly getCurrentBranch
+11 verbose getCurrentBranch dev
+12 verbose isDetachedHead false
+13 silly getCurrentBranch
+14 verbose getCurrentBranch dev
+15 silly getUpdates
+16 info Checking for updated packages...
+17 silly hasTags
+18 verbose hasTags true
+19 silly getLastTag
+20 verbose getLastTag v0.2.9
+21 info Comparing with v0.2.9.
+22 silly diffSinceIn v0.2.9 packages/remme-account
+23 silly diff packages/remme-account/dist/index.d.ts
+23 silly diff packages/remme-account/dist/index.js
+23 silly diff packages/remme-account/dist/index.js.map
+23 silly diff packages/remme-account/dist/interface.d.ts
+23 silly diff packages/remme-account/src/index.ts
+23 silly diff packages/remme-account/src/interface.ts
+24 silly diffSinceIn v0.2.9 packages/remme-atomic-swap
+25 silly diff packages/remme-atomic-swap/dist/index.d.ts
+25 silly diff packages/remme-atomic-swap/dist/index.js
+25 silly diff packages/remme-atomic-swap/dist/index.js.map
+25 silly diff packages/remme-atomic-swap/dist/models/SwapInitDto.js
+25 silly diff packages/remme-atomic-swap/dist/models/SwapInitDto.js.map
+25 silly diff packages/remme-atomic-swap/src/index.ts
+25 silly diff packages/remme-atomic-swap/src/models/SwapInitDto.ts
+26 silly diffSinceIn v0.2.9 packages/remme-batch
+27 silly diff
+28 silly diffSinceIn v0.2.9 packages/remme-blockchain-info
+29 silly diff packages/remme-blockchain-info/dist/index.d.ts
+29 silly diff packages/remme-blockchain-info/dist/index.js.map
+29 silly diff packages/remme-blockchain-info/dist/models/Response.d.ts
+29 silly diff packages/remme-blockchain-info/dist/models/State.d.ts
+29 silly diff packages/remme-blockchain-info/src/index.ts
+30 silly diffSinceIn v0.2.9 packages/remme-certificate
+31 silly diff packages/remme-certificate/dist/index.js
+31 silly diff packages/remme-certificate/dist/index.js.map
+31 silly diff packages/remme-certificate/dist/models/CertificateTransactionResponse.d.ts
+31 silly diff packages/remme-certificate/src/index.ts
+32 silly diffSinceIn v0.2.9 packages/remme-http-client
+33 silly diff
+34 silly diffSinceIn v0.2.9 packages/remme-protobuf
+35 silly diff
+36 silly diffSinceIn v0.2.9 packages/remme-public-key-storage
+37 silly diff packages/remme-public-key-storage/dist/index.d.ts
+37 silly diff packages/remme-public-key-storage/dist/index.js
+37 silly diff packages/remme-public-key-storage/dist/index.js.map
+37 silly diff packages/remme-public-key-storage/src/index.ts
+38 silly diffSinceIn v0.2.9 packages/remme-rest
+39 silly diff
+40 silly diffSinceIn v0.2.9 packages/remme-token
+41 silly diff
+42 silly diffSinceIn v0.2.9 packages/remme-transaction-service
+43 silly diff packages/remme-transaction-service/dist/models/BaseTransactionResponse.d.ts
+44 silly diffSinceIn v0.2.9 packages/remme-utils
+45 silly diff
+46 silly diffSinceIn v0.2.9 packages/remme-web-socket
+47 silly diff packages/remme-web-socket/dist/index.d.ts
+47 silly diff packages/remme-web-socket/dist/index.js
+47 silly diff packages/remme-web-socket/dist/index.js.map
+47 silly diff packages/remme-web-socket/dist/interface.d.ts
+47 silly diff packages/remme-web-socket/dist/models/BatchStateUpdateDto.d.ts
+47 silly diff packages/remme-web-socket/dist/models/BatchStateUpdateDto.js.map
+47 silly diff packages/remme-web-socket/dist/models/Events.d.ts
+47 silly diff packages/remme-web-socket/dist/models/index.d.ts
+47 silly diff packages/remme-web-socket/dist/models/index.js
+47 silly diff packages/remme-web-socket/dist/models/index.js.map
+47 silly diff packages/remme-web-socket/src/index.ts
+47 silly diff packages/remme-web-socket/src/models/BatchStateUpdateDto.ts
+47 silly diff packages/remme-web-socket/src/models/ErrorMessage.ts
+47 silly diff packages/remme-web-socket/src/models/index.ts
+48 silly diffSinceIn v0.2.9 packages/remme
+49 silly diff packages/remme/README.md
+49 silly diff packages/remme/dist/index.js
+49 silly diff packages/remme/dist/index.js.map
+49 silly diff packages/remme/src/index.ts
+50 verbose updated remme-account
+51 verbose updated remme-atomic-swap
+52 verbose updated remme-blockchain-info
+53 verbose updated remme-certificate
+54 verbose updated remme-public-key-storage
+55 verbose updated remme-transaction-service
+56 verbose updated remme-web-socket
+57 verbose updated remme
+58 info Checking for prereleased packages...
+59 silly collectDependents
+60 silly isPackageDependentOf remme-account remme-account
+61 silly isPackageDependentOf remme-utils remme-account
+62 silly isPackageDependentOf remme-web-socket remme-account
+63 silly isPackageDependentOf remme-account remme-atomic-swap
+64 silly isPackageDependentOf remme-utils remme-atomic-swap
+65 silly isPackageDependentOf remme-web-socket remme-atomic-swap
+66 silly isPackageDependentOf remme-account remme-blockchain-info
+67 silly isPackageDependentOf remme-utils remme-blockchain-info
+68 silly isPackageDependentOf remme-web-socket remme-blockchain-info
+69 silly isPackageDependentOf remme-account remme-certificate
+70 silly isPackageDependentOf remme-utils remme-certificate
+71 silly isPackageDependentOf remme-web-socket remme-certificate
+72 silly isPackageDependentOf remme-account remme-public-key-storage
+73 silly isPackageDependentOf remme-utils remme-public-key-storage
+74 silly isPackageDependentOf remme-web-socket remme-public-key-storage
+75 silly isPackageDependentOf remme-account remme-transaction-service
+76 silly isPackageDependentOf remme-utils remme-transaction-service
+77 silly isPackageDependentOf remme-web-socket remme-transaction-service
+78 silly isPackageDependentOf remme-account remme-web-socket
+79 silly isPackageDependentOf remme-utils remme-web-socket
+80 verbose dependent remme-account depends on remme-web-socket
+81 silly isPackageDependentOf remme-account remme
+82 silly isPackageDependentOf remme-utils remme
+83 silly isPackageDependentOf remme-web-socket remme
+84 silly isPackageDependentOf remme-atomic-swap remme-account
+85 silly isPackageDependentOf remme-protobuf remme-account
+86 silly isPackageDependentOf remme-rest remme-account
+87 silly isPackageDependentOf remme-http-client remme-account
+88 silly isPackageDependentOf remme-transaction-service remme-account
+89 silly isPackageDependentOf remme-utils remme-account
+90 silly isPackageDependentOf remme-web-socket remme-account
+91 verbose dependent remme-atomic-swap depends on remme-account
+92 silly isPackageDependentOf remme-atomic-swap remme-atomic-swap
+93 silly isPackageDependentOf remme-protobuf remme-atomic-swap
+94 silly isPackageDependentOf remme-rest remme-atomic-swap
+95 silly isPackageDependentOf remme-http-client remme-atomic-swap
+96 silly isPackageDependentOf remme-transaction-service remme-atomic-swap
+97 silly isPackageDependentOf remme-account remme-atomic-swap
+98 silly isPackageDependentOf remme-rest remme-atomic-swap
+99 silly isPackageDependentOf remme-utils remme-atomic-swap
+100 silly isPackageDependentOf remme-web-socket remme-atomic-swap
+101 silly isPackageDependentOf remme-utils remme-atomic-swap
+102 silly isPackageDependentOf remme-web-socket remme-atomic-swap
+103 silly isPackageDependentOf remme-atomic-swap remme-blockchain-info
+104 silly isPackageDependentOf remme-protobuf remme-blockchain-info
+105 silly isPackageDependentOf remme-rest remme-blockchain-info
+106 silly isPackageDependentOf remme-http-client remme-blockchain-info
+107 silly isPackageDependentOf remme-transaction-service remme-blockchain-info
+108 silly isPackageDependentOf remme-account remme-blockchain-info
+109 silly isPackageDependentOf remme-rest remme-blockchain-info
+110 silly isPackageDependentOf remme-utils remme-blockchain-info
+111 silly isPackageDependentOf remme-web-socket remme-blockchain-info
+112 silly isPackageDependentOf remme-utils remme-blockchain-info
+113 silly isPackageDependentOf remme-web-socket remme-blockchain-info
+114 silly isPackageDependentOf remme-atomic-swap remme-certificate
+115 silly isPackageDependentOf remme-protobuf remme-certificate
+116 silly isPackageDependentOf remme-rest remme-certificate
+117 silly isPackageDependentOf remme-http-client remme-certificate
+118 silly isPackageDependentOf remme-transaction-service remme-certificate
+119 silly isPackageDependentOf remme-account remme-certificate
+120 silly isPackageDependentOf remme-rest remme-certificate
+121 silly isPackageDependentOf remme-utils remme-certificate
+122 silly isPackageDependentOf remme-web-socket remme-certificate
+123 silly isPackageDependentOf remme-utils remme-certificate
+124 silly isPackageDependentOf remme-web-socket remme-certificate
+125 silly isPackageDependentOf remme-atomic-swap remme-public-key-storage
+126 silly isPackageDependentOf remme-protobuf remme-public-key-storage
+127 silly isPackageDependentOf remme-rest remme-public-key-storage
+128 silly isPackageDependentOf remme-http-client remme-public-key-storage
+129 silly isPackageDependentOf remme-transaction-service remme-public-key-storage
+130 silly isPackageDependentOf remme-account remme-public-key-storage
+131 silly isPackageDependentOf remme-rest remme-public-key-storage
+132 silly isPackageDependentOf remme-utils remme-public-key-storage
+133 silly isPackageDependentOf remme-web-socket remme-public-key-storage
+134 silly isPackageDependentOf remme-utils remme-public-key-storage
+135 silly isPackageDependentOf remme-web-socket remme-public-key-storage
+136 silly isPackageDependentOf remme-atomic-swap remme-transaction-service
+137 verbose dependent remme-atomic-swap depends on remme-transaction-service
+138 silly isPackageDependentOf remme-atomic-swap remme-web-socket
+139 verbose dependent remme-atomic-swap depends on remme-web-socket
+140 silly isPackageDependentOf remme-atomic-swap remme
+141 silly isPackageDependentOf remme-protobuf remme
+142 silly isPackageDependentOf remme-rest remme
+143 silly isPackageDependentOf remme-http-client remme
+144 silly isPackageDependentOf remme-transaction-service remme
+145 silly isPackageDependentOf remme-account remme
+146 silly isPackageDependentOf remme-rest remme
+147 silly isPackageDependentOf remme-utils remme
+148 silly isPackageDependentOf remme-web-socket remme
+149 silly isPackageDependentOf remme-utils remme
+150 silly isPackageDependentOf remme-web-socket remme
+151 silly isPackageDependentOf remme-batch remme-account
+152 silly isPackageDependentOf remme-rest remme-account
+153 silly isPackageDependentOf remme-batch remme-atomic-swap
+154 silly isPackageDependentOf remme-rest remme-atomic-swap
+155 silly isPackageDependentOf remme-batch remme-blockchain-info
+156 silly isPackageDependentOf remme-rest remme-blockchain-info
+157 silly isPackageDependentOf remme-batch remme-certificate
+158 silly isPackageDependentOf remme-rest remme-certificate
+159 silly isPackageDependentOf remme-batch remme-public-key-storage
+160 silly isPackageDependentOf remme-rest remme-public-key-storage
+161 silly isPackageDependentOf remme-batch remme-transaction-service
+162 silly isPackageDependentOf remme-rest remme-transaction-service
+163 silly isPackageDependentOf remme-http-client remme-transaction-service
+164 silly isPackageDependentOf remme-batch remme-web-socket
+165 silly isPackageDependentOf remme-rest remme-web-socket
+166 silly isPackageDependentOf remme-http-client remme-web-socket
+167 silly isPackageDependentOf remme-batch remme
+168 silly isPackageDependentOf remme-rest remme
+169 silly isPackageDependentOf remme-blockchain-info remme-account
+170 silly isPackageDependentOf remme-protobuf remme-account
+171 silly isPackageDependentOf remme-rest remme-account
+172 silly isPackageDependentOf remme-utils remme-account
+173 silly isPackageDependentOf remme-blockchain-info remme-atomic-swap
+174 silly isPackageDependentOf remme-protobuf remme-atomic-swap
+175 silly isPackageDependentOf remme-rest remme-atomic-swap
+176 silly isPackageDependentOf remme-utils remme-atomic-swap
+177 silly isPackageDependentOf remme-blockchain-info remme-blockchain-info
+178 silly isPackageDependentOf remme-protobuf remme-blockchain-info
+179 silly isPackageDependentOf remme-rest remme-blockchain-info
+180 silly isPackageDependentOf remme-utils remme-blockchain-info
+181 silly isPackageDependentOf remme-blockchain-info remme-certificate
+182 silly isPackageDependentOf remme-protobuf remme-certificate
+183 silly isPackageDependentOf remme-rest remme-certificate
+184 silly isPackageDependentOf remme-utils remme-certificate
+185 silly isPackageDependentOf remme-blockchain-info remme-public-key-storage
+186 silly isPackageDependentOf remme-protobuf remme-public-key-storage
+187 silly isPackageDependentOf remme-rest remme-public-key-storage
+188 silly isPackageDependentOf remme-utils remme-public-key-storage
+189 silly isPackageDependentOf remme-blockchain-info remme-transaction-service
+190 silly isPackageDependentOf remme-protobuf remme-transaction-service
+191 silly isPackageDependentOf remme-rest remme-transaction-service
+192 silly isPackageDependentOf remme-utils remme-transaction-service
+193 silly isPackageDependentOf remme-blockchain-info remme-web-socket
+194 silly isPackageDependentOf remme-protobuf remme-web-socket
+195 silly isPackageDependentOf remme-rest remme-web-socket
+196 silly isPackageDependentOf remme-utils remme-web-socket
+197 verbose dependent remme-blockchain-info depends on remme-web-socket
+198 silly isPackageDependentOf remme-blockchain-info remme
+199 silly isPackageDependentOf remme-protobuf remme
+200 silly isPackageDependentOf remme-rest remme
+201 silly isPackageDependentOf remme-utils remme
+202 silly isPackageDependentOf remme-certificate remme-account
+203 silly isPackageDependentOf remme-public-key-storage remme-account
+204 silly isPackageDependentOf remme-transaction-service remme-account
+205 silly isPackageDependentOf remme-utils remme-account
+206 silly isPackageDependentOf remme-web-socket remme-account
+207 verbose dependent remme-certificate depends on remme-account
+208 silly isPackageDependentOf remme-certificate remme-atomic-swap
+209 silly isPackageDependentOf remme-public-key-storage remme-atomic-swap
+210 silly isPackageDependentOf remme-account remme-atomic-swap
+211 silly isPackageDependentOf remme-protobuf remme-atomic-swap
+212 silly isPackageDependentOf remme-rest remme-atomic-swap
+213 silly isPackageDependentOf remme-transaction-service remme-atomic-swap
+214 silly isPackageDependentOf remme-utils remme-atomic-swap
+215 silly isPackageDependentOf remme-transaction-service remme-atomic-swap
+216 silly isPackageDependentOf remme-utils remme-atomic-swap
+217 silly isPackageDependentOf remme-web-socket remme-atomic-swap
+218 silly isPackageDependentOf remme-certificate remme-blockchain-info
+219 silly isPackageDependentOf remme-public-key-storage remme-blockchain-info
+220 silly isPackageDependentOf remme-account remme-blockchain-info
+221 silly isPackageDependentOf remme-protobuf remme-blockchain-info
+222 silly isPackageDependentOf remme-rest remme-blockchain-info
+223 silly isPackageDependentOf remme-transaction-service remme-blockchain-info
+224 silly isPackageDependentOf remme-utils remme-blockchain-info
+225 silly isPackageDependentOf remme-transaction-service remme-blockchain-info
+226 silly isPackageDependentOf remme-utils remme-blockchain-info
+227 silly isPackageDependentOf remme-web-socket remme-blockchain-info
+228 silly isPackageDependentOf remme-certificate remme-certificate
+229 silly isPackageDependentOf remme-public-key-storage remme-certificate
+230 silly isPackageDependentOf remme-account remme-certificate
+231 silly isPackageDependentOf remme-protobuf remme-certificate
+232 silly isPackageDependentOf remme-rest remme-certificate
+233 silly isPackageDependentOf remme-transaction-service remme-certificate
+234 silly isPackageDependentOf remme-utils remme-certificate
+235 silly isPackageDependentOf remme-transaction-service remme-certificate
+236 silly isPackageDependentOf remme-utils remme-certificate
+237 silly isPackageDependentOf remme-web-socket remme-certificate
+238 silly isPackageDependentOf remme-certificate remme-public-key-storage
+239 verbose dependent remme-certificate depends on remme-public-key-storage
+240 silly isPackageDependentOf remme-certificate remme-transaction-service
+241 verbose dependent remme-certificate depends on remme-transaction-service
+242 silly isPackageDependentOf remme-certificate remme-web-socket
+243 verbose dependent remme-certificate depends on remme-web-socket
+244 silly isPackageDependentOf remme-certificate remme
+245 silly isPackageDependentOf remme-public-key-storage remme
+246 silly isPackageDependentOf remme-account remme
+247 silly isPackageDependentOf remme-protobuf remme
+248 silly isPackageDependentOf remme-rest remme
+249 silly isPackageDependentOf remme-transaction-service remme
+250 silly isPackageDependentOf remme-utils remme
+251 silly isPackageDependentOf remme-transaction-service remme
+252 silly isPackageDependentOf remme-utils remme
+253 silly isPackageDependentOf remme-web-socket remme
+254 silly isPackageDependentOf remme-http-client remme-account
+255 silly isPackageDependentOf remme-http-client remme-atomic-swap
+256 silly isPackageDependentOf remme-http-client remme-blockchain-info
+257 silly isPackageDependentOf remme-http-client remme-certificate
+258 silly isPackageDependentOf remme-http-client remme-public-key-storage
+259 silly isPackageDependentOf remme-http-client remme-transaction-service
+260 silly isPackageDependentOf remme-http-client remme-web-socket
+261 silly isPackageDependentOf remme-http-client remme
+262 silly isPackageDependentOf remme-protobuf remme-account
+263 silly isPackageDependentOf remme-protobuf remme-atomic-swap
+264 silly isPackageDependentOf remme-protobuf remme-blockchain-info
+265 silly isPackageDependentOf remme-protobuf remme-certificate
+266 silly isPackageDependentOf remme-protobuf remme-public-key-storage
+267 silly isPackageDependentOf remme-protobuf remme-transaction-service
+268 silly isPackageDependentOf remme-protobuf remme-web-socket
+269 silly isPackageDependentOf remme-protobuf remme
+270 silly isPackageDependentOf remme-public-key-storage remme-account
+271 verbose dependent remme-public-key-storage depends on remme-account
+272 silly isPackageDependentOf remme-public-key-storage remme-atomic-swap
+273 silly isPackageDependentOf remme-public-key-storage remme-blockchain-info
+274 silly isPackageDependentOf remme-public-key-storage remme-certificate
+275 silly isPackageDependentOf remme-public-key-storage remme-public-key-storage
+276 silly isPackageDependentOf remme-account remme-public-key-storage
+277 silly isPackageDependentOf remme-protobuf remme-public-key-storage
+278 silly isPackageDependentOf remme-rest remme-public-key-storage
+279 silly isPackageDependentOf remme-transaction-service remme-public-key-storage
+280 silly isPackageDependentOf remme-utils remme-public-key-storage
+281 silly isPackageDependentOf remme-public-key-storage remme-transaction-service
+282 verbose dependent remme-public-key-storage depends on remme-transaction-service
+283 silly isPackageDependentOf remme-public-key-storage remme-web-socket
+284 silly isPackageDependentOf remme-account remme-web-socket
+285 silly isPackageDependentOf remme-protobuf remme-web-socket
+286 silly isPackageDependentOf remme-rest remme-web-socket
+287 silly isPackageDependentOf remme-transaction-service remme-web-socket
+288 silly isPackageDependentOf remme-utils remme-web-socket
+289 verbose dependent remme-public-key-storage depends on remme-web-socket
+290 silly isPackageDependentOf remme-public-key-storage remme
+291 silly isPackageDependentOf remme-rest remme-account
+292 silly isPackageDependentOf remme-rest remme-atomic-swap
+293 silly isPackageDependentOf remme-rest remme-blockchain-info
+294 silly isPackageDependentOf remme-rest remme-certificate
+295 silly isPackageDependentOf remme-rest remme-public-key-storage
+296 silly isPackageDependentOf remme-rest remme-transaction-service
+297 silly isPackageDependentOf remme-rest remme-web-socket
+298 silly isPackageDependentOf remme-rest remme
+299 silly isPackageDependentOf remme-token remme-account
+300 silly isPackageDependentOf remme-protobuf remme-account
+301 silly isPackageDependentOf remme-rest remme-account
+302 silly isPackageDependentOf remme-transaction-service remme-account
+303 silly isPackageDependentOf remme-utils remme-account
+304 verbose dependent remme-token depends on remme-account
+305 silly isPackageDependentOf remme-token remme-atomic-swap
+306 silly isPackageDependentOf remme-protobuf remme-atomic-swap
+307 silly isPackageDependentOf remme-rest remme-atomic-swap
+308 silly isPackageDependentOf remme-transaction-service remme-atomic-swap
+309 silly isPackageDependentOf remme-utils remme-atomic-swap
+310 silly isPackageDependentOf remme-token remme-blockchain-info
+311 silly isPackageDependentOf remme-protobuf remme-blockchain-info
+312 silly isPackageDependentOf remme-rest remme-blockchain-info
+313 silly isPackageDependentOf remme-transaction-service remme-blockchain-info
+314 silly isPackageDependentOf remme-utils remme-blockchain-info
+315 silly isPackageDependentOf remme-token remme-certificate
+316 silly isPackageDependentOf remme-protobuf remme-certificate
+317 silly isPackageDependentOf remme-rest remme-certificate
+318 silly isPackageDependentOf remme-transaction-service remme-certificate
+319 silly isPackageDependentOf remme-utils remme-certificate
+320 silly isPackageDependentOf remme-token remme-public-key-storage
+321 silly isPackageDependentOf remme-protobuf remme-public-key-storage
+322 silly isPackageDependentOf remme-rest remme-public-key-storage
+323 silly isPackageDependentOf remme-transaction-service remme-public-key-storage
+324 silly isPackageDependentOf remme-utils remme-public-key-storage
+325 silly isPackageDependentOf remme-token remme-transaction-service
+326 verbose dependent remme-token depends on remme-transaction-service
+327 silly isPackageDependentOf remme-token remme-web-socket
+328 silly isPackageDependentOf remme-protobuf remme-web-socket
+329 silly isPackageDependentOf remme-rest remme-web-socket
+330 silly isPackageDependentOf remme-transaction-service remme-web-socket
+331 silly isPackageDependentOf remme-utils remme-web-socket
+332 verbose dependent remme-token depends on remme-web-socket
+333 silly isPackageDependentOf remme-token remme
+334 silly isPackageDependentOf remme-protobuf remme
+335 silly isPackageDependentOf remme-rest remme
+336 silly isPackageDependentOf remme-transaction-service remme
+337 silly isPackageDependentOf remme-utils remme
+338 silly isPackageDependentOf remme-transaction-service remme-account
+339 verbose dependent remme-transaction-service depends on remme-account
+340 silly isPackageDependentOf remme-transaction-service remme-atomic-swap
+341 silly isPackageDependentOf remme-transaction-service remme-blockchain-info
+342 silly isPackageDependentOf remme-transaction-service remme-certificate
+343 silly isPackageDependentOf remme-transaction-service remme-public-key-storage
+344 silly isPackageDependentOf remme-transaction-service remme-transaction-service
+345 silly isPackageDependentOf remme-account remme-transaction-service
+346 silly isPackageDependentOf remme-rest remme-transaction-service
+347 silly isPackageDependentOf remme-utils remme-transaction-service
+348 silly isPackageDependentOf remme-web-socket remme-transaction-service
+349 silly isPackageDependentOf remme-transaction-service remme-web-socket
+350 verbose dependent remme-transaction-service depends on remme-web-socket
+351 silly isPackageDependentOf remme-transaction-service remme
+352 silly isPackageDependentOf remme-utils remme-account
+353 silly isPackageDependentOf remme-utils remme-atomic-swap
+354 silly isPackageDependentOf remme-utils remme-blockchain-info
+355 silly isPackageDependentOf remme-utils remme-certificate
+356 silly isPackageDependentOf remme-utils remme-public-key-storage
+357 silly isPackageDependentOf remme-utils remme-transaction-service
+358 silly isPackageDependentOf remme-utils remme-web-socket
+359 verbose dependent remme-utils depends on remme-web-socket
+360 silly isPackageDependentOf remme-utils remme
+361 silly isPackageDependentOf remme-web-socket remme-account
+362 silly isPackageDependentOf remme-web-socket remme-atomic-swap
+363 silly isPackageDependentOf remme-web-socket remme-blockchain-info
+364 silly isPackageDependentOf remme-web-socket remme-certificate
+365 silly isPackageDependentOf remme-web-socket remme-public-key-storage
+366 silly isPackageDependentOf remme-web-socket remme-transaction-service
+367 silly isPackageDependentOf remme-web-socket remme-web-socket
+368 silly isPackageDependentOf remme-web-socket remme
+369 silly isPackageDependentOf remme remme-account
+370 verbose dependent remme depends on remme-account
+371 silly isPackageDependentOf remme remme-atomic-swap
+372 verbose dependent remme depends on remme-atomic-swap
+373 silly isPackageDependentOf remme remme-blockchain-info
+374 verbose dependent remme depends on remme-blockchain-info
+375 silly isPackageDependentOf remme remme-certificate
+376 verbose dependent remme depends on remme-certificate
+377 silly isPackageDependentOf remme remme-public-key-storage
+378 verbose dependent remme depends on remme-public-key-storage
+379 silly isPackageDependentOf remme remme-transaction-service
+380 verbose dependent remme depends on remme-transaction-service
+381 silly isPackageDependentOf remme remme-web-socket
+382 silly isPackageDependentOf remme-account remme-web-socket
+383 silly isPackageDependentOf remme-atomic-swap remme-web-socket
+384 silly isPackageDependentOf remme-batch remme-web-socket
+385 silly isPackageDependentOf remme-blockchain-info remme-web-socket
+386 silly isPackageDependentOf remme-certificate remme-web-socket
+387 silly isPackageDependentOf remme-public-key-storage remme-web-socket
+388 silly isPackageDependentOf remme-rest remme-web-socket
+389 silly isPackageDependentOf remme-token remme-web-socket
+390 silly isPackageDependentOf remme-transaction-service remme-web-socket
+391 verbose dependent remme depends on remme-web-socket
+392 silly isPackageDependentOf remme remme
+393 silly isPackageDependentOf remme-account remme
+394 silly isPackageDependentOf remme-atomic-swap remme
+395 silly isPackageDependentOf remme-batch remme
+396 silly isPackageDependentOf remme-blockchain-info remme
+397 silly isPackageDependentOf remme-certificate remme
+398 silly isPackageDependentOf remme-public-key-storage remme
+399 silly isPackageDependentOf remme-rest remme
+400 silly isPackageDependentOf remme-token remme
+401 silly isPackageDependentOf remme-transaction-service remme
+402 silly collectUpdates
+403 verbose has filtered update remme-account
+404 verbose has filtered update remme-atomic-swap
+405 verbose has filtered update remme-blockchain-info
+406 verbose has filtered update remme-certificate
+407 verbose has filtered update remme-public-key-storage
+408 verbose has filtered update remme-token
+409 verbose has filtered update remme-transaction-service
+410 verbose has filtered update remme-utils
+411 verbose has filtered update remme-web-socket
+412 verbose has filtered update remme
+413 silly initialize success
+414 silly execute attempt
+415 silly addFile /var/www/remme-client-js/lerna.json
+416 silly runScriptSync preversion remme-client
+417 silly runScriptSync preversion remme-account
+418 silly runScriptSync version remme-account
+419 silly runScriptSync preversion remme-atomic-swap
+420 silly runScriptSync version remme-atomic-swap
+421 silly runScriptSync preversion remme-blockchain-info
+422 silly runScriptSync version remme-blockchain-info
+423 silly runScriptSync preversion remme-certificate
+424 silly runScriptSync version remme-certificate
+425 silly runScriptSync preversion remme-public-key-storage
+426 silly runScriptSync version remme-public-key-storage
+427 silly runScriptSync preversion remme-token
+428 silly runScriptSync version remme-token
+429 silly runScriptSync preversion remme-transaction-service
+430 silly runScriptSync version remme-transaction-service
+431 silly runScriptSync preversion remme-utils
+432 silly runScriptSync version remme-utils
+433 silly runScriptSync preversion remme-web-socket
+434 silly runScriptSync version remme-web-socket
+435 silly runScriptSync preversion remme
+436 silly runScriptSync version remme
+437 silly runScriptSync version remme-client
+438 silly addFile /var/www/remme-client-js/packages/remme-account/package.json
+439 silly addFile /var/www/remme-client-js/packages/remme-atomic-swap/package.json
+440 silly addFile /var/www/remme-client-js/packages/remme-blockchain-info/package.json
+441 silly addFile /var/www/remme-client-js/packages/remme-certificate/package.json
+442 silly addFile /var/www/remme-client-js/packages/remme-public-key-storage/package.json
+443 silly addFile /var/www/remme-client-js/packages/remme-token/package.json
+444 silly addFile /var/www/remme-client-js/packages/remme-transaction-service/package.json
+445 silly addFile /var/www/remme-client-js/packages/remme-utils/package.json
+446 silly addFile /var/www/remme-client-js/packages/remme-web-socket/package.json
+447 silly addFile /var/www/remme-client-js/packages/remme/package.json
+448 silly commit v0.2.10
+449 verbose commit [ 'commit', '--no-verify', '-m', 'v0.2.10' ]
+450 silly addTag v0.2.10
+451 silly runScriptSync postversion remme-account
+452 silly runScriptSync postversion remme-atomic-swap
+453 silly runScriptSync postversion remme-blockchain-info
+454 silly runScriptSync postversion remme-certificate
+455 silly runScriptSync postversion remme-public-key-storage
+456 silly runScriptSync postversion remme-token
+457 silly runScriptSync postversion remme-transaction-service
+458 silly runScriptSync postversion remme-utils
+459 silly runScriptSync postversion remme-web-socket
+460 silly runScriptSync postversion remme
+461 silly runScriptSync postversion remme-client
+462 info publish Publishing packages to npm...
+463 silly existsSync /var/www/remme-client-js/packages/remme-account/scripts/prepublish.js
+464 verbose execScript No prepublish script found at /var/www/remme-client-js/packages/remme-account/scripts/prepublish.js
+465 silly existsSync /var/www/remme-client-js/packages/remme-atomic-swap/scripts/prepublish.js
+466 verbose execScript No prepublish script found at /var/www/remme-client-js/packages/remme-atomic-swap/scripts/prepublish.js
+467 silly existsSync /var/www/remme-client-js/packages/remme-blockchain-info/scripts/prepublish.js
+468 verbose execScript No prepublish script found at /var/www/remme-client-js/packages/remme-blockchain-info/scripts/prepublish.js
+469 silly existsSync /var/www/remme-client-js/packages/remme-certificate/scripts/prepublish.js
+470 verbose execScript No prepublish script found at /var/www/remme-client-js/packages/remme-certificate/scripts/prepublish.js
+471 silly existsSync /var/www/remme-client-js/packages/remme-public-key-storage/scripts/prepublish.js
+472 verbose execScript No prepublish script found at /var/www/remme-client-js/packages/remme-public-key-storage/scripts/prepublish.js
+473 silly existsSync /var/www/remme-client-js/packages/remme-token/scripts/prepublish.js
+474 verbose execScript No prepublish script found at /var/www/remme-client-js/packages/remme-token/scripts/prepublish.js
+475 silly existsSync /var/www/remme-client-js/packages/remme-transaction-service/scripts/prepublish.js
+476 verbose execScript No prepublish script found at /var/www/remme-client-js/packages/remme-transaction-service/scripts/prepublish.js
+477 silly existsSync /var/www/remme-client-js/packages/remme-utils/scripts/prepublish.js
+478 verbose execScript No prepublish script found at /var/www/remme-client-js/packages/remme-utils/scripts/prepublish.js
+479 silly existsSync /var/www/remme-client-js/packages/remme-web-socket/scripts/prepublish.js
+480 verbose execScript No prepublish script found at /var/www/remme-client-js/packages/remme-web-socket/scripts/prepublish.js
+481 silly existsSync /var/www/remme-client-js/packages/remme/scripts/prepublish.js
+482 verbose execScript No prepublish script found at /var/www/remme-client-js/packages/remme/scripts/prepublish.js
+483 verbose publishing remme-web-socket
+484 silly publishTaggedInDir latest remme-web-socket
+485 silly getExecOpts { cwd: '/var/www/remme-client-js/packages/remme-web-socket' }
+486 error publish Retrying failed publish: remme-web-socket
+487 verbose publish error undefined
+488 verbose publishing remme-web-socket
+489 silly publishTaggedInDir latest remme-web-socket
+490 silly getExecOpts { cwd: '/var/www/remme-client-js/packages/remme-web-socket' }
+491 error publish Retrying failed publish: remme-web-socket
+492 verbose publish error undefined
+493 verbose publishing remme-web-socket
+494 silly publishTaggedInDir latest remme-web-socket
+495 silly getExecOpts { cwd: '/var/www/remme-client-js/packages/remme-web-socket' }
+496 error publish Retrying failed publish: remme-web-socket
+497 verbose publish error undefined
+498 verbose publishing remme-web-socket
+499 silly publishTaggedInDir latest remme-web-socket
+500 silly getExecOpts { cwd: '/var/www/remme-client-js/packages/remme-web-socket' }
+501 error publish Retrying failed publish: remme-web-socket
+502 verbose publish error undefined
+503 verbose publishing remme-web-socket
+504 silly publishTaggedInDir latest remme-web-socket
+505 silly getExecOpts { cwd: '/var/www/remme-client-js/packages/remme-web-socket' }
+506 error publish Ran out of retries while publishing remme-web-socket Error: Command failed: npm publish --tag latest
+506 error publish npm WARN notice Due to a recent security incident, all user tokens have been invalidated. Please see https://status.npmjs.org/incidents/dn7c1fgrr7ng for more details. To generate a new token, visit https://www.npmjs.com/settings/~/tokens or run "npm login".
+506 error publish npm ERR! publish Failed PUT 401
+506 error publish npm ERR! code E401
+506 error publish npm ERR! 404 You must be logged in to publish packages. : remme-web-socket
+506 error publish npm ERR! 404
+506 error publish npm ERR! 404  'remme-web-socket' is not in the npm registry.
+506 error publish npm ERR! 404 You should bug the author to publish it (or use the name yourself!)
+506 error publish npm ERR! 404
+506 error publish npm ERR! 404 Note that you can also install from a
+506 error publish npm ERR! 404 tarball, folder, http url, or git url.
+506 error publish
+506 error publish npm ERR! A complete log of this run can be found in:
+506 error publish npm ERR!     /home/artem/.npm/_logs/2018-07-16T11_25_56_939Z-debug.log
+506 error publish
+506 error publish     at Promise.all.then.arr (/var/www/remme-client-js/node_modules/execa/index.js:236:11)
+506 error publish     at <anonymous>
+506 error publish     at process._tickCallback (internal/process/next_tick.js:188:7)
+507 error execute callback with error
+508 error Error: Command failed: npm publish --tag latest
+508 error npm WARN notice Due to a recent security incident, all user tokens have been invalidated. Please see https://status.npmjs.org/incidents/dn7c1fgrr7ng for more details. To generate a new token, visit https://www.npmjs.com/settings/~/tokens or run "npm login".
+508 error npm ERR! publish Failed PUT 401
+508 error npm ERR! code E401
+508 error npm ERR! 404 You must be logged in to publish packages. : remme-web-socket
+508 error npm ERR! 404
+508 error npm ERR! 404  'remme-web-socket' is not in the npm registry.
+508 error npm ERR! 404 You should bug the author to publish it (or use the name yourself!)
+508 error npm ERR! 404
+508 error npm ERR! 404 Note that you can also install from a
+508 error npm ERR! 404 tarball, folder, http url, or git url.
+508 error
+508 error npm ERR! A complete log of this run can be found in:
+508 error npm ERR!     /home/artem/.npm/_logs/2018-07-16T11_25_56_939Z-debug.log
+508 error
+508 error     at Promise.all.then.arr (/var/www/remme-client-js/node_modules/execa/index.js:236:11)
+508 error     at <anonymous>

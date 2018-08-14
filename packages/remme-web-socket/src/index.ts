@@ -1,13 +1,30 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { IRemmeWebSocket } from "./interface";
-import { BatchStateUpdateDto, BatchStatusesDto, IWebSocketsEvents, Events } from "./models";
+import {
+    BatchStateUpdateDto,
+    BatchStatusesDto,
+    BatchStatuses,
+    Statuses,
+    IWebSocketsEvents,
+    ErrorMessage,
+    ErrorFromEvent,
+} from "./models";
 
+/**
+ * @hidden
+ */
 declare global {
+    /**
+     * @hidden
+     */
     interface Window {
         WebSocket: any;
     }
 }
 
+/**
+ * @hidden
+ */
 let WS;
 if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
     WS = window.WebSocket;
@@ -16,10 +33,12 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
 }
 
 class RemmeWebSocket implements IRemmeWebSocket {
+    // index signature
+    [key: string]: any;
+
     public socketAddress: string;
     public sslMode: boolean;
     public isEvent: boolean = false;
-    public eventToSubscribe: Events;
     public data: object;
     private _socket: W3CWebSocket;
 
@@ -37,20 +56,28 @@ class RemmeWebSocket implements IRemmeWebSocket {
             this._socket.send(this._getSocketQuery());
         };
         this._socket.onmessage = (e) => {
+            // console.log(e.data);
             const response: BatchStateUpdateDto = JSON.parse(e.data);
             if (
-                response.type === "message" &&
+                response.type === "message"
+                &&
                 Object.getOwnPropertyNames(response.data).length !== 0
             ) {
-                if (response.data.batch_statuses && response.data.batch_statuses.invalid_transactions) {
-                    this.closeWebSocket();
-                    throw new Error(response.data.batch_statuses.invalid_transactions.message);
+                if (response.data.batch_statuses &&
+                    response.data.batch_statuses.invalid_transactions &&
+                    response.data.batch_statuses.invalid_transactions.length) {
+                    this._sendAnError(new ErrorMessage(response.data.batch_statuses.invalid_transactions[0]), callback);
+                    return;
                 }
                 callback(null, this.isEvent ? response.data : new BatchStatusesDto(response.data.batch_statuses));
+            } else if (response.type === "error") {
+                this._sendAnError(new ErrorFromEvent(response.data), callback);
+                return;
             }
         };
         this._socket.onerror = (err) => {
             callback(err);
+            return;
         };
     }
 
@@ -61,6 +88,11 @@ class RemmeWebSocket implements IRemmeWebSocket {
         this._socket.send(this._getSocketQuery(false));
         this._socket.close();
         this._socket = null;
+    }
+
+    private _sendAnError(error: ErrorMessage | ErrorFromEvent, callback: any) {
+        this.closeWebSocket();
+        callback(error);
     }
 
     private _getSubscribeUrl(): string {
@@ -87,5 +119,6 @@ export {
     RemmeWebSocket,
     IRemmeWebSocket,
     IWebSocketsEvents,
-    Events,
+    BatchStatuses,
+    Statuses,
 };

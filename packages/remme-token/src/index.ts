@@ -7,6 +7,9 @@ import { BalanceResult } from "./models";
 import { IRemmeToken } from "./interface";
 
 class RemmeToken implements IRemmeToken {
+    // index signature
+    [key: string]: any;
+
     private readonly _remmeRest: IRemmeRest;
     private readonly _remmeTransaction: IRemmeTransactionService;
     private readonly _familyName = "account";

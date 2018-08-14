@@ -3,12 +3,14 @@ export interface IBaseResponse<T> {
     head?: string;
     link?: string;
     paging?: IPaging;
+    protobuf?: any;
 }
 export declare class BaseResponse<T> implements IBaseResponse<T> {
     data: T;
-    head?: string;
-    link?: string;
-    paging?: IPaging;
+    head: string;
+    link: string;
+    paging: IPaging;
+    protobuf: any;
     constructor(data: IBaseResponse<T>);
 }
 export interface IPaging {

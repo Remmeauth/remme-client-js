@@ -40,12 +40,12 @@ var remme_utils_1 = require("remme-utils");
 var remme_web_socket_1 = require("remme-web-socket");
 var remme_protobuf_1 = require("remme-protobuf");
 var models_1 = require("./models");
+exports.SwapEvents = models_1.SwapEvents;
 var RemmeSwap = /** @class */ (function () {
     function RemmeSwap(remmeRest, remmeTransactionService) {
         this._familyName = "AtomicSwap";
         this._familyVersion = "0.1";
         this._zeroAddress = "0".repeat(70);
-        // private readonly _fiAddress = "00000059c88e4dbdb786bce3b0c44298fc1c14e3b0c44298fc1c14e3b0c44298fc1c14";
         this._swapComission = "0000007ca83d6bbb759da9cde0fb0dec1400c55cc3bbcd6b1243b2e3b0c44298fc1c14";
         this._remmeRest = remmeRest;
         this._remmeTransactionService = remmeTransactionService;
@@ -118,6 +118,10 @@ var RemmeSwap = /** @class */ (function () {
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.atomicSwap, swapId)];
                     case 1:
                         apiResult = _a.sent();
+                        /**
+                         * TODO: check if result is undefined or no batch with this id,
+                         * block: https://remmeio.atlassian.net/browse/REM-330
+                         */
                         return [2 /*return*/, new models_1.SwapInfoData(apiResult)];
                 }
             });
@@ -179,7 +183,11 @@ var RemmeSwap = /** @class */ (function () {
         }).finish();
     };
     RemmeSwap.prototype.validateData = function (data) {
-        for (var _i = 0, _a = Object.keys(new models_1.SwapInitDto()); _i < _a.length; _i++) {
+        var example = new models_1.SwapInitDto();
+        if ("secretLockBySolicitor" in data) {
+            example.secretLockBySolicitor = data.secretLockBySolicitor;
+        }
+        for (var _i = 0, _a = Object.keys(example); _i < _a.length; _i++) {
             var key = _a[_i];
             if (!data[key]) {
                 throw new Error("Attribute " + key + " was not specified");
@@ -243,18 +251,35 @@ var RemmeSwap = /** @class */ (function () {
             if (!value) {
                 throw new Error("The '" + key + "' was missing in parameters");
             }
-            if (key !== "secretKey" && value.search(/^[0-9a-f]{64}$/) === -1) {
+            if (value.search(/^[0-9a-f]{64}$/) === -1) {
                 throw new Error("Given " + key + " is not a valid");
             }
         }
     };
-    RemmeSwap.prototype.subscribeToEvents = function (event, callback) {
+    RemmeSwap.prototype.subscribeToEvents = function (events, callback) {
+        if (typeof events !== "object") {
+            if (events === models_1.SwapEvents.All) {
+                events = [
+                    models_1.SwapEvents.Init,
+                    models_1.SwapEvents.SetSecretLock,
+                    models_1.SwapEvents.Approve,
+                    models_1.SwapEvents.Expire,
+                    models_1.SwapEvents.Close,
+                ];
+            }
+            else {
+                events = [events];
+            }
+        }
+        if (this._socket) {
+            this._socket.closeWebSocket();
+        }
         this._socket = new remme_web_socket_1.RemmeWebSocket(this._remmeRest.socketAddress(), this._remmeRest.sslMode());
         this._socket.isEvent = true;
         this._socket.data = {
             entity: "events",
+            events: events,
         };
-        this._socket.eventToSubscribe = event;
         this._socket.connectToWebSocket(callback);
     };
     RemmeSwap.prototype.unsubscribe = function () {

@@ -2,7 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var websocket_1 = require("websocket");
 var models_1 = require("./models");
-exports.Events = models_1.Events;
+exports.Statuses = models_1.Statuses;
+/**
+ * @hidden
+ */
 var WS;
 if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
     WS = window.WebSocket;
@@ -26,18 +29,27 @@ var RemmeWebSocket = /** @class */ (function () {
             _this._socket.send(_this._getSocketQuery());
         };
         this._socket.onmessage = function (e) {
+            // console.log(e.data);
             var response = JSON.parse(e.data);
-            if (response.type === "message" &&
-                Object.getOwnPropertyNames(response.data).length !== 0) {
-                if (response.data.batch_statuses && response.data.batch_statuses.invalid_transactions) {
-                    _this.closeWebSocket();
-                    throw new Error(response.data.batch_statuses.invalid_transactions.message);
+            if (response.type === "message"
+                &&
+                    Object.getOwnPropertyNames(response.data).length !== 0) {
+                if (response.data.batch_statuses &&
+                    response.data.batch_statuses.invalid_transactions &&
+                    response.data.batch_statuses.invalid_transactions.length) {
+                    _this._sendAnError(new models_1.ErrorMessage(response.data.batch_statuses.invalid_transactions[0]), callback);
+                    return;
                 }
                 callback(null, _this.isEvent ? response.data : new models_1.BatchStatusesDto(response.data.batch_statuses));
+            }
+            else if (response.type === "error") {
+                _this._sendAnError(new models_1.ErrorFromEvent(response.data), callback);
+                return;
             }
         };
         this._socket.onerror = function (err) {
             callback(err);
+            return;
         };
     };
     RemmeWebSocket.prototype.closeWebSocket = function () {
@@ -47,6 +59,10 @@ var RemmeWebSocket = /** @class */ (function () {
         this._socket.send(this._getSocketQuery(false));
         this._socket.close();
         this._socket = null;
+    };
+    RemmeWebSocket.prototype._sendAnError = function (error, callback) {
+        this.closeWebSocket();
+        callback(error);
     };
     RemmeWebSocket.prototype._getSubscribeUrl = function () {
         var protocol = this.sslMode ? "wss://" : "ws://";

@@ -1,3 +1,4 @@
-export { BatchStateUpdateDto, BatchStatusesDto } from "./BatchStateUpdateDto";
+export { BatchStateUpdateDto, BatchStatusesDto, Statuses, BatchStatuses } from "./BatchStateUpdateDto";
 export { IWebSocketsEvents } from "./IWebSocketsEvents";
-export { Events } from "./Events";
+export { ErrorMessage } from "./ErrorMessage";
+export { ErrorFromEvent } from "./ErrorFromEvent";

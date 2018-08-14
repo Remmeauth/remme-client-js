@@ -615,7 +615,7 @@ $root.Account = (function() {
      * @exports IAccount
      * @interface IAccount
      * @property {number|Long|null} [balance] Account balance
-     * @property {Array.<string>|null} [certificates] Account certificates
+     * @property {Array.<string>|null} [pubKeys] Account pubKeys
      */
 
     /**
@@ -627,7 +627,7 @@ $root.Account = (function() {
      * @param {IAccount=} [properties] Properties to set
      */
     function Account(properties) {
-        this.certificates = [];
+        this.pubKeys = [];
         if (properties)
             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                 if (properties[keys[i]] != null)
@@ -643,12 +643,12 @@ $root.Account = (function() {
     Account.prototype.balance = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
     /**
-     * Account certificates.
-     * @member {Array.<string>} certificates
+     * Account pubKeys.
+     * @member {Array.<string>} pubKeys
      * @memberof Account
      * @instance
      */
-    Account.prototype.certificates = $util.emptyArray;
+    Account.prototype.pubKeys = $util.emptyArray;
 
     /**
      * Creates a new Account instance using the specified properties.
@@ -676,9 +676,9 @@ $root.Account = (function() {
             writer = $Writer.create();
         if (message.balance != null && message.hasOwnProperty("balance"))
             writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.balance);
-        if (message.certificates != null && message.certificates.length)
-            for (var i = 0; i < message.certificates.length; ++i)
-                writer.uint32(/* id 2, wireType 2 =*/18).string(message.certificates[i]);
+        if (message.pubKeys != null && message.pubKeys.length)
+            for (var i = 0; i < message.pubKeys.length; ++i)
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.pubKeys[i]);
         return writer;
     };
 
@@ -717,9 +717,9 @@ $root.Account = (function() {
                 message.balance = reader.uint64();
                 break;
             case 2:
-                if (!(message.certificates && message.certificates.length))
-                    message.certificates = [];
-                message.certificates.push(reader.string());
+                if (!(message.pubKeys && message.pubKeys.length))
+                    message.pubKeys = [];
+                message.pubKeys.push(reader.string());
                 break;
             default:
                 reader.skipType(tag & 7);
@@ -759,12 +759,12 @@ $root.Account = (function() {
         if (message.balance != null && message.hasOwnProperty("balance"))
             if (!$util.isInteger(message.balance) && !(message.balance && $util.isInteger(message.balance.low) && $util.isInteger(message.balance.high)))
                 return "balance: integer|Long expected";
-        if (message.certificates != null && message.hasOwnProperty("certificates")) {
-            if (!Array.isArray(message.certificates))
-                return "certificates: array expected";
-            for (var i = 0; i < message.certificates.length; ++i)
-                if (!$util.isString(message.certificates[i]))
-                    return "certificates: string[] expected";
+        if (message.pubKeys != null && message.hasOwnProperty("pubKeys")) {
+            if (!Array.isArray(message.pubKeys))
+                return "pubKeys: array expected";
+            for (var i = 0; i < message.pubKeys.length; ++i)
+                if (!$util.isString(message.pubKeys[i]))
+                    return "pubKeys: string[] expected";
         }
         return null;
     };
@@ -790,12 +790,12 @@ $root.Account = (function() {
                 message.balance = object.balance;
             else if (typeof object.balance === "object")
                 message.balance = new $util.LongBits(object.balance.low >>> 0, object.balance.high >>> 0).toNumber(true);
-        if (object.certificates) {
-            if (!Array.isArray(object.certificates))
-                throw TypeError(".Account.certificates: array expected");
-            message.certificates = [];
-            for (var i = 0; i < object.certificates.length; ++i)
-                message.certificates[i] = String(object.certificates[i]);
+        if (object.pubKeys) {
+            if (!Array.isArray(object.pubKeys))
+                throw TypeError(".Account.pubKeys: array expected");
+            message.pubKeys = [];
+            for (var i = 0; i < object.pubKeys.length; ++i)
+                message.pubKeys[i] = String(object.pubKeys[i]);
         }
         return message;
     };
@@ -814,7 +814,7 @@ $root.Account = (function() {
             options = {};
         var object = {};
         if (options.arrays || options.defaults)
-            object.certificates = [];
+            object.pubKeys = [];
         if (options.defaults)
             if ($util.Long) {
                 var long = new $util.Long(0, 0, true);
@@ -826,10 +826,10 @@ $root.Account = (function() {
                 object.balance = options.longs === String ? String(message.balance) : message.balance;
             else
                 object.balance = options.longs === String ? $util.Long.prototype.toString.call(message.balance) : options.longs === Number ? new $util.LongBits(message.balance.low >>> 0, message.balance.high >>> 0).toNumber(true) : message.balance;
-        if (message.certificates && message.certificates.length) {
-            object.certificates = [];
-            for (var j = 0; j < message.certificates.length; ++j)
-                object.certificates[j] = message.certificates[j];
+        if (message.pubKeys && message.pubKeys.length) {
+            object.pubKeys = [];
+            for (var j = 0; j < message.pubKeys.length; ++j)
+                object.pubKeys[j] = message.pubKeys[j];
         }
         return object;
     };

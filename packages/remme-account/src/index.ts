@@ -5,8 +5,12 @@ import { getAddressFromData, hexToBytes } from "remme-utils";
 import { IRemmeAccount } from "./interface";
 
 class RemmeAccount implements IRemmeAccount {
+    // index signature
+    [key: string]: any;
+
     private _signer: any;
     private _familyName = "account";
+    public mapping = "account_pub_key_mapping";
     public address: string;
     public publicKeyHex: string;
     public privateKeyHex: string;

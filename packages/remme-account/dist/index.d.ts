@@ -1,7 +1,9 @@
 import { IRemmeAccount } from "./interface";
 declare class RemmeAccount implements IRemmeAccount {
+    [key: string]: any;
     private _signer;
     private _familyName;
+    mapping: string;
     address: string;
     publicKeyHex: string;
     privateKeyHex: string;

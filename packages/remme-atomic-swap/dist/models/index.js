@@ -8,4 +8,6 @@ var SwapInfoData_1 = require("./SwapInfoData");
 exports.SwapInfoData = SwapInfoData_1.SwapInfoData;
 var SwapPublicKeyDto_1 = require("./SwapPublicKeyDto");
 exports.SwapPublicKeyDto = SwapPublicKeyDto_1.SwapPublicKeyDto;
+var SwapEvents_1 = require("./SwapEvents");
+exports.SwapEvents = SwapEvents_1.SwapEvents;
 //# sourceMappingURL=index.js.map

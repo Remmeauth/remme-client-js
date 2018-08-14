@@ -13,7 +13,13 @@ import {
     base64ToArrayBuffer,
 } from "./functions";
 
+/**
+ * @hidden
+ */
 declare module "node-forge" {
+    /**
+     * @hidden
+     */
     export namespace pki {
         interface Certificate {
             privateKey: Key;
@@ -28,16 +34,25 @@ declare module "node-forge" {
         }
     }
 
+    /**
+     * @hidden
+     */
     export namespace md {
         namespace sha512 {
             function create(): MessageDigest;
         }
     }
 
+    /**
+     * @hidden
+     */
     export namespace pss {
         function create(any: any): any;
     }
 
+    /**
+     * @hidden
+     */
     export namespace mgf {
         namespace mgf1 {
             function create(any: any): any;
