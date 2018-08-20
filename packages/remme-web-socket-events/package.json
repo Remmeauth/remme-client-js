@@ -1,17 +1,17 @@
 {
-  "name": "remme-batch",
+  "name": "remme-web-socket-events",
   "version": "0.3.0",
-  "description": "REMME batch internal package",
+  "description": "REMME web socket events internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "namespace": "remme",
-  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-certificate",
+  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-web-socket-events",
   "scripts": {
     "transpile": "./node_modules/.bin/tsc"
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-rest": "^0.3.0"
+    "remme-web-socket": "^0.3.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"
