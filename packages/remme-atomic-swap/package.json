@@ -1,6 +1,6 @@
 {
   "name": "remme-atomic-swap",
-  "version": "0.2.32",
+  "version": "0.3.0",
   "description": "REMME atomic swap internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,10 +12,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "remme-protobuf": "^0.2.27",
-    "remme-rest": "^0.2.32",
-    "remme-transaction-service": "^0.2.32",
-    "remme-utils": "^0.2.32",
-    "remme-web-socket": "^0.2.32"
+    "remme-rest": "^0.3.0",
+    "remme-transaction-service": "^0.3.0",
+    "remme-utils": "^0.3.0",
+    "remme-web-socket": "^0.3.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"
