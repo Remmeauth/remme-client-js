@@ -7,14 +7,13 @@ import { RemmeAccount, IRemmeAccount } from "remme-account";
 import { RemmeBatch, IRemmeBatch } from "remme-batch";
 import { RemmeSwap, IRemmeSwap } from "remme-atomic-swap";
 import { RemmeBlockchainInfo, IRemmeBlockchainInfo} from "remme-blockchain-info";
+import { RemmeWebSocketsEvents, IRemmeWebSocketsEvents} from "remme-web-socket-events";
 
 import { IRemmeClient, IClientInit } from "./interface";
 
 const defaultConfig = {
     nodeAddress: "localhost",
-    socketPort: "9080",
-    apiPort: "8080",
-    validatorPort: "8008",
+    nodePort: "8080",
     sslMode: false,
 };
 /**
@@ -167,11 +166,202 @@ namespace Remme {
         /**
          * This properties hold implementation of RemmeBatch,
          * which get a possibility to check status of batch if you don't do it by using WebSocket.
+         *
+         * @example
+         *
+         * Get status of batch.
+         *
+         * ```typescript
+         * const batchId = "92c77c41705f2f68d5f7bc03676d0f917b0f9ef4099ee8417bd7f2470a233f3f2da5e93ee1658588f5baa0b95c81656ed187705fb72658203a7686c9749b7ad2"
+         * const status = await remme.batch.getStatus(batchId);
+         * console.log(status);
+         * ```
          */
         /* tslint:enable */
         public batch: IRemmeBatch;
+        /* tslint:disable */
+
+
+        /**
+         * This properties hold implementation of RemmeSwap,
+         * which get a possibility to work with atomic swap.
+         *
+         * @example
+         *
+         * Init swap.
+         *
+         * ```typescript
+         * const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce6815";
+         * const secret = "secretkey";
+         * const secretKey = sha512(secret); // "039eaa877ff63694f8f09c8034403f8b5165a7418812a642396d5d539f90b170";
+         * const secretLock = sha512(secretKey); // "b605112c2d7489034bbd7beab083fb65ba02af787786bb5e3d99bb26709f4f68";
+         *
+         * const init = await remme.swap.init({
+         *      receiverAddress: "112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1",
+         *      senderAddressNonLocal: "0xe6ca0e7c974f06471759e9a05d18b538c5ced11e",
+         *      amount: 100,
+         *      swapId,
+         *      secretLock,
+         *      createdAt: Math.floor(Date.now() / 1000)
+         * });
+         * ```
+         *
+         * Get a public key with which to enсrypt sensitive data during the swap.
+         *
+         * ```typescript
+         * const pubkey = await remme.swap.getPublicKey();
+         * console.log(pubkey);
+         * ```
+         *
+         * Set secret lock if it didn't set in init method
+         *
+         * ```typescript
+         * const setSecretLock = await remme.swap.setSecretLock(swapId, secretLock);
+         * ```
+         *
+         * Get information about swap
+         *
+         * ```typescript
+         * const res = await remme.swap.getInfo(swapId);
+         * console.log(res);
+         * ```
+         *
+         * Approve swap with given swap id
+         *
+         * ```typescript
+         * const approve = await remme.swap.approve(swapId);
+         * ```
+         *
+         * Expire swap with given swap id
+         *
+         * ```typescript
+         * const expire = await remme.swap.expire(swapId);
+         * ```
+         *
+         * Close swap with given swap id and secret key
+         *
+         * ```typescript
+         * const close = await remme.swap.close(swapId, secretKey);
+         * ```
+         */
+        /* tslint:enable */
         public swap: IRemmeSwap;
+        /* tslint:disable */
+
+
+        /**
+         * This properties hold implementation of RemmeBlockchainInfo,
+         * which get a possibility to work with blockchain information (blocks, batches, states, transactions).
+         * For all information about blockchain information please see this doc:
+         * https://sawtooth.hyperledger.org/docs/core/releases/latest/rest_api/endpoint_specs.html
+         *
+         * @example
+         *
+         * Get all blocks. With different params.
+         *
+         * ```typescript
+         * const blocks = await remme.blockchainInfo.getBlocks({
+         *      limit: 2,
+         *      reverse: true,
+         *      start: "0x0000000000000000", // block num
+         * });
+         * console.log(blocks);
+         * ```
+         *
+         * Get block by id.
+         *
+         * ```typescript
+         * const blockId = "92c77c41705f2f68d5f7bc03676d0f917b0f9ef4099ee8417bd7f2470a233f3f2da5e93ee1658588f5baa0b95c81656ed187705fb72658203a7686c9749b7ad2";
+         * const block = await remme.blockchainInfo.getBlockById(blockId);
+         * console.log(block);
+         * ```
+         *
+         * Get all batches. With different params.
+         *
+         * ```typescript
+         * const batches = await remme.blockchainInfo.getBatches({
+         *      limit: 2,
+         *      reverse: true,
+         *      start: "92c77c41705f2f68d5f7bc03676d0f917b0f9ef4099ee8417bd7f2470a233f3f2da5e93ee1658588f5baa0b95c81656ed187705fb72658203a7686c9749b7ad2", // batch_id
+         * });
+         * console.log(batches);
+         * ```
+         *
+         * Get block by id.
+         *
+         * ```typescript
+         * const batchId = "92c77c41705f2f68d5f7bc03676d0f917b0f9ef4099ee8417bd7f2470a233f3f2da5e93ee1658588f5baa0b95c81656ed187705fb72658203a7686c9749b7ad2";
+         * const batch = await remme.blockchainInfo.getBatchById(batchId);
+         * console.log(batch);
+         * ```
+         *
+         * Get all transactions. With different params.
+         *
+         * ```typescript
+         * const transactions = await remme.blockchainInfo.getTransactions({
+         *      limit: 2,
+         *      reverse: true,
+         *      start: "92c77c41705f2f68d5f7bc03676d0f917b0f9ef4099ee8417bd7f2470a233f3f2da5e93ee1658588f5baa0b95c81656ed187705fb72658203a7686c9749b7ad2", // batch_id
+         * });
+         * console.log(transactions);
+         * ```
+         *
+         * Get transaction by id.
+         *
+         * ```typescript
+         * const transactionId = "92c77c41705f2f68d5f7bc03676d0f917b0f9ef4099ee8417bd7f2470a233f3f2da5e93ee1658588f5baa0b95c81656ed187705fb72658203a7686c9749b7ad2";
+         * const transaction = await remme.blockchainInfo.getTransactionById(transactionId);
+         * console.log(transaction);
+         * ```
+         *
+         * Get all state. With different params.
+         *
+         * ```typescript
+         * const state = await remme.blockchainInfo.getState({
+         *      limit: 2,
+         *      reverse: true,
+         * });
+         * console.log(state);
+         * ```
+         *
+         * Get state by address.
+         *
+         * ```typescript
+         * const address = "112007e4e7d40588cc13f1abee0d3cf70b74a0b47bb31204c467c114f68a7f417e2f86";
+         * const state = await remme.blockchainInfo.getStateByAddress(address);
+         * console.log(state);
+         * ```
+         */
+        /* tslint:enable */
         public blockchainInfo: IRemmeBlockchainInfo;
+        /* tslint:disable */
+
+        /**
+         * This properties hold implementation of RemmeWebSocketEvents,
+         * which get a possibility to listen events from validator about transactions.
+         *
+         * @example
+         *
+         * Subscribe to event
+         * ```typescript
+         * import { RemmeEvents } from "remme-web-socket-events";
+         *
+         * remme.events.subscribe({
+         *     events: RemmeEvents.SwapAll,
+         *     lastKnownBlockId
+         * }, (err, res) => {
+         *     console.log(res);
+         * });
+         * ```
+         *
+         * Unsubscribe
+         * ```typescript
+         * remme.events.unsubscribe();
+         * ```
+         */
+
+        /* tslint:enable */
+        public events: IRemmeWebSocketsEvents;
 
         /**
          * @param clientInit.privateKeyHex - The hex of private key. Which is used for creating account in library
@@ -235,8 +425,11 @@ namespace Remme {
             networkConfig: defaultConfig,
         }) {
             let {
-                privateKeyHex = "",
                 networkConfig = defaultConfig,
+            } = clientInit;
+
+            const {
+                privateKeyHex = "",
             } = clientInit;
 
             networkConfig = {
@@ -252,6 +445,7 @@ namespace Remme {
             this.batch = new RemmeBatch(this._remmeRest);
             this.swap = new RemmeSwap(this._remmeRest, this.transaction);
             this.blockchainInfo = new RemmeBlockchainInfo(this._remmeRest);
+            this.events = new RemmeWebSocketsEvents(this._remmeRest.nodeAddress(), this._remmeRest.sslMode());
         }
 
         public set account(remmeAccount: IRemmeAccount) {
@@ -263,11 +457,45 @@ namespace Remme {
             }
             this._account = remmeAccount;
         }
+        /* tslint:disable */
 
+
+        /**
+         * Get information about current account
+         *
+         * @example
+         *
+         * ```typescript
+         * console.log(remme.account);
+         * ```
+         *
+         * Provide an account which sign the transactions that send to our nodes
+         *
+         * @example
+         *
+         * ```typescript
+         * const account = Remme.Client.generateAccount();
+         * remme.account = account;
+         * ```
+         */
+        /* tslint:enable */
         public get account(): IRemmeAccount {
             return this._account;
         }
+        /* tslint:disable */
 
+
+        /**
+         * Generate a new account
+         *
+         * @example
+         *
+         * ```typescript
+         * const account = Remme.Client.generateAccount();
+         * console.log(account);
+         * ```
+         */
+        /* tslint:enable */
         public static generateAccount(): IRemmeAccount {
             return new RemmeAccount();
         }

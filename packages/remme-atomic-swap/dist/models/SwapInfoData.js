@@ -2,8 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var SwapInfoData = /** @class */ (function () {
     function SwapInfoData(data) {
-        this.isClosed = data.is_closed;
-        this.isApproved = data.is_approved;
+        this.state = data.state;
         this.receiverAddress = data.receiver_address;
         this.amount = data.amount;
         this.email = data.email_address_encrypted_optional;

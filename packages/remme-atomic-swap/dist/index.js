@@ -37,10 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_rest_1 = require("remme-rest");
 var remme_utils_1 = require("remme-utils");
-var remme_web_socket_1 = require("remme-web-socket");
 var remme_protobuf_1 = require("remme-protobuf");
 var models_1 = require("./models");
-exports.SwapEvents = models_1.SwapEvents;
 var RemmeSwap = /** @class */ (function () {
     function RemmeSwap(remmeRest, remmeTransactionService) {
         this._familyName = "AtomicSwap";
@@ -118,10 +116,6 @@ var RemmeSwap = /** @class */ (function () {
                         return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.atomicSwap, swapId)];
                     case 1:
                         apiResult = _a.sent();
-                        /**
-                         * TODO: check if result is undefined or no batch with this id,
-                         * block: https://remmeio.atlassian.net/browse/REM-330
-                         */
                         return [2 /*return*/, new models_1.SwapInfoData(apiResult)];
                 }
             });
@@ -255,35 +249,6 @@ var RemmeSwap = /** @class */ (function () {
                 throw new Error("Given " + key + " is not a valid");
             }
         }
-    };
-    RemmeSwap.prototype.subscribeToEvents = function (events, callback) {
-        if (typeof events !== "object") {
-            if (events === models_1.SwapEvents.All) {
-                events = [
-                    models_1.SwapEvents.Init,
-                    models_1.SwapEvents.SetSecretLock,
-                    models_1.SwapEvents.Approve,
-                    models_1.SwapEvents.Expire,
-                    models_1.SwapEvents.Close,
-                ];
-            }
-            else {
-                events = [events];
-            }
-        }
-        if (this._socket) {
-            this._socket.closeWebSocket();
-        }
-        this._socket = new remme_web_socket_1.RemmeWebSocket(this._remmeRest.socketAddress(), this._remmeRest.sslMode());
-        this._socket.isEvent = true;
-        this._socket.data = {
-            entity: "events",
-            events: events,
-        };
-        this._socket.connectToWebSocket(callback);
-    };
-    RemmeSwap.prototype.unsubscribe = function () {
-        this._socket.closeWebSocket();
     };
     return RemmeSwap;
 }());

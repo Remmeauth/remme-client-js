@@ -63,7 +63,7 @@ class RemmeTransactionService implements IRemmeTransactionService {
             .postRequest<{transaction: string}, {batch_id: string, error?: string}>
             (RemmeMethods.transaction, { transaction });
         return new BaseTransactionResponse(
-            this._remmeRest.socketAddress(),
+            this._remmeRest.nodeAddress(),
             this._remmeRest.sslMode(),
             apiResult.batch_id,
         );

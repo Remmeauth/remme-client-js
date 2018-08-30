@@ -1,4 +1,8 @@
-import { ValidatorMethods, IRemmeRest } from "remme-rest";
+import {
+    RemmeMethods,
+    ValidatorMethods,
+    IRemmeRest,
+} from "remme-rest";
 import * as protobufs from "remme-protobuf";
 import { base64ToArrayBuffer } from "remme-utils";
 
@@ -21,6 +25,12 @@ import {
     PeerList,
     ReceiptList,
     IStateQuery,
+    INetworkStatusResponse,
+    INetworkStatus,
+    NetworkStatus,
+    IBlockInfoResponse,
+    IBlockInfo,
+    BlockInfo,
 } from "./models";
 
 class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
@@ -88,6 +98,60 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
             },
         },
     };
+
+    private _checkId(id?: string): void {
+        if (!id || id.search(/[a-f0-9]{128}/) === -1) {
+            throw new Error("Given 'id' is not a valid");
+        }
+    }
+
+    private _checkAddress(address?: string): void {
+        if (!address || address.search(/[a-f0-9]{70}/) === -1) {
+            throw new Error("Given 'address' is not a valid");
+        }
+    }
+
+    private _prepareAddress(state): State {
+        if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
+            const { parser: protobuf, type: addressType } = RemmeBlockchainInfo.address[state.address.slice(0, 6)];
+            return {
+                ...state,
+                protobuf,
+                addressType,
+            };
+        }
+        return state;
+    }
+
+    private _prepareBlock(block: BlockData): BlockData {
+        block.batches = block.batches.map((batch) => {
+            return this._prepareBatch(batch);
+        });
+        return block;
+    }
+
+    private _prepareBatch(batch: BatchData): BatchData {
+        batch.transactions = batch.transactions.map((transaction) => this._prepareTransaction(transaction));
+        return batch;
+    }
+
+    private _prepareTransaction(transaction: TransactionData): TransactionData {
+        const { family_name } = transaction.header;
+        if (family_name in RemmeBlockchainInfo.correspond) {
+            const data = protobufs.TransactionPayload.decode(base64ToArrayBuffer(transaction.payload));
+            const {
+                parser: protobuf,
+                type: transactionType,
+            } = RemmeBlockchainInfo.correspond[family_name][data.method];
+            return {
+                ...transaction,
+                transactionProtobuf: protobufs.TransactionPayload,
+                protobuf,
+                transactionType,
+            };
+        }
+        return transaction;
+    }
 
     public constructor(remmeRest: IRemmeRest) {
         this._remmeRest = remmeRest;
@@ -172,58 +236,19 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         return apiResult;
     }
 
-    private _checkId(id?: string): void {
-        if (!id || id.search(/[a-f0-9]{128}/) === -1) {
-            throw new Error("Given 'id' is not a valid");
+    public async getNetworkStatus(): Promise<INetworkStatus> {
+        const apiResult = await this._remmeRest
+            .getRequest<INetworkStatusResponse>(RemmeMethods.networkStatus);
+        return new NetworkStatus(apiResult);
+    }
+
+    public async getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]> {
+        const apiResult = await this._remmeRest
+            .getRequest<IBlockInfoResponse>(RemmeMethods.blockInfo, "", query);
+        if (!apiResult.blocks) {
+            throw new Error("Unknown error occurs in the server");
         }
-    }
-
-    private _checkAddress(address?: string): void {
-        if (!address || address.search(/[a-f0-9]{70}/) === -1) {
-            throw new Error("Given 'address' is not a valid");
-        }
-    }
-
-    private _prepareAddress(state): State {
-        if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
-            const { parser: protobuf, type: addressType } = RemmeBlockchainInfo.address[state.address.slice(0, 6)];
-            return {
-                ...state,
-                protobuf,
-                addressType,
-            };
-        }
-        return state;
-    }
-
-    private _prepareBlock(block: BlockData): BlockData {
-        block.batches = block.batches.map((batch) => {
-            return this._prepareBatch(batch);
-        });
-        return block;
-    }
-
-    private _prepareBatch(batch: BatchData): BatchData {
-        batch.transactions = batch.transactions.map((transaction) => this._prepareTransaction(transaction));
-        return batch;
-    }
-
-    private _prepareTransaction(transaction: TransactionData): TransactionData {
-        const { family_name } = transaction.header;
-        if (family_name in RemmeBlockchainInfo.correspond) {
-            const data = protobufs.TransactionPayload.decode(base64ToArrayBuffer(transaction.payload));
-            const {
-                parser: protobuf,
-                type: transactionType,
-            } = RemmeBlockchainInfo.correspond[family_name][data.method];
-            return {
-                ...transaction,
-                transactionProtobuf: protobufs.TransactionPayload,
-                protobuf,
-                transactionType,
-            };
-        }
-        return transaction;
+        return apiResult.blocks.map((item) => new BlockInfo(item));
     }
 }
 

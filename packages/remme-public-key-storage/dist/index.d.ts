@@ -11,6 +11,7 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _remmeAccount;
     private readonly _familyName;
     private readonly _familyVersion;
+    private readonly _economyAddress;
     constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService, remmeAccount: IRemmeAccount);
     store({data, publicKey, privateKey, validTo, validFrom, publicKeyType, entityType}: PublicKeyStorageStoreDto): Promise<IBaseTransactionResponse>;
     check(publicKey: forge.pki.PEM | forge.pki.Key): Promise<PublicKeyStorageCheckResult>;

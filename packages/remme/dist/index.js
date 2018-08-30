@@ -16,11 +16,10 @@ var remme_account_1 = require("remme-account");
 var remme_batch_1 = require("remme-batch");
 var remme_atomic_swap_1 = require("remme-atomic-swap");
 var remme_blockchain_info_1 = require("remme-blockchain-info");
+var remme_web_socket_events_1 = require("remme-web-socket-events");
 var defaultConfig = {
     nodeAddress: "localhost",
-    socketPort: "9080",
-    apiPort: "8080",
-    validatorPort: "8008",
+    nodePort: "8080",
     sslMode: false,
 };
 /**
@@ -94,7 +93,8 @@ var Remme;
                 privateKeyHex: "",
                 networkConfig: defaultConfig,
             }; }
-            var _a = clientInit.privateKeyHex, privateKeyHex = _a === void 0 ? "" : _a, _b = clientInit.networkConfig, networkConfig = _b === void 0 ? defaultConfig : _b;
+            var _a = clientInit.networkConfig, networkConfig = _a === void 0 ? defaultConfig : _a;
+            var _b = clientInit.privateKeyHex, privateKeyHex = _b === void 0 ? "" : _b;
             networkConfig = __assign({}, defaultConfig, networkConfig);
             this._remmeRest = new remme_rest_1.RemmeRest(networkConfig);
             this._account = new remme_account_1.RemmeAccount(privateKeyHex);
@@ -105,8 +105,29 @@ var Remme;
             this.batch = new remme_batch_1.RemmeBatch(this._remmeRest);
             this.swap = new remme_atomic_swap_1.RemmeSwap(this._remmeRest, this.transaction);
             this.blockchainInfo = new remme_blockchain_info_1.RemmeBlockchainInfo(this._remmeRest);
+            this.events = new remme_web_socket_events_1.RemmeWebSocketsEvents(this._remmeRest.nodeAddress(), this._remmeRest.sslMode());
         }
         Object.defineProperty(Client.prototype, "account", {
+            /* tslint:disable */
+            /**
+             * Get information about current account
+             *
+             * @example
+             *
+             * ```typescript
+             * console.log(remme.account);
+             * ```
+             *
+             * Provide an account which sign the transactions that send to our nodes
+             *
+             * @example
+             *
+             * ```typescript
+             * const account = Remme.Client.generateAccount();
+             * remme.account = account;
+             * ```
+             */
+            /* tslint:enable */
             get: function () {
                 return this._account;
             },
@@ -122,6 +143,18 @@ var Remme;
             enumerable: true,
             configurable: true
         });
+        /* tslint:disable */
+        /**
+         * Generate a new account
+         *
+         * @example
+         *
+         * ```typescript
+         * const account = Remme.Client.generateAccount();
+         * console.log(account);
+         * ```
+         */
+        /* tslint:enable */
         Client.generateAccount = function () {
             return new remme_account_1.RemmeAccount();
         };

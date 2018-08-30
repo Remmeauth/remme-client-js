@@ -3,12 +3,9 @@ import { IQueryParams, RemmeMethods, ValidatorMethods, INetworkConfig } from "./
 declare class RemmeRest implements IRemmeRest {
     [key: string]: any;
     private readonly _nodeAddress;
-    private readonly _socketAddress;
-    private readonly _validatorAddress;
     private readonly _sslMode;
-    constructor({nodeAddress, apiPort, socketPort, validatorPort, sslMode}: INetworkConfig);
+    constructor({nodeAddress, nodePort, sslMode}: INetworkConfig);
     nodeAddress: () => string;
-    socketAddress: () => string;
     sslMode: () => boolean;
     getRequest<Output>(method: RemmeMethods | ValidatorMethods, urlParam?: string, queryParam?: IQueryParams): Promise<Output>;
     putRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output>;
@@ -18,4 +15,4 @@ declare class RemmeRest implements IRemmeRest {
     private _getUrlForRequest(method, payload?);
     private _throwErrorReceive({error});
 }
-export { RemmeMethods, ValidatorMethods, RemmeRest, IRemmeRest };
+export { RemmeMethods, ValidatorMethods, RemmeRest, IRemmeRest, INetworkConfig };
