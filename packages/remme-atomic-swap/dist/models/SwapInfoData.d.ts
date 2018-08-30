@@ -1,7 +1,6 @@
-import { SwapInfoDto } from "./SwapInfoDto";
+import { SwapInfoDto, State } from "./SwapInfoDto";
 export declare class SwapInfoData {
-    isClosed: boolean;
-    isApproved: boolean;
+    state: State;
     receiverAddress: string;
     amount: number;
     email: string;

@@ -51,6 +51,46 @@ var RemmeBlockchainInfo = /** @class */ (function () {
     function RemmeBlockchainInfo(remmeRest) {
         this._remmeRest = remmeRest;
     }
+    RemmeBlockchainInfo.prototype._checkId = function (id) {
+        if (!id || id.search(/[a-f0-9]{128}/) === -1) {
+            throw new Error("Given 'id' is not a valid");
+        }
+    };
+    RemmeBlockchainInfo.prototype._checkAddress = function (address) {
+        if (!address || address.search(/[a-f0-9]{70}/) === -1) {
+            throw new Error("Given 'address' is not a valid");
+        }
+    };
+    RemmeBlockchainInfo.prototype._prepareAddress = function (state) {
+        if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
+            var _a = RemmeBlockchainInfo.address[state.address.slice(0, 6)], protobuf_1 = _a.parser, addressType = _a.type;
+            return __assign({}, state, { protobuf: protobuf_1,
+                addressType: addressType });
+        }
+        return state;
+    };
+    RemmeBlockchainInfo.prototype._prepareBlock = function (block) {
+        var _this = this;
+        block.batches = block.batches.map(function (batch) {
+            return _this._prepareBatch(batch);
+        });
+        return block;
+    };
+    RemmeBlockchainInfo.prototype._prepareBatch = function (batch) {
+        var _this = this;
+        batch.transactions = batch.transactions.map(function (transaction) { return _this._prepareTransaction(transaction); });
+        return batch;
+    };
+    RemmeBlockchainInfo.prototype._prepareTransaction = function (transaction) {
+        var family_name = transaction.header.family_name;
+        if (family_name in RemmeBlockchainInfo.correspond) {
+            var data = protobufs.TransactionPayload.decode(remme_utils_1.base64ToArrayBuffer(transaction.payload));
+            var _a = RemmeBlockchainInfo.correspond[family_name][data.method], protobuf_2 = _a.parser, transactionType = _a.type;
+            return __assign({}, transaction, { transactionProtobuf: protobufs.TransactionPayload, protobuf: protobuf_2,
+                transactionType: transactionType });
+        }
+        return transaction;
+    };
     RemmeBlockchainInfo.prototype.getBatchById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var apiResult;
@@ -219,45 +259,36 @@ var RemmeBlockchainInfo = /** @class */ (function () {
             });
         });
     };
-    RemmeBlockchainInfo.prototype._checkId = function (id) {
-        if (!id || id.search(/[a-f0-9]{128}/) === -1) {
-            throw new Error("Given 'id' is not a valid");
-        }
-    };
-    RemmeBlockchainInfo.prototype._checkAddress = function (address) {
-        if (!address || address.search(/[a-f0-9]{70}/) === -1) {
-            throw new Error("Given 'address' is not a valid");
-        }
-    };
-    RemmeBlockchainInfo.prototype._prepareAddress = function (state) {
-        if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
-            var _a = RemmeBlockchainInfo.address[state.address.slice(0, 6)], protobuf_1 = _a.parser, addressType = _a.type;
-            return __assign({}, state, { protobuf: protobuf_1,
-                addressType: addressType });
-        }
-        return state;
-    };
-    RemmeBlockchainInfo.prototype._prepareBlock = function (block) {
-        var _this = this;
-        block.batches = block.batches.map(function (batch) {
-            return _this._prepareBatch(batch);
+    RemmeBlockchainInfo.prototype.getNetworkStatus = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var apiResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this._remmeRest
+                            .getRequest(remme_rest_1.RemmeMethods.networkStatus)];
+                    case 1:
+                        apiResult = _a.sent();
+                        return [2 /*return*/, new models_1.NetworkStatus(apiResult)];
+                }
+            });
         });
-        return block;
     };
-    RemmeBlockchainInfo.prototype._prepareBatch = function (batch) {
-        var _this = this;
-        batch.transactions = batch.transactions.map(function (transaction) { return _this._prepareTransaction(transaction); });
-        return batch;
-    };
-    RemmeBlockchainInfo.prototype._prepareTransaction = function (transaction) {
-        var family_name = transaction.header.family_name;
-        if (family_name in RemmeBlockchainInfo.correspond) {
-            var data = protobufs.TransactionPayload.decode(remme_utils_1.base64ToArrayBuffer(transaction.payload));
-            var _a = RemmeBlockchainInfo.correspond[family_name][data.method], protobuf_2 = _a.parser, transactionType = _a.type;
-            return __assign({}, transaction, { transactionProtobuf: protobufs.TransactionPayload, protobuf: protobuf_2,
-                transactionType: transactionType });
-        }
-        return transaction;
+    RemmeBlockchainInfo.prototype.getBlockInfo = function (query) {
+        return __awaiter(this, void 0, void 0, function () {
+            var apiResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this._remmeRest
+                            .getRequest(remme_rest_1.RemmeMethods.blockInfo, "", query)];
+                    case 1:
+                        apiResult = _a.sent();
+                        if (!apiResult.blocks) {
+                            throw new Error("Unknown error occurs in the server");
+                        }
+                        return [2 /*return*/, apiResult.blocks.map(function (item) { return new models_1.BlockInfo(item); })];
+                }
+            });
+        });
     };
     RemmeBlockchainInfo.address = {
         "78173b": {

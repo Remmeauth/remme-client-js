@@ -56,7 +56,9 @@ var RemmeWebSocket = /** @class */ (function () {
         if (!this._socket) {
             throw new Error("WebSocket is not running");
         }
-        this._socket.send(this._getSocketQuery(false));
+        if (this._socket.readyState === 1) {
+            this._socket.send(this._getSocketQuery(false));
+        }
         this._socket.close();
         this._socket = null;
     };

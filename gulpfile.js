@@ -57,11 +57,16 @@ const packages = [{
   expose: 'RemmeTransactionService',
   src: path.join(__dirname, 'packages/remme-transaction-service'),
   config: path.join(__dirname, 'packages/remme-transaction-service/tsconfig.json')
-},{
+}, {
   fileName: 'remme-web-socket',
   expose: 'RemmeWebSocket',
   src: path.join(__dirname, 'packages/remme-web-socket'),
   config: path.join(__dirname, 'packages/remme-web-socket/tsconfig.json')
+}, {
+  fileName: 'remme-web-socket-events',
+  expose: 'RemmeWebSocketEvents',
+  src: path.join(__dirname, 'packages/remme-web-socket-events'),
+  config: path.join(__dirname, 'packages/remme-web-socket-events/tsconfig.json')
 }, {
   fileName: 'remme-account',
   expose: 'RemmeAccount',

@@ -5,3 +5,5 @@ export { Transaction, TransactionData, TransactionList } from "./Transactions";
 export { State, StateList } from "./State";
 export { PeerList } from "./Peers";
 export { ReceiptList } from "./Receipts";
+export { INetworkStatusResponse, INetworkStatus, NetworkStatus } from "./NetworkStatus";
+export { IBlockInfoResponse, IBlockInfo, BlockInfo } from "./BlockInfo";

@@ -1,6 +1,6 @@
 export interface IBaseQuery {
     head?: string;
-    start?: string;
+    start?: string | number;
     limit?: number;
     reverse?: string | boolean;
 }
@@ -21,12 +21,14 @@ export class BaseQuery implements IBaseQuery {
         } else {
             this.head = query.head;
         }
-        if (query.start && (
-            query.start.search(/^0x[0-9]{16}/) !== -1 || query.start.search(/[a-f0-9]{128}/) !== -1
-        )) {
-            this.start = query.start;
-        } else {
-            throw new Error(`Parameter "start" not a valid`);
+        if (query.start) {
+            if (typeof query.start === "string" && (
+                query.start.search(/^0x[0-9]{16}/) !== -1 || query.start.search(/[a-f0-9]{128}/) !== -1
+            ) || typeof query.start === "number") {
+                this.start = query.start.toString();
+            } else {
+                throw new Error(`Parameter "start" not a valid`);
+            }
         }
         this.limit = query.limit;
         this.reverse = query.reverse ? "" : "false";
@@ -38,8 +40,8 @@ export class StateQuery extends BaseQuery implements IStateQuery {
 
     constructor(query: IStateQuery) {
         super(query);
-        if (query.start && query.start.search(/[a-f0-9]{70}/) === -1) {
-            throw new Error(`Parameter "start" need to a valid`);
+        if (typeof query.address === "string" && query.address.search(/[a-f0-9]{70}/) === -1) {
+            throw new Error(`Parameter "address" need to a valid`);
         } else {
             this.address = query.address;
         }

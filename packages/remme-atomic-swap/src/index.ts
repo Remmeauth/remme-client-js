@@ -1,8 +1,9 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { getAddressFromData } from "remme-utils";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
-import { RemmeWebSocket, IRemmeWebSocket } from "remme-web-socket";
-import { AtomicSwapMethod,
+
+import {
+    AtomicSwapMethod,
     AtomicSwapInitPayload,
     AtomicSwapApprovePayload,
     AtomicSwapExpirePayload,
@@ -17,7 +18,6 @@ import {
     SwapInfoDto,
     SwapInfoData,
     SwapPublicKeyDto,
-    SwapEvents,
 } from "./models";
 
 class RemmeSwap implements IRemmeSwap {
@@ -30,7 +30,6 @@ class RemmeSwap implements IRemmeSwap {
     private readonly _familyVersion = "0.1";
     private readonly _zeroAddress = "0".repeat(70);
     private readonly _swapComission = "0000007ca83d6bbb759da9cde0fb0dec1400c55cc3bbcd6b1243b2e3b0c44298fc1c14";
-    private _socket: IRemmeWebSocket;
 
     public constructor(remmeRest: IRemmeRest, remmeTransactionService: IRemmeTransactionService) {
         this._remmeRest = remmeRest;
@@ -72,10 +71,6 @@ class RemmeSwap implements IRemmeSwap {
     public async getInfo(swapId: string): Promise<SwapInfoData> {
         this.checkParameters({ swapId });
         const apiResult = await this._remmeRest.getRequest<SwapInfoDto>(RemmeMethods.atomicSwap, swapId);
-        /**
-         * TODO: check if result is undefined or no batch with this id,
-         * block: https://remmeio.atlassian.net/browse/REM-330
-         */
         return new SwapInfoData(apiResult);
     }
 
@@ -176,40 +171,9 @@ class RemmeSwap implements IRemmeSwap {
             }
         }
     }
-
-    public subscribeToEvents(events: SwapEvents | SwapEvents[], callback: any): void {
-        if (typeof events !== "object") {
-            if (events === SwapEvents.All) {
-                events = [
-                    SwapEvents.Init,
-                    SwapEvents.SetSecretLock,
-                    SwapEvents.Approve,
-                    SwapEvents.Expire,
-                    SwapEvents.Close,
-                ];
-            } else {
-                events = [ events ];
-            }
-        }
-        if (this._socket) {
-            this._socket.closeWebSocket();
-        }
-        this._socket = new RemmeWebSocket(this._remmeRest.socketAddress(), this._remmeRest.sslMode());
-        this._socket.isEvent = true;
-        this._socket.data = {
-            entity: "events",
-            events,
-        };
-        this._socket.connectToWebSocket(callback);
-    }
-
-    public unsubscribe(): void {
-        this._socket.closeWebSocket();
-    }
 }
 
 export {
     RemmeSwap,
     IRemmeSwap,
-    SwapEvents,
 };

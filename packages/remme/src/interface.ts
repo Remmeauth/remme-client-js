@@ -6,6 +6,8 @@ import { IRemmeSwap } from "remme-atomic-swap";
 import { IRemmeTransactionService } from "remme-transaction-service";
 import { IRemmePublicKeyStorage } from "remme-public-key-storage";
 import { IRemmeBlockchainInfo } from "remme-blockchain-info";
+import { INetworkConfig } from "remme-rest";
+import { IRemmeWebSocketsEvents } from "remme-web-socket-events";
 
 export interface IRemmeClient {
     certificate: IRemmeCertificate;
@@ -16,17 +18,10 @@ export interface IRemmeClient {
     transaction: IRemmeTransactionService;
     publicKeyStorage: IRemmePublicKeyStorage;
     blockchainInfo: IRemmeBlockchainInfo;
+    events: IRemmeWebSocketsEvents;
 }
 
 export interface IClientInit {
     privateKeyHex?: string;
     networkConfig?: INetworkConfig;
-}
-
-export interface INetworkConfig {
-    nodeAddress: string;
-    socketPort: string | number;
-    apiPort: string | number;
-    validatorPort: string | number;
-    sslMode: boolean;
 }

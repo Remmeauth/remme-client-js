@@ -10,7 +10,6 @@ class RemmeAccount implements IRemmeAccount {
 
     private _signer: any;
     private _familyName = "account";
-    public mapping = "account_pub_key_mapping";
     public address: string;
     public publicKeyHex: string;
     public privateKeyHex: string;

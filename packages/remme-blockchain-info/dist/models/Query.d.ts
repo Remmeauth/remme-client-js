@@ -1,6 +1,6 @@
 export interface IBaseQuery {
     head?: string;
-    start?: string;
+    start?: string | number;
     limit?: number;
     reverse?: string | boolean;
 }

@@ -12,4 +12,6 @@ export declare enum RemmeMethods {
     atomicSwapPublicKey = "atomic-swap/pub-key-encryption",
     nodeKey = "node_key",
     transaction = "transaction",
+    networkStatus = "network",
+    blockInfo = "block-info",
 }

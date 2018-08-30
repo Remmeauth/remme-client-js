@@ -1,6 +1,12 @@
 import { IRemmeWebSocket } from "./interface";
-import { BatchStatuses, Statuses, IWebSocketsEvents } from "./models";
+import { BatchStatuses, Statuses } from "./models";
+/**
+ * @hidden
+ */
 declare global  {
+    /**
+     * @hidden
+     */
     interface Window {
         WebSocket: any;
     }
@@ -19,4 +25,4 @@ declare class RemmeWebSocket implements IRemmeWebSocket {
     private _getSubscribeUrl();
     private _getSocketQuery(subscribe?);
 }
-export { RemmeWebSocket, IRemmeWebSocket, IWebSocketsEvents, BatchStatuses, Statuses };
+export { RemmeWebSocket, IRemmeWebSocket, BatchStatuses, Statuses };

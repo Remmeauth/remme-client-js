@@ -15,5 +15,7 @@ var RemmeMethods;
     RemmeMethods["atomicSwapPublicKey"] = "atomic-swap/pub-key-encryption";
     RemmeMethods["nodeKey"] = "node_key";
     RemmeMethods["transaction"] = "transaction";
+    RemmeMethods["networkStatus"] = "network";
+    RemmeMethods["blockInfo"] = "block-info";
 })(RemmeMethods = exports.RemmeMethods || (exports.RemmeMethods = {}));
 //# sourceMappingURL=remme-methods.js.map
