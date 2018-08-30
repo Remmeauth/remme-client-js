@@ -1,14 +1,14 @@
-import { WSEEntity } from "./WSEEntity";
-import { WSEEvents } from "./WSEEvents";
+import { RemmeEventsEntity } from "./RemmeEventsEntity";
+import { RemmeEvents } from "./RemmeEvents";
 
-export interface IWSEData {
-    entity: WSEEntity;
-    events: WSEEvents | WSEEvents[];
+export interface IRemmeEventsData {
+    entity: RemmeEventsEntity;
+    events: RemmeEvents | RemmeEvents[];
     lastKnownBlockId?: string;
 }
 
-export class WSEData {
-    public entity: WSEEntity;
-    public events: WSEEvents[];
+export class RemmeEventsData {
+    public entity: RemmeEventsEntity;
+    public events: RemmeEvents[];
     public last_known_block_id?: string;
 }

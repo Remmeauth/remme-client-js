@@ -1,0 +1,1 @@
+{"version":3,"file":"NetworkStatus.js","sourceRoot":"","sources":["../../src/models/NetworkStatus.ts"],"names":[],"mappings":";;AAUA;IAII,uBAAY,aAAqC;QAC7C,IAAI,CAAC,QAAQ,GAAG,aAAa,CAAC,SAAS,CAAC;QACxC,IAAI,CAAC,SAAS,GAAG,aAAa,CAAC,UAAU,CAAC;IAC9C,CAAC;IACL,oBAAC;AAAD,CAAC,AARD,IAQC;AARY,sCAAa"}

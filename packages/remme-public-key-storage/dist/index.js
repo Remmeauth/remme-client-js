@@ -44,6 +44,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
     function RemmePublicKeyStorage(remmeRest, remmeTransaction, remmeAccount) {
         this._familyName = "pub_key";
         this._familyVersion = "0.1";
+        this._economyAddress = "0000007ca83d6bbb759da9ebbaccb7f4037885e3b0c44298fc1c14e3b0c44298fc1c14";
         this._remmeRest = remmeRest;
         this._remmeTransaction = remmeTransaction;
         this._remmeAccount = remmeAccount;
@@ -51,7 +52,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
     RemmePublicKeyStorage.prototype.store = function (_a) {
         var data = _a.data, publicKey = _a.publicKey, privateKey = _a.privateKey, validTo = _a.validTo, validFrom = _a.validFrom, _b = _a.publicKeyType, publicKeyType = _b === void 0 ? remme_protobuf_1.NewPubKeyPayload.PubKeyType.RSA : _b, _c = _a.entityType, entityType = _c === void 0 ? remme_protobuf_1.NewPubKeyPayload.EntityType.PERSONAL : _c;
         return __awaiter(this, void 0, void 0, function () {
-            var publicKeyPEM, message, entityHash, entityHashSignature, payload, pubKeyAddress, addr, mappingAddress, payloadBytes;
+            var publicKeyPEM, message, entityHash, entityHashSignature, payload, pubKeyAddress, payloadBytes;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
@@ -75,10 +76,8 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                             validTo: validTo,
                         }).finish();
                         pubKeyAddress = remme_utils_1.getAddressFromData(this._familyName, publicKeyPEM);
-                        addr = this._remmeAccount.address;
-                        mappingAddress = remme_utils_1.getAddressFromData(this._remmeAccount.mapping, addr);
                         payloadBytes = this._generateTransactionPayload(remme_protobuf_1.PubKeyMethod.Method.STORE, payload);
-                        return [4 /*yield*/, this._createAndSendTransaction([pubKeyAddress, mappingAddress], payloadBytes)];
+                        return [4 /*yield*/, this._createAndSendTransaction([pubKeyAddress, this._economyAddress], payloadBytes)];
                     case 1: return [2 /*return*/, _d.sent()];
                 }
             });

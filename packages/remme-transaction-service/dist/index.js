@@ -92,7 +92,7 @@ var RemmeTransactionService = /** @class */ (function () {
                             .postRequest(remme_rest_1.RemmeMethods.transaction, { transaction: transaction })];
                     case 1:
                         apiResult = _a.sent();
-                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeRest.socketAddress(), this._remmeRest.sslMode(), apiResult.batch_id)];
+                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeRest.nodeAddress(), this._remmeRest.sslMode(), apiResult.batch_id)];
                 }
             });
         });

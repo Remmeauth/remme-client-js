@@ -1,8 +1,7 @@
-import { SwapInfoDto } from "./SwapInfoDto";
+import { SwapInfoDto, State } from "./SwapInfoDto";
 
 export class SwapInfoData {
-    public isClosed: boolean;
-    public isApproved: boolean;
+    public state: State;
     public receiverAddress: string;
     public amount: number;
     public email: string;
@@ -15,8 +14,7 @@ export class SwapInfoData {
     public swapId: string;
 
     constructor(data: SwapInfoDto) {
-        this.isClosed = data.is_closed;
-        this.isApproved = data.is_approved;
+        this.state = data.state;
         this.receiverAddress = data.receiver_address;
         this.amount = data.amount;
         this.email = data.email_address_encrypted_optional;

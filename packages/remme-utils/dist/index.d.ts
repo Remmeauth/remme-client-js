@@ -2,7 +2,13 @@
 import * as forge from "node-forge";
 import { oids } from "./models";
 import { hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData, toHexString, toUTF8Array, base64ToArrayBuffer } from "./functions";
+/**
+ * @hidden
+ */
 declare module "node-forge" {
+    /**
+     * @hidden
+     */
     namespace pki {
         interface Certificate {
             privateKey: Key;
@@ -16,14 +22,23 @@ declare module "node-forge" {
             function setPublicKey(n: any, e: any): any;
         }
     }
+    /**
+     * @hidden
+     */
     namespace md {
         namespace sha512 {
             function create(): MessageDigest;
         }
     }
+    /**
+     * @hidden
+     */
     namespace pss {
         function create(any: any): any;
     }
+    /**
+     * @hidden
+     */
     namespace mgf {
         namespace mgf1 {
             function create(any: any): any;

@@ -1,5 +1,4 @@
 export interface IRemmeAccount {
-    mapping: string;
     publicKeyHex: string;
     privateKeyHex: string;
     privateKey: any;

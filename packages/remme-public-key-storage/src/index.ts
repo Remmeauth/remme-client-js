@@ -26,6 +26,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _remmeAccount: IRemmeAccount;
     private readonly _familyName = "pub_key";
     private readonly _familyVersion = "0.1";
+    private readonly _economyAddress = "0000007ca83d6bbb759da9ebbaccb7f4037885e3b0c44298fc1c14e3b0c44298fc1c14";
 
     public constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService, remmeAccount: IRemmeAccount) {
         this._remmeRest = remmeRest;
@@ -62,10 +63,8 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             validTo,
         }).finish();
         const pubKeyAddress = getAddressFromData(this._familyName, publicKeyPEM);
-        const addr = this._remmeAccount.address;
-        const mappingAddress = getAddressFromData(this._remmeAccount.mapping, addr);
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
-        return await this._createAndSendTransaction([pubKeyAddress, mappingAddress], payloadBytes);
+        return await this._createAndSendTransaction([pubKeyAddress, this._economyAddress], payloadBytes);
     }
 
     public async check(publicKey: forge.pki.PEM | forge.pki.Key): Promise<PublicKeyStorageCheckResult> {

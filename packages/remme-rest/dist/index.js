@@ -41,14 +41,11 @@ exports.RemmeMethods = models_1.RemmeMethods;
 exports.ValidatorMethods = models_1.ValidatorMethods;
 var RemmeRest = /** @class */ (function () {
     function RemmeRest(_a) {
-        var nodeAddress = _a.nodeAddress, apiPort = _a.apiPort, socketPort = _a.socketPort, validatorPort = _a.validatorPort, sslMode = _a.sslMode;
+        var nodeAddress = _a.nodeAddress, nodePort = _a.nodePort, sslMode = _a.sslMode;
         var _this = this;
         this.nodeAddress = function () { return _this._nodeAddress; };
-        this.socketAddress = function () { return _this._socketAddress; };
         this.sslMode = function () { return _this._sslMode; };
-        this._nodeAddress = nodeAddress + ":" + apiPort;
-        this._socketAddress = nodeAddress + ":" + socketPort;
-        this._validatorAddress = nodeAddress + ":" + validatorPort;
+        this._nodeAddress = nodeAddress + ":" + nodePort;
         this._sslMode = sslMode;
     }
     RemmeRest.prototype.getRequest = function (method, urlParam, queryParam) {
@@ -146,7 +143,7 @@ var RemmeRest = /** @class */ (function () {
             url = this._nodeAddress + "/api/v1/";
         }
         else if (Object.values(models_1.ValidatorMethods).includes(method)) {
-            url = this._validatorAddress + "/";
+            url = this._nodeAddress + "/validator/";
         }
         return "" + protocol + url + methodUrl;
     };

@@ -7,19 +7,14 @@ class RemmeRest implements IRemmeRest {
     [key: string]: any;
 
     private readonly _nodeAddress: string;
-    private readonly _socketAddress: string;
-    private readonly _validatorAddress: string;
     private readonly _sslMode: boolean;
 
-    public constructor({ nodeAddress, apiPort, socketPort, validatorPort, sslMode }: INetworkConfig) {
-        this._nodeAddress = `${nodeAddress}:${apiPort}`;
-        this._socketAddress = `${nodeAddress}:${socketPort}`;
-        this._validatorAddress = `${nodeAddress}:${validatorPort}`;
+    public constructor({ nodeAddress, nodePort, sslMode }: INetworkConfig) {
+        this._nodeAddress = `${nodeAddress}:${nodePort}`;
         this._sslMode = sslMode;
     }
 
     public nodeAddress = (): string => this._nodeAddress;
-    public socketAddress = (): string => this._socketAddress;
     public sslMode = (): boolean => this._sslMode;
 
     public async getRequest
@@ -80,7 +75,7 @@ class RemmeRest implements IRemmeRest {
         if ((Object as any).values(RemmeMethods).includes(method)) {
             url = `${this._nodeAddress}/api/v1/`;
         } else if ((Object as any).values(ValidatorMethods).includes(method)) {
-            url = `${this._validatorAddress}/`;
+            url = `${this._nodeAddress}/validator/`;
         }
         return `${protocol}${url}${methodUrl}`;
     }
@@ -100,4 +95,5 @@ export {
     ValidatorMethods,
     RemmeRest,
     IRemmeRest,
+    INetworkConfig,
 };

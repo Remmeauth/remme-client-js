@@ -1,6 +1,5 @@
 export declare class SwapInfoDto {
-    is_closed: boolean;
-    is_approved: boolean;
+    state: State;
     receiver_address: string;
     amount: number;
     email_address_encrypted_optional: string;
@@ -11,4 +10,12 @@ export declare class SwapInfoDto {
     sender_address: string;
     sender_address_non_local: string;
     swap_id: string;
+}
+export declare enum State {
+    EMPTY = "EMPTY",
+    OPENED = "OPENED",
+    SECRET_LOCK_PROVIDED = "SECRET_LOCK_PROVIDED",
+    APPROVED = "APPROVED",
+    CLOSED = "CLOSED",
+    EXPIRED = "EXPIRED",
 }

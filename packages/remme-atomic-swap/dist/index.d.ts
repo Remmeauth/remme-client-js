@@ -1,7 +1,7 @@
 import { IRemmeRest } from "remme-rest";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
 import { IRemmeSwap } from "./interface";
-import { SwapInitDto, SwapInfoData, SwapEvents } from "./models";
+import { SwapInitDto, SwapInfoData } from "./models";
 declare class RemmeSwap implements IRemmeSwap {
     [key: string]: any;
     private readonly _remmeRest;
@@ -10,7 +10,6 @@ declare class RemmeSwap implements IRemmeSwap {
     private readonly _familyVersion;
     private readonly _zeroAddress;
     private readonly _swapComission;
-    private _socket;
     constructor(remmeRest: IRemmeRest, remmeTransactionService: IRemmeTransactionService);
     approve(swapId: string): Promise<IBaseTransactionResponse>;
     close(swapId: string, secretKey: string): Promise<IBaseTransactionResponse>;
@@ -24,7 +23,5 @@ declare class RemmeSwap implements IRemmeSwap {
     private getAddresses(method, swapId, receiverAddress?);
     private createAndSendTransaction(transactionPayload, inputsOutputs);
     private checkParameters(parameters);
-    subscribeToEvents(events: SwapEvents | SwapEvents[], callback: any): void;
-    unsubscribe(): void;
 }
-export { RemmeSwap, IRemmeSwap, SwapEvents };
+export { RemmeSwap, IRemmeSwap };
