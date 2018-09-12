@@ -30,10 +30,10 @@ var RemmeWebSocketsEvents = /** @class */ (function () {
         return events;
     };
     RemmeWebSocketsEvents.prototype._generateData = function (_a) {
-        var _b = _a.entity, entity = _b === void 0 ? models_1.RemmeEventsEntity.Events : _b, events = _a.events, lastKnownBlockId = _a.lastKnownBlockId;
+        var events = _a.events, lastKnownBlockId = _a.lastKnownBlockId;
         events = this._prepareEvents(events);
         var data = new models_1.RemmeEventsData();
-        data.entity = entity;
+        data.entity = models_1.RemmeEventsEntity.Events;
         data.events = events;
         if (lastKnownBlockId) {
             data.last_known_block_id = lastKnownBlockId;

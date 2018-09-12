@@ -6,7 +6,7 @@ declare class RemmeWebSocketsEvents implements IRemmeWebSocketsEvents {
     private _socket;
     private _prepareEvents(events);
     constructor(socketAddress: string, sslMode: boolean);
-    private _generateData({entity, events, lastKnownBlockId});
+    private _generateData({events, lastKnownBlockId});
     subscribe(data: IRemmeEventsData, callback: (err, res) => void): void;
     unsubscribe(): void;
 }

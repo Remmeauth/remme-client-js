@@ -302,6 +302,29 @@ declare namespace Remme {
          * ```
          */
         blockchainInfo: IRemmeBlockchainInfo;
+        /**
+         * This properties hold implementation of RemmeWebSocketEvents,
+         * which get a possibility to listen events from validator about transactions.
+         *
+         * @example
+         *
+         * Subscribe to event
+         * ```typescript
+         * import { RemmeEvents } from "remme-web-socket-events";
+         *
+         * remme.events.subscribe({
+         *     events: RemmeEvents.SwapAll,
+         *     lastKnownBlockId
+         * }, (err, res) => {
+         *     console.log(res);
+         * });
+         * ```
+         *
+         * Unsubscribe
+         * ```typescript
+         * remme.events.unsubscribe();
+         * ```
+         */
         events: IRemmeWebSocketsEvents;
         /**
          * @param clientInit.privateKeyHex - The hex of private key. Which is used for creating account in library

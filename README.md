@@ -49,9 +49,7 @@ const socketAddress = "192.168.0.1:9080"; // <-- Address of local node's WebSock
 const privateKeyHex = "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4f10";
 const networkConfig = {
     nodeAddress: "localhost",
-    socketPort: "9080",
-    apiPort: "8080",
-    validatorPort: "8008",
+    nodePort: "8080",
     sslMode: false,
 };
 const remme = new Remme.Client({ privateKeyHex, networkConfig });
@@ -77,6 +75,7 @@ const transactionCallback = async (err, result) => {
 transactionResult.connectToWebSocket(transactionCallback);
 
 ```
+
 #### Certificates
 ```js
 const certificateTransactionResult = await remme.certificate.createAndStore({
@@ -101,7 +100,44 @@ const certificateTransactionCallback = async (err, response) => {
 certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
 ```
 
+#### Subscribing to Events
+RemmeEvents is enums which describe all available events.
+```js
+import { RemmeEvents } from "remme-web-socket-events";
 
+remme.events.subscribe({
+    events: RemmeEvents.SwapInit
+}, (err, res) => {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    console.log(res);
+})
+```
+
+Also we give a possibility to start listen events from previous block by providing last known block id
+
+```js
+import { RemmeEvents } from "remme-web-socket-events";
+
+remme.events.subscribe({
+    events: RemmeEvents.SwapInit,
+    lastKnownBlockId: "db19f0e3b3f001670bebc814e238df48cef059f3f0668f57702ba9ff0c4b8ec45c7298f08b4c2fa67602da27a84b3df5dc78ce0f7774b3d3ae094caeeb9cbc82"
+    }, (err, res) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log("events", res);
+});
+```
+
+Unsubscribe from listening events
+
+```js
+remme.events.unsubscribe();
+```
 
 ## License
 

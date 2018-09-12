@@ -37,11 +37,11 @@ class RemmeWebSocketsEvents implements IRemmeWebSocketsEvents {
         this._sslMode = sslMode;
     }
 
-    private _generateData({ entity = RemmeEventsEntity.Events, events, lastKnownBlockId }: IRemmeEventsData)
+    private _generateData({ events, lastKnownBlockId }: IRemmeEventsData)
         : RemmeEventsData {
         events = this._prepareEvents(events);
         const data = new RemmeEventsData();
-        data.entity = entity;
+        data.entity = RemmeEventsEntity.Events;
         data.events = events;
         if (lastKnownBlockId) {
             data.last_known_block_id = lastKnownBlockId;
