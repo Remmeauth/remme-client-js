@@ -2,7 +2,6 @@ import { RemmeEventsEntity } from "./RemmeEventsEntity";
 import { RemmeEvents } from "./RemmeEvents";
 
 export interface IRemmeEventsData {
-    entity: RemmeEventsEntity;
     events: RemmeEvents | RemmeEvents[];
     lastKnownBlockId?: string;
 }

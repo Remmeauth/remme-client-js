@@ -1,7 +1,7 @@
 {
   "name": "remme-client",
   "namespace": "remme",
-  "version": "0.2.32",
+  "version": "0.3.2",
   "description": "REMME external package",
   "main": "./packages/remme/dist/index.js",
   "scripts": {
@@ -52,7 +52,7 @@
     "gulp-tslint": "^8.1.3",
     "gulp-typedoc": "^2.2.0",
     "gulp-uglify": "^3.0.0",
-    "karma": "^2.0.2",
+    "karma": "^2.0.5",
     "karma-babel-preprocessor": "^7.0.0",
     "karma-browserify": "^5.2.0",
     "karma-chai": "^0.1.0",

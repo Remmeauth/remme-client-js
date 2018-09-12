@@ -95,9 +95,7 @@
 <span class="hljs-keyword">const</span> privateKeyHex = <span class="hljs-string">"7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4f10"</span>;
 <span class="hljs-keyword">const</span> networkConfig = {
     <span class="hljs-attr">nodeAddress</span>: <span class="hljs-string">"localhost"</span>,
-    <span class="hljs-attr">socketPort</span>: <span class="hljs-string">"9080"</span>,
-    <span class="hljs-attr">apiPort</span>: <span class="hljs-string">"8080"</span>,
-    <span class="hljs-attr">validatorPort</span>: <span class="hljs-string">"8008"</span>,
+    <span class="hljs-attr">nodePort</span>: <span class="hljs-string">"8080"</span>,
     <span class="hljs-attr">sslMode</span>: <span class="hljs-literal">false</span>,
 };
 <span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client({ privateKeyHex, networkConfig });
@@ -142,6 +140,37 @@ transactionResult.connectToWebSocket(transactionCallback);
 };
 
 certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
+</code></pre>
+				<h4 id="subscribing-to-events">Subscribing to Events</h4>
+				<p>RemmeEvents is enums which describe all available events.</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">import</span> { RemmeEvents } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-web-socket-events"</span>;
+
+remme.events.subscribe({
+    <span class="hljs-attr">events</span>: RemmeEvents.SwapInit
+}, (err, res) =&gt; {
+    <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-built_in">console</span>.log(err);
+        <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-built_in">console</span>.log(res);
+})
+</code></pre>
+				<p>Also we give a possibility to start listen events from previous block by providing last known block id</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">import</span> { RemmeEvents } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-web-socket-events"</span>;
+
+remme.events.subscribe({
+    <span class="hljs-attr">events</span>: RemmeEvents.SwapInit,
+    <span class="hljs-attr">lastKnownBlockId</span>: <span class="hljs-string">"db19f0e3b3f001670bebc814e238df48cef059f3f0668f57702ba9ff0c4b8ec45c7298f08b4c2fa67602da27a84b3df5dc78ce0f7774b3d3ae094caeeb9cbc82"</span>
+    }, (err, res) =&gt; {
+        <span class="hljs-keyword">if</span> (err) {
+          <span class="hljs-built_in">console</span>.log(err);
+          <span class="hljs-keyword">return</span>;
+        }
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"events"</span>, res);
+});
+</code></pre>
+				<p>Unsubscribe from listening events</p>
+				<pre><code class="lang-js">remme.events.unsubscribe();
 </code></pre>
 				<h2 id="license">License</h2>
 				<p>REMME software and documentation are licensed under <code>Apache License Version 2.0 &lt;LICENSE&gt;</code>_.</p>
