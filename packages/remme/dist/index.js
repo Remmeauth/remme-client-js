@@ -43,9 +43,7 @@ var Remme;
          * ```typescript
          * const networkConfig = {
          *      nodeAddress: "localhost",
-         *      socketPort: "9080",
-         *      apiPort: "8080",
-         *      validatorPort: "8008",
+         *      nodePort: "8080",
          *      sslMode: false,
          * };
          *
@@ -70,9 +68,7 @@ var Remme;
          *
          * Also you can set only a privateKeyHex parameter. So networkConfig would be this: {
          *      nodeAddress: "localhost",
-         *      socketPort: "9080",
-         *      apiPort: "8080",
-         *      validatorPort: "8008",
+         *      nodePort: "8080",
          *      sslMode: false
          * }.
          *
