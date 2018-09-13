@@ -6,13 +6,14 @@ const { PubKeyStorage } = require("../packages/remme-protobuf");
 const pubKey = "03c75297511ce0cfd1315a045dd0db2a4a1710efed94f0f94ad993b5dfe2e33b62";
 //Initialize client
 const remme = new Remme.Client({
-  privateKeyHex: "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4ff5",
+  // privateKeyHex: "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4ff5",
+  privateKeyHex: "ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9",
   networkConfig: {
-    nodeAddress: "node-1-testnet.remme.io",
+    nodeAddress: "node-genesis-testnet.remme.io",
   }
 });
 
-const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638";
+const someRemmeAddress = "03c75297511ce0cfd1315a045dd0db2a4a1710efed94f0f94ad993b5dfe2e33b62";
 const { account } = remme;
 
 (async () => {
@@ -28,7 +29,7 @@ const { account } = remme;
   const balance = await remme.token.getBalance(account.publicKeyHex);
   console.log(`Account ${account.publicKeyHex} as sender, balance - ${balance} REM`); // 1
 
-  const transactionResult = await remme.token.transfer(someRemmeAddress, 1001001);
+  const transactionResult = await remme.token.transfer(someRemmeAddress, 10);
   console.log(`Sending tokens...BatchId: ${transactionResult.batchId}`); // 2
 
   const transactionCallback = async (err, result) => {
