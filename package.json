@@ -11,7 +11,8 @@
     "build": "npm run bootstrap && ./node_modules/.bin/gulp",
     "watch": "./node_modules/.bin/gulp watch",
     "tests": "npm run bootstrap && ./node_modules/.bin/gulp tests",
-    "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json"
+    "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json",
+    "generate-protobuf": "protoc --proto_path=./remme-protobuf --js_out=library=index,binary:./packages/remme-protobuf/dist ./remme-protobuf/*.proto"
   },
   "keywords": [
     "Remme",
