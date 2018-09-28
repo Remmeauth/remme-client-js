@@ -107,12 +107,10 @@ class RemmeSwap implements IRemmeSwap {
     }
 
     private validateData(data: SwapInitDto) {
-        const example = new SwapInitDto();
-        if ("secretLockBySolicitor" in data) {
-            example.secretLockBySolicitor = data.secretLockBySolicitor;
-        }
-        for (const key of (Object as any).keys(example)) {
-            if (!data[key]) {
+        const swapInitInstance = new SwapInitDto();
+        const OPTIONAL_SWAP_INIT_FIELDS = ['secretLockBySolicitor'];
+        for (const key of (Object as any).keys(swapInitInstance)) {
+            if (!(key in OPTIONAL_SWAP_INIT_FIELDS) && key in !data[key]) {
                 throw new Error(`Attribute ${key} was not specified`);
             }
             switch (key) {
