@@ -42,6 +42,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            validFrom,
                            publicKeyType = NewPubKeyPayload.PubKeyType.RSA,
                            entityType = NewPubKeyPayload.EntityType.PERSONAL,
+                           rsaSignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS
                        }: PublicKeyStorageStoreDto): Promise<IBaseTransactionResponse> {
         if (typeof publicKey === "string") {
             publicKey = forge.pki.publicKeyFromPem(publicKey);
@@ -52,10 +53,11 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         const publicKeyPEM = forge.pki.publicKeyToPem(publicKey);
         const message = this.generateMessage(data);
         const entityHash = this.generateEntityHash(message);
-        const entityHashSignature = this._generateSignature(message, privateKey);
+        const entityHashSignature = this._generateSignature(publicKeyType, rsaSignaturePadding, message, privateKey);
         const payload =  NewPubKeyPayload.encode({
             publicKey: publicKeyPEM,
             publicKeyType,
+            rsaSignaturePadding,
             entityType,
             entityHash,
             entityHashSignature,
@@ -106,10 +108,46 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         return toHexString(entityHashBytes);
     }
 
-    private _generateSignature(data: string, privateKey: forge.pki.Key): string {
-        const md = forge.md.sha512.create();
-        md.update(data, "utf8");
-        const signature = privateKey.sign(md);
+    private _generateSignature(publicKeyType: any, rsaSignaturePadding: any, data: string, privateKey: forge.pki.Key): string {
+        switch (publicKeyType) {
+          case NewPubKeyPayload.PubKeyType.RSA: {
+            const md = forge.md.sha512.create();
+            md.update(data, "utf8");
+            switch (rsaSignaturePadding) {
+              case NewPubKeyPayload.RSASignaturePadding.PKCS1v15: {
+                const signature = privateKey.sign(md);
+                break;
+              }
+              case NewPubKeyPayload.RSASignaturePadding.PSS: {
+                const md = forge.md.sha512.create();
+                const pss = forge.pss.create({
+                  md: forge.md.sha1.create(),
+                  mgf: forge.mgf.mgf1.create(forge.md.sha1.create()),
+                  saltLength: 20
+                });
+                const signature = privateKey.sign(md, pss);
+                break;
+            }
+            break;
+          }
+          case NewPubKeyPayload.PubKeyType.EdDSA: {
+            // Ed25519
+            const ed25519 = forge.pki.ed25519;
+
+            const signature = ED25519.sign({
+              message: data,
+              // also accepts `binary` if you want to pass a binary string
+              encoding: 'utf8',
+              // node.js Buffer, Uint8Array, forge ByteBuffer, binary string
+              privateKey: privateKey
+            });
+            break;
+          }
+          case NewPubKeyPayload.PubKeyType.EdDSA: {
+            console.log('EdDSA is not supported yet');
+            break;
+          }
+        }
         return forge.util.bytesToHex(signature);
     }
 
