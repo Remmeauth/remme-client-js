@@ -12,7 +12,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@types/js-base64": "^2.3.1",
-    "crypto": "^1.0.1",
     "js-base64": "^2.4.5",
     "remme-account": "^0.3.3",
     "remme-rest": "^0.3.3",

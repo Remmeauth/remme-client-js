@@ -438,7 +438,7 @@ namespace Remme {
             this.publicKeyStorage = new RemmePublicKeyStorage(this._remmeRest, this.transaction, this._account);
             this.certificate = new RemmeCertificate(this.publicKeyStorage);
             this.token = new RemmeToken(this._remmeRest, this.transaction);
-            this.batch = new RemmeBatch(this._remmeRest);
+            // this.batch = new RemmeBatch(this._remmeRest);
             this.swap = new RemmeSwap(this._remmeRest, this.transaction);
             this.blockchainInfo = new RemmeBlockchainInfo(this._remmeRest);
             this.events = new RemmeWebSocketsEvents(this._remmeRest.nodeAddress(), this._remmeRest.sslMode());

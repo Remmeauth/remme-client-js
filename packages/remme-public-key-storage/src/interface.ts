@@ -9,9 +9,9 @@ import {
 export interface IRemmePublicKeyStorage {
     store(data: PublicKeyStorageStoreDto): Promise<IBaseTransactionResponse>;
 
-    check(publicKey: forge.pki.PEM | forge.pki.Key): Promise<PublicKeyStorageCheckResult>;
+    check(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<PublicKeyStorageCheckResult>;
 
-    revoke(publicKey: forge.pki.PEM | forge.pki.Key): Promise<IBaseTransactionResponse>;
+    revoke(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<IBaseTransactionResponse>;
 
     getUserPublicKeys(publicKey: string): Promise<string[]>;
 

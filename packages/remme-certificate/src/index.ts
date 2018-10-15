@@ -63,8 +63,10 @@ class RemmeCertificate implements IRemmeCertificate {
                 entityHash === checkResult.entity_hash &&
                 currentTime >= checkResult.valid_from &&
                 currentTime < checkResult.valid_to;
+            return checkResult;
+        } else {
+            throw new Error(`This certificate was not found`);
         }
-        return checkResult;
     }
 
     public async revoke(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<IBaseTransactionResponse> {

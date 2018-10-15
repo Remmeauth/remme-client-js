@@ -3,6 +3,7 @@ import {
     getAddressFromData,
     toHexString,
     toUTF8Array,
+    makeSettingsAddress,
 } from "remme-utils";
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
@@ -26,7 +27,6 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _remmeAccount: IRemmeAccount;
     private readonly _familyName = "pub_key";
     private readonly _familyVersion = "0.1";
-    private readonly _economyAddress = "0000007ca83d6bbb759da9ebbaccb7f4037885e3b0c44298fc1c14e3b0c44298fc1c14";
 
     public constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService, remmeAccount: IRemmeAccount) {
         this._remmeRest = remmeRest;
@@ -63,11 +63,19 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             validTo,
         }).finish();
         const pubKeyAddress = getAddressFromData(this._familyName, publicKeyPEM);
+        const storagePubKey = makeSettingsAddress("remme.settings.storage_pub_key");
+        const settingAddress = makeSettingsAddress("remme.economy_enabled");
+        const storageAddress = getAddressFromData(this._remmeAccount.familyName, storagePubKey);
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
-        return await this._createAndSendTransaction([pubKeyAddress, this._economyAddress], payloadBytes);
+        return await this._createAndSendTransaction([
+            pubKeyAddress,
+            storagePubKey,
+            settingAddress,
+            storageAddress,
+        ], payloadBytes);
     }
 
-    public async check(publicKey: forge.pki.PEM | forge.pki.Key): Promise<PublicKeyStorageCheckResult> {
+    public async check(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<PublicKeyStorageCheckResult> {
         this._checkPublicKey(publicKey);
         if (typeof publicKey === "object") {
             publicKey = forge.pki.publicKeyToPem(publicKey);
@@ -77,7 +85,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             .postRequest<PublicKeyStorageCheckPayload, PublicKeyStorageCheckResult>(RemmeMethods.publicKey, payload);
     }
 
-    public async revoke(publicKey: forge.pki.PEM | forge.pki.Key): Promise<IBaseTransactionResponse> {
+    public async revoke(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<IBaseTransactionResponse> {
         this._checkPublicKey(publicKey);
         if (typeof publicKey === "object") {
             publicKey = forge.pki.publicKeyToPem(publicKey);
@@ -91,9 +99,11 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     }
 
     public async getUserPublicKeys(userAccountPublicKey: string): Promise<string[]> {
-        const apiResult = await this._remmeRest
-            .getRequest<PublicKeyStorageUserStoreResult>(RemmeMethods.userPublicKeys, userAccountPublicKey);
-        return apiResult.pub_keys;
+        // const apiResult = await this._remmeRest
+        //     .getRequest<PublicKeyStorageUserStoreResult>(RemmeMethods.userPublicKeys, userAccountPublicKey);
+        // return apiResult.pub_keys;
+        return await this._remmeRest
+            .getRequest<string[]>(RemmeMethods.userPublicKeys, userAccountPublicKey);
     }
 
     public generateMessage(data: string): string {
@@ -132,10 +142,12 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         return await this._remmeTransaction.send(transaction);
     }
 
-    private _checkPublicKey(publicKey: forge.pki.PEM | forge.pki.Key) {
+    private _checkPublicKey(publicKey: string | forge.pki.PEM | forge.pki.Key) {
         try {
             if (typeof publicKey === "string") {
-                forge.pki.publicKeyFromPem(publicKey);
+                if (publicKey.search(/^[0-9a-f]{70}$/) === -1) {
+                    forge.pki.publicKeyFromPem(publicKey);
+                }
             } else {
                 forge.pki.publicKeyToPem(publicKey);
             }

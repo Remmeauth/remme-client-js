@@ -1,8 +1,8 @@
 import { forge } from "remme-utils";
 
 export class PublicKeyStorageCheckPayload {
-    public pub_key: forge.pki.PEM;
-    public constructor(publicKeyPem: forge.pki.PEM) {
-        this.pub_key = publicKeyPem;
+    public public_key: string | forge.pki.PEM;
+    public constructor(publicKeyPem: string | forge.pki.PEM) {
+        this.public_key = publicKeyPem;
     }
 }

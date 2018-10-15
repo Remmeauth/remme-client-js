@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var bytes = require("utf8-bytes");
 var js_sha512_1 = require("js-sha512");
+var crypto_1 = require("crypto");
 var b64 = require("base64-js");
 exports.hexToBytes = function (str) {
     var arr = [];
@@ -65,5 +66,13 @@ exports.toUTF8Array = function (str) {
         }
     }
     return utf8;
+};
+exports.makeSettingsAddress = function (key) {
+    var keyParts = key.split(".", 4);
+    var addressParts = keyParts.map(function (v) { return crypto_1.createHash("sha256").update(v).digest("hex").slice(0, 16); });
+    while (4 - addressParts.length !== 0) {
+        addressParts.push(crypto_1.createHash("sha256").update("").digest("hex").slice(0, 16));
+    }
+    return "000000" + addressParts.join("");
 };
 //# sourceMappingURL=index.js.map

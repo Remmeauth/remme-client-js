@@ -30,9 +30,11 @@ export interface IRemmeBlockchainInfo {
 
     getPeers(): Promise<PeerList>;
 
-    getReceipts(id: string): Promise<ReceiptList>;
+    getReceipts(ids: string[]): Promise<ReceiptList>;
 
     getNetworkStatus(): Promise<INetworkStatus>;
 
     getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]>;
+
+    getBatchStatus(batchId: string): Promise<string>;
 }

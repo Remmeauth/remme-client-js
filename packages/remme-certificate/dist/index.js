@@ -108,8 +108,12 @@ var RemmeCertificate = /** @class */ (function () {
                                 entityHash === checkResult.entity_hash &&
                                 currentTime >= checkResult.valid_from &&
                                 currentTime < checkResult.valid_to;
+                            return [2 /*return*/, checkResult];
                         }
-                        return [2 /*return*/, checkResult];
+                        else {
+                            throw new Error("This certificate was not found");
+                        }
+                        return [2 /*return*/];
                 }
             });
         });

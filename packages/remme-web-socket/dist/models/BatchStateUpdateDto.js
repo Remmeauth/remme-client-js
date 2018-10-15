@@ -10,9 +10,6 @@ var BatchStatusesDto = /** @class */ (function () {
 exports.BatchStatusesDto = BatchStatusesDto;
 var Statuses;
 (function (Statuses) {
-    Statuses["OK"] = "OK";
-    Statuses["NOT_CONFIRMED"] = "NOT_CONFIRMED";
-    Statuses["NO_RESOURCE"] = "NO_RESOURCE";
     Statuses["INVALID"] = "INVALID";
     Statuses["PENDING"] = "PENDING";
     Statuses["COMMITTED"] = "COMMITTED";

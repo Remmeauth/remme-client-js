@@ -37,6 +37,44 @@ Then include `dist/remme.min.js` in your html file.
 This will expose `Remme` on the window object.
 
 ### 3. Run methods of **RemmeClient** class to interract with REMME node.
+### 4. Possible errors and solutions
+#### Can't find name "Long"
+**Describe**:<br />
+Our library use protobuf.js to work with protobufs.
+So for usage with Typescript you may get this error.<br />
+**Solution**:<br />
+1. You need to install @types/long.<br />
+2. You need to import Long before import remme library
+
+#### Can't resolve 'crypto' | Can't resolve 'stream'
+**Describe**:<br />
+Our library use crypto nodejs package for working with hash.
+So for usage with Typescript you may get this error.<br />
+**Solution**:<br />
+https://github.com/ethereum/web3.js/issues/1555#issuecomment-388113909<br />
+1. open node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js
+2. Find "node: false", and change it to "node: {crypto: true, stream: true}"
+
+#### Failed to minify
+**Describe**:<br />
+Our library use sawtooth-sdk package.
+So for usage with React you may get this error if you build app.<br />
+**Issue**: https://github.com/hyperledger/sawtooth-sdk-javascript/issues/4<br />
+**Solution**:<br />
+1. npm run eject
+2. npm i uglifyjs-webpack-plugin@1.3.0
+3. In webpack.config.prod.js you need import this package and use it:
+
+```js
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// ...
+
+// Find string: "Minify the code."
+// Comment or remove new webpack.optimize.UglifyJsPlugin with all configuration after this string.
+// And provide next string:
+new UglifyJsPlugin(),
+```
+
 
 ## Examples
 #### Implement Remme client

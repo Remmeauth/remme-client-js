@@ -1,6 +1,6 @@
 import {
     RemmeMethods,
-    ValidatorMethods,
+    // ValidatorMethods,
     IRemmeRest,
 } from "remme-rest";
 import * as protobufs from "remme-protobuf";
@@ -100,13 +100,13 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     };
 
     private _checkId(id?: string): void {
-        if (!id || id.search(/[a-f0-9]{128}/) === -1) {
+        if (!id || id.search(/^[a-f0-9]{128}$/) === -1) {
             throw new Error("Given 'id' is not a valid");
         }
     }
 
     private _checkAddress(address?: string): void {
-        if (!address || address.search(/[a-f0-9]{70}/) === -1) {
+        if (!address || address.search(/^[a-f0-9]{70}$/) === -1) {
             throw new Error("Given 'address' is not a valid");
         }
     }
@@ -159,7 +159,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
 
     public async getBatchById(id: string): Promise<Batch> {
         this._checkId(id);
-        const apiResult = await this._remmeRest.getRequest<Batch>(ValidatorMethods.batches, id);
+        const apiResult = await this._remmeRest.getRequest<Batch>(RemmeMethods.fetchBatch, { id });
         apiResult.data = this._prepareBatch(apiResult.data);
         return apiResult;
     }
@@ -168,7 +168,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         if (query) {
             query = new BaseQuery(query);
         }
-        const apiResult = await this._remmeRest.getRequest<BatchList>(ValidatorMethods.batches, "", query);
+        const apiResult = await this._remmeRest.getRequest<BatchList>(RemmeMethods.batches, query);
         apiResult.data = apiResult.data.map((item) => {
             return this._prepareBatch(item);
         });
@@ -177,7 +177,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
 
     public async getBlockById(id: string): Promise<Block> {
         this._checkId(id);
-        const apiResult = await this._remmeRest.getRequest<Block>(ValidatorMethods.blocks, id);
+        const apiResult = await this._remmeRest.getRequest<Block>(RemmeMethods.fetchBlock, { id });
         apiResult.data = this._prepareBlock(apiResult.data);
         return apiResult;
     }
@@ -186,7 +186,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         if (query) {
             query = new BaseQuery(query);
         }
-        const apiResult = await this._remmeRest.getRequest<BlockList>(ValidatorMethods.blocks, "", query);
+        const apiResult = await this._remmeRest.getRequest<BlockList>(RemmeMethods.blocks, query);
         apiResult.data = apiResult.data.map((block) => {
             return this._prepareBlock(block);
         });
@@ -194,33 +194,33 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     }
 
     public async getPeers(): Promise<PeerList> {
-        return await this._remmeRest.getRequest<PeerList>(ValidatorMethods.peers);
+        return await this._remmeRest.getRequest<PeerList>(RemmeMethods.peers);
     }
 
-    public async getReceipts(id: string): Promise<ReceiptList> {
-        this._checkId(id);
-        return await this._remmeRest.getRequest<ReceiptList>(ValidatorMethods.receipts, "", { id });
+    public async getReceipts(ids: string[]): Promise<ReceiptList> {
+        ids.map((id) => this._checkId(id));
+        return await this._remmeRest.getRequest<ReceiptList>(RemmeMethods.receipts, { ids });
     }
 
     public async getState(query?: IStateQuery): Promise<StateList> {
         if (query) {
             query = new StateQuery(query);
         }
-        const apiResult = await this._remmeRest.getRequest<StateList>(ValidatorMethods.state, "", query);
+        const apiResult = await this._remmeRest.getRequest<StateList>(RemmeMethods.state, query);
         apiResult.data = apiResult.data.map((state) => this._prepareAddress(state));
         return apiResult;
     }
 
     public async getStateByAddress(address: string): Promise<State> {
         this._checkAddress(address);
-        let apiResult = await this._remmeRest.getRequest<State>(ValidatorMethods.state, address);
+        let apiResult = await this._remmeRest.getRequest<State>(RemmeMethods.fetchState, { address });
         apiResult = this._prepareAddress({ address, ...apiResult });
         return apiResult;
     }
 
     public async getTransactionById(id: string): Promise<Transaction> {
         this._checkId(id);
-        const apiResult = await this._remmeRest.getRequest<Transaction>(ValidatorMethods.transactions, id);
+        const apiResult = await this._remmeRest.getRequest<Transaction>(RemmeMethods.fetchTransaction, { id });
         apiResult.data = this._prepareTransaction(apiResult.data);
         return apiResult;
     }
@@ -229,7 +229,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         if (query) {
             query = new BaseQuery(query);
         }
-        const apiResult = await this._remmeRest.getRequest<TransactionList>(ValidatorMethods.transactions, "", query);
+        const apiResult = await this._remmeRest.getRequest<TransactionList>(RemmeMethods.transactions, query);
         apiResult.data = apiResult.data.map((item) => {
             return this._prepareTransaction(item);
         });
@@ -243,12 +243,17 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     }
 
     public async getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]> {
-        const apiResult = await this._remmeRest
-            .getRequest<IBlockInfoResponse>(RemmeMethods.blockInfo, "", query);
-        if (!apiResult.blocks) {
+        const blocks = await this._remmeRest
+            .getRequest<IBlockInfoResponse[]>(RemmeMethods.blockInfo, query);
+        if (!blocks) {
             throw new Error("Unknown error occurs in the server");
         }
-        return apiResult.blocks.map((item) => new BlockInfo(item));
+        return blocks.map((item) => new BlockInfo(item));
+    }
+
+    public async getBatchStatus(id: string): Promise<string> {
+        this._checkId(id);
+        return await this._remmeRest.getRequest<string>(RemmeMethods.batchStatus, { id });
     }
 }
 

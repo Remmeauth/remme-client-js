@@ -83,7 +83,6 @@ var RemmeToken = /** @class */ (function () {
     };
     RemmeToken.prototype.getBalance = function (publicKeyTo) {
         return __awaiter(this, void 0, void 0, function () {
-            var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -91,10 +90,12 @@ var RemmeToken = /** @class */ (function () {
                             throw new Error("Given PublicKey is not a valid");
                         }
                         return [4 /*yield*/, this._remmeRest
-                                .getRequest(remme_rest_1.RemmeMethods.token, publicKeyTo)];
-                    case 1:
-                        result = _a.sent();
-                        return [2 /*return*/, result.balance];
+                                .getRequest(remme_rest_1.RemmeMethods.token, { public_key: publicKeyTo })];
+                    case 1: 
+                    // const result = await this._remmeRest
+                    //     .getRequest<BalanceResult>(RemmeMethods.token, publicKeyTo);
+                    // return result.balance;
+                    return [2 /*return*/, _a.sent()];
                 }
             });
         });
