@@ -55,7 +55,7 @@ var RemmeTransactionService = /** @class */ (function () {
                         return [4 /*yield*/, this._remmeRest
                                 .getRequest(remme_rest_1.RemmeMethods.nodeKey)];
                     case 1:
-                        batcherPublicKey = (_a.sent()).pubkey;
+                        batcherPublicKey = _a.sent();
                         transactionHeaderBytes = protobuf.TransactionHeader.encode({
                             familyName: familyName,
                             familyVersion: familyVersion,
@@ -64,7 +64,8 @@ var RemmeTransactionService = /** @class */ (function () {
                             signerPublicKey: this._remmeAccount.publicKeyHex,
                             nonce: this.getNonce(),
                             batcherPublicKey: batcherPublicKey,
-                            payloadSha512: crypto_1.createHash("sha512").update(payloadBytes).digest("hex"),
+                            // payloadSha512: this.generateHash(payloadBytes.toString()),
+                            payloadSha512: crypto_1.createHash("sha512").update(new Buffer(payloadBytes)).digest("hex"),
                         }).finish();
                         signature = this._remmeAccount.sign(transactionHeaderBytes);
                         transaction = protobuf.Transaction.encode({
@@ -85,19 +86,24 @@ var RemmeTransactionService = /** @class */ (function () {
     };
     RemmeTransactionService.prototype.send = function (transaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var apiResult;
+            var batchId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this._remmeRest
-                            .postRequest(remme_rest_1.RemmeMethods.transaction, { transaction: transaction })];
+                            .postRequest(remme_rest_1.RemmeMethods.transaction, { data: transaction })];
                     case 1:
-                        apiResult = _a.sent();
-                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeRest.nodeAddress(), this._remmeRest.sslMode(), apiResult.batch_id)];
+                        batchId = _a.sent();
+                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeRest.nodeAddress(), this._remmeRest.sslMode(), batchId)];
                 }
             });
         });
     };
+    // public generateHash(data: string): string {
+    //     const certSHA512 = forge.md.sha512.create().update(data);
+    //     return certSHA512.digest().toHex();
+    // }
     RemmeTransactionService.prototype.getNonce = function () {
+        // return this.generateHash(Math.floor(Math.random() * 1000).toString());
         return crypto_1.createHash("sha512").update(new Buffer(Math.floor(Math.random() * 1000))).digest("hex");
     };
     return RemmeTransactionService;

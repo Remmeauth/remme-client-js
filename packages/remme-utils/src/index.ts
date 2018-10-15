@@ -11,6 +11,7 @@ import {
     toHexString,
     toUTF8Array,
     base64ToArrayBuffer,
+    makeSettingsAddress,
 } from "./functions";
 
 /**
@@ -107,4 +108,5 @@ export {
     publicKeyToPem,
     publicKeyFromPem,
     base64ToArrayBuffer,
+    makeSettingsAddress,
 };

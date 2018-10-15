@@ -52,12 +52,12 @@ var RemmeBlockchainInfo = /** @class */ (function () {
         this._remmeRest = remmeRest;
     }
     RemmeBlockchainInfo.prototype._checkId = function (id) {
-        if (!id || id.search(/[a-f0-9]{128}/) === -1) {
+        if (!id || id.search(/^[a-f0-9]{128}$/) === -1) {
             throw new Error("Given 'id' is not a valid");
         }
     };
     RemmeBlockchainInfo.prototype._checkAddress = function (address) {
-        if (!address || address.search(/[a-f0-9]{70}/) === -1) {
+        if (!address || address.search(/^[a-f0-9]{70}$/) === -1) {
             throw new Error("Given 'address' is not a valid");
         }
     };
@@ -98,7 +98,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         this._checkId(id);
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.batches, id)];
+                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.fetchBatch, { id: id })];
                     case 1:
                         apiResult = _a.sent();
                         apiResult.data = this._prepareBatch(apiResult.data);
@@ -117,7 +117,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                         if (query) {
                             query = new models_1.BaseQuery(query);
                         }
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.batches, "", query)];
+                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.batches, query)];
                     case 1:
                         apiResult = _a.sent();
                         apiResult.data = apiResult.data.map(function (item) {
@@ -135,7 +135,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         this._checkId(id);
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.blocks, id)];
+                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.fetchBlock, { id: id })];
                     case 1:
                         apiResult = _a.sent();
                         apiResult.data = this._prepareBlock(apiResult.data);
@@ -154,7 +154,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                         if (query) {
                             query = new models_1.BaseQuery(query);
                         }
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.blocks, "", query)];
+                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.blocks, query)];
                     case 1:
                         apiResult = _a.sent();
                         apiResult.data = apiResult.data.map(function (block) {
@@ -169,19 +169,20 @@ var RemmeBlockchainInfo = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.peers)];
+                    case 0: return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.peers)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    RemmeBlockchainInfo.prototype.getReceipts = function (id) {
+    RemmeBlockchainInfo.prototype.getReceipts = function (ids) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this._checkId(id);
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.receipts, "", { id: id })];
+                        ids.map(function (id) { return _this._checkId(id); });
+                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.receipts, { ids: ids })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -197,7 +198,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                         if (query) {
                             query = new models_1.StateQuery(query);
                         }
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.state, "", query)];
+                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.state, query)];
                     case 1:
                         apiResult = _a.sent();
                         apiResult.data = apiResult.data.map(function (state) { return _this._prepareAddress(state); });
@@ -213,7 +214,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         this._checkAddress(address);
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.state, address)];
+                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.fetchState, { address: address })];
                     case 1:
                         apiResult = _a.sent();
                         apiResult = this._prepareAddress(__assign({ address: address }, apiResult));
@@ -229,7 +230,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         this._checkId(id);
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.transactions, id)];
+                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.fetchTransaction, { id: id })];
                     case 1:
                         apiResult = _a.sent();
                         apiResult.data = this._prepareTransaction(apiResult.data);
@@ -248,7 +249,7 @@ var RemmeBlockchainInfo = /** @class */ (function () {
                         if (query) {
                             query = new models_1.BaseQuery(query);
                         }
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.transactions, "", query)];
+                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.transactions, query)];
                     case 1:
                         apiResult = _a.sent();
                         apiResult.data = apiResult.data.map(function (item) {
@@ -275,17 +276,29 @@ var RemmeBlockchainInfo = /** @class */ (function () {
     };
     RemmeBlockchainInfo.prototype.getBlockInfo = function (query) {
         return __awaiter(this, void 0, void 0, function () {
-            var apiResult;
+            var blocks;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this._remmeRest
-                            .getRequest(remme_rest_1.RemmeMethods.blockInfo, "", query)];
+                            .getRequest(remme_rest_1.RemmeMethods.blockInfo, query)];
                     case 1:
-                        apiResult = _a.sent();
-                        if (!apiResult.blocks) {
+                        blocks = _a.sent();
+                        if (!blocks) {
                             throw new Error("Unknown error occurs in the server");
                         }
-                        return [2 /*return*/, apiResult.blocks.map(function (item) { return new models_1.BlockInfo(item); })];
+                        return [2 /*return*/, blocks.map(function (item) { return new models_1.BlockInfo(item); })];
+                }
+            });
+        });
+    };
+    RemmeBlockchainInfo.prototype.getBatchStatus = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this._checkId(id);
+                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.batchStatus, { id: id })];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });

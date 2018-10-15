@@ -3,5 +3,5 @@ export interface TransactionCreatePayload {
     familyVersion: string;
     inputs: string[];
     outputs: string[];
-    payloadBytes: any;
+    payloadBytes: Uint8Array;
 }

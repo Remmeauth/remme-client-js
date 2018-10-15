@@ -85,6 +85,45 @@
 				<p>Then include <code>dist/remme.min.js</code> in your html file.
 				This will expose <code>Remme</code> on the window object.</p>
 				<h3 id="3-run-methods-of-remmeclient-class-to-interract-with-remme-node-">3. Run methods of <strong>RemmeClient</strong> class to interract with REMME node.</h3>
+				<h3 id="4-possible-errors-and-solutions">4. Possible errors and solutions</h3>
+				<h4 id="can-t-find-name-long">Can&#39;t find name &quot;Long&quot;</h4>
+				<p><strong>Describe</strong>:<br />
+					Our library use protobuf.js to work with protobufs.
+					So for usage with Typescript you may get this error.<br />
+				<strong>Solution</strong>:<br /></p>
+				<ol>
+					<li>You need to install @types/long.<br /></li>
+					<li>You need to import Long before import remme library</li>
+				</ol>
+				<h4 id="can-t-resolve-crypto-can-t-resolve-stream-">Can&#39;t resolve &#39;crypto&#39; | Can&#39;t resolve &#39;stream&#39;</h4>
+				<p><strong>Describe</strong>:<br />
+					Our library use crypto nodejs package for working with hash.
+					So for usage with Typescript you may get this error.<br />
+					<strong>Solution</strong>:<br />
+				<a href="https://github.com/ethereum/web3.js/issues/1555#issuecomment-388113909">https://github.com/ethereum/web3.js/issues/1555#issuecomment-388113909</a><br /></p>
+				<ol>
+					<li>open node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js</li>
+					<li>Find &quot;node: false&quot;, and change it to &quot;node: {crypto: true, stream: true}&quot;</li>
+				</ol>
+				<h4 id="failed-to-minify">Failed to minify</h4>
+				<p><strong>Describe</strong>:<br />
+					Our library use sawtooth-sdk package.
+					So for usage with React you may get this error if you build app.<br />
+					<strong>Issue</strong>: <a href="https://github.com/hyperledger/sawtooth-sdk-javascript/issues/4">https://github.com/hyperledger/sawtooth-sdk-javascript/issues/4</a><br />
+				<strong>Solution</strong>:<br /></p>
+				<ol>
+					<li>npm run eject</li>
+					<li>npm i uglifyjs-webpack-plugin</li>
+					<li>In webpack.config.prod.js you need import this package and use it:</li>
+				</ol>
+				<pre><code class="lang-js"><span class="hljs-keyword">const</span> UglifyJsPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'uglifyjs-webpack-plugin'</span>);
+<span class="hljs-comment">// ...</span>
+
+<span class="hljs-comment">// Find string: "Minify the code."</span>
+<span class="hljs-comment">// Comment or remove new webpack.optimize.UglifyJsPlugin with all configuration after this string.</span>
+<span class="hljs-comment">// And provide next string:</span>
+<span class="hljs-keyword">new</span> UglifyJsPlugin(),
+</code></pre>
 				<h2 id="examples">Examples</h2>
 				<h4 id="implement-remme-client">Implement Remme client</h4>
 				<pre><code class="lang-js"><span class="hljs-keyword">var</span> Remme = <span class="hljs-built_in">require</span>(<span class="hljs-string">"remme"</span>);

@@ -50,9 +50,11 @@ class RemmeToken implements IRemmeToken {
         if (publicKeyTo.search(/^[0-9a-f]{66}$/) === -1) {
             throw new Error("Given PublicKey is not a valid");
         }
-        const result = await this._remmeRest
-            .getRequest<BalanceResult>(RemmeMethods.token, publicKeyTo);
-        return result.balance;
+        // const result = await this._remmeRest
+        //     .getRequest<BalanceResult>(RemmeMethods.token, publicKeyTo);
+        // return result.balance;
+        return await this._remmeRest
+            .getRequest<number>(RemmeMethods.token, { public_key: publicKeyTo });
     }
 }
 

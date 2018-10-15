@@ -1,5 +1,6 @@
 import * as bytes from "utf8-bytes";
 import { sha512 } from "js-sha512";
+import { createHash } from "crypto";
 import * as b64 from "base64-js";
 
 export const hexToBytes = (str: string) => {
@@ -74,4 +75,13 @@ export const toUTF8Array = (str) => {
         }
     }
     return utf8;
+};
+
+export const makeSettingsAddress = (key: string): string => {
+    const keyParts = key.split(".", 4);
+    const addressParts = keyParts.map((v) => createHash("sha256").update(v).digest("hex").slice(0, 16));
+    while (4 - addressParts.length !== 0) {
+        addressParts.push(createHash("sha256").update("").digest("hex").slice(0, 16));
+    }
+    return `000000${addressParts.join("")}`;
 };

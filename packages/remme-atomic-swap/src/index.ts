@@ -1,7 +1,6 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { getAddressFromData } from "remme-utils";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
-
 import {
     AtomicSwapMethod,
     AtomicSwapInitPayload,
@@ -70,19 +69,18 @@ class RemmeSwap implements IRemmeSwap {
 
     public async getInfo(swapId: string): Promise<SwapInfoData> {
         this.checkParameters({ swapId });
-        const apiResult = await this._remmeRest.getRequest<SwapInfoDto>(RemmeMethods.atomicSwap, swapId);
+        const apiResult = await this._remmeRest.getRequest<SwapInfoDto>(RemmeMethods.atomicSwap, { swap_id: swapId });
         return new SwapInfoData(apiResult);
     }
 
     public async getPublicKey(): Promise<string> {
-        const apiResult = await this._remmeRest.getRequest<SwapPublicKeyDto>(RemmeMethods.atomicSwapPublicKey);
-        return apiResult.pub_key;
+        return await this._remmeRest.getRequest<string>(RemmeMethods.atomicSwapPublicKey);
     }
 
     public async init(data: SwapInitDto): Promise<IBaseTransactionResponse> {
-        this.validateData(data);
-        const { swapId } = data;
-        const payload = AtomicSwapInitPayload.encode(data).finish();
+        const swapInitData = new SwapInitDto(data);
+        const { swapId } = swapInitData;
+        const payload = AtomicSwapInitPayload.encode(swapInitData).finish();
         const transactionPayload = this.generateTransactionPayload(AtomicSwapMethod.Method.INIT, payload);
         const inputsOutputs = this.getAddresses(AtomicSwapMethod.Method.INIT, swapId);
         return await this.createAndSendTransaction(transactionPayload, inputsOutputs);
@@ -104,31 +102,6 @@ class RemmeSwap implements IRemmeSwap {
             method,
             data,
         }).finish();
-    }
-
-    private validateData(data: SwapInitDto) {
-        const example = new SwapInitDto();
-        if ("secretLockBySolicitor" in data) {
-            example.secretLockBySolicitor = data.secretLockBySolicitor;
-        }
-        for (const key of (Object as any).keys(example)) {
-            if (!data[key]) {
-                throw new Error(`Attribute ${key} was not specified`);
-            }
-            switch (key) {
-                case "swapId":
-                case "secretLockBySolicitor":
-                    if (data[key].search(/^[0-9a-f]{64}$/) === -1) {
-                        throw new Error(`${key} is not a valid`);
-                    }
-                    break;
-                case "receiverAddress":
-                    if (data[key].search(/^[0-9a-f]{70}$/) === -1) {
-                        throw new Error(`${key} is not a valid`);
-                    }
-                    break;
-            }
-        }
     }
 
     private getAddresses(method: AtomicSwapMethod.Method, swapId: string, receiverAddress?: string): string[] {

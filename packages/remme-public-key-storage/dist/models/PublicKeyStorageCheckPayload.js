@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var PublicKeyStorageCheckPayload = /** @class */ (function () {
     function PublicKeyStorageCheckPayload(publicKeyPem) {
-        this.pub_key = publicKeyPem;
+        this.public_key = publicKeyPem;
     }
     return PublicKeyStorageCheckPayload;
 }());
