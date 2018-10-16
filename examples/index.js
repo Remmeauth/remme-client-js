@@ -52,27 +52,27 @@ const { account } = remme;
   // console.log(blockInfo);
   // const network = await remme.blockchainInfo.getNetworkStatus();
   // console.log(network);
-  // const blocks = await remme.blockchainInfo.getBlocks();
+  // const blocks = await remme.blockchainInfo.getBlocks({ head: "f78d58be228d9ed4a3161d449052307bb911af9cabf4dd323d9107f36b1ba1956712592e33d18fb171fbd0534bf2c14be5150aa9eeed1e48b50f32f7dd8ed506", reverse: true, limit: 2 });
   // console.log(blocks);
-  // const block = await remme.blockchainInfo.getBlockById("39698720b668dcd484aa71ddfcdfc32377d5e86343c585c95890ae4acd23065c58f7d6e34a3b677d9bcd6094cfae8ef1dc249436592d1ac64b4a852eb37b1d5a");
+  // const block = await remme.blockchainInfo.getBlockById("f78d58be228d9ed4a3161d449052307bb911af9cabf4dd323d9107f36b1ba1956712592e33d18fb171fbd0534bf2c14be5150aa9eeed1e48b50f32f7dd8ed506");
   // console.log(block);
   // const batches = await remme.blockchainInfo.getBatches();
   // console.log(batches);
-  // const batch = await remme.blockchainInfo.getBatchById("b00e3b9936f8a2f4ee740ca091bd83de7aff398f0ac6c7f760d5a4991554bb0904ddb2db79b9373aa328db2885012b16119b6c0908b5d64aef156497a0b6efdd");
+  // const batch = await remme.blockchainInfo.getBatchById("1a4e0a2685aab8ad6c4d08181d4ac7f0d6a24f3f190ca20cb158116d9b6653df77c4ce20b55ef92582a73ecb8f710141e915527c6c66b627feaf80fc54eb4b59");
   // console.log(batch);
   // const transactions = await remme.blockchainInfo.getTransactions();
   // console.log(transactions);
-  // const transaction = await remme.blockchainInfo.getTransactionById("ff0e95a29ba2b963295e0582151c18544e5cc2721fd06063884ec24233da72d55429468351133be692afa2d70a463bbaa333a91ba8f80a54634f529fbe870ec7");
+  // const transaction = await remme.blockchainInfo.getTransactionById("b528994bf6486323350f8014ef2ce458e239ad24fee0db43f97b229f38cf06cb08d3d813120d99732a3a13d955c301b6cb2dac001c66291c73c68d168faa4323");
   // console.log(transaction);
   // const states = await remme.blockchainInfo.getState();
   // console.log("states:", states);
-  // const state = await remme.blockchainInfo.getStateByAddress("a23be1ab67ce7cd8687933547b2064f61de42e604a14e1f696c04ec4204e42c11dfd80");
+  // const state = await remme.blockchainInfo.getStateByAddress("78173b6e161699011ef5cf8f2a2f8e8170500164dba46885aebd27797fd6d231eb6bc8");
   // console.log("state:", state);
-  // const batchStatus = await remme.blockchainInfo.getBatchStatus("b00e3b9936f8a2f4ee740ca091bd83de7aff398f0ac6c7f760d5a4991554bb0904ddb2db79b9373aa328db2885012b16119b6c0908b5d64aef156497a0b6efdd");
+  // const batchStatus = await remme.blockchainInfo.getBatchStatus("1a4e0a2685aab8ad6c4d08181d4ac7f0d6a24f3f190ca20cb158116d9b6653df77c4ce20b55ef92582a73ecb8f710141e915527c6c66b627feaf80fc54eb4b59");
   // console.log("batchId:", batchStatus);
   // const peers = await remme.blockchainInfo.getPeers();
   // console.log("peers:", peers);
-  // const receipts = await remme.blockchainInfo.getReceipts(["ff0e95a29ba2b963295e0582151c18544e5cc2721fd06063884ec24233da72d55429468351133be692afa2d70a463bbaa333a91ba8f80a54634f529fbe870ec7", "9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"]);
+  // const receipts = await remme.blockchainInfo.getReceipts(["b528994bf6486323350f8014ef2ce458e239ad24fee0db43f97b229f38cf06cb08d3d813120d99732a3a13d955c301b6cb2dac001c66291c73c68d168faa4323", "9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"]);
   // console.log("receipts:", receipts);
 
   // Certificates Operations
@@ -108,7 +108,7 @@ const { account } = remme;
 
   // remme.events.subscribe({
   //   events: RemmeEvents.SwapInit,
-  //   lastKnownBlockId: "db19f0e3b3f001670bebc814e238df48cef059f3f0668f57702ba9ff0c4b8ec45c7298f08b4c2fa67602da27a84b3df5dc78ce0f7774b3d3ae094caeeb9cbc82"
+    // lastKnownBlockId: "db19f0e3b3f001670bebc814e238df48cef059f3f0668f57702ba9ff0c4b8ec45c7298f08b4c2fa67602da27a84b3df5dc78ce0f7774b3d3ae094caeeb9cbc82"
   // }, (err, res) => {
   //   if (err) {
   //     console.log(err);
@@ -116,66 +116,66 @@ const { account } = remme;
   //   }
   //   console.log("events", res);
   // });
+  //
+  // const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce3873";
+  // const secret = "secretkey";
+  // const secretKey = "039eaa877ff63694f8f09c8034403f8b5165a7418812a642396d5d539f90b170";
+  // const secretLock = "b605112c2d7489034bbd7beab083fb65ba02af787786bb5e3d99bb26709f4f68";
+  //
+  // const init = await remme.swap.init({
+  //   receiverAddress: "112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1",
+  //   senderAddressNonLocal: "0xe6ca0e7c974f06471759e9a05d18b538c5ced11e",
+  //   amount: 100,
+  //   swapId,
+  //   createdAt: Math.floor(Date.now() / 1000)
+  // });
 
-  const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce3872";
-  const secret = "secretkey";
-  const secretKey = "039eaa877ff63694f8f09c8034403f8b5165a7418812a642396d5d539f90b170";
-  const secretLock = "b605112c2d7489034bbd7beab083fb65ba02af787786bb5e3d99bb26709f4f68";
-
-  const init = await remme.swap.init({
-    receiverAddress: "112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1",
-    senderAddressNonLocal: "0xe6ca0e7c974f06471759e9a05d18b538c5ced11e",
-    amount: 100,
-    swapId,
-    createdAt: Math.floor(Date.now() / 1000)
-  });
-
-  init.connectToWebSocket(async (err, data) => {
-    if (err) {
-      console.log("err init", err);
-    } else if (data.status === "COMMITTED") {
-      console.log("data init", data);
-      const res = await remme.swap.getInfo(swapId);
-      console.log("after init info", res);
-      const pubkey = await remme.swap.getPublicKey();
-      console.log(pubkey);
-      init.closeWebSocket();
-      const setSecretLock = await remme.swap.setSecretLock(swapId, secretLock);
-      setSecretLock.connectToWebSocket(async (err, data) => {
-        if (err) {
-          console.log("set secret lock err", err);
-        }
-        console.log("data set secret lock", data);
-        if (data.status === "COMMITTED") {
-          const res = await remme.swap.getInfo(swapId);
-          console.log("after set secret lock info", res);
-          setSecretLock.closeWebSocket();
-          const approve = await remme.swap.approve(swapId);
-          approve.connectToWebSocket(async (err, data) => {
-            if (err) {
-              console.log("approve err", err);
-            }
-            console.log("data approve", data);
-            if (data.status === "COMMITTED") {
-              const res = await remme.swap.getInfo(swapId);
-              console.log("after approve", res);
-              approve.closeWebSocket();
-              const close = await remme.swap.close(swapId, secretKey);
-              close.connectToWebSocket(async (err, data) => {
-                if (err) {
-                  console.log("err close", err);
-                }
-                console.log("data close", data);
-                if (data.status === "COMMITTED") {
-                  const res = await remme.swap.getInfo(swapId);
-                  console.log("after close info", res);
-                  close.closeWebSocket();
-                }
-              });
-            }
-          });
-        }
-      });
-    }
-  });
+  // init.connectToWebSocket(async (err, data) => {
+    // if (err) {
+    //   console.log("err init", err);
+  //   } else if (data.status === "COMMITTED") {
+  //     console.log("data init", data);
+  //     const res = await remme.swap.getInfo(swapId);
+  //     console.log("after init info", res);
+  //     const pubkey = await remme.swap.getPublicKey();
+  //     console.log(pubkey);
+  //     init.closeWebSocket();
+  //     const setSecretLock = await remme.swap.setSecretLock(swapId, secretLock);
+  //     setSecretLock.connectToWebSocket(async (err, data) => {
+  //       if (err) {
+  //         console.log("set secret lock err", err);
+  //       }
+  //       console.log("data set secret lock", data);
+  //       if (data.status === "COMMITTED") {
+  //         const res = await remme.swap.getInfo(swapId);
+  //         console.log("after set secret lock info", res);
+  //         setSecretLock.closeWebSocket();
+  //         const approve = await remme.swap.approve(swapId);
+  //         approve.connectToWebSocket(async (err, data) => {
+  //           if (err) {
+  //             console.log("approve err", err);
+  //           }
+  //           console.log("data approve", data);
+  //           if (data.status === "COMMITTED") {
+  //             const res = await remme.swap.getInfo(swapId);
+  //             console.log("after approve", res);
+  //             approve.closeWebSocket();
+  //             const close = await remme.swap.close(swapId, secretKey);
+  //             close.connectToWebSocket(async (err, data) => {
+  //               if (err) {
+  //                 console.log("err close", err);
+  //               }
+  //               console.log("data close", data);
+  //               if (data.status === "COMMITTED") {
+  //                 const res = await remme.swap.getInfo(swapId);
+  //                 console.log("after close info", res);
+  //                 close.closeWebSocket();
+  //               }
+  //             });
+  //           }
+  //         });
+  //       }
+  //     });
+  //   }
+  // });
 })();
