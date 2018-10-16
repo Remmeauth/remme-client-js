@@ -96,7 +96,9 @@ class RemmeRest implements IRemmeRest {
                 return response.data.result;
             }
         } else {
-            throw new Error(`Please check if your node running at http://${this._nodeAddress}`);
+            throw new Error(
+                `Please check if your node running at http${this._sslMode ? "s" : ""}://${this._nodeAddress}`
+            );
         }
     }
 
