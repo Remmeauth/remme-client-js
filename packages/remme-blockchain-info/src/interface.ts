@@ -37,4 +37,7 @@ export interface IRemmeBlockchainInfo {
     getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]>;
 
     getBatchStatus(batchId: string): Promise<string>;
+
+    parseTransactionPayload(transaction: Transaction): object;
+    parseStateData(state: State): object;
 }

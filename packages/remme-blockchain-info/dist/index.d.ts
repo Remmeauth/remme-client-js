@@ -18,12 +18,15 @@ declare class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     getBlockById(id: string): Promise<Block>;
     getBlocks(query?: IBaseQuery): Promise<BlockList>;
     getPeers(): Promise<PeerList>;
-    getReceipts(id: string): Promise<ReceiptList>;
+    getReceipts(ids: string[]): Promise<ReceiptList>;
     getState(query?: IStateQuery): Promise<StateList>;
     getStateByAddress(address: string): Promise<State>;
     getTransactionById(id: string): Promise<Transaction>;
     getTransactions(query?: IBaseQuery): Promise<TransactionList>;
     getNetworkStatus(): Promise<INetworkStatus>;
     getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]>;
+    getBatchStatus(id: string): Promise<string>;
+    parseTransactionPayload(transaction: Transaction): object;
+    parseStateData(state: State): object;
 }
 export { RemmeBlockchainInfo, IRemmeBlockchainInfo };

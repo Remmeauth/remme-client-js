@@ -102,7 +102,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                         }
                         payload = new models_1.PublicKeyStorageCheckPayload(publicKey);
                         return [4 /*yield*/, this._remmeRest
-                                .postRequest(remme_rest_1.RemmeMethods.publicKey, payload)];
+                                .sendRequest(remme_rest_1.RemmeMethods.publicKey, payload)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -134,12 +134,8 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this._remmeRest
-                            .getRequest(remme_rest_1.RemmeMethods.userPublicKeys, userAccountPublicKey)];
-                    case 1: 
-                    // const apiResult = await this._remmeRest
-                    //     .getRequest<PublicKeyStorageUserStoreResult>(RemmeMethods.userPublicKeys, userAccountPublicKey);
-                    // return apiResult.pub_keys;
-                    return [2 /*return*/, _a.sent()];
+                            .sendRequest(remme_rest_1.RemmeMethods.userPublicKeys, userAccountPublicKey)];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });

@@ -82,7 +82,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         }
         const payload = new PublicKeyStorageCheckPayload(publicKey);
         return await this._remmeRest
-            .postRequest<PublicKeyStorageCheckPayload, PublicKeyStorageCheckResult>(RemmeMethods.publicKey, payload);
+            .sendRequest<PublicKeyStorageCheckPayload, PublicKeyStorageCheckResult>(RemmeMethods.publicKey, payload);
     }
 
     public async revoke(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<IBaseTransactionResponse> {
@@ -99,11 +99,8 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     }
 
     public async getUserPublicKeys(userAccountPublicKey: string): Promise<string[]> {
-        // const apiResult = await this._remmeRest
-        //     .getRequest<PublicKeyStorageUserStoreResult>(RemmeMethods.userPublicKeys, userAccountPublicKey);
-        // return apiResult.pub_keys;
         return await this._remmeRest
-            .getRequest<string[]>(RemmeMethods.userPublicKeys, userAccountPublicKey);
+            .sendRequest<string, string[]>(RemmeMethods.userPublicKeys, userAccountPublicKey);
     }
 
     public generateMessage(data: string): string {

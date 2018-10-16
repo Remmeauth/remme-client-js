@@ -1,1 +1,0 @@
-export { BatchResult } from "./BatchResult";

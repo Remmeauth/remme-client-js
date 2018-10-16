@@ -6,3 +6,4 @@ export declare const toHex: (str: string) => string;
 export declare const getAddressFromData: (familyName: string, data: string) => string;
 export declare const toHexString: (byteArray: any) => string;
 export declare const toUTF8Array: (str: any) => any[];
+export declare const makeSettingsAddress: (key: string) => string;

@@ -9,7 +9,10 @@ export interface IRemmeBlockchainInfo {
     getState(query?: IStateQuery): Promise<StateList>;
     getStateByAddress(address: string): Promise<State>;
     getPeers(): Promise<PeerList>;
-    getReceipts(id: string): Promise<ReceiptList>;
+    getReceipts(ids: string[]): Promise<ReceiptList>;
     getNetworkStatus(): Promise<INetworkStatus>;
     getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]>;
+    getBatchStatus(batchId: string): Promise<string>;
+    parseTransactionPayload(transaction: Transaction): object;
+    parseStateData(state: State): object;
 }

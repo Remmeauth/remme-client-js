@@ -53,7 +53,7 @@ var RemmeTransactionService = /** @class */ (function () {
                     case 0:
                         familyName = settings.familyName, familyVersion = settings.familyVersion, inputs = settings.inputs, outputs = settings.outputs, payloadBytes = settings.payloadBytes;
                         return [4 /*yield*/, this._remmeRest
-                                .getRequest(remme_rest_1.RemmeMethods.nodeKey)];
+                                .sendRequest(remme_rest_1.RemmeMethods.nodeKey)];
                     case 1:
                         batcherPublicKey = _a.sent();
                         transactionHeaderBytes = protobuf.TransactionHeader.encode({
@@ -90,10 +90,10 @@ var RemmeTransactionService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this._remmeRest
-                            .postRequest(remme_rest_1.RemmeMethods.transaction, { data: transaction })];
+                            .sendRequest(remme_rest_1.RemmeMethods.transaction, { data: transaction })];
                     case 1:
                         batchId = _a.sent();
-                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeRest.nodeAddress(), this._remmeRest.sslMode(), batchId)];
+                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeRest.nodeAddress, this._remmeRest.sslMode, batchId)];
                 }
             });
         });

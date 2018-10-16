@@ -1,21 +1,15 @@
-import { RemmeRest, IRemmeRest } from "remme-rest";
+import { RemmeRest, IRemmeRest, DEFAULT_NETWORK_CONFIG } from "remme-rest";
 import { RemmeTransactionService, IRemmeTransactionService } from "remme-transaction-service";
 import { RemmeCertificate, IRemmeCertificate } from "remme-certificate";
 import { RemmePublicKeyStorage, IRemmePublicKeyStorage } from "remme-public-key-storage";
 import { RemmeToken, IRemmeToken } from "remme-token";
 import { RemmeAccount, IRemmeAccount } from "remme-account";
-import { RemmeBatch, IRemmeBatch } from "remme-batch";
 import { RemmeSwap, IRemmeSwap } from "remme-atomic-swap";
 import { RemmeBlockchainInfo, IRemmeBlockchainInfo} from "remme-blockchain-info";
 import { RemmeWebSocketsEvents, IRemmeWebSocketsEvents} from "remme-web-socket-events";
 
 import { IRemmeClient, IClientInit } from "./interface";
 
-const defaultConfig = {
-    nodeAddress: "localhost",
-    nodePort: "8080",
-    sslMode: false,
-};
 /**
  * Main namespace. Which include all interaction with our client for developers.
  */
@@ -160,25 +154,6 @@ namespace Remme {
          */
         /* tslint:enable */
         public token: IRemmeToken;
-        /* tslint:disable */
-
-
-        /**
-         * This properties hold implementation of RemmeBatch,
-         * which get a possibility to check status of batch if you don't do it by using WebSocket.
-         *
-         * @example
-         *
-         * Get status of batch.
-         *
-         * ```typescript
-         * const batchId = "92c77c41705f2f68d5f7bc03676d0f917b0f9ef4099ee8417bd7f2470a233f3f2da5e93ee1658588f5baa0b95c81656ed187705fb72658203a7686c9749b7ad2"
-         * const status = await remme.batch.getStatus(batchId);
-         * console.log(status);
-         * ```
-         */
-        /* tslint:enable */
-        public batch: IRemmeBatch;
         /* tslint:disable */
 
 
@@ -418,10 +393,10 @@ namespace Remme {
          */
         public constructor(clientInit: IClientInit = {
             privateKeyHex: "",
-            networkConfig: defaultConfig,
+            networkConfig: DEFAULT_NETWORK_CONFIG,
         }) {
             let {
-                networkConfig = defaultConfig,
+                networkConfig = DEFAULT_NETWORK_CONFIG,
             } = clientInit;
 
             const {
@@ -429,7 +404,7 @@ namespace Remme {
             } = clientInit;
 
             networkConfig = {
-                ...defaultConfig,
+                ...DEFAULT_NETWORK_CONFIG,
                 ...networkConfig,
             };
             this._remmeRest = new RemmeRest(networkConfig);
@@ -438,10 +413,9 @@ namespace Remme {
             this.publicKeyStorage = new RemmePublicKeyStorage(this._remmeRest, this.transaction, this._account);
             this.certificate = new RemmeCertificate(this.publicKeyStorage);
             this.token = new RemmeToken(this._remmeRest, this.transaction);
-            // this.batch = new RemmeBatch(this._remmeRest);
             this.swap = new RemmeSwap(this._remmeRest, this.transaction);
             this.blockchainInfo = new RemmeBlockchainInfo(this._remmeRest);
-            this.events = new RemmeWebSocketsEvents(this._remmeRest.nodeAddress(), this._remmeRest.sslMode());
+            this.events = new RemmeWebSocketsEvents(this._remmeRest.nodeAddress, this._remmeRest.sslMode);
         }
 
         public set account(remmeAccount: IRemmeAccount) {

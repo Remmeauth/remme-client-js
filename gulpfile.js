@@ -73,11 +73,6 @@ const packages = [{
   src: path.join(__dirname, 'packages/remme-account'),
   config: path.join(__dirname, 'packages/remme-account/tsconfig.json')
 }, {
-  fileName: 'remme-batch',
-  expose: 'RemmeBatch',
-  src: path.join(__dirname, 'packages/remme-batch'),
-  config: path.join(__dirname, 'packages/remme-batch/tsconfig.json')
-}, {
   fileName: 'remme-blockchain-info',
   expose: 'RemmeBlockchainInfo',
   src: path.join(__dirname, 'packages/remme-blockchain-info'),

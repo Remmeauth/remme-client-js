@@ -19,7 +19,6 @@ declare class RemmeSwap implements IRemmeSwap {
     init(data: SwapInitDto): Promise<IBaseTransactionResponse>;
     setSecretLock(swapId: string, secretLock: string): Promise<IBaseTransactionResponse>;
     private generateTransactionPayload(method, data);
-    private validateData(data);
     private getAddresses(method, swapId, receiverAddress?);
     private createAndSendTransaction(transactionPayload, inputsOutputs);
     private checkParameters(parameters);

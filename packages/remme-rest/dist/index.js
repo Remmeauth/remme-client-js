@@ -38,178 +38,147 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var remme_http_client_1 = require("remme-http-client");
 var models_1 = require("./models");
 exports.RemmeMethods = models_1.RemmeMethods;
-exports.ValidatorMethods = models_1.ValidatorMethods;
+var DEFAULT_NETWORK_CONFIG = {
+    nodeAddress: "localhost",
+    nodePort: "8080",
+    sslMode: false,
+};
+exports.DEFAULT_NETWORK_CONFIG = DEFAULT_NETWORK_CONFIG;
+/**
+ * Main class that send requests to our REMME protocol;
+ * Check JSON-RPC API specification:
+ *      https://remmeio.atlassian.net/wiki/spaces/WikiREMME/pages/292814862/RPC+API+specification.
+ * @param {string} nodeAddress
+ * @param {string | number} nodePort
+ * @param {boolean} sslMode
+ *
+ * @example
+ * ```typescript
+ * import { RemmeRest, RemmeMethods } from "remme-rest";
+ *
+ * const remmeRest = new RemmeRest({
+ *      nodeAddress: "localhost",
+ *      nodePort: 8080,
+ *      sslMode: false,
+ * });
+ *
+ * const response = await remmeRest.sendRequest<object>(RemmeMethods.fetchBlocks);
+ * console.log(response);
+ * ```
+ */
 var RemmeRest = /** @class */ (function () {
+    /**
+     * Constructor can implement with different sets of params. By default params for constructor are:
+     * nodeAddress: "localhost"
+     * nodePort: 8080
+     * sslMode: false
+     * @example
+     * Implementation with all params.
+     * ```typescript
+     * import { RemmeRest, RemmeMethods } from "remme-rest";
+     *
+     * const remmeRest = new RemmeRest({
+     *      nodeAddress: "localhost",
+     *      nodePort: 8080,
+     *      sslMode: false,
+     * });
+     * ```
+     *
+     * Implementatin with one param
+     * ```typescript
+     * import { RemmeRest, RemmeMethods } from "remme-rest";
+     *
+     * const remmeRest = new RemmeRest({
+     *      nodeAddress: "localhost"
+     * });
+     * ```
+     *
+     * Implementatin without params
+     * ```typescript
+     * import { RemmeRest, RemmeMethods } from "remme-rest";
+     *
+     * const remmeRest = new RemmeRest();
+     * ```
+     */
     function RemmeRest(_a) {
-        var nodeAddress = _a.nodeAddress, nodePort = _a.nodePort, sslMode = _a.sslMode;
-        var _this = this;
-        this.nodeAddress = function () { return _this._nodeAddress; };
-        this.sslMode = function () { return _this._sslMode; };
+        var _b = _a === void 0 ? DEFAULT_NETWORK_CONFIG : _a, _c = _b.nodeAddress, nodeAddress = _c === void 0 ? "localhost" : _c, _d = _b.nodePort, nodePort = _d === void 0 ? 8080 : _d, _e = _b.sslMode, sslMode = _e === void 0 ? false : _e;
         this._nodeAddress = nodeAddress + ":" + nodePort;
         this._sslMode = sslMode;
     }
-    // public async getRequest
-    // <Output>(method: RemmeMethods | ValidatorMethods, urlParam?: string, queryParam?: IQueryParams)
-    //     : Promise<Output> {
-    //     const url = this._getUrlForRequest(method, urlParam);
-    //     return await this._sendRequest<IQueryParams, Output>("GET", url, queryParam);
-    // }
-    RemmeRest.prototype.getRequest = function (method, payload) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        url = this._getUrlForRequest(method);
-                        return [4 /*yield*/, this._sendRequest(method, url, payload)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
+    RemmeRest.prototype._getUrlForRequest = function () {
+        return "" + (this._sslMode ? "https://" : "http://") + this._nodeAddress;
     };
-    RemmeRest.prototype.putRequest = function (method, payload) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        url = this._getUrlForRequest(method);
-                        return [4 /*yield*/, this._sendRequest(method, url, payload)];
-                    case 1: 
-                    // return await this._sendRequest<Input, Output>("PUT", url, payload);
-                    return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
+    RemmeRest.prototype._getRequestConfig = function (method, payload) {
+        var options = {
+            url: this._getUrlForRequest(),
+            method: "POST",
+            data: {
+                jsonrpc: "2.0",
+                method: method,
+                params: {},
+                id: Math.round(Math.random() * 100),
+            },
+        };
+        if (payload) {
+            options.data.params = payload;
+        }
+        return options;
     };
-    RemmeRest.prototype.postRequest = function (method, payload) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        url = this._getUrlForRequest(method);
-                        return [4 /*yield*/, this._sendRequest(method, url, payload)];
-                    case 1: 
-                    // return await this._sendRequest<Input, Output>("POST", url, payload);
-                    return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    RemmeRest.prototype.deleteRequest = function (method, payload) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        url = this._getUrlForRequest(method);
-                        return [4 /*yield*/, this._sendRequest(method, url, payload)];
-                    case 1: 
-                    // return await this._sendRequest<Input, Output>("DELETE", url, payload);
-                    return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    // private async _sendRequest<Input, Output>(method: string, url: string, payload?: Input)
-    //     : Promise<Output> {
-    //     const options: AxiosRequestConfig = {
-    //         url,
-    //         method,
-    //     };
-    //     if (payload) {
-    //         options[method.toUpperCase() === "GET" ? "params" : "data"] = payload;
-    //     }
-    //     let response;
-    //     response = await HttpClient.send(options);
-    //     if (response) {
-    //         if (response.data.error) {
-    //             this._throwErrorReceive(response.data);
-    //         } else {
-    //             return response.data.result;
-    //         }
-    //     } else {
-    //         throw new Error(`Please check if your node running at http://${this._nodeAddress}`);
-    //     }
-    // }
-    RemmeRest.prototype._sendRequest = function (method, url, payload) {
+    Object.defineProperty(RemmeRest.prototype, "nodeAddress", {
+        /**
+         * Return node address which contain domain name and port.
+         * @returns {string}
+         */
+        get: function () {
+            return this._nodeAddress;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RemmeRest.prototype, "sslMode", {
+        /**
+         * Return ssl mode which was provided by user.
+         * @returns {boolean}
+         */
+        get: function () {
+            return this._sslMode;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Make and send request with given method and payload.
+     * Create url from given network config
+     * Get JSON-RPC method and create request config in correspond to this spec https://www.jsonrpc.org/specification.
+     * @param {RemmeMethods} method
+     * @param {Input} payload
+     * @returns {Promise<Output>}
+     */
+    RemmeRest.prototype.sendRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
             var options, response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        options = {
-                            url: url,
-                            method: "POST",
-                            data: {
-                                jsonrpc: "2.0",
-                                method: method,
-                                params: {},
-                                id: Math.round(Math.random() * 100),
-                            },
-                        };
-                        if (payload) {
-                            options.data.params = payload;
-                        }
+                        options = this._getRequestConfig(method, payload);
                         return [4 /*yield*/, remme_http_client_1.HttpClient.send(options)];
                     case 1:
                         response = _a.sent();
                         if (response) {
                             if (response.data.error) {
-                                this._throwErrorReceive(response.data);
+                                throw new Error(response.data.error.message);
                             }
                             else {
                                 return [2 /*return*/, response.data.result];
                             }
                         }
                         else {
-                            throw new Error("Please check if your node running at http" + (this._sslMode ? "s" : "") + "://" + this._nodeAddress);
+                            throw new Error("Please check if your node running at " + this._getUrlForRequest());
                         }
                         return [2 /*return*/];
                 }
             });
         });
-    };
-    // private _getUrlForRequest(method: RemmeMethods | ValidatorMethods, payload?: string): string {
-    //     let methodUrl: string = method;
-    //
-    //     if (payload) {
-    //        methodUrl += `/${payload}${method === RemmeMethods.userPublicKeys ? "/pub_keys" : ""}`;
-    //     }
-    //
-    //     const protocol = this._sslMode ? "https://" : "http://";
-    //     let url;
-    //     if ((Object as any).values(RemmeMethods).includes(method)) {
-    //         url = `${this._nodeAddress}/api/v1/`;
-    //     } else if ((Object as any).values(ValidatorMethods).includes(method)) {
-    //         url = `${this._nodeAddress}/validator/`;
-    //     }
-    //     return `${protocol}${url}${methodUrl}`;
-    // }
-    RemmeRest.prototype._getUrlForRequest = function (method, payload) {
-        var methodUrl = "";
-        var protocol = this._sslMode ? "https://" : "http://";
-        var url;
-        if (Object.values(models_1.RemmeMethods).includes(method)) {
-            url = this._nodeAddress;
-        }
-        else if (Object.values(models_1.ValidatorMethods).includes(method)) {
-            if (payload) {
-                methodUrl += method + "/" + payload + (method === models_1.RemmeMethods.userPublicKeys ? "/pub_keys" : "");
-            }
-            url = this._nodeAddress + "/validator/";
-        }
-        return "" + protocol + url + methodUrl;
-    };
-    RemmeRest.prototype._throwErrorReceive = function (_a) {
-        var error = _a.error;
-        if (typeof error === "string") {
-            throw new Error(error);
-        }
-        if (error.message) {
-            throw new Error(error.message);
-        }
     };
     return RemmeRest;
 }());

@@ -10,10 +10,10 @@ export interface IStateQuery extends IBaseQuery {
 }
 
 export class BaseQuery implements IBaseQuery {
-    public head: string;
-    public start: string;
-    public limit: number;
-    public reverse: string;
+    public head?: string;
+    public start?: string | number;
+    public limit?: number;
+    public reverse?: string | boolean;
 
     constructor(query: IBaseQuery) {
         if (query.head && query.head.search(/[a-f0-9]{128}/) === -1) {
@@ -36,7 +36,7 @@ export class BaseQuery implements IBaseQuery {
 }
 
 export class StateQuery extends BaseQuery implements IStateQuery {
-    public address: string;
+    public address?: string;
 
     constructor(query: IStateQuery) {
         super(query);
@@ -46,4 +46,10 @@ export class StateQuery extends BaseQuery implements IStateQuery {
             this.address = query.address;
         }
     }
+}
+
+export interface IAddress {
+    address?: string;
+    id?: string;
+    ids?: string[];
 }

@@ -1,4 +1,5 @@
 export interface IRemmeAccount {
+    familyName: string;
     publicKeyHex: string;
     privateKeyHex: string;
     privateKey: any;

@@ -90,12 +90,8 @@ var RemmeToken = /** @class */ (function () {
                             throw new Error("Given PublicKey is not a valid");
                         }
                         return [4 /*yield*/, this._remmeRest
-                                .getRequest(remme_rest_1.RemmeMethods.token, { public_key: publicKeyTo })];
-                    case 1: 
-                    // const result = await this._remmeRest
-                    //     .getRequest<BalanceResult>(RemmeMethods.token, publicKeyTo);
-                    // return result.balance;
-                    return [2 /*return*/, _a.sent()];
+                                .sendRequest(remme_rest_1.RemmeMethods.token, { public_key: publicKeyTo })];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });

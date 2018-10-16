@@ -22,9 +22,6 @@ export interface InvalidTransactions {
     extended_data: string;
 }
 export declare enum Statuses {
-    OK = "OK",
-    NOT_CONFIRMED = "NOT_CONFIRMED",
-    NO_RESOURCE = "NO_RESOURCE",
     INVALID = "INVALID",
     PENDING = "PENDING",
     COMMITTED = "COMMITTED",
