@@ -1,81 +1,50 @@
 import { HttpClient, AxiosRequestConfig } from "remme-http-client";
 import { IRemmeRest } from "./interface";
-import { ErrorReceived, IQueryParams, RemmeMethods, ValidatorMethods, INetworkConfig } from "./models";
+import { RemmeMethods, INetworkConfig } from "./models";
 
+const DEFAULT_NETWORK_CONFIG = {
+    nodeAddress: "localhost",
+    nodePort: "8080",
+    sslMode: false,
+};
+
+/**
+ * Main class that send requests to our REMME protocol;
+ * Check JSON-RPC API specification:
+ *      https://remmeio.atlassian.net/wiki/spaces/WikiREMME/pages/292814862/RPC+API+specification.
+ * @param {string} nodeAddress
+ * @param {string | number} nodePort
+ * @param {boolean} sslMode
+ *
+ * @example
+ * ```typescript
+ * import { RemmeRest, RemmeMethods } from "remme-rest";
+ *
+ * const remmeRest = new RemmeRest({
+ *      nodeAddress: "localhost",
+ *      nodePort: 8080,
+ *      sslMode: false,
+ * });
+ *
+ * const response = await remmeRest.sendRequest<object>(RemmeMethods.fetchBlocks);
+ * console.log(response);
+ * ```
+ */
 class RemmeRest implements IRemmeRest {
+
     // index signature
     [key: string]: any;
 
     private readonly _nodeAddress: string;
     private readonly _sslMode: boolean;
 
-    public constructor({ nodeAddress, nodePort, sslMode }: INetworkConfig) {
-        this._nodeAddress = `${nodeAddress}:${nodePort}`;
-        this._sslMode = sslMode;
+    private _getUrlForRequest(): string {
+        return `${this._sslMode ? "https://" : "http://"}${this._nodeAddress}`;
     }
 
-    public nodeAddress = (): string => this._nodeAddress;
-    public sslMode = (): boolean => this._sslMode;
-
-    // public async getRequest
-    // <Output>(method: RemmeMethods | ValidatorMethods, urlParam?: string, queryParam?: IQueryParams)
-    //     : Promise<Output> {
-    //     const url = this._getUrlForRequest(method, urlParam);
-    //     return await this._sendRequest<IQueryParams, Output>("GET", url, queryParam);
-    // }
-    public async getRequest
-    <Output>(method: RemmeMethods | ValidatorMethods, payload?: IQueryParams)
-        : Promise<Output> {
-        const url = this._getUrlForRequest(method);
-        return await this._sendRequest<IQueryParams, Output>(method, url, payload);
-    }
-
-    public async putRequest<Input, Output>(method: RemmeMethods, payload: Input): Promise<Output> {
-        const url = this._getUrlForRequest(method);
-        // return await this._sendRequest<Input, Output>("PUT", url, payload);
-        return await this._sendRequest<Input, Output>(method, url, payload);
-    }
-
-    public async postRequest<Input, Output>(method: RemmeMethods, payload: Input)
-        : Promise<Output> {
-        const url = this._getUrlForRequest(method);
-        // return await this._sendRequest<Input, Output>("POST", url, payload);
-        return await this._sendRequest<Input, Output>(method, url, payload);
-    }
-
-    public async deleteRequest<Input, Output>(method: RemmeMethods, payload: Input)
-        : Promise<Output> {
-        const url = this._getUrlForRequest(method);
-        // return await this._sendRequest<Input, Output>("DELETE", url, payload);
-        return await this._sendRequest<Input, Output>(method, url, payload);
-    }
-
-    // private async _sendRequest<Input, Output>(method: string, url: string, payload?: Input)
-    //     : Promise<Output> {
-    //     const options: AxiosRequestConfig = {
-    //         url,
-    //         method,
-    //     };
-    //     if (payload) {
-    //         options[method.toUpperCase() === "GET" ? "params" : "data"] = payload;
-    //     }
-    //     let response;
-    //     response = await HttpClient.send(options);
-    //     if (response) {
-    //         if (response.data.error) {
-    //             this._throwErrorReceive(response.data);
-    //         } else {
-    //             return response.data.result;
-    //         }
-    //     } else {
-    //         throw new Error(`Please check if your node running at http://${this._nodeAddress}`);
-    //     }
-    // }
-
-    private async _sendRequest<Input, Output>(method: RemmeMethods | ValidatorMethods, url: string, payload?: Input)
-        : Promise<Output> {
+    private _getRequestConfig<Input>(method: RemmeMethods, payload?: Input): AxiosRequestConfig {
         const options: AxiosRequestConfig = {
-            url,
+            url: this._getUrlForRequest(),
             method: "POST",
             data: {
                 jsonrpc: "2.0",
@@ -87,68 +56,100 @@ class RemmeRest implements IRemmeRest {
         if (payload) {
             options.data.params = payload;
         }
+        return options;
+    }
+
+    /**
+     * Constructor can implement with different sets of params. By default params for constructor are:
+     * nodeAddress: "localhost"
+     * nodePort: 8080
+     * sslMode: false
+     * @example
+     * Implementation with all params.
+     * ```typescript
+     * import { RemmeRest, RemmeMethods } from "remme-rest";
+     *
+     * const remmeRest = new RemmeRest({
+     *      nodeAddress: "localhost",
+     *      nodePort: 8080,
+     *      sslMode: false,
+     * });
+     * ```
+     *
+     * Implementatin with one param
+     * ```typescript
+     * import { RemmeRest, RemmeMethods } from "remme-rest";
+     *
+     * const remmeRest = new RemmeRest({
+     *      nodeAddress: "localhost"
+     * });
+     * ```
+     *
+     * Implementatin without params
+     * ```typescript
+     * import { RemmeRest, RemmeMethods } from "remme-rest";
+     *
+     * const remmeRest = new RemmeRest();
+     * ```
+     */
+    public constructor({
+                           nodeAddress = "localhost",
+                           nodePort = 8080,
+                           sslMode = false,
+    }: INetworkConfig = DEFAULT_NETWORK_CONFIG) {
+        this._nodeAddress = `${nodeAddress}:${nodePort}`;
+        this._sslMode = sslMode;
+    }
+
+    /**
+     * Return node address which contain domain name and port.
+     * @returns {string}
+     */
+    public get nodeAddress(): string {
+        return this._nodeAddress;
+    }
+
+    /**
+     * Return ssl mode which was provided by user.
+     * @returns {boolean}
+     */
+    public get sslMode(): boolean {
+        return this._sslMode;
+    }
+
+    public async sendRequest<Output>(method: RemmeMethods): Promise<Output>;
+    public async sendRequest<Input, Output>(method: RemmeMethods, payload?: Input): Promise<Output>;
+    /**
+     * Make and send request with given method and payload.
+     * Create url from given network config
+     * Get JSON-RPC method and create request config in correspond to this spec https://www.jsonrpc.org/specification.
+     * @param {RemmeMethods} method
+     * @param {Input} payload
+     * @returns {Promise<Output>}
+     */
+    public async sendRequest<Input, Output>(method: RemmeMethods, payload?: Input): Promise<Output> {
+        const options = this._getRequestConfig(method, payload);
         let response;
         response = await HttpClient.send(options);
         if (response) {
             if (response.data.error) {
-                this._throwErrorReceive(response.data);
+                throw new Error(response.data.error.message);
             } else {
                 return response.data.result;
             }
         } else {
             throw new Error(
-                `Please check if your node running at http${this._sslMode ? "s" : ""}://${this._nodeAddress}`
+                `Please check if your node running at ${this._getUrlForRequest()}`,
             );
         }
     }
 
-    // private _getUrlForRequest(method: RemmeMethods | ValidatorMethods, payload?: string): string {
-    //     let methodUrl: string = method;
-    //
-    //     if (payload) {
-    //        methodUrl += `/${payload}${method === RemmeMethods.userPublicKeys ? "/pub_keys" : ""}`;
-    //     }
-    //
-    //     const protocol = this._sslMode ? "https://" : "http://";
-    //     let url;
-    //     if ((Object as any).values(RemmeMethods).includes(method)) {
-    //         url = `${this._nodeAddress}/api/v1/`;
-    //     } else if ((Object as any).values(ValidatorMethods).includes(method)) {
-    //         url = `${this._nodeAddress}/validator/`;
-    //     }
-    //     return `${protocol}${url}${methodUrl}`;
-    // }
-
-    private _getUrlForRequest(method: RemmeMethods | ValidatorMethods, payload?: string): string {
-        let methodUrl: string = "";
-
-        const protocol = this._sslMode ? "https://" : "http://";
-        let url;
-        if ((Object as any).values(RemmeMethods).includes(method)) {
-            url = this._nodeAddress;
-        } else if ((Object as any).values(ValidatorMethods).includes(method)) {
-            if (payload) {
-                methodUrl += `${method}/${payload}${method === RemmeMethods.userPublicKeys ? "/pub_keys" : ""}`;
-            }
-            url = `${this._nodeAddress}/validator/`;
-        }
-        return `${protocol}${url}${methodUrl}`;
-    }
-
-    private _throwErrorReceive({ error }: ErrorReceived): void {
-        if (typeof error === "string") {
-            throw new Error(error);
-        }
-        if (error.message) {
-            throw new Error(error.message);
-        }
-    }
 }
 
 export {
-    RemmeMethods,
-    ValidatorMethods,
     RemmeRest,
     IRemmeRest,
+    RemmeMethods,
     INetworkConfig,
+    DEFAULT_NETWORK_CONFIG,
 };

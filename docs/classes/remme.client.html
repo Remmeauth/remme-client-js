@@ -101,7 +101,6 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="remme.client.html#batch" class="tsd-kind-icon">batch</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="remme.client.html#blockchaininfo" class="tsd-kind-icon">blockchain<wbr>Info</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="remme.client.html#certificate" class="tsd-kind-icon">certificate</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="remme.client.html#events" class="tsd-kind-icon">events</a></li>
@@ -137,7 +136,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme/src/index.ts#L364">remme/src/index.ts:364</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme/src/index.ts#L339">remme/src/index.ts:339</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -183,7 +182,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> clientInit: <a href="../interfaces/iclientinit.html" class="tsd-signature-type">IClientInit</a><span class="tsd-signature-symbol"> =&nbsp;{privateKeyHex: &quot;&quot;,networkConfig: defaultConfig,}</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> clientInit: <a href="../interfaces/iclientinit.html" class="tsd-signature-type">IClientInit</a><span class="tsd-signature-symbol"> =&nbsp;{privateKeyHex: &quot;&quot;,networkConfig: DEFAULT_NETWORK_CONFIG,}</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="remme.client.html" class="tsd-signature-type">Client</a></h4>
@@ -194,39 +193,13 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="batch" class="tsd-anchor"></a>
-					<h3>batch</h3>
-					<div class="tsd-signature tsd-kind-icon">batch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IRemmeBatch</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#batch">batch</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme/src/index.ts#L181">remme/src/index.ts:181</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>This properties hold implementation of RemmeBatch,
-							which get a possibility to check status of batch if you don&#39;t do it by using WebSocket.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>example</dt>
-							<dd><p>Get status of batch.</p>
-								<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> batchId = <span class="hljs-string">"92c77c41705f2f68d5f7bc03676d0f917b0f9ef4099ee8417bd7f2470a233f3f2da5e93ee1658588f5baa0b95c81656ed187705fb72658203a7686c9749b7ad2"</span>
-<span class="hljs-keyword">const</span> status = <span class="hljs-keyword">await</span> remme.batch.getStatus(batchId);
-<span class="hljs-built_in">console</span>.log(status);
-</code></pre>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="blockchaininfo" class="tsd-anchor"></a>
 					<h3>blockchain<wbr>Info</h3>
 					<div class="tsd-signature tsd-kind-icon">blockchain<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IRemmeBlockchainInfo</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#blockchaininfo">blockchainInfo</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme/src/index.ts#L336">remme/src/index.ts:336</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme/src/index.ts#L311">remme/src/index.ts:311</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -300,7 +273,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#certificate">certificate</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme/src/index.ts#L129">remme/src/index.ts:129</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme/src/index.ts#L123">remme/src/index.ts:123</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -348,7 +321,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#events">events</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme/src/index.ts#L364">remme/src/index.ts:364</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme/src/index.ts#L339">remme/src/index.ts:339</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -382,7 +355,7 @@ remme.events.subscribe({
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#publickeystorage">publicKeyStorage</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme/src/index.ts#L82">remme/src/index.ts:82</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme/src/index.ts#L76">remme/src/index.ts:76</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -433,7 +406,7 @@ remme.events.subscribe({
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#swap">swap</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme/src/index.ts#L248">remme/src/index.ts:248</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme/src/index.ts#L223">remme/src/index.ts:223</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -489,7 +462,7 @@ remme.events.subscribe({
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#token">token</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme/src/index.ts#L162">remme/src/index.ts:162</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme/src/index.ts#L156">remme/src/index.ts:156</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -532,7 +505,7 @@ remme.events.subscribe({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme/src/index.ts#L478">remme/src/index.ts:478</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme/src/index.ts#L452">remme/src/index.ts:452</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -557,7 +530,7 @@ remme.account = account;
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme/src/index.ts#L447">remme/src/index.ts:447</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme/src/index.ts#L421">remme/src/index.ts:421</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -588,7 +561,7 @@ remme.account = account;
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme/src/index.ts#L495">remme/src/index.ts:495</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme/src/index.ts#L469">remme/src/index.ts:469</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -629,9 +602,6 @@ remme.account = account;
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="remme.client.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="remme.client.html#batch" class="tsd-kind-icon">batch</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="remme.client.html#blockchaininfo" class="tsd-kind-icon">blockchain<wbr>Info</a>

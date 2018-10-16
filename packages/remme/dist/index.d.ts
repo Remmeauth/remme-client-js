@@ -3,7 +3,6 @@ import { IRemmeCertificate } from "remme-certificate";
 import { IRemmePublicKeyStorage } from "remme-public-key-storage";
 import { IRemmeToken } from "remme-token";
 import { IRemmeAccount } from "remme-account";
-import { IRemmeBatch } from "remme-batch";
 import { IRemmeSwap } from "remme-atomic-swap";
 import { IRemmeBlockchainInfo } from "remme-blockchain-info";
 import { IRemmeWebSocketsEvents } from "remme-web-socket-events";
@@ -140,21 +139,6 @@ declare namespace Remme {
          *
          */
         token: IRemmeToken;
-        /**
-         * This properties hold implementation of RemmeBatch,
-         * which get a possibility to check status of batch if you don't do it by using WebSocket.
-         *
-         * @example
-         *
-         * Get status of batch.
-         *
-         * ```typescript
-         * const batchId = "92c77c41705f2f68d5f7bc03676d0f917b0f9ef4099ee8417bd7f2470a233f3f2da5e93ee1658588f5baa0b95c81656ed187705fb72658203a7686c9749b7ad2"
-         * const status = await remme.batch.getStatus(batchId);
-         * console.log(status);
-         * ```
-         */
-        batch: IRemmeBatch;
         /**
          * This properties hold implementation of RemmeSwap,
          * which get a possibility to work with atomic swap.

@@ -1,21 +1,6 @@
-// export enum RemmeMethods {
-//     publicKey = "pub_key",
-//     token = "token",
-//     batchStatus = "batch_status",
-//     userPublicKeys = "user",
-//     atomicSwap = "atomic-swap",
-//     atomicSwapInit = "atomic-swap/init",
-//     atomicSwapApprove = "atomic-swap/approve",
-//     atomicSwapExpire = "atomic-swap/expire",
-//     atomicSwapSecretLock = "atomic-swap/set-secret-lock",
-//     atomicSwapClose = "atomic-swap/close",
-//     atomicSwapPublicKey = "atomic-swap/pub-key-encryption",
-//     nodeKey = "node_key",
-//     transaction = "transaction",
-//     networkStatus = "network",
-//     blockInfo = "block-info",
-// }
-
+/**
+ * Enum all currently available methods in our JSON-RPC
+ */
 export enum RemmeMethods {
     publicKey = "get_public_key_info",
     token = "get_balance",

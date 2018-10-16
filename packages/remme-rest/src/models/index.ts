@@ -1,22 +1,14 @@
-export interface ErrorReceived {
-    error?: string | IValidatorError;
-}
-
-export interface IValidatorError {
-    code: number;
-    title: string;
-    message: string;
-}
-
-export interface IQueryParams {
-    [propName: string]: any;
-}
-
 export { RemmeMethods } from "./remme-methods";
-export { ValidatorMethods } from "./validator-methods";
 
+/**
+ * Network configuration.
+ * By default:
+ *  nodeAddress is localhost,
+ *  nodePort is 8080,
+ *  sslMode is false
+ */
 export interface INetworkConfig {
-    nodeAddress: string;
-    nodePort: string | number;
-    sslMode: boolean;
+    nodeAddress?: string;
+    nodePort?: string | number;
+    sslMode?: boolean;
 }

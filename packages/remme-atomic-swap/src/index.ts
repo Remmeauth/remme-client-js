@@ -69,12 +69,13 @@ class RemmeSwap implements IRemmeSwap {
 
     public async getInfo(swapId: string): Promise<SwapInfoData> {
         this.checkParameters({ swapId });
-        const apiResult = await this._remmeRest.getRequest<SwapInfoDto>(RemmeMethods.atomicSwap, { swap_id: swapId });
+        const apiResult = await this._remmeRest
+            .sendRequest<{swap_id: string}, SwapInfoDto>(RemmeMethods.atomicSwap, { swap_id: swapId });
         return new SwapInfoData(apiResult);
     }
 
     public async getPublicKey(): Promise<string> {
-        return await this._remmeRest.getRequest<string>(RemmeMethods.atomicSwapPublicKey);
+        return await this._remmeRest.sendRequest<string>(RemmeMethods.atomicSwapPublicKey);
     }
 
     public async init(data: SwapInitDto): Promise<IBaseTransactionResponse> {

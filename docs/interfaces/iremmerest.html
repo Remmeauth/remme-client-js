@@ -83,192 +83,78 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iremmerest.html#nodeaddress" class="tsd-kind-icon">node<wbr>Address</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iremmerest.html#sslmode" class="tsd-kind-icon">ssl<wbr>Mode</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter"><a href="iremmerest.html#deleterequest" class="tsd-kind-icon">delete<wbr>Request</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter"><a href="iremmerest.html#getrequest" class="tsd-kind-icon">get<wbr>Request</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="iremmerest.html#nodeaddress" class="tsd-kind-icon">node<wbr>Address</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter"><a href="iremmerest.html#postrequest" class="tsd-kind-icon">post<wbr>Request</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter"><a href="iremmerest.html#putrequest" class="tsd-kind-icon">put<wbr>Request</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="iremmerest.html#sslmode" class="tsd-kind-icon">ssl<wbr>Mode</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter"><a href="iremmerest.html#sendrequest" class="tsd-kind-icon">send<wbr>Request</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-					<a name="deleterequest" class="tsd-anchor"></a>
-					<h3>delete<wbr>Request</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">delete<wbr>Request&lt;Input, Output&gt;<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><a href="../enums/remmemethods.html" class="tsd-signature-type">RemmeMethods</a>, requestPayload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme-rest/src/interface.ts#L10">remme-rest/src/interface.ts:10</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>Input</h4>
-								</li>
-								<li>
-									<h4>Output</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>method: <a href="../enums/remmemethods.html" class="tsd-signature-type">RemmeMethods</a></h5>
-								</li>
-								<li>
-									<h5>requestPayload: <span class="tsd-signature-type">Input</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-					<a name="getrequest" class="tsd-anchor"></a>
-					<h3>get<wbr>Request</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Request&lt;Output&gt;<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><a href="../enums/remmemethods.html" class="tsd-signature-type">RemmeMethods</a><span class="tsd-signature-symbol"> | </span><a href="../enums/validatormethods.html" class="tsd-signature-type">ValidatorMethods</a>, urlParams<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, queryParams<span class="tsd-signature-symbol">?: </span><a href="iqueryparams.html" class="tsd-signature-type">IQueryParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme-rest/src/interface.ts#L6">remme-rest/src/interface.ts:6</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>Output</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>method: <a href="../enums/remmemethods.html" class="tsd-signature-type">RemmeMethods</a><span class="tsd-signature-symbol"> | </span><a href="../enums/validatormethods.html" class="tsd-signature-type">ValidatorMethods</a></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> urlParams: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> queryParams: <a href="iqueryparams.html" class="tsd-signature-type">IQueryParams</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="nodeaddress" class="tsd-anchor"></a>
 					<h3>node<wbr>Address</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">node<wbr>Address<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme-rest/src/interface.ts#L4">remme-rest/src/interface.ts:4</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">node<wbr>Address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme-rest/src/interface.ts#L4">remme-rest/src/interface.ts:4</a></li>
+						</ul>
+					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-					<a name="postrequest" class="tsd-anchor"></a>
-					<h3>post<wbr>Request</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">post<wbr>Request&lt;Input, Output&gt;<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><a href="../enums/remmemethods.html" class="tsd-signature-type">RemmeMethods</a>, requestPayload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme-rest/src/interface.ts#L9">remme-rest/src/interface.ts:9</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>Input</h4>
-								</li>
-								<li>
-									<h4>Output</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>method: <a href="../enums/remmemethods.html" class="tsd-signature-type">RemmeMethods</a></h5>
-								</li>
-								<li>
-									<h5>requestPayload: <span class="tsd-signature-type">Input</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-					<a name="putrequest" class="tsd-anchor"></a>
-					<h3>put<wbr>Request</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">put<wbr>Request&lt;Input, Output&gt;<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><a href="../enums/remmemethods.html" class="tsd-signature-type">RemmeMethods</a>, requestPayload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme-rest/src/interface.ts#L8">remme-rest/src/interface.ts:8</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>Input</h4>
-								</li>
-								<li>
-									<h4>Output</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>method: <a href="../enums/remmemethods.html" class="tsd-signature-type">RemmeMethods</a></h5>
-								</li>
-								<li>
-									<h5>requestPayload: <span class="tsd-signature-type">Input</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="sslmode" class="tsd-anchor"></a>
 					<h3>ssl<wbr>Mode</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">ssl<wbr>Mode<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					<div class="tsd-signature tsd-kind-icon">ssl<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme-rest/src/interface.ts#L5">remme-rest/src/interface.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
+					<a name="sendrequest" class="tsd-anchor"></a>
+					<h3>send<wbr>Request</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Request&lt;Input, Output&gt;<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><a href="../enums/remmemethods.html" class="tsd-signature-type">RemmeMethods</a>, requestPayload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/3159e12/packages/remme-rest/src/interface.ts#L5">remme-rest/src/interface.ts:5</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/7286334/packages/remme-rest/src/interface.ts#L6">remme-rest/src/interface.ts:6</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>Input</h4>
+								</li>
+								<li>
+									<h4>Output</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>method: <a href="../enums/remmemethods.html" class="tsd-signature-type">RemmeMethods</a></h5>
+								</li>
+								<li>
+									<h5>requestPayload: <span class="tsd-signature-type">Input</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -289,23 +175,14 @@
 					<li class="current tsd-kind-interface">
 						<a href="iremmerest.html" class="tsd-kind-icon">IRemme<wbr>Rest</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-								<a href="iremmerest.html#deleterequest" class="tsd-kind-icon">delete<wbr>Request</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-								<a href="iremmerest.html#getrequest" class="tsd-kind-icon">get<wbr>Request</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="iremmerest.html#nodeaddress" class="tsd-kind-icon">node<wbr>Address</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-								<a href="iremmerest.html#postrequest" class="tsd-kind-icon">post<wbr>Request</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
-								<a href="iremmerest.html#putrequest" class="tsd-kind-icon">put<wbr>Request</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="iremmerest.html#sslmode" class="tsd-kind-icon">ssl<wbr>Mode</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
+								<a href="iremmerest.html#sendrequest" class="tsd-kind-icon">send<wbr>Request</a>
 							</li>
 						</ul>
 					</li>

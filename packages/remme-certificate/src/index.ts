@@ -55,14 +55,14 @@ class RemmeCertificate implements IRemmeCertificate {
         const publicKeyPEM = this._getPublicKeyPEM(certificate);
         const checkResult = await this._remmePublicKeyStorage.check(publicKeyPEM);
         const message = this._remmePublicKeyStorage.generateMessage(forge.pki.certificateToPem(certificate));
-        const entityHash = this._remmePublicKeyStorage.generateEntityHash(message);
-        const currentTime = Math.floor(Date.now() / 1000);
+        // const entityHash = this._remmePublicKeyStorage.generateEntityHash(message);
+        // const currentTime = Math.floor(Date.now() / 1000);
         if (checkResult) {
-            checkResult.valid = checkResult &&
-                !checkResult.revoked &&
-                entityHash === checkResult.entity_hash &&
-                currentTime >= checkResult.valid_from &&
-                currentTime < checkResult.valid_to;
+            // checkResult.valid = checkResult &&
+            //     !checkResult.is_revoked &&
+            //     entityHash === checkResult.entity_hash &&
+            //     currentTime >= checkResult.valid_from &&
+            //     currentTime < checkResult.valid_to;
             return checkResult;
         } else {
             throw new Error(`This certificate was not found`);

@@ -113,7 +113,8 @@ var RemmeSwap = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         this.checkParameters({ swapId: swapId });
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.atomicSwap, { swap_id: swapId })];
+                        return [4 /*yield*/, this._remmeRest
+                                .sendRequest(remme_rest_1.RemmeMethods.atomicSwap, { swap_id: swapId })];
                     case 1:
                         apiResult = _a.sent();
                         return [2 /*return*/, new models_1.SwapInfoData(apiResult)];
@@ -125,7 +126,7 @@ var RemmeSwap = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.RemmeMethods.atomicSwapPublicKey)];
+                    case 0: return [4 /*yield*/, this._remmeRest.sendRequest(remme_rest_1.RemmeMethods.atomicSwapPublicKey)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

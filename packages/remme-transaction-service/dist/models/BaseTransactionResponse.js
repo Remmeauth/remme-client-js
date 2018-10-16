@@ -13,10 +13,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var remme_web_socket_1 = require("remme-web-socket");
 var BaseTransactionResponse = /** @class */ (function (_super) {
     __extends(BaseTransactionResponse, _super);
-    function BaseTransactionResponse(socketAddress, sslMode, batchId) {
-        var _this = _super.call(this, socketAddress, sslMode) || this;
+    function BaseTransactionResponse(nodeAddress, sslMode, batchId) {
+        var _this = _super.call(this, nodeAddress, sslMode) || this;
         _this.batchId = batchId;
-        _super.prototype.data = {
+        _this.data = {
             batch_ids: [
                 _this.batchId,
             ],

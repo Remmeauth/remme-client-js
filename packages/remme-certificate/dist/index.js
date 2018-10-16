@@ -88,7 +88,7 @@ var RemmeCertificate = /** @class */ (function () {
     };
     RemmeCertificate.prototype.check = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
-            var publicKeyPEM, checkResult, message, entityHash, currentTime;
+            var publicKeyPEM, checkResult, message;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -100,14 +100,14 @@ var RemmeCertificate = /** @class */ (function () {
                     case 1:
                         checkResult = _a.sent();
                         message = this._remmePublicKeyStorage.generateMessage(remme_utils_1.forge.pki.certificateToPem(certificate));
-                        entityHash = this._remmePublicKeyStorage.generateEntityHash(message);
-                        currentTime = Math.floor(Date.now() / 1000);
+                        // const entityHash = this._remmePublicKeyStorage.generateEntityHash(message);
+                        // const currentTime = Math.floor(Date.now() / 1000);
                         if (checkResult) {
-                            checkResult.valid = checkResult &&
-                                !checkResult.revoked &&
-                                entityHash === checkResult.entity_hash &&
-                                currentTime >= checkResult.valid_from &&
-                                currentTime < checkResult.valid_to;
+                            // checkResult.valid = checkResult &&
+                            //     !checkResult.is_revoked &&
+                            //     entityHash === checkResult.entity_hash &&
+                            //     currentTime >= checkResult.valid_from &&
+                            //     currentTime < checkResult.valid_to;
                             return [2 /*return*/, checkResult];
                         }
                         else {

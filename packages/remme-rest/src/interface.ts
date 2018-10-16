@@ -1,13 +1,8 @@
-import { RemmeMethods, ValidatorMethods, IQueryParams } from "./models";
+import { RemmeMethods } from "./models";
 
 export interface IRemmeRest {
-    nodeAddress(): string;
-    sslMode(): boolean;
-    // getRequest<Output>(method: RemmeMethods | ValidatorMethods, urlParams?: string, queryParams?: IQueryParams)
-    //     : Promise<Output>;
-    getRequest<Output>(method: RemmeMethods | ValidatorMethods, requestPayload?: IQueryParams)
-        : Promise<Output>;
-    putRequest<Input, Output>(method: RemmeMethods, requestPayload: Input): Promise<Output>;
-    postRequest<Input, Output>(method: RemmeMethods, requestPayload: Input): Promise<Output>;
-    deleteRequest<Input, Output>(method: RemmeMethods, requestPayload: Input): Promise<Output>;
+    nodeAddress: string;
+    sslMode: boolean;
+    sendRequest<Output>(method: RemmeMethods): Promise<Output>;
+    sendRequest<Input, Output>(method: RemmeMethods, requestPayload: Input): Promise<Output>;
 }

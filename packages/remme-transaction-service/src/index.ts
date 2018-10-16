@@ -30,7 +30,7 @@ class RemmeTransactionService implements IRemmeTransactionService {
         // const { pubkey: batcherPublicKey } = await this._remmeRest
         //     .getRequest<{pubkey: string}>(RemmeMethods.nodeKey);
         const batcherPublicKey = await this._remmeRest
-            .getRequest<string>(RemmeMethods.nodeKey);
+            .sendRequest<string>(RemmeMethods.nodeKey);
         const transactionHeaderBytes = protobuf.TransactionHeader.encode({
             familyName,
             familyVersion,
@@ -70,11 +70,11 @@ class RemmeTransactionService implements IRemmeTransactionService {
         //     apiResult.batch_id,
         // );
         const batchId = await this._remmeRest
-            .postRequest<{data: string}, string>
+            .sendRequest<{data: string}, string>
             (RemmeMethods.transaction, { data: transaction });
         return new BaseTransactionResponse(
-            this._remmeRest.nodeAddress(),
-            this._remmeRest.sslMode(),
+            this._remmeRest.nodeAddress,
+            this._remmeRest.sslMode,
             batchId,
         );
     }

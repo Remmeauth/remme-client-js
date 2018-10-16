@@ -29,7 +29,6 @@
   "dependencies": {
     "remme-account": "^0.3.3",
     "remme-atomic-swap": "^0.3.3",
-    "remme-batch": "^0.3.3",
     "remme-blockchain-info": "^0.3.3",
     "remme-certificate": "^0.3.3",
     "remme-public-key-storage": "^0.3.3",

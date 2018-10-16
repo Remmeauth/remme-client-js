@@ -8,7 +8,7 @@ and this project adheres to
 ### Changed
 - Provided settings address for storing public key
 - Check method in publicKeyStorage can use public key address
-- Migrated from REST API to JSON-RPC
+- Migrated from REST API to JSON-RPC. Created public method sendRequest.
 - Provided several errors description and resolve in README file
 - Provided state property for atomic-swap
 
@@ -18,3 +18,4 @@ and this project adheres to
 ### Removed
 - Batch class. Method check for batch status was migrated to blockchainInfo class
 - ValidatorMethods. Only RemmeMethods was left.
+- In RemmeRest methods getRequest, postRequest, putRequest, deleteRequest. Since now we use sendRequest.

@@ -113,7 +113,7 @@
 				<strong>Solution</strong>:<br /></p>
 				<ol>
 					<li>npm run eject</li>
-					<li>npm i uglifyjs-webpack-plugin</li>
+					<li>npm i <a href="mailto:uglifyjs-webpack-plugin@1.3.0">uglifyjs-webpack-plugin@1.3.0</a></li>
 					<li>In webpack.config.prod.js you need import this package and use it:</li>
 				</ol>
 				<pre><code class="lang-js"><span class="hljs-keyword">const</span> UglifyJsPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'uglifyjs-webpack-plugin'</span>);
@@ -240,9 +240,6 @@ remme.events.subscribe({
 					<li class=" tsd-kind-enum">
 						<a href="enums/statuses.html" class="tsd-kind-icon">Statuses</a>
 					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/validatormethods.html" class="tsd-kind-icon">Validator<wbr>Methods</a>
-					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/balanceresult.html" class="tsd-kind-icon">Balance<wbr>Result</a>
 					</li>
@@ -260,9 +257,6 @@ remme.events.subscribe({
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/batchlist.html" class="tsd-kind-icon">Batch<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/batchresult.html" class="tsd-kind-icon">Batch<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/batchstatusesdto.html" class="tsd-kind-icon">Batch<wbr>Statuses<wbr>Dto</a>
@@ -311,9 +305,6 @@ remme.events.subscribe({
 					</li>
 					<li class=" tsd-kind-class tsd-is-not-exported">
 						<a href="classes/remmeaccount.html" class="tsd-kind-icon">Remme<wbr>Account</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-not-exported">
-						<a href="classes/remmebatch.html" class="tsd-kind-icon">Remme<wbr>Batch</a>
 					</li>
 					<li class=" tsd-kind-class tsd-is-not-exported">
 						<a href="classes/remmeblockchaininfo.html" class="tsd-kind-icon">Remme<wbr>Blockchain<wbr>Info</a>
@@ -406,7 +397,7 @@ remme.events.subscribe({
 						<a href="interfaces/data.html" class="tsd-kind-icon">Data</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/errorreceived.html" class="tsd-kind-icon">Error<wbr>Received</a>
+						<a href="interfaces/iaddress.html" class="tsd-kind-icon">IAddress</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/ibasequery.html" class="tsd-kind-icon">IBase<wbr>Query</a>
@@ -422,9 +413,6 @@ remme.events.subscribe({
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/iblockinforesponse.html" class="tsd-kind-icon">IBlock<wbr>Info<wbr>Response</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iblockinforesponseblocks.html" class="tsd-kind-icon">IBlock<wbr>Info<wbr>Response<wbr>Blocks</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/icertificatetransactionresponse.html" class="tsd-kind-icon">ICertificate<wbr>Transaction<wbr>Response</a>
@@ -445,13 +433,7 @@ remme.events.subscribe({
 						<a href="interfaces/ipaging.html" class="tsd-kind-icon">IPaging</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/iqueryparams.html" class="tsd-kind-icon">IQuery<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface">
 						<a href="interfaces/iremmeaccount.html" class="tsd-kind-icon">IRemme<wbr>Account</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iremmebatch.html" class="tsd-kind-icon">IRemme<wbr>Batch</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/iremmeblockchaininfo.html" class="tsd-kind-icon">IRemme<wbr>Blockchain<wbr>Info</a>
@@ -491,9 +473,6 @@ remme.events.subscribe({
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/itransactionresponse.html" class="tsd-kind-icon">ITransaction<wbr>Response</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ivalidatorerror.html" class="tsd-kind-icon">IValidator<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/invalidtransactions.html" class="tsd-kind-icon">Invalid<wbr>Transactions</a>
@@ -537,6 +516,9 @@ remme.events.subscribe({
 					<li class=" tsd-kind-function">
 						<a href="globals.html#hextobytes" class="tsd-kind-icon">hex<wbr>ToBytes</a>
 					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#makesettingsaddress" class="tsd-kind-icon">make<wbr>Settings<wbr>Address</a>
+					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#publickeyfrompem" class="tsd-kind-icon">public<wbr>Key<wbr>From<wbr>Pem</a>
 					</li>
@@ -555,11 +537,11 @@ remme.events.subscribe({
 					<li class=" tsd-kind-function">
 						<a href="globals.html#utf8tobytes" class="tsd-kind-icon">utf8<wbr>ToBytes</a>
 					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="globals.html#default_network_config" class="tsd-kind-icon">DEFAULT_<wbr>NETWORK_<wbr>CONFIG</a>
+					</li>
 					<li class=" tsd-kind-object-literal">
 						<a href="globals.html#statusevent" class="tsd-kind-icon">Status<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-object-literal tsd-is-not-exported">
-						<a href="globals.html#defaultconfig" class="tsd-kind-icon">default<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-object-literal">
 						<a href="globals.html#oids" class="tsd-kind-icon">oids</a>

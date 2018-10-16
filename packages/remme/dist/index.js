@@ -16,11 +16,6 @@ var remme_account_1 = require("remme-account");
 var remme_atomic_swap_1 = require("remme-atomic-swap");
 var remme_blockchain_info_1 = require("remme-blockchain-info");
 var remme_web_socket_events_1 = require("remme-web-socket-events");
-var defaultConfig = {
-    nodeAddress: "localhost",
-    nodePort: "8080",
-    sslMode: false,
-};
 /**
  * Main namespace. Which include all interaction with our client for developers.
  */
@@ -86,21 +81,20 @@ var Remme;
         function Client(clientInit) {
             if (clientInit === void 0) { clientInit = {
                 privateKeyHex: "",
-                networkConfig: defaultConfig,
+                networkConfig: remme_rest_1.DEFAULT_NETWORK_CONFIG,
             }; }
-            var _a = clientInit.networkConfig, networkConfig = _a === void 0 ? defaultConfig : _a;
+            var _a = clientInit.networkConfig, networkConfig = _a === void 0 ? remme_rest_1.DEFAULT_NETWORK_CONFIG : _a;
             var _b = clientInit.privateKeyHex, privateKeyHex = _b === void 0 ? "" : _b;
-            networkConfig = __assign({}, defaultConfig, networkConfig);
+            networkConfig = __assign({}, remme_rest_1.DEFAULT_NETWORK_CONFIG, networkConfig);
             this._remmeRest = new remme_rest_1.RemmeRest(networkConfig);
             this._account = new remme_account_1.RemmeAccount(privateKeyHex);
             this.transaction = new remme_transaction_service_1.RemmeTransactionService(this._remmeRest, this._account);
             this.publicKeyStorage = new remme_public_key_storage_1.RemmePublicKeyStorage(this._remmeRest, this.transaction, this._account);
             this.certificate = new remme_certificate_1.RemmeCertificate(this.publicKeyStorage);
             this.token = new remme_token_1.RemmeToken(this._remmeRest, this.transaction);
-            // this.batch = new RemmeBatch(this._remmeRest);
             this.swap = new remme_atomic_swap_1.RemmeSwap(this._remmeRest, this.transaction);
             this.blockchainInfo = new remme_blockchain_info_1.RemmeBlockchainInfo(this._remmeRest);
-            this.events = new remme_web_socket_events_1.RemmeWebSocketsEvents(this._remmeRest.nodeAddress(), this._remmeRest.sslMode());
+            this.events = new remme_web_socket_events_1.RemmeWebSocketsEvents(this._remmeRest.nodeAddress, this._remmeRest.sslMode);
         }
         Object.defineProperty(Client.prototype, "account", {
             /* tslint:disable */
