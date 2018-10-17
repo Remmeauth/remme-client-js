@@ -1,7 +1,9 @@
 import * as bytes from "utf8-bytes";
-import { sha512 } from "js-sha512";
 import { createHash } from "crypto";
 import * as b64 from "base64-js";
+import * as forge from "node-forge";
+
+export const sha512 = (value: Buffer | string) => createHash("sha512").update(value).digest("hex");
 
 export const hexToBytes = (str: string) => {
     const arr = [];
@@ -38,15 +40,12 @@ export const toHex = (str: string): string => {
     return hex;
 };
 
-export const getAddressFromData = (familyName: string, data: string): string => {
+export const generateAddress = (familyName: string, data: string): string => {
     return `${sha512(familyName).slice(0, 6)}${sha512(data).slice(0, 64)}`;
 };
 
-export const toHexString = (byteArray) => {
-    return Array.from(byteArray, (byte: any) => {
-        return ("0" + (byte & 0xFF).toString(16)).slice(-2);
-    }).join("");
-};
+export const toHexString = (byteArray) => Array.from(byteArray, (byte: any) =>
+    ("0" + (byte & 0xFF).toString(16)).slice(-2)).join("");
 
 export const toUTF8Array = (str) => {
     const utf8 = [];
@@ -77,11 +76,43 @@ export const toUTF8Array = (str) => {
     return utf8;
 };
 
-export const makeSettingsAddress = (key: string): string => {
+export const generateSettingsAddress = (key: string): string => {
     const keyParts = key.split(".", 4);
     const addressParts = keyParts.map((v) => createHash("sha256").update(v).digest("hex").slice(0, 16));
     while (4 - addressParts.length !== 0) {
         addressParts.push(createHash("sha256").update("").digest("hex").slice(0, 16));
     }
     return `000000${addressParts.join("")}`;
+};
+
+const certificateToPem = (certificate: forge.pki.Certificate): forge.pki.PEM => {
+    try {
+        return forge.pki.certificateToPem(certificate);
+    } catch (e) {
+        throw new Error("Given certificate is not a valid");
+    }
+};
+
+const certificateFromPem = (certificate: forge.pki.PEM): forge.pki.Certificate => {
+    try {
+        return forge.pki.certificateFromPem(certificate);
+    } catch (e) {
+        throw new Error("Given certificate is not a valid");
+    }
+};
+
+const publicKeyToPem = (publicKey: forge.pki.Key): forge.pki.PEM => {
+    try {
+        return forge.pki.publicKeyToPem(publicKey);
+    } catch (e) {
+        throw new Error("Given publicKey is not a valid");
+    }
+};
+
+const publicKeyFromPem = (publicKey: forge.pki.PEM): forge.pki.Certificate => {
+    try {
+        return forge.pki.publicKeyFromPem(publicKey);
+    } catch (e) {
+        throw new Error("Given publicKey is not a valid");
+    }
 };

@@ -74,10 +74,10 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                             validFrom: validFrom,
                             validTo: validTo,
                         }).finish();
-                        pubKeyAddress = remme_utils_1.getAddressFromData(this._familyName, publicKeyPEM);
-                        storagePubKey = remme_utils_1.makeSettingsAddress("remme.settings.storage_pub_key");
-                        settingAddress = remme_utils_1.makeSettingsAddress("remme.economy_enabled");
-                        storageAddress = remme_utils_1.getAddressFromData(this._remmeAccount.familyName, storagePubKey);
+                        pubKeyAddress = remme_utils_1.generateAddress(this._familyName, publicKeyPEM);
+                        storagePubKey = remme_utils_1.generateSettingsAddress("remme.settings.storage_pub_key");
+                        settingAddress = remme_utils_1.generateSettingsAddress("remme.economy_enabled");
+                        storageAddress = remme_utils_1.generateAddress(this._remmeAccount.familyName, storagePubKey);
                         payloadBytes = this._generateTransactionPayload(remme_protobuf_1.PubKeyMethod.Method.STORE, payload);
                         return [4 /*yield*/, this._createAndSendTransaction([
                                 pubKeyAddress,
@@ -118,7 +118,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                         if (typeof publicKey === "object") {
                             publicKey = remme_utils_1.forge.pki.publicKeyToPem(publicKey);
                         }
-                        address = remme_utils_1.getAddressFromData(this._familyName, publicKey);
+                        address = remme_utils_1.generateAddress(this._familyName, publicKey);
                         revokePayload = remme_protobuf_1.RevokePubKeyPayload.encode({
                             address: address,
                         }).finish();

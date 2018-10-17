@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "./node_modules/.bin/lerna bootstrap",
     "publish": "npm run bootstrap && ./node_modules/.bin/lerna publish",
-    "bootstrap": "./node_modules/.bin/gulp prepublish; ./node_modules/.bin/lerna bootstrap;",
+    "bootstrap": "./node_modules/.bin/gulp prepublish && ./node_modules/.bin/lerna bootstrap",
     "build": "npm run bootstrap && ./node_modules/.bin/gulp",
     "build_all": "npm run bootstrap && ./node_modules/.bin/gulp build",
     "watch": "./node_modules/.bin/gulp watch",

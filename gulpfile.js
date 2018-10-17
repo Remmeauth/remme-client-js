@@ -245,7 +245,7 @@ gulp.task('prepublish', function () {
         exec("cd " + pckg.src + " && npm run transpile;")
       )
     } else {
-      exec("gulp protobuf-compile");
+      exec("./node_modules/.bin/gulp protobuf-compile");
     }
   });
 });

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_rest_1 = require("remme-rest");
-var crypto_1 = require("crypto");
+var remme_utils_1 = require("remme-utils");
 var protobuf = require("sawtooth-sdk/protobuf");
 var models_1 = require("./models");
 exports.BaseTransactionResponse = models_1.BaseTransactionResponse;
@@ -52,8 +52,7 @@ var RemmeTransactionService = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         familyName = settings.familyName, familyVersion = settings.familyVersion, inputs = settings.inputs, outputs = settings.outputs, payloadBytes = settings.payloadBytes;
-                        return [4 /*yield*/, this._remmeRest
-                                .sendRequest(remme_rest_1.RemmeMethods.nodeKey)];
+                        return [4 /*yield*/, this._remmeRest.sendRequest(remme_rest_1.RemmeMethods.nodeKey)];
                     case 1:
                         batcherPublicKey = _a.sent();
                         transactionHeaderBytes = protobuf.TransactionHeader.encode({
@@ -62,10 +61,9 @@ var RemmeTransactionService = /** @class */ (function () {
                             inputs: inputs.concat([this._remmeAccount.address]),
                             outputs: outputs.concat([this._remmeAccount.address]),
                             signerPublicKey: this._remmeAccount.publicKeyHex,
-                            nonce: this.getNonce(),
+                            nonce: remme_utils_1.sha512(Math.floor(Math.random() * 1000).toString()),
                             batcherPublicKey: batcherPublicKey,
-                            // payloadSha512: this.generateHash(payloadBytes.toString()),
-                            payloadSha512: crypto_1.createHash("sha512").update(new Buffer(payloadBytes)).digest("hex"),
+                            payloadSha512: remme_utils_1.sha512(payloadBytes),
                         }).finish();
                         signature = this._remmeAccount.sign(transactionHeaderBytes);
                         transaction = protobuf.Transaction.encode({
@@ -97,14 +95,6 @@ var RemmeTransactionService = /** @class */ (function () {
                 }
             });
         });
-    };
-    // public generateHash(data: string): string {
-    //     const certSHA512 = forge.md.sha512.create().update(data);
-    //     return certSHA512.digest().toHex();
-    // }
-    RemmeTransactionService.prototype.getNonce = function () {
-        // return this.generateHash(Math.floor(Math.random() * 1000).toString());
-        return crypto_1.createHash("sha512").update(new Buffer(Math.floor(Math.random() * 1000))).digest("hex");
     };
     return RemmeTransactionService;
 }());

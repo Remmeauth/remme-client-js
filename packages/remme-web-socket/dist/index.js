@@ -29,7 +29,6 @@ var RemmeWebSocket = /** @class */ (function () {
             _this._socket.send(_this._getSocketQuery());
         };
         this._socket.onmessage = function (e) {
-            // console.log(e.data);
             var response = JSON.parse(e.data);
             if (response.type === "message"
                 &&

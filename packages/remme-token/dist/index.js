@@ -57,7 +57,7 @@ var RemmeToken = /** @class */ (function () {
                         if (amount <= 0) {
                             throw new Error("amount must be higher than 0");
                         }
-                        receiverAddress = remme_utils_1.getAddressFromData(this._familyName, publicKeyTo);
+                        receiverAddress = remme_utils_1.generateAddress(this._familyName, publicKeyTo);
                         transferPayload = remme_protobuf_1.TransferPayload.encode({
                             addressTo: receiverAddress,
                             value: amount,

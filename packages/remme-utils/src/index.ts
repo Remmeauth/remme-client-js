@@ -1,18 +1,4 @@
 import * as forge from "node-forge";
-import {
-    oids,
-} from "./models";
-import {
-    hexToBytes,
-    bytesToHex,
-    utf8ToBytes,
-    toHex,
-    getAddressFromData,
-    toHexString,
-    toUTF8Array,
-    base64ToArrayBuffer,
-    makeSettingsAddress,
-} from "./functions";
 
 /**
  * @hidden
@@ -61,52 +47,7 @@ declare module "node-forge" {
     }
 }
 
-const certificateToPem = (certificate: forge.pki.Certificate): forge.pki.PEM => {
-    try {
-        return forge.pki.certificateToPem(certificate);
-    } catch (e) {
-        throw new Error("Given certificate is not a valid");
-    }
-};
-
-const certificateFromPem = (certificate: forge.pki.PEM): forge.pki.Certificate => {
-    try {
-        return forge.pki.certificateFromPem(certificate);
-    } catch (e) {
-        throw new Error("Given certificate is not a valid");
-    }
-};
-
-const publicKeyToPem = (publicKey: forge.pki.Key): forge.pki.PEM => {
-    try {
-        return forge.pki.publicKeyToPem(publicKey);
-    } catch (e) {
-        throw new Error("Given publicKey is not a valid");
-    }
-};
-
-const publicKeyFromPem = (publicKey: forge.pki.PEM): forge.pki.Certificate => {
-    try {
-        return forge.pki.publicKeyFromPem(publicKey);
-    } catch (e) {
-        throw new Error("Given publicKey is not a valid");
-    }
-};
-
-export {
-    forge,
-    oids,
-    hexToBytes,
-    bytesToHex,
-    utf8ToBytes,
-    toHex,
-    getAddressFromData,
-    toHexString,
-    toUTF8Array,
-    certificateToPem,
-    certificateFromPem,
-    publicKeyToPem,
-    publicKeyFromPem,
-    base64ToArrayBuffer,
-    makeSettingsAddress,
-};
+export { forge };
+export * from "./models";
+export * from "./functions";
+export * from "./constants";

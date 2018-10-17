@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var bytes = require("utf8-bytes");
-var js_sha512_1 = require("js-sha512");
 var crypto_1 = require("crypto");
 var b64 = require("base64-js");
+var forge = require("node-forge");
+exports.sha512 = function (value) { return crypto_1.createHash("sha512").update(value).digest("hex"); };
 exports.hexToBytes = function (str) {
     var arr = [];
     var len = str.length;
@@ -34,14 +35,12 @@ exports.toHex = function (str) {
     }
     return hex;
 };
-exports.getAddressFromData = function (familyName, data) {
-    return "" + js_sha512_1.sha512(familyName).slice(0, 6) + js_sha512_1.sha512(data).slice(0, 64);
+exports.generateAddress = function (familyName, data) {
+    return "" + exports.sha512(familyName).slice(0, 6) + exports.sha512(data).slice(0, 64);
 };
-exports.toHexString = function (byteArray) {
-    return Array.from(byteArray, function (byte) {
-        return ("0" + (byte & 0xFF).toString(16)).slice(-2);
-    }).join("");
-};
+exports.toHexString = function (byteArray) { return Array.from(byteArray, function (byte) {
+    return ("0" + (byte & 0xFF).toString(16)).slice(-2);
+}).join(""); };
 exports.toUTF8Array = function (str) {
     var utf8 = [];
     for (var i = 0; i < str.length; i++) {
@@ -67,12 +66,44 @@ exports.toUTF8Array = function (str) {
     }
     return utf8;
 };
-exports.makeSettingsAddress = function (key) {
+exports.generateSettingsAddress = function (key) {
     var keyParts = key.split(".", 4);
     var addressParts = keyParts.map(function (v) { return crypto_1.createHash("sha256").update(v).digest("hex").slice(0, 16); });
     while (4 - addressParts.length !== 0) {
         addressParts.push(crypto_1.createHash("sha256").update("").digest("hex").slice(0, 16));
     }
     return "000000" + addressParts.join("");
+};
+var certificateToPem = function (certificate) {
+    try {
+        return forge.pki.certificateToPem(certificate);
+    }
+    catch (e) {
+        throw new Error("Given certificate is not a valid");
+    }
+};
+var certificateFromPem = function (certificate) {
+    try {
+        return forge.pki.certificateFromPem(certificate);
+    }
+    catch (e) {
+        throw new Error("Given certificate is not a valid");
+    }
+};
+var publicKeyToPem = function (publicKey) {
+    try {
+        return forge.pki.publicKeyToPem(publicKey);
+    }
+    catch (e) {
+        throw new Error("Given publicKey is not a valid");
+    }
+};
+var publicKeyFromPem = function (publicKey) {
+    try {
+        return forge.pki.publicKeyFromPem(publicKey);
+    }
+    catch (e) {
+        throw new Error("Given publicKey is not a valid");
+    }
 };
 //# sourceMappingURL=index.js.map

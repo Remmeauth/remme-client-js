@@ -1,5 +1,5 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
-import { getAddressFromData } from "remme-utils";
+import { generateAddress } from "remme-utils";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
 import { TransferPayload, TransactionPayload, AccountMethod } from "remme-protobuf";
 
@@ -27,7 +27,7 @@ class RemmeToken implements IRemmeToken {
         if (amount <= 0) {
             throw new Error("amount must be higher than 0");
         }
-        const receiverAddress = getAddressFromData(this._familyName, publicKeyTo);
+        const receiverAddress = generateAddress(this._familyName, publicKeyTo);
         const transferPayload = TransferPayload.encode({
             addressTo: receiverAddress,
             value: amount,
