@@ -175,7 +175,7 @@ var RemmeSwap = /** @class */ (function () {
         }).finish();
     };
     RemmeSwap.prototype.getAddresses = function (method, swapId, receiverAddress) {
-        var addresses = [remme_utils_1.getAddressFromData(this._familyName, swapId)];
+        var addresses = [remme_utils_1.generateAddress(this._familyName, swapId)];
         var methodToAddresses = (_a = {},
             _a[remme_protobuf_1.AtomicSwapMethod.Method.INIT] = [
                 this._swapComission,

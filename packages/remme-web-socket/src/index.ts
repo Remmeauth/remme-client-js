@@ -55,7 +55,6 @@ class RemmeWebSocket implements IRemmeWebSocket {
             this._socket.send(this._getSocketQuery());
         };
         this._socket.onmessage = (e) => {
-            // console.log(e.data);
             const response: BatchStateUpdateDto = JSON.parse(e.data);
             if (
                 response.type === "message"

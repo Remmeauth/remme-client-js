@@ -1,5 +1,5 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
-import { getAddressFromData } from "remme-utils";
+import { generateAddress } from "remme-utils";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
 import {
     AtomicSwapMethod,
@@ -106,7 +106,7 @@ class RemmeSwap implements IRemmeSwap {
     }
 
     private getAddresses(method: AtomicSwapMethod.Method, swapId: string, receiverAddress?: string): string[] {
-        const addresses: string[] = [ getAddressFromData(this._familyName, swapId) ];
+        const addresses: string[] = [ generateAddress(this._familyName, swapId) ];
         const methodToAddresses = {
             [AtomicSwapMethod.Method.INIT]: [
                 this._swapComission,

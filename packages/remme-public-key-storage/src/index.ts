@@ -1,9 +1,9 @@
 import {
     forge,
-    getAddressFromData,
+    generateAddress,
     toHexString,
     toUTF8Array,
-    makeSettingsAddress,
+    generateSettingsAddress,
 } from "remme-utils";
 import { RemmeMethods, IRemmeRest } from "remme-rest";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
@@ -62,10 +62,10 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             validFrom,
             validTo,
         }).finish();
-        const pubKeyAddress = getAddressFromData(this._familyName, publicKeyPEM);
-        const storagePubKey = makeSettingsAddress("remme.settings.storage_pub_key");
-        const settingAddress = makeSettingsAddress("remme.economy_enabled");
-        const storageAddress = getAddressFromData(this._remmeAccount.familyName, storagePubKey);
+        const pubKeyAddress = generateAddress(this._familyName, publicKeyPEM);
+        const storagePubKey = generateSettingsAddress("remme.settings.storage_pub_key");
+        const settingAddress = generateSettingsAddress("remme.economy_enabled");
+        const storageAddress = generateAddress(this._remmeAccount.familyName, storagePubKey);
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
         return await this._createAndSendTransaction([
             pubKeyAddress,
@@ -90,7 +90,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         if (typeof publicKey === "object") {
             publicKey = forge.pki.publicKeyToPem(publicKey);
         }
-        const address = getAddressFromData(this._familyName, publicKey);
+        const address = generateAddress(this._familyName, publicKey);
         const revokePayload = RevokePubKeyPayload.encode({
             address,
         }).finish();
