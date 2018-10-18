@@ -64,7 +64,7 @@ class RemmeAccount implements IRemmeAccount {
         }
         let privateKey;
         if (!privateKeyHex) {
-            privateKey = CONTEXT.newRandomPrivateKey().asHex();
+            privateKey = CONTEXT.newRandomPrivateKey();
         } else {
             privateKey = Secp256k1PrivateKey.fromHex(privateKeyHex);
         }
@@ -76,6 +76,7 @@ class RemmeAccount implements IRemmeAccount {
 
     /**
      * Family name for generate address for this account in the blockchain.
+     * (https://docs.remme.io/remme-core/docs/family-account.html#addressing)
      * @type {string}
      */
     public get familyName(): string {
@@ -83,7 +84,7 @@ class RemmeAccount implements IRemmeAccount {
     }
 
     /**
-     * Address of this account in blockchain.
+     * Address of this account in blockchain. (https://docs.remme.io/remme-core/docs/family-account.html#addressing)
      */
     public get address(): string {
         return this._address;

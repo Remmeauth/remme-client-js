@@ -9,7 +9,7 @@ import {
 } from "./models";
 
 class RemmeWebSocketsEvents implements IRemmeWebSocketsEvents {
-    private readonly _socketAddress: string;
+    private readonly _nodeAddress: string;
     private readonly _sslMode: boolean;
     private _socket: IRemmeWebSocket;
 
@@ -32,8 +32,8 @@ class RemmeWebSocketsEvents implements IRemmeWebSocketsEvents {
         return events;
     }
 
-    public constructor(socketAddress: string, sslMode: boolean) {
-        this._socketAddress = socketAddress;
+    public constructor(nodeAddress: string, sslMode: boolean) {
+        this._nodeAddress = nodeAddress;
         this._sslMode = sslMode;
     }
 
@@ -54,7 +54,7 @@ class RemmeWebSocketsEvents implements IRemmeWebSocketsEvents {
         if (this._socket) {
             this._socket.closeWebSocket();
         }
-        this._socket = new RemmeWebSocket(this._socketAddress, this._sslMode);
+        this._socket = new RemmeWebSocket(this._nodeAddress, this._sslMode);
         this._socket.isEvent = true;
         this._socket.data = eventData;
         this._socket.connectToWebSocket(callback);

@@ -53,7 +53,7 @@ var RemmeAccount = /** @class */ (function () {
         }
         var privateKey;
         if (!privateKeyHex) {
-            privateKey = CONTEXT.newRandomPrivateKey().asHex();
+            privateKey = CONTEXT.newRandomPrivateKey();
         }
         else {
             privateKey = secp256k1_1.Secp256k1PrivateKey.fromHex(privateKeyHex);
@@ -66,6 +66,7 @@ var RemmeAccount = /** @class */ (function () {
     Object.defineProperty(RemmeAccount.prototype, "familyName", {
         /**
          * Family name for generate address for this account in the blockchain.
+         * (https://docs.remme.io/remme-core/docs/family-account.html#addressing)
          * @type {string}
          */
         get: function () {
@@ -76,7 +77,7 @@ var RemmeAccount = /** @class */ (function () {
     });
     Object.defineProperty(RemmeAccount.prototype, "address", {
         /**
-         * Address of this account in blockchain.
+         * Address of this account in blockchain. (https://docs.remme.io/remme-core/docs/family-account.html#addressing)
          */
         get: function () {
             return this._address;

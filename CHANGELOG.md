@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to
 
-## [Unreleased]
+## [0.3.4-b]
+### Fixed
+- Bug in account that blocks work without passed privateKeyHex in Remme.Client constructor
+
+## [0.3.4-alfa]
 ### Added
 - Verify method to RemmeAccount.
 - Getters for privateKeyHex, publicKeyHex, address and familyName in RemmeAccount.

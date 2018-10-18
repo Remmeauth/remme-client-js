@@ -4,8 +4,34 @@ import { sha512 } from "remme-utils";
 import * as protobuf from "sawtooth-sdk/protobuf";
 
 import { IRemmeTransactionService } from "./interface";
-import { TransactionCreatePayload, BaseTransactionResponse, IBaseTransactionResponse } from "./models";
+import {
+    BaseTransactionResponse,
+    IBaseTransactionResponse,
+    CreateTransactionDto,
+    SendTransactionDto,
+} from "./models";
 
+/**
+ * Class for creating and sending transactions
+ * @example
+ * ```typescript
+ * const remme = new Remme.Client();
+ * const familyName = "pub_key";
+ * const familyVersion = "0.1";
+ * const inputs = [];
+ * const outputs = [];
+ * const payloadBytes = new Buffer("my transaction");
+ * const createDto = new CreateTransactionDto(
+ *                         familyName,
+ *                         familyVersion,
+ *                         inputs,
+ *                         outputs,
+ *                         payloadBytes,
+ *                   );
+ * const transaction = await remme.transaction.create(createDto);
+ * const sendResponse = await remme.transaction.send(transaction);
+ * ```
+ */
 class RemmeTransactionService implements IRemmeTransactionService {
 
     // index signature
@@ -14,12 +40,47 @@ class RemmeTransactionService implements IRemmeTransactionService {
     private readonly _remmeRest: IRemmeRest;
     private readonly _remmeAccount: IRemmeAccount;
 
+    /**
+     * Get RemmeRest and RemmeAccount;
+     * @example
+     * ```typescript
+     * const remmeRest = new RemmeRest(); // See RemmeRest implementation
+     * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
+     * const remmeTransaction = new RemmeTransactionService(remmeRest, remmeAccount);
+     * ```
+     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeAccount} remmeAccount
+     */
     public constructor(remmeRest: IRemmeRest, remmeAccount: IRemmeAccount) {
         this._remmeRest = remmeRest;
         this._remmeAccount = remmeAccount;
     }
 
-    public async create<Input>(settings: TransactionCreatePayload): Promise<string> {
+    /* tslint:disable */
+    /**
+     * Documentation for building transactions
+     * https://sawtooth.hyperledger.org/docs/core/releases/latest/_autogen/sdk_submit_tutorial_js.html#building-the-transaction
+     * @example
+     * ```typescript
+     * const familyName = "pub_key";
+     * const familyVersion = "0.1";
+     * const inputs = [];
+     * const outputs = [];
+     * const payloadBytes = new Buffer("my transaction");
+     * const createDto = new CreateTransactionDto(
+     *                         familyName,
+     *                         familyVersion,
+     *                         inputs,
+     *                         outputs,
+     *                         payloadBytes,
+     *                   );
+     * const transaction = await remmeTransaction.create(createDto);
+     * ```
+     * @param {CreateTransactionDto} settings
+     * @returns {Promise<string>}
+     */
+    /* tslint:enable */
+    public async create<Input>(settings: CreateTransactionDto): Promise<string> {
         const {
             familyName,
             familyVersion,
@@ -58,10 +119,19 @@ class RemmeTransactionService implements IRemmeTransactionService {
         return transaction;
     }
 
+    /**
+     * @example
+     * ```typescript
+     * const sendResponse = await remmeTransaction.send(transaction);
+     * console.log(sendRequest.batchId);
+     * ```
+     * @param {string} transaction
+     * @returns {Promise<IBaseTransactionResponse>}
+     */
     public async send(transaction: string): Promise<IBaseTransactionResponse> {
+        const requestPayload = new SendTransactionDto(transaction);
         const batchId = await this._remmeRest
-            .sendRequest<{data: string}, string>
-            (RemmeMethods.transaction, { data: transaction });
+            .sendRequest<SendTransactionDto, string>(RemmeMethods.transaction, requestPayload);
         return new BaseTransactionResponse(
             this._remmeRest.nodeAddress,
             this._remmeRest.sslMode,
@@ -76,4 +146,6 @@ export {
     IRemmeTransactionService,
     BaseTransactionResponse,
     IBaseTransactionResponse,
+    CreateTransactionDto,
+    SendTransactionDto,
 };

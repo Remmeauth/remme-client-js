@@ -23,7 +23,7 @@ class RemmeCertificate implements IRemmeCertificate {
         const cert = this._createCertificate(keys, certificateDataToCreate);
         const batchResponse = await this.store(cert);
         const certResponse = new CertificateTransactionResponse(
-            batchResponse.socketAddress,
+            batchResponse.nodeAddress,
             batchResponse.sslMode,
             batchResponse.batchId,
         );

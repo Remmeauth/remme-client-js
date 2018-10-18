@@ -40,11 +40,69 @@ var remme_utils_1 = require("remme-utils");
 var protobuf = require("sawtooth-sdk/protobuf");
 var models_1 = require("./models");
 exports.BaseTransactionResponse = models_1.BaseTransactionResponse;
+exports.CreateTransactionDto = models_1.CreateTransactionDto;
+exports.SendTransactionDto = models_1.SendTransactionDto;
+/**
+ * Class for creating and sending transactions
+ * @example
+ * ```typescript
+ * const remme = new Remme.Client();
+ * const familyName = "pub_key";
+ * const familyVersion = "0.1";
+ * const inputs = [];
+ * const outputs = [];
+ * const payloadBytes = new Buffer("my transaction");
+ * const createDto = new CreateTransactionDto(
+ *                         familyName,
+ *                         familyVersion,
+ *                         inputs,
+ *                         outputs,
+ *                         payloadBytes,
+ *                   );
+ * const transaction = await remme.transaction.create(createDto);
+ * const sendResponse = await remme.transaction.send(transaction);
+ * ```
+ */
 var RemmeTransactionService = /** @class */ (function () {
+    /**
+     * Get RemmeRest and RemmeAccount;
+     * @example
+     * ```typescript
+     * const remmeRest = new RemmeRest(); // See RemmeRest implementation
+     * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
+     * const remmeTransaction = new RemmeTransactionService(remmeRest, remmeAccount);
+     * ```
+     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeAccount} remmeAccount
+     */
     function RemmeTransactionService(remmeRest, remmeAccount) {
         this._remmeRest = remmeRest;
         this._remmeAccount = remmeAccount;
     }
+    /* tslint:disable */
+    /**
+     * Documentation for building transactions
+     * https://sawtooth.hyperledger.org/docs/core/releases/latest/_autogen/sdk_submit_tutorial_js.html#building-the-transaction
+     * @example
+     * ```typescript
+     * const familyName = "pub_key";
+     * const familyVersion = "0.1";
+     * const inputs = [];
+     * const outputs = [];
+     * const payloadBytes = new Buffer("my transaction");
+     * const createDto = new CreateTransactionDto(
+     *                         familyName,
+     *                         familyVersion,
+     *                         inputs,
+     *                         outputs,
+     *                         payloadBytes,
+     *                   );
+     * const transaction = await remmeTransaction.create(createDto);
+     * ```
+     * @param {CreateTransactionDto} settings
+     * @returns {Promise<string>}
+     */
+    /* tslint:enable */
     RemmeTransactionService.prototype.create = function (settings) {
         return __awaiter(this, void 0, void 0, function () {
             var familyName, familyVersion, inputs, outputs, payloadBytes, batcherPublicKey, transactionHeaderBytes, signature, transaction;
@@ -82,13 +140,24 @@ var RemmeTransactionService = /** @class */ (function () {
             });
         });
     };
+    /**
+     * @example
+     * ```typescript
+     * const sendResponse = await remmeTransaction.send(transaction);
+     * console.log(sendRequest.batchId);
+     * ```
+     * @param {string} transaction
+     * @returns {Promise<IBaseTransactionResponse>}
+     */
     RemmeTransactionService.prototype.send = function (transaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var batchId;
+            var requestPayload, batchId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._remmeRest
-                            .sendRequest(remme_rest_1.RemmeMethods.transaction, { data: transaction })];
+                    case 0:
+                        requestPayload = new models_1.SendTransactionDto(transaction);
+                        return [4 /*yield*/, this._remmeRest
+                                .sendRequest(remme_rest_1.RemmeMethods.transaction, requestPayload)];
                     case 1:
                         batchId = _a.sent();
                         return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeRest.nodeAddress, this._remmeRest.sslMode, batchId)];

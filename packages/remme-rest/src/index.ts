@@ -2,6 +2,10 @@ import { HttpClient, AxiosRequestConfig } from "remme-http-client";
 import { IRemmeRest } from "./interface";
 import { RemmeMethods, INetworkConfig } from "./models";
 
+/**
+ * Default config for creating url that passed to RemmeRest constructor;
+ * @type {{nodeAddress: string; nodePort: string; sslMode: boolean}}
+ */
 const DEFAULT_NETWORK_CONFIG = {
     nodeAddress: "localhost",
     nodePort: "8080",
@@ -76,7 +80,7 @@ class RemmeRest implements IRemmeRest {
      * });
      * ```
      *
-     * Implementatin with one param
+     * Implementation with one param
      * ```typescript
      * import { RemmeRest, RemmeMethods } from "remme-rest";
      *
@@ -85,7 +89,7 @@ class RemmeRest implements IRemmeRest {
      * });
      * ```
      *
-     * Implementatin without params
+     * Implementation without params
      * ```typescript
      * import { RemmeRest, RemmeMethods } from "remme-rest";
      *

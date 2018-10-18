@@ -54,7 +54,7 @@ var RemmeCertificate = /** @class */ (function () {
                         return [4 /*yield*/, this.store(cert)];
                     case 2:
                         batchResponse = _a.sent();
-                        certResponse = new models_1.CertificateTransactionResponse(batchResponse.socketAddress, batchResponse.sslMode, batchResponse.batchId);
+                        certResponse = new models_1.CertificateTransactionResponse(batchResponse.nodeAddress, batchResponse.sslMode, batchResponse.batchId);
                         certResponse.certificate = cert;
                         return [2 /*return*/, certResponse];
                 }

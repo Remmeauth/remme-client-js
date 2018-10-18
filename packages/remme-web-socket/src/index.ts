@@ -35,14 +35,39 @@ class RemmeWebSocket implements IRemmeWebSocket {
     // index signature
     [key: string]: any;
 
-    public socketAddress: string;
+    private _socket: W3CWebSocket;
+
+    public nodeAddress: string;
     public sslMode: boolean;
     public isEvent: boolean = false;
     public data: object;
-    private _socket: W3CWebSocket;
 
-    public constructor(socketAddress: string, sslMode: boolean) {
-        this.socketAddress = socketAddress;
+    private _sendAnError(error: ErrorMessage | ErrorFromEvent, callback: any) {
+        this.closeWebSocket();
+        callback(error);
+    }
+
+    private _getSubscribeUrl(): string {
+        const protocol = this.sslMode ? "wss://" : "ws://";
+        return `${protocol}${this.nodeAddress}/ws${this.isEvent ? "/events" : ""}`;
+    }
+
+    private _getSocketQuery(subscribe: boolean = true): string {
+        const query = this.isEvent ? {
+            action: subscribe ? "subscribe" : "unsubscribe",
+            data: this.data,
+        } : {
+            type: "request",
+            action: subscribe ? "subscribe" : "unsubscribe",
+            entity: "batch_state",
+            id: Math.floor(Math.random() * 1000),
+            parameters: this.data,
+        };
+        return JSON.stringify(query);
+    }
+
+    public constructor(nodeAddress: string, sslMode: boolean) {
+        this.nodeAddress = nodeAddress;
         this.sslMode = sslMode;
     }
 
@@ -77,6 +102,10 @@ class RemmeWebSocket implements IRemmeWebSocket {
             callback(err);
             return;
         };
+        // this._socket.onclose = () => {
+        //     callback(new Error("Socket connection was closed"));
+        //     return;
+        // };
     }
 
     public closeWebSocket(): void {
@@ -90,29 +119,6 @@ class RemmeWebSocket implements IRemmeWebSocket {
         this._socket = null;
     }
 
-    private _sendAnError(error: ErrorMessage | ErrorFromEvent, callback: any) {
-        this.closeWebSocket();
-        callback(error);
-    }
-
-    private _getSubscribeUrl(): string {
-        const protocol = this.sslMode ? "wss://" : "ws://";
-        return `${protocol}${this.socketAddress}/ws${this.isEvent ? "/events" : ""}`;
-    }
-
-    private _getSocketQuery(subscribe: boolean = true): string {
-        const query = this.isEvent ? {
-            action: subscribe ? "subscribe" : "unsubscribe",
-            data: this.data,
-        } : {
-            type: "request",
-            action: subscribe ? "subscribe" : "unsubscribe",
-            entity: "batch_state",
-            id: Math.floor(Math.random() * 1000),
-            parameters: this.data,
-        };
-        return JSON.stringify(query);
-    }
 }
 
 export {

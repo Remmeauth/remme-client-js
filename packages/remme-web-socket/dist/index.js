@@ -14,11 +14,33 @@ else {
     WS = websocket_1.w3cwebsocket;
 }
 var RemmeWebSocket = /** @class */ (function () {
-    function RemmeWebSocket(socketAddress, sslMode) {
+    function RemmeWebSocket(nodeAddress, sslMode) {
         this.isEvent = false;
-        this.socketAddress = socketAddress;
+        this.nodeAddress = nodeAddress;
         this.sslMode = sslMode;
     }
+    RemmeWebSocket.prototype._sendAnError = function (error, callback) {
+        this.closeWebSocket();
+        callback(error);
+    };
+    RemmeWebSocket.prototype._getSubscribeUrl = function () {
+        var protocol = this.sslMode ? "wss://" : "ws://";
+        return "" + protocol + this.nodeAddress + "/ws" + (this.isEvent ? "/events" : "");
+    };
+    RemmeWebSocket.prototype._getSocketQuery = function (subscribe) {
+        if (subscribe === void 0) { subscribe = true; }
+        var query = this.isEvent ? {
+            action: subscribe ? "subscribe" : "unsubscribe",
+            data: this.data,
+        } : {
+            type: "request",
+            action: subscribe ? "subscribe" : "unsubscribe",
+            entity: "batch_state",
+            id: Math.floor(Math.random() * 1000),
+            parameters: this.data,
+        };
+        return JSON.stringify(query);
+    };
     RemmeWebSocket.prototype.connectToWebSocket = function (callback) {
         var _this = this;
         if (this._socket) {
@@ -50,6 +72,10 @@ var RemmeWebSocket = /** @class */ (function () {
             callback(err);
             return;
         };
+        // this._socket.onclose = () => {
+        //     callback(new Error("Socket connection was closed"));
+        //     return;
+        // };
     };
     RemmeWebSocket.prototype.closeWebSocket = function () {
         if (!this._socket) {
@@ -60,28 +86,6 @@ var RemmeWebSocket = /** @class */ (function () {
         }
         this._socket.close();
         this._socket = null;
-    };
-    RemmeWebSocket.prototype._sendAnError = function (error, callback) {
-        this.closeWebSocket();
-        callback(error);
-    };
-    RemmeWebSocket.prototype._getSubscribeUrl = function () {
-        var protocol = this.sslMode ? "wss://" : "ws://";
-        return "" + protocol + this.socketAddress + "/ws" + (this.isEvent ? "/events" : "");
-    };
-    RemmeWebSocket.prototype._getSocketQuery = function (subscribe) {
-        if (subscribe === void 0) { subscribe = true; }
-        var query = this.isEvent ? {
-            action: subscribe ? "subscribe" : "unsubscribe",
-            data: this.data,
-        } : {
-            type: "request",
-            action: subscribe ? "subscribe" : "unsubscribe",
-            entity: "batch_state",
-            id: Math.floor(Math.random() * 1000),
-            parameters: this.data,
-        };
-        return JSON.stringify(query);
     };
     return RemmeWebSocket;
 }());

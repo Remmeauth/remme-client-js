@@ -38,6 +38,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var remme_http_client_1 = require("remme-http-client");
 var models_1 = require("./models");
 exports.RemmeMethods = models_1.RemmeMethods;
+/**
+ * Default config for creating url that passed to RemmeRest constructor;
+ * @type {{nodeAddress: string; nodePort: string; sslMode: boolean}}
+ */
 var DEFAULT_NETWORK_CONFIG = {
     nodeAddress: "localhost",
     nodePort: "8080",
@@ -84,7 +88,7 @@ var RemmeRest = /** @class */ (function () {
      * });
      * ```
      *
-     * Implementatin with one param
+     * Implementation with one param
      * ```typescript
      * import { RemmeRest, RemmeMethods } from "remme-rest";
      *
@@ -93,7 +97,7 @@ var RemmeRest = /** @class */ (function () {
      * });
      * ```
      *
-     * Implementatin without params
+     * Implementation without params
      * ```typescript
      * import { RemmeRest, RemmeMethods } from "remme-rest";
      *

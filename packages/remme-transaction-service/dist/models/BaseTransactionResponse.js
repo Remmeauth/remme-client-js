@@ -11,8 +11,18 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_web_socket_1 = require("remme-web-socket");
+/**
+ * Main class for response on transaction request, which contain identifier of batch and communication with WebSockets.
+ */
 var BaseTransactionResponse = /** @class */ (function (_super) {
     __extends(BaseTransactionResponse, _super);
+    /**
+     * Get address of node, ssl mode, and identifier of batch.
+     * Then implement RemmeWebSocket class and provide data to it.
+     * @param {string} nodeAddress
+     * @param {boolean} sslMode
+     * @param {string} batchId
+     */
     function BaseTransactionResponse(nodeAddress, sslMode, batchId) {
         var _this = _super.call(this, nodeAddress, sslMode) || this;
         _this.batchId = batchId;
