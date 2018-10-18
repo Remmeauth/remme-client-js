@@ -1,4 +1,4 @@
-import { RemmeWebSocket, IRemmeWebSocket } from "remme-web-socket";
+import { RemmeWebSocket } from "remme-web-socket";
 
 import { IRemmeWebSocketsEvents } from "./interface";
 import {
@@ -8,10 +8,7 @@ import {
     RemmeEvents,
 } from "./models";
 
-class RemmeWebSocketsEvents implements IRemmeWebSocketsEvents {
-    private readonly _nodeAddress: string;
-    private readonly _sslMode: boolean;
-    private _socket: IRemmeWebSocket;
+class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEvents  {
 
     private _prepareEvents(events: RemmeEvents | RemmeEvents[]): RemmeEvents[] {
         if (typeof events !== "object") {
@@ -32,13 +29,7 @@ class RemmeWebSocketsEvents implements IRemmeWebSocketsEvents {
         return events;
     }
 
-    public constructor(nodeAddress: string, sslMode: boolean) {
-        this._nodeAddress = nodeAddress;
-        this._sslMode = sslMode;
-    }
-
-    private _generateData({ events, lastKnownBlockId }: IRemmeEventsData)
-        : RemmeEventsData {
+    private _generateData({ events, lastKnownBlockId }: IRemmeEventsData): RemmeEventsData {
         events = this._prepareEvents(events);
         const data = new RemmeEventsData();
         data.entity = RemmeEventsEntity.Events;
@@ -49,25 +40,29 @@ class RemmeWebSocketsEvents implements IRemmeWebSocketsEvents {
         return data;
     }
 
+    public constructor(nodeAddress: string, sslMode: boolean) {
+        super(nodeAddress, sslMode);
+    }
+
     public subscribe(data: IRemmeEventsData, callback: (err, res) => void): void {
         const eventData = this._generateData(data);
         if (this._socket) {
-            this._socket.closeWebSocket();
+            super.closeWebSocket();
         }
-        this._socket = new RemmeWebSocket(this._nodeAddress, this._sslMode);
-        this._socket.isEvent = true;
-        this._socket.data = eventData;
-        this._socket.connectToWebSocket(callback);
+        this.isEvent = true;
+        this.data = eventData;
+        super.connectToWebSocket(callback);
     }
 
     public unsubscribe(): void {
         if (this._socket) {
-            this._socket.closeWebSocket();
+            super.closeWebSocket();
             this._socket = null;
         } else {
             throw new Error("WebSocket is not running");
         }
     }
+
 }
 
 export {

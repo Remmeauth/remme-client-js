@@ -1,13 +1,23 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_web_socket_1 = require("remme-web-socket");
 var models_1 = require("./models");
 exports.RemmeEventsEntity = models_1.RemmeEventsEntity;
 exports.RemmeEvents = models_1.RemmeEvents;
-var RemmeWebSocketsEvents = /** @class */ (function () {
+var RemmeWebSocketsEvents = /** @class */ (function (_super) {
+    __extends(RemmeWebSocketsEvents, _super);
     function RemmeWebSocketsEvents(nodeAddress, sslMode) {
-        this._nodeAddress = nodeAddress;
-        this._sslMode = sslMode;
+        return _super.call(this, nodeAddress, sslMode) || this;
     }
     RemmeWebSocketsEvents.prototype._prepareEvents = function (events) {
         if (typeof events !== "object") {
@@ -43,16 +53,15 @@ var RemmeWebSocketsEvents = /** @class */ (function () {
     RemmeWebSocketsEvents.prototype.subscribe = function (data, callback) {
         var eventData = this._generateData(data);
         if (this._socket) {
-            this._socket.closeWebSocket();
+            _super.prototype.closeWebSocket.call(this);
         }
-        this._socket = new remme_web_socket_1.RemmeWebSocket(this._nodeAddress, this._sslMode);
-        this._socket.isEvent = true;
-        this._socket.data = eventData;
-        this._socket.connectToWebSocket(callback);
+        this.isEvent = true;
+        this.data = eventData;
+        _super.prototype.connectToWebSocket.call(this, callback);
     };
     RemmeWebSocketsEvents.prototype.unsubscribe = function () {
         if (this._socket) {
-            this._socket.closeWebSocket();
+            _super.prototype.closeWebSocket.call(this);
             this._socket = null;
         }
         else {
@@ -60,6 +69,6 @@ var RemmeWebSocketsEvents = /** @class */ (function () {
         }
     };
     return RemmeWebSocketsEvents;
-}());
+}(remme_web_socket_1.RemmeWebSocket));
 exports.RemmeWebSocketsEvents = RemmeWebSocketsEvents;
 //# sourceMappingURL=index.js.map
