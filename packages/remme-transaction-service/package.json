@@ -1,6 +1,6 @@
 {
   "name": "remme-transaction-service",
-  "version": "0.3.4-alfa",
+  "version": "0.3.4-b",
   "description": "REMME transaction service internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,10 +13,10 @@
   "dependencies": {
     "@types/js-base64": "^2.3.1",
     "js-base64": "^2.4.5",
-    "remme-account": "^0.3.4-alfa",
-    "remme-rest": "^0.3.4-alfa",
-    "remme-utils": "^0.3.4-alfa",
-    "remme-web-socket": "^0.3.4-alfa",
+    "remme-account": "^0.3.4-b",
+    "remme-rest": "^0.3.4-b",
+    "remme-utils": "^0.3.4-b",
+    "remme-web-socket": "^0.3.4-b",
     "sawtooth-sdk": "^1.0.4"
   },
   "devDependencies": {
