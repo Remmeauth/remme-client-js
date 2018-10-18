@@ -1,1 +1,3 @@
-declare const PRIVATE_KEY_PATTERN: RegExp;
+export declare const PATTERNS: {
+    PRIVATE_KEY: RegExp;
+};

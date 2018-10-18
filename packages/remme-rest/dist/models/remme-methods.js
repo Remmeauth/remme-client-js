@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * Enum all currently available methods in our JSON-RPC
+ * Enumeration all currently available methods in our JSON-RPC.
  */
 var RemmeMethods;
 (function (RemmeMethods) {

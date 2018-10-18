@@ -5,8 +5,8 @@ var models_1 = require("./models");
 exports.RemmeEventsEntity = models_1.RemmeEventsEntity;
 exports.RemmeEvents = models_1.RemmeEvents;
 var RemmeWebSocketsEvents = /** @class */ (function () {
-    function RemmeWebSocketsEvents(socketAddress, sslMode) {
-        this._socketAddress = socketAddress;
+    function RemmeWebSocketsEvents(nodeAddress, sslMode) {
+        this._nodeAddress = nodeAddress;
         this._sslMode = sslMode;
     }
     RemmeWebSocketsEvents.prototype._prepareEvents = function (events) {
@@ -45,7 +45,7 @@ var RemmeWebSocketsEvents = /** @class */ (function () {
         if (this._socket) {
             this._socket.closeWebSocket();
         }
-        this._socket = new remme_web_socket_1.RemmeWebSocket(this._socketAddress, this._sslMode);
+        this._socket = new remme_web_socket_1.RemmeWebSocket(this._nodeAddress, this._sslMode);
         this._socket.isEvent = true;
         this._socket.data = eventData;
         this._socket.connectToWebSocket(callback);

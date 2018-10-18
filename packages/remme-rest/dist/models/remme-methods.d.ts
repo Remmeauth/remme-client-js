@@ -1,5 +1,5 @@
 /**
- * Enum all currently available methods in our JSON-RPC
+ * Enumeration all currently available methods in our JSON-RPC.
  */
 export declare enum RemmeMethods {
     publicKey = "get_public_key_info",
