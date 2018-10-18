@@ -27,6 +27,6 @@ and this project adheres to
 - In getBlocks parameter start use another pattern /^\[a-f0-9]{16}$/, because validator use hex format fo block_num, so "10" is "a"
 
 ### Removed
-- Batch class. Method check for batch status was migrated to blockchainInfo class
+- Batch class. Method check for batch status was migrated to blockchainInfo class. So batch.getStatus is now blockchainInfo.getBatchStatus.
 - ValidatorMethods. Only RemmeMethods was left.
 - In RemmeRest methods getRequest, postRequest, putRequest, deleteRequest. Since now we use sendRequest.

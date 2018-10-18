@@ -16,9 +16,11 @@ else {
 var RemmeWebSocket = /** @class */ (function () {
     function RemmeWebSocket(nodeAddress, sslMode) {
         this.isEvent = false;
-        this.nodeAddress = nodeAddress;
-        this.sslMode = sslMode;
+        this._nodeAddress = nodeAddress;
+        this._sslMode = sslMode;
     }
+    // public nodeAddress: string;
+    // public sslMode: boolean;
     RemmeWebSocket.prototype._sendAnError = function (error, callback) {
         this.closeWebSocket();
         callback(error);
@@ -41,6 +43,20 @@ var RemmeWebSocket = /** @class */ (function () {
         };
         return JSON.stringify(query);
     };
+    Object.defineProperty(RemmeWebSocket.prototype, "nodeAddress", {
+        get: function () {
+            return this._nodeAddress;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RemmeWebSocket.prototype, "sslMode", {
+        get: function () {
+            return this._sslMode;
+        },
+        enumerable: true,
+        configurable: true
+    });
     RemmeWebSocket.prototype.connectToWebSocket = function (callback) {
         var _this = this;
         if (this._socket) {
@@ -72,10 +88,6 @@ var RemmeWebSocket = /** @class */ (function () {
             callback(err);
             return;
         };
-        // this._socket.onclose = () => {
-        //     callback(new Error("Socket connection was closed"));
-        //     return;
-        // };
     };
     RemmeWebSocket.prototype.closeWebSocket = function () {
         if (!this._socket) {

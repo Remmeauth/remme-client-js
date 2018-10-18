@@ -35,12 +35,15 @@ class RemmeWebSocket implements IRemmeWebSocket {
     // index signature
     [key: string]: any;
 
-    private _socket: W3CWebSocket;
+    private readonly _nodeAddress: string;
+    private readonly _sslMode: boolean;
 
-    public nodeAddress: string;
-    public sslMode: boolean;
-    public isEvent: boolean = false;
-    public data: object;
+    protected _socket: W3CWebSocket;
+    protected isEvent: boolean = false;
+    protected data: object;
+
+    // public nodeAddress: string;
+    // public sslMode: boolean;
 
     private _sendAnError(error: ErrorMessage | ErrorFromEvent, callback: any) {
         this.closeWebSocket();
@@ -67,8 +70,16 @@ class RemmeWebSocket implements IRemmeWebSocket {
     }
 
     public constructor(nodeAddress: string, sslMode: boolean) {
-        this.nodeAddress = nodeAddress;
-        this.sslMode = sslMode;
+        this._nodeAddress = nodeAddress;
+        this._sslMode = sslMode;
+    }
+
+    public get nodeAddress(): string {
+        return this._nodeAddress;
+    }
+
+    public get sslMode(): boolean {
+        return this._sslMode;
     }
 
     public connectToWebSocket(callback: any): void {
@@ -102,10 +113,6 @@ class RemmeWebSocket implements IRemmeWebSocket {
             callback(err);
             return;
         };
-        // this._socket.onclose = () => {
-        //     callback(new Error("Socket connection was closed"));
-        //     return;
-        // };
     }
 
     public closeWebSocket(): void {
