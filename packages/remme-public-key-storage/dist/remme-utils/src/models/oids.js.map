@@ -1,0 +1,1 @@
+{"version":3,"file":"oids.js","sourceRoot":"","sources":["../../../../../remme-utils/src/models/oids.ts"],"names":[],"mappings":";;AAAa,QAAA,IAAI,GAAG;IAChB,OAAO,EAAE,SAAS;IAClB,aAAa,EAAE,SAAS;IACxB,IAAI,EAAE,UAAU;IAChB,KAAK,EAAE,UAAU;IACjB,mBAAmB,EAAE,UAAU;IAC/B,SAAS,EAAE,UAAU;IACrB,aAAa,EAAE,UAAU;IACzB,UAAU,EAAE,UAAU;IACtB,gBAAgB,EAAE,UAAU;CAC/B,CAAC"}

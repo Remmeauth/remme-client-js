@@ -1,5 +1,5 @@
 import { RemmeMethods, IRemmeRest } from "remme-rest";
-import { generateAddress } from "remme-utils";
+import { generateAddress, RemmeFamilyName } from "remme-utils";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
 import {
     AtomicSwapMethod,
@@ -25,7 +25,7 @@ class RemmeSwap implements IRemmeSwap {
 
     private readonly _remmeRest: IRemmeRest;
     private readonly _remmeTransactionService: IRemmeTransactionService;
-    private readonly _familyName = "AtomicSwap";
+    private readonly _familyName = RemmeFamilyName.Swap;
     private readonly _familyVersion = "0.1";
     private readonly _zeroAddress = "0".repeat(70);
     private readonly _swapComission = "0000007ca83d6bbb759da9cde0fb0dec1400c55cc3bbcd6b1243b2e3b0c44298fc1c14";

@@ -41,8 +41,8 @@ class RemmeTransactionService implements IRemmeTransactionService {
     private readonly _remmeAccount: IRemmeAccount;
 
     /**
-     * Get RemmeRest and RemmeAccount;
      * @example
+     * Usage without remme main package
      * ```typescript
      * const remmeRest = new RemmeRest(); // See RemmeRest implementation
      * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation

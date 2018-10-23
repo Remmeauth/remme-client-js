@@ -1,5 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * All available types for subscribing.
+ */
 var RemmeEvents;
 (function (RemmeEvents) {
     RemmeEvents["SwapAll"] = "atomic-swap-all";

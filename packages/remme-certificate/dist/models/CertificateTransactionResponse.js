@@ -11,6 +11,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_transaction_service_1 = require("remme-transaction-service");
+/**
+ * Base class for response on certificate creation
+ */
 var CertificateTransactionResponse = /** @class */ (function (_super) {
     __extends(CertificateTransactionResponse, _super);
     function CertificateTransactionResponse(socketAddress, sslMode, batchId) {

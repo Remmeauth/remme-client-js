@@ -1,6 +1,6 @@
 import { createContext, CryptoFactory } from "sawtooth-sdk/signing";
 import { Secp256k1PrivateKey, Secp256k1PublicKey } from "sawtooth-sdk/signing/secp256k1";
-import { generateAddress, hexToBytes, PATTERNS } from "remme-utils";
+import { generateAddress, hexToBytes, PATTERNS, RemmeFamilyName } from "remme-utils";
 
 import { IRemmeAccount } from "./interface";
 import { RemmeAccountPrivateKey, RemmeAccountPublicKey } from "./models";
@@ -37,7 +37,7 @@ class RemmeAccount implements IRemmeAccount {
     private readonly _signer: any;
     private readonly _publicKeyHex: string;
     private readonly _privateKeyHex: string;
-    private readonly _familyName = "account";
+    private readonly _familyName = RemmeFamilyName.Account;
     private readonly _address: string;
 
     /**

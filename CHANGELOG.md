@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to
 
+## [Unreleased]
+### Added
+- Get info by public key in RemmePublicKeyStorage
+- Provide address to PublicKeyInfo that return from getInfo in RemmePublicKeyStorage.
+- Get info by certificate in RemmeCertificate
+- Method for creating certificate in RemmeCertificate
+
+### Changed
+- Check in RemmePublicKeyStorage and certificate return boolean. So if given public key or certificate is in our chain and valid it returns true either false.
+- Check and revoke functions in RemmePublicKeyStorage can work with public key address.
+- getUserPublicKeys rename to getAccountPublicKeys into RemmePublicKeyStorage
+
 ## [0.3.4-b]
 ### Fixed
 - Bug in account that blocks work without passed privateKeyHex in Remme.Client constructor

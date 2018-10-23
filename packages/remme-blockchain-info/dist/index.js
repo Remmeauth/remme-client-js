@@ -331,66 +331,66 @@ var RemmeBlockchainInfo = /** @class */ (function () {
             throw new Error("This address (" + state.address + ") don't supported for parsing");
         }
     };
-    RemmeBlockchainInfo.address = {
-        "78173b": {
+    RemmeBlockchainInfo.address = (_a = {},
+        _a[remme_utils_1.RemmeNamespace.Swap] = {
             type: "info atomic swap",
             parser: protobufs.AtomicSwapInfo,
         },
-        "112007": {
+        _a[remme_utils_1.RemmeNamespace.Account] = {
             type: "account",
             parser: protobufs.Account,
         },
-        "a23be1": {
+        _a[remme_utils_1.RemmeNamespace.PublicKey] = {
             type: "storage public key",
             parser: protobufs.PubKeyStorage,
         },
-    };
+        _a);
     RemmeBlockchainInfo.correspond = {
-        account: (_a = {},
-            _a[protobufs.AccountMethod.Method.TRANSFER] = {
+        account: (_b = {},
+            _b[protobufs.AccountMethod.Method.TRANSFER] = {
                 type: "transfer token",
                 parser: protobufs.TransferPayload,
             },
-            _a[protobufs.AccountMethod.Method.GENESIS] = {
+            _b[protobufs.AccountMethod.Method.GENESIS] = {
                 type: "genesis",
                 parser: protobufs.GenesisPayload,
             },
-            _a),
-        AtomicSwap: (_b = {},
-            _b[protobufs.AtomicSwapMethod.Method.INIT] = {
+            _b),
+        AtomicSwap: (_c = {},
+            _c[protobufs.AtomicSwapMethod.Method.INIT] = {
                 type: "atomic-swap-init",
                 parser: protobufs.AtomicSwapInitPayload,
             },
-            _b[protobufs.AtomicSwapMethod.Method.APPROVE] = {
+            _c[protobufs.AtomicSwapMethod.Method.APPROVE] = {
                 type: "atomic-swap-approve",
                 parser: protobufs.AtomicSwapApprovePayload,
             },
-            _b[protobufs.AtomicSwapMethod.Method.EXPIRE] = {
+            _c[protobufs.AtomicSwapMethod.Method.EXPIRE] = {
                 type: "atomic-swap-expire",
                 parser: protobufs.AtomicSwapExpirePayload,
             },
-            _b[protobufs.AtomicSwapMethod.Method.SET_SECRET_LOCK] = {
+            _c[protobufs.AtomicSwapMethod.Method.SET_SECRET_LOCK] = {
                 type: "atomic-swap-set-secret-lock",
                 parser: protobufs.AtomicSwapSetSecretLockPayload,
             },
-            _b[protobufs.AtomicSwapMethod.Method.CLOSE] = {
+            _c[protobufs.AtomicSwapMethod.Method.CLOSE] = {
                 type: "atomic-swap-close",
                 parser: protobufs.AtomicSwapClosePayload,
             },
-            _b),
-        pub_key: (_c = {},
-            _c[protobufs.PubKeyMethod.Method.STORE] = {
+            _c),
+        pub_key: (_d = {},
+            _d[protobufs.PubKeyMethod.Method.STORE] = {
                 type: "store public key",
                 parser: protobufs.NewPubKeyPayload,
             },
-            _c[protobufs.PubKeyMethod.Method.REVOKE] = {
+            _d[protobufs.PubKeyMethod.Method.REVOKE] = {
                 type: "revoke public key",
                 parser: protobufs.RevokePubKeyPayload,
             },
-            _c),
+            _d),
     };
     return RemmeBlockchainInfo;
 }());
 exports.RemmeBlockchainInfo = RemmeBlockchainInfo;
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=index.js.map

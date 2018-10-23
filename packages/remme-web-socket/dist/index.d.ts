@@ -1,3 +1,4 @@
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { IRemmeWebSocket } from "./interface";
 import { BatchStatuses, Statuses } from "./models";
 /**
@@ -13,15 +14,17 @@ declare global  {
 }
 declare class RemmeWebSocket implements IRemmeWebSocket {
     [key: string]: any;
-    private _socket;
-    nodeAddress: string;
-    sslMode: boolean;
-    isEvent: boolean;
-    data: object;
+    private readonly _nodeAddress;
+    private readonly _sslMode;
+    protected _socket: W3CWebSocket;
+    protected isEvent: boolean;
+    protected data: object;
     private _sendAnError(error, callback);
     private _getSubscribeUrl();
     private _getSocketQuery(subscribe?);
     constructor(nodeAddress: string, sslMode: boolean);
+    readonly nodeAddress: string;
+    readonly sslMode: boolean;
     connectToWebSocket(callback: any): void;
     closeWebSocket(): void;
 }

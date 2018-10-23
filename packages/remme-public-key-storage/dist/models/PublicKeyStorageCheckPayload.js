@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var PublicKeyStorageCheckPayload = /** @class */ (function () {
-    function PublicKeyStorageCheckPayload(publicKeyPem) {
-        this.public_key = publicKeyPem;
+var PublicKeyCheck = /** @class */ (function () {
+    function PublicKeyCheck(public_key) {
+        this.public_key = public_key;
     }
-    return PublicKeyStorageCheckPayload;
+    return PublicKeyCheck;
 }());
-exports.PublicKeyStorageCheckPayload = PublicKeyStorageCheckPayload;
+exports.PublicKeyCheck = PublicKeyCheck;
 //# sourceMappingURL=PublicKeyStorageCheckPayload.js.map

@@ -85,7 +85,7 @@ export const generateSettingsAddress = (key: string): string => {
     return `000000${addressParts.join("")}`;
 };
 
-const certificateToPem = (certificate: forge.pki.Certificate): forge.pki.PEM => {
+export const certificateToPem = (certificate: forge.pki.Certificate): forge.pki.PEM => {
     try {
         return forge.pki.certificateToPem(certificate);
     } catch (e) {
@@ -93,7 +93,7 @@ const certificateToPem = (certificate: forge.pki.Certificate): forge.pki.PEM => 
     }
 };
 
-const certificateFromPem = (certificate: forge.pki.PEM): forge.pki.Certificate => {
+export const certificateFromPem = (certificate: forge.pki.PEM): forge.pki.Certificate => {
     try {
         return forge.pki.certificateFromPem(certificate);
     } catch (e) {
@@ -101,7 +101,7 @@ const certificateFromPem = (certificate: forge.pki.PEM): forge.pki.Certificate =
     }
 };
 
-const publicKeyToPem = (publicKey: forge.pki.Key): forge.pki.PEM => {
+export const publicKeyToPem = (publicKey: forge.pki.Key): forge.pki.PEM => {
     try {
         return forge.pki.publicKeyToPem(publicKey);
     } catch (e) {
@@ -109,10 +109,29 @@ const publicKeyToPem = (publicKey: forge.pki.Key): forge.pki.PEM => {
     }
 };
 
-const publicKeyFromPem = (publicKey: forge.pki.PEM): forge.pki.Certificate => {
+export const publicKeyFromPem = (publicKey: forge.pki.PEM): forge.pki.Certificate => {
     try {
         return forge.pki.publicKeyFromPem(publicKey);
     } catch (e) {
         throw new Error("Given publicKey is not a valid");
     }
+};
+
+/**
+ * Function that generate RSA key pair (private and public keys)
+ * Function take one param that equal to rsa key size, by default is 2048.
+ * @example
+ * You can explicitly pass rsa key pair
+ * ```typescript
+ * const { privateKey, publicKey } = await generateRSAKeyPair(1024);
+ * ```
+ * Or you can run function without arguments. And rsa key size will be 2048.
+ * ```typescript
+ * const { privateKey, publicKey } = await generateRSAKeyPair();
+ * ```
+ * @param {number} rsaKeySize
+ * @returns {Promise<module:node-forge.pki.KeyPair>}
+ */
+export const generateRSAKeyPair = async (rsaKeySize: number = 2048): Promise<forge.pki.KeyPair> => {
+    return await forge.pki.rsa.generateKeyPair(rsaKeySize);
 };

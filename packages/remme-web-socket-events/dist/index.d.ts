@@ -1,12 +1,10 @@
+import { RemmeWebSocket } from "remme-web-socket";
 import { IRemmeWebSocketsEvents } from "./interface";
 import { IRemmeEventsData, RemmeEventsEntity, RemmeEvents } from "./models";
-declare class RemmeWebSocketsEvents implements IRemmeWebSocketsEvents {
-    private readonly _nodeAddress;
-    private readonly _sslMode;
-    private _socket;
+declare class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEvents {
     private _prepareEvents(events);
-    constructor(nodeAddress: string, sslMode: boolean);
     private _generateData({events, lastKnownBlockId});
+    constructor(nodeAddress: string, sslMode: boolean);
     subscribe(data: IRemmeEventsData, callback: (err, res) => void): void;
     unsubscribe(): void;
 }
