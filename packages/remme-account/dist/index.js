@@ -47,7 +47,7 @@ var RemmeAccount = /** @class */ (function () {
      * @param {string} privateKeyHex
      */
     function RemmeAccount(privateKeyHex) {
-        this._familyName = "account";
+        this._familyName = remme_utils_1.RemmeFamilyName.Account;
         if (privateKeyHex && privateKeyHex.search(remme_utils_1.PATTERNS.PRIVATE_KEY) === -1) {
             throw new Error("Given privateKey is not a valid");
         }

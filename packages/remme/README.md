@@ -12,6 +12,7 @@ You can check out how to do that at [REMME core repo](https://github.com/Remmeau
 *Note: you can enable/disable methods by modifying **REMME_REST_API_AVAILABLE_METHODS** eviroment variable at the .env file.*
 
 ### 2. Install the latest version of library to your JS project
+<p color="red">!!!For communicate with testnet use version 0.3.3.!!!</p>
 #### Node
 
 ```bash

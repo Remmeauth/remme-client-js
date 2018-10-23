@@ -133,8 +133,7 @@ class RemmeRest implements IRemmeRest {
      */
     public async sendRequest<Input, Output>(method: RemmeMethods, payload?: Input): Promise<Output> {
         const options = this._getRequestConfig(method, payload);
-        let response;
-        response = await HttpClient.send(options);
+        const response = await HttpClient.send(options);
         if (response) {
             if (response.data.error) {
                 throw new Error(response.data.error.message);

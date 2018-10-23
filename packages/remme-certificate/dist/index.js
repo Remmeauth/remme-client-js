@@ -37,119 +37,66 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_utils_1 = require("remme-utils");
 var models_1 = require("./models");
+exports.CreateCertificateDto = models_1.CreateCertificateDto;
+/**
+ * Class for working with certificates, such as create, store, revoke, check, getInfo.
+ * @example
+ * ```typescript
+ * const remme = new Remme.Client();
+ * const certificateTransactionResult = await remme.certificate.createAndStore({
+ *   commonName: "userName",
+ *   email: "user@email.com",
+ *   name: "John",
+ *   surname: "Smith",
+ *   countryName: "US",
+ *   validity: 360,
+ *   serial: `${Date.now()}`
+ * });
+ *
+ * const certificateTransactionCallback = async (err, response) => {
+ *   if (err) {
+ *     console.log(err);
+ *   }
+ *   console.log("store", response);
+ *   if (response.status === "COMMITTED") {
+ *     certificateTransactionResult.closeWebSocket();
+ *     const status = await remme.certificate.check(certificateTransactionResult.certificate);
+ *     console.log('status:', status); // true
+ *     const info = await remme.certificate.getInfo(certificateTransactionResult.certificate);
+ *     console.log("info:", info);
+ *     const revoke = await remme.certificate.revoke(certificateTransactionResult.certificate);
+ *     revoke.connectToWebSocket(async (err, response) => {
+ *       console.log("error", err);
+ *       console.log("revoke", response);
+ *       if (res.status === "COMMITTED") {
+ *          revoke.closeWebSocket();
+ *          const status = await remme.certificate.check(certificateTransactionResult.certificate);
+ *          console.log(status); // false;
+ *       }
+ *     })
+ *   }
+ * };
+ *
+ * certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
+ * ```
+ */
 var RemmeCertificate = /** @class */ (function () {
+    /**
+     * @example
+     * Usage without remme main package
+     * ```typescript
+     * const rest = new RemmeRest();
+     * const account = new RemmeAccount();
+     * const transaction = new RemmeTransactionService(rest, account);
+     * const publicKeyStorage = new RemmePublicKeyStorage(rest, account, transaction);
+     * const certificate = new RemmeCertificate(publicKeyStorage);
+     * ```
+     * @param {IRemmePublicKeyStorage} remmePublicKeyStorage
+     */
     function RemmeCertificate(remmePublicKeyStorage) {
         this._rsaKeySize = 2048;
         this._remmePublicKeyStorage = remmePublicKeyStorage;
     }
-    RemmeCertificate.prototype.createAndStore = function (certificateDataToCreate) {
-        return __awaiter(this, void 0, void 0, function () {
-            var keys, cert, batchResponse, certResponse;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._generateKeyPair()];
-                    case 1:
-                        keys = _a.sent();
-                        cert = this._createCertificate(keys, certificateDataToCreate);
-                        return [4 /*yield*/, this.store(cert)];
-                    case 2:
-                        batchResponse = _a.sent();
-                        certResponse = new models_1.CertificateTransactionResponse(batchResponse.nodeAddress, batchResponse.sslMode, batchResponse.batchId);
-                        certResponse.certificate = cert;
-                        return [2 /*return*/, certResponse];
-                }
-            });
-        });
-    };
-    RemmeCertificate.prototype.store = function (certificate) {
-        return __awaiter(this, void 0, void 0, function () {
-            var certificatePEM, publicKey, privateKey, validFrom, validTo;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (typeof certificate === "string") {
-                            certificate = this._getCertificateFromPEM(certificate);
-                        }
-                        certificatePEM = this._getCertificatePEM(certificate);
-                        publicKey = certificate.publicKey, privateKey = certificate.privateKey;
-                        validFrom = Math.floor(certificate.validity.notBefore.getTime() / 1000);
-                        validTo = Math.floor(certificate.validity.notAfter.getTime() / 1000);
-                        return [4 /*yield*/, this._remmePublicKeyStorage.store({
-                                data: certificatePEM,
-                                publicKey: publicKey,
-                                privateKey: privateKey,
-                                validFrom: validFrom,
-                                validTo: validTo,
-                            })];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    RemmeCertificate.prototype.check = function (certificate) {
-        return __awaiter(this, void 0, void 0, function () {
-            var publicKeyPEM, checkResult, message;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (typeof certificate === "string") {
-                            certificate = this._getCertificateFromPEM(certificate);
-                        }
-                        publicKeyPEM = this._getPublicKeyPEM(certificate);
-                        return [4 /*yield*/, this._remmePublicKeyStorage.check(publicKeyPEM)];
-                    case 1:
-                        checkResult = _a.sent();
-                        message = this._remmePublicKeyStorage.generateMessage(remme_utils_1.forge.pki.certificateToPem(certificate));
-                        // const entityHash = this._remmePublicKeyStorage.generateEntityHash(message);
-                        // const currentTime = Math.floor(Date.now() / 1000);
-                        if (checkResult) {
-                            // checkResult.valid = checkResult &&
-                            //     !checkResult.is_revoked &&
-                            //     entityHash === checkResult.entity_hash &&
-                            //     currentTime >= checkResult.valid_from &&
-                            //     currentTime < checkResult.valid_to;
-                            return [2 /*return*/, checkResult];
-                        }
-                        else {
-                            throw new Error("This certificate was not found");
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    RemmeCertificate.prototype.revoke = function (certificate) {
-        return __awaiter(this, void 0, void 0, function () {
-            var publicKeyPEM;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (typeof certificate === "string") {
-                            certificate = this._getCertificateFromPEM(certificate);
-                        }
-                        publicKeyPEM = this._getPublicKeyPEM(certificate);
-                        return [4 /*yield*/, this._remmePublicKeyStorage.revoke(publicKeyPEM)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    RemmeCertificate.prototype._createCertificate = function (keys, certificateDataToCreate) {
-        var subject = this._createSubject(certificateDataToCreate);
-        var cert = remme_utils_1.forge.pki.createCertificate();
-        cert.setSubject(subject);
-        cert.publicKey = keys.publicKey;
-        cert.privateKey = keys.privateKey;
-        cert.serialNumber = certificateDataToCreate.serial;
-        cert.validity.notBefore = new Date();
-        cert.validity.notAfter = new Date();
-        if (certificateDataToCreate.validAfter) {
-            cert.validity.notBefore.setDate(cert.validity.notBefore.getDate() + certificateDataToCreate.validAfter);
-        }
-        cert.validity.notAfter.setDate(cert.validity.notBefore.getDate() + certificateDataToCreate.validity);
-        cert.sign(keys.privateKey, remme_utils_1.forge.md.sha256.create());
-        return cert;
-    };
     RemmeCertificate.prototype._createSubject = function (certificateDataToCreate) {
         if (!certificateDataToCreate.commonName) {
             throw new Error("Attribute commonName must have a value");
@@ -192,39 +139,245 @@ var RemmeCertificate = /** @class */ (function () {
             };
         });
     };
-    RemmeCertificate.prototype._generateKeyPair = function () {
+    RemmeCertificate.prototype._createCertificate = function (keys, certificateDataToCreate) {
+        var subject = this._createSubject(certificateDataToCreate);
+        var cert = remme_utils_1.forge.pki.createCertificate();
+        cert.setSubject(subject);
+        cert.publicKey = keys.publicKey;
+        cert.privateKey = keys.privateKey;
+        cert.serialNumber = certificateDataToCreate.serial;
+        cert.validity.notBefore = new Date();
+        cert.validity.notAfter = new Date();
+        if (certificateDataToCreate.validAfter) {
+            cert.validity.notBefore.setDate(cert.validity.notBefore.getDate() + certificateDataToCreate.validAfter);
+        }
+        cert.validity.notAfter.setDate(cert.validity.notBefore.getDate() + certificateDataToCreate.validity);
+        cert.sign(keys.privateKey, remme_utils_1.forge.md.sha256.create());
+        return cert;
+    };
+    /**
+     * Create certificate.
+     * @example
+     * ```typescript
+     *  const certificate = await remme.certificate.create({
+     *   commonName: "userName",
+     *   email: "user@email.com",
+     *   name: "John",
+     *   surname: "Smith",
+     *   countryName: "US",
+     *   validity: 360,
+     *   serial: `${Date.now()}`
+     * });
+     * console.log(certificate);
+     * ```
+     * @param {CreateCertificateDto} certificateDataToCreate
+     * @returns {Promise<module:node-forge.pki.Certificate>}
+     */
+    RemmeCertificate.prototype.create = function (certificateDataToCreate) {
         return __awaiter(this, void 0, void 0, function () {
+            var keys;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, remme_utils_1.forge.pki.rsa.generateKeyPair(this._rsaKeySize)];
+                    case 0: return [4 /*yield*/, remme_utils_1.generateRSAKeyPair(this._rsaKeySize)];
+                    case 1:
+                        keys = _a.sent();
+                        return [2 /*return*/, this._createCertificate(keys, certificateDataToCreate)];
+                }
+            });
+        });
+    };
+    /**
+     * Method that creates certificate and stores it in to REMChain.
+     * Send transaction to chain.
+     * @example
+     * ```typescript
+     * const remme = new Remme.Client();
+     * const certificateTransactionResult = await remme.certificate.createAndStore({
+     *   commonName: "userName",
+     *   email: "user@email.com",
+     *   name: "John",
+     *   surname: "Smith",
+     *   countryName: "US",
+     *   validity: 360,
+     *   serial: `${Date.now()}`
+     * });
+     *
+     * const certificateTransactionCallback = (err: Error, response: any) => {
+     *   if (err) {
+     *     console.log(err);
+     *   }
+     *   console.log("store", response);
+     * }
+     * ```
+     * @param {CreateCertificateDto} certificateDataToCreate
+     * @returns {Promise<ICertificateTransactionResponse>}
+     */
+    RemmeCertificate.prototype.createAndStore = function (certificateDataToCreate) {
+        return __awaiter(this, void 0, void 0, function () {
+            var certificate, batchResponse, certResponse;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.create(certificateDataToCreate)];
+                    case 1:
+                        certificate = _a.sent();
+                        return [4 /*yield*/, this.store(certificate)];
+                    case 2:
+                        batchResponse = _a.sent();
+                        certResponse = new models_1.CertificateTransactionResponse(batchResponse.nodeAddress, batchResponse.sslMode, batchResponse.batchId);
+                        certResponse.certificate = certificate;
+                        return [2 /*return*/, certResponse];
+                }
+            });
+        });
+    };
+    /**
+     * Store your certificate public key and hash of certificate into REMChain.
+     * Your certificate should contains private and public keys.
+     * Send transaction to chain.
+     * @example
+     * ```typescript
+     * const certificate = await remme.certificate.create({
+     *   commonName: "userName",
+     *   email: "user@email.com",
+     *   name: "John",
+     *   surname: "Smith",
+     *   countryName: "US",
+     *   validity: 360,
+     *   serial: `${Date.now()}`
+     * });
+     * const storeResponse = remme.certificate.store(certificate);
+     * ```
+     * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
+     * @returns {Promise<IBaseTransactionResponse>}
+     */
+    RemmeCertificate.prototype.store = function (certificate) {
+        return __awaiter(this, void 0, void 0, function () {
+            var certificatePEM, publicKey, privateKey, validFrom, validTo;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (typeof certificate === "string") {
+                            certificate = remme_utils_1.certificateFromPem(certificate);
+                        }
+                        certificatePEM = remme_utils_1.certificateToPem(certificate);
+                        publicKey = certificate.publicKey, privateKey = certificate.privateKey;
+                        if (!privateKey) {
+                            throw new Error("Your certificate does not have private key");
+                        }
+                        validFrom = Math.floor(certificate.validity.notBefore.getTime() / 1000);
+                        validTo = Math.floor(certificate.validity.notAfter.getTime() / 1000);
+                        return [4 /*yield*/, this._remmePublicKeyStorage.store({
+                                data: certificatePEM,
+                                publicKey: publicKey,
+                                privateKey: privateKey,
+                                validFrom: validFrom,
+                                validTo: validTo,
+                            })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    RemmeCertificate.prototype._getPublicKeyPEM = function (certificate) {
-        try {
-            return remme_utils_1.forge.pki.publicKeyToPem(certificate.publicKey);
-        }
-        catch (e) {
-            throw new Error("Given certificate is not a valid");
-        }
+    /**
+     * Check certificate's public key on validity and revocation.
+     * @example
+     * ```typescript
+     * const isValid = await remme.certificate.check(certificate);
+     * console.log(isValid); // true or false
+     * ```
+     * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
+     * @returns {Promise<boolean>}
+     */
+    RemmeCertificate.prototype.check = function (certificate) {
+        return __awaiter(this, void 0, void 0, function () {
+            var publicKeyPEM, checkResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (typeof certificate === "string") {
+                            certificate = remme_utils_1.certificateFromPem(certificate);
+                        }
+                        publicKeyPEM = remme_utils_1.publicKeyToPem(certificate.publicKey);
+                        return [4 /*yield*/, this._remmePublicKeyStorage.check(publicKeyPEM)];
+                    case 1:
+                        checkResult = _a.sent();
+                        if (checkResult !== undefined) {
+                            return [2 /*return*/, checkResult];
+                        }
+                        else {
+                            throw new Error("This certificate was not found");
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
-    RemmeCertificate.prototype._getCertificatePEM = function (certificate) {
-        try {
-            return remme_utils_1.forge.pki.certificateToPem(certificate);
-        }
-        catch (e) {
-            throw new Error("Given certificate is not a valid");
-        }
+    /**
+     * Get info about certificate's public key.
+     * @example
+     * ```typescript
+     * const isValid = await remme.certificate.getInfo(certificate);
+     * console.log(info); // PublicKeyInfo
+     * ```
+     * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
+     * @returns {Promise<PublicKeyInfo>}
+     */
+    RemmeCertificate.prototype.getInfo = function (certificate) {
+        return __awaiter(this, void 0, void 0, function () {
+            var publicKeyPEM, checkResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (typeof certificate === "string") {
+                            certificate = remme_utils_1.certificateFromPem(certificate);
+                        }
+                        publicKeyPEM = remme_utils_1.publicKeyToPem(certificate.publicKey);
+                        return [4 /*yield*/, this._remmePublicKeyStorage.getInfo(publicKeyPEM)];
+                    case 1:
+                        checkResult = _a.sent();
+                        if (checkResult !== undefined) {
+                            return [2 /*return*/, checkResult];
+                        }
+                        else {
+                            throw new Error("This certificate was not found");
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
-    RemmeCertificate.prototype._getCertificateFromPEM = function (certificate) {
-        try {
-            return remme_utils_1.forge.pki.certificateFromPem(certificate);
-        }
-        catch (e) {
-            throw new Error("Given certificate is not a valid");
-        }
+    /**
+     * Revoke certificate's public key into REMChain.
+     * Send transaction to chain.
+     * @example
+     * ```typescript
+     * const revokeResponse = await remme.certificate.revoke(certificate);
+     * revokeResponse.connectToWebSocket((err: Error, res: any) => {
+     *      if (err) {
+     *          console.log(err);
+     *          return;
+     *      }
+     *      console.log(res);
+     * })
+     * ```
+     * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
+     * @returns {Promise<IBaseTransactionResponse>}
+     */
+    RemmeCertificate.prototype.revoke = function (certificate) {
+        return __awaiter(this, void 0, void 0, function () {
+            var publicKeyPEM;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (typeof certificate === "string") {
+                            certificate = remme_utils_1.certificateFromPem(certificate);
+                        }
+                        publicKeyPEM = remme_utils_1.publicKeyToPem(certificate.publicKey);
+                        return [4 /*yield*/, this._remmePublicKeyStorage.revoke(publicKeyPEM)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     };
     return RemmeCertificate;
 }());

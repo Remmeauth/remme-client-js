@@ -1,6 +1,9 @@
 import { forge } from "remme-utils";
 import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-transaction-service";
 
+/**
+ * Base class for response on certificate creation
+ */
 export class CertificateTransactionResponse extends BaseTransactionResponse implements ICertificateTransactionResponse {
     public certificate: forge.pki.Certificate;
 

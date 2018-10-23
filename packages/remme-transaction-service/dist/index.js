@@ -65,8 +65,8 @@ exports.SendTransactionDto = models_1.SendTransactionDto;
  */
 var RemmeTransactionService = /** @class */ (function () {
     /**
-     * Get RemmeRest and RemmeAccount;
      * @example
+     * Usage without remme main package
      * ```typescript
      * const remmeRest = new RemmeRest(); // See RemmeRest implementation
      * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation

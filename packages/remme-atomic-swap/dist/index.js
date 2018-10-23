@@ -41,7 +41,7 @@ var remme_protobuf_1 = require("remme-protobuf");
 var models_1 = require("./models");
 var RemmeSwap = /** @class */ (function () {
     function RemmeSwap(remmeRest, remmeTransactionService) {
-        this._familyName = "AtomicSwap";
+        this._familyName = remme_utils_1.RemmeFamilyName.Swap;
         this._familyVersion = "0.1";
         this._zeroAddress = "0".repeat(70);
         this._swapComission = "0000007ca83d6bbb759da9cde0fb0dec1400c55cc3bbcd6b1243b2e3b0c44298fc1c14";

@@ -4,7 +4,7 @@ import {
     IRemmeRest,
 } from "remme-rest";
 import * as protobufs from "remme-protobuf";
-import { base64ToArrayBuffer } from "remme-utils";
+import { base64ToArrayBuffer, RemmeNamespace } from "remme-utils";
 
 import { IRemmeBlockchainInfo } from "./interface";
 import {
@@ -42,15 +42,15 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     private readonly _remmeRest: IRemmeRest;
 
     private static address = {
-        "78173b": {
+        [RemmeNamespace.Swap]: {
             type: "info atomic swap",
             parser: protobufs.AtomicSwapInfo,
         },
-        "112007": {
+        [RemmeNamespace.Account]: {
             type: "account",
             parser: protobufs.Account,
         },
-        "a23be1": {
+        [RemmeNamespace.PublicKey]: {
             type: "storage public key",
             parser: protobufs.PubKeyStorage,
         },

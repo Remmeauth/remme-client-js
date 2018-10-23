@@ -12,10 +12,35 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_web_socket_1 = require("remme-web-socket");
 var models_1 = require("./models");
-exports.RemmeEventsEntity = models_1.RemmeEventsEntity;
 exports.RemmeEvents = models_1.RemmeEvents;
+/**
+ * Class for subscribing to events from WebSocket.
+ * Available types for subscribing is covered in
+ * https://docs.remme.io/remme-core/docs/remme-ws-events.html#registered-events
+ * @example
+ * ```typescript
+ * import { RemmeWebSocketsEvents, RemmeEvents } from "remme-web-socket-events";
+ * const remmeEvents = new RemmeWebSocketsEvents("localhost:8080", false);
+ * remmeEvents.subscribe({
+ *      events: RemmeEvents.SwapInit
+ * }, (err: Error, res: any) => {
+ *      console.log(err);
+ *      console.log(res);
+ *      remmeEvents.unsubscribe();
+ * });
+ * ```
+ */
 var RemmeWebSocketsEvents = /** @class */ (function (_super) {
     __extends(RemmeWebSocketsEvents, _super);
+    /**
+     * Implementation of RemmeWebSocketsEvents;
+     * @example
+     * ```typescript
+     * const remmeEvents = new RemmeWebSocketsEvents("localhost:8080", false);
+     * ```
+     * @param {string} nodeAddress
+     * @param {boolean} sslMode
+     */
     function RemmeWebSocketsEvents(nodeAddress, sslMode) {
         return _super.call(this, nodeAddress, sslMode) || this;
     }
@@ -41,28 +66,66 @@ var RemmeWebSocketsEvents = /** @class */ (function (_super) {
     };
     RemmeWebSocketsEvents.prototype._generateData = function (_a) {
         var events = _a.events, lastKnownBlockId = _a.lastKnownBlockId;
-        events = this._prepareEvents(events);
         var data = new models_1.RemmeEventsData();
         data.entity = models_1.RemmeEventsEntity.Events;
-        data.events = events;
+        data.events = this._prepareEvents(events);
         if (lastKnownBlockId) {
             data.last_known_block_id = lastKnownBlockId;
         }
         return data;
     };
+    /**
+     * Subscribing to events from WebSocket.
+     * Available types for subscribing is covered in
+     * https://docs.remme.io/remme-core/docs/remme-ws-events.html#registered-events
+     * @example
+     * You can subscribe on all events about swap
+     * ```typescript
+     * remmeEvents.subscribe({
+     *      events: RemmeEvents.SwapAll
+     * }, (err: Error, res: any) => {
+     *      console.log(err);
+     *      console.log(res);
+     * });
+     * ```
+     * You can subscribe on one event
+     * ```typescript
+     * remmeEvents.subscribe({
+     *      events: RemmeEvents.SwapInit
+     * }, (err: Error, res: any) => {
+     *      console.log(err);
+     *      console.log(res);
+     * });
+     * ```
+     * Also you can subscribe on several events
+     * ```typescript
+     * remmeEvents.subscribe({
+     *      events: [ RemmeEvents.SwapInit, RemmeEvents.SwapClose ]
+     * }, (err: Error, res: any) => {
+     *      console.log(err);
+     *      console.log(res);
+     * });
+     * ```
+     */
     RemmeWebSocketsEvents.prototype.subscribe = function (data, callback) {
-        var eventData = this._generateData(data);
         if (this._socket) {
             _super.prototype.closeWebSocket.call(this);
         }
         this.isEvent = true;
-        this.data = eventData;
+        this.data = this._generateData(data);
         _super.prototype.connectToWebSocket.call(this, callback);
     };
+    /**
+     * Unsubscribing from events.
+     * Regardless of how many events you subscribed to, you always unsubscribe from all
+     * @example
+     * ```typescript
+     * remmeEvents.unsubscribe();
+     * ```
+     */
     RemmeWebSocketsEvents.prototype.unsubscribe = function () {
         if (this._socket) {
             _super.prototype.closeWebSocket.call(this);
-            this._socket = null;
         }
         else {
             throw new Error("WebSocket is not running");
