@@ -64,6 +64,44 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class that work with tokens.
+						Transfer them and getting balance by public key.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>example</dt>
+						<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> someRemmeAddress = <span class="hljs-string">"03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638"</span>;
+
+<span class="hljs-keyword">const</span> receiverBalance = <span class="hljs-keyword">await</span> remme.token.getBalance(someRemmeAddress);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${someRemmeAddress}</span> as receiver, balance - <span class="hljs-subst">${receiverBalance}</span> REM`</span>);
+
+<span class="hljs-keyword">const</span> balance = <span class="hljs-keyword">await</span> remme.token.getBalance(remme.account.publicKeyHex);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${remme.account.publicKeyHex}</span> as sender, balance - <span class="hljs-subst">${balance}</span> REM`</span>);
+
+<span class="hljs-keyword">const</span> transactionResult = <span class="hljs-keyword">await</span> remme.token.transfer(someRemmeAddress, <span class="hljs-number">10</span>);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Sending tokens...BatchId: <span class="hljs-subst">${transactionResult.batchId}</span>`</span>);
+
+<span class="hljs-keyword">const</span> transactionCallback = <span class="hljs-keyword">async</span> (err, result) =&gt; {
+  <span class="hljs-keyword">if</span> (err) {
+    <span class="hljs-built_in">console</span>.log(err);
+    <span class="hljs-keyword">return</span>;
+  }
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"token"</span>, result);
+  <span class="hljs-keyword">if</span> (result.status === <span class="hljs-string">"COMMITTED"</span>) {
+    <span class="hljs-keyword">const</span> newBalance = <span class="hljs-keyword">await</span> remme.token.getBalance(someRemmeAddress);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${someRemmeAddress}</span> balance - <span class="hljs-subst">${newBalance}</span> REM`</span>);
+    transactionResult.closeWebSocket()
+  }
+};
+
+transactionResult.connectToWebSocket(transactionCallback);
+</code></pre>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -81,6 +119,12 @@
 			<section class="tsd-panel tsd-kind-class tsd-is-not-exported">
 				<h3 class="tsd-before-signature">Indexable</h3>
 				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class that work with tokens.
+						Transfer them and getting balance by public key.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -114,9 +158,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-token/src/index.ts#L16">remme-token/src/index.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-token/src/index.ts#L47">remme-token/src/index.ts:47</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>Usage without remme main package</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remmeRest = <span class="hljs-keyword">new</span> RemmeRest(); <span class="hljs-comment">// See RemmeRest implementation</span>
+<span class="hljs-keyword">const</span> remmeAccount = <span class="hljs-keyword">new</span> RemmeAccount(); <span class="hljs-comment">// See RemmeAccount implementation</span>
+<span class="hljs-keyword">const</span> remmeTransaction = <span class="hljs-keyword">new</span> RemmeTransactionService(remmeRest, remmeAccount);
+<span class="hljs-keyword">const</span> remmeToken = <span class="hljs-keyword">new</span> RemmeToken(remmeRest, remmeTransaction);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -124,6 +180,10 @@
 								</li>
 								<li>
 									<h5>remmeTransaction: <span class="tsd-signature-type">IRemmeTransactionService</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="remmetoken.html" class="tsd-signature-type">RemmeToken</a></h4>
@@ -137,20 +197,32 @@
 					<a name="getbalance" class="tsd-anchor"></a>
 					<h3>get<wbr>Balance</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Balance<span class="tsd-signature-symbol">(</span>publicKeyTo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Balance<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmetoken.html">IRemmeToken</a>.<a href="../interfaces/iremmetoken.html#getbalance">getBalance</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-token/src/index.ts#L49">remme-token/src/index.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-token/src/index.ts#L131">remme-token/src/index.ts:131</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get balance on given public key</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> balance = <span class="hljs-keyword">await</span> remme.token.getBalance(remme.account.publicKeyHex);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${remme.account.publicKeyHex}</span> as sender, balance - <span class="hljs-subst">${balance}</span> REM`</span>);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>publicKeyTo: <span class="tsd-signature-type">string</span></h5>
+									<h5>publicKey: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -168,9 +240,39 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmetoken.html">IRemmeToken</a>.<a href="../interfaces/iremmetoken.html#transfer">transfer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-token/src/index.ts#L23">remme-token/src/index.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-token/src/index.ts#L95">remme-token/src/index.ts:95</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transfer tokens from signed public key (remme.account.publicKey) to given public key.
+									Send transaction to REMChain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> someRemmeAddress = <span class="hljs-string">"03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638"</span>;
+
+<span class="hljs-keyword">const</span> transactionResult = <span class="hljs-keyword">await</span> remme.token.transfer(someRemmeAddress, <span class="hljs-number">10</span>);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Sending tokens...BatchId: <span class="hljs-subst">${transactionResult.batchId}</span>`</span>);
+
+<span class="hljs-keyword">const</span> transactionCallback = <span class="hljs-keyword">async</span> (err, result) =&gt; {
+  <span class="hljs-keyword">if</span> (err) {
+    <span class="hljs-built_in">console</span>.log(err);
+    <span class="hljs-keyword">return</span>;
+  }
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"token"</span>, result);
+  <span class="hljs-keyword">if</span> (result.status === <span class="hljs-string">"COMMITTED"</span>) {
+    <span class="hljs-keyword">const</span> newBalance = <span class="hljs-keyword">await</span> remme.token.getBalance(someRemmeAddress);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${someRemmeAddress}</span> balance - <span class="hljs-subst">${newBalance}</span> REM`</span>);
+    transactionResult.closeWebSocket()
+  }
+};
+
+transactionResult.connectToWebSocket(transactionCallback);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

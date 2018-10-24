@@ -2,9 +2,9 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { IRemmeWebSocket } from "./interface";
 import {
     BatchStateUpdateDto,
-    BatchStatusesDto,
-    BatchStatuses,
-    Statuses,
+    BatchInfo,
+    BatchInfoDto,
+    BatchStatus,
     ErrorMessage,
     ErrorFromEvent,
 } from "./models";
@@ -195,7 +195,7 @@ class RemmeWebSocket implements IRemmeWebSocket {
                     this._sendAnError(new ErrorMessage(response.data.batch_statuses.invalid_transactions[0]), callback);
                     return;
                 }
-                callback(null, this.isEvent ? response.data : new BatchStatusesDto(response.data.batch_statuses));
+                callback(null, this.isEvent ? response.data : new BatchInfoDto(response.data.batch_statuses));
             } else if (response.type === "error") {
                 this._sendAnError(new ErrorFromEvent(response.data), callback);
                 return;
@@ -228,6 +228,6 @@ class RemmeWebSocket implements IRemmeWebSocket {
 export {
     RemmeWebSocket,
     IRemmeWebSocket,
-    BatchStatuses,
-    Statuses,
+    BatchStatus,
+    BatchInfoDto,
 };

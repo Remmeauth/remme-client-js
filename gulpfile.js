@@ -250,10 +250,10 @@ gulp.task('prepublish', function () {
   });
 });
 
-gulp.task("build", ['lint', 'clean', packages[packages.length - 2].fileName]);
+gulp.task("build", ['lint', 'clean', 'build_docs', packages[packages.length - 2].fileName]);
 
 gulp.task('watch', function () {
   gulp.watch(['./packages/remme/src/*.ts'], ['lint', 'clean', packages[0].fileName]);
 });
 
-gulp.task('default', ['version', 'lint', 'clean', packages[0].fileName]);
+gulp.task('default', ['version', 'lint', 'clean', 'build_docs', packages[0].fileName]);

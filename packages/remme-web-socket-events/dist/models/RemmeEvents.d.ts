@@ -1,3 +1,6 @@
+/**
+ * All available types for subscribing.
+ */
 export declare enum RemmeEvents {
     SwapAll = "atomic-swap-all",
     SwapInit = "atomic-swap-init",

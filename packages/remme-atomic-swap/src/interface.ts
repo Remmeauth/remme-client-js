@@ -2,7 +2,7 @@ import { IBaseTransactionResponse } from "remme-transaction-service";
 
 import {
     SwapInitDto,
-    SwapInfoData,
+    SwapInfo,
 } from "./models";
 
 export interface IRemmeSwap {
@@ -11,6 +11,6 @@ export interface IRemmeSwap {
     expire(swapId: string): Promise<IBaseTransactionResponse>;
     setSecretLock(swapId: string, secretLock: string): Promise<IBaseTransactionResponse>;
     close(swapId: string, secretKey: string): Promise<IBaseTransactionResponse>;
-    getInfo(swapId: string): Promise<SwapInfoData>;
+    getInfo(swapId: string): Promise<SwapInfo>;
     getPublicKey(): Promise<string>;
 }

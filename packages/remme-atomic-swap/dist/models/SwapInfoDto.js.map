@@ -1,1 +1,1 @@
-{"version":3,"file":"SwapInfoDto.js","sourceRoot":"","sources":["../../src/models/SwapInfoDto.ts"],"names":[],"mappings":";;AAAA;IAAA;IAYA,CAAC;IAAD,kBAAC;AAAD,CAAC,AAZD,IAYC;AAZY,kCAAW;AAcxB,IAAY,KAOX;AAPD,WAAY,KAAK;IACb,wBAAe,CAAA;IACf,0BAAiB,CAAA;IACjB,sDAA6C,CAAA;IAC7C,8BAAqB,CAAA;IACrB,0BAAiB,CAAA;IACjB,4BAAmB,CAAA;AACvB,CAAC,EAPW,KAAK,GAAL,aAAK,KAAL,aAAK,QAOhB"}
+{"version":3,"file":"SwapInfoDto.js","sourceRoot":"","sources":["../../src/models/SwapInfoDto.ts"],"names":[],"mappings":";;AAEA;IAAA;IAYA,CAAC;IAAD,kBAAC;AAAD,CAAC,AAZD,IAYC;AAZY,kCAAW"}

@@ -71,6 +71,7 @@
 				<p>You can check out how to do that at <a href="https://github.com/Remmeauth/remme-core/">REMME core repo</a>.
 				<em>Note: you can enable/disable methods by modifying <strong>REMME_REST_API_AVAILABLE_METHODS</strong> eviroment variable at the .env file.</em></p>
 				<h3 id="2-install-the-latest-version-of-library-to-your-js-project">2. Install the latest version of library to your JS project</h3>
+				<p><p color="red">!!!For communicate with testnet use version 0.3.3.!!!</p></p>
 				<h4 id="node">Node</h4>
 				<pre><code class="lang-bash">npm install remme
 </code></pre>
@@ -229,19 +230,25 @@ remme.events.subscribe({
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-enum">
+						<a href="enums/batchstatus.html" class="tsd-kind-icon">Batch<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="enums/remmeevents.html" class="tsd-kind-icon">Remme<wbr>Events</a>
 					</li>
 					<li class=" tsd-kind-enum">
 						<a href="enums/remmeeventsentity.html" class="tsd-kind-icon">Remme<wbr>Events<wbr>Entity</a>
 					</li>
 					<li class=" tsd-kind-enum">
+						<a href="enums/remmefamilyname.html" class="tsd-kind-icon">Remme<wbr>Family<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="enums/remmemethods.html" class="tsd-kind-icon">Remme<wbr>Methods</a>
 					</li>
 					<li class=" tsd-kind-enum">
-						<a href="enums/statuses.html" class="tsd-kind-icon">Statuses</a>
+						<a href="enums/remmenamespace.html" class="tsd-kind-icon">Remme<wbr>Namespace</a>
 					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/balanceresult.html" class="tsd-kind-icon">Balance<wbr>Result</a>
+					<li class=" tsd-kind-enum">
+						<a href="enums/swapstate.html" class="tsd-kind-icon">Swap<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/basequery.html" class="tsd-kind-icon">Base<wbr>Query</a>
@@ -256,13 +263,10 @@ remme.events.subscribe({
 						<a href="classes/batch.html" class="tsd-kind-icon">Batch</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/batchinfodto.html" class="tsd-kind-icon">Batch<wbr>Info<wbr>Dto</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/batchlist.html" class="tsd-kind-icon">Batch<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/batchstatusesdto.html" class="tsd-kind-icon">Batch<wbr>Statuses<wbr>Dto</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/batcherpublickeyresponse.html" class="tsd-kind-icon">Batcher<wbr>Public<wbr>Key<wbr>Response</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/block.html" class="tsd-kind-icon">Block</a>
@@ -274,13 +278,13 @@ remme.events.subscribe({
 						<a href="classes/blocklist.html" class="tsd-kind-icon">Block<wbr>List</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/certificatecheckresult.html" class="tsd-kind-icon">Certificate<wbr>Check<wbr>Result</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/certificatecreatedto.html" class="tsd-kind-icon">Certificate<wbr>Create<wbr>Dto</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="classes/certificatetransactionresponse.html" class="tsd-kind-icon">Certificate<wbr>Transaction<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/createcertificatedto.html" class="tsd-kind-icon">Create<wbr>Certificate<wbr>Dto</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/createtransactiondto.html" class="tsd-kind-icon">Create<wbr>Transaction<wbr>Dto</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/errorfromevent.html" class="tsd-kind-icon">Error<wbr>From<wbr>Event</a>
@@ -295,13 +299,10 @@ remme.events.subscribe({
 						<a href="classes/networkstatus.html" class="tsd-kind-icon">Network<wbr>Status</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/publickeystoragecheckpayload.html" class="tsd-kind-icon">Public<wbr>Key<wbr>Storage<wbr>Check<wbr>Payload</a>
+						<a href="classes/publickeyinfo.html" class="tsd-kind-icon">Public<wbr>Key<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/publickeystoragecheckresult.html" class="tsd-kind-icon">Public<wbr>Key<wbr>Storage<wbr>Check<wbr>Result</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/publickeystorageuserstoreresult.html" class="tsd-kind-icon">Public<wbr>Key<wbr>Storage<wbr>User<wbr>Store<wbr>Result</a>
+						<a href="classes/publickeyrequest.html" class="tsd-kind-icon">Public<wbr>Key<wbr>Request</a>
 					</li>
 					<li class=" tsd-kind-class tsd-is-not-exported">
 						<a href="classes/remmeaccount.html" class="tsd-kind-icon">Remme<wbr>Account</a>
@@ -337,6 +338,9 @@ remme.events.subscribe({
 						<a href="classes/remmewebsocketsevents.html" class="tsd-kind-icon">Remme<wbr>Web<wbr>Sockets<wbr>Events</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/sendtransactiondto.html" class="tsd-kind-icon">Send<wbr>Transaction<wbr>Dto</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/state.html" class="tsd-kind-icon">State</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -346,7 +350,7 @@ remme.events.subscribe({
 						<a href="classes/statequery.html" class="tsd-kind-icon">State<wbr>Query</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/swapinfodata.html" class="tsd-kind-icon">Swap<wbr>Info<wbr>Data</a>
+						<a href="classes/swapinfo.html" class="tsd-kind-icon">Swap<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/swapinfodto.html" class="tsd-kind-icon">Swap<wbr>Info<wbr>Dto</a>
@@ -355,19 +359,13 @@ remme.events.subscribe({
 						<a href="classes/swapinitdto.html" class="tsd-kind-icon">Swap<wbr>Init<wbr>Dto</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/swappublickeydto.html" class="tsd-kind-icon">Swap<wbr>Public<wbr>Key<wbr>Dto</a>
+						<a href="classes/swaprequest.html" class="tsd-kind-icon">Swap<wbr>Request</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/transaction.html" class="tsd-kind-icon">Transaction</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/transactionlist.html" class="tsd-kind-icon">Transaction<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/transactionpayload.html" class="tsd-kind-icon">Transaction<wbr>Payload</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/transactionresult.html" class="tsd-kind-icon">Transaction<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="interfaces/basedata.html" class="tsd-kind-icon">Base<wbr>Data</a>
@@ -382,10 +380,10 @@ remme.events.subscribe({
 						<a href="interfaces/batchheader.html" class="tsd-kind-icon">Batch<wbr>Header</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/batchstateupdatedto.html" class="tsd-kind-icon">Batch<wbr>State<wbr>Update<wbr>Dto</a>
+						<a href="interfaces/batchinfo.html" class="tsd-kind-icon">Batch<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/batchstatuses.html" class="tsd-kind-icon">Batch<wbr>Statuses</a>
+						<a href="interfaces/batchstateupdatedto.html" class="tsd-kind-icon">Batch<wbr>State<wbr>Update<wbr>Dto</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/blockdata.html" class="tsd-kind-icon">Block<wbr>Data</a>
@@ -431,6 +429,12 @@ remme.events.subscribe({
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/ipaging.html" class="tsd-kind-icon">IPaging</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipublickeyinfo.html" class="tsd-kind-icon">IPublic<wbr>Key<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipublickeystore.html" class="tsd-kind-icon">IPublic<wbr>Key<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/iremmeaccount.html" class="tsd-kind-icon">IRemme<wbr>Account</a>
@@ -481,16 +485,10 @@ remme.events.subscribe({
 						<a href="interfaces/peerlist.html" class="tsd-kind-icon">Peer<wbr>List</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/publickeystoragestoredto.html" class="tsd-kind-icon">Public<wbr>Key<wbr>Storage<wbr>Store<wbr>Dto</a>
-					</li>
-					<li class=" tsd-kind-interface">
 						<a href="interfaces/receiptlist.html" class="tsd-kind-icon">Receipt<wbr>List</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/statedata.html" class="tsd-kind-icon">State<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/transactioncreatepayload.html" class="tsd-kind-icon">Transaction<wbr>Create<wbr>Payload</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/transactiondata.html" class="tsd-kind-icon">Transaction<wbr>Data</a>
@@ -507,20 +505,26 @@ remme.events.subscribe({
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#context" class="tsd-kind-icon">CONTEXT</a>
 					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#publickeytype" class="tsd-kind-icon">Public<wbr>Key<wbr>Type</a>
+					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#base64toarraybuffer" class="tsd-kind-icon">base64<wbr>ToArray<wbr>Buffer</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#bytestohex" class="tsd-kind-icon">bytes<wbr>ToHex</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
+					<li class=" tsd-kind-function">
 						<a href="globals.html#certificatefrompem" class="tsd-kind-icon">certificate<wbr>From<wbr>Pem</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
+					<li class=" tsd-kind-function">
 						<a href="globals.html#certificatetopem" class="tsd-kind-icon">certificate<wbr>ToPem</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#generateaddress" class="tsd-kind-icon">generate<wbr>Address</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#generatersakeypair" class="tsd-kind-icon">generateRSAKey<wbr>Pair</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#generatesettingsaddress" class="tsd-kind-icon">generate<wbr>Settings<wbr>Address</a>
@@ -528,10 +532,10 @@ remme.events.subscribe({
 					<li class=" tsd-kind-function">
 						<a href="globals.html#hextobytes" class="tsd-kind-icon">hex<wbr>ToBytes</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
+					<li class=" tsd-kind-function">
 						<a href="globals.html#publickeyfrompem" class="tsd-kind-icon">public<wbr>Key<wbr>From<wbr>Pem</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
+					<li class=" tsd-kind-function">
 						<a href="globals.html#publickeytopem" class="tsd-kind-icon">public<wbr>Key<wbr>ToPem</a>
 					</li>
 					<li class=" tsd-kind-function">

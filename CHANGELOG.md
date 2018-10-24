@@ -6,10 +6,12 @@ and this project adheres to
 
 ## [Unreleased]
 ### Added
-- Get info by public key in RemmePublicKeyStorage
+- Get info about public key in RemmePublicKeyStorage.
 - Provide address to PublicKeyInfo that return from getInfo in RemmePublicKeyStorage.
-- Get info by certificate in RemmeCertificate
+- Get info about certificate in RemmeCertificate
 - Method for creating certificate in RemmeCertificate
+- Methods for sign and verify data in RemmeCertificate and CertificateTransactionResponse
+- Two new addresses into AtomicSwap. In init swap and expire swap.
 
 ### Changed
 - Check in RemmePublicKeyStorage and certificate return boolean. So if given public key or certificate is in our chain and valid it returns true either false.

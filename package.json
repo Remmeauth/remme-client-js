@@ -1,7 +1,7 @@
 {
   "name": "remme-client",
   "namespace": "remme",
-  "version": "0.3.3",
+  "version": "0.3.4-b",
   "description": "REMME external package",
   "main": "./packages/remme/dist/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "build_all": "npm run bootstrap && ./node_modules/.bin/gulp build",
     "watch": "./node_modules/.bin/gulp watch",
     "tests": "npm run bootstrap && ./node_modules/.bin/gulp tests",
-    "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json",
+    "generate-docs": "node_modules/.bin/gulp build_docs",
     "generate-protobufs": "node_modules/.bin/gulp protobuf-compile"
   },
   "keywords": [

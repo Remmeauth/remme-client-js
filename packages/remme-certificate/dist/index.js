@@ -379,6 +379,35 @@ var RemmeCertificate = /** @class */ (function () {
             });
         });
     };
+    /**
+     * Sign data with a certificate's private key and output DigestInfo DER-encoded bytes
+     * (defaults to RSASSA PKCS#1 v1.5)
+     * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
+     * @param {string} data
+     * @returns {string}
+     */
+    RemmeCertificate.prototype.sign = function (certificate, data) {
+        if (typeof certificate === "string") {
+            certificate = remme_utils_1.certificateFromPem(certificate);
+        }
+        var md = remme_utils_1.forge.md.sha512.create().update(data, "utf8");
+        return certificate.privateKey.sign(md);
+    };
+    /**
+     * verify data with a public key
+     * (defaults to RSASSA PKCS#1 v1.5)
+     * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
+     * @param {string} data
+     * @param {string} signature
+     * @returns {boolean}
+     */
+    RemmeCertificate.prototype.verify = function (certificate, data, signature) {
+        if (typeof certificate === "string") {
+            certificate = remme_utils_1.certificateFromPem(certificate);
+        }
+        data = remme_utils_1.forge.md.sha512.create().update(data, "utf8").digest().bytes();
+        return certificate.publicKey.verify(data, signature);
+    };
     return RemmeCertificate;
 }());
 exports.RemmeCertificate = RemmeCertificate;

@@ -16,4 +16,12 @@ export interface IRemmeCertificate {
     getInfo(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<PublicKeyInfo>;
 
     revoke(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<IBaseTransactionResponse>;
+
+    sign(certificate: forge.pki.Certificate | forge.pki.PEM, data: string): string;
+
+    verify(
+        certificate: forge.pki.Certificate | forge.pki.PEM,
+        data: string,
+        signedData: string,
+    ): boolean;
 }
