@@ -1,8 +1,8 @@
-import { TransactionCreatePayload, IBaseTransactionResponse } from "./models";
+import { CreateTransactionDto, IBaseTransactionResponse } from "./models";
 
 export interface IRemmeTransactionService {
 
-    create(settings: TransactionCreatePayload): Promise<string>;
+    create(settings: CreateTransactionDto): Promise<string>;
 
     send(transaction: string): Promise<IBaseTransactionResponse>;
 

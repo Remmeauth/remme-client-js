@@ -64,6 +64,78 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Main class for working with atomic swap</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>example</dt>
+						<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> swapId = <span class="hljs-string">"133102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce3806"</span>;
+<span class="hljs-keyword">const</span> secret = <span class="hljs-string">"secretkey"</span>;
+<span class="hljs-keyword">const</span> secretKey = <span class="hljs-string">"039eaa877ff63694f8f09c8034403f8b5165a7418812a642396d5d539f90b170"</span>;
+<span class="hljs-keyword">const</span> secretLock = <span class="hljs-string">"b605112c2d7489034bbd7beab083fb65ba02af787786bb5e3d99bb26709f4f68"</span>;
+<span class="hljs-keyword">const</span> init = <span class="hljs-keyword">await</span> remme.swap.init({
+   receiverAddress: <span class="hljs-string">"112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1"</span>,
+   senderAddressNonLocal: <span class="hljs-string">"0xe6ca0e7c974f06471759e9a05d18b538c5ced11e"</span>,
+   amount: <span class="hljs-number">100</span>,
+   swapId,
+   createdAt: <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Date</span>.now() / <span class="hljs-number">1000</span>)
+});
+
+init.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt; {
+   <span class="hljs-keyword">if</span> (err) {
+     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"err init"</span>, err);
+   } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (data.status === <span class="hljs-string">"COMMITTED"</span>) {
+     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"data init"</span>, data);
+     <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> remme.swap.getInfo(swapId);
+     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"after init info"</span>, res);
+     <span class="hljs-keyword">const</span> pubkey = <span class="hljs-keyword">await</span> remme.swap.getPublicKey();
+     <span class="hljs-built_in">console</span>.log(pubkey);
+     init.closeWebSocket();
+     <span class="hljs-keyword">const</span> setSecretLock = <span class="hljs-keyword">await</span> remme.swap.setSecretLock(swapId, secretLock);
+     setSecretLock.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt; {
+       <span class="hljs-keyword">if</span> (err) {
+         <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"set secret lock err"</span>, err);
+       }
+       <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"data set secret lock"</span>, data);
+       <span class="hljs-keyword">if</span> (data.status === <span class="hljs-string">"COMMITTED"</span>) {
+         <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> remme.swap.getInfo(swapId);
+         <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"after set secret lock info"</span>, res);
+         setSecretLock.closeWebSocket();
+         <span class="hljs-keyword">const</span> approve = <span class="hljs-keyword">await</span> remme.swap.approve(swapId);
+         approve.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt; {
+           <span class="hljs-keyword">if</span> (err) {
+             <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"approve err"</span>, err);
+           }
+           <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"data approve"</span>, data);
+           <span class="hljs-keyword">if</span> (data.status === <span class="hljs-string">"COMMITTED"</span>) {
+             <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> remme.swap.getInfo(swapId);
+             <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"after approve"</span>, res);
+             approve.closeWebSocket();
+             <span class="hljs-keyword">const</span> close = <span class="hljs-keyword">await</span> remme.swap.close(swapId, secretKey);
+             close.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt; {
+               <span class="hljs-keyword">if</span> (err) {
+                 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"err close"</span>, err);
+               }
+               <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"data close"</span>, data);
+               <span class="hljs-keyword">if</span> (data.status === <span class="hljs-string">"COMMITTED"</span>) {
+                 <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> remme.swap.getInfo(swapId);
+                 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"after close info"</span>, res);
+                 close.closeWebSocket();
+               }
+             });
+           }
+         });
+       }
+     });
+   }
+});
+</code></pre>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -81,6 +153,11 @@
 			<section class="tsd-panel tsd-kind-class tsd-is-not-exported">
 				<h3 class="tsd-before-signature">Indexable</h3>
 				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Main class for working with atomic swap</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -119,9 +196,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-atomic-swap/src/index.ts#L31">remme-atomic-swap/src/index.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L152">remme-atomic-swap/src/index.ts:152</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>Usage without main remme package</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remmeRest = <span class="hljs-keyword">new</span> RemmeRest(); <span class="hljs-comment">// See RemmeRest implementation</span>
+<span class="hljs-keyword">const</span> remmeAccount = <span class="hljs-keyword">new</span> RemmeAccount(); <span class="hljs-comment">// See RemmeAccount implementation</span>
+<span class="hljs-keyword">const</span> remmeTransaction = <span class="hljs-keyword">new</span> RemmeTransactionService(remmeRest, remmeAccount); <span class="hljs-comment">// See RemmeTransactionService implementation</span>
+<span class="hljs-keyword">const</span> remmeSwap = <span class="hljs-keyword">new</span> RemmeSwap(remmeRest, remmeTransaction);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -129,6 +218,10 @@
 								</li>
 								<li>
 									<h5>remmeTransactionService: <span class="tsd-signature-type">IRemmeTransactionService</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="remmeswap.html" class="tsd-signature-type">RemmeSwap</a></h4>
@@ -149,9 +242,22 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#approve">approve</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-atomic-swap/src/index.ts#L38">remme-atomic-swap/src/index.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L184">remme-atomic-swap/src/index.ts:184</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Approve swap with given id.
+									Send transaction into REMChain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> approve = <span class="hljs-keyword">await</span> remme.swap.approve(swapId);
+<span class="hljs-built_in">console</span>.log(approve.swapId);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -173,9 +279,22 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#close">close</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-atomic-swap/src/index.ts#L48">remme-atomic-swap/src/index.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L206">remme-atomic-swap/src/index.ts:206</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Close swap with given id and secret key for checking who can close swap.
+									Send transaction into REMChain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> close = <span class="hljs-keyword">await</span> remme.swap.close(swapId);
+<span class="hljs-built_in">console</span>.log(close.swapId);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -200,9 +319,22 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#expire">expire</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-atomic-swap/src/index.ts#L60">remme-atomic-swap/src/index.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L229">remme-atomic-swap/src/index.ts:229</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Expire swap with given id. Could be expired after 24h after initiation.
+									Send transaction into REMChain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> expire = <span class="hljs-keyword">await</span> remme.swap.expire(swapId);
+<span class="hljs-built_in">console</span>.log(expire.swapId);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -217,23 +349,35 @@
 					<a name="getinfo" class="tsd-anchor"></a>
 					<h3>get<wbr>Info</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Info<span class="tsd-signature-symbol">(</span>swapId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="swapinfodata.html" class="tsd-signature-type">SwapInfoData</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Info<span class="tsd-signature-symbol">(</span>swapId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="swapinfo.html" class="tsd-signature-type">SwapInfo</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#getinfo">getInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-atomic-swap/src/index.ts#L70">remme-atomic-swap/src/index.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L249">remme-atomic-swap/src/index.ts:249</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get info about swap by given swap id.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> info = <span class="hljs-keyword">await</span> remme.swap.getInfo(swapId);
+<span class="hljs-built_in">console</span>.log(info); <span class="hljs-comment">// SwapInfo</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>swapId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="swapinfodata.html" class="tsd-signature-type">SwapInfoData</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="swapinfo.html" class="tsd-signature-type">SwapInfo</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -248,9 +392,21 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#getpublickey">getPublicKey</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-atomic-swap/src/index.ts#L77">remme-atomic-swap/src/index.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L265">remme-atomic-swap/src/index.ts:265</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get swap public key.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> publicKey = <span class="hljs-keyword">await</span> remme.swap.getPublicKey();
+<span class="hljs-built_in">console</span>.log(publicKey);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -266,9 +422,35 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-atomic-swap/src/index.ts#L81">remme-atomic-swap/src/index.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L293">remme-atomic-swap/src/index.ts:293</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Initiation of swap.
+									Send transaction into REMChain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> swapId = <span class="hljs-string">"133102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce3806"</span>;
+<span class="hljs-keyword">const</span> secretLockBySolicitor = <span class="hljs-string">"b605112c2d7489034bbd7beab083fb65ba02af787786bb5e3d99bb26709f4f68"</span>;
+<span class="hljs-keyword">const</span> init = <span class="hljs-keyword">await</span> remme.swap.init({
+     receiverAddress: <span class="hljs-string">"112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1"</span>,
+     senderAddressNonLocal: <span class="hljs-string">"0xe6ca0e7c974f06471759e9a05d18b538c5ced11e"</span>,
+     amount: <span class="hljs-number">100</span>,
+
+     <span class="hljs-comment">// you can provide secret lock in initiation.</span>
+     secretLockBySolicitor,
+     <span class="hljs-comment">// or you can set it separately in remme.swap.setSecretLock</span>
+
+     swapId,
+     createdAt: <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Date</span>.now() / <span class="hljs-number">1000</span>)
+});
+<span class="hljs-built_in">console</span>.log(init.batchId); <span class="hljs-comment">// SwapInfo</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -290,9 +472,24 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#setsecretlock">setSecretLock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-atomic-swap/src/index.ts#L90">remme-atomic-swap/src/index.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L316">remme-atomic-swap/src/index.ts:316</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set secret lock to swap with given swap id.
+									Send transaction into REMChain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> swapId = <span class="hljs-string">"133102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce3806"</span>;
+<span class="hljs-keyword">const</span> secretLockBySolicitor = <span class="hljs-string">"b605112c2d7489034bbd7beab083fb65ba02af787786bb5e3d99bb26709f4f68"</span>;
+<span class="hljs-keyword">const</span> setting = <span class="hljs-keyword">await</span> remme.swap.setSecretLock(swapId, secretLockBySolicitor);
+<span class="hljs-built_in">console</span>.log(setting.batchId); <span class="hljs-comment">// SwapInfo</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

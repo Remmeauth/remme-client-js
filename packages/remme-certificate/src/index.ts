@@ -306,6 +306,41 @@ class RemmeCertificate implements IRemmeCertificate {
         return await this._remmePublicKeyStorage.revoke(publicKeyPEM);
     }
 
+    /**
+     * Sign data with a certificate's private key and output DigestInfo DER-encoded bytes
+     * (defaults to RSASSA PKCS#1 v1.5)
+     * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
+     * @param {string} data
+     * @returns {string}
+     */
+    public sign(certificate: forge.pki.Certificate | forge.pki.PEM, data: string): string {
+        if (typeof certificate === "string") {
+            certificate = certificateFromPem(certificate);
+        }
+        const md = forge.md.sha512.create().update(data, "utf8");
+        return certificate.privateKey.sign(md);
+    }
+
+    /**
+     * verify data with a public key
+     * (defaults to RSASSA PKCS#1 v1.5)
+     * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
+     * @param {string} data
+     * @param {string} signature
+     * @returns {boolean}
+     */
+    public verify(
+        certificate: forge.pki.Certificate | forge.pki.PEM,
+        data: string,
+        signature: string,
+    ): boolean {
+        if (typeof certificate === "string") {
+            certificate = certificateFromPem(certificate);
+        }
+        data = forge.md.sha512.create().update(data, "utf8").digest().bytes();
+        return certificate.publicKey.verify(data, signature);
+    }
+
 }
 
 export {

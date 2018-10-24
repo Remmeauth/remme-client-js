@@ -1,4 +1,3 @@
 export interface PeerList {
-    data: any;
-    link: string;
+    data: string[];
 }

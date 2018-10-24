@@ -86,9 +86,8 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="iremmepublickeystorage.html#check" class="tsd-kind-icon">check</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="iremmepublickeystorage.html#generateentityhash" class="tsd-kind-icon">generate<wbr>Entity<wbr>Hash</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="iremmepublickeystorage.html#generatemessage" class="tsd-kind-icon">generate<wbr>Message</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="iremmepublickeystorage.html#getuserpublickeys" class="tsd-kind-icon">get<wbr>User<wbr>Public<wbr>Keys</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="iremmepublickeystorage.html#getaccountpublickeys" class="tsd-kind-icon">get<wbr>Account<wbr>Public<wbr>Keys</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="iremmepublickeystorage.html#getinfo" class="tsd-kind-icon">get<wbr>Info</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="iremmepublickeystorage.html#revoke" class="tsd-kind-icon">revoke</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="iremmepublickeystorage.html#store" class="tsd-kind-icon">store</a></li>
 							</ul>
@@ -102,13 +101,13 @@
 					<a name="check" class="tsd-anchor"></a>
 					<h3>check</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">check<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.Key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/publickeystoragecheckresult.html" class="tsd-signature-type">PublicKeyStorageCheckResult</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">check<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.Key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-public-key-storage/src/interface.ts#L12">remme-public-key-storage/src/interface.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-public-key-storage/src/interface.ts#L12">remme-public-key-storage/src/interface.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -117,76 +116,53 @@
 									<h5>publicKey: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.Key</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/publickeystoragecheckresult.html" class="tsd-signature-type">PublicKeyStorageCheckResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="generateentityhash" class="tsd-anchor"></a>
-					<h3>generate<wbr>Entity<wbr>Hash</h3>
+					<a name="getaccountpublickeys" class="tsd-anchor"></a>
+					<h3>get<wbr>Account<wbr>Public<wbr>Keys</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Entity<wbr>Hash<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Account<wbr>Public<wbr>Keys<span class="tsd-signature-symbol">(</span>accountPublicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-public-key-storage/src/interface.ts#L20">remme-public-key-storage/src/interface.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-public-key-storage/src/interface.ts#L18">remme-public-key-storage/src/interface.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>message: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="generatemessage" class="tsd-anchor"></a>
-					<h3>generate<wbr>Message</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Message<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-public-key-storage/src/interface.ts#L18">remme-public-key-storage/src/interface.ts:18</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>data: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="getuserpublickeys" class="tsd-anchor"></a>
-					<h3>get<wbr>User<wbr>Public<wbr>Keys</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>User<wbr>Public<wbr>Keys<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-public-key-storage/src/interface.ts#L16">remme-public-key-storage/src/interface.ts:16</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>publicKey: <span class="tsd-signature-type">string</span></h5>
+									<h5>accountPublicKey: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="getinfo" class="tsd-anchor"></a>
+					<h3>get<wbr>Info</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Info<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.Key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/publickeyinfo.html" class="tsd-signature-type">PublicKeyInfo</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-public-key-storage/src/interface.ts#L14">remme-public-key-storage/src/interface.ts:14</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>publicKey: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.Key</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/publickeyinfo.html" class="tsd-signature-type">PublicKeyInfo</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -200,7 +176,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-public-key-storage/src/interface.ts#L14">remme-public-key-storage/src/interface.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-public-key-storage/src/interface.ts#L16">remme-public-key-storage/src/interface.ts:16</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -217,19 +193,19 @@
 					<a name="store" class="tsd-anchor"></a>
 					<h3>store</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">store<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="publickeystoragestoredto.html" class="tsd-signature-type">PublicKeyStorageStoreDto</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">store<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="ipublickeystore.html" class="tsd-signature-type">IPublicKeyStore</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5cbb80c/packages/remme-public-key-storage/src/interface.ts#L10">remme-public-key-storage/src/interface.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-public-key-storage/src/interface.ts#L10">remme-public-key-storage/src/interface.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>data: <a href="publickeystoragestoredto.html" class="tsd-signature-type">PublicKeyStorageStoreDto</a></h5>
+									<h5>data: <a href="ipublickeystore.html" class="tsd-signature-type">IPublicKeyStore</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -257,13 +233,10 @@
 								<a href="iremmepublickeystorage.html#check" class="tsd-kind-icon">check</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="iremmepublickeystorage.html#generateentityhash" class="tsd-kind-icon">generate<wbr>Entity<wbr>Hash</a>
+								<a href="iremmepublickeystorage.html#getaccountpublickeys" class="tsd-kind-icon">get<wbr>Account<wbr>Public<wbr>Keys</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="iremmepublickeystorage.html#generatemessage" class="tsd-kind-icon">generate<wbr>Message</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="iremmepublickeystorage.html#getuserpublickeys" class="tsd-kind-icon">get<wbr>User<wbr>Public<wbr>Keys</a>
+								<a href="iremmepublickeystorage.html#getinfo" class="tsd-kind-icon">get<wbr>Info</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="iremmepublickeystorage.html#revoke" class="tsd-kind-icon">revoke</a>

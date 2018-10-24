@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var websocket_1 = require("websocket");
 var models_1 = require("./models");
-exports.Statuses = models_1.Statuses;
+exports.BatchInfoDto = models_1.BatchInfoDto;
+exports.BatchStatus = models_1.BatchStatus;
 /**
  * @hidden
  */
@@ -170,7 +171,7 @@ var RemmeWebSocket = /** @class */ (function () {
                     _this._sendAnError(new models_1.ErrorMessage(response.data.batch_statuses.invalid_transactions[0]), callback);
                     return;
                 }
-                callback(null, _this.isEvent ? response.data : new models_1.BatchStatusesDto(response.data.batch_statuses));
+                callback(null, _this.isEvent ? response.data : new models_1.BatchInfoDto(response.data.batch_statuses));
             }
             else if (response.type === "error") {
                 _this._sendAnError(new models_1.ErrorFromEvent(response.data), callback);

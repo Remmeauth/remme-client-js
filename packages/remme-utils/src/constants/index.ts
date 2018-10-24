@@ -1,5 +1,7 @@
 export const PATTERNS = {
-    PRIVATE_KEY: /^[0-9a-f]{64}$/,
-    PUBLIC_KEY: /^[0-9a-f]{66}$/,
-    ADDRESS: /^[0-9a-f]{70}$/,
+    PRIVATE_KEY: /^[a-f0-9]{64}$/,
+    PUBLIC_KEY: /^[a-f0-9]{66}$/,
+    ADDRESS: /^[a-f0-9]{70}$/,
+    SWAP_ID: /^[a-f0-9]{64}$/,
+    HEADER_SIGNATURE: /^[a-f0-9]{128}$/,
 };

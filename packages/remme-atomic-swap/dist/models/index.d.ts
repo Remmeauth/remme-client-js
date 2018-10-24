@@ -1,4 +1,8 @@
 export { SwapInitDto } from "./SwapInitDto";
 export { SwapInfoDto } from "./SwapInfoDto";
-export { SwapInfoData } from "./SwapInfoData";
-export { SwapPublicKeyDto } from "./SwapPublicKeyDto";
+export { SwapInfo } from "./SwapInfo";
+export { SwapState } from "./SwapState";
+export declare class SwapRequest {
+    swap_id: string;
+    constructor(swap_id: string);
+}
