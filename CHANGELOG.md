@@ -17,7 +17,6 @@ and this project adheres to
 - Models
   In remme-web-socket: Statuses -> BatchStatus, BatchStatuses -> BatchInfoDto
   In remme-atomic-swap: SwapInfoData -> SwapInfo
-  In remme-certificate: CertificateCreateDto -> CreateCertificateDto
 - Check in RemmePublicKeyStorage and certificate return boolean. So if given public key or certificate is in our chain and valid it returns true either false.
 - Check and revoke functions in RemmePublicKeyStorage can work with public key address.
 - getUserPublicKeys rename to getAccountPublicKeys into RemmePublicKeyStorage
