@@ -21,6 +21,9 @@ and this project adheres to
 - Two new addresses into AtomicSwap. In init swap and expire swap.
 
 ### Changed
+- Models
+  In remme-web-socket: Statuses -> BatchStatus, BatchStatuses -> BatchInfoDto
+  In remme-atomic-swap: SwapInfoData -> SwapInfo
 - Check in RemmePublicKeyStorage and certificate return boolean. So if given public key or certificate is in our chain and valid it returns true either false.
 - Check and revoke functions in RemmePublicKeyStorage can work with public key address.
 - getUserPublicKeys rename to getAccountPublicKeys into RemmePublicKeyStorage
