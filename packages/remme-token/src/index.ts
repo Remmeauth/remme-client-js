@@ -1,5 +1,5 @@
-import { RemmeMethods, IRemmeRest } from "remme-rest";
-import { generateAddress, RemmeFamilyName, PATTERNS, PublicKeyRequest } from "remme-utils";
+import { RemmeMethods, IRemmeApi } from "remme-api";
+import { generateAddress, RemmeFamilyName, PublicKeyRequest, checkAddress } from "remme-utils";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
 import { TransferPayload, TransactionPayload, AccountMethod } from "remme-protobuf";
 
@@ -41,7 +41,7 @@ class RemmeToken implements IRemmeToken {
     // index signature
     [key: string]: any;
 
-    private readonly _remmeRest: IRemmeRest;
+    private readonly _remmeApi: IRemmeApi;
     private readonly _remmeTransaction: IRemmeTransactionService;
     private readonly _familyName = RemmeFamilyName.Account;
     private readonly _familyVersion = "0.1";
@@ -50,16 +50,16 @@ class RemmeToken implements IRemmeToken {
      * @example
      * Usage without remme main package
      * ```typescript
-     * const remmeRest = new RemmeRest(); // See RemmeRest implementation
+     * const remmeApi = new RemmeApi(); // See RemmeRest implementation
      * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
-     * const remmeTransaction = new RemmeTransactionService(remmeRest, remmeAccount);
-     * const remmeToken = new RemmeToken(remmeRest, remmeTransaction);
+     * const remmeTransaction = new RemmeTransactionService(remmeApi, remmeAccount);
+     * const remmeToken = new RemmeToken(remmeApi, remmeTransaction);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      * @param {IRemmeTransactionService} remmeTransaction
      */
-    public constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService) {
-        this._remmeRest = remmeRest;
+    public constructor(remmeApi: IRemmeApi, remmeTransaction: IRemmeTransactionService) {
+        this._remmeApi = remmeApi;
         this._remmeTransaction = remmeTransaction;
     }
 
@@ -88,20 +88,21 @@ class RemmeToken implements IRemmeToken {
      *
      * transactionResult.connectToWebSocket(transactionCallback);
      * ```
-     * @param {string} publicKeyTo
+     * @param {string} addressTo
      * @param {number} amount
      * @returns {Promise<IBaseTransactionResponse>}
      */
-    public async transfer(publicKeyTo: string, amount: number): Promise<IBaseTransactionResponse> {
-        if (publicKeyTo.search(PATTERNS.PUBLIC_KEY) === -1) {
-            throw new Error("Given PublicKey is not a valid");
+    public async transfer(addressTo: string, amount: number): Promise<IBaseTransactionResponse> {
+        checkAddress(addressTo);
+        if (!amount) {
+            throw new Error("Amount was not provided, please set the amount");
         }
         if (amount <= 0) {
-            throw new Error("amount must be higher than 0");
+            throw new Error("Amount must be higher than 0");
         }
-        const receiverAddress = generateAddress(this._familyName, publicKeyTo);
+        // const receiverAddress = generateAddress(this._familyName, publicKeyTo);
         const transferPayload = TransferPayload.encode({
-            addressTo: receiverAddress,
+            addressTo,
             value: amount,
         }).finish();
         const transactionPayload = TransactionPayload.encode({
@@ -111,8 +112,8 @@ class RemmeToken implements IRemmeToken {
         const transaction = await this._remmeTransaction.create({
             familyName: this._familyName,
             familyVersion: this._familyVersion,
-            inputs: [receiverAddress],
-            outputs: [receiverAddress],
+            inputs: [addressTo],
+            outputs: [addressTo],
             payloadBytes: transactionPayload,
         });
         return await this._remmeTransaction.send(transaction);
@@ -125,15 +126,13 @@ class RemmeToken implements IRemmeToken {
      * const balance = await remme.token.getBalance(remme.account.publicKeyHex);
      * console.log(`Account ${remme.account.publicKeyHex} as sender, balance - ${balance} REM`);
      * ```
-     * @param {string} publicKey
+     * @param {string} address
      * @returns {Promise<number>}
      */
-    public async getBalance(publicKey: string): Promise<number> {
-        if (publicKey.search(PATTERNS.PUBLIC_KEY) === -1) {
-            throw new Error("Given PublicKey is not a valid");
-        }
-        return await this._remmeRest
-            .sendRequest<PublicKeyRequest, number>(RemmeMethods.token, new PublicKeyRequest(publicKey));
+    public async getBalance(address: string): Promise<number> {
+        checkAddress(address);
+        return await this._remmeApi
+            .sendRequest<PublicKeyRequest, number>(RemmeMethods.token, new PublicKeyRequest(address));
     }
 }
 

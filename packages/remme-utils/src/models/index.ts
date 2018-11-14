@@ -25,6 +25,6 @@ export enum RemmeFamilyName {
  */
 export class PublicKeyRequest {
     constructor(
-        public public_key: string | forge.pki.PEM,
+        public public_key_address: string | forge.pki.PEM,
     ) {}
 }

@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var remme_rest_1 = require("remme-rest");
+var remme_api_1 = require("remme-api");
 var remme_utils_1 = require("remme-utils");
 var protobuf = require("sawtooth-sdk/protobuf");
 var models_1 = require("./models");
@@ -68,15 +68,15 @@ var RemmeTransactionService = /** @class */ (function () {
      * @example
      * Usage without remme main package
      * ```typescript
-     * const remmeRest = new RemmeRest(); // See RemmeRest implementation
+     * const remmeApi = new RemmeApi(); // See RemmeRest implementation
      * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
-     * const remmeTransaction = new RemmeTransactionService(remmeRest, remmeAccount);
+     * const remmeTransaction = new RemmeTransactionService(remmeApi, remmeAccount);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      * @param {IRemmeAccount} remmeAccount
      */
-    function RemmeTransactionService(remmeRest, remmeAccount) {
-        this._remmeRest = remmeRest;
+    function RemmeTransactionService(remmeApi, remmeAccount) {
+        this._remmeApi = remmeApi;
         this._remmeAccount = remmeAccount;
     }
     /* tslint:disable */
@@ -110,7 +110,7 @@ var RemmeTransactionService = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         familyName = settings.familyName, familyVersion = settings.familyVersion, inputs = settings.inputs, outputs = settings.outputs, payloadBytes = settings.payloadBytes;
-                        return [4 /*yield*/, this._remmeRest.sendRequest(remme_rest_1.RemmeMethods.nodeKey)];
+                        return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.nodeKey)];
                     case 1:
                         batcherPublicKey = _a.sent();
                         transactionHeaderBytes = protobuf.TransactionHeader.encode({
@@ -156,11 +156,11 @@ var RemmeTransactionService = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         requestPayload = new models_1.SendTransactionDto(transaction);
-                        return [4 /*yield*/, this._remmeRest
-                                .sendRequest(remme_rest_1.RemmeMethods.transaction, requestPayload)];
+                        return [4 /*yield*/, this._remmeApi
+                                .sendRequest(remme_api_1.RemmeMethods.transaction, requestPayload)];
                     case 1:
                         batchId = _a.sent();
-                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeRest.nodeAddress, this._remmeRest.sslMode, batchId)];
+                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeApi.nodeAddress, this._remmeApi.sslMode, batchId)];
                 }
             });
         });

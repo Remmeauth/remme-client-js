@@ -190,23 +190,23 @@ init.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Swap<span class="tsd-signature-symbol">(</span>remmeRest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeRest</span>, remmeTransactionService<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeTransactionService</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmeswap.html" class="tsd-signature-type">RemmeSwap</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Swap<span class="tsd-signature-symbol">(</span>remmeApi<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeApi</span>, remmeTransactionService<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeTransactionService</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmeswap.html" class="tsd-signature-type">RemmeSwap</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L152">remme-atomic-swap/src/index.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-atomic-swap/src/index.ts#L152">remme-atomic-swap/src/index.ts:152</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><p>Usage without main remme package</p>
-										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remmeRest = <span class="hljs-keyword">new</span> RemmeRest(); <span class="hljs-comment">// See RemmeRest implementation</span>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remmeApi = <span class="hljs-keyword">new</span> RemmeApi(); <span class="hljs-comment">// See RemmeRest implementation</span>
 <span class="hljs-keyword">const</span> remmeAccount = <span class="hljs-keyword">new</span> RemmeAccount(); <span class="hljs-comment">// See RemmeAccount implementation</span>
-<span class="hljs-keyword">const</span> remmeTransaction = <span class="hljs-keyword">new</span> RemmeTransactionService(remmeRest, remmeAccount); <span class="hljs-comment">// See RemmeTransactionService implementation</span>
-<span class="hljs-keyword">const</span> remmeSwap = <span class="hljs-keyword">new</span> RemmeSwap(remmeRest, remmeTransaction);
+<span class="hljs-keyword">const</span> remmeTransaction = <span class="hljs-keyword">new</span> RemmeTransactionService(remmeApi, remmeAccount); <span class="hljs-comment">// See RemmeTransactionService implementation</span>
+<span class="hljs-keyword">const</span> remmeSwap = <span class="hljs-keyword">new</span> RemmeSwap(remmeApi, remmeTransaction);
 </code></pre>
 									</dd>
 								</dl>
@@ -214,7 +214,7 @@ init.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>remmeRest: <span class="tsd-signature-type">IRemmeRest</span></h5>
+									<h5>remmeApi: <span class="tsd-signature-type">IRemmeApi</span></h5>
 								</li>
 								<li>
 									<h5>remmeTransactionService: <span class="tsd-signature-type">IRemmeTransactionService</span></h5>
@@ -242,7 +242,7 @@ init.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#approve">approve</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L184">remme-atomic-swap/src/index.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-atomic-swap/src/index.ts#L184">remme-atomic-swap/src/index.ts:184</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -279,7 +279,7 @@ init.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#close">close</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L206">remme-atomic-swap/src/index.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-atomic-swap/src/index.ts#L206">remme-atomic-swap/src/index.ts:206</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -319,7 +319,7 @@ init.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#expire">expire</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L229">remme-atomic-swap/src/index.ts:229</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-atomic-swap/src/index.ts#L229">remme-atomic-swap/src/index.ts:229</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -356,7 +356,7 @@ init.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#getinfo">getInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L249">remme-atomic-swap/src/index.ts:249</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-atomic-swap/src/index.ts#L249">remme-atomic-swap/src/index.ts:249</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -392,7 +392,7 @@ init.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#getpublickey">getPublicKey</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L265">remme-atomic-swap/src/index.ts:265</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-atomic-swap/src/index.ts#L265">remme-atomic-swap/src/index.ts:265</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -422,7 +422,7 @@ init.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L293">remme-atomic-swap/src/index.ts:293</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-atomic-swap/src/index.ts#L293">remme-atomic-swap/src/index.ts:293</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -472,7 +472,7 @@ init.connectToWebSocket(<span class="hljs-keyword">async</span> (err, data) =&gt
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeswap.html">IRemmeSwap</a>.<a href="../interfaces/iremmeswap.html#setsecretlock">setSecretLock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-atomic-swap/src/index.ts#L316">remme-atomic-swap/src/index.ts:316</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-atomic-swap/src/index.ts#L316">remme-atomic-swap/src/index.ts:316</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

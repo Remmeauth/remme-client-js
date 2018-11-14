@@ -14,7 +14,7 @@
     "@types/js-base64": "^2.3.1",
     "js-base64": "^2.4.5",
     "remme-account": "^0.4.0-0",
-    "remme-rest": "^0.4.0-0",
+    "remme-api": "^0.4.0-0",
     "remme-utils": "^0.4.0-0",
     "remme-web-socket": "^0.4.0-0",
     "sawtooth-sdk": "^1.0.4"

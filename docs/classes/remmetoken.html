@@ -152,23 +152,23 @@ transactionResult.connectToWebSocket(transactionCallback);
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Token<span class="tsd-signature-symbol">(</span>remmeRest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeRest</span>, remmeTransaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeTransactionService</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmetoken.html" class="tsd-signature-type">RemmeToken</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Token<span class="tsd-signature-symbol">(</span>remmeApi<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeApi</span>, remmeTransaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeTransactionService</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmetoken.html" class="tsd-signature-type">RemmeToken</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-token/src/index.ts#L47">remme-token/src/index.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-token/src/index.ts#L47">remme-token/src/index.ts:47</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><p>Usage without remme main package</p>
-										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remmeRest = <span class="hljs-keyword">new</span> RemmeRest(); <span class="hljs-comment">// See RemmeRest implementation</span>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remmeApi = <span class="hljs-keyword">new</span> RemmeApi(); <span class="hljs-comment">// See RemmeRest implementation</span>
 <span class="hljs-keyword">const</span> remmeAccount = <span class="hljs-keyword">new</span> RemmeAccount(); <span class="hljs-comment">// See RemmeAccount implementation</span>
-<span class="hljs-keyword">const</span> remmeTransaction = <span class="hljs-keyword">new</span> RemmeTransactionService(remmeRest, remmeAccount);
-<span class="hljs-keyword">const</span> remmeToken = <span class="hljs-keyword">new</span> RemmeToken(remmeRest, remmeTransaction);
+<span class="hljs-keyword">const</span> remmeTransaction = <span class="hljs-keyword">new</span> RemmeTransactionService(remmeApi, remmeAccount);
+<span class="hljs-keyword">const</span> remmeToken = <span class="hljs-keyword">new</span> RemmeToken(remmeApi, remmeTransaction);
 </code></pre>
 									</dd>
 								</dl>
@@ -176,7 +176,7 @@ transactionResult.connectToWebSocket(transactionCallback);
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>remmeRest: <span class="tsd-signature-type">IRemmeRest</span></h5>
+									<h5>remmeApi: <span class="tsd-signature-type">IRemmeApi</span></h5>
 								</li>
 								<li>
 									<h5>remmeTransaction: <span class="tsd-signature-type">IRemmeTransactionService</span></h5>
@@ -197,14 +197,14 @@ transactionResult.connectToWebSocket(transactionCallback);
 					<a name="getbalance" class="tsd-anchor"></a>
 					<h3>get<wbr>Balance</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Balance<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Balance<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmetoken.html">IRemmeToken</a>.<a href="../interfaces/iremmetoken.html#getbalance">getBalance</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-token/src/index.ts#L131">remme-token/src/index.ts:131</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-token/src/index.ts#L132">remme-token/src/index.ts:132</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -222,7 +222,7 @@ transactionResult.connectToWebSocket(transactionCallback);
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>publicKey: <span class="tsd-signature-type">string</span></h5>
+									<h5>address: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -233,14 +233,14 @@ transactionResult.connectToWebSocket(transactionCallback);
 					<a name="transfer" class="tsd-anchor"></a>
 					<h3>transfer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">transfer<span class="tsd-signature-symbol">(</span>publicKeyTo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">transfer<span class="tsd-signature-symbol">(</span>addressTo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmetoken.html">IRemmeToken</a>.<a href="../interfaces/iremmetoken.html#transfer">transfer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-token/src/index.ts#L95">remme-token/src/index.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-token/src/index.ts#L95">remme-token/src/index.ts:95</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -276,7 +276,7 @@ transactionResult.connectToWebSocket(transactionCallback);
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>publicKeyTo: <span class="tsd-signature-type">string</span></h5>
+									<h5>addressTo: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>amount: <span class="tsd-signature-type">number</span></h5>

@@ -1,15 +1,14 @@
 import { NewPubKeyPayload } from "remme-protobuf";
-import { forge } from "remme-utils";
+import { IRemmeKeys } from "remme-keys";
 
 /**
  * Interface that take method store in publicKeyStorage
  */
 export interface IPublicKeyStore {
     data: string;
-    publicKey: forge.pki.Key | forge.pki.PEM;
+    keys: IRemmeKeys;
     validFrom: number;
     validTo: number;
-    privateKey: forge.pki.Key | forge.pki.PEM;
     publicKeyType?: NewPubKeyPayload.PubKeyType;
-    entityType?: NewPubKeyPayload.EntityType;
+    rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding;
 }

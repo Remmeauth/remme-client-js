@@ -58,19 +58,19 @@ exports.DEFAULT_NETWORK_CONFIG = DEFAULT_NETWORK_CONFIG;
  *
  * @example
  * ```typescript
- * import { RemmeRest, RemmeMethods } from "remme-rest";
+ * import { RemmeApi, RemmeMethods } from "remme-api";
  *
- * const remmeRest = new RemmeRest({
+ * const remmeApi = new RemmeApi({
  *      nodeAddress: "localhost",
  *      nodePort: 8080,
  *      sslMode: false,
  * });
  *
- * const response = await remmeRest.sendRequest<object>(RemmeMethods.fetchBlocks);
+ * const response = await remmeApi.sendRequest<object>(RemmeMethods.fetchBlocks);
  * console.log(response);
  * ```
  */
-var RemmeRest = /** @class */ (function () {
+var RemmeApi = /** @class */ (function () {
     /**
      * Constructor can implement with different sets of params. By default params for constructor are:
      * nodeAddress: "localhost"
@@ -104,15 +104,15 @@ var RemmeRest = /** @class */ (function () {
      * const remmeRest = new RemmeRest();
      * ```
      */
-    function RemmeRest(_a) {
+    function RemmeApi(_a) {
         var _b = _a === void 0 ? DEFAULT_NETWORK_CONFIG : _a, _c = _b.nodeAddress, nodeAddress = _c === void 0 ? "localhost" : _c, _d = _b.nodePort, nodePort = _d === void 0 ? 8080 : _d, _e = _b.sslMode, sslMode = _e === void 0 ? false : _e;
         this._nodeAddress = nodeAddress + ":" + nodePort;
         this._sslMode = sslMode;
     }
-    RemmeRest.prototype._getUrlForRequest = function () {
+    RemmeApi.prototype._getUrlForRequest = function () {
         return "" + (this._sslMode ? "https://" : "http://") + this._nodeAddress;
     };
-    RemmeRest.prototype._getRequestConfig = function (method, payload) {
+    RemmeApi.prototype._getRequestConfig = function (method, payload) {
         var options = {
             url: this._getUrlForRequest(),
             method: "POST",
@@ -128,7 +128,7 @@ var RemmeRest = /** @class */ (function () {
         }
         return options;
     };
-    Object.defineProperty(RemmeRest.prototype, "nodeAddress", {
+    Object.defineProperty(RemmeApi.prototype, "nodeAddress", {
         /**
          * Return node address which contain domain name and port.
          * @returns {string}
@@ -139,7 +139,7 @@ var RemmeRest = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(RemmeRest.prototype, "sslMode", {
+    Object.defineProperty(RemmeApi.prototype, "sslMode", {
         /**
          * Return ssl mode which was provided by user.
          * @returns {boolean}
@@ -158,7 +158,7 @@ var RemmeRest = /** @class */ (function () {
      * @param {Input} payload
      * @returns {Promise<Output>}
      */
-    RemmeRest.prototype.sendRequest = function (method, payload) {
+    RemmeApi.prototype.sendRequest = function (method, payload) {
         return __awaiter(this, void 0, void 0, function () {
             var options, response;
             return __generator(this, function (_a) {
@@ -184,7 +184,7 @@ var RemmeRest = /** @class */ (function () {
             });
         });
     };
-    return RemmeRest;
+    return RemmeApi;
 }());
-exports.RemmeRest = RemmeRest;
+exports.RemmeApi = RemmeApi;
 //# sourceMappingURL=index.js.map

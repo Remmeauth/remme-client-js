@@ -19,6 +19,14 @@ declare module "node-forge" {
         namespace rsa {
             function setPublicKey(n: any, e: any): any;
         }
+        /**
+         * @hidden
+         */
+        namespace ed25519 {
+            function generateKeyPair(obj?: any): any;
+            function sign(obj: any): any;
+            function verify(obj: any): any;
+        }
     }
     /**
      * @hidden

@@ -1062,11 +1062,8 @@ export class AtomicSwapClosePayload implements IAtomicSwapClosePayload {
 /** Properties of an AtomicSwapInfo. */
 export interface IAtomicSwapInfo {
 
-    /** AtomicSwapInfo isClosed */
-    isClosed?: (boolean|null);
-
-    /** AtomicSwapInfo isApproved */
-    isApproved?: (boolean|null);
+    /** AtomicSwapInfo state */
+    state?: (AtomicSwapInfo.State|null);
 
     /** AtomicSwapInfo senderAddress */
     senderAddress?: (string|null);
@@ -1108,11 +1105,8 @@ export class AtomicSwapInfo implements IAtomicSwapInfo {
      */
     constructor(properties?: IAtomicSwapInfo);
 
-    /** AtomicSwapInfo isClosed. */
-    public isClosed: boolean;
-
-    /** AtomicSwapInfo isApproved. */
-    public isApproved: boolean;
+    /** AtomicSwapInfo state. */
+    public state: AtomicSwapInfo.State;
 
     /** AtomicSwapInfo senderAddress. */
     public senderAddress: string;
@@ -1210,6 +1204,241 @@ export class AtomicSwapInfo implements IAtomicSwapInfo {
 
     /**
      * Converts this AtomicSwapInfo to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+export namespace AtomicSwapInfo {
+
+    /** State enum. */
+    enum State {
+        EMPTY = 0,
+        OPENED = 1,
+        SECRET_LOCK_PROVIDED = 2,
+        APPROVED = 3,
+        CLOSED = 4,
+        EXPIRED = 5
+    }
+}
+
+/** Properties of a BlockInfo. */
+export interface IBlockInfo {
+
+    /** BlockInfo blockNum */
+    blockNum?: (number|Long|null);
+
+    /** BlockInfo previousBlockId */
+    previousBlockId?: (string|null);
+
+    /** BlockInfo signerPublicKey */
+    signerPublicKey?: (string|null);
+
+    /** BlockInfo headerSignature */
+    headerSignature?: (string|null);
+
+    /** BlockInfo timestamp */
+    timestamp?: (number|Long|null);
+}
+
+/** Represents a BlockInfo. */
+export class BlockInfo implements IBlockInfo {
+
+    /**
+     * Constructs a new BlockInfo.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IBlockInfo);
+
+    /** BlockInfo blockNum. */
+    public blockNum: (number|Long);
+
+    /** BlockInfo previousBlockId. */
+    public previousBlockId: string;
+
+    /** BlockInfo signerPublicKey. */
+    public signerPublicKey: string;
+
+    /** BlockInfo headerSignature. */
+    public headerSignature: string;
+
+    /** BlockInfo timestamp. */
+    public timestamp: (number|Long);
+
+    /**
+     * Creates a new BlockInfo instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns BlockInfo instance
+     */
+    public static create(properties?: IBlockInfo): BlockInfo;
+
+    /**
+     * Encodes the specified BlockInfo message. Does not implicitly {@link BlockInfo.verify|verify} messages.
+     * @param message BlockInfo message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IBlockInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified BlockInfo message, length delimited. Does not implicitly {@link BlockInfo.verify|verify} messages.
+     * @param message BlockInfo message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IBlockInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a BlockInfo message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns BlockInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BlockInfo;
+
+    /**
+     * Decodes a BlockInfo message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns BlockInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BlockInfo;
+
+    /**
+     * Verifies a BlockInfo message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a BlockInfo message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns BlockInfo
+     */
+    public static fromObject(object: { [k: string]: any }): BlockInfo;
+
+    /**
+     * Creates a plain object from a BlockInfo message. Also converts values to other types if specified.
+     * @param message BlockInfo
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: BlockInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this BlockInfo to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of a BlockInfoConfig. */
+export interface IBlockInfoConfig {
+
+    /** BlockInfoConfig latestBlock */
+    latestBlock?: (number|Long|null);
+
+    /** BlockInfoConfig oldestBlock */
+    oldestBlock?: (number|Long|null);
+
+    /** BlockInfoConfig targetCount */
+    targetCount?: (number|Long|null);
+
+    /** BlockInfoConfig syncTolerance */
+    syncTolerance?: (number|Long|null);
+}
+
+/** Represents a BlockInfoConfig. */
+export class BlockInfoConfig implements IBlockInfoConfig {
+
+    /**
+     * Constructs a new BlockInfoConfig.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IBlockInfoConfig);
+
+    /** BlockInfoConfig latestBlock. */
+    public latestBlock: (number|Long);
+
+    /** BlockInfoConfig oldestBlock. */
+    public oldestBlock: (number|Long);
+
+    /** BlockInfoConfig targetCount. */
+    public targetCount: (number|Long);
+
+    /** BlockInfoConfig syncTolerance. */
+    public syncTolerance: (number|Long);
+
+    /**
+     * Creates a new BlockInfoConfig instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns BlockInfoConfig instance
+     */
+    public static create(properties?: IBlockInfoConfig): BlockInfoConfig;
+
+    /**
+     * Encodes the specified BlockInfoConfig message. Does not implicitly {@link BlockInfoConfig.verify|verify} messages.
+     * @param message BlockInfoConfig message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IBlockInfoConfig, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified BlockInfoConfig message, length delimited. Does not implicitly {@link BlockInfoConfig.verify|verify} messages.
+     * @param message BlockInfoConfig message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IBlockInfoConfig, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a BlockInfoConfig message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns BlockInfoConfig
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BlockInfoConfig;
+
+    /**
+     * Decodes a BlockInfoConfig message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns BlockInfoConfig
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BlockInfoConfig;
+
+    /**
+     * Verifies a BlockInfoConfig message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a BlockInfoConfig message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns BlockInfoConfig
+     */
+    public static fromObject(object: { [k: string]: any }): BlockInfoConfig;
+
+    /**
+     * Creates a plain object from a BlockInfoConfig message. Also converts values to other types if specified.
+     * @param message BlockInfoConfig
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: BlockInfoConfig, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this BlockInfoConfig to JSON.
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };
@@ -1317,9 +1546,6 @@ export interface INewPubKeyPayload {
     /** NewPubKeyPayload publicKeyType */
     publicKeyType?: (NewPubKeyPayload.PubKeyType|null);
 
-    /** NewPubKeyPayload entityType */
-    entityType?: (NewPubKeyPayload.EntityType|null);
-
     /** NewPubKeyPayload entityHash */
     entityHash?: (string|null);
 
@@ -1331,6 +1557,9 @@ export interface INewPubKeyPayload {
 
     /** NewPubKeyPayload validTo */
     validTo?: (number|null);
+
+    /** NewPubKeyPayload rsaSignaturePadding */
+    rsaSignaturePadding?: (NewPubKeyPayload.RSASignaturePadding|null);
 }
 
 /** Represents a NewPubKeyPayload. */
@@ -1348,9 +1577,6 @@ export class NewPubKeyPayload implements INewPubKeyPayload {
     /** NewPubKeyPayload publicKeyType. */
     public publicKeyType: NewPubKeyPayload.PubKeyType;
 
-    /** NewPubKeyPayload entityType. */
-    public entityType: NewPubKeyPayload.EntityType;
-
     /** NewPubKeyPayload entityHash. */
     public entityHash: string;
 
@@ -1362,6 +1588,9 @@ export class NewPubKeyPayload implements INewPubKeyPayload {
 
     /** NewPubKeyPayload validTo. */
     public validTo: number;
+
+    /** NewPubKeyPayload rsaSignaturePadding. */
+    public rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding;
 
     /**
      * Creates a new NewPubKeyPayload instance using the specified properties.
@@ -1436,15 +1665,18 @@ export class NewPubKeyPayload implements INewPubKeyPayload {
 
 export namespace NewPubKeyPayload {
 
-    /** EntityType enum. */
-    enum EntityType {
-        PERSONAL = 0,
-        SERVER = 1
-    }
-
     /** PubKeyType enum. */
     enum PubKeyType {
-        RSA = 0
+        RSA = 0,
+        ECDSA = 1,
+        EdDSA = 2
+    }
+
+    /** RSASignaturePadding enum. */
+    enum RSASignaturePadding {
+        EMPTY = 0,
+        PSS = 1,
+        PKCS1v15 = 2
     }
 }
 

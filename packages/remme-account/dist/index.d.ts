@@ -63,7 +63,7 @@ declare class RemmeAccount implements IRemmeAccount {
      */
     readonly privateKey: RemmeAccountPrivateKey;
     /**
-     * Return private key from hex format.
+     * Return public key from hex format.
      * @returns {Buffer}
      */
     readonly publicKey: RemmeAccountPublicKey;

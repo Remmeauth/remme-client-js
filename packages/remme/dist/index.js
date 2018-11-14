@@ -7,7 +7,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-var remme_rest_1 = require("remme-rest");
+var remme_api_1 = require("remme-api");
 var remme_transaction_service_1 = require("remme-transaction-service");
 var remme_certificate_1 = require("remme-certificate");
 var remme_public_key_storage_1 = require("remme-public-key-storage");
@@ -81,20 +81,20 @@ var Remme;
         function Client(clientInit) {
             if (clientInit === void 0) { clientInit = {
                 privateKeyHex: "",
-                networkConfig: remme_rest_1.DEFAULT_NETWORK_CONFIG,
+                networkConfig: remme_api_1.DEFAULT_NETWORK_CONFIG,
             }; }
-            var _a = clientInit.networkConfig, networkConfig = _a === void 0 ? remme_rest_1.DEFAULT_NETWORK_CONFIG : _a;
+            var _a = clientInit.networkConfig, networkConfig = _a === void 0 ? remme_api_1.DEFAULT_NETWORK_CONFIG : _a;
             var _b = clientInit.privateKeyHex, privateKeyHex = _b === void 0 ? "" : _b;
-            networkConfig = __assign({}, remme_rest_1.DEFAULT_NETWORK_CONFIG, networkConfig);
-            this._remmeRest = new remme_rest_1.RemmeRest(networkConfig);
+            networkConfig = __assign({}, remme_api_1.DEFAULT_NETWORK_CONFIG, networkConfig);
+            this._remmeApi = new remme_api_1.RemmeApi(networkConfig);
             this._account = new remme_account_1.RemmeAccount(privateKeyHex);
-            this.transaction = new remme_transaction_service_1.RemmeTransactionService(this._remmeRest, this._account);
-            this.publicKeyStorage = new remme_public_key_storage_1.RemmePublicKeyStorage(this._remmeRest, this._account, this.transaction);
+            this.transaction = new remme_transaction_service_1.RemmeTransactionService(this._remmeApi, this._account);
+            this.publicKeyStorage = new remme_public_key_storage_1.RemmePublicKeyStorage(this._remmeApi, this._account, this.transaction);
             this.certificate = new remme_certificate_1.RemmeCertificate(this.publicKeyStorage);
-            this.token = new remme_token_1.RemmeToken(this._remmeRest, this.transaction);
-            this.swap = new remme_atomic_swap_1.RemmeSwap(this._remmeRest, this.transaction);
-            this.blockchainInfo = new remme_blockchain_info_1.RemmeBlockchainInfo(this._remmeRest);
-            this.events = new remme_web_socket_events_1.RemmeWebSocketsEvents(this._remmeRest.nodeAddress, this._remmeRest.sslMode);
+            this.token = new remme_token_1.RemmeToken(this._remmeApi, this.transaction);
+            this.swap = new remme_atomic_swap_1.RemmeSwap(this._remmeApi, this.transaction);
+            this.blockchainInfo = new remme_blockchain_info_1.RemmeBlockchainInfo(this._remmeApi);
+            this.events = new remme_web_socket_events_1.RemmeWebSocketsEvents(this._remmeApi.nodeAddress, this._remmeApi.sslMode);
         }
         Object.defineProperty(Client.prototype, "account", {
             /* tslint:disable */

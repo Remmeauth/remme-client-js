@@ -160,23 +160,23 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Public<wbr>Key<wbr>Storage<span class="tsd-signature-symbol">(</span>remmeRest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeRest</span>, remmeAccount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeAccount</span>, remmeTransaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeTransactionService</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmepublickeystorage.html" class="tsd-signature-type">RemmePublicKeyStorage</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Public<wbr>Key<wbr>Storage<span class="tsd-signature-symbol">(</span>remmeApi<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeApi</span>, remmeAccount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeAccount</span>, remmeTransaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeTransactionService</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmepublickeystorage.html" class="tsd-signature-type">RemmePublicKeyStorage</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-public-key-storage/src/index.ts#L137">remme-public-key-storage/src/index.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L153">remme-public-key-storage/src/index.ts:153</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><p>Usage without remme main package</p>
-										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> rest = <span class="hljs-keyword">new</span> RemmeRest();
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> RemmeApi();
 <span class="hljs-keyword">const</span> account = <span class="hljs-keyword">new</span> RemmeAccount();
-<span class="hljs-keyword">const</span> transaction = <span class="hljs-keyword">new</span> RemmeTransactionService(rest, account);
-<span class="hljs-keyword">const</span> publicKeyStorage = <span class="hljs-keyword">new</span> RemmePublicKeyStorage(rest, account, transaction);
+<span class="hljs-keyword">const</span> transaction = <span class="hljs-keyword">new</span> RemmeTransactionService(api, account);
+<span class="hljs-keyword">const</span> publicKeyStorage = <span class="hljs-keyword">new</span> RemmePublicKeyStorage(api, account, transaction);
 </code></pre>
 									</dd>
 								</dl>
@@ -184,7 +184,7 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>remmeRest: <span class="tsd-signature-type">IRemmeRest</span></h5>
+									<h5>remmeApi: <span class="tsd-signature-type">IRemmeApi</span></h5>
 								</li>
 								<li>
 									<h5>remmeAccount: <span class="tsd-signature-type">IRemmeAccount</span></h5>
@@ -208,14 +208,13 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 					<a name="check" class="tsd-anchor"></a>
 					<h3>check</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">check<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.Key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">check<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/iremmepublickeystorage.html">IRemmePublicKeyStorage</a>.<a href="../interfaces/iremmepublickeystorage.html#check">check</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-public-key-storage/src/index.ts#L238">remme-public-key-storage/src/index.ts:238</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L253">remme-public-key-storage/src/index.ts:253</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -234,7 +233,7 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>publicKey: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.Key</span></h5>
+									<h5>address: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -245,14 +244,14 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 					<a name="getaccountpublickeys" class="tsd-anchor"></a>
 					<h3>get<wbr>Account<wbr>Public<wbr>Keys</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Account<wbr>Public<wbr>Keys<span class="tsd-signature-symbol">(</span>accountPublicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Account<wbr>Public<wbr>Keys<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmepublickeystorage.html">IRemmePublicKeyStorage</a>.<a href="../interfaces/iremmepublickeystorage.html#getaccountpublickeys">getAccountPublicKeys</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-public-key-storage/src/index.ts#L305">remme-public-key-storage/src/index.ts:305</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L311">remme-public-key-storage/src/index.ts:311</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -271,7 +270,7 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>accountPublicKey: <span class="tsd-signature-type">string</span></h5>
+									<h5>address: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -282,14 +281,13 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 					<a name="getinfo" class="tsd-anchor"></a>
 					<h3>get<wbr>Info</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Info<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.Key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="publickeyinfo.html" class="tsd-signature-type">PublicKeyInfo</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Info<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="publickeyinfo.html" class="tsd-signature-type">PublicKeyInfo</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/iremmepublickeystorage.html">IRemmePublicKeyStorage</a>.<a href="../interfaces/iremmepublickeystorage.html#getinfo">getInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-public-key-storage/src/index.ts#L254">remme-public-key-storage/src/index.ts:254</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L269">remme-public-key-storage/src/index.ts:269</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -308,7 +306,7 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>publicKey: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.Key</span></h5>
+									<h5>address: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="publickeyinfo.html" class="tsd-signature-type">PublicKeyInfo</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -319,14 +317,13 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 					<a name="revoke" class="tsd-anchor"></a>
 					<h3>revoke</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">revoke<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.Key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">revoke<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/iremmepublickeystorage.html">IRemmePublicKeyStorage</a>.<a href="../interfaces/iremmepublickeystorage.html#revoke">revoke</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-public-key-storage/src/index.ts#L276">remme-public-key-storage/src/index.ts:276</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L291">remme-public-key-storage/src/index.ts:291</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -352,7 +349,7 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>publicKey: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.Key</span></h5>
+									<h5>address: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -369,7 +366,7 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/ee3ee36/packages/remme-public-key-storage/src/index.ts#L187">remme-public-key-storage/src/index.ts:187</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L207">remme-public-key-storage/src/index.ts:207</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -379,13 +376,18 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> storeResponse = <span class="hljs-keyword">await</span> remme.publicKeyStorage.store({
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { PublicKeyType, RSASignaturePadding } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-public-key-storage"</span>;
+
+<span class="hljs-keyword">const</span> storeResponse = <span class="hljs-keyword">await</span> remme.publicKeyStorage.store({
      data: <span class="hljs-string">"store data"</span>,
      privateKey, <span class="hljs-comment">// need for signing data</span>
      publicKey,
+     publicKeyType: PublicKeyType.RSA,
+     rsaSignaturePadding: RSASignaturePadding.PSS,
      validFrom,
      validTo,
 });
+
 storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span>, res: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
      <span class="hljs-keyword">if</span> (err) {
          <span class="hljs-built_in">console</span>.log(err);
@@ -406,16 +408,13 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 											<h5>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 										</li>
 										<li class="tsd-parameter">
-											<h5>entity<wbr>Type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EntityType</span></h5>
+											<h5>keys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeKeys</span></h5>
 										</li>
 										<li class="tsd-parameter">
-											<h5>private<wbr>Key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+											<h5>public<wbr>Key<wbr>Type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PubKeyType</span></h5>
 										</li>
 										<li class="tsd-parameter">
-											<h5>public<wbr>Key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5>public<wbr>Key<wbr>Type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RSA</span></h5>
+											<h5>rsa<wbr>Signature<wbr>Padding<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RSASignaturePadding</span></h5>
 										</li>
 										<li class="tsd-parameter">
 											<h5>valid<wbr>From<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>

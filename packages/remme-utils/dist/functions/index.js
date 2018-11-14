@@ -36,10 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var bytes = require("utf8-bytes");
 var crypto_1 = require("crypto");
 var b64 = require("base64-js");
 var forge = require("node-forge");
+var dist_1 = require("../../dist");
 exports.sha512 = function (value) { return crypto_1.createHash("sha512").update(value).digest("hex"); };
 exports.hexToBytes = function (str) {
     var arr = [];
@@ -61,9 +61,6 @@ exports.bytesToHex = function (uint8arr) {
 exports.base64ToArrayBuffer = function (base64) {
     return b64.toByteArray(base64);
 };
-exports.utf8ToBytes = function (str) {
-    return bytes(str);
-};
 exports.toHex = function (str) {
     var hex = "";
     for (var i = 0; i < str.length; i++) {
@@ -74,9 +71,6 @@ exports.toHex = function (str) {
 exports.generateAddress = function (familyName, data) {
     return "" + exports.sha512(familyName).slice(0, 6) + exports.sha512(data).slice(0, 64);
 };
-exports.toHexString = function (byteArray) { return Array.from(byteArray, function (byte) {
-    return ("0" + (byte & 0xFF).toString(16)).slice(-2);
-}).join(""); };
 exports.toUTF8Array = function (str) {
     var utf8 = [];
     for (var i = 0; i < str.length; i++) {
@@ -142,6 +136,22 @@ exports.publicKeyFromPem = function (publicKey) {
         throw new Error("Given publicKey is not a valid");
     }
 };
+exports.privateKeyToPem = function (publicKey) {
+    try {
+        return forge.pki.privateKeyToPem(publicKey);
+    }
+    catch (e) {
+        throw new Error("Given publicKey is not a valid");
+    }
+};
+exports.privateKeyFromPem = function (publicKey) {
+    try {
+        return forge.pki.privateKeyFromPem(publicKey);
+    }
+    catch (e) {
+        throw new Error("Given publicKey is not a valid");
+    }
+};
 /**
  * Function that generate RSA key pair (private and public keys)
  * Function take one param that equal to rsa key size, by default is 2048.
@@ -167,5 +177,29 @@ exports.generateRSAKeyPair = function (rsaKeySize) {
             }
         });
     });
+};
+/**
+ * Function that generate ED25519 key pair (private and public keys)
+ * Function take one param that equal to seed for generating.
+ * @param {string} seed
+ * @returns {module:node-forge.pki.KeyPair}
+ */
+exports.generateED25519KeyPair = function (seed) {
+    if (seed) {
+        seed = new forge.util.ByteBuffer(seed, "utf8");
+        return forge.pki.ed25519.generateKeyPair({ seed: seed });
+    }
+    return forge.pki.ed25519.generateKeyPair();
+};
+exports.checkAddress = function (address) {
+    if (!address) {
+        throw new Error("Address was not provided, please set the address");
+    }
+    if (typeof address !== "string") {
+        throw new Error("Given address is not a valid");
+    }
+    if (address.search(dist_1.PATTERNS.ADDRESS) === -1) {
+        throw new Error("Given address is not a valid");
+    }
 };
 //# sourceMappingURL=index.js.map

@@ -32,7 +32,7 @@
     "remme-blockchain-info": "^0.4.0-0",
     "remme-certificate": "^0.4.0-0",
     "remme-public-key-storage": "^0.4.0-0",
-    "remme-rest": "^0.4.0-0",
+    "remme-api": "^0.4.0-0",
     "remme-token": "^0.4.0-0",
     "remme-transaction-service": "^0.4.0-0",
     "remme-web-socket-events": "^0.4.0-0"

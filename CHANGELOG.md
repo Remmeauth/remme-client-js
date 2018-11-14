@@ -4,7 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to
 
-## [Unreleased]
+## [0.4.0]
+### Added
+- Class RemmeKeys that works with different types of keys. (RSA, EdDSA)
+
+### Changed
+- All methods that read or revoke keys at now work only with addresses.
+
+## [0.4.0-0]
 ### Added
 - Get info about public key in RemmePublicKeyStorage.
 - Provide address to PublicKeyInfo that return from getInfo in RemmePublicKeyStorage.

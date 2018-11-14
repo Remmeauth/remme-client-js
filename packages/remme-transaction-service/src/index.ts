@@ -1,4 +1,4 @@
-import { RemmeMethods, IRemmeRest } from "remme-rest";
+import { RemmeMethods, IRemmeApi } from "remme-api";
 import { IRemmeAccount } from "remme-account";
 import { sha512 } from "remme-utils";
 import * as protobuf from "sawtooth-sdk/protobuf";
@@ -37,22 +37,22 @@ class RemmeTransactionService implements IRemmeTransactionService {
     // index signature
     [key: string]: any;
 
-    private readonly _remmeRest: IRemmeRest;
+    private readonly _remmeApi: IRemmeApi;
     private readonly _remmeAccount: IRemmeAccount;
 
     /**
      * @example
      * Usage without remme main package
      * ```typescript
-     * const remmeRest = new RemmeRest(); // See RemmeRest implementation
+     * const remmeApi = new RemmeApi(); // See RemmeRest implementation
      * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
-     * const remmeTransaction = new RemmeTransactionService(remmeRest, remmeAccount);
+     * const remmeTransaction = new RemmeTransactionService(remmeApi, remmeAccount);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      * @param {IRemmeAccount} remmeAccount
      */
-    public constructor(remmeRest: IRemmeRest, remmeAccount: IRemmeAccount) {
-        this._remmeRest = remmeRest;
+    public constructor(remmeApi: IRemmeApi, remmeAccount: IRemmeAccount) {
+        this._remmeApi = remmeApi;
         this._remmeAccount = remmeAccount;
     }
 
@@ -80,7 +80,7 @@ class RemmeTransactionService implements IRemmeTransactionService {
      * @returns {Promise<string>}
      */
     /* tslint:enable */
-    public async create<Input>(settings: CreateTransactionDto): Promise<string> {
+    public async create(settings: CreateTransactionDto): Promise<string> {
         const {
             familyName,
             familyVersion,
@@ -89,8 +89,7 @@ class RemmeTransactionService implements IRemmeTransactionService {
             payloadBytes,
         } = settings;
 
-        const batcherPublicKey = await this._remmeRest.sendRequest<string>(RemmeMethods.nodeKey);
-
+        const batcherPublicKey = await this._remmeApi.sendRequest<string>(RemmeMethods.nodeKey);
         const transactionHeaderBytes = protobuf.TransactionHeader.encode({
             familyName,
             familyVersion,
@@ -130,11 +129,11 @@ class RemmeTransactionService implements IRemmeTransactionService {
      */
     public async send(transaction: string): Promise<IBaseTransactionResponse> {
         const requestPayload = new SendTransactionDto(transaction);
-        const batchId = await this._remmeRest
+        const batchId = await this._remmeApi
             .sendRequest<SendTransactionDto, string>(RemmeMethods.transaction, requestPayload);
         return new BaseTransactionResponse(
-            this._remmeRest.nodeAddress,
-            this._remmeRest.sslMode,
+            this._remmeApi.nodeAddress,
+            this._remmeApi.sslMode,
             batchId,
         );
     }

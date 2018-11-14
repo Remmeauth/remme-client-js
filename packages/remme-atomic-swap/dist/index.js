@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var remme_rest_1 = require("remme-rest");
+var remme_api_1 = require("remme-api");
 var remme_utils_1 = require("remme-utils");
 var remme_protobuf_1 = require("remme-protobuf");
 var models_1 = require("./models");
@@ -114,22 +114,22 @@ var RemmeSwap = /** @class */ (function () {
      * @example
      * Usage without main remme package
      * ```typescript
-     * const remmeRest = new RemmeRest(); // See RemmeRest implementation
+     * const remmeApi = new RemmeApi(); // See RemmeRest implementation
      * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
-     * const remmeTransaction = new RemmeTransactionService(remmeRest, remmeAccount); // See RemmeTransactionService implementation
-     * const remmeSwap = new RemmeSwap(remmeRest, remmeTransaction);
+     * const remmeTransaction = new RemmeTransactionService(remmeApi, remmeAccount); // See RemmeTransactionService implementation
+     * const remmeSwap = new RemmeSwap(remmeApi, remmeTransaction);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      * @param {IRemmeTransactionService} remmeTransactionService
      */
     /* tslint:enable */
-    function RemmeSwap(remmeRest, remmeTransactionService) {
+    function RemmeSwap(remmeApi, remmeTransactionService) {
         this._familyName = remme_utils_1.RemmeFamilyName.Swap;
         this._familyVersion = "0.1";
         this._zeroAddress = "0".repeat(70);
         this._blockInfoNamespaceAddress = "00b10c00";
         this._blockInfoConfigAddress = "00b10c01" + "0".repeat(62);
-        this._remmeRest = remmeRest;
+        this._remmeApi = remmeApi;
         this._remmeTransactionService = remmeTransactionService;
     }
     RemmeSwap.prototype._generateTransactionPayload = function (method, data) {
@@ -291,7 +291,7 @@ var RemmeSwap = /** @class */ (function () {
      * console.log(info); // SwapInfo
      * ```
      * @param {string} swapId
-     * @returns {Promise<SwapInfoData>}
+     * @returns {Promise<SwapInfo>}
      */
     RemmeSwap.prototype.getInfo = function (swapId) {
         return __awaiter(this, void 0, void 0, function () {
@@ -300,8 +300,8 @@ var RemmeSwap = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         this._checkParameters({ swapId: swapId });
-                        return [4 /*yield*/, this._remmeRest
-                                .sendRequest(remme_rest_1.RemmeMethods.atomicSwap, new models_1.SwapRequest(swapId))];
+                        return [4 /*yield*/, this._remmeApi
+                                .sendRequest(remme_api_1.RemmeMethods.atomicSwap, new models_1.SwapRequest(swapId))];
                     case 1:
                         apiResult = _a.sent();
                         return [2 /*return*/, new models_1.SwapInfo(apiResult)];
@@ -322,7 +322,7 @@ var RemmeSwap = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._remmeRest.sendRequest(remme_rest_1.RemmeMethods.atomicSwapPublicKey)];
+                    case 0: return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.atomicSwapPublicKey)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
