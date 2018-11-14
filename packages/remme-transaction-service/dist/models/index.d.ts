@@ -17,6 +17,6 @@ export declare class CreateTransactionDto {
     familyVersion: string;
     inputs: string[];
     outputs: string[];
-    payloadBytes: Buffer;
-    constructor(familyName: string, familyVersion: string, inputs: string[], outputs: string[], payloadBytes: Buffer);
+    payloadBytes: Buffer | Uint8Array;
+    constructor(familyName: string, familyVersion: string, inputs: string[], outputs: string[], payloadBytes: Buffer | Uint8Array);
 }

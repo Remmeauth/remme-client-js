@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_utils_1 = require("remme-utils");
+var remme_keys_1 = require("remme-keys");
 var models_1 = require("./models");
 exports.CreateCertificateDto = models_1.CreateCertificateDto;
 /**
@@ -268,8 +269,9 @@ var RemmeCertificate = /** @class */ (function () {
                         validTo = Math.floor(certificate.validity.notAfter.getTime() / 1000);
                         return [4 /*yield*/, this._remmePublicKeyStorage.store({
                                 data: certificatePEM,
-                                publicKey: publicKey,
-                                privateKey: privateKey,
+                                keys: new remme_keys_1.RemmeKeys(remme_keys_1.KeyType.RSA, privateKey, publicKey),
+                                publicKeyType: remme_keys_1.KeyType.RSA,
+                                rsaSignaturePadding: remme_keys_1.RSASignaturePadding.PSS,
                                 validFrom: validFrom,
                                 validTo: validTo,
                             })];
@@ -290,15 +292,15 @@ var RemmeCertificate = /** @class */ (function () {
      */
     RemmeCertificate.prototype.check = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
-            var publicKeyPEM, checkResult;
+            var address, checkResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (typeof certificate === "string") {
                             certificate = remme_utils_1.certificateFromPem(certificate);
                         }
-                        publicKeyPEM = remme_utils_1.publicKeyToPem(certificate.publicKey);
-                        return [4 /*yield*/, this._remmePublicKeyStorage.check(publicKeyPEM)];
+                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(certificate.publicKey, remme_keys_1.KeyType.RSA);
+                        return [4 /*yield*/, this._remmePublicKeyStorage.check(address)];
                     case 1:
                         checkResult = _a.sent();
                         if (checkResult !== undefined) {
@@ -324,15 +326,15 @@ var RemmeCertificate = /** @class */ (function () {
      */
     RemmeCertificate.prototype.getInfo = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
-            var publicKeyPEM, checkResult;
+            var address, checkResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (typeof certificate === "string") {
                             certificate = remme_utils_1.certificateFromPem(certificate);
                         }
-                        publicKeyPEM = remme_utils_1.publicKeyToPem(certificate.publicKey);
-                        return [4 /*yield*/, this._remmePublicKeyStorage.getInfo(publicKeyPEM)];
+                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(certificate.publicKey, remme_keys_1.KeyType.RSA);
+                        return [4 /*yield*/, this._remmePublicKeyStorage.getInfo(address)];
                     case 1:
                         checkResult = _a.sent();
                         if (checkResult !== undefined) {
@@ -365,15 +367,15 @@ var RemmeCertificate = /** @class */ (function () {
      */
     RemmeCertificate.prototype.revoke = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
-            var publicKeyPEM;
+            var address;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (typeof certificate === "string") {
                             certificate = remme_utils_1.certificateFromPem(certificate);
                         }
-                        publicKeyPEM = remme_utils_1.publicKeyToPem(certificate.publicKey);
-                        return [4 /*yield*/, this._remmePublicKeyStorage.revoke(publicKeyPEM)];
+                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(certificate.publicKey, remme_keys_1.KeyType.RSA);
+                        return [4 /*yield*/, this._remmePublicKeyStorage.revoke(address)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -389,6 +391,9 @@ var RemmeCertificate = /** @class */ (function () {
     RemmeCertificate.prototype.sign = function (certificate, data) {
         if (typeof certificate === "string") {
             certificate = remme_utils_1.certificateFromPem(certificate);
+        }
+        if (!certificate.privateKey) {
+            throw new Error("Your certificate does not have private key");
         }
         var md = remme_utils_1.forge.md.sha512.create().update(data, "utf8");
         return certificate.privateKey.sign(md);

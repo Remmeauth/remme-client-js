@@ -1,4 +1,4 @@
-import { IRemmeRest } from "remme-rest";
+import { IRemmeApi } from "remme-api";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
 import { IRemmeSwap } from "./interface";
 import { SwapInitDto, SwapInfo, SwapState } from "./models";
@@ -70,7 +70,7 @@ import { SwapInitDto, SwapInfo, SwapState } from "./models";
  */
 declare class RemmeSwap implements IRemmeSwap {
     [key: string]: any;
-    private readonly _remmeRest;
+    private readonly _remmeApi;
     private readonly _remmeTransactionService;
     private readonly _familyName;
     private readonly _familyVersion;
@@ -85,15 +85,15 @@ declare class RemmeSwap implements IRemmeSwap {
      * @example
      * Usage without main remme package
      * ```typescript
-     * const remmeRest = new RemmeRest(); // See RemmeRest implementation
+     * const remmeApi = new RemmeApi(); // See RemmeRest implementation
      * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
-     * const remmeTransaction = new RemmeTransactionService(remmeRest, remmeAccount); // See RemmeTransactionService implementation
-     * const remmeSwap = new RemmeSwap(remmeRest, remmeTransaction);
+     * const remmeTransaction = new RemmeTransactionService(remmeApi, remmeAccount); // See RemmeTransactionService implementation
+     * const remmeSwap = new RemmeSwap(remmeApi, remmeTransaction);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      * @param {IRemmeTransactionService} remmeTransactionService
      */
-    constructor(remmeRest: IRemmeRest, remmeTransactionService: IRemmeTransactionService);
+    constructor(remmeApi: IRemmeApi, remmeTransactionService: IRemmeTransactionService);
     /**
      * Approve swap with given id.
      * Send transaction into REMChain.
@@ -139,7 +139,7 @@ declare class RemmeSwap implements IRemmeSwap {
      * console.log(info); // SwapInfo
      * ```
      * @param {string} swapId
-     * @returns {Promise<SwapInfoData>}
+     * @returns {Promise<SwapInfo>}
      */
     getInfo(swapId: string): Promise<SwapInfo>;
     /**

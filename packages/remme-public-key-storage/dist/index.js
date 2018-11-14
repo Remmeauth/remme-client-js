@@ -36,12 +36,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_utils_1 = require("remme-utils");
-var remme_rest_1 = require("remme-rest");
+var remme_api_1 = require("remme-api");
 var remme_protobuf_1 = require("remme-protobuf");
 var models_1 = require("./models");
 exports.PublicKeyInfo = models_1.PublicKeyInfo;
 var PublicKeyType = remme_protobuf_1.NewPubKeyPayload.PubKeyType;
-exports.PublicKeyType = PublicKeyType;
+var RSASignaturePadding = remme_protobuf_1.NewPubKeyPayload.RSASignaturePadding;
 /**
  * Class for working with public key storage.
  * @example
@@ -85,26 +85,48 @@ var RemmePublicKeyStorage = /** @class */ (function () {
      * @example
      * Usage without remme main package
      * ```typescript
-     * const rest = new RemmeRest();
+     * const api = new RemmeApi();
      * const account = new RemmeAccount();
-     * const transaction = new RemmeTransactionService(rest, account);
-     * const publicKeyStorage = new RemmePublicKeyStorage(rest, account, transaction);
+     * const transaction = new RemmeTransactionService(api, account);
+     * const publicKeyStorage = new RemmePublicKeyStorage(api, account, transaction);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      * @param {IRemmeAccount} remmeAccount
      * @param {IRemmeTransactionService} remmeTransaction
      */
-    function RemmePublicKeyStorage(remmeRest, remmeAccount, remmeTransaction) {
+    function RemmePublicKeyStorage(remmeApi, remmeAccount, remmeTransaction) {
         this._familyName = remme_utils_1.RemmeFamilyName.PublicKey;
         this._familyVersion = "0.1";
-        this._remmeRest = remmeRest;
+        this._remmeApi = remmeApi;
         this._remmeAccount = remmeAccount;
         this._remmeTransaction = remmeTransaction;
     }
-    RemmePublicKeyStorage.prototype._generateSignature = function (data, privateKey) {
+    RemmePublicKeyStorage.prototype._generateRSASignature = function (data, privateKey, padding) {
         var md = remme_utils_1.forge.md.sha512.create();
         md.update(data, "utf8");
-        var signature = privateKey.sign(md);
+        var signature;
+        switch (padding) {
+            case RSASignaturePadding.PKCS1v15: {
+                signature = privateKey.sign(md);
+                break;
+            }
+            case RSASignaturePadding.PSS: {
+                var pss = remme_utils_1.forge.pss.create({
+                    md: remme_utils_1.forge.md.sha512.create(),
+                    mgf: remme_utils_1.forge.mgf.mgf1.create(remme_utils_1.forge.md.sha512.create()),
+                    saltLength: 20,
+                });
+                signature = privateKey.sign(md, pss);
+            }
+        }
+        return remme_utils_1.forge.util.bytesToHex(signature);
+    };
+    RemmePublicKeyStorage.prototype._generateED25519Signature = function (data, privateKey) {
+        var signature = remme_utils_1.forge.pki.ed25519.sign({
+            message: data,
+            encoding: "utf8",
+            privateKey: privateKey,
+        });
         return remme_utils_1.forge.util.bytesToHex(signature);
     };
     RemmePublicKeyStorage.prototype._generateTransactionPayload = function (method, data) {
@@ -133,38 +155,20 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             });
         });
     };
-    RemmePublicKeyStorage.prototype._checkPublicKey = function (publicKey) {
-        try {
-            if (typeof publicKey === "string") {
-                if (publicKey.search(remme_utils_1.PATTERNS.ADDRESS) === -1) {
-                    remme_utils_1.forge.pki.publicKeyFromPem(publicKey);
-                }
-            }
-            else {
-                remme_utils_1.forge.pki.publicKeyToPem(publicKey);
-            }
-        }
-        catch (e) {
-            throw new Error("Given publicKey is not a valid");
-        }
-    };
-    RemmePublicKeyStorage.prototype._getInfoByPublicKey = function (publicKey) {
+    RemmePublicKeyStorage.prototype._getInfoByPublicKey = function (address) {
         return __awaiter(this, void 0, void 0, function () {
             var payload, info;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this._checkPublicKey(publicKey);
-                        if (typeof publicKey === "object") {
-                            publicKey = remme_utils_1.forge.pki.publicKeyToPem(publicKey);
-                        }
-                        payload = new remme_utils_1.PublicKeyRequest(publicKey);
-                        return [4 /*yield*/, this._remmeRest
-                                .sendRequest(remme_rest_1.RemmeMethods.publicKey, payload)];
+                        remme_utils_1.checkAddress(address);
+                        payload = new remme_utils_1.PublicKeyRequest(address);
+                        return [4 /*yield*/, this._remmeApi
+                                .sendRequest(remme_api_1.RemmeMethods.publicKey, payload)];
                     case 1:
                         info = _a.sent();
                         if (info !== undefined) {
-                            info.address = remme_utils_1.generateAddress(this._familyName, publicKey);
+                            info.address = remme_utils_1.generateAddress(this._familyName, address);
                             return [2 /*return*/, new models_1.PublicKeyInfo(info)];
                         }
                         else {
@@ -180,20 +184,25 @@ var RemmePublicKeyStorage = /** @class */ (function () {
     };
     RemmePublicKeyStorage.prototype._generateEntityHash = function (message) {
         var entityHashBytes = remme_utils_1.toUTF8Array(message);
-        return remme_utils_1.toHexString(entityHashBytes);
+        return remme_utils_1.bytesToHex(entityHashBytes);
     };
     /**
      * Store public key with its data into REMChain.
      * Send transaction to chain.
      * @example
      * ```typescript
+     * import { PublicKeyType, RSASignaturePadding } from "remme-public-key-storage";
+     *
      * const storeResponse = await remme.publicKeyStorage.store({
      *      data: "store data",
      *      privateKey, // need for signing data
      *      publicKey,
+     *      publicKeyType: PublicKeyType.RSA,
+     *      rsaSignaturePadding: RSASignaturePadding.PSS,
      *      validFrom,
      *      validTo,
      * });
+     *
      * storeResponse.connectToWebSocket((err: Error, res: any) => {
      *      if (err) {
      *          console.log(err);
@@ -203,40 +212,33 @@ var RemmePublicKeyStorage = /** @class */ (function () {
      * })
      * ```
      * @param {string} data
-     * @param {module:node-forge.pki.Key | module:node-forge.pki.PEM} publicKey
-     * @param {module:node-forge.pki.Key | module:node-forge.pki.PEM} privateKey
+     * @param {IRemmeKeys} keys
      * @param {number} validFrom
      * @param {number} validTo
      * @param {NewPubKeyPayload.PubKeyType} publicKeyType
-     * @param {NewPubKeyPayload.EntityType} entityType
+     * @param {NewPubKeyPayload.RSASignaturePadding} paddingRSA
      * @returns {Promise<IBaseTransactionResponse>}
      */
     RemmePublicKeyStorage.prototype.store = function (_a) {
-        var data = _a.data, publicKey = _a.publicKey, privateKey = _a.privateKey, validFrom = _a.validFrom, validTo = _a.validTo, _b = _a.publicKeyType, publicKeyType = _b === void 0 ? PublicKeyType.RSA : _b, _c = _a.entityType, entityType = _c === void 0 ? remme_protobuf_1.NewPubKeyPayload.EntityType.PERSONAL : _c;
+        var data = _a.data, keys = _a.keys, validFrom = _a.validFrom, validTo = _a.validTo, publicKeyType = _a.publicKeyType, _b = _a.rsaSignaturePadding, rsaSignaturePadding = _b === void 0 ? RSASignaturePadding.EMPTY : _b;
         return __awaiter(this, void 0, void 0, function () {
             var message, entityHash, entityHashSignature, payload, pubKeyAddress, storagePubKey, settingAddress, storageAddress, payloadBytes;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        if (typeof publicKey === "object") {
-                            publicKey = remme_utils_1.forge.pki.publicKeyToPem(publicKey);
-                        }
-                        if (typeof privateKey === "string") {
-                            privateKey = remme_utils_1.forge.pki.privateKeyFromPem(privateKey);
-                        }
                         message = this._generateMessage(data);
                         entityHash = this._generateEntityHash(message);
-                        entityHashSignature = this._generateSignature(message, privateKey);
+                        entityHashSignature = keys.sign(message, rsaSignaturePadding);
                         payload = remme_protobuf_1.NewPubKeyPayload.encode({
-                            publicKey: publicKey,
+                            publicKey: keys.publicKeyBase64,
                             publicKeyType: publicKeyType,
-                            entityType: entityType,
                             entityHash: entityHash,
                             entityHashSignature: entityHashSignature,
+                            rsaSignaturePadding: rsaSignaturePadding,
                             validFrom: validFrom,
                             validTo: validTo,
                         }).finish();
-                        pubKeyAddress = remme_utils_1.generateAddress(this._familyName, publicKey);
+                        pubKeyAddress = keys.address;
                         storagePubKey = remme_utils_1.generateSettingsAddress("remme.settings.storage_pub_key");
                         settingAddress = remme_utils_1.generateSettingsAddress("remme.economy_enabled");
                         storageAddress = remme_utils_1.generateAddress(this._remmeAccount.familyName, storagePubKey);
@@ -247,7 +249,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                                 settingAddress,
                                 storageAddress,
                             ], payloadBytes)];
-                    case 1: return [2 /*return*/, _d.sent()];
+                    case 1: return [2 /*return*/, _c.sent()];
                 }
             });
         });
@@ -260,15 +262,15 @@ var RemmePublicKeyStorage = /** @class */ (function () {
      * const isValid = await remme.publicKeyStorage.check(publicKey);
      * console.log(isValid); // true or false
      * ```
-     * @param {string | module:node-forge.pki.PEM | module:node-forge.pki.Key} publicKey
+     * @param {string} address
      * @returns {Promise<boolean>}
      */
-    RemmePublicKeyStorage.prototype.check = function (publicKey) {
+    RemmePublicKeyStorage.prototype.check = function (address) {
         return __awaiter(this, void 0, void 0, function () {
             var isValid;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._getInfoByPublicKey(publicKey)];
+                    case 0: return [4 /*yield*/, this._getInfoByPublicKey(address)];
                     case 1:
                         isValid = (_a.sent()).isValid;
                         return [2 /*return*/, isValid];
@@ -284,14 +286,14 @@ var RemmePublicKeyStorage = /** @class */ (function () {
      * const info = await remme.publicKeyStorage.getInfo(publicKey);
      * console.log(info); // PublicKeyInfo
      * ```
-     * @param {string | module:node-forge.pki.PEM | module:node-forge.pki.Key} publicKey
+     * @param {string} address
      * @returns {Promise<PublicKeyInfo>}
      */
-    RemmePublicKeyStorage.prototype.getInfo = function (publicKey) {
+    RemmePublicKeyStorage.prototype.getInfo = function (address) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._getInfoByPublicKey(publicKey)];
+                    case 0: return [4 /*yield*/, this._getInfoByPublicKey(address)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -312,25 +314,16 @@ var RemmePublicKeyStorage = /** @class */ (function () {
      *      console.log(res);
      * })
      * ```
-     * @param {string | module:node-forge.pki.PEM | module:node-forge.pki.Key} publicKey
+     * @param {string} address
      * @returns {Promise<IBaseTransactionResponse>}
      */
-    RemmePublicKeyStorage.prototype.revoke = function (publicKey) {
+    RemmePublicKeyStorage.prototype.revoke = function (address) {
         return __awaiter(this, void 0, void 0, function () {
-            var address, revokePayload, payloadBytes;
+            var revokePayload, payloadBytes;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this._checkPublicKey(publicKey);
-                        if (typeof publicKey === "object") {
-                            publicKey = remme_utils_1.forge.pki.publicKeyToPem(publicKey);
-                        }
-                        if (publicKey.slice(0, 6) === remme_utils_1.RemmeNamespace.PublicKey) {
-                            address = publicKey;
-                        }
-                        else {
-                            address = remme_utils_1.generateAddress(this._familyName, publicKey);
-                        }
+                        remme_utils_1.checkAddress(address);
                         revokePayload = remme_protobuf_1.RevokePubKeyPayload.encode({
                             address: address,
                         }).finish();
@@ -349,21 +342,19 @@ var RemmePublicKeyStorage = /** @class */ (function () {
      * const publicKeys = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.publicKeyHex);
      * console.log(publicKeys); // string[]
      * ```
-     * @param {string} accountPublicKey
+     * @param {string} address
      * @returns {Promise<string[]>}
      */
-    RemmePublicKeyStorage.prototype.getAccountPublicKeys = function (accountPublicKey) {
+    RemmePublicKeyStorage.prototype.getAccountPublicKeys = function (address) {
         return __awaiter(this, void 0, void 0, function () {
             var payload;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (accountPublicKey.search(remme_utils_1.PATTERNS.PUBLIC_KEY) === -1) {
-                            throw new Error("Given public key is not a valid");
-                        }
-                        payload = new remme_utils_1.PublicKeyRequest(accountPublicKey);
-                        return [4 /*yield*/, this._remmeRest
-                                .sendRequest(remme_rest_1.RemmeMethods.userPublicKeys, payload)];
+                        remme_utils_1.checkAddress(address);
+                        payload = new remme_utils_1.PublicKeyRequest(address);
+                        return [4 /*yield*/, this._remmeApi
+                                .sendRequest(remme_api_1.RemmeMethods.userPublicKeys, payload)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

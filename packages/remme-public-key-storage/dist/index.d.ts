@@ -1,11 +1,8 @@
-import { forge } from "remme-utils";
-import { IRemmeRest } from "remme-rest";
+import { IRemmeApi } from "remme-api";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
-import { NewPubKeyPayload } from "remme-protobuf";
 import { IRemmeAccount } from "remme-account";
 import { IRemmePublicKeyStorage } from "./interface";
 import { PublicKeyInfo, IPublicKeyStore } from "./models";
-declare const PublicKeyType: typeof NewPubKeyPayload.PubKeyType;
 /**
  * Class for working with public key storage.
  * @example
@@ -46,44 +43,49 @@ declare const PublicKeyType: typeof NewPubKeyPayload.PubKeyType;
  */
 declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     [key: string]: any;
-    private readonly _remmeRest;
+    private readonly _remmeApi;
     private readonly _remmeAccount;
     private readonly _remmeTransaction;
     private readonly _familyName;
     private readonly _familyVersion;
-    private _generateSignature(data, privateKey);
+    private _generateRSASignature(data, privateKey, padding);
+    private _generateED25519Signature(data, privateKey);
     private _generateTransactionPayload(method, data);
     private _createAndSendTransaction(inputsOutputs, payloadBytes);
-    private _checkPublicKey(publicKey);
-    private _getInfoByPublicKey(publicKey);
+    private _getInfoByPublicKey(address);
     private _generateMessage(data);
     private _generateEntityHash(message);
     /**
      * @example
      * Usage without remme main package
      * ```typescript
-     * const rest = new RemmeRest();
+     * const api = new RemmeApi();
      * const account = new RemmeAccount();
-     * const transaction = new RemmeTransactionService(rest, account);
-     * const publicKeyStorage = new RemmePublicKeyStorage(rest, account, transaction);
+     * const transaction = new RemmeTransactionService(api, account);
+     * const publicKeyStorage = new RemmePublicKeyStorage(api, account, transaction);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      * @param {IRemmeAccount} remmeAccount
      * @param {IRemmeTransactionService} remmeTransaction
      */
-    constructor(remmeRest: IRemmeRest, remmeAccount: IRemmeAccount, remmeTransaction: IRemmeTransactionService);
+    constructor(remmeApi: IRemmeApi, remmeAccount: IRemmeAccount, remmeTransaction: IRemmeTransactionService);
     /**
      * Store public key with its data into REMChain.
      * Send transaction to chain.
      * @example
      * ```typescript
+     * import { PublicKeyType, RSASignaturePadding } from "remme-public-key-storage";
+     *
      * const storeResponse = await remme.publicKeyStorage.store({
      *      data: "store data",
      *      privateKey, // need for signing data
      *      publicKey,
+     *      publicKeyType: PublicKeyType.RSA,
+     *      rsaSignaturePadding: RSASignaturePadding.PSS,
      *      validFrom,
      *      validTo,
      * });
+     *
      * storeResponse.connectToWebSocket((err: Error, res: any) => {
      *      if (err) {
      *          console.log(err);
@@ -93,15 +95,14 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
      * })
      * ```
      * @param {string} data
-     * @param {module:node-forge.pki.Key | module:node-forge.pki.PEM} publicKey
-     * @param {module:node-forge.pki.Key | module:node-forge.pki.PEM} privateKey
+     * @param {IRemmeKeys} keys
      * @param {number} validFrom
      * @param {number} validTo
      * @param {NewPubKeyPayload.PubKeyType} publicKeyType
-     * @param {NewPubKeyPayload.EntityType} entityType
+     * @param {NewPubKeyPayload.RSASignaturePadding} paddingRSA
      * @returns {Promise<IBaseTransactionResponse>}
      */
-    store({data, publicKey, privateKey, validFrom, validTo, publicKeyType, entityType}: IPublicKeyStore): Promise<IBaseTransactionResponse>;
+    store({data, keys, validFrom, validTo, publicKeyType, rsaSignaturePadding}: IPublicKeyStore): Promise<IBaseTransactionResponse>;
     /**
      * Check public key on validity and revocation.
      * Can take address of public key.
@@ -110,10 +111,10 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
      * const isValid = await remme.publicKeyStorage.check(publicKey);
      * console.log(isValid); // true or false
      * ```
-     * @param {string | module:node-forge.pki.PEM | module:node-forge.pki.Key} publicKey
+     * @param {string} address
      * @returns {Promise<boolean>}
      */
-    check(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<boolean>;
+    check(address: string): Promise<boolean>;
     /**
      * Get info about this public key.
      * Can take address of public key.
@@ -122,10 +123,10 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
      * const info = await remme.publicKeyStorage.getInfo(publicKey);
      * console.log(info); // PublicKeyInfo
      * ```
-     * @param {string | module:node-forge.pki.PEM | module:node-forge.pki.Key} publicKey
+     * @param {string} address
      * @returns {Promise<PublicKeyInfo>}
      */
-    getInfo(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<PublicKeyInfo>;
+    getInfo(address: string): Promise<PublicKeyInfo>;
     /**
      * Revoke given public key.
      * Can take address of public key.
@@ -141,10 +142,10 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
      *      console.log(res);
      * })
      * ```
-     * @param {string | module:node-forge.pki.PEM | module:node-forge.pki.Key} publicKey
+     * @param {string} address
      * @returns {Promise<IBaseTransactionResponse>}
      */
-    revoke(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<IBaseTransactionResponse>;
+    revoke(address: string): Promise<IBaseTransactionResponse>;
     /**
      * Take account public key in hex format (which describe in PATTERNS.PUBLIC_KEY)
      * @example
@@ -153,9 +154,9 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
      * const publicKeys = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.publicKeyHex);
      * console.log(publicKeys); // string[]
      * ```
-     * @param {string} accountPublicKey
+     * @param {string} address
      * @returns {Promise<string[]>}
      */
-    getAccountPublicKeys(accountPublicKey: string): Promise<string[]>;
+    getAccountPublicKeys(address: string): Promise<string[]>;
 }
-export { RemmePublicKeyStorage, IRemmePublicKeyStorage, PublicKeyInfo, PublicKeyType, IPublicKeyStore };
+export { RemmePublicKeyStorage, IRemmePublicKeyStorage, PublicKeyInfo, IPublicKeyStore };

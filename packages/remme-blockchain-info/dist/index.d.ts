@@ -1,4 +1,4 @@
-import { IRemmeRest } from "remme-rest";
+import { IRemmeApi } from "remme-api";
 import { IRemmeBlockchainInfo } from "./interface";
 import { IBaseQuery, Batch, BatchList, Block, BlockList, State, StateList, Transaction, TransactionList, IStateQuery, INetworkStatus, IBlockInfo } from "./models";
 /**
@@ -37,7 +37,7 @@ import { IBaseQuery, Batch, BatchList, Block, BlockList, State, StateList, Trans
  */
 declare class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     [key: string]: any;
-    private readonly _remmeRest;
+    private readonly _remmeApi;
     private static address;
     private static correspond;
     private _checkId(id?);
@@ -46,12 +46,12 @@ declare class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * @example
      * Usage without remme main package
      * ```typescript
-     * const remmeRest = new RemmeRest();
-     * const remmeBlockchainInfo = new RemmeBlockchainInfo(remmeRest);
+     * const remmeApi = new RemmeApi();
+     * const remmeBlockchainInfo = new RemmeBlockchainInfo(remmeApi);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      */
-    constructor(remmeRest: IRemmeRest);
+    constructor(remmeApi: IRemmeApi);
     /**
      * Get all blocks from REMChain.
      * You can specify one or more query parameters.

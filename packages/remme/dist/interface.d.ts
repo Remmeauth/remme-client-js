@@ -5,7 +5,7 @@ import { IRemmeSwap } from "remme-atomic-swap";
 import { IRemmeTransactionService } from "remme-transaction-service";
 import { IRemmePublicKeyStorage } from "remme-public-key-storage";
 import { IRemmeBlockchainInfo } from "remme-blockchain-info";
-import { INetworkConfig } from "remme-rest";
+import { INetworkConfig } from "remme-api";
 import { IRemmeWebSocketsEvents } from "remme-web-socket-events";
 export interface IRemmeClient {
     certificate: IRemmeCertificate;

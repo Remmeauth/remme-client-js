@@ -25,8 +25,8 @@ var RemmeFamilyName;
  * Model that define public key params into request
  */
 var PublicKeyRequest = /** @class */ (function () {
-    function PublicKeyRequest(public_key) {
-        this.public_key = public_key;
+    function PublicKeyRequest(public_key_address) {
+        this.public_key_address = public_key_address;
     }
     return PublicKeyRequest;
 }());

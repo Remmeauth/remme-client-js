@@ -1,4 +1,4 @@
-import { IRemmeRest } from "./interface";
+import { IRemmeApi } from "./interface";
 import { RemmeMethods, INetworkConfig } from "./models";
 /**
  * Default config for creating url that passed to RemmeRest constructor;
@@ -19,19 +19,19 @@ declare const DEFAULT_NETWORK_CONFIG: {
  *
  * @example
  * ```typescript
- * import { RemmeRest, RemmeMethods } from "remme-rest";
+ * import { RemmeApi, RemmeMethods } from "remme-api";
  *
- * const remmeRest = new RemmeRest({
+ * const remmeApi = new RemmeApi({
  *      nodeAddress: "localhost",
  *      nodePort: 8080,
  *      sslMode: false,
  * });
  *
- * const response = await remmeRest.sendRequest<object>(RemmeMethods.fetchBlocks);
+ * const response = await remmeApi.sendRequest<object>(RemmeMethods.fetchBlocks);
  * console.log(response);
  * ```
  */
-declare class RemmeRest implements IRemmeRest {
+declare class RemmeApi implements IRemmeApi {
     [key: string]: any;
     private readonly _nodeAddress;
     private readonly _sslMode;
@@ -84,4 +84,4 @@ declare class RemmeRest implements IRemmeRest {
     sendRequest<Output>(method: RemmeMethods): Promise<Output>;
     sendRequest<Input, Output>(method: RemmeMethods, payload?: Input): Promise<Output>;
 }
-export { RemmeRest, IRemmeRest, RemmeMethods, INetworkConfig, DEFAULT_NETWORK_CONFIG };
+export { RemmeApi, IRemmeApi, RemmeMethods, INetworkConfig, DEFAULT_NETWORK_CONFIG };

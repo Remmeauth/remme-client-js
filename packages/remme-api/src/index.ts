@@ -1,5 +1,5 @@
 import { HttpClient, AxiosRequestConfig } from "remme-http-client";
-import { IRemmeRest } from "./interface";
+import { IRemmeApi } from "./interface";
 import { RemmeMethods, INetworkConfig } from "./models";
 
 /**
@@ -22,19 +22,19 @@ const DEFAULT_NETWORK_CONFIG = {
  *
  * @example
  * ```typescript
- * import { RemmeRest, RemmeMethods } from "remme-rest";
+ * import { RemmeApi, RemmeMethods } from "remme-api";
  *
- * const remmeRest = new RemmeRest({
+ * const remmeApi = new RemmeApi({
  *      nodeAddress: "localhost",
  *      nodePort: 8080,
  *      sslMode: false,
  * });
  *
- * const response = await remmeRest.sendRequest<object>(RemmeMethods.fetchBlocks);
+ * const response = await remmeApi.sendRequest<object>(RemmeMethods.fetchBlocks);
  * console.log(response);
  * ```
  */
-class RemmeRest implements IRemmeRest {
+class RemmeApi implements IRemmeApi {
 
     // index signature
     [key: string]: any;
@@ -150,8 +150,8 @@ class RemmeRest implements IRemmeRest {
 }
 
 export {
-    RemmeRest,
-    IRemmeRest,
+    RemmeApi,
+    IRemmeApi,
     RemmeMethods,
     INetworkConfig,
     DEFAULT_NETWORK_CONFIG,

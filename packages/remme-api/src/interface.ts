@@ -1,5 +1,6 @@
 import { RemmeMethods } from "./models";
-export interface IRemmeRest {
+
+export interface IRemmeApi {
     nodeAddress: string;
     sslMode: boolean;
     sendRequest<Output>(method: RemmeMethods): Promise<Output>;

@@ -33,10 +33,10 @@ const packages = [{
   src: path.join(__dirname, 'packages/remme'),
   config: path.join(__dirname, 'packages/remme/tsconfig.json')
 }, {
-  fileName: 'remme-rest',
-  expose: 'RemmeRest',
-  src: path.join(__dirname, 'packages/remme-rest'),
-  config: path.join(__dirname, 'packages/remme-rest/tsconfig.json')
+  fileName: 'remme-api',
+  expose: 'RemmeApi',
+  src: path.join(__dirname, 'packages/remme-api'),
+  config: path.join(__dirname, 'packages/remme-api/tsconfig.json')
 }, {
   fileName: 'remme-certificate',
   expose: 'RemmeCertificate',
@@ -92,6 +92,11 @@ const packages = [{
   expose: 'RemmeUtils',
   src: path.join(__dirname, 'packages/remme-utils'),
   config: path.join(__dirname, 'packages/remme-utils/tsconfig.json')
+}, {
+  fileName: 'remme-keys',
+  expose: 'RemmeKeys',
+  src: path.join(__dirname, 'packages/remme-keys'),
+  config: path.join(__dirname, 'packages/remme-keys/tsconfig.json')
 }, {
   fileName: 'remme-protobuf',
   expose: 'RemmeProtobuf',

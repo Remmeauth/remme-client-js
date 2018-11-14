@@ -15,7 +15,7 @@ declare namespace Remme {
      * Class representing a client for Remme.
      */
     class Client implements IRemmeClient {
-        private readonly _remmeRest;
+        private readonly _remmeApi;
         private _account;
         /**
          * @hidden

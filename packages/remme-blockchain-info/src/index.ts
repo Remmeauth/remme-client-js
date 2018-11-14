@@ -1,5 +1,5 @@
 import * as protobufs from "remme-protobuf";
-import { RemmeMethods, IRemmeRest } from "remme-rest";
+import { RemmeMethods, IRemmeApi } from "remme-api";
 import { base64ToArrayBuffer, RemmeNamespace, RemmeFamilyName, PATTERNS } from "remme-utils";
 
 import { IRemmeBlockchainInfo } from "./interface";
@@ -72,7 +72,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     // index signature
     [key: string]: any;
 
-    private readonly _remmeRest: IRemmeRest;
+    private readonly _remmeApi: IRemmeApi;
 
     private static address = {
         [RemmeNamespace.Swap]: {
@@ -192,13 +192,13 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * @example
      * Usage without remme main package
      * ```typescript
-     * const remmeRest = new RemmeRest();
-     * const remmeBlockchainInfo = new RemmeBlockchainInfo(remmeRest);
+     * const remmeApi = new RemmeApi();
+     * const remmeBlockchainInfo = new RemmeBlockchainInfo(remmeApi);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      */
-    public constructor(remmeRest: IRemmeRest) {
-        this._remmeRest = remmeRest;
+    public constructor(remmeApi: IRemmeApi) {
+        this._remmeApi = remmeApi;
     }
 
     /* tslint:disable */
@@ -248,7 +248,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
             }
             query = new BaseQuery(query);
         }
-        return await this._remmeRest.sendRequest<BaseQuery, BlockList>(RemmeMethods.blocks, query);
+        return await this._remmeApi.sendRequest<BaseQuery, BlockList>(RemmeMethods.blocks, query);
         // const apiResult = await this._remmeRest.sendRequest<BaseQuery, BlockList>(RemmeMethods.blocks, query);
         // apiResult.data = apiResult.data.map((block) => this._prepareBlock(block));
         // return apiResult;
@@ -270,7 +270,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     /* tslint:enable */
     public async getBlockById(id: string): Promise<Block> {
         this._checkId(id);
-        return await this._remmeRest.sendRequest<IAddress, Block>(RemmeMethods.fetchBlock, { id });
+        return await this._remmeApi.sendRequest<IAddress, Block>(RemmeMethods.fetchBlock, { id });
         // const apiResult = await this._remmeRest.sendRequest<IAddress, Block>(RemmeMethods.fetchBlock, { id });
         // apiResult.data = this._prepareBlock(apiResult.data);
         // return apiResult;
@@ -300,7 +300,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * @returns {Promise<IBlockInfo[]>}
      */
     public async getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]> {
-        const blocks = await this._remmeRest
+        const blocks = await this._remmeApi
             .sendRequest<IBaseQuery, IBlockInfoResponse[]>(RemmeMethods.blockInfo, query);
         if (!blocks) {
             throw new Error("Unknown error occurs in the server");
@@ -353,7 +353,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         if (query) {
             query = new BaseQuery(query);
         }
-        return await this._remmeRest.sendRequest<BaseQuery, BatchList>(RemmeMethods.batches, query);
+        return await this._remmeApi.sendRequest<BaseQuery, BatchList>(RemmeMethods.batches, query);
         // const apiResult = await this._remmeRest.sendRequest<BaseQuery, BatchList>(RemmeMethods.batches, query);
         // apiResult.data = apiResult.data.map((item) => this._prepareBatch(item));
         // return apiResult;
@@ -375,7 +375,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     /* tslint:enable */
     public async getBatchById(id: string): Promise<Batch> {
         this._checkId(id);
-        return await this._remmeRest.sendRequest<IAddress, Batch>(RemmeMethods.fetchBatch, { id });
+        return await this._remmeApi.sendRequest<IAddress, Batch>(RemmeMethods.fetchBatch, { id });
         // const apiResult = await this._remmeRest.sendRequest<IAddress, Batch>(RemmeMethods.fetchBatch, { id });
         // apiResult.data = this._prepareBatch(apiResult.data);
         // return apiResult;
@@ -397,7 +397,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     /* tslint:enable */
     public async getBatchStatus(id: string): Promise<string> {
         this._checkId(id);
-        return await this._remmeRest.sendRequest<IAddress, string>(RemmeMethods.batchStatus, { id });
+        return await this._remmeApi.sendRequest<IAddress, string>(RemmeMethods.batchStatus, { id });
     }
 
     /**
@@ -443,7 +443,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         if (query) {
             query = new StateQuery(query);
         }
-        return await this._remmeRest.sendRequest<StateQuery, StateList>(RemmeMethods.state, query);
+        return await this._remmeApi.sendRequest<StateQuery, StateList>(RemmeMethods.state, query);
         // const apiResult = await this._remmeRest.sendRequest<StateQuery, StateList>(RemmeMethods.state, query);
         // apiResult.data = apiResult.data.map((state) => this._prepareAddress(state));
         // return apiResult;
@@ -463,7 +463,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      */
     public async getStateByAddress(address: string): Promise<State> {
         this._checkAddress(address);
-        return await this._remmeRest
+        return await this._remmeApi
             .sendRequest<IAddress, State>(RemmeMethods.fetchState, { address });
         // let apiResult = await this._remmeRest
         //     .sendRequest<IAddress, State>(RemmeMethods.fetchState, { address });
@@ -541,7 +541,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         if (query) {
             query = new BaseQuery(query);
         }
-        return await this._remmeRest
+        return await this._remmeApi
             .sendRequest<BaseQuery, TransactionList>(RemmeMethods.transactions, query);
         // const apiResult = await this._remmeRest
         //     .sendRequest<BaseQuery, TransactionList>(RemmeMethods.transactions, query);
@@ -567,7 +567,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     /* tslint:enable */
     public async getTransactionById(id: string): Promise<Transaction> {
         this._checkId(id);
-        return await this._remmeRest
+        return await this._remmeApi
             .sendRequest<IAddress, Transaction>(RemmeMethods.fetchTransaction, { id });
         // const apiResult = await this._remmeRest
         //     .sendRequest<IAddress, Transaction>(RemmeMethods.fetchTransaction, { id });
@@ -615,7 +615,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * @returns {Promise<INetworkStatus>}
      */
     public async getNetworkStatus(): Promise<INetworkStatus> {
-        const apiResult = await this._remmeRest
+        const apiResult = await this._remmeApi
             .sendRequest<INetworkStatusResponse>(RemmeMethods.networkStatus);
         return new NetworkStatus(apiResult);
     }
@@ -630,7 +630,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * @returns {Promise<string[]>}
      */
     public async getPeers(): Promise<string[]> {
-        return (await this._remmeRest.sendRequest<PeerList>(RemmeMethods.peers)).data;
+        return (await this._remmeApi.sendRequest<PeerList>(RemmeMethods.peers)).data;
     }
 
     // TODO: uncomment after refactoring receipts

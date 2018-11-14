@@ -1,4 +1,4 @@
-import { RemmeRest, IRemmeRest, DEFAULT_NETWORK_CONFIG } from "remme-rest";
+import { RemmeApi, IRemmeApi, DEFAULT_NETWORK_CONFIG } from "remme-api";
 import { RemmeTransactionService, IRemmeTransactionService } from "remme-transaction-service";
 import { RemmeCertificate, IRemmeCertificate } from "remme-certificate";
 import { RemmePublicKeyStorage, IRemmePublicKeyStorage } from "remme-public-key-storage";
@@ -18,7 +18,7 @@ namespace Remme {
      * Class representing a client for Remme.
      */
     export class Client implements IRemmeClient {
-        private readonly _remmeRest: IRemmeRest;
+        private readonly _remmeApi: IRemmeApi;
         private _account: IRemmeAccount;
         /**
          * @hidden
@@ -407,15 +407,15 @@ namespace Remme {
                 ...DEFAULT_NETWORK_CONFIG,
                 ...networkConfig,
             };
-            this._remmeRest = new RemmeRest(networkConfig);
+            this._remmeApi = new RemmeApi(networkConfig);
             this._account = new RemmeAccount(privateKeyHex);
-            this.transaction = new RemmeTransactionService(this._remmeRest, this._account);
-            this.publicKeyStorage = new RemmePublicKeyStorage(this._remmeRest, this._account, this.transaction);
+            this.transaction = new RemmeTransactionService(this._remmeApi, this._account);
+            this.publicKeyStorage = new RemmePublicKeyStorage(this._remmeApi, this._account, this.transaction);
             this.certificate = new RemmeCertificate(this.publicKeyStorage);
-            this.token = new RemmeToken(this._remmeRest, this.transaction);
-            this.swap = new RemmeSwap(this._remmeRest, this.transaction);
-            this.blockchainInfo = new RemmeBlockchainInfo(this._remmeRest);
-            this.events = new RemmeWebSocketsEvents(this._remmeRest.nodeAddress, this._remmeRest.sslMode);
+            this.token = new RemmeToken(this._remmeApi, this.transaction);
+            this.swap = new RemmeSwap(this._remmeApi, this.transaction);
+            this.blockchainInfo = new RemmeBlockchainInfo(this._remmeApi);
+            this.events = new RemmeWebSocketsEvents(this._remmeApi.nodeAddress, this._remmeApi.sslMode);
         }
 
         public set account(remmeAccount: IRemmeAccount) {

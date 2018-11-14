@@ -1,4 +1,4 @@
-import { IRemmeRest } from "remme-rest";
+import { IRemmeApi } from "remme-api";
 import { IRemmeAccount } from "remme-account";
 import { IRemmeTransactionService } from "./interface";
 import { BaseTransactionResponse, IBaseTransactionResponse, CreateTransactionDto, SendTransactionDto } from "./models";
@@ -25,20 +25,20 @@ import { BaseTransactionResponse, IBaseTransactionResponse, CreateTransactionDto
  */
 declare class RemmeTransactionService implements IRemmeTransactionService {
     [key: string]: any;
-    private readonly _remmeRest;
+    private readonly _remmeApi;
     private readonly _remmeAccount;
     /**
      * @example
      * Usage without remme main package
      * ```typescript
-     * const remmeRest = new RemmeRest(); // See RemmeRest implementation
+     * const remmeApi = new RemmeApi(); // See RemmeRest implementation
      * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
-     * const remmeTransaction = new RemmeTransactionService(remmeRest, remmeAccount);
+     * const remmeTransaction = new RemmeTransactionService(remmeApi, remmeAccount);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      * @param {IRemmeAccount} remmeAccount
      */
-    constructor(remmeRest: IRemmeRest, remmeAccount: IRemmeAccount);
+    constructor(remmeApi: IRemmeApi, remmeAccount: IRemmeAccount);
     /**
      * Documentation for building transactions
      * https://sawtooth.hyperledger.org/docs/core/releases/latest/_autogen/sdk_submit_tutorial_js.html#building-the-transaction
@@ -61,7 +61,7 @@ declare class RemmeTransactionService implements IRemmeTransactionService {
      * @param {CreateTransactionDto} settings
      * @returns {Promise<string>}
      */
-    create<Input>(settings: CreateTransactionDto): Promise<string>;
+    create(settings: CreateTransactionDto): Promise<string>;
     /**
      * @example
      * ```typescript

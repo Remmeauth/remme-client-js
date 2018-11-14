@@ -71,7 +71,7 @@ class RemmeAccount implements IRemmeAccount {
         this._signer = new CryptoFactory(CONTEXT).newSigner(privateKey);
         this._privateKeyHex = privateKey.asHex();
         this._publicKeyHex = this._signer.getPublicKey().asHex();
-        this._address = generateAddress(this.familyName, this._publicKeyHex);
+        this._address = generateAddress(this._familyName, this._publicKeyHex);
     }
 
     /**
@@ -99,7 +99,7 @@ class RemmeAccount implements IRemmeAccount {
     }
 
     /**
-     * Return private key from hex format.
+     * Return public key from hex format.
      * @returns {Buffer}
      */
     public get publicKey(): RemmeAccountPublicKey {
@@ -130,14 +130,14 @@ class RemmeAccount implements IRemmeAccount {
      * const signedData = account.sign(data);
      * console.log(signedData);
      * ```
-     * @param {Uint8Array | string} transaction
+     * @param {Buffer | string} data
      * @returns {Buffer}
      */
-    public sign(transaction: Uint8Array | string): Buffer {
-        if (typeof transaction === "string") {
-            transaction = hexToBytes(transaction);
+    public sign(data: Buffer | string): Buffer {
+        if (typeof data === "string") {
+            data = Buffer.from(data);
         }
-        return this._signer.sign(transaction);
+        return this._signer.sign(data);
     }
 
     /**
@@ -154,11 +154,11 @@ class RemmeAccount implements IRemmeAccount {
      * console.log(isVerifyInAnotherAccount); // false
      * ```
      * @param {Buffer | string} siganture
-     * @param {Uint8Array | string} transaction
+     * @param {Buffer | string} data
      * @returns {boolean}
      */
-    public verify(siganture: Buffer | string, transaction: Uint8Array | string): boolean {
-        return CONTEXT.verify(siganture, transaction, Secp256k1PublicKey.fromHex(this._publicKeyHex));
+    public verify(siganture: Buffer | string, data: Buffer | string): boolean {
+        return CONTEXT.verify(siganture, data, Secp256k1PublicKey.fromHex(this._publicKeyHex));
     }
 
 }

@@ -1,4 +1,4 @@
-import { RemmeMethods, IRemmeRest } from "remme-rest";
+import { RemmeMethods, IRemmeApi } from "remme-api";
 import { generateAddress, RemmeFamilyName, generateSettingsAddress, PATTERNS } from "remme-utils";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
 import {
@@ -91,7 +91,7 @@ class RemmeSwap implements IRemmeSwap {
     // index signature
     [key: string]: any;
 
-    private readonly _remmeRest: IRemmeRest;
+    private readonly _remmeApi: IRemmeApi;
     private readonly _remmeTransactionService: IRemmeTransactionService;
     private readonly _familyName = RemmeFamilyName.Swap;
     private readonly _familyVersion = "0.1";
@@ -156,17 +156,17 @@ class RemmeSwap implements IRemmeSwap {
      * @example
      * Usage without main remme package
      * ```typescript
-     * const remmeRest = new RemmeRest(); // See RemmeRest implementation
+     * const remmeApi = new RemmeApi(); // See RemmeRest implementation
      * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
-     * const remmeTransaction = new RemmeTransactionService(remmeRest, remmeAccount); // See RemmeTransactionService implementation
-     * const remmeSwap = new RemmeSwap(remmeRest, remmeTransaction);
+     * const remmeTransaction = new RemmeTransactionService(remmeApi, remmeAccount); // See RemmeTransactionService implementation
+     * const remmeSwap = new RemmeSwap(remmeApi, remmeTransaction);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      * @param {IRemmeTransactionService} remmeTransactionService
      */
     /* tslint:enable */
-    public constructor(remmeRest: IRemmeRest, remmeTransactionService: IRemmeTransactionService) {
-        this._remmeRest = remmeRest;
+    public constructor(remmeApi: IRemmeApi, remmeTransactionService: IRemmeTransactionService) {
+        this._remmeApi = remmeApi;
         this._remmeTransactionService = remmeTransactionService;
     }
 
@@ -244,11 +244,11 @@ class RemmeSwap implements IRemmeSwap {
      * console.log(info); // SwapInfo
      * ```
      * @param {string} swapId
-     * @returns {Promise<SwapInfoData>}
+     * @returns {Promise<SwapInfo>}
      */
     public async getInfo(swapId: string): Promise<SwapInfo> {
         this._checkParameters({ swapId });
-        const apiResult = await this._remmeRest
+        const apiResult = await this._remmeApi
             .sendRequest<SwapRequest, SwapInfoDto>(RemmeMethods.atomicSwap, new SwapRequest(swapId));
         return new SwapInfo(apiResult);
     }
@@ -263,7 +263,7 @@ class RemmeSwap implements IRemmeSwap {
      * @returns {Promise<string>}
      */
     public async getPublicKey(): Promise<string> {
-        return await this._remmeRest.sendRequest<string>(RemmeMethods.atomicSwapPublicKey);
+        return await this._remmeApi.sendRequest<string>(RemmeMethods.atomicSwapPublicKey);
     }
 
     /**

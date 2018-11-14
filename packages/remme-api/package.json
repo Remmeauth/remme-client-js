@@ -1,11 +1,11 @@
 {
-  "name": "remme-rest",
+  "name": "remme-api",
   "version": "0.4.0-0",
-  "description": "REMME rest internal package",
+  "description": "REMME api internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "namespace": "remme",
-  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-rest",
+  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-api",
   "scripts": {
     "transpile": "./node_modules/.bin/tsc"
   },

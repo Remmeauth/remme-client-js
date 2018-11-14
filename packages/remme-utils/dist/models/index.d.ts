@@ -22,6 +22,6 @@ export declare enum RemmeFamilyName {
  * Model that define public key params into request
  */
 export declare class PublicKeyRequest {
-    public_key: string | forge.pki.PEM;
-    constructor(public_key: string | forge.pki.PEM);
+    public_key_address: string | forge.pki.PEM;
+    constructor(public_key_address: string | forge.pki.PEM);
 }

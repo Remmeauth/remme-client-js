@@ -21,8 +21,8 @@
 14 silly remme-protobuf
 15 silly runScript preinstall remme-web-socket
 16 silly remme-web-socket
-17 silly runScript preinstall remme-rest
-18 silly remme-rest
+17 silly runScript preinstall remme-api
+18 silly remme-api
 19 silly runScript preinstall remme-utils
 20 silly remme-utils
 21 silly runScript preinstall remme-web-socket-events
@@ -44,13 +44,13 @@
 37 silly runScript preinstall remme
 38 silly remme
 39 silly hasMatchingDependency remme-account remme-utils
-40 silly hasMatchingDependency remme-atomic-swap remme-protobuf
-41 silly hasMatchingDependency remme-atomic-swap remme-rest
-42 silly hasMatchingDependency remme-atomic-swap remme-transaction-service
-43 silly hasMatchingDependency remme-atomic-swap remme-utils
-44 silly hasMatchingDependency remme-atomic-swap remme-web-socket
-45 silly hasMatchingDependency remme-blockchain-info remme-protobuf
-46 silly hasMatchingDependency remme-blockchain-info remme-rest
+40 silly hasMatchingDependency remme-api remme-http-client
+41 silly hasMatchingDependency remme-atomic-swap remme-protobuf
+42 silly hasMatchingDependency remme-atomic-swap remme-api
+43 silly hasMatchingDependency remme-atomic-swap remme-transaction-service
+44 silly hasMatchingDependency remme-atomic-swap remme-utils
+45 silly hasMatchingDependency remme-atomic-swap remme-web-socket
+46 silly hasMatchingDependency remme-blockchain-info remme-protobuf
 47 silly hasMatchingDependency remme-blockchain-info remme-utils
 48 silly hasMatchingDependency remme-certificate remme-public-key-storage
 49 silly hasMatchingDependency remme-certificate remme-transaction-service
@@ -58,354 +58,352 @@
 51 silly hasMatchingDependency remme-certificate remme-web-socket
 52 silly hasMatchingDependency remme-public-key-storage remme-account
 53 silly hasMatchingDependency remme-public-key-storage remme-protobuf
-54 silly hasMatchingDependency remme-public-key-storage remme-rest
+54 silly hasMatchingDependency remme-public-key-storage remme-api
 55 silly hasMatchingDependency remme-public-key-storage remme-transaction-service
 56 silly hasMatchingDependency remme-public-key-storage remme-utils
-57 silly hasMatchingDependency remme-rest remme-http-client
-58 silly hasMatchingDependency remme-token remme-protobuf
-59 silly hasMatchingDependency remme-token remme-rest
-60 silly hasMatchingDependency remme-token remme-transaction-service
-61 silly hasMatchingDependency remme-token remme-utils
-62 silly hasMatchingDependency remme-transaction-service remme-account
-63 silly hasMatchingDependency remme-transaction-service remme-rest
-64 silly hasMatchingDependency remme-transaction-service remme-utils
-65 silly hasMatchingDependency remme-transaction-service remme-web-socket
-66 silly hasMatchingDependency remme-utils remme-web-socket
-67 silly hasMatchingDependency remme-web-socket-events remme-web-socket
-68 silly hasMatchingDependency remme remme-account
-69 silly hasMatchingDependency remme remme-atomic-swap
-70 silly hasMatchingDependency remme remme-blockchain-info
-71 silly hasMatchingDependency remme remme-certificate
-72 silly hasMatchingDependency remme remme-public-key-storage
-73 silly hasMatchingDependency remme remme-rest
-74 silly hasMatchingDependency remme remme-token
-75 silly hasMatchingDependency remme remme-transaction-service
-76 silly hasMatchingDependency remme remme-web-socket-events
-77 silly hasDependencyInstalled remme-http-client axios
-78 silly dependencyIsSatisfied [ 'axios',
-78 silly dependencyIsSatisfied   '^0.18.0',
-78 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-http-client/node_modules' ]
-79 verbose dependencyIsSatisfied axios true
-80 silly hasDependencyInstalled remme typedoc
-81 silly dependencyIsSatisfied [ 'typedoc',
-81 silly dependencyIsSatisfied   '^0.11.1',
-81 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme/node_modules' ]
-82 verbose dependencyIsSatisfied typedoc true
-83 silly hasDependencyInstalled remme-account typescript
-84 silly dependencyIsSatisfied [ 'typescript',
-84 silly dependencyIsSatisfied   '^2.8.3',
-84 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-account/node_modules' ]
-85 verbose dependencyIsSatisfied typescript true
-86 silly hasDependencyInstalled remme-atomic-swap typescript
-87 silly dependencyIsSatisfied [ 'typescript',
-87 silly dependencyIsSatisfied   '^2.8.3',
-87 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-atomic-swap/node_modules' ]
-88 verbose dependencyIsSatisfied typescript true
-89 silly hasDependencyInstalled remme-blockchain-info typescript
-90 silly dependencyIsSatisfied [ 'typescript',
-90 silly dependencyIsSatisfied   '^2.8.3',
-90 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-blockchain-info/node_modules' ]
-91 verbose dependencyIsSatisfied typescript true
-92 silly hasDependencyInstalled remme-certificate typescript
-93 silly dependencyIsSatisfied [ 'typescript',
-93 silly dependencyIsSatisfied   '^2.8.3',
-93 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-certificate/node_modules' ]
-94 verbose dependencyIsSatisfied typescript true
-95 silly hasDependencyInstalled remme-http-client typescript
-96 silly dependencyIsSatisfied [ 'typescript',
-96 silly dependencyIsSatisfied   '^2.8.3',
-96 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-http-client/node_modules' ]
-97 verbose dependencyIsSatisfied typescript true
-98 silly hasDependencyInstalled remme-protobuf typescript
-99 silly dependencyIsSatisfied [ 'typescript',
-99 silly dependencyIsSatisfied   '^2.8.3',
-99 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-protobuf/node_modules' ]
-100 verbose dependencyIsSatisfied typescript true
-101 silly hasDependencyInstalled remme-public-key-storage typescript
-102 silly dependencyIsSatisfied [ 'typescript',
-102 silly dependencyIsSatisfied   '^2.8.3',
-102 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-public-key-storage/node_modules' ]
-103 verbose dependencyIsSatisfied typescript true
-104 silly hasDependencyInstalled remme-rest typescript
-105 silly dependencyIsSatisfied [ 'typescript',
-105 silly dependencyIsSatisfied   '^2.8.3',
-105 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-rest/node_modules' ]
-106 verbose dependencyIsSatisfied typescript true
-107 silly hasDependencyInstalled remme-token typescript
-108 silly dependencyIsSatisfied [ 'typescript',
-108 silly dependencyIsSatisfied   '^2.8.3',
-108 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-token/node_modules' ]
-109 verbose dependencyIsSatisfied typescript true
-110 silly hasDependencyInstalled remme-transaction-service typescript
-111 silly dependencyIsSatisfied [ 'typescript',
-111 silly dependencyIsSatisfied   '^2.8.3',
-111 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-transaction-service/node_modules' ]
-112 verbose dependencyIsSatisfied typescript true
-113 silly hasDependencyInstalled remme-utils typescript
-114 silly dependencyIsSatisfied [ 'typescript',
-114 silly dependencyIsSatisfied   '^2.8.3',
-114 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
-115 verbose dependencyIsSatisfied typescript true
-116 silly hasDependencyInstalled remme-web-socket-events typescript
-117 silly dependencyIsSatisfied [ 'typescript',
-117 silly dependencyIsSatisfied   '^2.8.3',
-117 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-web-socket-events/node_modules' ]
-118 verbose dependencyIsSatisfied typescript true
-119 silly hasDependencyInstalled remme-web-socket typescript
-120 silly dependencyIsSatisfied [ 'typescript',
-120 silly dependencyIsSatisfied   '^2.8.3',
-120 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-web-socket/node_modules' ]
-121 verbose dependencyIsSatisfied typescript true
-122 silly hasDependencyInstalled remme typescript
-123 silly dependencyIsSatisfied [ 'typescript',
-123 silly dependencyIsSatisfied   '^2.8.3',
-123 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme/node_modules' ]
-124 verbose dependencyIsSatisfied typescript true
-125 silly hasDependencyInstalled remme-account sawtooth-sdk
-126 silly dependencyIsSatisfied [ 'sawtooth-sdk',
-126 silly dependencyIsSatisfied   '^1.0.4',
-126 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-account/node_modules' ]
-127 verbose dependencyIsSatisfied sawtooth-sdk true
-128 silly hasDependencyInstalled remme-transaction-service sawtooth-sdk
-129 silly dependencyIsSatisfied [ 'sawtooth-sdk',
-129 silly dependencyIsSatisfied   '^1.0.4',
-129 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-transaction-service/node_modules' ]
-130 verbose dependencyIsSatisfied sawtooth-sdk true
-131 silly hasDependencyInstalled remme-http-client @types/axios
-132 silly dependencyIsSatisfied [ '@types/axios',
-132 silly dependencyIsSatisfied   '^0.14.0',
-132 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-http-client/node_modules' ]
-133 verbose dependencyIsSatisfied @types/axios true
-134 silly hasDependencyInstalled remme-protobuf protobufjs
-135 silly dependencyIsSatisfied [ 'protobufjs',
-135 silly dependencyIsSatisfied   '^6.8.6',
-135 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-protobuf/node_modules' ]
-136 verbose dependencyIsSatisfied protobufjs true
-137 silly hasDependencyInstalled remme-transaction-service @types/js-base64
-138 silly dependencyIsSatisfied [ '@types/js-base64',
-138 silly dependencyIsSatisfied   '^2.3.1',
-138 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-transaction-service/node_modules' ]
-139 verbose dependencyIsSatisfied @types/js-base64 true
-140 silly hasDependencyInstalled remme-transaction-service js-base64
-141 silly dependencyIsSatisfied [ 'js-base64',
-141 silly dependencyIsSatisfied   '^2.4.5',
-141 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-transaction-service/node_modules' ]
-142 verbose dependencyIsSatisfied js-base64 true
-143 silly hasDependencyInstalled remme-utils @types/node-forge
-144 silly dependencyIsSatisfied [ '@types/node-forge',
-144 silly dependencyIsSatisfied   '^0.7.4',
-144 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
-145 verbose dependencyIsSatisfied @types/node-forge true
-146 silly hasDependencyInstalled remme-utils base64-js
-147 silly dependencyIsSatisfied [ 'base64-js',
-147 silly dependencyIsSatisfied   '^1.3.0',
-147 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
-148 verbose dependencyIsSatisfied base64-js true
-149 silly hasDependencyInstalled remme-utils js-sha512
-150 silly dependencyIsSatisfied [ 'js-sha512',
-150 silly dependencyIsSatisfied   '^0.7.1',
-150 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
-151 verbose dependencyIsSatisfied js-sha512 true
-152 silly hasDependencyInstalled remme-utils node-forge
-153 silly dependencyIsSatisfied [ 'node-forge',
-153 silly dependencyIsSatisfied   '^0.7.5',
-153 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
-154 verbose dependencyIsSatisfied node-forge true
-155 silly hasDependencyInstalled remme-utils utf8-bytes
-156 silly dependencyIsSatisfied [ 'utf8-bytes',
-156 silly dependencyIsSatisfied   '0.0.1',
-156 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
-157 verbose dependencyIsSatisfied utf8-bytes true
-158 silly hasDependencyInstalled remme-web-socket websocket
-159 silly dependencyIsSatisfied [ 'websocket',
-159 silly dependencyIsSatisfied   '^1.0.26',
-159 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-web-socket/node_modules' ]
-160 verbose dependencyIsSatisfied websocket true
-161 silly hasDependencyInstalled remme remme-batch
-162 silly dependencyIsSatisfied [ 'remme-batch',
-162 silly dependencyIsSatisfied   '^0.3.3',
-162 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme/node_modules' ]
-163 verbose dependencyIsSatisfied remme-batch false
-164 silly root dependencies []
-165 silly leaf dependencies {
-165 silly leaf dependencies   "remme-http-client": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "axios@^0.18.0",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "@types/axios@^0.14.0",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typedoc@^0.11.1",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "remme-batch@^0.3.3",
-165 silly leaf dependencies       "isSatisfied": false
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-account": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "sawtooth-sdk@^1.0.4",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-atomic-swap": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-blockchain-info": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-certificate": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-protobuf": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "protobufjs@^6.8.6",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-public-key-storage": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-rest": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-token": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-transaction-service": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "sawtooth-sdk@^1.0.4",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "@types/js-base64@^2.3.1",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "js-base64@^2.4.5",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-utils": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "@types/node-forge@^0.7.4",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "base64-js@^1.3.0",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "js-sha512@^0.7.1",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "node-forge@^0.7.5",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "utf8-bytes@0.0.1",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-web-socket-events": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ],
-165 silly leaf dependencies   "remme-web-socket": [
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "typescript@^2.8.3",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     },
-165 silly leaf dependencies     {
-165 silly leaf dependencies       "dependency": "websocket@^1.0.26",
-165 silly leaf dependencies       "isSatisfied": true
-165 silly leaf dependencies     }
-165 silly leaf dependencies   ]
-165 silly leaf dependencies }
-166 info Installing external dependencies
-167 verbose actions 1 actions, concurrency 4
-168 silly installInDir remme [ 'typedoc@^0.11.1', 'typescript@^2.8.3', 'remme-batch@^0.3.3' ]
-169 silly installInDir backup /var/www/remme-client-js/packages/remme/package.json
-170 silly rename [ '/var/www/remme-client-js/packages/remme/package.json',
-170 silly rename   '/var/www/remme-client-js/packages/remme/package.json.lerna_backup' ]
-171 silly installInDir writing tempJson { dependencies:
-171 silly installInDir    { typedoc: '^0.11.1',
-171 silly installInDir      typescript: '^2.8.3',
-171 silly installInDir      'remme-batch': '^0.3.3' } }
-172 silly getExecOpts { cwd: '/var/www/remme-client-js/packages/remme' }
-173 silly installInDir [ 'npm', [ 'install' ] ]
-174 silly installInDir cleanup /var/www/remme-client-js/packages/remme/package.json
-175 silly renameSync [ '/var/www/remme-client-js/packages/remme/package.json.lerna_backup',
-175 silly renameSync   '/var/www/remme-client-js/packages/remme/package.json' ]
-176 verbose installed leaf remme
-177 error execute callback with error
-178 error Error: Command failed: npm install
-178 error npm WARN deprecated @types/axios@0.14.0: This is a stub types definition for axios (https://github.com/mzabriskie/axios). axios provides its own type definitions, so you don't need @types/axios installed!
-178 error npm WARN checkPermissions Missing write access to /var/www/remme-client-js/packages/remme/node_modules/remme-batch
-178 error npm WARN remme No repository field.
-178 error npm WARN remme No license field.
-178 error
-178 error npm ERR! path /var/www/remme-client-js/packages/remme/node_modules/remme-batch
-178 error npm ERR! code ENOENT
-178 error npm ERR! errno -2
-178 error npm ERR! syscall access
-178 error npm ERR! enoent ENOENT: no such file or directory, access '/var/www/remme-client-js/packages/remme/node_modules/remme-batch'
-178 error npm ERR! enoent This is related to npm not being able to find a file.
-178 error npm ERR! enoent
-178 error
-178 error npm ERR! A complete log of this run can be found in:
-178 error npm ERR!     /home/artem/.npm/_logs/2018-10-16T13_52_38_411Z-debug.log
-178 error
-178 error     at Promise.all.then.arr (/var/www/remme-client-js/node_modules/execa/index.js:236:11)
-178 error     at <anonymous>
+57 silly hasMatchingDependency remme-token remme-protobuf
+58 silly hasMatchingDependency remme-token remme-api
+59 silly hasMatchingDependency remme-token remme-transaction-service
+60 silly hasMatchingDependency remme-token remme-utils
+61 silly hasMatchingDependency remme-transaction-service remme-account
+62 silly hasMatchingDependency remme-transaction-service remme-api
+63 silly hasMatchingDependency remme-transaction-service remme-utils
+64 silly hasMatchingDependency remme-transaction-service remme-web-socket
+65 silly hasMatchingDependency remme-utils remme-web-socket
+66 silly hasMatchingDependency remme-web-socket-events remme-web-socket
+67 silly hasMatchingDependency remme remme-account
+68 silly hasMatchingDependency remme remme-atomic-swap
+69 silly hasMatchingDependency remme remme-blockchain-info
+70 silly hasMatchingDependency remme remme-certificate
+71 silly hasMatchingDependency remme remme-public-key-storage
+72 silly hasMatchingDependency remme remme-api
+73 silly hasMatchingDependency remme remme-token
+74 silly hasMatchingDependency remme remme-transaction-service
+75 silly hasMatchingDependency remme remme-web-socket-events
+76 silly hasDependencyInstalled remme-http-client axios
+77 silly dependencyIsSatisfied [ 'axios',
+77 silly dependencyIsSatisfied   '^0.18.0',
+77 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-http-client/node_modules' ]
+78 verbose dependencyIsSatisfied axios true
+79 silly hasDependencyInstalled remme typedoc
+80 silly dependencyIsSatisfied [ 'typedoc',
+80 silly dependencyIsSatisfied   '^0.11.1',
+80 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme/node_modules' ]
+81 verbose dependencyIsSatisfied typedoc true
+82 silly hasDependencyInstalled remme-account typescript
+83 silly dependencyIsSatisfied [ 'typescript',
+83 silly dependencyIsSatisfied   '^2.8.3',
+83 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-account/node_modules' ]
+84 verbose dependencyIsSatisfied typescript true
+85 silly hasDependencyInstalled remme-api typescript
+86 silly dependencyIsSatisfied [ 'typescript',
+86 silly dependencyIsSatisfied   '^2.8.3',
+86 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-api/node_modules' ]
+87 verbose dependencyIsSatisfied typescript true
+88 silly hasDependencyInstalled remme-atomic-swap typescript
+89 silly dependencyIsSatisfied [ 'typescript',
+89 silly dependencyIsSatisfied   '^2.8.3',
+89 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-atomic-swap/node_modules' ]
+90 verbose dependencyIsSatisfied typescript true
+91 silly hasDependencyInstalled remme-blockchain-info typescript
+92 silly dependencyIsSatisfied [ 'typescript',
+92 silly dependencyIsSatisfied   '^2.8.3',
+92 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-blockchain-info/node_modules' ]
+93 verbose dependencyIsSatisfied typescript true
+94 silly hasDependencyInstalled remme-certificate typescript
+95 silly dependencyIsSatisfied [ 'typescript',
+95 silly dependencyIsSatisfied   '^2.8.3',
+95 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-certificate/node_modules' ]
+96 verbose dependencyIsSatisfied typescript true
+97 silly hasDependencyInstalled remme-http-client typescript
+98 silly dependencyIsSatisfied [ 'typescript',
+98 silly dependencyIsSatisfied   '^2.8.3',
+98 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-http-client/node_modules' ]
+99 verbose dependencyIsSatisfied typescript true
+100 silly hasDependencyInstalled remme-protobuf typescript
+101 silly dependencyIsSatisfied [ 'typescript',
+101 silly dependencyIsSatisfied   '^2.8.3',
+101 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-protobuf/node_modules' ]
+102 verbose dependencyIsSatisfied typescript true
+103 silly hasDependencyInstalled remme-public-key-storage typescript
+104 silly dependencyIsSatisfied [ 'typescript',
+104 silly dependencyIsSatisfied   '^2.8.3',
+104 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-public-key-storage/node_modules' ]
+105 verbose dependencyIsSatisfied typescript true
+106 silly hasDependencyInstalled remme-token typescript
+107 silly dependencyIsSatisfied [ 'typescript',
+107 silly dependencyIsSatisfied   '^2.8.3',
+107 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-token/node_modules' ]
+108 verbose dependencyIsSatisfied typescript true
+109 silly hasDependencyInstalled remme-transaction-service typescript
+110 silly dependencyIsSatisfied [ 'typescript',
+110 silly dependencyIsSatisfied   '^2.8.3',
+110 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-transaction-service/node_modules' ]
+111 verbose dependencyIsSatisfied typescript true
+112 silly hasDependencyInstalled remme-utils typescript
+113 silly dependencyIsSatisfied [ 'typescript',
+113 silly dependencyIsSatisfied   '^2.8.3',
+113 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
+114 verbose dependencyIsSatisfied typescript true
+115 silly hasDependencyInstalled remme-web-socket-events typescript
+116 silly dependencyIsSatisfied [ 'typescript',
+116 silly dependencyIsSatisfied   '^2.8.3',
+116 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-web-socket-events/node_modules' ]
+117 verbose dependencyIsSatisfied typescript true
+118 silly hasDependencyInstalled remme-web-socket typescript
+119 silly dependencyIsSatisfied [ 'typescript',
+119 silly dependencyIsSatisfied   '^2.8.3',
+119 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-web-socket/node_modules' ]
+120 verbose dependencyIsSatisfied typescript true
+121 silly hasDependencyInstalled remme typescript
+122 silly dependencyIsSatisfied [ 'typescript',
+122 silly dependencyIsSatisfied   '^2.8.3',
+122 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme/node_modules' ]
+123 verbose dependencyIsSatisfied typescript true
+124 silly hasDependencyInstalled remme-account sawtooth-sdk
+125 silly dependencyIsSatisfied [ 'sawtooth-sdk',
+125 silly dependencyIsSatisfied   '^1.0.4',
+125 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-account/node_modules' ]
+126 verbose dependencyIsSatisfied sawtooth-sdk true
+127 silly hasDependencyInstalled remme-transaction-service sawtooth-sdk
+128 silly dependencyIsSatisfied [ 'sawtooth-sdk',
+128 silly dependencyIsSatisfied   '^1.0.4',
+128 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-transaction-service/node_modules' ]
+129 verbose dependencyIsSatisfied sawtooth-sdk true
+130 silly hasDependencyInstalled remme-blockchain-info remme-rest
+131 silly dependencyIsSatisfied [ 'remme-rest',
+131 silly dependencyIsSatisfied   '^0.4.0-0',
+131 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-blockchain-info/node_modules' ]
+132 verbose dependencyIsSatisfied remme-rest false
+133 silly hasDependencyInstalled remme-http-client @types/axios
+134 silly dependencyIsSatisfied [ '@types/axios',
+134 silly dependencyIsSatisfied   '^0.14.0',
+134 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-http-client/node_modules' ]
+135 verbose dependencyIsSatisfied @types/axios true
+136 silly hasDependencyInstalled remme-protobuf protobufjs
+137 silly dependencyIsSatisfied [ 'protobufjs',
+137 silly dependencyIsSatisfied   '^6.8.6',
+137 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-protobuf/node_modules' ]
+138 verbose dependencyIsSatisfied protobufjs true
+139 silly hasDependencyInstalled remme-transaction-service @types/js-base64
+140 silly dependencyIsSatisfied [ '@types/js-base64',
+140 silly dependencyIsSatisfied   '^2.3.1',
+140 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-transaction-service/node_modules' ]
+141 verbose dependencyIsSatisfied @types/js-base64 true
+142 silly hasDependencyInstalled remme-transaction-service js-base64
+143 silly dependencyIsSatisfied [ 'js-base64',
+143 silly dependencyIsSatisfied   '^2.4.5',
+143 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-transaction-service/node_modules' ]
+144 verbose dependencyIsSatisfied js-base64 true
+145 silly hasDependencyInstalled remme-utils @types/node-forge
+146 silly dependencyIsSatisfied [ '@types/node-forge',
+146 silly dependencyIsSatisfied   '^0.7.4',
+146 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
+147 verbose dependencyIsSatisfied @types/node-forge true
+148 silly hasDependencyInstalled remme-utils base64-js
+149 silly dependencyIsSatisfied [ 'base64-js',
+149 silly dependencyIsSatisfied   '^1.3.0',
+149 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
+150 verbose dependencyIsSatisfied base64-js true
+151 silly hasDependencyInstalled remme-utils js-sha512
+152 silly dependencyIsSatisfied [ 'js-sha512',
+152 silly dependencyIsSatisfied   '^0.7.1',
+152 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
+153 verbose dependencyIsSatisfied js-sha512 true
+154 silly hasDependencyInstalled remme-utils node-forge
+155 silly dependencyIsSatisfied [ 'node-forge',
+155 silly dependencyIsSatisfied   '^0.7.5',
+155 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
+156 verbose dependencyIsSatisfied node-forge true
+157 silly hasDependencyInstalled remme-utils utf8-bytes
+158 silly dependencyIsSatisfied [ 'utf8-bytes',
+158 silly dependencyIsSatisfied   '0.0.1',
+158 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-utils/node_modules' ]
+159 verbose dependencyIsSatisfied utf8-bytes true
+160 silly hasDependencyInstalled remme-web-socket websocket
+161 silly dependencyIsSatisfied [ 'websocket',
+161 silly dependencyIsSatisfied   '^1.0.26',
+161 silly dependencyIsSatisfied   '/var/www/remme-client-js/packages/remme-web-socket/node_modules' ]
+162 verbose dependencyIsSatisfied websocket true
+163 silly root dependencies []
+164 silly leaf dependencies {
+164 silly leaf dependencies   "remme-http-client": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "axios@^0.18.0",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "@types/axios@^0.14.0",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typedoc@^0.11.1",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-account": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "sawtooth-sdk@^1.0.4",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-api": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-atomic-swap": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-blockchain-info": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "remme-rest@^0.4.0-0",
+164 silly leaf dependencies       "isSatisfied": false
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-certificate": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-protobuf": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "protobufjs@^6.8.6",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-public-key-storage": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-token": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-transaction-service": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "sawtooth-sdk@^1.0.4",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "@types/js-base64@^2.3.1",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "js-base64@^2.4.5",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-utils": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "@types/node-forge@^0.7.4",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "base64-js@^1.3.0",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "js-sha512@^0.7.1",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "node-forge@^0.7.5",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "utf8-bytes@0.0.1",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-web-socket-events": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ],
+164 silly leaf dependencies   "remme-web-socket": [
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "typescript@^2.8.3",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     },
+164 silly leaf dependencies     {
+164 silly leaf dependencies       "dependency": "websocket@^1.0.26",
+164 silly leaf dependencies       "isSatisfied": true
+164 silly leaf dependencies     }
+164 silly leaf dependencies   ]
+164 silly leaf dependencies }
+165 info Installing external dependencies
+166 verbose actions 1 actions, concurrency 4
+167 silly installInDir remme-blockchain-info [ 'typescript@^2.8.3', 'remme-rest@^0.4.0-0' ]
+168 silly installInDir backup /var/www/remme-client-js/packages/remme-blockchain-info/package.json
+169 silly rename [ '/var/www/remme-client-js/packages/remme-blockchain-info/package.json',
+169 silly rename   '/var/www/remme-client-js/packages/remme-blockchain-info/package.json.lerna_backup' ]
+170 silly installInDir writing tempJson { dependencies: { typescript: '^2.8.3', 'remme-rest': '^0.4.0-0' } }
+171 silly getExecOpts { cwd: '/var/www/remme-client-js/packages/remme-blockchain-info' }
+172 silly installInDir [ 'npm', [ 'install' ] ]
+173 silly installInDir cleanup /var/www/remme-client-js/packages/remme-blockchain-info/package.json
+174 silly renameSync [ '/var/www/remme-client-js/packages/remme-blockchain-info/package.json.lerna_backup',
+174 silly renameSync   '/var/www/remme-client-js/packages/remme-blockchain-info/package.json' ]
+175 verbose installed leaf remme-blockchain-info
+176 error execute callback with error
+177 error Error: Command failed: npm install
+177 error npm WARN deprecated @types/axios@0.14.0: This is a stub types definition for axios (https://github.com/mzabriskie/axios). axios provides its own type definitions, so you don't need @types/axios installed!
+177 error npm WARN checkPermissions Missing write access to /var/www/remme-client-js/packages/remme-blockchain-info/node_modules/remme-base-transaction-response
+177 error npm WARN checkPermissions Missing write access to /var/www/remme-client-js/packages/remme-blockchain-info/node_modules/remme-rest
+177 error npm WARN remme-blockchain-info No description
+177 error npm WARN remme-blockchain-info No repository field.
+177 error npm WARN remme-blockchain-info No license field.
+177 error
+177 error npm ERR! path /var/www/remme-client-js/packages/remme-blockchain-info/node_modules/remme-base-transaction-response
+177 error npm ERR! code ENOENT
+177 error npm ERR! errno -2
+177 error npm ERR! syscall access
+177 error npm ERR! enoent ENOENT: no such file or directory, access '/var/www/remme-client-js/packages/remme-blockchain-info/node_modules/remme-base-transaction-response'
+177 error npm ERR! enoent This is related to npm not being able to find a file.
+177 error npm ERR! enoent
+177 error
+177 error npm ERR! A complete log of this run can be found in:
+177 error npm ERR!     /home/artem/.npm/_logs/2018-10-29T11_49_04_794Z-debug.log
+177 error
+177 error     at Promise.all.then.arr (/var/www/remme-client-js/node_modules/execa/index.js:236:11)
+177 error     at <anonymous>

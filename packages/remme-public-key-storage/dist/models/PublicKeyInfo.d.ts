@@ -7,6 +7,7 @@ export interface IPublicKeyInfo {
     valid_to: number;
     entity_hash: string;
     entity_hash_signature: string;
+    type: string;
 }
 /**
  * Model that return to user which want to see information about public key (publicKeyStorage.getInfo)
@@ -20,5 +21,6 @@ export declare class PublicKeyInfo {
     validTo: number;
     entityHash: string;
     entityHashSignature: string;
+    type: string;
     constructor(data: IPublicKeyInfo);
 }

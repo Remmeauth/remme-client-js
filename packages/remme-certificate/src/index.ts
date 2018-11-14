@@ -7,7 +7,15 @@ import {
     publicKeyToPem,
 } from "remme-utils";
 import { IBaseTransactionResponse } from "remme-transaction-service";
-import { IRemmePublicKeyStorage, PublicKeyInfo } from "remme-public-key-storage";
+import {
+    IRemmePublicKeyStorage,
+    PublicKeyInfo,
+} from "remme-public-key-storage";
+import {
+    RemmeKeys,
+    KeyType,
+    RSASignaturePadding,
+} from "remme-keys";
 
 import { IRemmeCertificate } from "./interface";
 import {
@@ -228,8 +236,9 @@ class RemmeCertificate implements IRemmeCertificate {
         const validTo = Math.floor(certificate.validity.notAfter.getTime()  / 1000);
         return await this._remmePublicKeyStorage.store({
             data: certificatePEM,
-            publicKey,
-            privateKey,
+            keys: new RemmeKeys(KeyType.RSA, privateKey, publicKey),
+            publicKeyType: KeyType.RSA,
+            rsaSignaturePadding: RSASignaturePadding.PSS,
             validFrom,
             validTo,
         });
@@ -249,8 +258,8 @@ class RemmeCertificate implements IRemmeCertificate {
         if (typeof certificate === "string") {
             certificate = certificateFromPem(certificate);
         }
-        const publicKeyPEM = publicKeyToPem(certificate.publicKey);
-        const checkResult = await this._remmePublicKeyStorage.check(publicKeyPEM);
+        const address = RemmeKeys.getAddressFromPublicKey(certificate.publicKey, KeyType.RSA);
+        const checkResult = await this._remmePublicKeyStorage.check(address);
         if (checkResult !== undefined) {
             return checkResult;
         } else {
@@ -272,8 +281,8 @@ class RemmeCertificate implements IRemmeCertificate {
         if (typeof certificate === "string") {
             certificate = certificateFromPem(certificate);
         }
-        const publicKeyPEM = publicKeyToPem(certificate.publicKey);
-        const checkResult = await this._remmePublicKeyStorage.getInfo(publicKeyPEM);
+        const address = RemmeKeys.getAddressFromPublicKey(certificate.publicKey, KeyType.RSA);
+        const checkResult = await this._remmePublicKeyStorage.getInfo(address);
         if (checkResult !== undefined) {
             return checkResult;
         } else {
@@ -302,8 +311,8 @@ class RemmeCertificate implements IRemmeCertificate {
         if (typeof certificate === "string") {
             certificate = certificateFromPem(certificate);
         }
-        const publicKeyPEM = publicKeyToPem(certificate.publicKey);
-        return await this._remmePublicKeyStorage.revoke(publicKeyPEM);
+        const address = RemmeKeys.getAddressFromPublicKey(certificate.publicKey, KeyType.RSA);
+        return await this._remmePublicKeyStorage.revoke(address);
     }
 
     /**
@@ -316,6 +325,9 @@ class RemmeCertificate implements IRemmeCertificate {
     public sign(certificate: forge.pki.Certificate | forge.pki.PEM, data: string): string {
         if (typeof certificate === "string") {
             certificate = certificateFromPem(certificate);
+        }
+        if (!certificate.privateKey) {
+            throw new Error("Your certificate does not have private key");
         }
         const md = forge.md.sha512.create().update(data, "utf8");
         return certificate.privateKey.sign(md);

@@ -1,4 +1,4 @@
-import { IRemmeRest } from "remme-rest";
+import { IRemmeApi } from "remme-api";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
 import { IRemmeToken } from "./interface";
 /**
@@ -35,7 +35,7 @@ import { IRemmeToken } from "./interface";
  */
 declare class RemmeToken implements IRemmeToken {
     [key: string]: any;
-    private readonly _remmeRest;
+    private readonly _remmeApi;
     private readonly _remmeTransaction;
     private readonly _familyName;
     private readonly _familyVersion;
@@ -43,15 +43,15 @@ declare class RemmeToken implements IRemmeToken {
      * @example
      * Usage without remme main package
      * ```typescript
-     * const remmeRest = new RemmeRest(); // See RemmeRest implementation
+     * const remmeApi = new RemmeApi(); // See RemmeRest implementation
      * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
-     * const remmeTransaction = new RemmeTransactionService(remmeRest, remmeAccount);
-     * const remmeToken = new RemmeToken(remmeRest, remmeTransaction);
+     * const remmeTransaction = new RemmeTransactionService(remmeApi, remmeAccount);
+     * const remmeToken = new RemmeToken(remmeApi, remmeTransaction);
      * ```
-     * @param {IRemmeRest} remmeRest
+     * @param {IRemmeApi} remmeApi
      * @param {IRemmeTransactionService} remmeTransaction
      */
-    constructor(remmeRest: IRemmeRest, remmeTransaction: IRemmeTransactionService);
+    constructor(remmeApi: IRemmeApi, remmeTransaction: IRemmeTransactionService);
     /**
      * Transfer tokens from signed public key (remme.account.publicKey) to given public key.
      * Send transaction to REMChain.
@@ -77,11 +77,11 @@ declare class RemmeToken implements IRemmeToken {
      *
      * transactionResult.connectToWebSocket(transactionCallback);
      * ```
-     * @param {string} publicKeyTo
+     * @param {string} addressTo
      * @param {number} amount
      * @returns {Promise<IBaseTransactionResponse>}
      */
-    transfer(publicKeyTo: string, amount: number): Promise<IBaseTransactionResponse>;
+    transfer(addressTo: string, amount: number): Promise<IBaseTransactionResponse>;
     /**
      * Get balance on given public key
      * @example
@@ -89,9 +89,9 @@ declare class RemmeToken implements IRemmeToken {
      * const balance = await remme.token.getBalance(remme.account.publicKeyHex);
      * console.log(`Account ${remme.account.publicKeyHex} as sender, balance - ${balance} REM`);
      * ```
-     * @param {string} publicKey
+     * @param {string} address
      * @returns {Promise<number>}
      */
-    getBalance(publicKey: string): Promise<number>;
+    getBalance(address: string): Promise<number>;
 }
 export { RemmeToken, IRemmeToken };

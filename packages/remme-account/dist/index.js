@@ -61,7 +61,7 @@ var RemmeAccount = /** @class */ (function () {
         this._signer = new signing_1.CryptoFactory(CONTEXT).newSigner(privateKey);
         this._privateKeyHex = privateKey.asHex();
         this._publicKeyHex = this._signer.getPublicKey().asHex();
-        this._address = remme_utils_1.generateAddress(this.familyName, this._publicKeyHex);
+        this._address = remme_utils_1.generateAddress(this._familyName, this._publicKeyHex);
     }
     Object.defineProperty(RemmeAccount.prototype, "familyName", {
         /**
@@ -98,7 +98,7 @@ var RemmeAccount = /** @class */ (function () {
     });
     Object.defineProperty(RemmeAccount.prototype, "publicKey", {
         /**
-         * Return private key from hex format.
+         * Return public key from hex format.
          * @returns {Buffer}
          */
         get: function () {
@@ -137,14 +137,14 @@ var RemmeAccount = /** @class */ (function () {
      * const signedData = account.sign(data);
      * console.log(signedData);
      * ```
-     * @param {Uint8Array | string} transaction
+     * @param {Buffer | string} data
      * @returns {Buffer}
      */
-    RemmeAccount.prototype.sign = function (transaction) {
-        if (typeof transaction === "string") {
-            transaction = remme_utils_1.hexToBytes(transaction);
+    RemmeAccount.prototype.sign = function (data) {
+        if (typeof data === "string") {
+            data = Buffer.from(data);
         }
-        return this._signer.sign(transaction);
+        return this._signer.sign(data);
     };
     /**
      * Verify given signature to given transaction
@@ -160,11 +160,11 @@ var RemmeAccount = /** @class */ (function () {
      * console.log(isVerifyInAnotherAccount); // false
      * ```
      * @param {Buffer | string} siganture
-     * @param {Uint8Array | string} transaction
+     * @param {Buffer | string} data
      * @returns {boolean}
      */
-    RemmeAccount.prototype.verify = function (siganture, transaction) {
-        return CONTEXT.verify(siganture, transaction, secp256k1_1.Secp256k1PublicKey.fromHex(this._publicKeyHex));
+    RemmeAccount.prototype.verify = function (siganture, data) {
+        return CONTEXT.verify(siganture, data, secp256k1_1.Secp256k1PublicKey.fromHex(this._publicKeyHex));
     };
     return RemmeAccount;
 }());
