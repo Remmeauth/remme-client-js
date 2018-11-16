@@ -40,7 +40,12 @@ var crypto_1 = require("crypto");
 var b64 = require("base64-js");
 var forge = require("node-forge");
 var dist_1 = require("../../dist");
-exports.sha512 = function (value) { return crypto_1.createHash("sha512").update(value).digest("hex"); };
+exports.sha512 = function (value) {
+    return crypto_1.createHash("sha512").update(value).digest("hex");
+};
+exports.sha256 = function (value) {
+    return crypto_1.createHash("sha256").update(value).digest("hex");
+};
 exports.hexToBytes = function (str) {
     var arr = [];
     var len = str.length;

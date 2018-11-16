@@ -52,6 +52,10 @@ var RemmeKeys = /** @class */ (function () {
                 this._keys = new models_1.EdDSA(privateKey, publicKey);
                 break;
             }
+            case KeyType.ECDSA: {
+                this._keys = new models_1.ECDSA(privateKey, publicKey);
+                break;
+            }
         }
     }
     RemmeKeys.generateKeyPair = function (keyType, options) {
@@ -64,19 +68,26 @@ var RemmeKeys = /** @class */ (function () {
                         switch (_a) {
                             case KeyType.RSA: return [3 /*break*/, 1];
                             case KeyType.EdDSA: return [3 /*break*/, 3];
+                            case KeyType.ECDSA: return [3 /*break*/, 4];
                         }
-                        return [3 /*break*/, 4];
+                        return [3 /*break*/, 5];
                     case 1: return [4 /*yield*/, models_1.RSA.generateKeyPair(options)];
                     case 2:
                         keys = _b.sent();
-                        return [3 /*break*/, 4];
+                        return [3 /*break*/, 5];
                     case 3:
                         {
                             keys = models_1.EdDSA.generateKeyPair(options);
-                            return [3 /*break*/, 4];
+                            return [3 /*break*/, 5];
                         }
                         _b.label = 4;
-                    case 4: return [2 /*return*/, new RemmeKeys(keyType, keys.privateKey, keys.publicKey)];
+                    case 4:
+                        {
+                            keys = models_1.ECDSA.generateKeyPair();
+                            return [3 /*break*/, 5];
+                        }
+                        _b.label = 5;
+                    case 5: return [2 /*return*/, new RemmeKeys(keyType, keys.privateKey, keys.publicKey)];
                 }
             });
         });
@@ -88,6 +99,9 @@ var RemmeKeys = /** @class */ (function () {
             }
             case KeyType.EdDSA: {
                 return models_1.EdDSA.getAddressFromPublicKey(publicKey);
+            }
+            case KeyType.ECDSA: {
+                return models_1.ECDSA.getAddressFromPublicKey(publicKey);
             }
         }
     };
@@ -163,9 +177,6 @@ var RemmeKeys = /** @class */ (function () {
          * @returns {string}
          */
         get: function () {
-            if (!this._keys.privateKeyPem) {
-                throw new Error("Don't supported for this key type: " + this._keys.keyType);
-            }
             return this._keys.privateKeyPem;
         },
         enumerable: true,
@@ -177,9 +188,6 @@ var RemmeKeys = /** @class */ (function () {
          * @returns {string}
          */
         get: function () {
-            if (!this._keys.publicKeyPem) {
-                throw new Error("Don't supported for this key type: " + this._keys.keyType);
-            }
             return this._keys.publicKeyPem;
         },
         enumerable: true,

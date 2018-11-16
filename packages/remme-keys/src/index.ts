@@ -1,8 +1,9 @@
 import { NewPubKeyPayload } from "remme-protobuf";
 import { IRemmeKeys } from "./interface";
 import {
-    EdDSA,
     RSA,
+    EdDSA,
+    ECDSA,
     GenerateOptions,
 } from "./models";
 
@@ -29,6 +30,10 @@ class RemmeKeys implements IRemmeKeys {
                 keys = EdDSA.generateKeyPair(options);
                 break;
             }
+            case KeyType.ECDSA: {
+                keys = ECDSA.generateKeyPair();
+                break;
+            }
         }
         return new RemmeKeys(keyType, keys.privateKey, keys.publicKey);
     }
@@ -41,6 +46,9 @@ class RemmeKeys implements IRemmeKeys {
             case KeyType.EdDSA: {
                 return EdDSA.getAddressFromPublicKey(publicKey);
             }
+            case KeyType.ECDSA: {
+                return ECDSA.getAddressFromPublicKey(publicKey);
+            }
         }
     }
 
@@ -52,6 +60,10 @@ class RemmeKeys implements IRemmeKeys {
             }
             case KeyType.EdDSA: {
                 this._keys = new EdDSA(privateKey, publicKey);
+                break;
+            }
+            case KeyType.ECDSA: {
+                this._keys = new ECDSA(privateKey, publicKey);
                 break;
             }
         }
@@ -119,9 +131,6 @@ class RemmeKeys implements IRemmeKeys {
      * @returns {string}
      */
     public get privateKeyPem(): string {
-        if (!this._keys.privateKeyPem) {
-            throw new Error(`Don't supported for this key type: ${this._keys.keyType}`);
-        }
         return this._keys.privateKeyPem;
     }
 
@@ -130,9 +139,6 @@ class RemmeKeys implements IRemmeKeys {
      * @returns {string}
      */
     public get publicKeyPem(): string {
-        if (!this._keys.publicKeyPem) {
-            throw new Error(`Don't supported for this key type: ${this._keys.keyType}`);
-        }
         return this._keys.publicKeyPem;
     }
 

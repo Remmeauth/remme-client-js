@@ -6,3 +6,4 @@ export interface GenerateOptions {
 
 export { RSA } from "./RSA";
 export { EdDSA } from "./EdDSA";
+export { ECDSA } from "./ECDSA";

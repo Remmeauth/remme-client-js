@@ -1,8 +1,8 @@
 import { NewPubKeyPayload } from "remme-protobuf";
 import { IRemmeKeys } from "./interface";
 import { GenerateOptions } from "./models";
-declare const KeyType: typeof NewPubKeyPayload.PubKeyType;
-declare const RSASignaturePadding: typeof NewPubKeyPayload.RSASignaturePadding;
+declare const KeyType: any;
+declare const RSASignaturePadding: any;
 declare class RemmeKeys implements IRemmeKeys {
     private readonly _keys;
     static generateKeyPair(keyType: NewPubKeyPayload.PubKeyType, options?: GenerateOptions): Promise<IRemmeKeys>;
