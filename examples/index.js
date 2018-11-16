@@ -1,14 +1,15 @@
 const Remme = require("../packages/remme");
 const { RemmeEvents } = require("../packages/remme-web-socket-events");
-const { generateRSAKeyPair, generateED25519KeyPair, generateSecp256k1Signature, publicKeyToPem } = require("../packages/remme-utils");
+const { generateRSAKeyPair, generateED25519KeyPair, generateSecp256k1Signature, publicKeyToPem, generateAddress } = require("../packages/remme-utils");
 const { RemmePublicKeyStorage } = require("../packages/remme-public-key-storage");
 const { RemmeKeys, RSASignaturePadding, KeyType } = require("../packages/remme-keys");
+// const crypto = require("crypto");
 
 const pubKey = "03c75297511ce0cfd1315a045dd0db2a4a1710efed94f0f94ad993b5dfe2e33b62";
 //Initialize client
 const remme = new Remme.Client({
   // privateKeyHex: "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4ff5", // мой
-  privateKeyHex: "193e971d2b10512fb8a420e52ce86ba7674c8a0ba4c37cad1dc3296fbb404473", // localhost
+  privateKeyHex: "80cb7124ae81ceb7b0c19cf0801439b05f0f78e8f591d89f5e840bd2390f59b4", // localhost
   // privateKeyHex: "25ae524b1783414c73e90a0702da9cb90626a5435de44dec5ac53f3c64a1c03b", // node-genesis-testnet-dev.remme.io
   // privateKeyHex: "950631d13705f1c879dd250e2e7dc48d5b8389efd7173c950a7bcc313a6c77fa", // node-genesis-testnet-eco.remme.io
   // privateKeyHex: "ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9", // кран
@@ -19,7 +20,7 @@ const remme = new Remme.Client({
   }
 });
 
-const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638";
+const someRemmeAddress = generateAddress("account", "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638");
 
 (async () => {
   // Generate new account and set it to remme client
@@ -31,13 +32,13 @@ const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329
   // Token Operations
   // const receiverBalance = await remme.token.getBalance(someRemmeAddress);
   // console.log(`Account ${someRemmeAddress} as receiver, balance - ${receiverBalance} REM`);
-
+  //
   // const balance = await remme.token.getBalance(remme.account.address);
-  // console.log(`Account ${remme.account.publicKeyHex} as sender, balance - ${balance} REM`);
-
+  // console.log(`Account ${remme.account.address} as sender, balance - ${balance} REM`);
+  //
   // const transactionResult = await remme.token.transfer(someRemmeAddress, 10);
   // console.log(`Sending tokens...BatchId: ${transactionResult.batchId}`);
-
+  //
   // const transactionCallback = async (err, result) => {
   //   if (err) {
   //     console.log(err);
@@ -127,7 +128,7 @@ const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329
   // };
   //
   // certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
-
+  //
   // remme.events.subscribe({
   //   events: RemmeEvents.SwapAll,
   //   // lastKnownBlockId: "db19f0e3b3f001670bebc814e238df48cef059f3f0668f57702ba9ff0c4b8ec45c7298f08b4c2fa67602da27a84b3df5dc78ce0f7774b3d3ae094caeeb9cbc82"
@@ -138,8 +139,8 @@ const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329
   //   }
   //   console.log("events", res);
   // });
-  //
-  // const swapId = "033102e41346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce3888";
+  // //
+  // const swapId = "033302fe1346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce3888";
   // const secret = "secretkey";
   // const secretKey = "039eaa877ff63694f8f09c8034403f8b5165a7418812a642396d5d539f90b170";
   // const secretLock = "b605112c2d7489034bbd7beab083fb65ba02af787786bb5e3d99bb26709f4f68";
@@ -237,7 +238,7 @@ const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329
   //     console.log("cinfo:", ainfo);
   //   });
   // }
-
+  //
   // {
   //   const keys = await RemmeKeys.generateKeyPair(KeyType.EdDSA);
   //   const pubKey = await remme.publicKeyStorage.store({
@@ -259,24 +260,69 @@ const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329
   //   });
   // }
 
-  // {
-  //   const keys = await RemmePublicKeyStorage.generateKeyPair(PublicKeyType.ECDSA);
-  //   console.log("keys:", keys);
-  //   console.log("generateSecp256k1Signature:", generateSecp256k1Signature(Buffer.from("data"), keys.privateKey));
-  //   const pubKey = await remme.publicKeyStorage.store({
-  //     data: "store data",
-  //     privateKey: keys.privateKey,
-  //     publicKey: keys.publicKey,
-  //     publicKeyType: PublicKeyType.ECDSA,
-  //     validFrom: Math.round(Date.now() / 1000),
-  //     validTo: Math.round(Date.now() / 1000 + 1000)
-  //   });
-  //   pubKey.connectToWebSocket(async (err, res) => {
-  //     console.log("err:", err);
-  //     console.log("res:", res);
-  //     const info = await remme.publicKeyStorage.getInfo()
-  //   });
-  // }
+  {
+    const keys = await RemmeKeys.generateKeyPair(KeyType.ECDSA);
+    const pubKey = await remme.publicKeyStorage.store({
+      data: "store data",
+      keys,
+      publicKeyType: KeyType.ECDSA,
+      validFrom: Math.round(Date.now() / 1000),
+      validTo: Math.round(Date.now() / 1000 + 1000)
+    });
+    pubKey.connectToWebSocket(async (err, res) => {
+      console.log("err:", err);
+      console.log("res:", res);
+      const info = await remme.publicKeyStorage.getInfo(keys.address);
+      console.log("info:", info);
+      const cinfo = await remme.publicKeyStorage.check(keys.address);
+      console.log("cinfo:", cinfo);
+      const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
+      console.log("cinfo:", ainfo);
+    });
+  }
+
+  // node v10
+  // console.log("crypto.getCurves():", crypto.generateKeyPairSync("dsa"));
+  // console.log("crypto.getCurves():", crypto.generateKeyPairSync("dsa", {
+  //   modulusLength: 2048,
+  //   // divisorLength: 2,
+  //   publicKeyEncoding: {
+  //     type: 'spki',
+  //     format: 'pem'
+  //   },
+  //   privateKeyEncoding: {
+  //     type: 'pkcs8',
+  //     format: 'pem',
+  //     cipher: 'aes-256-cbc',
+  //     passphrase: 'top secret'
+  //   }
+  // }));
+  // console.log("crypto.getCurves():", crypto.generateKeyPairSync("ec", {
+  //   namedCurve: "secp256k1",
+  //   publicKeyEncoding: {
+  //     type: 'spki',
+  //     format: 'pem'
+  //   },
+  //   privateKeyEncoding: {
+  //     type: 'pkcs8',
+  //     format: 'pem',
+  //     cipher: 'aes-256-cbc',
+  //     passphrase: 'top secret'
+  //   }
+  // }));
+  // console.log("crypto.getCurves():", crypto.generateKeyPairSync("rsa", {
+  //   modulusLength: 2048,
+  //   publicKeyEncoding: {
+  //     type: 'spki',
+  //     format: 'pem'
+  //   },
+  //   privateKeyEncoding: {
+  //     type: 'pkcs8',
+  //     format: 'pem',
+  //     cipher: 'aes-256-cbc',
+  //     passphrase: 'top secret'
+  //   }
+  // }));
 
 })();
 

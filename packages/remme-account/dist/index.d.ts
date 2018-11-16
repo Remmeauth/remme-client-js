@@ -1,4 +1,4 @@
-/// <reference types="node" />
+import { IRemmeKeys, RemmeKeys } from "remme-keys";
 import { IRemmeAccount } from "./interface";
 import { RemmeAccountPrivateKey, RemmeAccountPublicKey } from "./models";
 /**
@@ -21,11 +21,8 @@ import { RemmeAccountPrivateKey, RemmeAccountPublicKey } from "./models";
  * console.log(isVerifyInAnotherAccount); // false
  * ```
  */
-declare class RemmeAccount implements IRemmeAccount {
+declare class RemmeAccount extends RemmeKeys implements IRemmeKeys {
     [key: string]: any;
-    private readonly _signer;
-    private readonly _publicKeyHex;
-    private readonly _privateKeyHex;
     private readonly _familyName;
     private readonly _address;
     /**
@@ -57,55 +54,5 @@ declare class RemmeAccount implements IRemmeAccount {
      * Address of this account in blockchain. (https://docs.remme.io/remme-core/docs/family-account.html#addressing)
      */
     readonly address: string;
-    /**
-     * Return private key from hex format.
-     * @returns {Buffer}
-     */
-    readonly privateKey: RemmeAccountPrivateKey;
-    /**
-     * Return public key from hex format.
-     * @returns {Buffer}
-     */
-    readonly publicKey: RemmeAccountPublicKey;
-    /**
-     * Hex format private key.
-     * @returns {Buffer}
-     */
-    readonly privateKeyHex: string;
-    /**
-     * Hex format public key.
-     * @returns {Buffer}
-     */
-    readonly publicKeyHex: string;
-    /**
-     * Get transaction and sign it by signer
-     * * @example
-     * ```typescript
-     * const data = "transaction data";
-     * const signedData = account.sign(data);
-     * console.log(signedData);
-     * ```
-     * @param {Uint8Array | string} transaction
-     * @returns {Buffer}
-     */
-    sign(transaction: Uint8Array | string): Buffer;
-    /**
-     * Verify given signature to given transaction
-     * * @example
-     * ```typescript
-     * const data = "transaction data";
-     * const signedData = account.sign(data);
-     *
-     * const isVerify = account.verify(signedData, data);
-     * console.log(isVerify); // true
-     *
-     * const isVerifyInAnotherAccount = anotherAccount.verify(signedData, data);
-     * console.log(isVerifyInAnotherAccount); // false
-     * ```
-     * @param {Buffer | string} siganture
-     * @param {Uint8Array | string} transaction
-     * @returns {boolean}
-     */
-    verify(siganture: Buffer | string, transaction: Uint8Array | string): boolean;
 }
 export { RemmeAccount, IRemmeAccount, RemmeAccountPrivateKey, RemmeAccountPublicKey };

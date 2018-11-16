@@ -1,7 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var signing_1 = require("sawtooth-sdk/signing");
-var secp256k1_1 = require("sawtooth-sdk/signing/secp256k1");
+var remme_keys_1 = require("remme-keys");
 var remme_utils_1 = require("remme-utils");
 /**
  * CONTEXT that is used for generating private key and signer. Now it is secp256k1.
@@ -27,7 +37,8 @@ var CONTEXT = signing_1.createContext("secp256k1");
  * console.log(isVerifyInAnotherAccount); // false
  * ```
  */
-var RemmeAccount = /** @class */ (function () {
+var RemmeAccount = /** @class */ (function (_super) {
+    __extends(RemmeAccount, _super);
     /**
      * Get or generate private key, create signer by using private key,
      * generate public key from private key and generate account address by using public key and family name
@@ -47,21 +58,25 @@ var RemmeAccount = /** @class */ (function () {
      * @param {string} privateKeyHex
      */
     function RemmeAccount(privateKeyHex) {
-        this._familyName = remme_utils_1.RemmeFamilyName.Account;
-        if (privateKeyHex && privateKeyHex.search(remme_utils_1.PATTERNS.PRIVATE_KEY) === -1) {
-            throw new Error("Given privateKey is not a valid");
-        }
-        var privateKey;
-        if (!privateKeyHex) {
-            privateKey = CONTEXT.newRandomPrivateKey();
-        }
-        else {
-            privateKey = secp256k1_1.Secp256k1PrivateKey.fromHex(privateKeyHex);
-        }
-        this._signer = new signing_1.CryptoFactory(CONTEXT).newSigner(privateKey);
-        this._privateKeyHex = privateKey.asHex();
-        this._publicKeyHex = this._signer.getPublicKey().asHex();
-        this._address = remme_utils_1.generateAddress(this._familyName, this._publicKeyHex);
+        var _this = _super.call(this, remme_keys_1.KeyType.ECDSA, remme_utils_1.hexToBytes(privateKeyHex)) || this;
+        // private readonly _signer: any;
+        // private readonly _publicKeyHex: string;
+        // private readonly _privateKeyHex: string;
+        _this._familyName = remme_utils_1.RemmeFamilyName.Account;
+        // if (privateKeyHex && privateKeyHex.search(PATTERNS.PRIVATE_KEY) === -1) {
+        //     throw new Error("Given privateKey is not a valid");
+        // }
+        // let privateKey;
+        // if (!privateKeyHex) {
+        //     privateKey = CONTEXT.newRandomPrivateKey();
+        // } else {
+        //     privateKey = Secp256k1PrivateKey.fromHex(privateKeyHex);
+        // }
+        // this._signer = new CryptoFactory(CONTEXT).newSigner(privateKey);
+        // this._privateKeyHex = privateKey.asHex();
+        // this._publicKeyHex = this._signer.getPublicKey().asHex();
+        _this._address = remme_utils_1.generateAddress(_this._familyName, _this.publicKeyHex);
+        return _this;
     }
     Object.defineProperty(RemmeAccount.prototype, "familyName", {
         /**
@@ -85,88 +100,7 @@ var RemmeAccount = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(RemmeAccount.prototype, "privateKey", {
-        /**
-         * Return private key from hex format.
-         * @returns {Buffer}
-         */
-        get: function () {
-            return secp256k1_1.Secp256k1PrivateKey.fromHex(this._privateKeyHex);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RemmeAccount.prototype, "publicKey", {
-        /**
-         * Return public key from hex format.
-         * @returns {Buffer}
-         */
-        get: function () {
-            return secp256k1_1.Secp256k1PublicKey.fromHex(this._publicKeyHex);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RemmeAccount.prototype, "privateKeyHex", {
-        /**
-         * Hex format private key.
-         * @returns {Buffer}
-         */
-        get: function () {
-            return this._privateKeyHex;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RemmeAccount.prototype, "publicKeyHex", {
-        /**
-         * Hex format public key.
-         * @returns {Buffer}
-         */
-        get: function () {
-            return this._publicKeyHex;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Get transaction and sign it by signer
-     * * @example
-     * ```typescript
-     * const data = "transaction data";
-     * const signedData = account.sign(data);
-     * console.log(signedData);
-     * ```
-     * @param {Buffer | string} data
-     * @returns {Buffer}
-     */
-    RemmeAccount.prototype.sign = function (data) {
-        if (typeof data === "string") {
-            data = Buffer.from(data);
-        }
-        return this._signer.sign(data);
-    };
-    /**
-     * Verify given signature to given transaction
-     * * @example
-     * ```typescript
-     * const data = "transaction data";
-     * const signedData = account.sign(data);
-     *
-     * const isVerify = account.verify(signedData, data);
-     * console.log(isVerify); // true
-     *
-     * const isVerifyInAnotherAccount = anotherAccount.verify(signedData, data);
-     * console.log(isVerifyInAnotherAccount); // false
-     * ```
-     * @param {Buffer | string} siganture
-     * @param {Buffer | string} data
-     * @returns {boolean}
-     */
-    RemmeAccount.prototype.verify = function (siganture, data) {
-        return CONTEXT.verify(siganture, data, secp256k1_1.Secp256k1PublicKey.fromHex(this._publicKeyHex));
-    };
     return RemmeAccount;
-}());
+}(remme_keys_1.RemmeKeys));
 exports.RemmeAccount = RemmeAccount;
 //# sourceMappingURL=index.js.map

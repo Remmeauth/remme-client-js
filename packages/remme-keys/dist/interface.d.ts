@@ -4,7 +4,7 @@ export interface IRemmeKeys {
     address: string;
     publicKey: any;
     privateKey: any;
-    keyType: string;
+    keyType: string | number;
     publicKeyBase64: string;
     privateKeyHex?: string;
     publicKeyHex?: string;

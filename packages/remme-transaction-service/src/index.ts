@@ -90,6 +90,7 @@ class RemmeTransactionService implements IRemmeTransactionService {
         } = settings;
 
         const batcherPublicKey = await this._remmeApi.sendRequest<string>(RemmeMethods.nodeKey);
+
         const transactionHeaderBytes = protobuf.TransactionHeader.encode({
             familyName,
             familyVersion,

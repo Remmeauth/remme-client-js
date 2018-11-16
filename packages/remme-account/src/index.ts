@@ -1,5 +1,6 @@
 import { createContext, CryptoFactory } from "sawtooth-sdk/signing";
 import { Secp256k1PrivateKey, Secp256k1PublicKey } from "sawtooth-sdk/signing/secp256k1";
+import { IRemmeKeys, KeyType, RemmeKeys } from "remme-keys";
 import { generateAddress, hexToBytes, PATTERNS, RemmeFamilyName } from "remme-utils";
 
 import { IRemmeAccount } from "./interface";
@@ -29,14 +30,14 @@ const CONTEXT = createContext("secp256k1");
  * console.log(isVerifyInAnotherAccount); // false
  * ```
  */
-class RemmeAccount implements IRemmeAccount {
+class RemmeAccount extends RemmeKeys implements IRemmeKeys {
 
     // index signature
     [key: string]: any;
 
-    private readonly _signer: any;
-    private readonly _publicKeyHex: string;
-    private readonly _privateKeyHex: string;
+    // private readonly _signer: any;
+    // private readonly _publicKeyHex: string;
+    // private readonly _privateKeyHex: string;
     private readonly _familyName = RemmeFamilyName.Account;
     private readonly _address: string;
 
@@ -59,19 +60,20 @@ class RemmeAccount implements IRemmeAccount {
      * @param {string} privateKeyHex
      */
     constructor(privateKeyHex?: string) {
-        if (privateKeyHex && privateKeyHex.search(PATTERNS.PRIVATE_KEY) === -1) {
-            throw new Error("Given privateKey is not a valid");
-        }
-        let privateKey;
-        if (!privateKeyHex) {
-            privateKey = CONTEXT.newRandomPrivateKey();
-        } else {
-            privateKey = Secp256k1PrivateKey.fromHex(privateKeyHex);
-        }
-        this._signer = new CryptoFactory(CONTEXT).newSigner(privateKey);
-        this._privateKeyHex = privateKey.asHex();
-        this._publicKeyHex = this._signer.getPublicKey().asHex();
-        this._address = generateAddress(this._familyName, this._publicKeyHex);
+        super(KeyType.ECDSA, hexToBytes(privateKeyHex));
+        // if (privateKeyHex && privateKeyHex.search(PATTERNS.PRIVATE_KEY) === -1) {
+        //     throw new Error("Given privateKey is not a valid");
+        // }
+        // let privateKey;
+        // if (!privateKeyHex) {
+        //     privateKey = CONTEXT.newRandomPrivateKey();
+        // } else {
+        //     privateKey = Secp256k1PrivateKey.fromHex(privateKeyHex);
+        // }
+        // this._signer = new CryptoFactory(CONTEXT).newSigner(privateKey);
+        // this._privateKeyHex = privateKey.asHex();
+        // this._publicKeyHex = this._signer.getPublicKey().asHex();
+        this._address = generateAddress(this._familyName, this.publicKeyHex);
     }
 
     /**
@@ -90,76 +92,76 @@ class RemmeAccount implements IRemmeAccount {
         return this._address;
     }
 
-    /**
-     * Return private key from hex format.
-     * @returns {Buffer}
-     */
-    public get privateKey(): RemmeAccountPrivateKey {
-        return Secp256k1PrivateKey.fromHex(this._privateKeyHex);
-    }
-
-    /**
-     * Return public key from hex format.
-     * @returns {Buffer}
-     */
-    public get publicKey(): RemmeAccountPublicKey {
-        return Secp256k1PublicKey.fromHex(this._publicKeyHex);
-    }
-
-    /**
-     * Hex format private key.
-     * @returns {Buffer}
-     */
-    public get privateKeyHex(): string {
-        return this._privateKeyHex;
-    }
-
-    /**
-     * Hex format public key.
-     * @returns {Buffer}
-     */
-    public get publicKeyHex(): string {
-        return this._publicKeyHex;
-    }
-
-    /**
-     * Get transaction and sign it by signer
-     * * @example
-     * ```typescript
-     * const data = "transaction data";
-     * const signedData = account.sign(data);
-     * console.log(signedData);
-     * ```
-     * @param {Buffer | string} data
-     * @returns {Buffer}
-     */
-    public sign(data: Buffer | string): Buffer {
-        if (typeof data === "string") {
-            data = Buffer.from(data);
-        }
-        return this._signer.sign(data);
-    }
-
-    /**
-     * Verify given signature to given transaction
-     * * @example
-     * ```typescript
-     * const data = "transaction data";
-     * const signedData = account.sign(data);
-     *
-     * const isVerify = account.verify(signedData, data);
-     * console.log(isVerify); // true
-     *
-     * const isVerifyInAnotherAccount = anotherAccount.verify(signedData, data);
-     * console.log(isVerifyInAnotherAccount); // false
-     * ```
-     * @param {Buffer | string} siganture
-     * @param {Buffer | string} data
-     * @returns {boolean}
-     */
-    public verify(siganture: Buffer | string, data: Buffer | string): boolean {
-        return CONTEXT.verify(siganture, data, Secp256k1PublicKey.fromHex(this._publicKeyHex));
-    }
+    // /**
+    //  * Return private key from hex format.
+    //  * @returns {Buffer}
+    //  */
+    // public get privateKey(): RemmeAccountPrivateKey {
+    //     return Secp256k1PrivateKey.fromHex(this._privateKeyHex);
+    // }
+    //
+    // /**
+    //  * Return public key from hex format.
+    //  * @returns {Buffer}
+    //  */
+    // public get publicKey(): RemmeAccountPublicKey {
+    //     return Secp256k1PublicKey.fromHex(this._publicKeyHex);
+    // }
+    //
+    // /**
+    //  * Hex format private key.
+    //  * @returns {Buffer}
+    //  */
+    // public get privateKeyHex(): string {
+    //     return this._privateKeyHex;
+    // }
+    //
+    // /**
+    //  * Hex format public key.
+    //  * @returns {Buffer}
+    //  */
+    // public get publicKeyHex(): string {
+    //     return this._publicKeyHex;
+    // }
+    //
+    // /**
+    //  * Get transaction and sign it by signer
+    //  * * @example
+    //  * ```typescript
+    //  * const data = "transaction data";
+    //  * const signedData = account.sign(data);
+    //  * console.log(signedData);
+    //  * ```
+    //  * @param {Buffer | string} data
+    //  * @returns {Buffer}
+    //  */
+    // public sign(data: Buffer | string): Buffer {
+    //     if (typeof data === "string") {
+    //         data = Buffer.from(data);
+    //     }
+    //     return this._signer.sign(data);
+    // }
+    //
+    // /**
+    //  * Verify given signature to given transaction
+    //  * * @example
+    //  * ```typescript
+    //  * const data = "transaction data";
+    //  * const signedData = account.sign(data);
+    //  *
+    //  * const isVerify = account.verify(signedData, data);
+    //  * console.log(isVerify); // true
+    //  *
+    //  * const isVerifyInAnotherAccount = anotherAccount.verify(signedData, data);
+    //  * console.log(isVerifyInAnotherAccount); // false
+    //  * ```
+    //  * @param {Buffer | string} siganture
+    //  * @param {Buffer | string} data
+    //  * @returns {boolean}
+    //  */
+    // public verify(siganture: Buffer | string, data: Buffer | string): boolean {
+    //     return CONTEXT.verify(siganture, data, Secp256k1PublicKey.fromHex(this._publicKeyHex));
+    // }
 
 }
 

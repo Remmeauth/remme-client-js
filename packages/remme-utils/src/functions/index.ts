@@ -1,10 +1,13 @@
 import { createHash, randomBytes } from "crypto";
 import * as b64 from "base64-js";
 import * as forge from "node-forge";
-import * as secp256k1 from "secp256k1";
 import {PATTERNS} from "../../dist";
 
-export const sha512 = (value: Buffer | string) => createHash("sha512").update(value).digest("hex");
+export const sha512 = (value: Buffer | string) =>
+    createHash("sha512").update(value).digest("hex");
+
+export const sha256 = (value: Buffer | string) =>
+    createHash("sha256").update(value).digest("hex");
 
 export const hexToBytes = (str: string) => {
     const arr = [];
