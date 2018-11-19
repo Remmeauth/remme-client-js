@@ -35,30 +35,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var remme_protobuf_1 = require("remme-protobuf");
 var models_1 = require("./models");
-var KeyType = remme_protobuf_1.NewPubKeyPayload.PubKeyType;
-exports.KeyType = KeyType;
-var RSASignaturePadding = remme_protobuf_1.NewPubKeyPayload.RSASignaturePadding;
-exports.RSASignaturePadding = RSASignaturePadding;
+exports.KeyType = models_1.KeyType;
+exports.RSASignaturePadding = models_1.RSASignaturePadding;
+// const { PubKeyType: KeyType } = NewPubKeyPayload;
+// const { RSASignaturePadding } = NewPubKeyPayload;
 var RemmeKeys = /** @class */ (function () {
-    function RemmeKeys(keyType, privateKey, publicKey) {
+    function RemmeKeys(
+    // keyType: NewPubKeyPayload.PubKeyType,
+    keyType, privateKey, publicKey) {
         switch (keyType) {
-            case KeyType.RSA: {
+            case models_1.KeyType.RSA: {
                 this._keys = new models_1.RSA(privateKey, publicKey);
                 break;
             }
-            case KeyType.EdDSA: {
+            case models_1.KeyType.EdDSA: {
                 this._keys = new models_1.EdDSA(privateKey, publicKey);
                 break;
             }
-            case KeyType.ECDSA: {
+            case models_1.KeyType.ECDSA: {
                 this._keys = new models_1.ECDSA(privateKey, publicKey);
                 break;
             }
         }
     }
-    RemmeKeys.generateKeyPair = function (keyType, options) {
+    RemmeKeys.generateKeyPair = function (
+    // keyType: NewPubKeyPayload.PubKeyType,
+    keyType, options) {
         return __awaiter(this, void 0, void 0, function () {
             var keys, _a;
             return __generator(this, function (_b) {
@@ -66,9 +69,9 @@ var RemmeKeys = /** @class */ (function () {
                     case 0:
                         _a = keyType;
                         switch (_a) {
-                            case KeyType.RSA: return [3 /*break*/, 1];
-                            case KeyType.EdDSA: return [3 /*break*/, 3];
-                            case KeyType.ECDSA: return [3 /*break*/, 4];
+                            case models_1.KeyType.RSA: return [3 /*break*/, 1];
+                            case models_1.KeyType.EdDSA: return [3 /*break*/, 3];
+                            case models_1.KeyType.ECDSA: return [3 /*break*/, 4];
                         }
                         return [3 /*break*/, 5];
                     case 1: return [4 /*yield*/, models_1.RSA.generateKeyPair(options)];
@@ -92,26 +95,32 @@ var RemmeKeys = /** @class */ (function () {
             });
         });
     };
-    RemmeKeys.getAddressFromPublicKey = function (publicKey, keyType) {
+    RemmeKeys.getAddressFromPublicKey = function (publicKey, 
+    // keyType: NewPubKeyPayload.PubKeyType,
+    keyType) {
         switch (keyType) {
-            case KeyType.RSA: {
+            case models_1.KeyType.RSA: {
                 return models_1.RSA.getAddressFromPublicKey(publicKey);
             }
-            case KeyType.EdDSA: {
+            case models_1.KeyType.EdDSA: {
                 return models_1.EdDSA.getAddressFromPublicKey(publicKey);
             }
-            case KeyType.ECDSA: {
+            case models_1.KeyType.ECDSA: {
                 return models_1.ECDSA.getAddressFromPublicKey(publicKey);
             }
         }
     };
-    RemmeKeys.prototype.sign = function (data, rsaSignaturePadding) {
+    RemmeKeys.prototype.sign = function (data, 
+    // rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding,
+    rsaSignaturePadding) {
         if (this._keys instanceof models_1.RSA) {
             return this._keys.sign(data, rsaSignaturePadding);
         }
         return this._keys.sign(data);
     };
-    RemmeKeys.prototype.verify = function (signature, data, rsaSignaturePadding) {
+    RemmeKeys.prototype.verify = function (signature, data, 
+    // rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding,
+    rsaSignaturePadding) {
         if (this._keys instanceof models_1.RSA) {
             return this._keys.verify(signature, data, rsaSignaturePadding);
         }
@@ -155,7 +164,7 @@ var RemmeKeys = /** @class */ (function () {
          * @returns {string}
          */
         get: function () {
-            return KeyType[this._keys.keyType];
+            return models_1.KeyType[this._keys.keyType];
         },
         enumerable: true,
         configurable: true

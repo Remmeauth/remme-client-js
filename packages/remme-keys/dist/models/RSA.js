@@ -45,7 +45,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var remme_protobuf_1 = require("remme-protobuf");
 var remme_utils_1 = require("remme-utils");
 var index_1 = require("./index");
 var RSA = /** @class */ (function (_super) {
@@ -69,8 +68,11 @@ var RSA = /** @class */ (function (_super) {
         catch (e) {
             _this._publicKeyBase64 = Buffer.from(_this._publicKeyPem).toString("base64");
         }
-        _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKeyBase64);
+        _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKeyPem);
+        // this._keyType = NewPubKeyPayload.PubKeyType.RSA;
+        _this._keyType = index_1.KeyType.RSA;
         return _this;
+        // this._address = generateAddress(RemmeFamilyName.PublicKey, this._publicKeyBase64);
     }
     RSA.prototype._calculateSaltLength = function (md) {
         var emlen = Number(Math.ceil(this._rsaKeySize / 8));
@@ -97,17 +99,21 @@ var RSA = /** @class */ (function (_super) {
         }
         return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, publicKeyBase64);
     };
-    RSA.prototype.sign = function (data, rsaSignaturePadding) {
-        if (rsaSignaturePadding === void 0) { rsaSignaturePadding = remme_protobuf_1.NewPubKeyPayload.RSASignaturePadding.PSS; }
+    RSA.prototype.sign = function (data, 
+    // rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS,
+    rsaSignaturePadding) {
+        if (rsaSignaturePadding === void 0) { 
+        // rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS,
+        rsaSignaturePadding = index_1.RSASignaturePadding.PSS; }
         var md = remme_utils_1.forge.md.sha512.create();
         md.update(data, "utf8");
         var signature;
         switch (rsaSignaturePadding) {
-            case remme_protobuf_1.NewPubKeyPayload.RSASignaturePadding.PKCS1v15: {
+            case index_1.RSASignaturePadding.PKCS1v15: {
                 signature = this._privateKey.sign(md);
                 break;
             }
-            case remme_protobuf_1.NewPubKeyPayload.RSASignaturePadding.PSS: {
+            case index_1.RSASignaturePadding.PSS: {
                 var pss = remme_utils_1.forge.pss.create({
                     md: remme_utils_1.forge.md.sha512.create(),
                     mgf: remme_utils_1.forge.mgf.mgf1.create(remme_utils_1.forge.md.sha512.create()),
@@ -118,16 +124,20 @@ var RSA = /** @class */ (function (_super) {
         }
         return remme_utils_1.forge.util.bytesToHex(signature);
     };
-    RSA.prototype.verify = function (signature, data, rsaSignaturePadding) {
-        if (rsaSignaturePadding === void 0) { rsaSignaturePadding = remme_protobuf_1.NewPubKeyPayload.RSASignaturePadding.PSS; }
+    RSA.prototype.verify = function (signature, data, 
+    // rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS,
+    rsaSignaturePadding) {
+        if (rsaSignaturePadding === void 0) { 
+        // rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS,
+        rsaSignaturePadding = index_1.RSASignaturePadding.PSS; }
         var md = remme_utils_1.forge.md.sha512.create();
         md.update(data, "utf8");
         signature = remme_utils_1.forge.util.hexToBytes(signature);
         switch (rsaSignaturePadding) {
-            case remme_protobuf_1.NewPubKeyPayload.RSASignaturePadding.PKCS1v15: {
+            case index_1.RSASignaturePadding.PKCS1v15: {
                 return this._publicKey.verify(md);
             }
-            case remme_protobuf_1.NewPubKeyPayload.RSASignaturePadding.PSS: {
+            case index_1.RSASignaturePadding.PSS: {
                 var pss = remme_utils_1.forge.pss.create({
                     md: remme_utils_1.forge.md.sha512.create(),
                     mgf: remme_utils_1.forge.mgf.mgf1.create(remme_utils_1.forge.md.sha512.create()),

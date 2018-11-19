@@ -4,6 +4,7 @@ import { randomBytes, createHash } from "crypto";
 
 import {KeyDto} from "./index";
 import {IRemmeKeys} from "../interface";
+import {NewPubKeyPayload} from "../../../remme-protobuf/dist";
 
 class ECDSA extends KeyDto implements IRemmeKeys {
     constructor(privateKey: any, publicKey?: any) {
@@ -26,6 +27,7 @@ class ECDSA extends KeyDto implements IRemmeKeys {
         }
 
         this._address = generateAddress(RemmeFamilyName.PublicKey, this._publicKeyBase64);
+        this._keyType = NewPubKeyPayload.PubKeyType.ECDSA;
     }
 
     public static generateKeyPair() {

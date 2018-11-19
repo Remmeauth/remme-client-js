@@ -25,10 +25,24 @@ var RemmeFamilyName;
  * Model that define public key params into request
  */
 var PublicKeyRequest = /** @class */ (function () {
-    function PublicKeyRequest(public_key_address) {
-        this.public_key_address = public_key_address;
+    function PublicKeyRequest(
+    // TODO: addresses
+    // public public_key_address: string,
+    public_key) {
+        this.public_key = public_key;
     }
     return PublicKeyRequest;
 }());
 exports.PublicKeyRequest = PublicKeyRequest;
+/**
+ * Model that define node config params into request
+ */
+var NodeConfigRequest = /** @class */ (function () {
+    function NodeConfigRequest(node_public_key, storage_public_key) {
+        this.node_public_key = node_public_key;
+        this.storage_public_key = storage_public_key;
+    }
+    return NodeConfigRequest;
+}());
+exports.NodeConfigRequest = NodeConfigRequest;
 //# sourceMappingURL=index.js.map

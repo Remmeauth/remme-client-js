@@ -129,6 +129,7 @@ var RemmeSwap = /** @class */ (function () {
         this._zeroAddress = "0".repeat(70);
         this._blockInfoNamespaceAddress = "00b10c00";
         this._blockInfoConfigAddress = "00b10c01" + "0".repeat(62);
+        this._settingsKeyGenesisOwners = remme_utils_1.generateSettingsAddress("remme.settings.genesis_owners");
         this._remmeApi = remmeApi;
         this._remmeTransactionService = remmeTransactionService;
     }
@@ -146,15 +147,18 @@ var RemmeSwap = /** @class */ (function () {
                 this._zeroAddress,
                 this._blockInfoNamespaceAddress,
                 this._blockInfoConfigAddress,
+                this._settingsKeyGenesisOwners,
             ],
             _a[remme_protobuf_1.AtomicSwapMethod.Method.EXPIRE] = [
                 this._zeroAddress,
                 this._blockInfoNamespaceAddress,
                 this._blockInfoConfigAddress,
+                this._settingsKeyGenesisOwners,
             ],
             _a[remme_protobuf_1.AtomicSwapMethod.Method.CLOSE] = [
-                this._zeroAddress,
                 receiverAddress,
+                this._zeroAddress,
+                this._settingsKeyGenesisOwners,
             ],
             _a);
         return methodToAddresses[method] ? addresses.concat(methodToAddresses[method]) : addresses;

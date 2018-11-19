@@ -1,15 +1,12 @@
-import { NewPubKeyPayload } from "remme-protobuf";
 import { IRemmeKeys } from "./interface";
-import { GenerateOptions } from "./models";
-declare const KeyType: any;
-declare const RSASignaturePadding: any;
+import { GenerateOptions, KeyType, RSASignaturePadding } from "./models";
 declare class RemmeKeys implements IRemmeKeys {
     private readonly _keys;
-    static generateKeyPair(keyType: NewPubKeyPayload.PubKeyType, options?: GenerateOptions): Promise<IRemmeKeys>;
-    static getAddressFromPublicKey(publicKey: any, keyType: NewPubKeyPayload.PubKeyType): string;
-    constructor(keyType: NewPubKeyPayload.PubKeyType, privateKey: any, publicKey?: any);
-    sign(data: string, rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding): any;
-    verify(signature: string, data: string, rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding): boolean;
+    static generateKeyPair(keyType: KeyType, options?: GenerateOptions): Promise<IRemmeKeys>;
+    static getAddressFromPublicKey(publicKey: any, keyType: KeyType): string;
+    constructor(keyType: KeyType, privateKey: any, publicKey?: any);
+    sign(data: string, rsaSignaturePadding?: RSASignaturePadding): any;
+    verify(signature: string, data: string, rsaSignaturePadding?: RSASignaturePadding): boolean;
     /**
      * Address of this key in blockchain. (https://docs.remme.io/remme-core/docs/family-account.html#addressing)
      */

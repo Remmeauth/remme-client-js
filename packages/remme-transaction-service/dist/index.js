@@ -110,9 +110,9 @@ var RemmeTransactionService = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         familyName = settings.familyName, familyVersion = settings.familyVersion, inputs = settings.inputs, outputs = settings.outputs, payloadBytes = settings.payloadBytes;
-                        return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.nodeKey)];
+                        return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.nodeConfig)];
                     case 1:
-                        batcherPublicKey = _a.sent();
+                        batcherPublicKey = (_a.sent()).node_public_key;
                         transactionHeaderBytes = protobuf.TransactionHeader.encode({
                             familyName: familyName,
                             familyVersion: familyVersion,

@@ -3616,11 +3616,11 @@ $root.NewPubKeyPayload = (function() {
      * @interface INewPubKeyPayload
      * @property {string|null} [publicKey] NewPubKeyPayload publicKey
      * @property {NewPubKeyPayload.PubKeyType|null} [publicKeyType] NewPubKeyPayload publicKeyType
+     * @property {NewPubKeyPayload.EntityType|null} [entityType] NewPubKeyPayload entityType
      * @property {string|null} [entityHash] NewPubKeyPayload entityHash
      * @property {string|null} [entityHashSignature] NewPubKeyPayload entityHashSignature
      * @property {number|null} [validFrom] NewPubKeyPayload validFrom
      * @property {number|null} [validTo] NewPubKeyPayload validTo
-     * @property {NewPubKeyPayload.RSASignaturePadding|null} [rsaSignaturePadding] NewPubKeyPayload rsaSignaturePadding
      */
 
     /**
@@ -3655,6 +3655,14 @@ $root.NewPubKeyPayload = (function() {
     NewPubKeyPayload.prototype.publicKeyType = 0;
 
     /**
+     * NewPubKeyPayload entityType.
+     * @member {NewPubKeyPayload.EntityType} entityType
+     * @memberof NewPubKeyPayload
+     * @instance
+     */
+    NewPubKeyPayload.prototype.entityType = 0;
+
+    /**
      * NewPubKeyPayload entityHash.
      * @member {string} entityHash
      * @memberof NewPubKeyPayload
@@ -3687,14 +3695,6 @@ $root.NewPubKeyPayload = (function() {
     NewPubKeyPayload.prototype.validTo = 0;
 
     /**
-     * NewPubKeyPayload rsaSignaturePadding.
-     * @member {NewPubKeyPayload.RSASignaturePadding} rsaSignaturePadding
-     * @memberof NewPubKeyPayload
-     * @instance
-     */
-    NewPubKeyPayload.prototype.rsaSignaturePadding = 0;
-
-    /**
      * Creates a new NewPubKeyPayload instance using the specified properties.
      * @function create
      * @memberof NewPubKeyPayload
@@ -3722,16 +3722,16 @@ $root.NewPubKeyPayload = (function() {
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.publicKey);
         if (message.publicKeyType != null && message.hasOwnProperty("publicKeyType"))
             writer.uint32(/* id 2, wireType 0 =*/16).int32(message.publicKeyType);
+        if (message.entityType != null && message.hasOwnProperty("entityType"))
+            writer.uint32(/* id 3, wireType 0 =*/24).int32(message.entityType);
         if (message.entityHash != null && message.hasOwnProperty("entityHash"))
-            writer.uint32(/* id 3, wireType 2 =*/26).string(message.entityHash);
+            writer.uint32(/* id 4, wireType 2 =*/34).string(message.entityHash);
         if (message.entityHashSignature != null && message.hasOwnProperty("entityHashSignature"))
-            writer.uint32(/* id 4, wireType 2 =*/34).string(message.entityHashSignature);
+            writer.uint32(/* id 5, wireType 2 =*/42).string(message.entityHashSignature);
         if (message.validFrom != null && message.hasOwnProperty("validFrom"))
-            writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.validFrom);
+            writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.validFrom);
         if (message.validTo != null && message.hasOwnProperty("validTo"))
-            writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.validTo);
-        if (message.rsaSignaturePadding != null && message.hasOwnProperty("rsaSignaturePadding"))
-            writer.uint32(/* id 7, wireType 0 =*/56).int32(message.rsaSignaturePadding);
+            writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.validTo);
         return writer;
     };
 
@@ -3773,19 +3773,19 @@ $root.NewPubKeyPayload = (function() {
                 message.publicKeyType = reader.int32();
                 break;
             case 3:
-                message.entityHash = reader.string();
+                message.entityType = reader.int32();
                 break;
             case 4:
-                message.entityHashSignature = reader.string();
+                message.entityHash = reader.string();
                 break;
             case 5:
-                message.validFrom = reader.uint32();
+                message.entityHashSignature = reader.string();
                 break;
             case 6:
-                message.validTo = reader.uint32();
+                message.validFrom = reader.uint32();
                 break;
             case 7:
-                message.rsaSignaturePadding = reader.int32();
+                message.validTo = reader.uint32();
                 break;
             default:
                 reader.skipType(tag & 7);
@@ -3830,8 +3830,14 @@ $root.NewPubKeyPayload = (function() {
             default:
                 return "publicKeyType: enum value expected";
             case 0:
+                break;
+            }
+        if (message.entityType != null && message.hasOwnProperty("entityType"))
+            switch (message.entityType) {
+            default:
+                return "entityType: enum value expected";
+            case 0:
             case 1:
-            case 2:
                 break;
             }
         if (message.entityHash != null && message.hasOwnProperty("entityHash"))
@@ -3846,15 +3852,6 @@ $root.NewPubKeyPayload = (function() {
         if (message.validTo != null && message.hasOwnProperty("validTo"))
             if (!$util.isInteger(message.validTo))
                 return "validTo: integer expected";
-        if (message.rsaSignaturePadding != null && message.hasOwnProperty("rsaSignaturePadding"))
-            switch (message.rsaSignaturePadding) {
-            default:
-                return "rsaSignaturePadding: enum value expected";
-            case 0:
-            case 1:
-            case 2:
-                break;
-            }
         return null;
     };
 
@@ -3877,13 +3874,15 @@ $root.NewPubKeyPayload = (function() {
         case 0:
             message.publicKeyType = 0;
             break;
-        case "ECDSA":
-        case 1:
-            message.publicKeyType = 1;
+        }
+        switch (object.entityType) {
+        case "PERSONAL":
+        case 0:
+            message.entityType = 0;
             break;
-        case "EdDSA":
-        case 2:
-            message.publicKeyType = 2;
+        case "SERVER":
+        case 1:
+            message.entityType = 1;
             break;
         }
         if (object.entityHash != null)
@@ -3894,20 +3893,6 @@ $root.NewPubKeyPayload = (function() {
             message.validFrom = object.validFrom >>> 0;
         if (object.validTo != null)
             message.validTo = object.validTo >>> 0;
-        switch (object.rsaSignaturePadding) {
-        case "EMPTY":
-        case 0:
-            message.rsaSignaturePadding = 0;
-            break;
-        case "PSS":
-        case 1:
-            message.rsaSignaturePadding = 1;
-            break;
-        case "PKCS1v15":
-        case 2:
-            message.rsaSignaturePadding = 2;
-            break;
-        }
         return message;
     };
 
@@ -3927,16 +3912,18 @@ $root.NewPubKeyPayload = (function() {
         if (options.defaults) {
             object.publicKey = "";
             object.publicKeyType = options.enums === String ? "RSA" : 0;
+            object.entityType = options.enums === String ? "PERSONAL" : 0;
             object.entityHash = "";
             object.entityHashSignature = "";
             object.validFrom = 0;
             object.validTo = 0;
-            object.rsaSignaturePadding = options.enums === String ? "EMPTY" : 0;
         }
         if (message.publicKey != null && message.hasOwnProperty("publicKey"))
             object.publicKey = message.publicKey;
         if (message.publicKeyType != null && message.hasOwnProperty("publicKeyType"))
             object.publicKeyType = options.enums === String ? $root.NewPubKeyPayload.PubKeyType[message.publicKeyType] : message.publicKeyType;
+        if (message.entityType != null && message.hasOwnProperty("entityType"))
+            object.entityType = options.enums === String ? $root.NewPubKeyPayload.EntityType[message.entityType] : message.entityType;
         if (message.entityHash != null && message.hasOwnProperty("entityHash"))
             object.entityHash = message.entityHash;
         if (message.entityHashSignature != null && message.hasOwnProperty("entityHashSignature"))
@@ -3945,8 +3932,6 @@ $root.NewPubKeyPayload = (function() {
             object.validFrom = message.validFrom;
         if (message.validTo != null && message.hasOwnProperty("validTo"))
             object.validTo = message.validTo;
-        if (message.rsaSignaturePadding != null && message.hasOwnProperty("rsaSignaturePadding"))
-            object.rsaSignaturePadding = options.enums === String ? $root.NewPubKeyPayload.RSASignaturePadding[message.rsaSignaturePadding] : message.rsaSignaturePadding;
         return object;
     };
 
@@ -3962,34 +3947,28 @@ $root.NewPubKeyPayload = (function() {
     };
 
     /**
-     * PubKeyType enum.
-     * @name NewPubKeyPayload.PubKeyType
+     * EntityType enum.
+     * @name NewPubKeyPayload.EntityType
      * @enum {string}
-     * @property {number} RSA=0 RSA value
-     * @property {number} ECDSA=1 ECDSA value
-     * @property {number} EdDSA=2 EdDSA value
+     * @property {number} PERSONAL=0 PERSONAL value
+     * @property {number} SERVER=1 SERVER value
      */
-    NewPubKeyPayload.PubKeyType = (function() {
+    NewPubKeyPayload.EntityType = (function() {
         var valuesById = {}, values = Object.create(valuesById);
-        values[valuesById[0] = "RSA"] = 0;
-        values[valuesById[1] = "ECDSA"] = 1;
-        values[valuesById[2] = "EdDSA"] = 2;
+        values[valuesById[0] = "PERSONAL"] = 0;
+        values[valuesById[1] = "SERVER"] = 1;
         return values;
     })();
 
     /**
-     * RSASignaturePadding enum.
-     * @name NewPubKeyPayload.RSASignaturePadding
+     * PubKeyType enum.
+     * @name NewPubKeyPayload.PubKeyType
      * @enum {string}
-     * @property {number} EMPTY=0 EMPTY value
-     * @property {number} PSS=1 PSS value
-     * @property {number} PKCS1v15=2 PKCS1v15 value
+     * @property {number} RSA=0 RSA value
      */
-    NewPubKeyPayload.RSASignaturePadding = (function() {
+    NewPubKeyPayload.PubKeyType = (function() {
         var valuesById = {}, values = Object.create(valuesById);
-        values[valuesById[0] = "EMPTY"] = 0;
-        values[valuesById[1] = "PSS"] = 1;
-        values[valuesById[2] = "PKCS1v15"] = 2;
+        values[valuesById[0] = "RSA"] = 0;
         return values;
     })();
 

@@ -10,11 +10,13 @@ import {
     generateRSAKeyPair,
     bytesToHex,
     checkAddress,
+    NodeConfigRequest,
 } from "remme-utils";
 import { RemmeMethods, IRemmeApi } from "remme-api";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
 import { TransactionPayload, NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload } from "remme-protobuf";
 import { IRemmeAccount } from "remme-account";
+import { KeyType, RSASignaturePadding } from "remme-keys";
 
 import { IRemmePublicKeyStorage } from "./interface";
 import {
@@ -23,8 +25,8 @@ import {
     IPublicKeyStore,
 } from "./models";
 
-const { PubKeyType: PublicKeyType } = NewPubKeyPayload;
-const { RSASignaturePadding } = NewPubKeyPayload;
+// const { PubKeyType: PublicKeyType } = NewPubKeyPayload;
+// const { RSASignaturePadding } = NewPubKeyPayload;
 /**
  * Class for working with public key storage.
  * @example
@@ -72,43 +74,6 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _remmeTransaction: IRemmeTransactionService;
     private readonly _familyName = RemmeFamilyName.PublicKey;
     private readonly _familyVersion = "0.1";
-
-    private _generateRSASignature(
-        data: string,
-        privateKey: forge.pki.Key,
-        padding: NewPubKeyPayload.RSASignaturePadding,
-    ): string {
-        const md = forge.md.sha512.create();
-        md.update(data, "utf8");
-        let signature: string;
-        switch (padding) {
-            case RSASignaturePadding.PKCS1v15: {
-                signature = privateKey.sign(md);
-                break;
-            }
-            case RSASignaturePadding.PSS: {
-                const pss = forge.pss.create({
-                    md: forge.md.sha512.create(),
-                    mgf: forge.mgf.mgf1.create(forge.md.sha512.create()),
-                    saltLength: 20,
-                });
-                signature = privateKey.sign(md, pss);
-            }
-        }
-        return forge.util.bytesToHex(signature);
-    }
-
-    private _generateED25519Signature(
-        data: string,
-        privateKey: Buffer,
-    ): string {
-        const signature = forge.pki.ed25519.sign({
-            message: data,
-            encoding: "utf8",
-            privateKey,
-        });
-        return forge.util.bytesToHex(signature);
-    }
 
     private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
         return TransactionPayload.encode({
@@ -176,12 +141,11 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
      * Send transaction to chain.
      * @example
      * ```typescript
-     * import { PublicKeyType, RSASignaturePadding } from "remme-public-key-storage";
+     * import { KeyType, RSASignaturePadding } from "remme-public-key-storage";
      *
      * const storeResponse = await remme.publicKeyStorage.store({
      *      data: "store data",
-     *      privateKey, // need for signing data
-     *      publicKey,
+     *      keys,
      *      publicKeyType: PublicKeyType.RSA,
      *      rsaSignaturePadding: RSASignaturePadding.PSS,
      *      validFrom,
@@ -200,8 +164,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
      * @param {IRemmeKeys} keys
      * @param {number} validFrom
      * @param {number} validTo
-     * @param {NewPubKeyPayload.PubKeyType} publicKeyType
-     * @param {NewPubKeyPayload.RSASignaturePadding} paddingRSA
+     * @param {RSASignaturePadding} paddingRSA
      * @returns {Promise<IBaseTransactionResponse>}
      */
     public async store({
@@ -209,7 +172,6 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            keys,
                            validFrom,
                            validTo,
-                           publicKeyType,
                            rsaSignaturePadding = RSASignaturePadding.EMPTY,
                        }: IPublicKeyStore): Promise<IBaseTransactionResponse> {
         const message = this._generateMessage(data);
@@ -217,23 +179,27 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         const entityHashSignature = keys.sign(message, rsaSignaturePadding);
 
         const payload =  NewPubKeyPayload.encode({
-            publicKey: keys.publicKeyBase64,
-            publicKeyType,
+            publicKey: keys.publicKeyPem,
+            publicKeyType: keys.keyType,
             entityHash,
             entityHashSignature,
-            rsaSignaturePadding,
+            // rsaSignaturePadding,
             validFrom,
             validTo,
         }).finish();
 
+        const {
+            storage_public_key: storagePublicKey,
+        } = await this._remmeApi.sendRequest<NodeConfigRequest>(RemmeMethods.nodeConfig);
+
         const pubKeyAddress = keys.address;
-        const storagePubKey = generateSettingsAddress("remme.settings.storage_pub_key");
+        const storagePublicKeyAddress = generateSettingsAddress("remme.settings.storage_pub_key");
         const settingAddress = generateSettingsAddress("remme.economy_enabled");
-        const storageAddress = generateAddress(this._remmeAccount.familyName, storagePubKey);
+        const storageAddress = generateAddress(this._remmeAccount.familyName, storagePublicKey);
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
         return await this._createAndSendTransaction([
             pubKeyAddress,
-            storagePubKey,
+            storagePublicKeyAddress,
             settingAddress,
             storageAddress,
         ], payloadBytes);

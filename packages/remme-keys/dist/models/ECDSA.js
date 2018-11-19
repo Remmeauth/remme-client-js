@@ -14,6 +14,7 @@ var remme_utils_1 = require("remme-utils");
 var secp256k1 = require("secp256k1");
 var crypto_1 = require("crypto");
 var index_1 = require("./index");
+var dist_1 = require("../../../remme-protobuf/dist");
 var ECDSA = /** @class */ (function (_super) {
     __extends(ECDSA, _super);
     function ECDSA(privateKey, publicKey) {
@@ -35,6 +36,7 @@ var ECDSA = /** @class */ (function (_super) {
             _this._publicKeyBase64 = Buffer.from(_this._publicKeyHex).toString("base64");
         }
         _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKeyBase64);
+        _this._keyType = dist_1.NewPubKeyPayload.PubKeyType.ECDSA;
         return _this;
     }
     ECDSA.generateKeyPair = function () {
