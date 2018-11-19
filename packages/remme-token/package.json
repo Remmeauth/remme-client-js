@@ -1,6 +1,6 @@
 {
   "name": "remme-token",
-  "version": "0.4.0-0",
+  "version": "0.4.0",
   "description": "REMME token internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,10 +11,10 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-protobuf": "^0.2.27",
-    "remme-api": "^0.4.0-0",
-    "remme-transaction-service": "^0.4.0-0",
-    "remme-utils": "^0.4.0-0"
+    "remme-api": "^0.4.0",
+    "remme-protobuf": "^0.4.0",
+    "remme-transaction-service": "^0.4.0",
+    "remme-utils": "^0.4.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"
