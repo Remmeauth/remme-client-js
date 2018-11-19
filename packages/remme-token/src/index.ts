@@ -1,5 +1,5 @@
 import { RemmeMethods, IRemmeApi } from "remme-api";
-import { generateAddress, RemmeFamilyName, PublicKeyRequest, checkAddress } from "remme-utils";
+import { generateAddress, RemmeFamilyName, PublicKeyRequest, checkAddress, checkPublicKey } from "remme-utils";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
 import { TransferPayload, TransactionPayload, AccountMethod } from "remme-protobuf";
 
@@ -93,14 +93,18 @@ class RemmeToken implements IRemmeToken {
      * @returns {Promise<IBaseTransactionResponse>}
      */
     public async transfer(addressTo: string, amount: number): Promise<IBaseTransactionResponse> {
-        checkAddress(addressTo);
+        // TODO: addresses
+        // checkAddress(addressTo);
+        checkPublicKey(addressTo);
         if (!amount) {
             throw new Error("Amount was not provided, please set the amount");
         }
         if (amount <= 0) {
             throw new Error("Amount must be higher than 0");
         }
-        // const receiverAddress = generateAddress(this._familyName, publicKeyTo);
+        // TODO: addresses
+        addressTo = generateAddress(this._familyName, addressTo);
+
         const transferPayload = TransferPayload.encode({
             addressTo,
             value: amount,
@@ -130,7 +134,9 @@ class RemmeToken implements IRemmeToken {
      * @returns {Promise<number>}
      */
     public async getBalance(address: string): Promise<number> {
-        checkAddress(address);
+        // TODO: addresses
+        // checkAddress(address);
+        checkPublicKey(address);
         return await this._remmeApi
             .sendRequest<PublicKeyRequest, number>(RemmeMethods.token, new PublicKeyRequest(address));
     }

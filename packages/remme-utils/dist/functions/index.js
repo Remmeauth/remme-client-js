@@ -200,11 +200,17 @@ exports.checkAddress = function (address) {
     if (!address) {
         throw new Error("Address was not provided, please set the address");
     }
-    if (typeof address !== "string") {
+    if (typeof address !== "string" || address.search(dist_1.PATTERNS.ADDRESS) === -1) {
         throw new Error("Given address is not a valid");
     }
-    if (address.search(dist_1.PATTERNS.ADDRESS) === -1) {
-        throw new Error("Given address is not a valid");
+};
+// TODO: addresses
+exports.checkPublicKey = function (publicKey) {
+    if (!publicKey) {
+        throw new Error("Public Key was not provided, please set the address");
+    }
+    if (typeof publicKey !== "string" || publicKey.search(dist_1.PATTERNS.PUBLIC_KEY) === -1) {
+        throw new Error("Given public key is not a valid");
     }
 };
 //# sourceMappingURL=index.js.map

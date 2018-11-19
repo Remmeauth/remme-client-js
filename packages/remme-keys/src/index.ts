@@ -5,16 +5,19 @@ import {
     EdDSA,
     ECDSA,
     GenerateOptions,
+    KeyType,
+    RSASignaturePadding,
 } from "./models";
 
-const { PubKeyType: KeyType } = NewPubKeyPayload;
-const { RSASignaturePadding } = NewPubKeyPayload;
+// const { PubKeyType: KeyType } = NewPubKeyPayload;
+// const { RSASignaturePadding } = NewPubKeyPayload;
 
 class RemmeKeys implements IRemmeKeys {
     private readonly _keys: IRemmeKeys;
 
     public static async generateKeyPair(
-        keyType: NewPubKeyPayload.PubKeyType,
+        // keyType: NewPubKeyPayload.PubKeyType,
+        keyType: KeyType,
         options?: GenerateOptions,
     ): Promise<IRemmeKeys> {
         let keys: {
@@ -38,7 +41,11 @@ class RemmeKeys implements IRemmeKeys {
         return new RemmeKeys(keyType, keys.privateKey, keys.publicKey);
     }
 
-    public static getAddressFromPublicKey(publicKey: any, keyType: NewPubKeyPayload.PubKeyType): string {
+    public static getAddressFromPublicKey(
+        publicKey: any,
+        // keyType: NewPubKeyPayload.PubKeyType,
+        keyType: KeyType,
+    ): string {
         switch (keyType) {
             case KeyType.RSA: {
                 return RSA.getAddressFromPublicKey(publicKey);
@@ -52,7 +59,12 @@ class RemmeKeys implements IRemmeKeys {
         }
     }
 
-    constructor(keyType: NewPubKeyPayload.PubKeyType, privateKey: any, publicKey?: any) {
+    constructor(
+        // keyType: NewPubKeyPayload.PubKeyType,
+        keyType: KeyType,
+        privateKey: any,
+        publicKey?: any,
+    ) {
         switch (keyType) {
             case KeyType.RSA: {
                 this._keys = new RSA(privateKey, publicKey);
@@ -69,7 +81,11 @@ class RemmeKeys implements IRemmeKeys {
         }
     }
 
-    public sign(data: string, rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding): any {
+    public sign(
+        data: string,
+        // rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding,
+        rsaSignaturePadding?: RSASignaturePadding,
+    ): any {
         if (this._keys instanceof RSA) {
             return this._keys.sign(data, rsaSignaturePadding);
         }
@@ -79,7 +95,8 @@ class RemmeKeys implements IRemmeKeys {
     public verify(
         signature: string,
         data: string,
-        rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding,
+        // rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding,
+        rsaSignaturePadding?: RSASignaturePadding,
     ): boolean {
         if (this._keys instanceof RSA) {
             return this._keys.verify(signature, data, rsaSignaturePadding);

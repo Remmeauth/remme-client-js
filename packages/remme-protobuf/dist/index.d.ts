@@ -1546,6 +1546,9 @@ export interface INewPubKeyPayload {
     /** NewPubKeyPayload publicKeyType */
     publicKeyType?: (NewPubKeyPayload.PubKeyType|null);
 
+    /** NewPubKeyPayload entityType */
+    entityType?: (NewPubKeyPayload.EntityType|null);
+
     /** NewPubKeyPayload entityHash */
     entityHash?: (string|null);
 
@@ -1557,9 +1560,6 @@ export interface INewPubKeyPayload {
 
     /** NewPubKeyPayload validTo */
     validTo?: (number|null);
-
-    /** NewPubKeyPayload rsaSignaturePadding */
-    rsaSignaturePadding?: (NewPubKeyPayload.RSASignaturePadding|null);
 }
 
 /** Represents a NewPubKeyPayload. */
@@ -1577,6 +1577,9 @@ export class NewPubKeyPayload implements INewPubKeyPayload {
     /** NewPubKeyPayload publicKeyType. */
     public publicKeyType: NewPubKeyPayload.PubKeyType;
 
+    /** NewPubKeyPayload entityType. */
+    public entityType: NewPubKeyPayload.EntityType;
+
     /** NewPubKeyPayload entityHash. */
     public entityHash: string;
 
@@ -1588,9 +1591,6 @@ export class NewPubKeyPayload implements INewPubKeyPayload {
 
     /** NewPubKeyPayload validTo. */
     public validTo: number;
-
-    /** NewPubKeyPayload rsaSignaturePadding. */
-    public rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding;
 
     /**
      * Creates a new NewPubKeyPayload instance using the specified properties.
@@ -1665,18 +1665,15 @@ export class NewPubKeyPayload implements INewPubKeyPayload {
 
 export namespace NewPubKeyPayload {
 
-    /** PubKeyType enum. */
-    enum PubKeyType {
-        RSA = 0,
-        ECDSA = 1,
-        EdDSA = 2
+    /** EntityType enum. */
+    enum EntityType {
+        PERSONAL = 0,
+        SERVER = 1
     }
 
-    /** RSASignaturePadding enum. */
-    enum RSASignaturePadding {
-        EMPTY = 0,
-        PSS = 1,
-        PKCS1v15 = 2
+    /** PubKeyType enum. */
+    enum PubKeyType {
+        RSA = 0
     }
 }
 

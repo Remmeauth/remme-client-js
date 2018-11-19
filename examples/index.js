@@ -20,7 +20,8 @@ const remme = new Remme.Client({
   }
 });
 
-const someRemmeAddress = generateAddress("account", "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638");
+// const someRemmeAddress = generateAddress("account", "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638");
+const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638";
 
 (async () => {
   // Generate new account and set it to remme client
@@ -30,13 +31,13 @@ const someRemmeAddress = generateAddress("account", "03c2e53acce583c8bb2382319f4
   // console.log(account);
 
   // Token Operations
-  // const receiverBalance = await remme.token.getBalance(someRemmeAddress);
-  // console.log(`Account ${someRemmeAddress} as receiver, balance - ${receiverBalance} REM`);
+  // const receiverBalance = await remme.token.getBalance(pubKey);
+  // console.log(`Account ${pubKey} as receiver, balance - ${receiverBalance} REM`);
   //
-  // const balance = await remme.token.getBalance(remme.account.address);
-  // console.log(`Account ${remme.account.address} as sender, balance - ${balance} REM`);
+  // const balance = await remme.token.getBalance(remme.account.publicKeyHex);
+  // console.log(`Account ${remme.account.publicKeyHex} as sender, balance - ${balance} REM`);
   //
-  // const transactionResult = await remme.token.transfer(someRemmeAddress, 10);
+  // const transactionResult = await remme.token.transfer(pubKey, 1000);
   // console.log(`Sending tokens...BatchId: ${transactionResult.batchId}`);
   //
   // const transactionCallback = async (err, result) => {
@@ -46,8 +47,8 @@ const someRemmeAddress = generateAddress("account", "03c2e53acce583c8bb2382319f4
   //   }
   //   console.log("token", result);
   //   if (result.status === "COMMITTED") {
-  //     const newBalance = await remme.token.getBalance(someRemmeAddress);
-  //     console.log(`Account ${someRemmeAddress} balance - ${newBalance} REM`);
+  //     const newBalance = await remme.token.getBalance(pubKey);
+  //     console.log(`Account ${pubKey} balance - ${newBalance} REM`);
   //     transactionResult.closeWebSocket()
   //   }
   // };
@@ -103,30 +104,30 @@ const someRemmeAddress = generateAddress("account", "03c2e53acce583c8bb2382319f4
   //   }
   //   console.log("store", response);
   //   if (response.status === "COMMITTED") {
-  //     const status = await remme.certificate.check(certificateTransactionResult.certificate);
-  //     console.log('status:', status);
-  //     const info = await remme.certificate.getInfo(certificateTransactionResult.certificate);
-  //     console.log("info:", info);
-  //     const publicKeys = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
-  //     console.log("publicKeys:", publicKeys);
-  //     const signature = remme.certificate.sign(certificateTransactionResult.certificate, "sign this");
-  //     console.log("signature:", signature);
-  //     const isVerify = remme.certificate.verify(certificateTransactionResult.certificate, "sign this", signature);
-  //     console.log("isVerify:", isVerify);
-  //     const signatureS = certificateTransactionResult.sign("sign this");
-  //     console.log("signatureS:", signatureS);
-  //     const isVerifyS = certificateTransactionResult.verify("sign this", signature);
-  //     console.log("isVerifyS:", isVerifyS);
-  //     const revoke = await remme.certificate.revoke(certificateTransactionResult.certificate);
-  //     revoke.connectToWebSocket(async (err, response) => {
-  //       console.log("error", err);
-  //       console.log("revoke", response);
-  //       const status = await remme.certificate.check(certificateTransactionResult.certificate);
-  //       console.log(status);
-  //     })
+      // const status = await remme.certificate.check(certificateTransactionResult.certificate);
+      // console.log('status:', status);
+      // const info = await remme.certificate.getInfo(certificateTransactionResult.certificate);
+      // console.log("info:", info);
+      // const publicKeys = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
+      // console.log("publicKeys:", publicKeys);
+      // const signature = remme.certificate.sign(certificateTransactionResult.certificate, "sign this");
+      // console.log("signature:", signature);
+      // const isVerify = remme.certificate.verify(certificateTransactionResult.certificate, "sign this", signature);
+      // console.log("isVerify:", isVerify);
+      // const signatureS = certificateTransactionResult.sign("sign this");
+      // console.log("signatureS:", signatureS);
+      // const isVerifyS = certificateTransactionResult.verify("sign this", signature);
+      // console.log("isVerifyS:", isVerifyS);
+      // const revoke = await remme.certificate.revoke(certificateTransactionResult.certificate);
+      // revoke.connectToWebSocket(async (err, response) => {
+      //   console.log("error", err);
+      //   console.log("revoke", response);
+      //   const status = await remme.certificate.check(certificateTransactionResult.certificate);
+      //   console.log(status);
+      // })
   //   }
   // };
-  //
+
   // certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
   //
   // remme.events.subscribe({
@@ -160,7 +161,7 @@ const someRemmeAddress = generateAddress("account", "03c2e53acce583c8bb2382319f4
   //     console.log("err init", err);
   //   }
   //   console.log("data init", data);
-    // if (data.status === "COMMITTED") {
+  //   if (data.status === "COMMITTED") {
   //     const res = await remme.swap.getInfo(swapId);
   //     console.log("data init", res);
   //     const pubkey = await remme.swap.getPublicKey();
@@ -216,7 +217,7 @@ const someRemmeAddress = generateAddress("account", "03c2e53acce583c8bb2382319f4
   //     });
   //   }
   // });
-  //
+
   // {
   //   const keys = await RemmeKeys.generateKeyPair(KeyType.RSA);
   //   const pubKey = await remme.publicKeyStorage.store({
@@ -230,12 +231,12 @@ const someRemmeAddress = generateAddress("account", "03c2e53acce583c8bb2382319f4
   //   pubKey.connectToWebSocket(async (err, res) => {
   //     console.log("err:", err);
   //     console.log("res:", res);
-  //     const info = await remme.publicKeyStorage.getInfo(keys.address);
-  //     console.log("info:", info);
-  //     const cinfo = await remme.publicKeyStorage.check(keys.address);
-  //     console.log("cinfo:", cinfo);
-  //     const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
-  //     console.log("cinfo:", ainfo);
+      // const info = await remme.publicKeyStorage.getInfo(keys.address);
+      // console.log("info:", info);
+      // const cinfo = await remme.publicKeyStorage.check(keys.address);
+      // console.log("cinfo:", cinfo);
+      // const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
+      // console.log("cinfo:", ainfo);
   //   });
   // }
   //
@@ -260,26 +261,26 @@ const someRemmeAddress = generateAddress("account", "03c2e53acce583c8bb2382319f4
   //   });
   // }
 
-  {
-    const keys = await RemmeKeys.generateKeyPair(KeyType.ECDSA);
-    const pubKey = await remme.publicKeyStorage.store({
-      data: "store data",
-      keys,
-      publicKeyType: KeyType.ECDSA,
-      validFrom: Math.round(Date.now() / 1000),
-      validTo: Math.round(Date.now() / 1000 + 1000)
-    });
-    pubKey.connectToWebSocket(async (err, res) => {
-      console.log("err:", err);
-      console.log("res:", res);
-      const info = await remme.publicKeyStorage.getInfo(keys.address);
-      console.log("info:", info);
-      const cinfo = await remme.publicKeyStorage.check(keys.address);
-      console.log("cinfo:", cinfo);
-      const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
-      console.log("cinfo:", ainfo);
-    });
-  }
+  // {
+  //   const keys = await RemmeKeys.generateKeyPair(KeyType.ECDSA);
+  //   const pubKey = await remme.publicKeyStorage.store({
+  //     data: "store data",
+  //     keys,
+  //     publicKeyType: KeyType.ECDSA,
+  //     validFrom: Math.round(Date.now() / 1000),
+  //     validTo: Math.round(Date.now() / 1000 + 1000)
+  //   });
+  //   pubKey.connectToWebSocket(async (err, res) => {
+  //     console.log("err:", err);
+  //     console.log("res:", res);
+  //     const info = await remme.publicKeyStorage.getInfo(keys.address);
+  //     console.log("info:", info);
+  //     const cinfo = await remme.publicKeyStorage.check(keys.address);
+  //     console.log("cinfo:", cinfo);
+  //     const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
+  //     console.log("cinfo:", ainfo);
+  //   });
+  // }
 
   // node v10
   // console.log("crypto.getCurves():", crypto.generateKeyPairSync("dsa"));

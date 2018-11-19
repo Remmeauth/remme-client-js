@@ -25,6 +25,18 @@ export enum RemmeFamilyName {
  */
 export class PublicKeyRequest {
     constructor(
-        public public_key_address: string | forge.pki.PEM,
+        // TODO: addresses
+        // public public_key_address: string,
+        public public_key: string | forge.pki.PEM,
+    ) {}
+}
+
+/**
+ * Model that define node config params into request
+ */
+export class NodeConfigRequest {
+    constructor(
+        public node_public_key: string,
+        public storage_public_key: string,
     ) {}
 }

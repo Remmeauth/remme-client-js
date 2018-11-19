@@ -12,6 +12,7 @@ var RemmeMethods;
     RemmeMethods["atomicSwapPublicKey"] = "get_atomic_swap_public_key";
     RemmeMethods["userPublicKeys"] = "get_public_keys_list";
     RemmeMethods["nodeKey"] = "get_node_public_key";
+    RemmeMethods["nodeConfig"] = "get_node_config";
     RemmeMethods["transaction"] = "send_raw_transaction";
     RemmeMethods["networkStatus"] = "get_node_info";
     RemmeMethods["blockInfo"] = "get_blocks";

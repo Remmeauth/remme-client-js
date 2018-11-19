@@ -124,13 +124,17 @@ var RemmeToken = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        remme_utils_1.checkAddress(addressTo);
+                        // TODO: addresses
+                        // checkAddress(addressTo);
+                        remme_utils_1.checkPublicKey(addressTo);
                         if (!amount) {
                             throw new Error("Amount was not provided, please set the amount");
                         }
                         if (amount <= 0) {
                             throw new Error("Amount must be higher than 0");
                         }
+                        // TODO: addresses
+                        addressTo = remme_utils_1.generateAddress(this._familyName, addressTo);
                         transferPayload = remme_protobuf_1.TransferPayload.encode({
                             addressTo: addressTo,
                             value: amount,
@@ -169,7 +173,9 @@ var RemmeToken = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        remme_utils_1.checkAddress(address);
+                        // TODO: addresses
+                        // checkAddress(address);
+                        remme_utils_1.checkPublicKey(address);
                         return [4 /*yield*/, this._remmeApi
                                 .sendRequest(remme_api_1.RemmeMethods.token, new remme_utils_1.PublicKeyRequest(address))];
                     case 1: return [2 /*return*/, _a.sent()];

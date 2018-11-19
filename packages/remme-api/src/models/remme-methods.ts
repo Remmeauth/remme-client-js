@@ -9,6 +9,7 @@ export enum RemmeMethods {
     atomicSwapPublicKey = "get_atomic_swap_public_key",
     userPublicKeys = "get_public_keys_list",
     nodeKey = "get_node_public_key",
+    nodeConfig = "get_node_config",
     transaction = "send_raw_transaction",
     networkStatus = "get_node_info",
     blockInfo = "get_blocks",

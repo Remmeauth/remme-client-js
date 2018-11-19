@@ -1,6 +1,6 @@
 import { RemmeMethods, IRemmeApi } from "remme-api";
 import { IRemmeAccount } from "remme-account";
-import { sha512 } from "remme-utils";
+import { sha512, NodeConfigRequest } from "remme-utils";
 import * as protobuf from "sawtooth-sdk/protobuf";
 
 import { IRemmeTransactionService } from "./interface";
@@ -89,7 +89,10 @@ class RemmeTransactionService implements IRemmeTransactionService {
             payloadBytes,
         } = settings;
 
-        const batcherPublicKey = await this._remmeApi.sendRequest<string>(RemmeMethods.nodeKey);
+        // const batcherPublicKey = await this._remmeApi.sendRequest<string>(RemmeMethods.nodeKey);
+        const {
+            node_public_key: batcherPublicKey,
+        } = await this._remmeApi.sendRequest<NodeConfigRequest>(RemmeMethods.nodeConfig);
 
         const transactionHeaderBytes = protobuf.TransactionHeader.encode({
             familyName,

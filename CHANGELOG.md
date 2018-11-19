@@ -4,12 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to
 
-## [0.4.0]
+## [Unrealesed]
 ### Added
 - Class RemmeKeys that works with different types of keys. (RSA, EdDSA)
 
 ### Changed
 - All methods that read or revoke keys at now work only with addresses.
+- Add nodeConfig for getting node_public_key and storage_public_key.
+Storage_public_key is used for creating storage_address for creating transaction for storing public keys.
+Node_public_key is used as batcher_public_key for transactions
+- Add settings new address for init, expire, close swap "remme.settings.genesis_owners".
 
 ## [0.4.0-0]
 ### Added

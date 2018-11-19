@@ -48,8 +48,6 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _remmeTransaction;
     private readonly _familyName;
     private readonly _familyVersion;
-    private _generateRSASignature(data, privateKey, padding);
-    private _generateED25519Signature(data, privateKey);
     private _generateTransactionPayload(method, data);
     private _createAndSendTransaction(inputsOutputs, payloadBytes);
     private _getInfoByPublicKey(address);
@@ -74,12 +72,11 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
      * Send transaction to chain.
      * @example
      * ```typescript
-     * import { PublicKeyType, RSASignaturePadding } from "remme-public-key-storage";
+     * import { KeyType, RSASignaturePadding } from "remme-public-key-storage";
      *
      * const storeResponse = await remme.publicKeyStorage.store({
      *      data: "store data",
-     *      privateKey, // need for signing data
-     *      publicKey,
+     *      keys,
      *      publicKeyType: PublicKeyType.RSA,
      *      rsaSignaturePadding: RSASignaturePadding.PSS,
      *      validFrom,
@@ -98,11 +95,10 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
      * @param {IRemmeKeys} keys
      * @param {number} validFrom
      * @param {number} validTo
-     * @param {NewPubKeyPayload.PubKeyType} publicKeyType
-     * @param {NewPubKeyPayload.RSASignaturePadding} paddingRSA
+     * @param {RSASignaturePadding} paddingRSA
      * @returns {Promise<IBaseTransactionResponse>}
      */
-    store({data, keys, validFrom, validTo, publicKeyType, rsaSignaturePadding}: IPublicKeyStore): Promise<IBaseTransactionResponse>;
+    store({data, keys, validFrom, validTo, rsaSignaturePadding}: IPublicKeyStore): Promise<IBaseTransactionResponse>;
     /**
      * Check public key on validity and revocation.
      * Can take address of public key.

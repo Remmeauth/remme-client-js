@@ -2,6 +2,7 @@
 /// <reference types="node-forge" />
 import * as forge from "node-forge";
 export declare const sha512: (value: string | Buffer) => string;
+export declare const sha256: (value: string | Buffer) => string;
 export declare const hexToBytes: (str: string) => Uint8Array;
 export declare const bytesToHex: (uint8arr: Uint8Array | Buffer) => string;
 export declare const base64ToArrayBuffer: (base64: string) => Uint8Array;
@@ -39,3 +40,4 @@ export declare const generateRSAKeyPair: (rsaKeySize?: number) => Promise<forge.
  */
 export declare const generateED25519KeyPair: (seed?: string) => forge.pki.KeyPair;
 export declare const checkAddress: (address: string) => void;
+export declare const checkPublicKey: (publicKey: string) => void;
