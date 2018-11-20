@@ -1,6 +1,6 @@
 {
   "name": "remme-keys",
-  "version": "0.4.0",
+  "version": "0.5.0-0",
   "description": "REMME keys internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "remme-protobuf": "^0.4.0",
-    "remme-utils": "^0.4.0",
+    "remme-utils": "^0.5.0-0",
     "secp256k1": "^3.5.2"
   },
   "devDependencies": {

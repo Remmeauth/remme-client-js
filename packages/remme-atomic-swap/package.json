@@ -1,6 +1,6 @@
 {
   "name": "remme-atomic-swap",
-  "version": "0.4.0",
+  "version": "0.5.0-0",
   "description": "REMME atomic swap internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,8 +13,8 @@
   "dependencies": {
     "remme-api": "^0.4.0",
     "remme-protobuf": "^0.4.0",
-    "remme-transaction-service": "^0.4.0",
-    "remme-utils": "^0.4.0",
+    "remme-transaction-service": "^0.5.0-0",
+    "remme-utils": "^0.5.0-0",
     "remme-web-socket": "^0.4.0"
   },
   "devDependencies": {
