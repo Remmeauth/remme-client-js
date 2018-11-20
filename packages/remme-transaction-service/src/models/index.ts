@@ -21,6 +21,6 @@ export class CreateTransactionDto {
         public familyVersion: string,
         public inputs: string[],
         public outputs: string[],
-        public payloadBytes: Buffer | Uint8Array,
+        public payloadBytes: Uint8Array,
     ) {}
 }

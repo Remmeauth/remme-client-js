@@ -1,11 +1,11 @@
-import {NewPubKeyPayload} from "remme-protobuf";
+// import {NewPubKeyPayload} from "remme-protobuf";
 import {forge, generateAddress, bytesToHex, RemmeFamilyName} from "remme-utils";
 
 import {IRemmeKeys} from "../interface";
-import {GenerateOptions, KeyDto} from "./index";
+import {GenerateOptions, IKeys, KeyDto, KeyType} from "./index";
 
 class EdDSA extends KeyDto implements IRemmeKeys {
-    constructor(privateKey: any, publicKey?: any) {
+    constructor({ privateKey, publicKey }: IKeys) {
         super();
         if (privateKey && publicKey) {
             this._privateKey = privateKey;
@@ -13,10 +13,15 @@ class EdDSA extends KeyDto implements IRemmeKeys {
         } else if (privateKey) {
             this._privateKey = privateKey;
             this._publicKey = forge.pki.ed25519.publicKeyFromPrivateKey(this._privateKey);
+        } else if (publicKey) {
+            this._publicKey = publicKey;
         }
 
         this._publicKeyHex = bytesToHex(this._publicKey);
-        this._privateKeyHex = bytesToHex(this._privateKey);
+
+        if (this._privateKey) {
+            this._privateKeyHex = bytesToHex(this._privateKey);
+        }
 
         try {
             this._publicKeyBase64 = btoa(this._publicKeyHex);
@@ -25,7 +30,7 @@ class EdDSA extends KeyDto implements IRemmeKeys {
         }
 
         this._address = generateAddress(RemmeFamilyName.PublicKey, this._publicKeyBase64);
-        this._keyType = NewPubKeyPayload.PubKeyType.EdDSA;
+        this._keyType = KeyType.EdDSA;
     }
 
     public static generateKeyPair({ seed }: GenerateOptions = {}) {
@@ -60,8 +65,8 @@ class EdDSA extends KeyDto implements IRemmeKeys {
     }
 
     public verify(
-        signature: string,
         data: string,
+        signature: string,
     ): boolean {
         return forge.pki.ed25519.verify({
             message: data,

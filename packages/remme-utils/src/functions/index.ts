@@ -1,15 +1,16 @@
-import { createHash, randomBytes } from "crypto";
+import { createHash } from "crypto";
 import * as b64 from "base64-js";
 import * as forge from "node-forge";
-import {PATTERNS} from "../../dist";
 
-export const sha512 = (value: Buffer | string) =>
+import { PATTERNS } from "../constants";
+
+export const sha512 = (value: Uint8Array | Buffer | string) =>
     createHash("sha512").update(value).digest("hex");
 
-export const sha256 = (value: Buffer | string) =>
+export const sha256 = (value: Uint8Array | Buffer | string) =>
     createHash("sha256").update(value).digest("hex");
 
-export const hexToBytes = (str: string) => {
+export const hexToBytes = (str: string): Uint8Array => {
     const arr = [];
     const len = str.length;
     for (let i = 0; i < len; i += 2) {
@@ -28,10 +29,12 @@ export const bytesToHex = (uint8arr: Buffer | Uint8Array): string => {
     return hexStr;
 };
 
+// TODO: remove dependency from b64 library
 export const base64ToArrayBuffer = (base64: string): Uint8Array => {
    return b64.toByteArray(base64);
 };
 
+// TODO: remove it if unused
 export const toHex = (str: string): string => {
     let hex = "";
     for (let i = 0; i < str.length; i++) {
@@ -42,35 +45,6 @@ export const toHex = (str: string): string => {
 
 export const generateAddress = (familyName: string, data: string): string => {
     return `${sha512(familyName).slice(0, 6)}${sha512(data).slice(0, 64)}`;
-};
-
-export const toUTF8Array = (str: string): Buffer | Uint8Array => {
-    const utf8 = [];
-    for (let i = 0; i < str.length; i++) {
-        let charCode = str.charCodeAt(i);
-        if (charCode < 0x80) {
-            utf8.push(charCode);
-        } else if (charCode < 0x800) {
-            utf8.push(0xc0 | (charCode >> 6),
-                0x80 | (charCode & 0x3f));
-        } else if (charCode < 0xd800 || charCode >= 0xe000) {
-            utf8.push(0xe0 | (charCode >> 12),
-                0x80 | ((charCode >> 6) & 0x3f),
-                0x80 | (charCode & 0x3f));
-        } else {
-            i++;
-            // UTF-16 encodes 0x10000-0x10FFFF by
-            // subtracting 0x10000 and splitting the
-            // 20 bits of 0x0-0xFFFFF into two halves
-            charCode = 0x10000 + (((charCode & 0x3ff) << 10)
-                | (str.charCodeAt(i) & 0x3ff));
-            utf8.push(0xf0 | (charCode >> 18),
-                0x80 | ((charCode >> 12) & 0x3f),
-                0x80 | ((charCode >> 6) & 0x3f),
-                0x80 | (charCode & 0x3f));
-        }
-    }
-    return utf8;
 };
 
 export const generateSettingsAddress = (key: string): string => {
@@ -102,7 +76,7 @@ export const publicKeyToPem = (publicKey: forge.pki.Key): forge.pki.PEM => {
     try {
         return forge.pki.publicKeyToPem(publicKey);
     } catch (e) {
-        throw new Error("Given publicKey is not a valid");
+        throw new Error("Given public key is not a valid");
     }
 };
 
@@ -110,23 +84,23 @@ export const publicKeyFromPem = (publicKey: forge.pki.PEM): forge.pki.Certificat
     try {
         return forge.pki.publicKeyFromPem(publicKey);
     } catch (e) {
-        throw new Error("Given publicKey is not a valid");
+        throw new Error("Given public key is not a valid");
     }
 };
 
-export const privateKeyToPem = (publicKey: forge.pki.Key): forge.pki.PEM => {
+export const privateKeyToPem = (privateKey: forge.pki.Key): forge.pki.PEM => {
     try {
-        return forge.pki.privateKeyToPem(publicKey);
+        return forge.pki.privateKeyToPem(privateKey);
     } catch (e) {
-        throw new Error("Given publicKey is not a valid");
+        throw new Error("Given private key is not a valid");
     }
 };
 
-export const privateKeyFromPem = (publicKey: forge.pki.PEM): forge.pki.Certificate => {
+export const privateKeyFromPem = (privateKey: forge.pki.PEM): forge.pki.Certificate => {
     try {
-        return forge.pki.privateKeyFromPem(publicKey);
+        return forge.pki.privateKeyFromPem(privateKey);
     } catch (e) {
-        throw new Error("Given publicKey is not a valid");
+        throw new Error("Given private key is not a valid");
     }
 };
 
@@ -172,7 +146,6 @@ export const checkAddress = (address: string): void => {
     }
 };
 
-// TODO: addresses
 export const checkPublicKey = (publicKey: string): void => {
     if (!publicKey) {
         throw new Error("Public Key was not provided, please set the address");

@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var crypto_1 = require("crypto");
 var b64 = require("base64-js");
 var forge = require("node-forge");
-var dist_1 = require("../../dist");
+var constants_1 = require("../constants");
 exports.sha512 = function (value) {
     return crypto_1.createHash("sha512").update(value).digest("hex");
 };
@@ -63,9 +63,11 @@ exports.bytesToHex = function (uint8arr) {
     });
     return hexStr;
 };
+// TODO: remove dependency from b64 library
 exports.base64ToArrayBuffer = function (base64) {
     return b64.toByteArray(base64);
 };
+// TODO: remove it if unused
 exports.toHex = function (str) {
     var hex = "";
     for (var i = 0; i < str.length; i++) {
@@ -75,31 +77,6 @@ exports.toHex = function (str) {
 };
 exports.generateAddress = function (familyName, data) {
     return "" + exports.sha512(familyName).slice(0, 6) + exports.sha512(data).slice(0, 64);
-};
-exports.toUTF8Array = function (str) {
-    var utf8 = [];
-    for (var i = 0; i < str.length; i++) {
-        var charCode = str.charCodeAt(i);
-        if (charCode < 0x80) {
-            utf8.push(charCode);
-        }
-        else if (charCode < 0x800) {
-            utf8.push(0xc0 | (charCode >> 6), 0x80 | (charCode & 0x3f));
-        }
-        else if (charCode < 0xd800 || charCode >= 0xe000) {
-            utf8.push(0xe0 | (charCode >> 12), 0x80 | ((charCode >> 6) & 0x3f), 0x80 | (charCode & 0x3f));
-        }
-        else {
-            i++;
-            // UTF-16 encodes 0x10000-0x10FFFF by
-            // subtracting 0x10000 and splitting the
-            // 20 bits of 0x0-0xFFFFF into two halves
-            charCode = 0x10000 + (((charCode & 0x3ff) << 10)
-                | (str.charCodeAt(i) & 0x3ff));
-            utf8.push(0xf0 | (charCode >> 18), 0x80 | ((charCode >> 12) & 0x3f), 0x80 | ((charCode >> 6) & 0x3f), 0x80 | (charCode & 0x3f));
-        }
-    }
-    return utf8;
 };
 exports.generateSettingsAddress = function (key) {
     var keyParts = key.split(".", 4);
@@ -130,7 +107,7 @@ exports.publicKeyToPem = function (publicKey) {
         return forge.pki.publicKeyToPem(publicKey);
     }
     catch (e) {
-        throw new Error("Given publicKey is not a valid");
+        throw new Error("Given public key is not a valid");
     }
 };
 exports.publicKeyFromPem = function (publicKey) {
@@ -138,23 +115,23 @@ exports.publicKeyFromPem = function (publicKey) {
         return forge.pki.publicKeyFromPem(publicKey);
     }
     catch (e) {
-        throw new Error("Given publicKey is not a valid");
+        throw new Error("Given public key is not a valid");
     }
 };
-exports.privateKeyToPem = function (publicKey) {
+exports.privateKeyToPem = function (privateKey) {
     try {
-        return forge.pki.privateKeyToPem(publicKey);
+        return forge.pki.privateKeyToPem(privateKey);
     }
     catch (e) {
-        throw new Error("Given publicKey is not a valid");
+        throw new Error("Given private key is not a valid");
     }
 };
-exports.privateKeyFromPem = function (publicKey) {
+exports.privateKeyFromPem = function (privateKey) {
     try {
-        return forge.pki.privateKeyFromPem(publicKey);
+        return forge.pki.privateKeyFromPem(privateKey);
     }
     catch (e) {
-        throw new Error("Given publicKey is not a valid");
+        throw new Error("Given private key is not a valid");
     }
 };
 /**
@@ -200,16 +177,15 @@ exports.checkAddress = function (address) {
     if (!address) {
         throw new Error("Address was not provided, please set the address");
     }
-    if (typeof address !== "string" || address.search(dist_1.PATTERNS.ADDRESS) === -1) {
+    if (typeof address !== "string" || address.search(constants_1.PATTERNS.ADDRESS) === -1) {
         throw new Error("Given address is not a valid");
     }
 };
-// TODO: addresses
 exports.checkPublicKey = function (publicKey) {
     if (!publicKey) {
         throw new Error("Public Key was not provided, please set the address");
     }
-    if (typeof publicKey !== "string" || publicKey.search(dist_1.PATTERNS.PUBLIC_KEY) === -1) {
+    if (typeof publicKey !== "string" || publicKey.search(constants_1.PATTERNS.PUBLIC_KEY) === -1) {
         throw new Error("Given public key is not a valid");
     }
 };

@@ -1,16 +1,19 @@
-import { NewPubKeyPayload } from "remme-protobuf";
+// import { NewPubKeyPayload } from "remme-protobuf";
+import { RemmeFamilyName } from "remme-utils";
+import { RSASignaturePadding } from "./models";
 
 export interface IRemmeKeys {
     address: string;
     publicKey: any;
-    privateKey: any;
+    familyName: RemmeFamilyName;
     keyType: string | number;
+    privateKey?: any;
     publicKeyBase64: string;
     privateKeyHex?: string;
     publicKeyHex?: string;
     privateKeyPem?: string;
     publicKeyPem?: string;
 
-    sign(data: Uint8Array | string, rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding): any;
-    verify(signature: Buffer | string, data: Uint8Array | string): boolean;
+    sign(data: string, rsaSignaturePadding?: RSASignaturePadding): string;
+    verify(signature: string, data: string): boolean;
 }

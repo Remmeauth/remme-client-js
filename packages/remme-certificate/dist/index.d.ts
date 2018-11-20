@@ -1,6 +1,7 @@
 import { forge } from "remme-utils";
 import { IBaseTransactionResponse } from "remme-transaction-service";
 import { IRemmePublicKeyStorage, PublicKeyInfo } from "remme-public-key-storage";
+import { RSASignaturePadding } from "remme-keys";
 import { IRemmeCertificate } from "./interface";
 import { ICertificateTransactionResponse, CreateCertificateDto } from "./models";
 /**
@@ -125,12 +126,12 @@ declare class RemmeCertificate implements IRemmeCertificate {
      *   validity: 360,
      *   serial: `${Date.now()}`
      * });
-     * const storeResponse = remme.certificate.store(certificate);
+     * const storeResponse = await remme.certificate.store(certificate);
      * ```
      * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
-     * @returns {Promise<IBaseTransactionResponse>}
+     * @returns {Promise<ICertificateTransactionResponse>}
      */
-    store(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<IBaseTransactionResponse>;
+    store(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<ICertificateTransactionResponse>;
     /**
      * Check certificate's public key on validity and revocation.
      * @example
@@ -173,20 +174,22 @@ declare class RemmeCertificate implements IRemmeCertificate {
     revoke(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<IBaseTransactionResponse>;
     /**
      * Sign data with a certificate's private key and output DigestInfo DER-encoded bytes
-     * (defaults to RSASSA PKCS#1 v1.5)
+     * (defaults to PSS)
      * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
      * @param {string} data
+     * @param {RSASignaturePadding} rsaSignaturePadding
      * @returns {string}
      */
-    sign(certificate: forge.pki.Certificate | forge.pki.PEM, data: string): string;
+    sign(certificate: forge.pki.Certificate | forge.pki.PEM, data: string, rsaSignaturePadding?: RSASignaturePadding): string;
     /**
      * verify data with a public key
-     * (defaults to RSASSA PKCS#1 v1.5)
+     * (defaults to PSS)
      * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
      * @param {string} data
      * @param {string} signature
+     * @param {RSASignaturePadding} rsaSignaturePadding
      * @returns {boolean}
      */
-    verify(certificate: forge.pki.Certificate | forge.pki.PEM, data: string, signature: string): boolean;
+    verify(certificate: forge.pki.Certificate | forge.pki.PEM, data: string, signature: string, rsaSignaturePadding?: RSASignaturePadding): boolean;
 }
 export { RemmeCertificate, IRemmeCertificate, CreateCertificateDto, ICertificateTransactionResponse };

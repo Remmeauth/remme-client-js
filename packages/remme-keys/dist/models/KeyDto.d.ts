@@ -1,5 +1,7 @@
-import { NewPubKeyPayload } from "remme-protobuf";
+import { RemmeFamilyName } from "remme-utils";
+import { KeyType } from "./index";
 declare class KeyDto {
+    protected _familyName: RemmeFamilyName;
     protected _address: string;
     protected _publicKey: any;
     protected _privateKey: any;
@@ -8,7 +10,7 @@ declare class KeyDto {
     protected _publicKeyPem: string;
     protected _privateKeyHex: string;
     protected _publicKeyHex: string;
-    protected _keyType: NewPubKeyPayload.PubKeyType;
+    protected _keyType: KeyType;
     /**
      * Address of this key in blockchain. (https://docs.remme.io/remme-core/docs/family-account.html#addressing)
      */
@@ -53,5 +55,10 @@ declare class KeyDto {
      * @returns {string}
      */
     readonly publicKeyHex: string;
+    /**
+     * Return family name.
+     * @returns {RemmeFamilyName}
+     */
+    readonly familyName: RemmeFamilyName;
 }
 export { KeyDto };

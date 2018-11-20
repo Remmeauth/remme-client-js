@@ -72,13 +72,14 @@
 					</div>
 					<dl class="tsd-comment-tags">
 						<dt>example</dt>
-						<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> someRemmeAddress = <span class="hljs-string">"03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638"</span>;
+						<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> someAccountPublicKeyInHex = <span class="hljs-string">"02926476095ea28904c11f22d0da20e999801a267cd3455a00570aa1153086eb13"</span>;
+<span class="hljs-keyword">const</span> someRemmeAddress = generateAddress(RemmeFamilyName.Account, someAccountPublicKeyInHex);
 
 <span class="hljs-keyword">const</span> receiverBalance = <span class="hljs-keyword">await</span> remme.token.getBalance(someRemmeAddress);
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${someRemmeAddress}</span> as receiver, balance - <span class="hljs-subst">${receiverBalance}</span> REM`</span>);
 
-<span class="hljs-keyword">const</span> balance = <span class="hljs-keyword">await</span> remme.token.getBalance(remme.account.publicKeyHex);
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${remme.account.publicKeyHex}</span> as sender, balance - <span class="hljs-subst">${balance}</span> REM`</span>);
+<span class="hljs-keyword">const</span> balance = <span class="hljs-keyword">await</span> remme.token.getBalance(remme.account.address);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${remme.account.address}</span> as sender, balance - <span class="hljs-subst">${balance}</span> REM`</span>);
 
 <span class="hljs-keyword">const</span> transactionResult = <span class="hljs-keyword">await</span> remme.token.transfer(someRemmeAddress, <span class="hljs-number">10</span>);
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Sending tokens...BatchId: <span class="hljs-subst">${transactionResult.batchId}</span>`</span>);
@@ -158,7 +159,7 @@ transactionResult.connectToWebSocket(transactionCallback);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-token/src/index.ts#L47">remme-token/src/index.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-token/src/index.ts#L48">remme-token/src/index.ts:48</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -204,17 +205,17 @@ transactionResult.connectToWebSocket(transactionCallback);
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmetoken.html">IRemmeToken</a>.<a href="../interfaces/iremmetoken.html#getbalance">getBalance</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-token/src/index.ts#L132">remme-token/src/index.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-token/src/index.ts#L138">remme-token/src/index.ts:138</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get balance on given public key</p>
+									<p>Get balance on given account address</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> balance = <span class="hljs-keyword">await</span> remme.token.getBalance(remme.account.publicKeyHex);
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${remme.account.publicKeyHex}</span> as sender, balance - <span class="hljs-subst">${balance}</span> REM`</span>);
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> balance = <span class="hljs-keyword">await</span> remme.token.getBalance(remme.account.address);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${remme.account.address}</span> as sender, balance - <span class="hljs-subst">${balance}</span> REM`</span>);
 </code></pre>
 									</dd>
 								</dl>
@@ -240,7 +241,7 @@ transactionResult.connectToWebSocket(transactionCallback);
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmetoken.html">IRemmeToken</a>.<a href="../interfaces/iremmetoken.html#transfer">transfer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-token/src/index.ts#L95">remme-token/src/index.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-token/src/index.ts#L97">remme-token/src/index.ts:97</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -250,7 +251,8 @@ transactionResult.connectToWebSocket(transactionCallback);
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> someRemmeAddress = <span class="hljs-string">"03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638"</span>;
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> someAccountPublicKeyInHex = <span class="hljs-string">"02926476095ea28904c11f22d0da20e999801a267cd3455a00570aa1153086eb13"</span>;
+<span class="hljs-keyword">const</span> someRemmeAddress = generateAddress(RemmeFamilyName.Account, someAccountPublicKeyInHex);
 
 <span class="hljs-keyword">const</span> transactionResult = <span class="hljs-keyword">await</span> remme.token.transfer(someRemmeAddress, <span class="hljs-number">10</span>);
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Sending tokens...BatchId: <span class="hljs-subst">${transactionResult.batchId}</span>`</span>);

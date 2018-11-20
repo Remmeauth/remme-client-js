@@ -1,42 +1,6 @@
 import { forge } from "remme-utils";
+import { RemmeKeys, IRemmeKeys, KeyType, RSASignaturePadding } from "remme-keys";
 import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-transaction-service";
-
-/**
- * Base class for response on certificate creation
- */
-export class CertificateTransactionResponse extends BaseTransactionResponse implements ICertificateTransactionResponse {
-    public certificate: forge.pki.Certificate;
-
-    constructor(socketAddress: string, sslMode: boolean, batchId: string) {
-        super(socketAddress, sslMode, batchId);
-    }
-
-    /**
-     * Sign data with a certificate's private key and output DigestInfo DER-encoded bytes
-     * (defaults to RSASSA PKCS#1 v1.5)
-     * @param {string} data
-     * @returns {string}
-     */
-    public sign(data: string): string {
-        const md = forge.md.sha512.create().update(data, "utf8");
-        return this.certificate.privateKey.sign(md);
-    }
-
-    /**
-     * verify data with a public key
-     * (defaults to RSASSA PKCS#1 v1.5)
-     * @param {string} data
-     * @param {string} signature
-     * @returns {boolean}
-     */
-    public verify(
-        data: string,
-        signature: string,
-    ): boolean {
-        data = forge.md.sha512.create().update(data, "utf8").digest().bytes();
-        return this.certificate.publicKey.verify(data, signature);
-    }
-}
 
 export interface ICertificateTransactionResponse extends IBaseTransactionResponse {
     certificate: forge.pki.Certificate;
@@ -44,4 +8,54 @@ export interface ICertificateTransactionResponse extends IBaseTransactionRespons
     sign(data: string): string;
 
     verify(data: string, signedData: string): boolean;
+}
+
+/**
+ * Base class for response on certificate creation
+ */
+export class CertificateTransactionResponse extends BaseTransactionResponse implements ICertificateTransactionResponse {
+    public keys: IRemmeKeys;
+    public certificate: forge.pki.Certificate;
+
+    constructor(
+        socketAddress: string,
+        sslMode: boolean,
+        batchId: string,
+        certificate: forge.pki.Certificate,
+    ) {
+        super(socketAddress, sslMode, batchId);
+        this.certificate = certificate;
+        this.keys = new RemmeKeys({
+            keyType: KeyType.RSA,
+            privateKey: this.certificate.privateKey,
+            publicKey: this.certificate.publicKey,
+        });
+    }
+
+    /**
+     * Sign data with a certificate's private key and output DigestInfo DER-encoded bytes
+     * (defaults to PSS)
+     * @param {string} data
+     * @param {RSASignaturePadding} rsaSignaturePadding
+     * @returns {string}
+     */
+    public sign(data: string, rsaSignaturePadding?: RSASignaturePadding): string {
+        return this.keys.sign(data, rsaSignaturePadding);
+    }
+
+    /**
+     * verify data with a public key
+     * (defaults to PSS)
+     * @param {string} signature
+     * @param {string} data
+     * @param {RSASignaturePadding} rsaSignaturePadding
+     * @returns {boolean}
+     */
+    public verify(
+        data: string,
+        signature: string,
+        rsaSignaturePadding?: RSASignaturePadding,
+    ): boolean {
+        return this.keys.verify(data, signature);
+    }
 }

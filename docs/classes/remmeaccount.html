@@ -75,9 +75,9 @@
 <span class="hljs-built_in">console</span>.log(account.privateKeyHex); <span class="hljs-comment">// "ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9";</span>
 
 <span class="hljs-keyword">const</span> anotherAccount = <span class="hljs-keyword">new</span> RemmeAccount();
-<span class="hljs-built_in">console</span>.log(anotherAccount.privateKeyHex) <span class="hljs-comment">// "b5167700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d10783919129f";</span>
+<span class="hljs-built_in">console</span>.log(anotherAccount.privateKeyHex); <span class="hljs-comment">// "b5167700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d10783919129f";</span>
 
-<span class="hljs-keyword">const</span> data = <span class="hljs-string">"transaction data"</span>;
+<span class="hljs-keyword">const</span> data = <span class="hljs-string">"some data"</span>;
 <span class="hljs-keyword">const</span> signedData = account.sign(data);
 
 <span class="hljs-keyword">const</span> isVerify = account.verify(signedData, data);
@@ -94,14 +94,20 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">RemmeAccount</span>
+						<span class="tsd-signature-type">ECDSA</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">RemmeAccount</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/iremmeaccount.html" class="tsd-signature-type">IRemmeAccount</a></li>
+					<li><span class="tsd-signature-type">IRemmeKeys</span></li>
+					<li><span class="tsd-signature-type">IRemmeKeys</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel tsd-kind-class tsd-is-not-exported">
@@ -120,25 +126,31 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported"><a href="remmeaccount.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-not-exported"><a href="remmeaccount.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Accessors</h3>
+						<section class="tsd-index-section tsd-is-inherited tsd-is-not-exported">
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported"><a href="remmeaccount.html#address" class="tsd-kind-icon">address</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported"><a href="remmeaccount.html#familyname" class="tsd-kind-icon">family<wbr>Name</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported"><a href="remmeaccount.html#privatekey" class="tsd-kind-icon">private<wbr>Key</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported"><a href="remmeaccount.html#privatekeyhex" class="tsd-kind-icon">private<wbr>Key<wbr>Hex</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported"><a href="remmeaccount.html#publickey" class="tsd-kind-icon">public<wbr>Key</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported"><a href="remmeaccount.html#publickeyhex" class="tsd-kind-icon">public<wbr>Key<wbr>Hex</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#address" class="tsd-kind-icon">address</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#familyname" class="tsd-kind-icon">family<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#keytype" class="tsd-kind-icon">key<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#privatekey" class="tsd-kind-icon">private<wbr>Key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#privatekeyhex" class="tsd-kind-icon">private<wbr>Key<wbr>Hex</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#privatekeypem" class="tsd-kind-icon">private<wbr>Key<wbr>Pem</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#publickey" class="tsd-kind-icon">public<wbr>Key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#publickeybase64" class="tsd-kind-icon">public<wbr>Key<wbr>Base64</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#publickeyhex" class="tsd-kind-icon">public<wbr>Key<wbr>Hex</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#publickeypem" class="tsd-kind-icon">public<wbr>Key<wbr>Pem</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-not-exported">
+						<section class="tsd-index-section tsd-is-inherited tsd-is-not-exported">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeaccount.html#sign" class="tsd-kind-icon">sign</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeaccount.html#verify" class="tsd-kind-icon">verify</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#sign" class="tsd-kind-icon">sign</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported"><a href="remmeaccount.html#verify" class="tsd-kind-icon">verify</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-not-exported"><a href="remmeaccount.html#generatekeypair" class="tsd-kind-icon">generate<wbr>Key<wbr>Pair</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-not-exported"><a href="remmeaccount.html#getaddressfrompublickey" class="tsd-kind-icon">get<wbr>Address<wbr>From<wbr>Public<wbr>Key</a></li>
 							</ul>
 						</section>
 					</div>
@@ -146,17 +158,18 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-not-exported">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-not-exported">
 						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Account<span class="tsd-signature-symbol">(</span>privateKeyHex<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmeaccount.html" class="tsd-signature-type">RemmeAccount</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides ECDSA.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-account/src/index.ts#L41">remme-account/src/index.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-account/src/index.ts#L27">remme-account/src/index.ts:27</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -169,11 +182,11 @@
 									<dt>example</dt>
 									<dd><p>Get private key;</p>
 										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> account = <span class="hljs-keyword">new</span> RemmeAccount(<span class="hljs-string">"ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9"</span>);
-<span class="hljs-built_in">console</span>.log(account.privateKexyHex); <span class="hljs-comment">// "ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9";</span>
+<span class="hljs-built_in">console</span>.log(account.privateKeyHex); <span class="hljs-comment">// "ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9";</span>
 </code></pre>
 										<p>Generate new private key;</p>
 										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> account = <span class="hljs-keyword">new</span> RemmeAccount();
-<span class="hljs-built_in">console</span>.log(account.privateKexyHex); <span class="hljs-comment">// "b5167700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d10783919129f";</span>
+<span class="hljs-built_in">console</span>.log(account.privateKeyHex); <span class="hljs-comment">// "b5167700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d10783919129f";</span>
 </code></pre>
 									</dd>
 								</dl>
@@ -193,225 +206,305 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-not-exported">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 					<a name="address" class="tsd-anchor"></a>
 					<h3>address</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> address<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-account/src/index.ts#L89">remme-account/src/index.ts:89</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Address of this account in blockchain. (<a href="https://docs.remme.io/remme-core/docs/family-account.html#addressing">https://docs.remme.io/remme-core/docs/family-account.html#addressing</a>)</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from KeyDto.address</p>
+						<ul>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/KeyDto.d.ts:17</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Address of this key in blockchain. (<a href="https://docs.remme.io/remme-core/docs/family-account.html#addressing">https://docs.remme.io/remme-core/docs/family-account.html#addressing</a>)</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 					<a name="familyname" class="tsd-anchor"></a>
 					<h3>family<wbr>Name</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> familyName<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-account/src/index.ts#L82">remme-account/src/index.ts:82</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Family name for generate address for this account in the blockchain.
-									(<a href="https://docs.remme.io/remme-core/docs/family-account.html#addressing">https://docs.remme.io/remme-core/docs/family-account.html#addressing</a>)</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>type</dt>
-									<dd><p>{string}</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">family<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RemmeFamilyName</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from KeyDto.familyName</p>
+						<ul>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/KeyDto.d.ts:62</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return family name.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+						</dl>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
+					<a name="keytype" class="tsd-anchor"></a>
+					<h3>key<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">key<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from KeyDto.keyType</p>
+						<ul>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/KeyDto.d.ts:32</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return key type.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 					<a name="privatekey" class="tsd-anchor"></a>
 					<h3>private<wbr>Key</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> privateKey<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#remmeaccountprivatekey" class="tsd-signature-type">RemmeAccountPrivateKey</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-account/src/index.ts#L97">remme-account/src/index.ts:97</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Return private key from hex format.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../globals.html#remmeaccountprivatekey" class="tsd-signature-type">RemmeAccountPrivateKey</a></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">private<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from KeyDto.privateKey</p>
+						<ul>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/KeyDto.d.ts:22</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return private key.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+						</dl>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 					<a name="privatekeyhex" class="tsd-anchor"></a>
 					<h3>private<wbr>Key<wbr>Hex</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> privateKeyHex<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-account/src/index.ts#L113">remme-account/src/index.ts:113</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Hex format private key.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">private<wbr>Key<wbr>Hex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from KeyDto.privateKeyHex</p>
+						<ul>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/KeyDto.d.ts:52</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return private key in pem format.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+						</dl>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
+					<a name="privatekeypem" class="tsd-anchor"></a>
+					<h3>private<wbr>Key<wbr>Pem</h3>
+					<div class="tsd-signature tsd-kind-icon">private<wbr>Key<wbr>Pem<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from KeyDto.privateKeyPem</p>
+						<ul>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/KeyDto.d.ts:42</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return private key in pem format.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 					<a name="publickey" class="tsd-anchor"></a>
 					<h3>public<wbr>Key</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> publicKey<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#remmeaccountpublickey" class="tsd-signature-type">RemmeAccountPublicKey</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-account/src/index.ts#L105">remme-account/src/index.ts:105</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Return public key from hex format.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../globals.html#remmeaccountpublickey" class="tsd-signature-type">RemmeAccountPublicKey</a></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from KeyDto.publicKey</p>
+						<ul>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/KeyDto.d.ts:27</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return public key.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+						</dl>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
+					<a name="publickeybase64" class="tsd-anchor"></a>
+					<h3>public<wbr>Key<wbr>Base64</h3>
+					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<wbr>Base64<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from KeyDto.publicKeyBase64</p>
+						<ul>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/KeyDto.d.ts:37</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return base 64 of public key.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 					<a name="publickeyhex" class="tsd-anchor"></a>
 					<h3>public<wbr>Key<wbr>Hex</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> publicKeyHex<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<wbr>Hex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from KeyDto.publicKeyHex</p>
+						<ul>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/KeyDto.d.ts:57</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return public key in pem format.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
+					<a name="publickeypem" class="tsd-anchor"></a>
+					<h3>public<wbr>Key<wbr>Pem</h3>
+					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<wbr>Pem<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from KeyDto.publicKeyPem</p>
+						<ul>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/KeyDto.d.ts:47</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return public key in pem format.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-not-exported">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
+					<a name="sign" class="tsd-anchor"></a>
+					<h3>sign</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">sign<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from ECDSA.sign</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-account/src/index.ts#L121">remme-account/src/index.ts:121</a></li>
+									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/ECDSA.d.ts:10</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Hex format public key.</p>
-								</div>
-							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-					<a name="sign" class="tsd-anchor"></a>
-					<h3>sign</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">sign<span class="tsd-signature-symbol">(</span>transaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/iremmeaccount.html">IRemmeAccount</a>.<a href="../interfaces/iremmeaccount.html#sign">sign</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-account/src/index.ts#L136">remme-account/src/index.ts:136</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get transaction and sign it by signer</p>
-									<ul>
-										<li>@example<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> data = <span class="hljs-string">"transaction data"</span>;
-<span class="hljs-keyword">const</span> signedData = account.sign(data);
-<span class="hljs-built_in">console</span>.log(signedData);
-</code></pre>
-										</li>
-									</ul>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>transaction: <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 					<a name="verify" class="tsd-anchor"></a>
 					<h3>verify</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">verify<span class="tsd-signature-symbol">(</span>siganture<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, transaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">verify<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, signature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/iremmeaccount.html">IRemmeAccount</a>.<a href="../interfaces/iremmeaccount.html#verify">verify</a></p>
+								<p>Inherited from ECDSA.verify</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-account/src/index.ts#L160">remme-account/src/index.ts:160</a></li>
+									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/ECDSA.d.ts:11</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Verify given signature to given transaction</p>
-									<ul>
-										<li>@example
-											<code>`</code>typescript
-											const data = &quot;transaction data&quot;;
-										const signedData = account.sign(data);</li>
-									</ul>
-								</div>
-								<p>const isVerify = account.verify(signedData, data);
-								console.log(isVerify); // true</p>
-								<p>const isVerifyInAnotherAccount = anotherAccount.verify(signedData, data);
-									console.log(isVerifyInAnotherAccount); // false
-								<code>`</code></p>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>siganture: <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5>data: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>transaction: <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5>signature: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-not-exported">
+					<a name="generatekeypair" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> generate<wbr>Key<wbr>Pair</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Key<wbr>Pair<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from ECDSA.generateKeyPair</p>
+								<ul>
+									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/ECDSA.d.ts:5</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>private<wbr>Key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>public<wbr>Key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-not-exported">
+					<a name="getaddressfrompublickey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Address<wbr>From<wbr>Public<wbr>Key</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Address<wbr>From<wbr>Public<wbr>Key<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from ECDSA.getAddressFromPublicKey</p>
+								<ul>
+									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/models/ECDSA.d.ts:9</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>publicKey: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -432,32 +525,50 @@
 					<li class="current tsd-kind-class tsd-is-not-exported">
 						<a href="remmeaccount.html" class="tsd-kind-icon">Remme<wbr>Account</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-not-exported">
 								<a href="remmeaccount.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 								<a href="remmeaccount.html#address" class="tsd-kind-icon">address</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 								<a href="remmeaccount.html#familyname" class="tsd-kind-icon">family<wbr>Name</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
+								<a href="remmeaccount.html#keytype" class="tsd-kind-icon">key<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 								<a href="remmeaccount.html#privatekey" class="tsd-kind-icon">private<wbr>Key</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 								<a href="remmeaccount.html#privatekeyhex" class="tsd-kind-icon">private<wbr>Key<wbr>Hex</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
+								<a href="remmeaccount.html#privatekeypem" class="tsd-kind-icon">private<wbr>Key<wbr>Pem</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 								<a href="remmeaccount.html#publickey" class="tsd-kind-icon">public<wbr>Key</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
+								<a href="remmeaccount.html#publickeybase64" class="tsd-kind-icon">public<wbr>Key<wbr>Base64</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 								<a href="remmeaccount.html#publickeyhex" class="tsd-kind-icon">public<wbr>Key<wbr>Hex</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
+								<a href="remmeaccount.html#publickeypem" class="tsd-kind-icon">public<wbr>Key<wbr>Pem</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 								<a href="remmeaccount.html#sign" class="tsd-kind-icon">sign</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-not-exported">
 								<a href="remmeaccount.html#verify" class="tsd-kind-icon">verify</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-not-exported">
+								<a href="remmeaccount.html#generatekeypair" class="tsd-kind-icon">generate<wbr>Key<wbr>Pair</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-not-exported">
+								<a href="remmeaccount.html#getaddressfrompublickey" class="tsd-kind-icon">get<wbr>Address<wbr>From<wbr>Public<wbr>Key</a>
 							</li>
 						</ul>
 					</li>

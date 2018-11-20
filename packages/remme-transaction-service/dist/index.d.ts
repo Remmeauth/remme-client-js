@@ -48,7 +48,7 @@ declare class RemmeTransactionService implements IRemmeTransactionService {
      * const familyVersion = "0.1";
      * const inputs = [];
      * const outputs = [];
-     * const payloadBytes = new Buffer("my transaction");
+     * const payloadBytes = Uint8Array.from("my transaction");
      * const createDto = new CreateTransactionDto(
      *                         familyName,
      *                         familyVersion,

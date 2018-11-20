@@ -80,11 +80,9 @@ new UglifyJsPlugin(),
 ## Examples
 #### Implement Remme client
 ```js
-var Remme = require("remme");
+const Remme = require("remme");
 // import Remme from "remme";
 
-const nodeAddress = "192.168.0.1:8080"; // <-- Address of your local node's REST API server (localhost:8080) by default
-const socketAddress = "192.168.0.1:9080"; // <-- Address of local node's WebSocket server (localhost:9080) by default
 const privateKeyHex = "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4f10";
 const networkConfig = {
     nodeAddress: "localhost",
@@ -96,7 +94,9 @@ const remme = new Remme.Client({ privateKeyHex, networkConfig });
 
 #### Tokens
 ```js
-const someRemmeAddress = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759";
+const { RemmeFamilyName } = require("remme-utils");
+const someAccountPublicKeyInHexFormat = "0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759";
+const someRemmeAddress = generateAddress(RemmeFamilyName.Account, someAccountPublicKeyInHexFormat);
 const balance = await remme.token.getBalance(someRemmeAddress);
 console.log(`Account ${someRemmeAddress} balance - ${balance} REM`);
 

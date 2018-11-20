@@ -71,14 +71,12 @@
 					</div>
 					<dl class="tsd-comment-tags">
 						<dt>example</dt>
-						<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client();
-<span class="hljs-comment">// if you don't have private and public keys you can generate them</span>
-<span class="hljs-keyword">const</span> utils = <span class="hljs-keyword">await</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">"remme-utils"</span>);
-<span class="hljs-keyword">const</span> { privateKey, publicKey } = utils.generateRSAKeyPair();
+						<dd><pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { KeyType } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-keys"</span>;
+<span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client();
+<span class="hljs-keyword">const</span> keys = <span class="hljs-keyword">await</span> Remme.Keys.generateKeyPair(KeyType.RSA);
 <span class="hljs-keyword">const</span> storeResponse = <span class="hljs-keyword">await</span> remme.publicKeyStorage.store({
      data: <span class="hljs-string">"store data"</span>,
-     privateKey, <span class="hljs-comment">// need for signing data</span>
-     publicKey,
+     keys,
      validFrom,
      validTo,
 });
@@ -90,18 +88,18 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
      <span class="hljs-built_in">console</span>.log(res);
      storeResponse.closeWebSocket();
 
-     <span class="hljs-keyword">const</span> keyIsValid = <span class="hljs-keyword">await</span> remme.publicKeyStorage.check(publicKey);
+     <span class="hljs-keyword">const</span> keyIsValid = <span class="hljs-keyword">await</span> remme.publicKeyStorage.check(keys.address);
      <span class="hljs-built_in">console</span>.log(keyIsValid); <span class="hljs-comment">// true</span>
 
-     <span class="hljs-keyword">const</span> publicKeyInfo = <span class="hljs-keyword">await</span> remme.publicKeyStorage.getInfo(publicKey);
+     <span class="hljs-keyword">const</span> publicKeyInfo = <span class="hljs-keyword">await</span> remme.publicKeyStorage.getInfo(keys.address);
      <span class="hljs-built_in">console</span>.log(publicKeyInfo); <span class="hljs-comment">// PublicKeyInfo</span>
 
-     <span class="hljs-keyword">const</span> revoke = <span class="hljs-keyword">await</span> remme.publicKeyStorage.revoke(publicKey);
+     <span class="hljs-keyword">const</span> revoke = <span class="hljs-keyword">await</span> remme.publicKeyStorage.revoke(keys.address);
      <span class="hljs-comment">// You can connectToWebSocket like in store method.</span>
      <span class="hljs-built_in">console</span>.log(revoke.batchId); <span class="hljs-comment">// string{\^[a-f0-9]{128}$\}</span>
 
-     <span class="hljs-keyword">const</span> publicKeys = <span class="hljs-keyword">await</span> remme.publicKeyStorage.getAccountPublicKeys(remme.account.publicKeyHex);
-     <span class="hljs-built_in">console</span>.log(publicKeys); <span class="hljs-comment">// string[]</span>
+     <span class="hljs-keyword">const</span> publicKeyAddresses = <span class="hljs-keyword">await</span> remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
+     <span class="hljs-built_in">console</span>.log(publicKeyAddresses); <span class="hljs-comment">// string[]</span>
 })
 </code></pre>
 						</dd>
@@ -166,7 +164,7 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L153">remme-public-key-storage/src/index.ts:153</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-public-key-storage/src/index.ts#L112">remme-public-key-storage/src/index.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -214,17 +212,17 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L253">remme-public-key-storage/src/index.ts:253</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-public-key-storage/src/index.ts#L217">remme-public-key-storage/src/index.ts:217</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Check public key on validity and revocation.
-									Can take address of public key.</p>
+									Take address of public key.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> isValid = <span class="hljs-keyword">await</span> remme.publicKeyStorage.check(publicKey);
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> isValid = <span class="hljs-keyword">await</span> remme.publicKeyStorage.check(publicKeyAddress);
 <span class="hljs-built_in">console</span>.log(isValid); <span class="hljs-comment">// true or false</span>
 </code></pre>
 									</dd>
@@ -251,18 +249,18 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmepublickeystorage.html">IRemmePublicKeyStorage</a>.<a href="../interfaces/iremmepublickeystorage.html#getaccountpublickeys">getAccountPublicKeys</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L311">remme-public-key-storage/src/index.ts:311</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-public-key-storage/src/index.ts#L275">remme-public-key-storage/src/index.ts:275</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Take account public key in hex format (which describe in PATTERNS.PUBLIC_KEY)</p>
+									<p>Take account address (which describe in PATTERNS.ADDRESS)</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client();
-<span class="hljs-keyword">const</span> publicKeys = <span class="hljs-keyword">await</span> remme.publicKeyStorage.getAccountPublicKeys(remme.account.publicKeyHex);
-<span class="hljs-built_in">console</span>.log(publicKeys); <span class="hljs-comment">// string[]</span>
+<span class="hljs-keyword">const</span> publicKeyAddresses = <span class="hljs-keyword">await</span> remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
+<span class="hljs-built_in">console</span>.log(publicKeyAddresses); <span class="hljs-comment">// string[]</span>
 </code></pre>
 									</dd>
 								</dl>
@@ -287,17 +285,17 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L269">remme-public-key-storage/src/index.ts:269</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-public-key-storage/src/index.ts#L233">remme-public-key-storage/src/index.ts:233</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Get info about this public key.
-									Can take address of public key.</p>
+									Take address of public key.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> info = <span class="hljs-keyword">await</span> remme.publicKeyStorage.getInfo(publicKey);
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> info = <span class="hljs-keyword">await</span> remme.publicKeyStorage.getInfo(publicKeyAddress);
 <span class="hljs-built_in">console</span>.log(info); <span class="hljs-comment">// PublicKeyInfo</span>
 </code></pre>
 									</dd>
@@ -323,18 +321,18 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L291">remme-public-key-storage/src/index.ts:291</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-public-key-storage/src/index.ts#L255">remme-public-key-storage/src/index.ts:255</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Revoke given public key.
-										Can take address of public key.
+									<p>Revoke public key by address.
+										Take address of public key.
 									Send transaction to chain.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> revokeResponse = <span class="hljs-keyword">await</span> remme.publicKeyStorage.revoke(publicKey);
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> revokeResponse = <span class="hljs-keyword">await</span> remme.publicKeyStorage.revoke(publicKeyAddress);
 revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span>, res: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
      <span class="hljs-keyword">if</span> (err) {
          <span class="hljs-built_in">console</span>.log(err);
@@ -366,7 +364,7 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-public-key-storage/src/index.ts#L207">remme-public-key-storage/src/index.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-public-key-storage/src/index.ts#L165">remme-public-key-storage/src/index.ts:165</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -376,13 +374,13 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { PublicKeyType, RSASignaturePadding } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-public-key-storage"</span>;
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { KeyType, RSASignaturePadding } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-keys"</span>;
+
+<span class="hljs-keyword">const</span> keys = <span class="hljs-keyword">await</span> Remme.Keys.generateKeyPair(KeyType.RSA);
 
 <span class="hljs-keyword">const</span> storeResponse = <span class="hljs-keyword">await</span> remme.publicKeyStorage.store({
      data: <span class="hljs-string">"store data"</span>,
-     privateKey, <span class="hljs-comment">// need for signing data</span>
-     publicKey,
-     publicKeyType: PublicKeyType.RSA,
+     keys,
      rsaSignaturePadding: RSASignaturePadding.PSS,
      validFrom,
      validTo,
@@ -409,9 +407,6 @@ storeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-
 										</li>
 										<li class="tsd-parameter">
 											<h5>keys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeKeys</span></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5>public<wbr>Key<wbr>Type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PubKeyType</span></h5>
 										</li>
 										<li class="tsd-parameter">
 											<h5>rsa<wbr>Signature<wbr>Padding<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RSASignaturePadding</span></h5>

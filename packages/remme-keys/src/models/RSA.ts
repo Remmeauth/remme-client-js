@@ -1,7 +1,7 @@
-import {NewPubKeyPayload} from "remme-protobuf";
+// import {NewPubKeyPayload} from "remme-protobuf";
 import {forge, generateAddress, privateKeyToPem, publicKeyToPem, RemmeFamilyName} from "remme-utils";
 
-import {GenerateOptions, KeyDto, KeyType, RSASignaturePadding} from "./index";
+import {GenerateOptions, IKeys, KeyDto, KeyType, RSASignaturePadding} from "./index";
 import {IRemmeKeys} from "../interface";
 
 class RSA extends KeyDto implements IRemmeKeys {
@@ -12,7 +12,7 @@ class RSA extends KeyDto implements IRemmeKeys {
         return emlen - md.digestLength - 2;
     }
 
-    constructor(privateKey: any, publicKey?: any) {
+    constructor({ privateKey, publicKey }: IKeys ) {
         super();
         if (privateKey && publicKey) {
             this._privateKey = privateKey;
@@ -20,10 +20,15 @@ class RSA extends KeyDto implements IRemmeKeys {
         } else if (privateKey) {
             this._privateKey = privateKey;
             this._publicKey = forge.pki.rsa.setPublicKey(this._privateKey.n, this._privateKey.e);
+        } else if (publicKey) {
+            this._publicKey = publicKey;
         }
 
         this._publicKeyPem = publicKeyToPem(this._publicKey);
-        this._privateKeyPem = privateKeyToPem(this._privateKey);
+
+        if (this._privateKey) {
+            this._privateKeyPem = privateKeyToPem(this._privateKey);
+        }
 
         try {
             this._publicKeyBase64 = btoa(this._publicKeyPem);
@@ -32,9 +37,7 @@ class RSA extends KeyDto implements IRemmeKeys {
         }
 
         this._address = generateAddress(RemmeFamilyName.PublicKey, this._publicKeyPem);
-        // this._keyType = NewPubKeyPayload.PubKeyType.RSA;
         this._keyType = KeyType.RSA;
-        // this._address = generateAddress(RemmeFamilyName.PublicKey, this._publicKeyBase64);
     }
 
     public static async generateKeyPair({ rsaKeySize = 2048 }: GenerateOptions = { rsaKeySize: 2048 }) {
@@ -42,15 +45,16 @@ class RSA extends KeyDto implements IRemmeKeys {
     }
 
     public static getAddressFromPublicKey(publicKey: any): string {
-        let publicKeyBase64 = publicKeyToPem(publicKey);
+        // let publicKeyBase64 = publicKeyToPem(publicKey);
+        //
+        // try {
+        //     publicKeyBase64 = btoa(publicKeyBase64);
+        // } catch (e) {
+        //     publicKeyBase64 = Buffer.from(publicKeyBase64).toString("base64");
+        // }
 
-        try {
-            publicKeyBase64 = btoa(publicKeyBase64);
-        } catch (e) {
-            publicKeyBase64 = Buffer.from(publicKeyBase64).toString("base64");
-        }
-
-        return generateAddress(RemmeFamilyName.PublicKey, publicKeyBase64);
+        // return generateAddress(RemmeFamilyName.PublicKey, publicKeyBase64);
+        return generateAddress(RemmeFamilyName.PublicKey, publicKeyToPem(publicKey));
     }
 
     public sign(
@@ -79,8 +83,8 @@ class RSA extends KeyDto implements IRemmeKeys {
     }
 
     public verify(
-        signature: string,
         data: string,
+        signature: string,
         // rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS,
         rsaSignaturePadding: RSASignaturePadding = RSASignaturePadding.PSS,
     ): boolean {
@@ -99,7 +103,7 @@ class RSA extends KeyDto implements IRemmeKeys {
                     mgf: forge.mgf.mgf1.create(forge.md.sha512.create()),
                     saltLength: this._calculateSaltLength(md),
                 });
-                this._publicKey.verify(md, signature, pss);
+                return this._publicKey.verify(md.digest().bytes(), signature, pss);
             }
         }
     }

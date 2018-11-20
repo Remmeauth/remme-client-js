@@ -47,14 +47,12 @@ exports.PublicKeyInfo = models_1.PublicKeyInfo;
  * Class for working with public key storage.
  * @example
  * ```typescript
+ * import { KeyType } from "remme-keys";
  * const remme = new Remme.Client();
- * // if you don't have private and public keys you can generate them
- * const utils = await import("remme-utils");
- * const { privateKey, publicKey } = utils.generateRSAKeyPair();
+ * const keys = await Remme.Keys.generateKeyPair(KeyType.RSA);
  * const storeResponse = await remme.publicKeyStorage.store({
  *      data: "store data",
- *      privateKey, // need for signing data
- *      publicKey,
+ *      keys,
  *      validFrom,
  *      validTo,
  * });
@@ -66,18 +64,18 @@ exports.PublicKeyInfo = models_1.PublicKeyInfo;
  *      console.log(res);
  *      storeResponse.closeWebSocket();
  *
- *      const keyIsValid = await remme.publicKeyStorage.check(publicKey);
+ *      const keyIsValid = await remme.publicKeyStorage.check(keys.address);
  *      console.log(keyIsValid); // true
  *
- *      const publicKeyInfo = await remme.publicKeyStorage.getInfo(publicKey);
+ *      const publicKeyInfo = await remme.publicKeyStorage.getInfo(keys.address);
  *      console.log(publicKeyInfo); // PublicKeyInfo
  *
- *      const revoke = await remme.publicKeyStorage.revoke(publicKey);
+ *      const revoke = await remme.publicKeyStorage.revoke(keys.address);
  *      // You can connectToWebSocket like in store method.
  *      console.log(revoke.batchId); // string{\^[a-f0-9]{128}$\}
  *
- *      const publicKeys = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.publicKeyHex);
- *      console.log(publicKeys); // string[]
+ *      const publicKeyAddresses = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
+ *      console.log(publicKeyAddresses); // string[]
  * })
  * ```
  */
@@ -153,10 +151,10 @@ var RemmePublicKeyStorage = /** @class */ (function () {
         });
     };
     RemmePublicKeyStorage.prototype._generateMessage = function (data) {
-        return remme_utils_1.forge.md.sha512.create().update(data).digest().toHex();
+        return remme_utils_1.sha512(data);
     };
     RemmePublicKeyStorage.prototype._generateEntityHash = function (message) {
-        var entityHashBytes = remme_utils_1.toUTF8Array(message);
+        var entityHashBytes = Buffer.from(message);
         return remme_utils_1.bytesToHex(entityHashBytes);
     };
     /**
@@ -164,12 +162,13 @@ var RemmePublicKeyStorage = /** @class */ (function () {
      * Send transaction to chain.
      * @example
      * ```typescript
-     * import { KeyType, RSASignaturePadding } from "remme-public-key-storage";
+     * import { KeyType, RSASignaturePadding } from "remme-keys";
+     *
+     * const keys = await Remme.Keys.generateKeyPair(KeyType.RSA);
      *
      * const storeResponse = await remme.publicKeyStorage.store({
      *      data: "store data",
      *      keys,
-     *      publicKeyType: PublicKeyType.RSA,
      *      rsaSignaturePadding: RSASignaturePadding.PSS,
      *      validFrom,
      *      validTo,
@@ -197,15 +196,17 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
+                        if (remme_keys_1.KeyType[keys.keyType] !== remme_keys_1.KeyType.RSA) {
+                            throw new Error("Only RSA key can be stored in REMChain at now");
+                        }
                         message = this._generateMessage(data);
                         entityHash = this._generateEntityHash(message);
                         entityHashSignature = keys.sign(message, rsaSignaturePadding);
                         payload = remme_protobuf_1.NewPubKeyPayload.encode({
                             publicKey: keys.publicKeyPem,
-                            publicKeyType: keys.keyType,
+                            publicKeyType: remme_keys_1.KeyType[keys.keyType],
                             entityHash: entityHash,
                             entityHashSignature: entityHashSignature,
-                            // rsaSignaturePadding,
                             validFrom: validFrom,
                             validTo: validTo,
                         }).finish();
@@ -230,10 +231,10 @@ var RemmePublicKeyStorage = /** @class */ (function () {
     };
     /**
      * Check public key on validity and revocation.
-     * Can take address of public key.
+     * Take address of public key.
      * @example
      * ```typescript
-     * const isValid = await remme.publicKeyStorage.check(publicKey);
+     * const isValid = await remme.publicKeyStorage.check(publicKeyAddress);
      * console.log(isValid); // true or false
      * ```
      * @param {string} address
@@ -254,10 +255,10 @@ var RemmePublicKeyStorage = /** @class */ (function () {
     };
     /**
      * Get info about this public key.
-     * Can take address of public key.
+     * Take address of public key.
      * @example
      * ```typescript
-     * const info = await remme.publicKeyStorage.getInfo(publicKey);
+     * const info = await remme.publicKeyStorage.getInfo(publicKeyAddress);
      * console.log(info); // PublicKeyInfo
      * ```
      * @param {string} address
@@ -274,12 +275,12 @@ var RemmePublicKeyStorage = /** @class */ (function () {
         });
     };
     /**
-     * Revoke given public key.
-     * Can take address of public key.
+     * Revoke public key by address.
+     * Take address of public key.
      * Send transaction to chain.
      * @example
      * ```typescript
-     * const revokeResponse = await remme.publicKeyStorage.revoke(publicKey);
+     * const revokeResponse = await remme.publicKeyStorage.revoke(publicKeyAddress);
      * revokeResponse.connectToWebSocket((err: Error, res: any) => {
      *      if (err) {
      *          console.log(err);
@@ -309,12 +310,12 @@ var RemmePublicKeyStorage = /** @class */ (function () {
         });
     };
     /**
-     * Take account public key in hex format (which describe in PATTERNS.PUBLIC_KEY)
+     * Take account address (which describe in PATTERNS.ADDRESS)
      * @example
      * ```typescript
      * const remme = new Remme.Client();
-     * const publicKeys = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.publicKeyHex);
-     * console.log(publicKeys); // string[]
+     * const publicKeyAddresses = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
+     * console.log(publicKeyAddresses); // string[]
      * ```
      * @param {string} address
      * @returns {Promise<string[]>}

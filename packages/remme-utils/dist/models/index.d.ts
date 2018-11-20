@@ -1,5 +1,3 @@
-/// <reference types="node-forge" />
-import * as forge from "node-forge";
 export { oids } from "./oids";
 /**
  * https://sawtooth.hyperledger.org/docs/core/releases/latest/architecture/global_state.html#radix-addresses
@@ -22,8 +20,8 @@ export declare enum RemmeFamilyName {
  * Model that define public key params into request
  */
 export declare class PublicKeyRequest {
-    public_key: string | forge.pki.PEM;
-    constructor(public_key: string | forge.pki.PEM);
+    public_key_address: string;
+    constructor(public_key_address: string);
 }
 /**
  * Model that define node config params into request

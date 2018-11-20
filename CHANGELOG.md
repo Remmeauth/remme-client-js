@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to
 
-## [Unrealesed]
+## [0.5.0-alfa]
 ### Added
-- Class RemmeKeys that works with different types of keys. (RSA, EdDSA)
+- Class RemmeKeys that works with different types of keys. (RSA, EdDSA, ECDSA)
 
 ### Changed
 - All methods that read or revoke keys at now work only with addresses.

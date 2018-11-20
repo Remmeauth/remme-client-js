@@ -7,18 +7,15 @@ import {
     BaseQuery,
     IBaseQuery,
     Batch,
-    // BatchData,
     BatchList,
     Block,
-    // BlockData,
     BlockList,
     State,
-    // StateData,
     StateList,
     StateQuery,
     Transaction,
-    // TransactionData,
     TransactionList,
+    TransactionData,
     PeerList,
     // ReceiptList,
     IStateQuery,
@@ -146,48 +143,6 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         }
     }
 
-    // private _prepareAddress(state: State): State {
-    //     if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
-    //         const { parser: protobuf, type: addressType } = RemmeBlockchainInfo.address[state.address.slice(0, 6)];
-    //         return {
-    //             ...state,
-    //             protobuf,
-    //             addressType,
-    //         };
-    //     }
-    //     return state;
-    // }
-    //
-    // private _prepareBlock(block: BlockData): BlockData {
-    //     block.batches = block.batches.map((batch) => {
-    //         return this._prepareBatch(batch);
-    //     });
-    //     return block;
-    // }
-    //
-    // private _prepareBatch(batch: BatchData): BatchData {
-    //     batch.transactions = batch.transactions.map((transaction) => this._prepareTransaction(transaction));
-    //     return batch;
-    // }
-    //
-    // private _prepareTransaction(transaction: TransactionData): TransactionData {
-    //     const { family_name } = transaction.header;
-    //     if (family_name in RemmeBlockchainInfo.correspond) {
-    //         const data = protobufs.TransactionPayload.decode(base64ToArrayBuffer(transaction.payload));
-    //         const {
-    //             parser: protobuf,
-    //             type: transactionType,
-    //         } = RemmeBlockchainInfo.correspond[family_name][data.method];
-    //         return {
-    //             ...transaction,
-    //             transactionProtobuf: protobufs.TransactionPayload,
-    //             protobuf,
-    //             transactionType,
-    //         };
-    //     }
-    //     return transaction;
-    // }
-
     /**
      * @example
      * Usage without remme main package
@@ -249,9 +204,6 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
             query = new BaseQuery(query);
         }
         return await this._remmeApi.sendRequest<BaseQuery, BlockList>(RemmeMethods.blocks, query);
-        // const apiResult = await this._remmeRest.sendRequest<BaseQuery, BlockList>(RemmeMethods.blocks, query);
-        // apiResult.data = apiResult.data.map((block) => this._prepareBlock(block));
-        // return apiResult;
     }
 
     /* tslint:disable */
@@ -271,9 +223,6 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     public async getBlockById(id: string): Promise<Block> {
         this._checkId(id);
         return await this._remmeApi.sendRequest<IAddress, Block>(RemmeMethods.fetchBlock, { id });
-        // const apiResult = await this._remmeRest.sendRequest<IAddress, Block>(RemmeMethods.fetchBlock, { id });
-        // apiResult.data = this._prepareBlock(apiResult.data);
-        // return apiResult;
     }
 
     /**
@@ -354,9 +303,6 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
             query = new BaseQuery(query);
         }
         return await this._remmeApi.sendRequest<BaseQuery, BatchList>(RemmeMethods.batches, query);
-        // const apiResult = await this._remmeRest.sendRequest<BaseQuery, BatchList>(RemmeMethods.batches, query);
-        // apiResult.data = apiResult.data.map((item) => this._prepareBatch(item));
-        // return apiResult;
     }
 
     /* tslint:disable */
@@ -376,9 +322,6 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     public async getBatchById(id: string): Promise<Batch> {
         this._checkId(id);
         return await this._remmeApi.sendRequest<IAddress, Batch>(RemmeMethods.fetchBatch, { id });
-        // const apiResult = await this._remmeRest.sendRequest<IAddress, Batch>(RemmeMethods.fetchBatch, { id });
-        // apiResult.data = this._prepareBatch(apiResult.data);
-        // return apiResult;
     }
 
     /* tslint:disable */
@@ -444,9 +387,6 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
             query = new StateQuery(query);
         }
         return await this._remmeApi.sendRequest<StateQuery, StateList>(RemmeMethods.state, query);
-        // const apiResult = await this._remmeRest.sendRequest<StateQuery, StateList>(RemmeMethods.state, query);
-        // apiResult.data = apiResult.data.map((state) => this._prepareAddress(state));
-        // return apiResult;
     }
 
     /**
@@ -465,10 +405,6 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         this._checkAddress(address);
         return await this._remmeApi
             .sendRequest<IAddress, State>(RemmeMethods.fetchState, { address });
-        // let apiResult = await this._remmeRest
-        //     .sendRequest<IAddress, State>(RemmeMethods.fetchState, { address });
-        // apiResult = this._prepareAddress({ address, ...apiResult });
-        // return apiResult;
     }
 
     /**
@@ -485,6 +421,9 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * @returns {object}
      */
     public parseStateData(state: State): object {
+        if (!state.address) {
+            throw new Error("State should have address for parsing");
+        }
         if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
             const { parser, type } = RemmeBlockchainInfo.address[state.address.slice(0, 6)];
             return {
@@ -543,12 +482,6 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         }
         return await this._remmeApi
             .sendRequest<BaseQuery, TransactionList>(RemmeMethods.transactions, query);
-        // const apiResult = await this._remmeRest
-        //     .sendRequest<BaseQuery, TransactionList>(RemmeMethods.transactions, query);
-        // apiResult.data = apiResult.data.map((item) => {
-        //     return this._prepareTransaction(item);
-        // });
-        // return apiResult;
     }
 
     /* tslint:disable */
@@ -569,10 +502,6 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         this._checkId(id);
         return await this._remmeApi
             .sendRequest<IAddress, Transaction>(RemmeMethods.fetchTransaction, { id });
-        // const apiResult = await this._remmeRest
-        //     .sendRequest<IAddress, Transaction>(RemmeMethods.fetchTransaction, { id });
-        // apiResult.data = this._prepareTransaction(apiResult.data);
-        // return apiResult;
     }
 
     /* tslint:disable */
@@ -591,7 +520,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * @returns {object}
      */
     /* tslint:enable */
-    public parseTransactionPayload(transaction: Transaction): object {
+    public parseTransactionPayload(transaction: TransactionData): object {
         const { family_name } = transaction.header;
         if (family_name in RemmeBlockchainInfo.correspond) {
             const { method, data } = protobufs.TransactionPayload.decode(base64ToArrayBuffer(transaction.payload));
