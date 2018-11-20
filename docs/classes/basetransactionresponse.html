@@ -64,6 +64,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Main class for response on transaction request, which contain identifier of batch and communication with WebSockets.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -87,6 +94,11 @@
 			<section class="tsd-panel tsd-kind-class">
 				<h3 class="tsd-before-signature">Indexable</h3>
 				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Main class for response on transaction request, which contain identifier of batch and communication with WebSockets.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -98,14 +110,17 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="basetransactionresponse.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="basetransactionresponse.html#batchid" class="tsd-kind-icon">batch<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="basetransactionresponse.html#data" class="tsd-kind-icon">data</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="basetransactionresponse.html#isevent" class="tsd-kind-icon">is<wbr>Event</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="basetransactionresponse.html#socketaddress" class="tsd-kind-icon">socket<wbr>Address</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="basetransactionresponse.html#nodeaddress" class="tsd-kind-icon">node<wbr>Address</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="basetransactionresponse.html#sslmode" class="tsd-kind-icon">ssl<wbr>Mode</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="basetransactionresponse.html#batchid" class="tsd-kind-icon">batch<wbr>Id</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
@@ -124,26 +139,36 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Base<wbr>Transaction<wbr>Response<span class="tsd-signature-symbol">(</span>socketAddress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, sslMode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, batchId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="basetransactionresponse.html" class="tsd-signature-type">BaseTransactionResponse</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Base<wbr>Transaction<wbr>Response<span class="tsd-signature-symbol">(</span>nodeAddress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, sslMode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, batchId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="basetransactionresponse.html" class="tsd-signature-type">BaseTransactionResponse</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides RemmeWebSocket.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-transaction-service/src/models/BaseTransactionResponse.ts#L4">remme-transaction-service/src/models/BaseTransactionResponse.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-transaction-service/src/models/BaseTransactionResponse.ts#L8">remme-transaction-service/src/models/BaseTransactionResponse.ts:8</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get address of node, ssl mode, and identifier of batch.
+									Then implement RemmeWebSocket class and provide data to it.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>socketAddress: <span class="tsd-signature-type">string</span></h5>
+									<h5>nodeAddress: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>sslMode: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 								<li>
 									<h5>batchId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="basetransactionresponse.html" class="tsd-signature-type">BaseTransactionResponse</a></h4>
@@ -151,54 +176,28 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="batchid" class="tsd-anchor"></a>
-					<h3>batch<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">batch<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/ibasetransactionresponse.html">IBaseTransactionResponse</a>.<a href="../interfaces/ibasetransactionresponse.html#batchid">batchId</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-transaction-service/src/models/BaseTransactionResponse.ts#L4">remme-transaction-service/src/models/BaseTransactionResponse.ts:4</a></li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="data" class="tsd-anchor"></a>
-					<h3>data</h3>
-					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<a name="nodeaddress" class="tsd-anchor"></a>
+					<h3>node<wbr>Address</h3>
+					<div class="tsd-signature tsd-kind-icon">node<wbr>Address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/ibasetransactionresponse.html">IBaseTransactionResponse</a>.<a href="../interfaces/ibasetransactionresponse.html#data">data</a></p>
-						<p>Inherited from RemmeWebSocket.data</p>
+						<p>Implementation of <a href="../interfaces/ibasetransactionresponse.html">IBaseTransactionResponse</a>.<a href="../interfaces/ibasetransactionresponse.html#nodeaddress">nodeAddress</a></p>
+						<p>Inherited from RemmeWebSocket.nodeAddress</p>
 						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:19</li>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:96</li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="isevent" class="tsd-anchor"></a>
-					<h3>is<wbr>Event</h3>
-					<div class="tsd-signature tsd-kind-icon">is<wbr>Event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/ibasetransactionresponse.html">IBaseTransactionResponse</a>.<a href="../interfaces/ibasetransactionresponse.html#isevent">isEvent</a></p>
-						<p>Inherited from RemmeWebSocket.isEvent</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:18</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="socketaddress" class="tsd-anchor"></a>
-					<h3>socket<wbr>Address</h3>
-					<div class="tsd-signature tsd-kind-icon">socket<wbr>Address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/ibasetransactionresponse.html">IBaseTransactionResponse</a>.<a href="../interfaces/ibasetransactionresponse.html#socketaddress">socketAddress</a></p>
-						<p>Inherited from RemmeWebSocket.socketAddress</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:16</li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Get node address that was provided by user</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="sslmode" class="tsd-anchor"></a>
@@ -208,9 +207,69 @@
 						<p>Implementation of <a href="../interfaces/ibasetransactionresponse.html">IBaseTransactionResponse</a>.<a href="../interfaces/ibasetransactionresponse.html#sslmode">sslMode</a></p>
 						<p>Inherited from RemmeWebSocket.sslMode</p>
 						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:17</li>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:101</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Get ssl mode that was provided by user</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="batchid" class="tsd-anchor"></a>
+					<h3>batch<wbr>Id</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> batchId<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> batchId<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-transaction-service/src/models/BaseTransactionResponse.ts#L30">remme-transaction-service/src/models/BaseTransactionResponse.ts:30</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Identifier of batch that contains sending transaction</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-transaction-service/src/models/BaseTransactionResponse.ts#L40">remme-transaction-service/src/models/BaseTransactionResponse.ts:40</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set batch id. When you provide new batch id to this object, program check web socket connection,
+										if connection is open, program close it and then provide new batch id.
+									And you can connect to web socket again with new batch id.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
@@ -227,9 +286,14 @@
 								<p>Implementation of <a href="../interfaces/ibasetransactionresponse.html">IBaseTransactionResponse</a>.<a href="../interfaces/ibasetransactionresponse.html#closewebsocket">closeWebSocket</a></p>
 								<p>Inherited from RemmeWebSocket.closeWebSocket</p>
 								<ul>
-									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:23</li>
+									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:121</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Call this method when your connection is open for close it.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -238,21 +302,59 @@
 					<a name="connecttowebsocket" class="tsd-anchor"></a>
 					<h3>connect<wbr>ToWeb<wbr>Socket</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">connect<wbr>ToWeb<wbr>Socket<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">connect<wbr>ToWeb<wbr>Socket<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/ibasetransactionresponse.html">IBaseTransactionResponse</a>.<a href="../interfaces/ibasetransactionresponse.html#connecttowebsocket">connectToWebSocket</a></p>
 								<p>Inherited from RemmeWebSocket.connectToWebSocket</p>
 								<ul>
-									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:22</li>
+									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:117</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Method for connect to WebSocket.
+										In this method implement new WebSocket instance and provided some listeners for onopen, onmessage, onclose.
+										This method get callback that will be called when get events: onmessage, onclose.
+										For this method you should set property data.
+										remmeWebSocket.connectToWebSocket((err: Error, res: any) =&gt; {
+										if (err) {
+										console.log(err);
+										return;
+										}
+										console.log(res);
+										remmeWebSocket.closeConnection();
+									});</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>callback: <span class="tsd-signature-type">any</span></h5>
+									<h5>callback: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, res<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>err: <span class="tsd-signature-type">Error</span></h5>
+														</li>
+														<li>
+															<h5><span class="tsd-flag ts-flagOptional">Optional</span> res: <span class="tsd-signature-type">any</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -279,20 +381,14 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 								<a href="basetransactionresponse.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="basetransactionresponse.html#batchid" class="tsd-kind-icon">batch<wbr>Id</a>
-							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="basetransactionresponse.html#data" class="tsd-kind-icon">data</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="basetransactionresponse.html#isevent" class="tsd-kind-icon">is<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="basetransactionresponse.html#socketaddress" class="tsd-kind-icon">socket<wbr>Address</a>
+								<a href="basetransactionresponse.html#nodeaddress" class="tsd-kind-icon">node<wbr>Address</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="basetransactionresponse.html#sslmode" class="tsd-kind-icon">ssl<wbr>Mode</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="basetransactionresponse.html#batchid" class="tsd-kind-icon">batch<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="basetransactionresponse.html#closewebsocket" class="tsd-kind-icon">close<wbr>Web<wbr>Socket</a>

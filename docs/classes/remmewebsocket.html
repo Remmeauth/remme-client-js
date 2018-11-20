@@ -64,6 +64,67 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class that work with sockets. Class can be used for inheritance.
+							This class is used for response on transaction sending.
+							Each method that return batchId, for truth return class that inherit from RemmeWebSocket with preset data.
+						So for example:</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>example</dt>
+						<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client();
+<span class="hljs-keyword">const</span> someRemmeAddress = <span class="hljs-string">"03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638"</span>;
+<span class="hljs-keyword">const</span> transactionResult = <span class="hljs-keyword">await</span> remme.token.transfer(someRemmeAddress, <span class="hljs-number">10</span>);
+
+<span class="hljs-comment">/* transactionResult is inherit from RemmeWebSocket and this.data = {
+         batch_ids: [
+            transactionResult.batchId,
+         ],
+     };
+*\/ so you can connectToWebSocket easy. Just:
+
+transactionResult.connectToWebSocket((err: Error, res: any) =&gt; {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    console.log(res);
+    mySocketConnection.closeConnection();
+});</span>
+</code></pre>
+							<p>But you also can use your class for work with WebSockets. Just inherit it from RemmeWebSocket, like this:</p>
+							<pre><code class="lang-typescript"><span class="hljs-keyword">class</span> mySocketConnection <span class="hljs-keyword">extends</span> RemmeWebSocket {
+     <span class="hljs-keyword">constructor</span>(<span class="hljs-params">{nodeAddress, sslMode, data}</span>) {
+         <span class="hljs-keyword">super</span>(nodeAddress, sslMode);
+         <span class="hljs-keyword">this</span>.data = data;
+     }
+}
+
+<span class="hljs-keyword">const</span> remmeWebSocket = <span class="hljs-keyword">new</span> mySocketConnection({
+     nodeAddress: <span class="hljs-string">"localhost:8080"</span>,
+     sslMode: <span class="hljs-literal">false</span>,
+     data: {
+         batch_ids: [
+            transactionResult.batchId,
+         ],
+     }
+});
+
+mySocketConnection.connectToWebSocket(<span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span>, res: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-built_in">console</span>.log(err);
+        <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-built_in">console</span>.log(res);
+    mySocketConnection.closeConnection();
+});
+</code></pre>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -81,6 +142,14 @@
 			<section class="tsd-panel tsd-kind-class tsd-is-not-exported">
 				<h3 class="tsd-before-signature">Indexable</h3>
 				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class that work with sockets. Class can be used for inheritance.
+							This class is used for response on transaction sending.
+							Each method that return batchId, for truth return class that inherit from RemmeWebSocket with preset data.
+						So for example:</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -93,12 +162,10 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Properties</h3>
+							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="remmewebsocket.html#data" class="tsd-kind-icon">data</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="remmewebsocket.html#isevent" class="tsd-kind-icon">is<wbr>Event</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="remmewebsocket.html#socketaddress" class="tsd-kind-icon">socket<wbr>Address</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="remmewebsocket.html#sslmode" class="tsd-kind-icon">ssl<wbr>Mode</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported"><a href="remmewebsocket.html#nodeaddress" class="tsd-kind-icon">node<wbr>Address</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported"><a href="remmewebsocket.html#sslmode" class="tsd-kind-icon">ssl<wbr>Mode</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-not-exported">
@@ -117,22 +184,37 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Web<wbr>Socket<span class="tsd-signature-symbol">(</span>socketAddress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, sslMode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmewebsocket.html" class="tsd-signature-type">RemmeWebSocket</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Web<wbr>Socket<span class="tsd-signature-symbol">(</span>nodeAddress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, sslMode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmewebsocket.html" class="tsd-signature-type">RemmeWebSocket</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-web-socket/src/index.ts#L42">remme-web-socket/src/index.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-web-socket/src/index.ts#L130">remme-web-socket/src/index.ts:130</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Implement RemmeWebSocket by providing node address and ssl mode.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remmeWebSocket = <span class="hljs-keyword">new</span> RemmeWebSocket(nodeAddress, sslMode);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>socketAddress: <span class="tsd-signature-type">string</span></h5>
+									<h5>nodeAddress: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>sslMode: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="remmewebsocket.html" class="tsd-signature-type">RemmeWebSocket</a></h4>
@@ -141,50 +223,50 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
-					<a name="data" class="tsd-anchor"></a>
-					<h3>data</h3>
-					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iremmewebsocket.html">IRemmeWebSocket</a>.<a href="../interfaces/iremmewebsocket.html#data">data</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-web-socket/src/index.ts#L41">remme-web-socket/src/index.ts:41</a></li>
-						</ul>
-					</aside>
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+					<a name="nodeaddress" class="tsd-anchor"></a>
+					<h3>node<wbr>Address</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> nodeAddress<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-web-socket/src/index.ts#L150">remme-web-socket/src/index.ts:150</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get node address that was provided by user</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
-					<a name="isevent" class="tsd-anchor"></a>
-					<h3>is<wbr>Event</h3>
-					<div class="tsd-signature tsd-kind-icon">is<wbr>Event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iremmewebsocket.html">IRemmeWebSocket</a>.<a href="../interfaces/iremmewebsocket.html#isevent">isEvent</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-web-socket/src/index.ts#L40">remme-web-socket/src/index.ts:40</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
-					<a name="socketaddress" class="tsd-anchor"></a>
-					<h3>socket<wbr>Address</h3>
-					<div class="tsd-signature tsd-kind-icon">socket<wbr>Address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iremmewebsocket.html">IRemmeWebSocket</a>.<a href="../interfaces/iremmewebsocket.html#socketaddress">socketAddress</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-web-socket/src/index.ts#L38">remme-web-socket/src/index.ts:38</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
 					<a name="sslmode" class="tsd-anchor"></a>
 					<h3>ssl<wbr>Mode</h3>
-					<div class="tsd-signature tsd-kind-icon">ssl<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iremmewebsocket.html">IRemmeWebSocket</a>.<a href="../interfaces/iremmewebsocket.html#sslmode">sslMode</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-web-socket/src/index.ts#L39">remme-web-socket/src/index.ts:39</a></li>
-						</ul>
-					</aside>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> sslMode<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-web-socket/src/index.ts#L158">remme-web-socket/src/index.ts:158</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get ssl mode that was provided by user</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
@@ -200,9 +282,14 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmewebsocket.html">IRemmeWebSocket</a>.<a href="../interfaces/iremmewebsocket.html#closewebsocket">closeWebSocket</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-web-socket/src/index.ts#L83">remme-web-socket/src/index.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-web-socket/src/index.ts#L215">remme-web-socket/src/index.ts:215</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Call this method when your connection is open for close it.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -211,20 +298,58 @@
 					<a name="connecttowebsocket" class="tsd-anchor"></a>
 					<h3>connect<wbr>ToWeb<wbr>Socket</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">connect<wbr>ToWeb<wbr>Socket<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">connect<wbr>ToWeb<wbr>Socket<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/iremmewebsocket.html">IRemmeWebSocket</a>.<a href="../interfaces/iremmewebsocket.html#connecttowebsocket">connectToWebSocket</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-web-socket/src/index.ts#L49">remme-web-socket/src/index.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-web-socket/src/index.ts#L177">remme-web-socket/src/index.ts:177</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Method for connect to WebSocket.
+										In this method implement new WebSocket instance and provided some listeners for onopen, onmessage, onclose.
+										This method get callback that will be called when get events: onmessage, onclose.
+										For this method you should set property data.
+										remmeWebSocket.connectToWebSocket((err: Error, res: any) =&gt; {
+										if (err) {
+										console.log(err);
+										return;
+										}
+										console.log(res);
+										remmeWebSocket.closeConnection();
+									});</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>callback: <span class="tsd-signature-type">any</span></h5>
+									<h5>callback: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, res<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>err: <span class="tsd-signature-type">Error</span></h5>
+														</li>
+														<li>
+															<h5><span class="tsd-flag ts-flagOptional">Optional</span> res: <span class="tsd-signature-type">any</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -251,16 +376,10 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
 								<a href="remmewebsocket.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
-								<a href="remmewebsocket.html#data" class="tsd-kind-icon">data</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
+								<a href="remmewebsocket.html#nodeaddress" class="tsd-kind-icon">node<wbr>Address</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
-								<a href="remmewebsocket.html#isevent" class="tsd-kind-icon">is<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
-								<a href="remmewebsocket.html#socketaddress" class="tsd-kind-icon">socket<wbr>Address</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
 								<a href="remmewebsocket.html#sslmode" class="tsd-kind-icon">ssl<wbr>Mode</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">

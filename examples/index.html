@@ -7,12 +7,7 @@
 <body>
     <script src="../dist/remme.min.js"></script>
     <script>
-      //Addresses of Docker container ports
-      const nodeAddress = "192.168.88.242:8080";
-      const socketAddress = "192.168.88.242:9080";
-
       //Initialize client
-      // const remme = new Remme.Client() <-- nodeAddress = localhost:8080, socketAddress = localhost:9080 by default
       const remme = new Remme.Client({
         privateKeyHex: "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4ff5",
       });

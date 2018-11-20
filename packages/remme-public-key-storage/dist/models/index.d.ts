@@ -1,4 +1,2 @@
-export { PublicKeyStorageCheckPayload } from "./PublicKeyStorageCheckPayload";
-export { PublicKeyStorageCheckResult } from "./PublicKeyStorageCheckResult";
-export { PublicKeyStorageStoreDto } from "./PublicKeyStorageStoreDto";
-export { PublicKeyStorageUserStoreResult } from "./PublicKeyStorageUserStoreResult";
+export { PublicKeyInfo, IPublicKeyInfo } from "./PublicKeyInfo";
+export { IPublicKeyStore } from "./PublicKeyStore";

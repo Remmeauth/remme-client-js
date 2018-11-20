@@ -10,10 +10,10 @@ export interface IStateQuery extends IBaseQuery {
 }
 
 export class BaseQuery implements IBaseQuery {
-    public head: string;
-    public start: string;
-    public limit: number;
-    public reverse: string;
+    public head?: string;
+    public start?: string | number;
+    public limit?: number;
+    public reverse?: string | boolean;
 
     constructor(query: IBaseQuery) {
         if (query.head && query.head.search(/[a-f0-9]{128}/) === -1) {
@@ -23,7 +23,7 @@ export class BaseQuery implements IBaseQuery {
         }
         if (query.start) {
             if (typeof query.start === "string" && (
-                query.start.search(/^0x[0-9]{16}/) !== -1 || query.start.search(/[a-f0-9]{128}/) !== -1
+                query.start.search(/^0x[a-f0-9]{16}$/) !== -1 || query.start.search(/^[a-f0-9]{128}$/) !== -1
             ) || typeof query.start === "number") {
                 this.start = query.start.toString();
             } else {
@@ -36,14 +36,20 @@ export class BaseQuery implements IBaseQuery {
 }
 
 export class StateQuery extends BaseQuery implements IStateQuery {
-    public address: string;
+    public address?: string;
 
     constructor(query: IStateQuery) {
         super(query);
-        if (typeof query.address === "string" && query.address.search(/[a-f0-9]{70}/) === -1) {
+        if (typeof query.address === "string" && query.address.search(/^[a-f0-9]{70}$/) === -1) {
             throw new Error(`Parameter "address" need to a valid`);
         } else {
             this.address = query.address;
         }
     }
+}
+
+export interface IAddress {
+    address?: string;
+    id?: string;
+    ids?: string[];
 }

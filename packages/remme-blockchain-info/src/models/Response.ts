@@ -3,7 +3,6 @@ export interface IBaseResponse<T> {
     head?: string;
     link?: string;
     paging?: IPaging;
-    protobuf?: any;
 }
 
 export class BaseResponse<T> implements IBaseResponse<T> {
@@ -11,7 +10,6 @@ export class BaseResponse<T> implements IBaseResponse<T> {
     public head: string;
     public link: string;
     public paging: IPaging;
-    public protobuf: any;
 
     constructor(data: IBaseResponse<T>) {
         (Object as any).entries(data).map(([key, value]) => {

@@ -35,31 +35,107 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var remme_rest_1 = require("remme-rest");
+var remme_api_1 = require("remme-api");
 var remme_utils_1 = require("remme-utils");
 var remme_protobuf_1 = require("remme-protobuf");
+/**
+ * Class that work with tokens.
+ * Transfer them and getting balance by public key.
+ * @example
+ * ```typescript
+ * const someAccountPublicKeyInHex = "02926476095ea28904c11f22d0da20e999801a267cd3455a00570aa1153086eb13";
+ * const someRemmeAddress = generateAddress(RemmeFamilyName.Account, someAccountPublicKeyInHex);
+ *
+ * const receiverBalance = await remme.token.getBalance(someRemmeAddress);
+ * console.log(`Account ${someRemmeAddress} as receiver, balance - ${receiverBalance} REM`);
+ *
+ * const balance = await remme.token.getBalance(remme.account.address);
+ * console.log(`Account ${remme.account.address} as sender, balance - ${balance} REM`);
+ *
+ * const transactionResult = await remme.token.transfer(someRemmeAddress, 10);
+ * console.log(`Sending tokens...BatchId: ${transactionResult.batchId}`);
+ *
+ * const transactionCallback = async (err, result) => {
+ *   if (err) {
+ *     console.log(err);
+ *     return;
+ *   }
+ *   console.log("token", result);
+ *   if (result.status === "COMMITTED") {
+ *     const newBalance = await remme.token.getBalance(someRemmeAddress);
+ *     console.log(`Account ${someRemmeAddress} balance - ${newBalance} REM`);
+ *     transactionResult.closeWebSocket()
+ *   }
+ * };
+ *
+ * transactionResult.connectToWebSocket(transactionCallback);
+ * ```
+ */
 var RemmeToken = /** @class */ (function () {
-    function RemmeToken(remmeRest, remmeTransaction) {
-        this._familyName = "account";
+    /**
+     * @example
+     * Usage without remme main package
+     * ```typescript
+     * const remmeApi = new RemmeApi(); // See RemmeRest implementation
+     * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
+     * const remmeTransaction = new RemmeTransactionService(remmeApi, remmeAccount);
+     * const remmeToken = new RemmeToken(remmeApi, remmeTransaction);
+     * ```
+     * @param {IRemmeApi} remmeApi
+     * @param {IRemmeTransactionService} remmeTransaction
+     */
+    function RemmeToken(remmeApi, remmeTransaction) {
+        this._familyName = remme_utils_1.RemmeFamilyName.Account;
         this._familyVersion = "0.1";
-        this._remmeRest = remmeRest;
+        this._remmeApi = remmeApi;
         this._remmeTransaction = remmeTransaction;
     }
-    RemmeToken.prototype.transfer = function (publicKeyTo, amount) {
+    /**
+     * Transfer tokens from signed public key (remme.account.publicKey) to given public key.
+     * Send transaction to REMChain.
+     * @example
+     * ```typescript
+     * const someAccountPublicKeyInHex = "02926476095ea28904c11f22d0da20e999801a267cd3455a00570aa1153086eb13";
+     * const someRemmeAddress = generateAddress(RemmeFamilyName.Account, someAccountPublicKeyInHex);
+     *
+     * const transactionResult = await remme.token.transfer(someRemmeAddress, 10);
+     * console.log(`Sending tokens...BatchId: ${transactionResult.batchId}`);
+     *
+     * const transactionCallback = async (err, result) => {
+     *   if (err) {
+     *     console.log(err);
+     *     return;
+     *   }
+     *   console.log("token", result);
+     *   if (result.status === "COMMITTED") {
+     *     const newBalance = await remme.token.getBalance(someRemmeAddress);
+     *     console.log(`Account ${someRemmeAddress} balance - ${newBalance} REM`);
+     *     transactionResult.closeWebSocket()
+     *   }
+     * };
+     *
+     * transactionResult.connectToWebSocket(transactionCallback);
+     * ```
+     * @param {string} addressTo
+     * @param {number} amount
+     * @returns {Promise<IBaseTransactionResponse>}
+     */
+    RemmeToken.prototype.transfer = function (addressTo, amount) {
         return __awaiter(this, void 0, void 0, function () {
-            var receiverAddress, transferPayload, transactionPayload, transaction;
+            var transferPayload, transactionPayload, transaction;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (publicKeyTo.search(/^[0-9a-f]{66}$/) === -1) {
-                            throw new Error("Given PublicKey is not a valid");
+                        remme_utils_1.checkAddress(addressTo);
+                        // checkPublicKey(addressTo);
+                        if (!amount) {
+                            throw new Error("Amount was not provided, please set the amount");
                         }
                         if (amount <= 0) {
-                            throw new Error("amount must be higher than 0");
+                            throw new Error("Amount must be higher than 0");
                         }
-                        receiverAddress = remme_utils_1.getAddressFromData(this._familyName, publicKeyTo);
                         transferPayload = remme_protobuf_1.TransferPayload.encode({
-                            addressTo: receiverAddress,
+                            addressTo: addressTo,
                             value: amount,
                         }).finish();
                         transactionPayload = remme_protobuf_1.TransactionPayload.encode({
@@ -69,8 +145,8 @@ var RemmeToken = /** @class */ (function () {
                         return [4 /*yield*/, this._remmeTransaction.create({
                                 familyName: this._familyName,
                                 familyVersion: this._familyVersion,
-                                inputs: [receiverAddress],
-                                outputs: [receiverAddress],
+                                inputs: [addressTo],
+                                outputs: [addressTo],
                                 payloadBytes: transactionPayload,
                             })];
                     case 1:
@@ -81,20 +157,25 @@ var RemmeToken = /** @class */ (function () {
             });
         });
     };
-    RemmeToken.prototype.getBalance = function (publicKeyTo) {
+    /**
+     * Get balance on given account address
+     * @example
+     * ```typescript
+     * const balance = await remme.token.getBalance(remme.account.address);
+     * console.log(`Account ${remme.account.address} as sender, balance - ${balance} REM`);
+     * ```
+     * @param {string} address
+     * @returns {Promise<number>}
+     */
+    RemmeToken.prototype.getBalance = function (address) {
         return __awaiter(this, void 0, void 0, function () {
-            var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (publicKeyTo.search(/^[0-9a-f]{66}$/) === -1) {
-                            throw new Error("Given PublicKey is not a valid");
-                        }
-                        return [4 /*yield*/, this._remmeRest
-                                .getRequest(remme_rest_1.RemmeMethods.token, publicKeyTo)];
-                    case 1:
-                        result = _a.sent();
-                        return [2 /*return*/, result.balance];
+                        remme_utils_1.checkAddress(address);
+                        return [4 /*yield*/, this._remmeApi
+                                .sendRequest(remme_api_1.RemmeMethods.token, new remme_utils_1.PublicKeyRequest(address))];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });

@@ -1,17 +1,4 @@
 import * as forge from "node-forge";
-import {
-    oids,
-} from "./models";
-import {
-    hexToBytes,
-    bytesToHex,
-    utf8ToBytes,
-    toHex,
-    getAddressFromData,
-    toHexString,
-    toUTF8Array,
-    base64ToArrayBuffer,
-} from "./functions";
 
 /**
  * @hidden
@@ -31,6 +18,16 @@ declare module "node-forge" {
         function publicKeyToRSAPublicKey(publicKey: Key): any;
         namespace rsa {
             function setPublicKey(n: any, e: any): any;
+        }
+
+        /**
+         * @hidden
+         */
+        export namespace ed25519 {
+            function generateKeyPair(obj?: any): any;
+            function sign(obj: any): any;
+            function verify(obj: any): any;
+            function publicKeyFromPrivateKey(obj: any): any;
         }
     }
 
@@ -58,53 +55,16 @@ declare module "node-forge" {
             function create(any: any): any;
         }
     }
+
+    /**
+     * @hidden
+     */
+    export namespace util {
+        function ByteBuffer(obj: any, str: string): void;
+    }
 }
 
-const certificateToPem = (certificate: forge.pki.Certificate): forge.pki.PEM => {
-    try {
-        return forge.pki.certificateToPem(certificate);
-    } catch (e) {
-        throw new Error("Given certificate is not a valid");
-    }
-};
-
-const certificateFromPem = (certificate: forge.pki.PEM): forge.pki.Certificate => {
-    try {
-        return forge.pki.certificateFromPem(certificate);
-    } catch (e) {
-        throw new Error("Given certificate is not a valid");
-    }
-};
-
-const publicKeyToPem = (publicKey: forge.pki.Key): forge.pki.PEM => {
-    try {
-        return forge.pki.publicKeyToPem(publicKey);
-    } catch (e) {
-        throw new Error("Given publicKey is not a valid");
-    }
-};
-
-const publicKeyFromPem = (publicKey: forge.pki.PEM): forge.pki.Certificate => {
-    try {
-        return forge.pki.publicKeyFromPem(publicKey);
-    } catch (e) {
-        throw new Error("Given publicKey is not a valid");
-    }
-};
-
-export {
-    forge,
-    oids,
-    hexToBytes,
-    bytesToHex,
-    utf8ToBytes,
-    toHex,
-    getAddressFromData,
-    toHexString,
-    toUTF8Array,
-    certificateToPem,
-    certificateFromPem,
-    publicKeyToPem,
-    publicKeyFromPem,
-    base64ToArrayBuffer,
-};
+export { forge };
+export * from "./models";
+export * from "./functions";
+export * from "./constants";

@@ -14,6 +14,7 @@ export class StateList extends BaseResponse<StateData[]> {
 }
 
 export class State extends BaseResponse<string> {
+    public address?: string;
     constructor(data: IBaseResponse<string>) {
         super(data);
     }

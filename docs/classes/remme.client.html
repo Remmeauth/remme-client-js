@@ -101,7 +101,6 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="remme.client.html#batch" class="tsd-kind-icon">batch</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="remme.client.html#blockchaininfo" class="tsd-kind-icon">blockchain<wbr>Info</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="remme.client.html#certificate" class="tsd-kind-icon">certificate</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="remme.client.html#events" class="tsd-kind-icon">events</a></li>
@@ -137,7 +136,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme/src/index.ts#L364">remme/src/index.ts:364</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme/src/index.ts#L351">remme/src/index.ts:351</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -183,7 +182,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> clientInit: <a href="../interfaces/iclientinit.html" class="tsd-signature-type">IClientInit</a><span class="tsd-signature-symbol"> =&nbsp;{privateKeyHex: &quot;&quot;,networkConfig: defaultConfig,}</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> clientInit: <a href="../interfaces/iclientinit.html" class="tsd-signature-type">IClientInit</a><span class="tsd-signature-symbol"> =&nbsp;{privateKeyHex: &quot;&quot;,networkConfig: DEFAULT_NETWORK_CONFIG,}</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="remme.client.html" class="tsd-signature-type">Client</a></h4>
@@ -194,39 +193,13 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="batch" class="tsd-anchor"></a>
-					<h3>batch</h3>
-					<div class="tsd-signature tsd-kind-icon">batch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IRemmeBatch</span></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#batch">batch</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme/src/index.ts#L181">remme/src/index.ts:181</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>This properties hold implementation of RemmeBatch,
-							which get a possibility to check status of batch if you don&#39;t do it by using WebSocket.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>example</dt>
-							<dd><p>Get status of batch.</p>
-								<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> batchId = <span class="hljs-string">"92c77c41705f2f68d5f7bc03676d0f917b0f9ef4099ee8417bd7f2470a233f3f2da5e93ee1658588f5baa0b95c81656ed187705fb72658203a7686c9749b7ad2"</span>
-<span class="hljs-keyword">const</span> status = <span class="hljs-keyword">await</span> remme.batch.getStatus(batchId);
-<span class="hljs-built_in">console</span>.log(status);
-</code></pre>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="blockchaininfo" class="tsd-anchor"></a>
 					<h3>blockchain<wbr>Info</h3>
 					<div class="tsd-signature tsd-kind-icon">blockchain<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IRemmeBlockchainInfo</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#blockchaininfo">blockchainInfo</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme/src/index.ts#L336">remme/src/index.ts:336</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme/src/index.ts#L323">remme/src/index.ts:323</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -242,7 +215,7 @@
 								<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> blocks = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlocks({
      limit: <span class="hljs-number">2</span>,
      reverse: <span class="hljs-literal">true</span>,
-     start: <span class="hljs-string">"0x0000000000000000"</span>, <span class="hljs-comment">// block num</span>
+     start: <span class="hljs-number">1</span>, <span class="hljs-comment">// or "0x0000000000000001" can be set too. (block_num for start)</span>
 });
 <span class="hljs-built_in">console</span>.log(blocks);
 </code></pre>
@@ -300,7 +273,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#certificate">certificate</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme/src/index.ts#L129">remme/src/index.ts:129</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme/src/index.ts#L133">remme/src/index.ts:133</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -329,12 +302,12 @@
      })
 </code></pre>
 								<p>Revoke certificate&#39;s public key.</p>
-								<pre><code class="lang-typescript">     <span class="hljs-keyword">const</span> certificatePEM = <span class="hljs-string">"-----BEGIN CERTIFICATE-----\r\nMIIDATCCAemgAwIBAgIHAVM4JmMVEDANBgkqhkiG9w0BAQsFADAAMB4XDTE4MDgw\r\nOTE0NTcxNFoXDTE5MDgwNDE0NTcxNFowgYExEjAQBgNVBAMTCXVzZXJOYW1lMTEd\r\nMBsGCSqGSIb3DQEJARMOdXNlckBlbWFpbC5jb20xDTALBgNVBCoTBEpvaG4xDjAM\r\nBgNVBAQTBVNtaXRoMQswCQYDVQQGEwJVUzEKMAgGAQATAzM2MDEUMBIGAQATDTE1\r\nMzM4MjY2MzE1MTAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCSF3Dr\r\nhYqu9cJa0aw15VM8oM+lwc3SRwXhpy989q4MTxOkgW7ysVB2cZ0GV0kyj6IcLhWQ\r\nRztKo/RntvKcFdnN7pgCyLtVSCA77mQO4mcquDRUnmzB9X8l2+P16/WIbVN5VMDK\r\nnVS+OZ6T24CHoOCht21Yz9WlVixsFwxPhdenOa6/SqQR/1iZHeQnlIEZ2RvqNo6e\r\nMlY7Q7qQ5Q7njLTrCvQFephZZBOcYLcMl/aKq7rwJ6hmyD91E2zXNc/jHTQbI5bs\r\n52eYxSzJKq5//8odSWcPc5rVPJbOMXo1wxa/Q+AODq7yrjvf1fS54E0OlcnKIwyl\r\nBRn/xhtb8iN1+/sNAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAHs/oTQRl2Dhlnk6\r\ncA0ZG5DDHvh2CFVcrKaA4DEgrVmPJ3YUL+xYzrkfhT7v8a53AImcBqrZmgN8y7I1\r\n8Yj1z3EQikCwkhVNI6yRpEU7icgqNsGBXzFJ2syH3Cntt2WOqND+M4vS/yL/XY0I\r\nVNo/goW/QoGHs5082ZsfUhZs1k9+wpVOygzug9orcd1myP6ddBu7dllcDDtpB0uC\r\nh9QxMh5mGZbai2MU0lSQqSoYqwbYosCcO+Ha/RI97/lvp1R89/5K9uFmRotDljLH\r\nvty07Cw2I1cHTYcUuZJr3WAmMiMvuCdwky3V3U6xqv1Q+LRNIvE1DqqFFeaEKbkC\r\nhj2Cw9o=\r\n-----END CERTIFICATE-----\r\n"</span>
-     <span class="hljs-keyword">const</span> revoke = <span class="hljs-keyword">await</span> remme.certificate.revoke(certificatePEM);
+								<pre><code class="lang-typescript">     <span class="hljs-keyword">const</span> certificate = <span class="hljs-string">"-----BEGIN CERTIFICATE-----\r\nMIIDATCCAemgAwIBAgIHAVM4JmMVEDANBgkqhkiG9w0BAQsFADAAMB4XDTE4MDgw\r\nOTE0NTcxNFoXDTE5MDgwNDE0NTcxNFowgYExEjAQBgNVBAMTCXVzZXJOYW1lMTEd\r\nMBsGCSqGSIb3DQEJARMOdXNlckBlbWFpbC5jb20xDTALBgNVBCoTBEpvaG4xDjAM\r\nBgNVBAQTBVNtaXRoMQswCQYDVQQGEwJVUzEKMAgGAQATAzM2MDEUMBIGAQATDTE1\r\nMzM4MjY2MzE1MTAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCSF3Dr\r\nhYqu9cJa0aw15VM8oM+lwc3SRwXhpy989q4MTxOkgW7ysVB2cZ0GV0kyj6IcLhWQ\r\nRztKo/RntvKcFdnN7pgCyLtVSCA77mQO4mcquDRUnmzB9X8l2+P16/WIbVN5VMDK\r\nnVS+OZ6T24CHoOCht21Yz9WlVixsFwxPhdenOa6/SqQR/1iZHeQnlIEZ2RvqNo6e\r\nMlY7Q7qQ5Q7njLTrCvQFephZZBOcYLcMl/aKq7rwJ6hmyD91E2zXNc/jHTQbI5bs\r\n52eYxSzJKq5//8odSWcPc5rVPJbOMXo1wxa/Q+AODq7yrjvf1fS54E0OlcnKIwyl\r\nBRn/xhtb8iN1+/sNAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAHs/oTQRl2Dhlnk6\r\ncA0ZG5DDHvh2CFVcrKaA4DEgrVmPJ3YUL+xYzrkfhT7v8a53AImcBqrZmgN8y7I1\r\n8Yj1z3EQikCwkhVNI6yRpEU7icgqNsGBXzFJ2syH3Cntt2WOqND+M4vS/yL/XY0I\r\nVNo/goW/QoGHs5082ZsfUhZs1k9+wpVOygzug9orcd1myP6ddBu7dllcDDtpB0uC\r\nh9QxMh5mGZbai2MU0lSQqSoYqwbYosCcO+Ha/RI97/lvp1R89/5K9uFmRotDljLH\r\nvty07Cw2I1cHTYcUuZJr3WAmMiMvuCdwky3V3U6xqv1Q+LRNIvE1DqqFFeaEKbkC\r\nhj2Cw9o=\r\n-----END CERTIFICATE-----\r\n"</span>
+     <span class="hljs-keyword">const</span> revoke = <span class="hljs-keyword">await</span> remme.certificate.revoke(certificate);
 </code></pre>
 								<p>Check certificate&#39;s public key.</p>
-								<pre><code class="lang-typescript">     <span class="hljs-keyword">const</span> certificatePEM = <span class="hljs-string">"-----BEGIN CERTIFICATE-----\r\nMIIDATCCAemgAwIBAgIHAVM4JmMVEDANBgkqhkiG9w0BAQsFADAAMB4XDTE4MDgw\r\nOTE0NTcxNFoXDTE5MDgwNDE0NTcxNFowgYExEjAQBgNVBAMTCXVzZXJOYW1lMTEd\r\nMBsGCSqGSIb3DQEJARMOdXNlckBlbWFpbC5jb20xDTALBgNVBCoTBEpvaG4xDjAM\r\nBgNVBAQTBVNtaXRoMQswCQYDVQQGEwJVUzEKMAgGAQATAzM2MDEUMBIGAQATDTE1\r\nMzM4MjY2MzE1MTAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCSF3Dr\r\nhYqu9cJa0aw15VM8oM+lwc3SRwXhpy989q4MTxOkgW7ysVB2cZ0GV0kyj6IcLhWQ\r\nRztKo/RntvKcFdnN7pgCyLtVSCA77mQO4mcquDRUnmzB9X8l2+P16/WIbVN5VMDK\r\nnVS+OZ6T24CHoOCht21Yz9WlVixsFwxPhdenOa6/SqQR/1iZHeQnlIEZ2RvqNo6e\r\nMlY7Q7qQ5Q7njLTrCvQFephZZBOcYLcMl/aKq7rwJ6hmyD91E2zXNc/jHTQbI5bs\r\n52eYxSzJKq5//8odSWcPc5rVPJbOMXo1wxa/Q+AODq7yrjvf1fS54E0OlcnKIwyl\r\nBRn/xhtb8iN1+/sNAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAHs/oTQRl2Dhlnk6\r\ncA0ZG5DDHvh2CFVcrKaA4DEgrVmPJ3YUL+xYzrkfhT7v8a53AImcBqrZmgN8y7I1\r\n8Yj1z3EQikCwkhVNI6yRpEU7icgqNsGBXzFJ2syH3Cntt2WOqND+M4vS/yL/XY0I\r\nVNo/goW/QoGHs5082ZsfUhZs1k9+wpVOygzug9orcd1myP6ddBu7dllcDDtpB0uC\r\nh9QxMh5mGZbai2MU0lSQqSoYqwbYosCcO+Ha/RI97/lvp1R89/5K9uFmRotDljLH\r\nvty07Cw2I1cHTYcUuZJr3WAmMiMvuCdwky3V3U6xqv1Q+LRNIvE1DqqFFeaEKbkC\r\nhj2Cw9o=\r\n-----END CERTIFICATE-----\r\n"</span>
-     <span class="hljs-keyword">const</span> status = remme.certificate.check(certificatePEM);
+								<pre><code class="lang-typescript">     <span class="hljs-keyword">const</span> certificate = <span class="hljs-string">"-----BEGIN CERTIFICATE-----\r\nMIIDATCCAemgAwIBAgIHAVM4JmMVEDANBgkqhkiG9w0BAQsFADAAMB4XDTE4MDgw\r\nOTE0NTcxNFoXDTE5MDgwNDE0NTcxNFowgYExEjAQBgNVBAMTCXVzZXJOYW1lMTEd\r\nMBsGCSqGSIb3DQEJARMOdXNlckBlbWFpbC5jb20xDTALBgNVBCoTBEpvaG4xDjAM\r\nBgNVBAQTBVNtaXRoMQswCQYDVQQGEwJVUzEKMAgGAQATAzM2MDEUMBIGAQATDTE1\r\nMzM4MjY2MzE1MTAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCSF3Dr\r\nhYqu9cJa0aw15VM8oM+lwc3SRwXhpy989q4MTxOkgW7ysVB2cZ0GV0kyj6IcLhWQ\r\nRztKo/RntvKcFdnN7pgCyLtVSCA77mQO4mcquDRUnmzB9X8l2+P16/WIbVN5VMDK\r\nnVS+OZ6T24CHoOCht21Yz9WlVixsFwxPhdenOa6/SqQR/1iZHeQnlIEZ2RvqNo6e\r\nMlY7Q7qQ5Q7njLTrCvQFephZZBOcYLcMl/aKq7rwJ6hmyD91E2zXNc/jHTQbI5bs\r\n52eYxSzJKq5//8odSWcPc5rVPJbOMXo1wxa/Q+AODq7yrjvf1fS54E0OlcnKIwyl\r\nBRn/xhtb8iN1+/sNAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAHs/oTQRl2Dhlnk6\r\ncA0ZG5DDHvh2CFVcrKaA4DEgrVmPJ3YUL+xYzrkfhT7v8a53AImcBqrZmgN8y7I1\r\n8Yj1z3EQikCwkhVNI6yRpEU7icgqNsGBXzFJ2syH3Cntt2WOqND+M4vS/yL/XY0I\r\nVNo/goW/QoGHs5082ZsfUhZs1k9+wpVOygzug9orcd1myP6ddBu7dllcDDtpB0uC\r\nh9QxMh5mGZbai2MU0lSQqSoYqwbYosCcO+Ha/RI97/lvp1R89/5K9uFmRotDljLH\r\nvty07Cw2I1cHTYcUuZJr3WAmMiMvuCdwky3V3U6xqv1Q+LRNIvE1DqqFFeaEKbkC\r\nhj2Cw9o=\r\n-----END CERTIFICATE-----\r\n"</span>
+     <span class="hljs-keyword">const</span> status = remme.certificate.check(certificate);
      <span class="hljs-built_in">console</span>.log(status);
 </code></pre>
 							</dd>
@@ -348,7 +321,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#events">events</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme/src/index.ts#L364">remme/src/index.ts:364</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme/src/index.ts#L351">remme/src/index.ts:351</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -363,7 +336,7 @@
 
 remme.events.subscribe({
     events: RemmeEvents.SwapAll,
-    lastKnownBlockId
+    <span class="hljs-comment">// lastKnownBlockId &lt;-- also can be set if you know it.</span>
 }, <span class="hljs-function">(<span class="hljs-params">err, res</span>) =&gt;</span> {
     <span class="hljs-built_in">console</span>.log(res);
 });
@@ -382,7 +355,7 @@ remme.events.subscribe({
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#publickeystorage">publicKeyStorage</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme/src/index.ts#L82">remme/src/index.ts:82</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme/src/index.ts#L86">remme/src/index.ts:86</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -393,16 +366,19 @@ remme.events.subscribe({
 						<dl class="tsd-comment-tags">
 							<dt>example</dt>
 							<dd><p>Store public key in the network. PrivateKey is used only for generation signature.</p>
-								<pre><code class="lang-typescript">     <span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client();
-     <span class="hljs-keyword">const</span> certificatePEM = <span class="hljs-string">"-----BEGIN CERTIFICATE-----\r\nMIIDATCCAemgAwIBAgIHAVM4JmMVEDANBgkqhkiG9w0BAQsFADAAMB4XDTE4MDgw\r\nOTE0NTcxNFoXDTE5MDgwNDE0NTcxNFowgYExEjAQBgNVBAMTCXVzZXJOYW1lMTEd\r\nMBsGCSqGSIb3DQEJARMOdXNlckBlbWFpbC5jb20xDTALBgNVBCoTBEpvaG4xDjAM\r\nBgNVBAQTBVNtaXRoMQswCQYDVQQGEwJVUzEKMAgGAQATAzM2MDEUMBIGAQATDTE1\r\nMzM4MjY2MzE1MTAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCSF3Dr\r\nhYqu9cJa0aw15VM8oM+lwc3SRwXhpy989q4MTxOkgW7ysVB2cZ0GV0kyj6IcLhWQ\r\nRztKo/RntvKcFdnN7pgCyLtVSCA77mQO4mcquDRUnmzB9X8l2+P16/WIbVN5VMDK\r\nnVS+OZ6T24CHoOCht21Yz9WlVixsFwxPhdenOa6/SqQR/1iZHeQnlIEZ2RvqNo6e\r\nMlY7Q7qQ5Q7njLTrCvQFephZZBOcYLcMl/aKq7rwJ6hmyD91E2zXNc/jHTQbI5bs\r\n52eYxSzJKq5//8odSWcPc5rVPJbOMXo1wxa/Q+AODq7yrjvf1fS54E0OlcnKIwyl\r\nBRn/xhtb8iN1+/sNAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAHs/oTQRl2Dhlnk6\r\ncA0ZG5DDHvh2CFVcrKaA4DEgrVmPJ3YUL+xYzrkfhT7v8a53AImcBqrZmgN8y7I1\r\n8Yj1z3EQikCwkhVNI6yRpEU7icgqNsGBXzFJ2syH3Cntt2WOqND+M4vS/yL/XY0I\r\nVNo/goW/QoGHs5082ZsfUhZs1k9+wpVOygzug9orcd1myP6ddBu7dllcDDtpB0uC\r\nh9QxMh5mGZbai2MU0lSQqSoYqwbYosCcO+Ha/RI97/lvp1R89/5K9uFmRotDljLH\r\nvty07Cw2I1cHTYcUuZJr3WAmMiMvuCdwky3V3U6xqv1Q+LRNIvE1DqqFFeaEKbkC\r\nhj2Cw9o=\r\n-----END CERTIFICATE-----\r\n"</span>
+								<pre><code class="lang-typescript">     <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> Remme <span class="hljs-keyword">from</span> <span class="hljs-string">"remme"</span>;
+     <span class="hljs-keyword">import</span> { KeyType, RSASignaturePadding } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-keys"</span>;
+     <span class="hljs-keyword">import</span> { privateKeyFromPem } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-utils"</span>;
+     <span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client();
+     <span class="hljs-keyword">const</span> certificate = <span class="hljs-string">"-----BEGIN CERTIFICATE-----\r\nMIIDATCCAemgAwIBAgIHAVM4JmMVEDANBgkqhkiG9w0BAQsFADAAMB4XDTE4MDgw\r\nOTE0NTcxNFoXDTE5MDgwNDE0NTcxNFowgYExEjAQBgNVBAMTCXVzZXJOYW1lMTEd\r\nMBsGCSqGSIb3DQEJARMOdXNlckBlbWFpbC5jb20xDTALBgNVBCoTBEpvaG4xDjAM\r\nBgNVBAQTBVNtaXRoMQswCQYDVQQGEwJVUzEKMAgGAQATAzM2MDEUMBIGAQATDTE1\r\nMzM4MjY2MzE1MTAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCSF3Dr\r\nhYqu9cJa0aw15VM8oM+lwc3SRwXhpy989q4MTxOkgW7ysVB2cZ0GV0kyj6IcLhWQ\r\nRztKo/RntvKcFdnN7pgCyLtVSCA77mQO4mcquDRUnmzB9X8l2+P16/WIbVN5VMDK\r\nnVS+OZ6T24CHoOCht21Yz9WlVixsFwxPhdenOa6/SqQR/1iZHeQnlIEZ2RvqNo6e\r\nMlY7Q7qQ5Q7njLTrCvQFephZZBOcYLcMl/aKq7rwJ6hmyD91E2zXNc/jHTQbI5bs\r\n52eYxSzJKq5//8odSWcPc5rVPJbOMXo1wxa/Q+AODq7yrjvf1fS54E0OlcnKIwyl\r\nBRn/xhtb8iN1+/sNAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAHs/oTQRl2Dhlnk6\r\ncA0ZG5DDHvh2CFVcrKaA4DEgrVmPJ3YUL+xYzrkfhT7v8a53AImcBqrZmgN8y7I1\r\n8Yj1z3EQikCwkhVNI6yRpEU7icgqNsGBXzFJ2syH3Cntt2WOqND+M4vS/yL/XY0I\r\nVNo/goW/QoGHs5082ZsfUhZs1k9+wpVOygzug9orcd1myP6ddBu7dllcDDtpB0uC\r\nh9QxMh5mGZbai2MU0lSQqSoYqwbYosCcO+Ha/RI97/lvp1R89/5K9uFmRotDljLH\r\nvty07Cw2I1cHTYcUuZJr3WAmMiMvuCdwky3V3U6xqv1Q+LRNIvE1DqqFFeaEKbkC\r\nhj2Cw9o=\r\n-----END CERTIFICATE-----\r\n"</span>
      <span class="hljs-keyword">const</span> privateKey = <span class="hljs-string">"-----BEGIN RSA PRIVATE KEY-----\r\nMIIEowIBAAKCAQEAkhdw64WKrvXCWtGsNeVTPKDPpcHN0kcF4acvfPauDE8TpIFu\r\n8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZze6YAsi7VUggO+5kDuJnKrg0VJ5s\r\nwfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6DgobdtWM/VpVYsbBcMT4XXpzmuv0qk\r\nEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y06wr0BXqYWWQTnGC3DJf2iqu68Ceo\r\nZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//KHUlnD3Oa1TyWzjF6NcMWv0PgDg6u\r\n8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7DQIDAQABAoIBADRnHCYfXMOte+2/\r\n0Bn1DIpu1I0Mm5uVxlJO+gXFJmFb7BvSIc4ENGyIDF896A+u3eNl1G5QXsBDV2Ps\r\nh9HdNKddskEtZ6ULniRhOprsMz1rnbnMqg5Y1SbrXTXVUdmB/bND53PGQ6OIX42B\r\n6vS7jFf1x89XnbcU1hJfohbUV6qvwr+hyrvrV859LM80rErCKGXXi6gtiRBiTYA3\r\n2qgO+F/ntmoU638XDzeIhKNjCP+KcWcQX1TRlrcuKfPKfCttHTb1MCGWnrOqy56w\r\nU628Iz4lKfjCOOdAXvyDRBEFSPKfriuB5JQQ67cZ9w783/2ZChhAY4wzBqvgnnlo\r\np6cPXDECgYEA+shoBswhqkA81RHxdkMoM9/iGwfkdFwxr9TqHGN7+L0hRXJlysKP\r\npBFX7Wg6GWF3BDHQzLoWQCEox0NgHbAVTC5DBxjIEjRemmlYEeAPqVRTub1lfp37\r\nYcK8BqsllDgXsqlQQNKqqVj4V2y/PO6NzlHWN9inJrp8ZZKSKPSamq8CgYEAlSF7\r\nDB0STde20E+ZPzQZi7zLWl59yM29mlKujlRktp2vl3foRJgQsndOAIc6k4+ImXR8\r\ngtfwpCYrXTQhJE4GHO/E/52vuwkVVz9qN5ZmgzR13yzlicCVmfZ7aaZ6jblNiQ1G\r\ngnIx1chcb8Vl5fncmaoa9SgefwWciPERNg31RQMCgYEApH1SjjLSWgMsY20Tfchq\r\n1Cui+Kviktft1zDGJbyzEeGrswtn7OhUov6lN5jHkuI02FF8bOwZsBKP1rNAlfhq\r\n377wQ/VjNV2YN5ulIoRegWhISmoJ6lThD6xU++LCEUgBczRO6VXEjrNGoME5ZlPq\r\nO0u+QH8gk+x5r33F1Isr5Q0CgYBHrmEjsHGU4wPnWutROuywgx3HoTWaqHHjVKy8\r\nkwoZ0O+Owb7uAZ28+qWOkXFxbgN9p0UV60+qxwH++ciYV7yOeh1ZtGS8ZSBR4JRg\r\nhbVeiX/CtyTZsqz15Ujqvm+X4aLIJo5msxcLKBRuURaqlRAY+G+euRr3eS4FkMHy\r\nFoF3GwKBgFDNeJc7VfbQq2toRSxCNuUTLXoZPrPfQrV+mA9umGCep44Ea02xIKQu\r\nbYpYghpdbASOp6fJvBlwjI8LNX3dC/PfUpbIG84bVCokgBCMNJQ+/DBuPBt7L29A\r\n7Ra1poXMbXt0nF3LgAtZHveRmVDtcr52dZ/6Yd2km5mAHj+4yPZo\r\n-----END RSA PRIVATE KEY-----\r\n"</span>
-     <span class="hljs-keyword">const</span> publicKey = <span class="hljs-string">"-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkhdw64WKrvXCWtGsNeVT\r\nPKDPpcHN0kcF4acvfPauDE8TpIFu8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZ\r\nze6YAsi7VUggO+5kDuJnKrg0VJ5swfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6Dg\r\nobdtWM/VpVYsbBcMT4XXpzmuv0qkEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y0\r\n6wr0BXqYWWQTnGC3DJf2iqu68CeoZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//K\r\nHUlnD3Oa1TyWzjF6NcMWv0PgDg6u8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7\r\nDQIDAQAB\r\n-----END PUBLIC KEY-----\r\n"</span>;
+     <span class="hljs-keyword">const</span> keys = <span class="hljs-keyword">new</span> Remme.Keys(KeyType.RSA, privateKeyFromPem(privateKey));
      <span class="hljs-keyword">const</span> validFrom = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Date</span>.now() / <span class="hljs-number">1000</span>);
      <span class="hljs-keyword">const</span> validTo = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Date</span>.now() / <span class="hljs-number">1000</span>) + <span class="hljs-number">3.11e7</span>;
      <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">await</span> remme.publicKeyStorage.store({
-         data: certificatePEM,
-         publicKey,
-         privateKey,
+         data: certificate,
+         keys,
+         rsaSignaturePadding: RSASignaturePadding.PSS,
          validFrom,
          validTo,
      });
@@ -414,12 +390,18 @@ remme.events.subscribe({
      })
 </code></pre>
 								<p>Revoke public key.</p>
-								<pre><code class="lang-typescript">     <span class="hljs-keyword">const</span> publicKey = <span class="hljs-string">"-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkhdw64WKrvXCWtGsNeVT\r\nPKDPpcHN0kcF4acvfPauDE8TpIFu8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZ\r\nze6YAsi7VUggO+5kDuJnKrg0VJ5swfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6Dg\r\nobdtWM/VpVYsbBcMT4XXpzmuv0qkEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y0\r\n6wr0BXqYWWQTnGC3DJf2iqu68CeoZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//K\r\nHUlnD3Oa1TyWzjF6NcMWv0PgDg6u8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7\r\nDQIDAQAB\r\n-----END PUBLIC KEY-----\r\n"</span>;
-     <span class="hljs-keyword">const</span> revoke = <span class="hljs-keyword">await</span> remme.publicKeyStorage.revoke(publicKey);
+								<pre><code class="lang-typescript">     <span class="hljs-keyword">import</span> { publicKeyFromPem } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-utils"</span>;
+
+     <span class="hljs-keyword">const</span> publicKey = <span class="hljs-string">"-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkhdw64WKrvXCWtGsNeVT\r\nPKDPpcHN0kcF4acvfPauDE8TpIFu8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZ\r\nze6YAsi7VUggO+5kDuJnKrg0VJ5swfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6Dg\r\nobdtWM/VpVYsbBcMT4XXpzmuv0qkEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y0\r\n6wr0BXqYWWQTnGC3DJf2iqu68CeoZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//K\r\nHUlnD3Oa1TyWzjF6NcMWv0PgDg6u8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7\r\nDQIDAQAB\r\n-----END PUBLIC KEY-----\r\n"</span>;
+     <span class="hljs-keyword">const</span> address = Remme.Keys.getAddressFromPublicKey(KeyType.RSA, publicKeyFromPem(publicKey));
+     <span class="hljs-keyword">const</span> revoke = <span class="hljs-keyword">await</span> remme.publicKeyStorage.revoke(address);
 </code></pre>
 								<p>Check public key.</p>
-								<pre><code class="lang-typescript">     <span class="hljs-keyword">const</span> publicKey = <span class="hljs-string">"-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkhdw64WKrvXCWtGsNeVT\r\nPKDPpcHN0kcF4acvfPauDE8TpIFu8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZ\r\nze6YAsi7VUggO+5kDuJnKrg0VJ5swfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6Dg\r\nobdtWM/VpVYsbBcMT4XXpzmuv0qkEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y0\r\n6wr0BXqYWWQTnGC3DJf2iqu68CeoZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//K\r\nHUlnD3Oa1TyWzjF6NcMWv0PgDg6u8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7\r\nDQIDAQAB\r\n-----END PUBLIC KEY-----\r\n"</span>;
-     <span class="hljs-keyword">const</span> status = remme.publicKeyStorage.check(publicKey);
+								<pre><code class="lang-typescript">     <span class="hljs-keyword">import</span> { publicKeyFromPem } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-utils"</span>;
+
+     <span class="hljs-keyword">const</span> publicKey = <span class="hljs-string">"-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkhdw64WKrvXCWtGsNeVT\r\nPKDPpcHN0kcF4acvfPauDE8TpIFu8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZ\r\nze6YAsi7VUggO+5kDuJnKrg0VJ5swfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6Dg\r\nobdtWM/VpVYsbBcMT4XXpzmuv0qkEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y0\r\n6wr0BXqYWWQTnGC3DJf2iqu68CeoZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//K\r\nHUlnD3Oa1TyWzjF6NcMWv0PgDg6u8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7\r\nDQIDAQAB\r\n-----END PUBLIC KEY-----\r\n"</span>;
+     <span class="hljs-keyword">const</span> address = Remme.Keys.getAddressFromPublicKey(KeyType.RSA, publicKeyFromPem(publicKey));
+     <span class="hljs-keyword">const</span> status = remme.publicKeyStorage.check(address);
      <span class="hljs-built_in">console</span>.log(status);
 </code></pre>
 							</dd>
@@ -433,7 +415,7 @@ remme.events.subscribe({
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#swap">swap</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme/src/index.ts#L248">remme/src/index.ts:248</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme/src/index.ts#L235">remme/src/index.ts:235</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -459,15 +441,15 @@ remme.events.subscribe({
 });
 </code></pre>
 								<p>Get a public key with which to enсrypt sensitive data during the swap.</p>
-								<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> pubkey = <span class="hljs-keyword">await</span> remme.swap.getPublicKey();
-<span class="hljs-built_in">console</span>.log(pubkey);
+								<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> publicKey = <span class="hljs-keyword">await</span> remme.swap.getPublicKey();
+<span class="hljs-built_in">console</span>.log(publicKey);
 </code></pre>
 								<p>Set secret lock if it didn&#39;t set in init method</p>
 								<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> setSecretLock = <span class="hljs-keyword">await</span> remme.swap.setSecretLock(swapId, secretLock);
 </code></pre>
 								<p>Get information about swap</p>
-								<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> remme.swap.getInfo(swapId);
-<span class="hljs-built_in">console</span>.log(res);
+								<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> info = <span class="hljs-keyword">await</span> remme.swap.getInfo(swapId);
+<span class="hljs-built_in">console</span>.log(info);
 </code></pre>
 								<p>Approve swap with given swap id</p>
 								<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> approve = <span class="hljs-keyword">await</span> remme.swap.approve(swapId);
@@ -489,7 +471,7 @@ remme.events.subscribe({
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/iremmeclient.html">IRemmeClient</a>.<a href="../interfaces/iremmeclient.html#token">token</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme/src/index.ts#L162">remme/src/index.ts:162</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme/src/index.ts#L169">remme/src/index.ts:169</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -499,10 +481,13 @@ remme.events.subscribe({
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt>example</dt>
-							<dd><p>Transfer tokens to another public key in the network.</p>
-								<pre><code class="lang-typescript">     <span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client();
-     <span class="hljs-keyword">const</span> somePubKey = <span class="hljs-string">"02926476095ea28904c11f22d0da20e999801a267cd3455a00570aa1153086eb13"</span>;
-     <span class="hljs-keyword">const</span> transactionResult = <span class="hljs-keyword">await</span> remme.token.transfer(somePubKey, <span class="hljs-number">1000000</span>);
+							<dd><p>Transfer tokens to another account in the network.</p>
+								<pre><code class="lang-typescript">     <span class="hljs-keyword">import</span> { RemmeFamilyName } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-utils"</span>;
+
+     <span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client();
+     <span class="hljs-keyword">const</span> someAccountPublicKeyInHex = <span class="hljs-string">"02926476095ea28904c11f22d0da20e999801a267cd3455a00570aa1153086eb13"</span>;
+     <span class="hljs-keyword">const</span> someAddress = generateAddress(RemmeFamilyName.Account, someAccountPublicKeyInHex);
+     <span class="hljs-keyword">const</span> transactionResult = <span class="hljs-keyword">await</span> remme.token.transfer(someAddress, <span class="hljs-number">1000000</span>);
      transactionResult.connectToWebSocket(<span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span>, resp: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
          <span class="hljs-keyword">if</span> (err) {
              <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(err.message);
@@ -510,8 +495,8 @@ remme.events.subscribe({
          <span class="hljs-built_in">console</span>.log(response);
      })
 </code></pre>
-								<p>Get balance for public key.</p>
-								<pre><code class="lang-typescript">     <span class="hljs-keyword">const</span> balance = <span class="hljs-keyword">await</span> remme.token.getBalance(remme.account.publicKeyHex);
+								<p>Get balance for account.</p>
+								<pre><code class="lang-typescript">     <span class="hljs-keyword">const</span> balance = <span class="hljs-keyword">await</span> remme.token.getBalance(remme.account.address);
      <span class="hljs-built_in">console</span>.log(balance);
 </code></pre>
 							</dd>
@@ -532,7 +517,7 @@ remme.events.subscribe({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme/src/index.ts#L478">remme/src/index.ts:478</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme/src/index.ts#L465">remme/src/index.ts:465</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -543,7 +528,8 @@ remme.events.subscribe({
 									<dt>example</dt>
 									<dd><pre><code class="lang-typescript"><span class="hljs-built_in">console</span>.log(remme.account);
 </code></pre>
-										<p>Provide an account which sign the transactions that send to our nodes</p>
+										<p>Provide an account which sign the transactions that send to our nodes.
+										For account use ECDSA (secp256k1) key pair</p>
 									</dd>
 									<dt>example</dt>
 									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> account = Remme.Client.generateAccount();
@@ -557,7 +543,7 @@ remme.account = account;
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme/src/index.ts#L447">remme/src/index.ts:447</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme/src/index.ts#L433">remme/src/index.ts:433</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -588,7 +574,7 @@ remme.account = account;
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme/src/index.ts#L495">remme/src/index.ts:495</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme/src/index.ts#L482">remme/src/index.ts:482</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -631,9 +617,6 @@ remme.account = account;
 								<a href="remme.client.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="remme.client.html#batch" class="tsd-kind-icon">batch</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="remme.client.html#blockchaininfo" class="tsd-kind-icon">blockchain<wbr>Info</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -661,6 +644,9 @@ remme.account = account;
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="remme.keys.html" class="tsd-kind-icon">Keys</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

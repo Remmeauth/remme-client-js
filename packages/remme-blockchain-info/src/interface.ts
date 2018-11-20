@@ -2,6 +2,7 @@ import {
     IBaseQuery,
     TransactionList,
     Transaction,
+    TransactionData,
     BlockList,
     Block,
     BatchList,
@@ -9,8 +10,8 @@ import {
     IStateQuery,
     StateList,
     State,
-    PeerList,
-    ReceiptList,
+    // PeerList,
+    // ReceiptList,
     INetworkStatus,
     IBlockInfo,
 } from "./models";
@@ -18,21 +19,24 @@ import {
 export interface IRemmeBlockchainInfo {
     getTransactions(query?: IBaseQuery): Promise<TransactionList>;
     getTransactionById(id: string): Promise<Transaction>;
+    parseTransactionPayload(transaction: TransactionData): object;
 
     getBlocks(query?: IBaseQuery): Promise<BlockList>;
     getBlockById(id: string): Promise<Block>;
+    getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]>;
 
     getBatches(query?: IBaseQuery): Promise<BatchList>;
     getBatchById(id: string): Promise<Batch>;
+    getBatchStatus(batchId: string): Promise<string>;
 
     getState(query?: IStateQuery): Promise<StateList>;
     getStateByAddress(address: string): Promise<State>;
+    parseStateData(state: State): object;
 
-    getPeers(): Promise<PeerList>;
+    getPeers(): Promise<string[]>;
 
-    getReceipts(id: string): Promise<ReceiptList>;
+    // getReceipts(ids: string[]): Promise<string[]>;
 
     getNetworkStatus(): Promise<INetworkStatus>;
 
-    getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]>;
 }

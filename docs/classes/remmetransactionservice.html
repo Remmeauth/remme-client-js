@@ -64,6 +64,33 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class for creating and sending transactions</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>example</dt>
+						<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client();
+<span class="hljs-keyword">const</span> familyName = <span class="hljs-string">"pub_key"</span>;
+<span class="hljs-keyword">const</span> familyVersion = <span class="hljs-string">"0.1"</span>;
+<span class="hljs-keyword">const</span> inputs = [];
+<span class="hljs-keyword">const</span> outputs = [];
+<span class="hljs-keyword">const</span> payloadBytes = <span class="hljs-keyword">new</span> Buffer(<span class="hljs-string">"my transaction"</span>);
+<span class="hljs-keyword">const</span> createDto = <span class="hljs-keyword">new</span> CreateTransactionDto(
+                        familyName,
+                        familyVersion,
+                        inputs,
+                        outputs,
+                        payloadBytes,
+                  );
+<span class="hljs-keyword">const</span> transaction = <span class="hljs-keyword">await</span> remme.transaction.create(createDto);
+<span class="hljs-keyword">const</span> sendResponse = <span class="hljs-keyword">await</span> remme.transaction.send(transaction);
+</code></pre>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -81,6 +108,11 @@
 			<section class="tsd-panel tsd-kind-class tsd-is-not-exported">
 				<h3 class="tsd-before-signature">Indexable</h3>
 				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class for creating and sending transactions</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -95,7 +127,7 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-not-exported"><a href="remmetransactionservice.html#create" class="tsd-kind-icon">create</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmetransactionservice.html#create" class="tsd-kind-icon">create</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmetransactionservice.html#send" class="tsd-kind-icon">send</a></li>
 							</ul>
 						</section>
@@ -108,22 +140,37 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Transaction<wbr>Service<span class="tsd-signature-symbol">(</span>remmeRest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeRest</span>, remmeAccount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeAccount</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmetransactionservice.html" class="tsd-signature-type">RemmeTransactionService</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Transaction<wbr>Service<span class="tsd-signature-symbol">(</span>remmeApi<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeApi</span>, remmeAccount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeAccount</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmetransactionservice.html" class="tsd-signature-type">RemmeTransactionService</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-transaction-service/src/index.ts#L14">remme-transaction-service/src/index.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-transaction-service/src/index.ts#L41">remme-transaction-service/src/index.ts:41</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>Usage without remme main package</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remmeApi = <span class="hljs-keyword">new</span> RemmeApi(); <span class="hljs-comment">// See RemmeRest implementation</span>
+<span class="hljs-keyword">const</span> remmeAccount = <span class="hljs-keyword">new</span> RemmeAccount(); <span class="hljs-comment">// See RemmeAccount implementation</span>
+<span class="hljs-keyword">const</span> remmeTransaction = <span class="hljs-keyword">new</span> RemmeTransactionService(remmeApi, remmeAccount);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>remmeRest: <span class="tsd-signature-type">IRemmeRest</span></h5>
+									<h5>remmeApi: <span class="tsd-signature-type">IRemmeApi</span></h5>
 								</li>
 								<li>
 									<h5>remmeAccount: <span class="tsd-signature-type">IRemmeAccount</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="remmetransactionservice.html" class="tsd-signature-type">RemmeTransactionService</a></h4>
@@ -133,30 +180,48 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 					<a name="create" class="tsd-anchor"></a>
 					<h3>create</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">create&lt;Input&gt;<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/transactioncreatepayload.html" class="tsd-signature-type">TransactionCreatePayload</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="createtransactiondto.html" class="tsd-signature-type">CreateTransactionDto</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmetransactionservice.html">IRemmeTransactionService</a>.<a href="../interfaces/iremmetransactionservice.html#create">create</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-transaction-service/src/index.ts#L21">remme-transaction-service/src/index.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-transaction-service/src/index.ts#L83">remme-transaction-service/src/index.ts:83</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>Input</h4>
-								</li>
-							</ul>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Documentation for building transactions
+									<a href="https://sawtooth.hyperledger.org/docs/core/releases/latest/_autogen/sdk_submit_tutorial_js.html#building-the-transaction">https://sawtooth.hyperledger.org/docs/core/releases/latest/_autogen/sdk_submit_tutorial_js.html#building-the-transaction</a></p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> familyName = <span class="hljs-string">"pub_key"</span>;
+<span class="hljs-keyword">const</span> familyVersion = <span class="hljs-string">"0.1"</span>;
+<span class="hljs-keyword">const</span> inputs = [];
+<span class="hljs-keyword">const</span> outputs = [];
+<span class="hljs-keyword">const</span> payloadBytes = <span class="hljs-built_in">Uint8Array</span>.from(<span class="hljs-string">"my transaction"</span>);
+<span class="hljs-keyword">const</span> createDto = <span class="hljs-keyword">new</span> CreateTransactionDto(
+                        familyName,
+                        familyVersion,
+                        inputs,
+                        outputs,
+                        payloadBytes,
+                  );
+<span class="hljs-keyword">const</span> transaction = <span class="hljs-keyword">await</span> remmeTransaction.create(createDto);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>settings: <a href="../interfaces/transactioncreatepayload.html" class="tsd-signature-type">TransactionCreatePayload</a></h5>
+									<h5>settings: <a href="createtransactiondto.html" class="tsd-signature-type">CreateTransactionDto</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -174,9 +239,18 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmetransactionservice.html">IRemmeTransactionService</a>.<a href="../interfaces/iremmetransactionservice.html#send">send</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-transaction-service/src/index.ts#L61">remme-transaction-service/src/index.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-transaction-service/src/index.ts#L134">remme-transaction-service/src/index.ts:134</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> sendResponse = <span class="hljs-keyword">await</span> remmeTransaction.send(transaction);
+<span class="hljs-built_in">console</span>.log(sendRequest.batchId);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -207,7 +281,7 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
 								<a href="remmetransactionservice.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-not-exported">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 								<a href="remmetransactionservice.html#create" class="tsd-kind-icon">create</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">

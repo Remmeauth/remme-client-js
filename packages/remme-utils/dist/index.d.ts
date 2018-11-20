@@ -1,7 +1,5 @@
 /// <reference types="node-forge" />
 import * as forge from "node-forge";
-import { oids } from "./models";
-import { hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData, toHexString, toUTF8Array, base64ToArrayBuffer } from "./functions";
 /**
  * @hidden
  */
@@ -20,6 +18,15 @@ declare module "node-forge" {
         function publicKeyToRSAPublicKey(publicKey: Key): any;
         namespace rsa {
             function setPublicKey(n: any, e: any): any;
+        }
+        /**
+         * @hidden
+         */
+        namespace ed25519 {
+            function generateKeyPair(obj?: any): any;
+            function sign(obj: any): any;
+            function verify(obj: any): any;
+            function publicKeyFromPrivateKey(obj: any): any;
         }
     }
     /**
@@ -44,9 +51,14 @@ declare module "node-forge" {
             function create(any: any): any;
         }
     }
+    /**
+     * @hidden
+     */
+    namespace util {
+        function ByteBuffer(obj: any, str: string): void;
+    }
 }
-declare const certificateToPem: (certificate: forge.pki.Certificate) => string;
-declare const certificateFromPem: (certificate: string) => forge.pki.Certificate;
-declare const publicKeyToPem: (publicKey: any) => string;
-declare const publicKeyFromPem: (publicKey: string) => forge.pki.Certificate;
-export { forge, oids, hexToBytes, bytesToHex, utf8ToBytes, toHex, getAddressFromData, toHexString, toUTF8Array, certificateToPem, certificateFromPem, publicKeyToPem, publicKeyFromPem, base64ToArrayBuffer };
+export { forge };
+export * from "./models";
+export * from "./functions";
+export * from "./constants";

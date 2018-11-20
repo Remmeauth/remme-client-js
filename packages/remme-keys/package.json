@@ -1,0 +1,21 @@
+{
+  "name": "remme-keys",
+  "version": "0.5.0-alfa",
+  "description": "REMME keys internal package",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "namespace": "remme",
+  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-keys",
+  "scripts": {
+    "transpile": "./node_modules/.bin/tsc"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "remme-protobuf": "^0.4.0",
+    "remme-utils": "^0.5.0-alfa",
+    "secp256k1": "^3.5.2"
+  },
+  "devDependencies": {
+    "typescript": "^2.8.3"
+  }
+}

@@ -1,49 +1,60 @@
-import { createContext, CryptoFactory } from "sawtooth-sdk/signing";
-import { Secp256k1PrivateKey } from "sawtooth-sdk/signing/secp256k1";
-import { getAddressFromData, hexToBytes } from "remme-utils";
+import { IRemmeKeys, KeyType, RemmeKeys, ECDSA } from "remme-keys";
+import { generateAddress, hexToBytes, RemmeFamilyName } from "remme-utils";
 
-import { IRemmeAccount } from "./interface";
+/**
+ * Account that is used for signing transactions and storing public keys which he was signed.
+ * @example
+ * ```typescript
+ * const account = new RemmeAccount("ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9");
+ * console.log(account.privateKeyHex); // "ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9";
+ *
+ * const anotherAccount = new RemmeAccount();
+ * console.log(anotherAccount.privateKeyHex); // "b5167700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d10783919129f";
+ *
+ * const data = "some data";
+ * const signedData = account.sign(data);
+ *
+ * const isVerify = account.verify(signedData, data);
+ * console.log(isVerify); // true
+ *
+ * const isVerifyInAnotherAccount = anotherAccount.verify(signedData, data);
+ * console.log(isVerifyInAnotherAccount); // false
+ * ```
+ */
+class RemmeAccount extends ECDSA implements IRemmeKeys {
 
-class RemmeAccount implements IRemmeAccount {
     // index signature
     [key: string]: any;
 
-    private _signer: any;
-    private _familyName = "account";
-    public address: string;
-    public publicKeyHex: string;
-    public privateKeyHex: string;
-
+    /**
+     * Get or generate private key, create signer by using private key,
+     * generate public key from private key and generate account address by using public key and family name
+     * (https://docs.remme.io/remme-core/docs/family-account.html#addressing)
+     * @example
+     * Get private key;
+     * ```typescript
+     * const account = new RemmeAccount("ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9");
+     * console.log(account.privateKeyHex); // "ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9";
+     * ```
+     *
+     * Generate new private key;
+     * ```typescript
+     * const account = new RemmeAccount();
+     * console.log(account.privateKeyHex); // "b5167700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d10783919129f";
+     * ```
+     * @param {string} privateKeyHex
+     */
     constructor(privateKeyHex?: string) {
-        if (privateKeyHex && privateKeyHex.search(/^[0-9a-f]{64}$/) === -1) {
-            throw new Error("Given privateKey is not a valid");
-        }
-        const context = createContext("secp256k1");
-        let privateKey;
-        if (!privateKeyHex) {
-            privateKey = context.newRandomPrivateKey();
-        } else {
-            privateKey = Secp256k1PrivateKey.fromHex(privateKeyHex);
-        }
-        this._signer = new CryptoFactory(context).newSigner(privateKey);
-        this.privateKeyHex = privateKey.asHex();
-        this.publicKeyHex = this._signer.getPublicKey().asHex();
-        this.address = getAddressFromData(this._familyName, this.publicKeyHex);
+        super({
+            privateKey: privateKeyHex ? hexToBytes(privateKeyHex) : ECDSA.generateKeyPair().privateKey,
+        });
+        this._familyName = RemmeFamilyName.Account;
+        this._address = generateAddress(this._familyName, this.publicKeyHex);
     }
 
-    public get privateKey(): any {
-        return Secp256k1PrivateKey.fromHex(this.privateKeyHex);
-    }
-
-    public sign(transaction: Uint8Array | string): any {
-        if (typeof transaction === "string") {
-            transaction = hexToBytes(transaction);
-        }
-        return this._signer.sign(transaction);
-    }
 }
 
 export {
     RemmeAccount,
-    IRemmeAccount,
+    IRemmeKeys as IRemmeAccount,
 };

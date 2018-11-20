@@ -2,20 +2,18 @@ import { forge } from "remme-utils";
 import { IBaseTransactionResponse } from "remme-transaction-service";
 
 import {
-    PublicKeyStorageCheckResult,
-    PublicKeyStorageStoreDto,
+    PublicKeyInfo,
+    IPublicKeyStore,
 } from "./models";
 
 export interface IRemmePublicKeyStorage {
-    store(data: PublicKeyStorageStoreDto): Promise<IBaseTransactionResponse>;
+    store(data: IPublicKeyStore): Promise<IBaseTransactionResponse>;
 
-    check(publicKey: forge.pki.PEM | forge.pki.Key): Promise<PublicKeyStorageCheckResult>;
+    check(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<boolean>;
 
-    revoke(publicKey: forge.pki.PEM | forge.pki.Key): Promise<IBaseTransactionResponse>;
+    getInfo(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<PublicKeyInfo>;
 
-    getUserPublicKeys(publicKey: string): Promise<string[]>;
+    revoke(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<IBaseTransactionResponse>;
 
-    generateMessage(data: string): string;
-
-    generateEntityHash(message: string): string;
+    getAccountPublicKeys(accountPublicKey: string): Promise<string[]>;
 }

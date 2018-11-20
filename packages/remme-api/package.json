@@ -1,0 +1,19 @@
+{
+  "name": "remme-api",
+  "version": "0.4.0",
+  "description": "REMME api internal package",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "namespace": "remme",
+  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-api",
+  "scripts": {
+    "transpile": "./node_modules/.bin/tsc"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "remme-http-client": "^0.4.0"
+  }
+}

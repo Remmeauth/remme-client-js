@@ -11,18 +11,59 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_web_socket_1 = require("remme-web-socket");
+var remme_utils_1 = require("remme-utils");
+/**
+ * Main class for response on transaction request, which contain identifier of batch and communication with WebSockets.
+ */
 var BaseTransactionResponse = /** @class */ (function (_super) {
     __extends(BaseTransactionResponse, _super);
-    function BaseTransactionResponse(socketAddress, sslMode, batchId) {
-        var _this = _super.call(this, socketAddress, sslMode) || this;
-        _this.batchId = batchId;
-        _super.prototype.data = {
+    /**
+     * Get address of node, ssl mode, and identifier of batch.
+     * Then implement RemmeWebSocket class and provide data to it.
+     * @param {string} nodeAddress
+     * @param {boolean} sslMode
+     * @param {string} batchId
+     */
+    function BaseTransactionResponse(nodeAddress, sslMode, batchId) {
+        var _this = _super.call(this, nodeAddress, sslMode) || this;
+        _this._batchId = batchId;
+        _this.data = {
             batch_ids: [
-                _this.batchId,
+                batchId,
             ],
         };
         return _this;
     }
+    Object.defineProperty(BaseTransactionResponse.prototype, "batchId", {
+        /**
+         * Identifier of batch that contains sending transaction
+         */
+        get: function () {
+            return this._batchId;
+        },
+        /**
+         * Set batch id. When you provide new batch id to this object, program check web socket connection,
+         * if connection is open, program close it and then provide new batch id.
+         * And you can connect to web socket again with new batch id.
+         * @param {string} value
+         */
+        set: function (value) {
+            if (value.search(remme_utils_1.PATTERNS.HEADER_SIGNATURE) === -1) {
+                throw new Error("Given batch id is invalid");
+            }
+            if (this._socket) {
+                _super.prototype.closeWebSocket.call(this);
+            }
+            this._batchId = value;
+            this.data = {
+                batch_ids: [
+                    value,
+                ],
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
     return BaseTransactionResponse;
 }(remme_web_socket_1.RemmeWebSocket));
 exports.BaseTransactionResponse = BaseTransactionResponse;

@@ -2349,8 +2349,7 @@ $root.AtomicSwapInfo = (function() {
      * Properties of an AtomicSwapInfo.
      * @exports IAtomicSwapInfo
      * @interface IAtomicSwapInfo
-     * @property {boolean|null} [isClosed] AtomicSwapInfo isClosed
-     * @property {boolean|null} [isApproved] AtomicSwapInfo isApproved
+     * @property {AtomicSwapInfo.State|null} [state] AtomicSwapInfo state
      * @property {string|null} [senderAddress] AtomicSwapInfo senderAddress
      * @property {string|null} [senderAddressNonLocal] AtomicSwapInfo senderAddressNonLocal
      * @property {string|null} [receiverAddress] AtomicSwapInfo receiverAddress
@@ -2379,20 +2378,12 @@ $root.AtomicSwapInfo = (function() {
     }
 
     /**
-     * AtomicSwapInfo isClosed.
-     * @member {boolean} isClosed
+     * AtomicSwapInfo state.
+     * @member {AtomicSwapInfo.State} state
      * @memberof AtomicSwapInfo
      * @instance
      */
-    AtomicSwapInfo.prototype.isClosed = false;
-
-    /**
-     * AtomicSwapInfo isApproved.
-     * @member {boolean} isApproved
-     * @memberof AtomicSwapInfo
-     * @instance
-     */
-    AtomicSwapInfo.prototype.isApproved = false;
+    AtomicSwapInfo.prototype.state = 0;
 
     /**
      * AtomicSwapInfo senderAddress.
@@ -2498,8 +2489,6 @@ $root.AtomicSwapInfo = (function() {
     AtomicSwapInfo.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.isClosed != null && message.hasOwnProperty("isClosed"))
-            writer.uint32(/* id 1, wireType 0 =*/8).bool(message.isClosed);
         if (message.senderAddress != null && message.hasOwnProperty("senderAddress"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.senderAddress);
         if (message.receiverAddress != null && message.hasOwnProperty("receiverAddress"))
@@ -2518,10 +2507,10 @@ $root.AtomicSwapInfo = (function() {
             writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.createdAt);
         if (message.isInitiator != null && message.hasOwnProperty("isInitiator"))
             writer.uint32(/* id 10, wireType 0 =*/80).bool(message.isInitiator);
-        if (message.isApproved != null && message.hasOwnProperty("isApproved"))
-            writer.uint32(/* id 11, wireType 0 =*/88).bool(message.isApproved);
         if (message.senderAddressNonLocal != null && message.hasOwnProperty("senderAddressNonLocal"))
             writer.uint32(/* id 12, wireType 2 =*/98).string(message.senderAddressNonLocal);
+        if (message.state != null && message.hasOwnProperty("state"))
+            writer.uint32(/* id 14, wireType 0 =*/112).int32(message.state);
         return writer;
     };
 
@@ -2556,11 +2545,8 @@ $root.AtomicSwapInfo = (function() {
         while (reader.pos < end) {
             var tag = reader.uint32();
             switch (tag >>> 3) {
-            case 1:
-                message.isClosed = reader.bool();
-                break;
-            case 11:
-                message.isApproved = reader.bool();
+            case 14:
+                message.state = reader.int32();
                 break;
             case 2:
                 message.senderAddress = reader.string();
@@ -2627,12 +2613,18 @@ $root.AtomicSwapInfo = (function() {
     AtomicSwapInfo.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
-        if (message.isClosed != null && message.hasOwnProperty("isClosed"))
-            if (typeof message.isClosed !== "boolean")
-                return "isClosed: boolean expected";
-        if (message.isApproved != null && message.hasOwnProperty("isApproved"))
-            if (typeof message.isApproved !== "boolean")
-                return "isApproved: boolean expected";
+        if (message.state != null && message.hasOwnProperty("state"))
+            switch (message.state) {
+            default:
+                return "state: enum value expected";
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                break;
+            }
         if (message.senderAddress != null && message.hasOwnProperty("senderAddress"))
             if (!$util.isString(message.senderAddress))
                 return "senderAddress: string expected";
@@ -2678,10 +2670,32 @@ $root.AtomicSwapInfo = (function() {
         if (object instanceof $root.AtomicSwapInfo)
             return object;
         var message = new $root.AtomicSwapInfo();
-        if (object.isClosed != null)
-            message.isClosed = Boolean(object.isClosed);
-        if (object.isApproved != null)
-            message.isApproved = Boolean(object.isApproved);
+        switch (object.state) {
+        case "EMPTY":
+        case 0:
+            message.state = 0;
+            break;
+        case "OPENED":
+        case 1:
+            message.state = 1;
+            break;
+        case "SECRET_LOCK_PROVIDED":
+        case 2:
+            message.state = 2;
+            break;
+        case "APPROVED":
+        case 3:
+            message.state = 3;
+            break;
+        case "CLOSED":
+        case 4:
+            message.state = 4;
+            break;
+        case "EXPIRED":
+        case 5:
+            message.state = 5;
+            break;
+        }
         if (object.senderAddress != null)
             message.senderAddress = String(object.senderAddress);
         if (object.senderAddressNonLocal != null)
@@ -2726,7 +2740,6 @@ $root.AtomicSwapInfo = (function() {
             options = {};
         var object = {};
         if (options.defaults) {
-            object.isClosed = false;
             object.senderAddress = "";
             object.receiverAddress = "";
             if ($util.Long) {
@@ -2740,11 +2753,9 @@ $root.AtomicSwapInfo = (function() {
             object.secretKey = "";
             object.createdAt = 0;
             object.isInitiator = false;
-            object.isApproved = false;
             object.senderAddressNonLocal = "";
+            object.state = options.enums === String ? "EMPTY" : 0;
         }
-        if (message.isClosed != null && message.hasOwnProperty("isClosed"))
-            object.isClosed = message.isClosed;
         if (message.senderAddress != null && message.hasOwnProperty("senderAddress"))
             object.senderAddress = message.senderAddress;
         if (message.receiverAddress != null && message.hasOwnProperty("receiverAddress"))
@@ -2766,10 +2777,10 @@ $root.AtomicSwapInfo = (function() {
             object.createdAt = message.createdAt;
         if (message.isInitiator != null && message.hasOwnProperty("isInitiator"))
             object.isInitiator = message.isInitiator;
-        if (message.isApproved != null && message.hasOwnProperty("isApproved"))
-            object.isApproved = message.isApproved;
         if (message.senderAddressNonLocal != null && message.hasOwnProperty("senderAddressNonLocal"))
             object.senderAddressNonLocal = message.senderAddressNonLocal;
+        if (message.state != null && message.hasOwnProperty("state"))
+            object.state = options.enums === String ? $root.AtomicSwapInfo.State[message.state] : message.state;
         return object;
     };
 
@@ -2784,7 +2795,643 @@ $root.AtomicSwapInfo = (function() {
         return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
     };
 
+    /**
+     * State enum.
+     * @name AtomicSwapInfo.State
+     * @enum {string}
+     * @property {number} EMPTY=0 EMPTY value
+     * @property {number} OPENED=1 OPENED value
+     * @property {number} SECRET_LOCK_PROVIDED=2 SECRET_LOCK_PROVIDED value
+     * @property {number} APPROVED=3 APPROVED value
+     * @property {number} CLOSED=4 CLOSED value
+     * @property {number} EXPIRED=5 EXPIRED value
+     */
+    AtomicSwapInfo.State = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "EMPTY"] = 0;
+        values[valuesById[1] = "OPENED"] = 1;
+        values[valuesById[2] = "SECRET_LOCK_PROVIDED"] = 2;
+        values[valuesById[3] = "APPROVED"] = 3;
+        values[valuesById[4] = "CLOSED"] = 4;
+        values[valuesById[5] = "EXPIRED"] = 5;
+        return values;
+    })();
+
     return AtomicSwapInfo;
+})();
+
+$root.BlockInfo = (function() {
+
+    /**
+     * Properties of a BlockInfo.
+     * @exports IBlockInfo
+     * @interface IBlockInfo
+     * @property {number|Long|null} [blockNum] BlockInfo blockNum
+     * @property {string|null} [previousBlockId] BlockInfo previousBlockId
+     * @property {string|null} [signerPublicKey] BlockInfo signerPublicKey
+     * @property {string|null} [headerSignature] BlockInfo headerSignature
+     * @property {number|Long|null} [timestamp] BlockInfo timestamp
+     */
+
+    /**
+     * Constructs a new BlockInfo.
+     * @exports BlockInfo
+     * @classdesc Represents a BlockInfo.
+     * @implements IBlockInfo
+     * @constructor
+     * @param {IBlockInfo=} [properties] Properties to set
+     */
+    function BlockInfo(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * BlockInfo blockNum.
+     * @member {number|Long} blockNum
+     * @memberof BlockInfo
+     * @instance
+     */
+    BlockInfo.prototype.blockNum = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * BlockInfo previousBlockId.
+     * @member {string} previousBlockId
+     * @memberof BlockInfo
+     * @instance
+     */
+    BlockInfo.prototype.previousBlockId = "";
+
+    /**
+     * BlockInfo signerPublicKey.
+     * @member {string} signerPublicKey
+     * @memberof BlockInfo
+     * @instance
+     */
+    BlockInfo.prototype.signerPublicKey = "";
+
+    /**
+     * BlockInfo headerSignature.
+     * @member {string} headerSignature
+     * @memberof BlockInfo
+     * @instance
+     */
+    BlockInfo.prototype.headerSignature = "";
+
+    /**
+     * BlockInfo timestamp.
+     * @member {number|Long} timestamp
+     * @memberof BlockInfo
+     * @instance
+     */
+    BlockInfo.prototype.timestamp = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * Creates a new BlockInfo instance using the specified properties.
+     * @function create
+     * @memberof BlockInfo
+     * @static
+     * @param {IBlockInfo=} [properties] Properties to set
+     * @returns {BlockInfo} BlockInfo instance
+     */
+    BlockInfo.create = function create(properties) {
+        return new BlockInfo(properties);
+    };
+
+    /**
+     * Encodes the specified BlockInfo message. Does not implicitly {@link BlockInfo.verify|verify} messages.
+     * @function encode
+     * @memberof BlockInfo
+     * @static
+     * @param {IBlockInfo} message BlockInfo message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    BlockInfo.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.blockNum != null && message.hasOwnProperty("blockNum"))
+            writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.blockNum);
+        if (message.previousBlockId != null && message.hasOwnProperty("previousBlockId"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.previousBlockId);
+        if (message.signerPublicKey != null && message.hasOwnProperty("signerPublicKey"))
+            writer.uint32(/* id 3, wireType 2 =*/26).string(message.signerPublicKey);
+        if (message.headerSignature != null && message.hasOwnProperty("headerSignature"))
+            writer.uint32(/* id 4, wireType 2 =*/34).string(message.headerSignature);
+        if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+            writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.timestamp);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified BlockInfo message, length delimited. Does not implicitly {@link BlockInfo.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof BlockInfo
+     * @static
+     * @param {IBlockInfo} message BlockInfo message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    BlockInfo.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a BlockInfo message from the specified reader or buffer.
+     * @function decode
+     * @memberof BlockInfo
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {BlockInfo} BlockInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    BlockInfo.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BlockInfo();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.blockNum = reader.uint64();
+                break;
+            case 2:
+                message.previousBlockId = reader.string();
+                break;
+            case 3:
+                message.signerPublicKey = reader.string();
+                break;
+            case 4:
+                message.headerSignature = reader.string();
+                break;
+            case 5:
+                message.timestamp = reader.uint64();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a BlockInfo message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof BlockInfo
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {BlockInfo} BlockInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    BlockInfo.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a BlockInfo message.
+     * @function verify
+     * @memberof BlockInfo
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    BlockInfo.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.blockNum != null && message.hasOwnProperty("blockNum"))
+            if (!$util.isInteger(message.blockNum) && !(message.blockNum && $util.isInteger(message.blockNum.low) && $util.isInteger(message.blockNum.high)))
+                return "blockNum: integer|Long expected";
+        if (message.previousBlockId != null && message.hasOwnProperty("previousBlockId"))
+            if (!$util.isString(message.previousBlockId))
+                return "previousBlockId: string expected";
+        if (message.signerPublicKey != null && message.hasOwnProperty("signerPublicKey"))
+            if (!$util.isString(message.signerPublicKey))
+                return "signerPublicKey: string expected";
+        if (message.headerSignature != null && message.hasOwnProperty("headerSignature"))
+            if (!$util.isString(message.headerSignature))
+                return "headerSignature: string expected";
+        if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+            if (!$util.isInteger(message.timestamp) && !(message.timestamp && $util.isInteger(message.timestamp.low) && $util.isInteger(message.timestamp.high)))
+                return "timestamp: integer|Long expected";
+        return null;
+    };
+
+    /**
+     * Creates a BlockInfo message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof BlockInfo
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {BlockInfo} BlockInfo
+     */
+    BlockInfo.fromObject = function fromObject(object) {
+        if (object instanceof $root.BlockInfo)
+            return object;
+        var message = new $root.BlockInfo();
+        if (object.blockNum != null)
+            if ($util.Long)
+                (message.blockNum = $util.Long.fromValue(object.blockNum)).unsigned = true;
+            else if (typeof object.blockNum === "string")
+                message.blockNum = parseInt(object.blockNum, 10);
+            else if (typeof object.blockNum === "number")
+                message.blockNum = object.blockNum;
+            else if (typeof object.blockNum === "object")
+                message.blockNum = new $util.LongBits(object.blockNum.low >>> 0, object.blockNum.high >>> 0).toNumber(true);
+        if (object.previousBlockId != null)
+            message.previousBlockId = String(object.previousBlockId);
+        if (object.signerPublicKey != null)
+            message.signerPublicKey = String(object.signerPublicKey);
+        if (object.headerSignature != null)
+            message.headerSignature = String(object.headerSignature);
+        if (object.timestamp != null)
+            if ($util.Long)
+                (message.timestamp = $util.Long.fromValue(object.timestamp)).unsigned = true;
+            else if (typeof object.timestamp === "string")
+                message.timestamp = parseInt(object.timestamp, 10);
+            else if (typeof object.timestamp === "number")
+                message.timestamp = object.timestamp;
+            else if (typeof object.timestamp === "object")
+                message.timestamp = new $util.LongBits(object.timestamp.low >>> 0, object.timestamp.high >>> 0).toNumber(true);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a BlockInfo message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof BlockInfo
+     * @static
+     * @param {BlockInfo} message BlockInfo
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    BlockInfo.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.blockNum = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.blockNum = options.longs === String ? "0" : 0;
+            object.previousBlockId = "";
+            object.signerPublicKey = "";
+            object.headerSignature = "";
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.timestamp = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.timestamp = options.longs === String ? "0" : 0;
+        }
+        if (message.blockNum != null && message.hasOwnProperty("blockNum"))
+            if (typeof message.blockNum === "number")
+                object.blockNum = options.longs === String ? String(message.blockNum) : message.blockNum;
+            else
+                object.blockNum = options.longs === String ? $util.Long.prototype.toString.call(message.blockNum) : options.longs === Number ? new $util.LongBits(message.blockNum.low >>> 0, message.blockNum.high >>> 0).toNumber(true) : message.blockNum;
+        if (message.previousBlockId != null && message.hasOwnProperty("previousBlockId"))
+            object.previousBlockId = message.previousBlockId;
+        if (message.signerPublicKey != null && message.hasOwnProperty("signerPublicKey"))
+            object.signerPublicKey = message.signerPublicKey;
+        if (message.headerSignature != null && message.hasOwnProperty("headerSignature"))
+            object.headerSignature = message.headerSignature;
+        if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+            if (typeof message.timestamp === "number")
+                object.timestamp = options.longs === String ? String(message.timestamp) : message.timestamp;
+            else
+                object.timestamp = options.longs === String ? $util.Long.prototype.toString.call(message.timestamp) : options.longs === Number ? new $util.LongBits(message.timestamp.low >>> 0, message.timestamp.high >>> 0).toNumber(true) : message.timestamp;
+        return object;
+    };
+
+    /**
+     * Converts this BlockInfo to JSON.
+     * @function toJSON
+     * @memberof BlockInfo
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    BlockInfo.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return BlockInfo;
+})();
+
+$root.BlockInfoConfig = (function() {
+
+    /**
+     * Properties of a BlockInfoConfig.
+     * @exports IBlockInfoConfig
+     * @interface IBlockInfoConfig
+     * @property {number|Long|null} [latestBlock] BlockInfoConfig latestBlock
+     * @property {number|Long|null} [oldestBlock] BlockInfoConfig oldestBlock
+     * @property {number|Long|null} [targetCount] BlockInfoConfig targetCount
+     * @property {number|Long|null} [syncTolerance] BlockInfoConfig syncTolerance
+     */
+
+    /**
+     * Constructs a new BlockInfoConfig.
+     * @exports BlockInfoConfig
+     * @classdesc Represents a BlockInfoConfig.
+     * @implements IBlockInfoConfig
+     * @constructor
+     * @param {IBlockInfoConfig=} [properties] Properties to set
+     */
+    function BlockInfoConfig(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * BlockInfoConfig latestBlock.
+     * @member {number|Long} latestBlock
+     * @memberof BlockInfoConfig
+     * @instance
+     */
+    BlockInfoConfig.prototype.latestBlock = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * BlockInfoConfig oldestBlock.
+     * @member {number|Long} oldestBlock
+     * @memberof BlockInfoConfig
+     * @instance
+     */
+    BlockInfoConfig.prototype.oldestBlock = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * BlockInfoConfig targetCount.
+     * @member {number|Long} targetCount
+     * @memberof BlockInfoConfig
+     * @instance
+     */
+    BlockInfoConfig.prototype.targetCount = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * BlockInfoConfig syncTolerance.
+     * @member {number|Long} syncTolerance
+     * @memberof BlockInfoConfig
+     * @instance
+     */
+    BlockInfoConfig.prototype.syncTolerance = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * Creates a new BlockInfoConfig instance using the specified properties.
+     * @function create
+     * @memberof BlockInfoConfig
+     * @static
+     * @param {IBlockInfoConfig=} [properties] Properties to set
+     * @returns {BlockInfoConfig} BlockInfoConfig instance
+     */
+    BlockInfoConfig.create = function create(properties) {
+        return new BlockInfoConfig(properties);
+    };
+
+    /**
+     * Encodes the specified BlockInfoConfig message. Does not implicitly {@link BlockInfoConfig.verify|verify} messages.
+     * @function encode
+     * @memberof BlockInfoConfig
+     * @static
+     * @param {IBlockInfoConfig} message BlockInfoConfig message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    BlockInfoConfig.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.latestBlock != null && message.hasOwnProperty("latestBlock"))
+            writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.latestBlock);
+        if (message.oldestBlock != null && message.hasOwnProperty("oldestBlock"))
+            writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.oldestBlock);
+        if (message.targetCount != null && message.hasOwnProperty("targetCount"))
+            writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.targetCount);
+        if (message.syncTolerance != null && message.hasOwnProperty("syncTolerance"))
+            writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.syncTolerance);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified BlockInfoConfig message, length delimited. Does not implicitly {@link BlockInfoConfig.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof BlockInfoConfig
+     * @static
+     * @param {IBlockInfoConfig} message BlockInfoConfig message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    BlockInfoConfig.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a BlockInfoConfig message from the specified reader or buffer.
+     * @function decode
+     * @memberof BlockInfoConfig
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {BlockInfoConfig} BlockInfoConfig
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    BlockInfoConfig.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BlockInfoConfig();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.latestBlock = reader.uint64();
+                break;
+            case 2:
+                message.oldestBlock = reader.uint64();
+                break;
+            case 3:
+                message.targetCount = reader.uint64();
+                break;
+            case 4:
+                message.syncTolerance = reader.uint64();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a BlockInfoConfig message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof BlockInfoConfig
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {BlockInfoConfig} BlockInfoConfig
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    BlockInfoConfig.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a BlockInfoConfig message.
+     * @function verify
+     * @memberof BlockInfoConfig
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    BlockInfoConfig.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.latestBlock != null && message.hasOwnProperty("latestBlock"))
+            if (!$util.isInteger(message.latestBlock) && !(message.latestBlock && $util.isInteger(message.latestBlock.low) && $util.isInteger(message.latestBlock.high)))
+                return "latestBlock: integer|Long expected";
+        if (message.oldestBlock != null && message.hasOwnProperty("oldestBlock"))
+            if (!$util.isInteger(message.oldestBlock) && !(message.oldestBlock && $util.isInteger(message.oldestBlock.low) && $util.isInteger(message.oldestBlock.high)))
+                return "oldestBlock: integer|Long expected";
+        if (message.targetCount != null && message.hasOwnProperty("targetCount"))
+            if (!$util.isInteger(message.targetCount) && !(message.targetCount && $util.isInteger(message.targetCount.low) && $util.isInteger(message.targetCount.high)))
+                return "targetCount: integer|Long expected";
+        if (message.syncTolerance != null && message.hasOwnProperty("syncTolerance"))
+            if (!$util.isInteger(message.syncTolerance) && !(message.syncTolerance && $util.isInteger(message.syncTolerance.low) && $util.isInteger(message.syncTolerance.high)))
+                return "syncTolerance: integer|Long expected";
+        return null;
+    };
+
+    /**
+     * Creates a BlockInfoConfig message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof BlockInfoConfig
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {BlockInfoConfig} BlockInfoConfig
+     */
+    BlockInfoConfig.fromObject = function fromObject(object) {
+        if (object instanceof $root.BlockInfoConfig)
+            return object;
+        var message = new $root.BlockInfoConfig();
+        if (object.latestBlock != null)
+            if ($util.Long)
+                (message.latestBlock = $util.Long.fromValue(object.latestBlock)).unsigned = true;
+            else if (typeof object.latestBlock === "string")
+                message.latestBlock = parseInt(object.latestBlock, 10);
+            else if (typeof object.latestBlock === "number")
+                message.latestBlock = object.latestBlock;
+            else if (typeof object.latestBlock === "object")
+                message.latestBlock = new $util.LongBits(object.latestBlock.low >>> 0, object.latestBlock.high >>> 0).toNumber(true);
+        if (object.oldestBlock != null)
+            if ($util.Long)
+                (message.oldestBlock = $util.Long.fromValue(object.oldestBlock)).unsigned = true;
+            else if (typeof object.oldestBlock === "string")
+                message.oldestBlock = parseInt(object.oldestBlock, 10);
+            else if (typeof object.oldestBlock === "number")
+                message.oldestBlock = object.oldestBlock;
+            else if (typeof object.oldestBlock === "object")
+                message.oldestBlock = new $util.LongBits(object.oldestBlock.low >>> 0, object.oldestBlock.high >>> 0).toNumber(true);
+        if (object.targetCount != null)
+            if ($util.Long)
+                (message.targetCount = $util.Long.fromValue(object.targetCount)).unsigned = true;
+            else if (typeof object.targetCount === "string")
+                message.targetCount = parseInt(object.targetCount, 10);
+            else if (typeof object.targetCount === "number")
+                message.targetCount = object.targetCount;
+            else if (typeof object.targetCount === "object")
+                message.targetCount = new $util.LongBits(object.targetCount.low >>> 0, object.targetCount.high >>> 0).toNumber(true);
+        if (object.syncTolerance != null)
+            if ($util.Long)
+                (message.syncTolerance = $util.Long.fromValue(object.syncTolerance)).unsigned = true;
+            else if (typeof object.syncTolerance === "string")
+                message.syncTolerance = parseInt(object.syncTolerance, 10);
+            else if (typeof object.syncTolerance === "number")
+                message.syncTolerance = object.syncTolerance;
+            else if (typeof object.syncTolerance === "object")
+                message.syncTolerance = new $util.LongBits(object.syncTolerance.low >>> 0, object.syncTolerance.high >>> 0).toNumber(true);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a BlockInfoConfig message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof BlockInfoConfig
+     * @static
+     * @param {BlockInfoConfig} message BlockInfoConfig
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    BlockInfoConfig.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.latestBlock = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.latestBlock = options.longs === String ? "0" : 0;
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.oldestBlock = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.oldestBlock = options.longs === String ? "0" : 0;
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.targetCount = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.targetCount = options.longs === String ? "0" : 0;
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.syncTolerance = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.syncTolerance = options.longs === String ? "0" : 0;
+        }
+        if (message.latestBlock != null && message.hasOwnProperty("latestBlock"))
+            if (typeof message.latestBlock === "number")
+                object.latestBlock = options.longs === String ? String(message.latestBlock) : message.latestBlock;
+            else
+                object.latestBlock = options.longs === String ? $util.Long.prototype.toString.call(message.latestBlock) : options.longs === Number ? new $util.LongBits(message.latestBlock.low >>> 0, message.latestBlock.high >>> 0).toNumber(true) : message.latestBlock;
+        if (message.oldestBlock != null && message.hasOwnProperty("oldestBlock"))
+            if (typeof message.oldestBlock === "number")
+                object.oldestBlock = options.longs === String ? String(message.oldestBlock) : message.oldestBlock;
+            else
+                object.oldestBlock = options.longs === String ? $util.Long.prototype.toString.call(message.oldestBlock) : options.longs === Number ? new $util.LongBits(message.oldestBlock.low >>> 0, message.oldestBlock.high >>> 0).toNumber(true) : message.oldestBlock;
+        if (message.targetCount != null && message.hasOwnProperty("targetCount"))
+            if (typeof message.targetCount === "number")
+                object.targetCount = options.longs === String ? String(message.targetCount) : message.targetCount;
+            else
+                object.targetCount = options.longs === String ? $util.Long.prototype.toString.call(message.targetCount) : options.longs === Number ? new $util.LongBits(message.targetCount.low >>> 0, message.targetCount.high >>> 0).toNumber(true) : message.targetCount;
+        if (message.syncTolerance != null && message.hasOwnProperty("syncTolerance"))
+            if (typeof message.syncTolerance === "number")
+                object.syncTolerance = options.longs === String ? String(message.syncTolerance) : message.syncTolerance;
+            else
+                object.syncTolerance = options.longs === String ? $util.Long.prototype.toString.call(message.syncTolerance) : options.longs === Number ? new $util.LongBits(message.syncTolerance.low >>> 0, message.syncTolerance.high >>> 0).toNumber(true) : message.syncTolerance;
+        return object;
+    };
+
+    /**
+     * Converts this BlockInfoConfig to JSON.
+     * @function toJSON
+     * @memberof BlockInfoConfig
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    BlockInfoConfig.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return BlockInfoConfig;
 })();
 
 $root.PubKeyMethod = (function() {

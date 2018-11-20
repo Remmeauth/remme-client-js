@@ -1,10 +1,7 @@
 export interface IRemmeWebSocket {
-    data: object;
-    isEvent: boolean;
-    socketAddress: string;
+    nodeAddress: string;
     sslMode: boolean;
 
-    connectToWebSocket(callback: any): void;
-
+    connectToWebSocket(callback: (err: Error, res: any) => void): void;
     closeWebSocket(): void;
 }

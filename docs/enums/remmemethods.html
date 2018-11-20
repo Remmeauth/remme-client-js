@@ -64,6 +64,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Enumeration all currently available methods in our JSON-RPC.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -72,19 +79,25 @@
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#atomicswap" class="tsd-kind-icon">atomic<wbr>Swap</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#atomicswapapprove" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Approve</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#atomicswapclose" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Close</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#atomicswapexpire" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Expire</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#atomicswapinit" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Init</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#atomicswappublickey" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Public<wbr>Key</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#atomicswapsecretlock" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Secret<wbr>Lock</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#batchstatus" class="tsd-kind-icon">batch<wbr>Status</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#batches" class="tsd-kind-icon">batches</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#blockinfo" class="tsd-kind-icon">block<wbr>Info</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#blocks" class="tsd-kind-icon">blocks</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#fetchbatch" class="tsd-kind-icon">fetch<wbr>Batch</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#fetchblock" class="tsd-kind-icon">fetch<wbr>Block</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#fetchstate" class="tsd-kind-icon">fetch<wbr>State</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#fetchtransaction" class="tsd-kind-icon">fetch<wbr>Transaction</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#networkstatus" class="tsd-kind-icon">network<wbr>Status</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#nodeconfig" class="tsd-kind-icon">node<wbr>Config</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#nodekey" class="tsd-kind-icon">node<wbr>Key</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#peers" class="tsd-kind-icon">peers</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#publickey" class="tsd-kind-icon">public<wbr>Key</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#receipts" class="tsd-kind-icon">receipts</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#state" class="tsd-kind-icon">state</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#token" class="tsd-kind-icon">token</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#transaction" class="tsd-kind-icon">transaction</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#transactions" class="tsd-kind-icon">transactions</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="remmemethods.html#userpublickeys" class="tsd-kind-icon">user<wbr>Public<wbr>Keys</a></li>
 							</ul>
 						</section>
@@ -96,150 +109,210 @@
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="atomicswap" class="tsd-anchor"></a>
 					<h3>atomic<wbr>Swap</h3>
-					<div class="tsd-signature tsd-kind-icon">atomic<wbr>Swap<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;atomic-swap&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">atomic<wbr>Swap<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;get_atomic_swap_info&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L6">remme-rest/src/models/remme-methods.ts:6</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="atomicswapapprove" class="tsd-anchor"></a>
-					<h3>atomic<wbr>Swap<wbr>Approve</h3>
-					<div class="tsd-signature tsd-kind-icon">atomic<wbr>Swap<wbr>Approve<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;atomic-swap/approve&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L8">remme-rest/src/models/remme-methods.ts:8</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="atomicswapclose" class="tsd-anchor"></a>
-					<h3>atomic<wbr>Swap<wbr>Close</h3>
-					<div class="tsd-signature tsd-kind-icon">atomic<wbr>Swap<wbr>Close<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;atomic-swap/close&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L11">remme-rest/src/models/remme-methods.ts:11</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="atomicswapexpire" class="tsd-anchor"></a>
-					<h3>atomic<wbr>Swap<wbr>Expire</h3>
-					<div class="tsd-signature tsd-kind-icon">atomic<wbr>Swap<wbr>Expire<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;atomic-swap/expire&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L9">remme-rest/src/models/remme-methods.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="atomicswapinit" class="tsd-anchor"></a>
-					<h3>atomic<wbr>Swap<wbr>Init</h3>
-					<div class="tsd-signature tsd-kind-icon">atomic<wbr>Swap<wbr>Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;atomic-swap/init&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L7">remme-rest/src/models/remme-methods.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L8">remme-api/src/models/remme-methods.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="atomicswappublickey" class="tsd-anchor"></a>
 					<h3>atomic<wbr>Swap<wbr>Public<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">atomic<wbr>Swap<wbr>Public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;atomic-swap/pub-key-encryption&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">atomic<wbr>Swap<wbr>Public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;get_atomic_swap_public_key&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L12">remme-rest/src/models/remme-methods.ts:12</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="atomicswapsecretlock" class="tsd-anchor"></a>
-					<h3>atomic<wbr>Swap<wbr>Secret<wbr>Lock</h3>
-					<div class="tsd-signature tsd-kind-icon">atomic<wbr>Swap<wbr>Secret<wbr>Lock<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;atomic-swap/set-secret-lock&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L10">remme-rest/src/models/remme-methods.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L9">remme-api/src/models/remme-methods.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="batchstatus" class="tsd-anchor"></a>
 					<h3>batch<wbr>Status</h3>
-					<div class="tsd-signature tsd-kind-icon">batch<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;batch_status&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">batch<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;get_batch_status&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L4">remme-rest/src/models/remme-methods.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L7">remme-api/src/models/remme-methods.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="batches" class="tsd-anchor"></a>
+					<h3>batches</h3>
+					<div class="tsd-signature tsd-kind-icon">batches<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;list_batches&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L18">remme-api/src/models/remme-methods.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="blockinfo" class="tsd-anchor"></a>
 					<h3>block<wbr>Info</h3>
-					<div class="tsd-signature tsd-kind-icon">block<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;block-info&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">block<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;get_blocks&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L16">remme-rest/src/models/remme-methods.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L15">remme-api/src/models/remme-methods.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="blocks" class="tsd-anchor"></a>
+					<h3>blocks</h3>
+					<div class="tsd-signature tsd-kind-icon">blocks<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;list_blocks&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L16">remme-api/src/models/remme-methods.ts:16</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="fetchbatch" class="tsd-anchor"></a>
+					<h3>fetch<wbr>Batch</h3>
+					<div class="tsd-signature tsd-kind-icon">fetch<wbr>Batch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;fetch_batch&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L19">remme-api/src/models/remme-methods.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="fetchblock" class="tsd-anchor"></a>
+					<h3>fetch<wbr>Block</h3>
+					<div class="tsd-signature tsd-kind-icon">fetch<wbr>Block<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;fetch_block&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L17">remme-api/src/models/remme-methods.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="fetchstate" class="tsd-anchor"></a>
+					<h3>fetch<wbr>State</h3>
+					<div class="tsd-signature tsd-kind-icon">fetch<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;fetch_state&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L23">remme-api/src/models/remme-methods.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="fetchtransaction" class="tsd-anchor"></a>
+					<h3>fetch<wbr>Transaction</h3>
+					<div class="tsd-signature tsd-kind-icon">fetch<wbr>Transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;fetch_transaction&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L21">remme-api/src/models/remme-methods.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="networkstatus" class="tsd-anchor"></a>
 					<h3>network<wbr>Status</h3>
-					<div class="tsd-signature tsd-kind-icon">network<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;network&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">network<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;get_node_info&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L15">remme-rest/src/models/remme-methods.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L14">remme-api/src/models/remme-methods.ts:14</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="nodeconfig" class="tsd-anchor"></a>
+					<h3>node<wbr>Config</h3>
+					<div class="tsd-signature tsd-kind-icon">node<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;get_node_config&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L12">remme-api/src/models/remme-methods.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="nodekey" class="tsd-anchor"></a>
 					<h3>node<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">node<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;node_key&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">node<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;get_node_public_key&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L13">remme-rest/src/models/remme-methods.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L11">remme-api/src/models/remme-methods.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="peers" class="tsd-anchor"></a>
+					<h3>peers</h3>
+					<div class="tsd-signature tsd-kind-icon">peers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;fetch_peers&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L24">remme-api/src/models/remme-methods.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="publickey" class="tsd-anchor"></a>
 					<h3>public<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;pub_key&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;get_public_key_info&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L2">remme-rest/src/models/remme-methods.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L5">remme-api/src/models/remme-methods.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="receipts" class="tsd-anchor"></a>
+					<h3>receipts</h3>
+					<div class="tsd-signature tsd-kind-icon">receipts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;list_receipts&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L25">remme-api/src/models/remme-methods.ts:25</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="state" class="tsd-anchor"></a>
+					<h3>state</h3>
+					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;list_state&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L22">remme-api/src/models/remme-methods.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="token" class="tsd-anchor"></a>
 					<h3>token</h3>
-					<div class="tsd-signature tsd-kind-icon">token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;token&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;get_balance&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L3">remme-rest/src/models/remme-methods.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L6">remme-api/src/models/remme-methods.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="transaction" class="tsd-anchor"></a>
 					<h3>transaction</h3>
-					<div class="tsd-signature tsd-kind-icon">transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;transaction&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;send_raw_transaction&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L14">remme-rest/src/models/remme-methods.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L13">remme-api/src/models/remme-methods.ts:13</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="transactions" class="tsd-anchor"></a>
+					<h3>transactions</h3>
+					<div class="tsd-signature tsd-kind-icon">transactions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;list_transactions&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L20">remme-api/src/models/remme-methods.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="userpublickeys" class="tsd-anchor"></a>
 					<h3>user<wbr>Public<wbr>Keys</h3>
-					<div class="tsd-signature tsd-kind-icon">user<wbr>Public<wbr>Keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;user&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">user<wbr>Public<wbr>Keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;get_public_keys_list&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-rest/src/models/remme-methods.ts#L5">remme-rest/src/models/remme-methods.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-api/src/models/remme-methods.ts#L10">remme-api/src/models/remme-methods.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -264,43 +337,61 @@
 								<a href="remmemethods.html#atomicswap" class="tsd-kind-icon">atomic<wbr>Swap</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="remmemethods.html#atomicswapapprove" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Approve</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="remmemethods.html#atomicswapclose" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Close</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="remmemethods.html#atomicswapexpire" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Expire</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="remmemethods.html#atomicswapinit" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Init</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="remmemethods.html#atomicswappublickey" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Public<wbr>Key</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="remmemethods.html#atomicswapsecretlock" class="tsd-kind-icon">atomic<wbr>Swap<wbr>Secret<wbr>Lock</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="remmemethods.html#batchstatus" class="tsd-kind-icon">batch<wbr>Status</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="remmemethods.html#batches" class="tsd-kind-icon">batches</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="remmemethods.html#blockinfo" class="tsd-kind-icon">block<wbr>Info</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="remmemethods.html#blocks" class="tsd-kind-icon">blocks</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="remmemethods.html#fetchbatch" class="tsd-kind-icon">fetch<wbr>Batch</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="remmemethods.html#fetchblock" class="tsd-kind-icon">fetch<wbr>Block</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="remmemethods.html#fetchstate" class="tsd-kind-icon">fetch<wbr>State</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="remmemethods.html#fetchtransaction" class="tsd-kind-icon">fetch<wbr>Transaction</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="remmemethods.html#networkstatus" class="tsd-kind-icon">network<wbr>Status</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="remmemethods.html#nodeconfig" class="tsd-kind-icon">node<wbr>Config</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="remmemethods.html#nodekey" class="tsd-kind-icon">node<wbr>Key</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="remmemethods.html#peers" class="tsd-kind-icon">peers</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="remmemethods.html#publickey" class="tsd-kind-icon">public<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="remmemethods.html#receipts" class="tsd-kind-icon">receipts</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="remmemethods.html#state" class="tsd-kind-icon">state</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="remmemethods.html#token" class="tsd-kind-icon">token</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="remmemethods.html#transaction" class="tsd-kind-icon">transaction</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="remmemethods.html#transactions" class="tsd-kind-icon">transactions</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 								<a href="remmemethods.html#userpublickeys" class="tsd-kind-icon">user<wbr>Public<wbr>Keys</a>

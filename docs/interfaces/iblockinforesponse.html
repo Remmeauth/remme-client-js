@@ -79,7 +79,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iblockinforesponse.html#blocks" class="tsd-kind-icon">blocks</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iblockinforesponse.html#block_number" class="tsd-kind-icon">block_<wbr>number</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iblockinforesponse.html#header_signature" class="tsd-kind-icon">header_<wbr>signature</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iblockinforesponse.html#previous_header_signature" class="tsd-kind-icon">previous_<wbr>header_<wbr>signature</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iblockinforesponse.html#signer_public_key" class="tsd-kind-icon">signer_<wbr>public_<wbr>key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iblockinforesponse.html#timestamp" class="tsd-kind-icon">timestamp</a></li>
 							</ul>
 						</section>
 					</div>
@@ -88,12 +92,52 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="blocks" class="tsd-anchor"></a>
-					<h3>blocks</h3>
-					<div class="tsd-signature tsd-kind-icon">blocks<span class="tsd-signature-symbol">:</span> <a href="iblockinforesponseblocks.html" class="tsd-signature-type">IBlockInfoResponseBlocks</a><span class="tsd-signature-symbol">[]</span></div>
+					<a name="block_number" class="tsd-anchor"></a>
+					<h3>block_<wbr>number</h3>
+					<div class="tsd-signature tsd-kind-icon">block_<wbr>number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/models/BlockInfo.ts#L7">remme-blockchain-info/src/models/BlockInfo.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/models/BlockInfo.ts#L10">remme-blockchain-info/src/models/BlockInfo.ts:10</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="header_signature" class="tsd-anchor"></a>
+					<h3>header_<wbr>signature</h3>
+					<div class="tsd-signature tsd-kind-icon">header_<wbr>signature<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/models/BlockInfo.ts#L13">remme-blockchain-info/src/models/BlockInfo.ts:13</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="previous_header_signature" class="tsd-anchor"></a>
+					<h3>previous_<wbr>header_<wbr>signature</h3>
+					<div class="tsd-signature tsd-kind-icon">previous_<wbr>header_<wbr>signature<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/models/BlockInfo.ts#L12">remme-blockchain-info/src/models/BlockInfo.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="signer_public_key" class="tsd-anchor"></a>
+					<h3>signer_<wbr>public_<wbr>key</h3>
+					<div class="tsd-signature tsd-kind-icon">signer_<wbr>public_<wbr>key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/models/BlockInfo.ts#L14">remme-blockchain-info/src/models/BlockInfo.ts:14</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="timestamp" class="tsd-anchor"></a>
+					<h3>timestamp</h3>
+					<div class="tsd-signature tsd-kind-icon">timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/models/BlockInfo.ts#L11">remme-blockchain-info/src/models/BlockInfo.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -115,7 +159,19 @@
 						<a href="iblockinforesponse.html" class="tsd-kind-icon">IBlock<wbr>Info<wbr>Response</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="iblockinforesponse.html#blocks" class="tsd-kind-icon">blocks</a>
+								<a href="iblockinforesponse.html#block_number" class="tsd-kind-icon">block_<wbr>number</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="iblockinforesponse.html#header_signature" class="tsd-kind-icon">header_<wbr>signature</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="iblockinforesponse.html#previous_header_signature" class="tsd-kind-icon">previous_<wbr>header_<wbr>signature</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="iblockinforesponse.html#signer_public_key" class="tsd-kind-icon">signer_<wbr>public_<wbr>key</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="iblockinforesponse.html#timestamp" class="tsd-kind-icon">timestamp</a>
 							</li>
 						</ul>
 					</li>

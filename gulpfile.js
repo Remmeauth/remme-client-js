@@ -33,10 +33,10 @@ const packages = [{
   src: path.join(__dirname, 'packages/remme'),
   config: path.join(__dirname, 'packages/remme/tsconfig.json')
 }, {
-  fileName: 'remme-rest',
-  expose: 'RemmeRest',
-  src: path.join(__dirname, 'packages/remme-rest'),
-  config: path.join(__dirname, 'packages/remme-rest/tsconfig.json')
+  fileName: 'remme-api',
+  expose: 'RemmeApi',
+  src: path.join(__dirname, 'packages/remme-api'),
+  config: path.join(__dirname, 'packages/remme-api/tsconfig.json')
 }, {
   fileName: 'remme-certificate',
   expose: 'RemmeCertificate',
@@ -73,11 +73,6 @@ const packages = [{
   src: path.join(__dirname, 'packages/remme-account'),
   config: path.join(__dirname, 'packages/remme-account/tsconfig.json')
 }, {
-  fileName: 'remme-batch',
-  expose: 'RemmeBatch',
-  src: path.join(__dirname, 'packages/remme-batch'),
-  config: path.join(__dirname, 'packages/remme-batch/tsconfig.json')
-}, {
   fileName: 'remme-blockchain-info',
   expose: 'RemmeBlockchainInfo',
   src: path.join(__dirname, 'packages/remme-blockchain-info'),
@@ -97,6 +92,11 @@ const packages = [{
   expose: 'RemmeUtils',
   src: path.join(__dirname, 'packages/remme-utils'),
   config: path.join(__dirname, 'packages/remme-utils/tsconfig.json')
+}, {
+  fileName: 'remme-keys',
+  expose: 'RemmeKeys',
+  src: path.join(__dirname, 'packages/remme-keys'),
+  config: path.join(__dirname, 'packages/remme-keys/tsconfig.json')
 }, {
   fileName: 'remme-protobuf',
   expose: 'RemmeProtobuf',
@@ -250,15 +250,15 @@ gulp.task('prepublish', function () {
         exec("cd " + pckg.src + " && npm run transpile;")
       )
     } else {
-      exec("gulp protobuf-compile");
+      exec("./node_modules/.bin/gulp protobuf-compile");
     }
   });
 });
 
-gulp.task("build", ['lint', 'clean', packages[packages.length - 2].fileName]);
+gulp.task("build", ['lint', 'clean', 'build_docs', packages[packages.length - 2].fileName]);
 
 gulp.task('watch', function () {
   gulp.watch(['./packages/remme/src/*.ts'], ['lint', 'clean', packages[0].fileName]);
 });
 
-gulp.task('default', ['version', 'lint', 'clean', packages[0].fileName]);
+gulp.task('default', ['version', 'lint', 'clean', 'build_docs', packages[0].fileName]);

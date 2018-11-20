@@ -1,20 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var BatchStatusesDto = /** @class */ (function () {
-    function BatchStatusesDto(data) {
-        this.status = Statuses[data.status];
+var BatchInfoDto = /** @class */ (function () {
+    function BatchInfoDto(data) {
+        this.status = BatchStatus[data.status];
         this.batchId = data.batch_id;
     }
-    return BatchStatusesDto;
+    return BatchInfoDto;
 }());
-exports.BatchStatusesDto = BatchStatusesDto;
-var Statuses;
-(function (Statuses) {
-    Statuses["OK"] = "OK";
-    Statuses["NOT_CONFIRMED"] = "NOT_CONFIRMED";
-    Statuses["NO_RESOURCE"] = "NO_RESOURCE";
-    Statuses["INVALID"] = "INVALID";
-    Statuses["PENDING"] = "PENDING";
-    Statuses["COMMITTED"] = "COMMITTED";
-})(Statuses = exports.Statuses || (exports.Statuses = {}));
+exports.BatchInfoDto = BatchInfoDto;
+var BatchStatus;
+(function (BatchStatus) {
+    BatchStatus["UNKNOWN"] = "UNKNOWN";
+    BatchStatus["INVALID"] = "INVALID";
+    BatchStatus["PENDING"] = "PENDING";
+    BatchStatus["COMMITTED"] = "COMMITTED";
+})(BatchStatus = exports.BatchStatus || (exports.BatchStatus = {}));
 //# sourceMappingURL=BatchStateUpdateDto.js.map

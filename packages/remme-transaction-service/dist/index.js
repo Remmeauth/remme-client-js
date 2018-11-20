@@ -35,16 +35,74 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var remme_rest_1 = require("remme-rest");
-var crypto_1 = require("crypto");
+var remme_api_1 = require("remme-api");
+var remme_utils_1 = require("remme-utils");
 var protobuf = require("sawtooth-sdk/protobuf");
 var models_1 = require("./models");
 exports.BaseTransactionResponse = models_1.BaseTransactionResponse;
+exports.CreateTransactionDto = models_1.CreateTransactionDto;
+exports.SendTransactionDto = models_1.SendTransactionDto;
+/**
+ * Class for creating and sending transactions
+ * @example
+ * ```typescript
+ * const remme = new Remme.Client();
+ * const familyName = "pub_key";
+ * const familyVersion = "0.1";
+ * const inputs = [];
+ * const outputs = [];
+ * const payloadBytes = new Buffer("my transaction");
+ * const createDto = new CreateTransactionDto(
+ *                         familyName,
+ *                         familyVersion,
+ *                         inputs,
+ *                         outputs,
+ *                         payloadBytes,
+ *                   );
+ * const transaction = await remme.transaction.create(createDto);
+ * const sendResponse = await remme.transaction.send(transaction);
+ * ```
+ */
 var RemmeTransactionService = /** @class */ (function () {
-    function RemmeTransactionService(remmeRest, remmeAccount) {
-        this._remmeRest = remmeRest;
+    /**
+     * @example
+     * Usage without remme main package
+     * ```typescript
+     * const remmeApi = new RemmeApi(); // See RemmeRest implementation
+     * const remmeAccount = new RemmeAccount(); // See RemmeAccount implementation
+     * const remmeTransaction = new RemmeTransactionService(remmeApi, remmeAccount);
+     * ```
+     * @param {IRemmeApi} remmeApi
+     * @param {IRemmeAccount} remmeAccount
+     */
+    function RemmeTransactionService(remmeApi, remmeAccount) {
+        this._remmeApi = remmeApi;
         this._remmeAccount = remmeAccount;
     }
+    /* tslint:disable */
+    /**
+     * Documentation for building transactions
+     * https://sawtooth.hyperledger.org/docs/core/releases/latest/_autogen/sdk_submit_tutorial_js.html#building-the-transaction
+     * @example
+     * ```typescript
+     * const familyName = "pub_key";
+     * const familyVersion = "0.1";
+     * const inputs = [];
+     * const outputs = [];
+     * const payloadBytes = Uint8Array.from("my transaction");
+     * const createDto = new CreateTransactionDto(
+     *                         familyName,
+     *                         familyVersion,
+     *                         inputs,
+     *                         outputs,
+     *                         payloadBytes,
+     *                   );
+     * const transaction = await remmeTransaction.create(createDto);
+     * ```
+     * @param {CreateTransactionDto} settings
+     * @returns {Promise<string>}
+     */
+    /* tslint:enable */
     RemmeTransactionService.prototype.create = function (settings) {
         return __awaiter(this, void 0, void 0, function () {
             var familyName, familyVersion, inputs, outputs, payloadBytes, batcherPublicKey, transactionHeaderBytes, signature, transaction;
@@ -52,19 +110,18 @@ var RemmeTransactionService = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         familyName = settings.familyName, familyVersion = settings.familyVersion, inputs = settings.inputs, outputs = settings.outputs, payloadBytes = settings.payloadBytes;
-                        return [4 /*yield*/, this._remmeRest
-                                .getRequest(remme_rest_1.RemmeMethods.nodeKey)];
+                        return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.nodeConfig)];
                     case 1:
-                        batcherPublicKey = (_a.sent()).pubkey;
+                        batcherPublicKey = (_a.sent()).node_public_key;
                         transactionHeaderBytes = protobuf.TransactionHeader.encode({
                             familyName: familyName,
                             familyVersion: familyVersion,
                             inputs: inputs.concat([this._remmeAccount.address]),
                             outputs: outputs.concat([this._remmeAccount.address]),
                             signerPublicKey: this._remmeAccount.publicKeyHex,
-                            nonce: this.getNonce(),
+                            nonce: remme_utils_1.sha512(Math.floor(Math.random() * 1000).toString()),
                             batcherPublicKey: batcherPublicKey,
-                            payloadSha512: crypto_1.createHash("sha512").update(payloadBytes).digest("hex"),
+                            payloadSha512: remme_utils_1.sha512(payloadBytes),
                         }).finish();
                         signature = this._remmeAccount.sign(transactionHeaderBytes);
                         transaction = protobuf.Transaction.encode({
@@ -83,22 +140,30 @@ var RemmeTransactionService = /** @class */ (function () {
             });
         });
     };
+    /**
+     * @example
+     * ```typescript
+     * const sendResponse = await remmeTransaction.send(transaction);
+     * console.log(sendRequest.batchId);
+     * ```
+     * @param {string} transaction
+     * @returns {Promise<IBaseTransactionResponse>}
+     */
     RemmeTransactionService.prototype.send = function (transaction) {
         return __awaiter(this, void 0, void 0, function () {
-            var apiResult;
+            var requestPayload, batchId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._remmeRest
-                            .postRequest(remme_rest_1.RemmeMethods.transaction, { transaction: transaction })];
+                    case 0:
+                        requestPayload = new models_1.SendTransactionDto(transaction);
+                        return [4 /*yield*/, this._remmeApi
+                                .sendRequest(remme_api_1.RemmeMethods.transaction, requestPayload)];
                     case 1:
-                        apiResult = _a.sent();
-                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeRest.nodeAddress(), this._remmeRest.sslMode(), apiResult.batch_id)];
+                        batchId = _a.sent();
+                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeApi.nodeAddress, this._remmeApi.sslMode, batchId)];
                 }
             });
         });
-    };
-    RemmeTransactionService.prototype.getNonce = function () {
-        return crypto_1.createHash("sha512").update(new Buffer(Math.floor(Math.random() * 1000))).digest("hex");
     };
     return RemmeTransactionService;
 }());

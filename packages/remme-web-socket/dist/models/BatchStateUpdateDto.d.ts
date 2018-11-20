@@ -4,14 +4,14 @@ export interface BatchStateUpdateDto {
     data: Data;
 }
 export interface Data {
-    batch_statuses: BatchStatuses;
+    batch_statuses: BatchInfo;
 }
-export declare class BatchStatusesDto {
-    status: Statuses;
+export declare class BatchInfoDto {
+    status: BatchStatus;
     batchId: string;
-    constructor(data: BatchStatuses);
+    constructor(data: BatchInfo);
 }
-export interface BatchStatuses {
+export interface BatchInfo {
     status: string;
     batch_id: string;
     invalid_transactions?: InvalidTransactions[];
@@ -21,10 +21,8 @@ export interface InvalidTransactions {
     message: string;
     extended_data: string;
 }
-export declare enum Statuses {
-    OK = "OK",
-    NOT_CONFIRMED = "NOT_CONFIRMED",
-    NO_RESOURCE = "NO_RESOURCE",
+export declare enum BatchStatus {
+    UNKNOWN = "UNKNOWN",
     INVALID = "INVALID",
     PENDING = "PENDING",
     COMMITTED = "COMMITTED",

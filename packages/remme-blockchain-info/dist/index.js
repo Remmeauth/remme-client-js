@@ -1,12 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -43,229 +35,542 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var remme_rest_1 = require("remme-rest");
 var protobufs = require("remme-protobuf");
+var remme_api_1 = require("remme-api");
 var remme_utils_1 = require("remme-utils");
 var models_1 = require("./models");
+exports.Batch = models_1.Batch;
+exports.BatchList = models_1.BatchList;
+exports.Block = models_1.Block;
+exports.BlockList = models_1.BlockList;
+exports.State = models_1.State;
+exports.StateList = models_1.StateList;
+exports.Transaction = models_1.Transaction;
+exports.TransactionList = models_1.TransactionList;
+/* tslint:disable */
+/**
+ * Main class that works with blockchain data. Blocks, batches, transactions, addresses, peers.
+ * @example
+ * ```typescript
+ * const blockInfo = await remme.blockchainInfo.getBlockInfo();
+ * console.log("blockInfo:", blockInfo);
+ * const network = await remme.blockchainInfo.getNetworkStatus();
+ * console.log("network:", network);
+ * const blocks = await remme.blockchainInfo.getBlocks();
+ * console.log("blocks:", blocks);
+ * const block = await remme.blockchainInfo.getBlockById(blocks.data[1].header_signature);
+ * console.log("block:", block);
+ * const batches = await remme.blockchainInfo.getBatches();
+ * console.log("batches:", batches);
+ * const batch = await remme.blockchainInfo.getBatchById(batches.data[1].header_signature);
+ * console.log("batch:", batch);
+ * const transactions = await remme.blockchainInfo.getTransactions();
+ * console.log("transactions:", transactions);
+ * const transaction = await remme.blockchainInfo.getTransactionById(transactions.data[2].header_signature);
+ * console.log("transaction:", transaction);
+ * const parsedTransaction = remme.blockchainInfo.parseTransactionPayload(transaction.data);
+ * console.log("parsedTransaction:", parsedTransaction);
+ * const states = await remme.blockchainInfo.getState();
+ * console.log("states:", states);
+ * const state = await remme.blockchainInfo.getStateByAddress(states.data[1].address);
+ * console.log("state:", state);
+ * const parsedState = remme.blockchainInfo.parseStateData(state);
+ * console.log("parsedState:", parsedState);
+ * const batchStatus = await remme.blockchainInfo.getBatchStatus(batches.data[1].header_signature);
+ * console.log("batchStatus:", batchStatus);
+ * const peers = await remme.blockchainInfo.getPeers();
+ * console.log("peers:", peers);
+ * ```
+ */
+/* tslint:enable */
 var RemmeBlockchainInfo = /** @class */ (function () {
-    function RemmeBlockchainInfo(remmeRest) {
-        this._remmeRest = remmeRest;
+    /**
+     * @example
+     * Usage without remme main package
+     * ```typescript
+     * const remmeApi = new RemmeApi();
+     * const remmeBlockchainInfo = new RemmeBlockchainInfo(remmeApi);
+     * ```
+     * @param {IRemmeApi} remmeApi
+     */
+    function RemmeBlockchainInfo(remmeApi) {
+        this._remmeApi = remmeApi;
     }
     RemmeBlockchainInfo.prototype._checkId = function (id) {
-        if (!id || id.search(/[a-f0-9]{128}/) === -1) {
+        if (!id || id.search(remme_utils_1.PATTERNS.HEADER_SIGNATURE) === -1) {
             throw new Error("Given 'id' is not a valid");
         }
     };
     RemmeBlockchainInfo.prototype._checkAddress = function (address) {
-        if (!address || address.search(/[a-f0-9]{70}/) === -1) {
+        if (!address || address.search(remme_utils_1.PATTERNS.ADDRESS) === -1) {
             throw new Error("Given 'address' is not a valid");
         }
     };
-    RemmeBlockchainInfo.prototype._prepareAddress = function (state) {
-        if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
-            var _a = RemmeBlockchainInfo.address[state.address.slice(0, 6)], protobuf_1 = _a.parser, addressType = _a.type;
-            return __assign({}, state, { protobuf: protobuf_1,
-                addressType: addressType });
-        }
-        return state;
-    };
-    RemmeBlockchainInfo.prototype._prepareBlock = function (block) {
-        var _this = this;
-        block.batches = block.batches.map(function (batch) {
-            return _this._prepareBatch(batch);
-        });
-        return block;
-    };
-    RemmeBlockchainInfo.prototype._prepareBatch = function (batch) {
-        var _this = this;
-        batch.transactions = batch.transactions.map(function (transaction) { return _this._prepareTransaction(transaction); });
-        return batch;
-    };
-    RemmeBlockchainInfo.prototype._prepareTransaction = function (transaction) {
-        var family_name = transaction.header.family_name;
-        if (family_name in RemmeBlockchainInfo.correspond) {
-            var data = protobufs.TransactionPayload.decode(remme_utils_1.base64ToArrayBuffer(transaction.payload));
-            var _a = RemmeBlockchainInfo.correspond[family_name][data.method], protobuf_2 = _a.parser, transactionType = _a.type;
-            return __assign({}, transaction, { transactionProtobuf: protobufs.TransactionPayload, protobuf: protobuf_2,
-                transactionType: transactionType });
-        }
-        return transaction;
-    };
-    RemmeBlockchainInfo.prototype.getBatchById = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var apiResult;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this._checkId(id);
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.batches, id)];
-                    case 1:
-                        apiResult = _a.sent();
-                        apiResult.data = this._prepareBatch(apiResult.data);
-                        return [2 /*return*/, apiResult];
-                }
-            });
-        });
-    };
-    RemmeBlockchainInfo.prototype.getBatches = function (query) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var apiResult;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (query) {
-                            query = new models_1.BaseQuery(query);
-                        }
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.batches, "", query)];
-                    case 1:
-                        apiResult = _a.sent();
-                        apiResult.data = apiResult.data.map(function (item) {
-                            return _this._prepareBatch(item);
-                        });
-                        return [2 /*return*/, apiResult];
-                }
-            });
-        });
-    };
-    RemmeBlockchainInfo.prototype.getBlockById = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var apiResult;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this._checkId(id);
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.blocks, id)];
-                    case 1:
-                        apiResult = _a.sent();
-                        apiResult.data = this._prepareBlock(apiResult.data);
-                        return [2 /*return*/, apiResult];
-                }
-            });
-        });
-    };
+    /* tslint:disable */
+    /**
+     * Get all blocks from REMChain.
+     * You can specify one or more query parameters.
+     * @example
+     * Without query
+     * ```typescript
+     * const blocks = await remme.blockchainInfo.getBlocks();
+     * console.log(blocks); // BlockList
+     * ```
+     *
+     * Start from specifying block number
+     * ```typescript
+     * const blocks = await remme.blockchainInfo.getBlocks({ start: 4 });
+     * console.log(blocks); // BlockList
+     * ```
+     *
+     * Reverse output
+     * ```typescript
+     * const blocks = await remme.blockchainInfo.getBlocks({ reverse: true });
+     * console.log(blocks); // BlockList
+     * ```
+     *
+     * Specify limit of output
+     * ```typescript
+     * const blocks = await remme.blockchainInfo.getBlocks({ limit: 2 });
+     * console.log(blocks); // BlockList
+     * ```
+     *
+     * Specify head of block for start
+     * ```typescript
+     * const blocks = await remme.blockchainInfo.getBlocks({
+     *      head: "9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"
+     * });
+     * console.log(blocks); // BlockList
+     * ```
+     * @param {IBaseQuery} query
+     * @returns {Promise<BlockList>}
+     */
+    /* tslint:enable */
     RemmeBlockchainInfo.prototype.getBlocks = function (query) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var apiResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (query) {
+                            if (typeof query.start === "number") {
+                                query.start = "0x" + ("0000000000000000" + query.start.toString(16)).slice(-16);
+                            }
+                            query = new models_1.BaseQuery(query);
+                        }
+                        return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.blocks, query)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /* tslint:disable */
+    /**
+     * Get block by id (header_signature) from REMChain.
+     * @example
+     * ```typescript
+     * const block = await remme.blockchainInfo.getBlockById(
+     *      "9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"
+     * );
+     * console.log("block:", block); // Block
+     * ```
+     * @param {string} id
+     * @returns {Promise<Block>}
+     */
+    /* tslint:enable */
+    RemmeBlockchainInfo.prototype.getBlockById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this._checkId(id);
+                        return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.fetchBlock, { id: id })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Get information about block.
+     * @example
+     * Without parameters.
+     * ```typescript
+     * const blockInfo = await remme.blockchainInfo.getBlockInfo();
+     * console.log("blockInfo:", blockInfo); // IBlockInfo[]
+     * ```
+     * Start from specifying block number.
+     * ```typescript
+     * const blockInfo = await remme.blockchainInfo.getBlockInfo({
+     *      start: 2
+     * });
+     * console.log(blockInfo); // IBlockInfo[]
+     *
+     * Specify limit of output
+     * ```typescript
+     * const blockInfo = await remme.blockchainInfo.getBlockInfo({ limit: 2 });
+     * console.log(blockInfo); // IBlockInfo[]
+     * ```
+     * @param {IBaseQuery} query
+     * @returns {Promise<IBlockInfo[]>}
+     */
+    RemmeBlockchainInfo.prototype.getBlockInfo = function (query) {
+        return __awaiter(this, void 0, void 0, function () {
+            var blocks;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this._remmeApi
+                            .sendRequest(remme_api_1.RemmeMethods.blockInfo, query)];
+                    case 1:
+                        blocks = _a.sent();
+                        if (!blocks) {
+                            throw new Error("Unknown error occurs in the server");
+                        }
+                        return [2 /*return*/, blocks.map(function (item) { return new models_1.BlockInfo(item); })];
+                }
+            });
+        });
+    };
+    /* tslint:disable */
+    /**
+     * Get all batches from REMChain.
+     * @example
+     * Without parameters
+     * ```typescript
+     * const batches = await remme.blockchainInfo.getBatches();
+     * console.log("batches:", batches); // BatchList
+     * ```
+     *
+     * Start from specifying batch header_signature (batch ID).
+     * ```typescript
+     * const batches = await remme.blockchainInfo.getBatches({
+     *      start: "8e4dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef5fe5c"
+     * });
+     * console.log(batches); // BatchList
+     * ```
+     *
+     * Reverse output
+     * ```typescript
+     * const batches = await remme.blockchainInfo.getBatches({ reverse: true });
+     * console.log(batches); // BatchList
+     * ```
+     *
+     * Specify limit of output
+     * ```typescript
+     * const batches = await remme.blockchainInfo.getBatches({ limit: 2 });
+     * console.log(batches); // BatchList
+     * ```
+     *
+     * Specify head of block for start
+     * ```typescript
+     * const batches = await remme.blockchainInfo.getBatches({
+     *      head: "9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"
+     * });
+     * console.log(batches); // BatchList
+     * ```
+     * @param {IBaseQuery} query
+     * @returns {Promise<BatchList>}
+     */
+    /* tslint:enable */
+    RemmeBlockchainInfo.prototype.getBatches = function (query) {
+        return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (query) {
                             query = new models_1.BaseQuery(query);
                         }
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.blocks, "", query)];
-                    case 1:
-                        apiResult = _a.sent();
-                        apiResult.data = apiResult.data.map(function (block) {
-                            return _this._prepareBlock(block);
-                        });
-                        return [2 /*return*/, apiResult];
-                }
-            });
-        });
-    };
-    RemmeBlockchainInfo.prototype.getPeers = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.peers)];
+                        return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.batches, query)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    RemmeBlockchainInfo.prototype.getReceipts = function (id) {
+    /* tslint:disable */
+    /**
+     * Get batch by id (header_signature) from REMChain.
+     * @example
+     * ```typescript
+     * const batch = await remme.blockchainInfo.getBatchById(
+     *      "9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"
+     * );
+     * console.log("batch:", batch); // Batch
+     * ```
+     * @param {string} id
+     * @returns {Promise<Batch>}
+     */
+    /* tslint:enable */
+    RemmeBlockchainInfo.prototype.getBatchById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this._checkId(id);
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.receipts, "", { id: id })];
+                        return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.fetchBatch, { id: id })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
+    /* tslint:disable */
+    /**
+     * Get status for batch.
+     * @example
+     * ```typescript
+     * const batchStatus = await remme.blockchainInfo.getBatchStatus(
+     *  "8e4dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef5fe5c"
+     * );
+     * console.log("batchStatus:", batchStatus);
+     * ```
+     * @param {string} id
+     * @returns {Promise<string>}
+     */
+    /* tslint:enable */
+    RemmeBlockchainInfo.prototype.getBatchStatus = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this._checkId(id);
+                        return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.batchStatus, { id: id })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Get states in REMChain
+     * @example
+     * Without parameters
+     * ```typescript
+     * const states = await remme.blockchainInfo.getState();
+     * console.log("states:", states); // StateList
+     * ```
+     *
+     * Start from specifying state address
+     * ```typescript
+     * const states = await remme.blockchainInfo.getState({
+     *  start: "6a437247a1c12c0fb03aa6e242e6ce988d1cdc7fcc8c2a62ab3ab1202325d7d677e84c"
+     * });
+     * console.log(states); // StateList
+     * ```
+     *
+     * Reverse output
+     * ```typescript
+     * const states = await remme.blockchainInfo.getState({ reverse: true });
+     * console.log(states); // StateList
+     * ```
+     *
+     * Specify limit of output
+     * ```typescript
+     * const states = await remme.blockchainInfo.getState({ limit: 2 });
+     * console.log(states); // StateList
+     * ```
+     *
+     * Specify head of block for start
+     * ```typescript
+     * const states = await remme.blockchainInfo.getState({
+     *      address: "6a437247a1c12c0fb03aa6e242e6ce988d1cdc7fcc8c2a62ab3ab1202325d7d677e84c"
+     * });
+     * console.log(states); // StateList
+     * ```
+     * @param {IStateQuery} query
+     * @returns {Promise<StateList>}
+     */
     RemmeBlockchainInfo.prototype.getState = function (query) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (query) {
                             query = new models_1.StateQuery(query);
                         }
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.state, "", query)];
-                    case 1:
-                        apiResult = _a.sent();
-                        apiResult.data = apiResult.data.map(function (state) { return _this._prepareAddress(state); });
-                        return [2 /*return*/, apiResult];
+                        return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.state, query)];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
+    /**
+     * Get state by address
+     * @example
+     * ```typescript
+     * const state = await remme.blockchainInfo.getStateByAddress(
+     *      "6a437247a1c12c0fb03aa6e242e6ce988d1cdc7fcc8c2a62ab3ab1202325d7d677e84c"
+     * );
+     * console.log("state:", state);
+     * ```
+     * @param {string} address
+     * @returns {Promise<State>}
+     */
     RemmeBlockchainInfo.prototype.getStateByAddress = function (address) {
         return __awaiter(this, void 0, void 0, function () {
-            var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this._checkAddress(address);
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.state, address)];
-                    case 1:
-                        apiResult = _a.sent();
-                        apiResult = this._prepareAddress(__assign({ address: address }, apiResult));
-                        return [2 /*return*/, apiResult];
+                        return [4 /*yield*/, this._remmeApi
+                                .sendRequest(remme_api_1.RemmeMethods.fetchState, { address: address })];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    RemmeBlockchainInfo.prototype.getTransactionById = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var apiResult;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this._checkId(id);
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.transactions, id)];
-                    case 1:
-                        apiResult = _a.sent();
-                        apiResult.data = this._prepareTransaction(apiResult.data);
-                        return [2 /*return*/, apiResult];
-                }
-            });
-        });
+    /**
+     * Parse state data.
+     * @example
+     * ```typescript
+     * const state = await remme.blockchainInfo.getStateByAddress(
+     *      "6a437247a1c12c0fb03aa6e242e6ce988d1cdc7fcc8c2a62ab3ab1202325d7d677e84c"
+     * );
+     * const parsedState = remme.blockchainInfo.parseStateData(state);
+     * console.log("parsedState:", parsedState); // { data: any, type: string }
+     * ```
+     * @param {State} state
+     * @returns {object}
+     */
+    RemmeBlockchainInfo.prototype.parseStateData = function (state) {
+        if (!state.address) {
+            throw new Error("State should have address for parsing");
+        }
+        if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
+            var _a = RemmeBlockchainInfo.address[state.address.slice(0, 6)], parser = _a.parser, type = _a.type;
+            return {
+                data: parser.decode(remme_utils_1.base64ToArrayBuffer(state.data)),
+                type: type,
+            };
+        }
+        else {
+            throw new Error("This address (" + state.address + ") don't supported for parsing");
+        }
     };
+    /* tslint:disable */
+    /**
+     * Get all transactions from REMChain.
+     * @example
+     * Without parameters
+     * ```typescript
+     * const transactions = await remme.blockchainInfo.getBatches();
+     * console.log("transactions:", transactions); // TransactionList
+     * ```
+     *
+     * Start from specifying transactions header_signature.
+     * ```typescript
+     * const transactions = await remme.blockchainInfo.getTransactions({
+     *      start: "f32fc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef543fe"
+     * });
+     * console.log(transactions); // TransactionList
+     * ```
+     *
+     * Reverse output
+     * ```typescript
+     * const transactions = await remme.blockchainInfo.getTransactions({ reverse: true });
+     * console.log(transactions); // TransactionList
+     * ```
+     *
+     * Specify limit of output
+     * ```typescript
+     * const transactions = await remme.blockchainInfo.getTransactions({ limit: 2 });
+     * console.log(transactions); // TransactionList
+     * ```
+     *
+     * Specify head of block for start
+     * ```typescript
+     * const transactions = await remme.blockchainInfo.getTransactions({
+     *      head: "9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"
+     * });
+     * console.log(transactions); // TransactionList
+     * ```
+     * @param {IBaseQuery} query
+     * @returns {Promise<TransactionList>}
+     */
+    /* tslint:enable */
     RemmeBlockchainInfo.prototype.getTransactions = function (query) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (query) {
                             query = new models_1.BaseQuery(query);
                         }
-                        return [4 /*yield*/, this._remmeRest.getRequest(remme_rest_1.ValidatorMethods.transactions, "", query)];
-                    case 1:
-                        apiResult = _a.sent();
-                        apiResult.data = apiResult.data.map(function (item) {
-                            return _this._prepareTransaction(item);
-                        });
-                        return [2 /*return*/, apiResult];
+                        return [4 /*yield*/, this._remmeApi
+                                .sendRequest(remme_api_1.RemmeMethods.transactions, query)];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
+    /* tslint:disable */
+    /**
+     * Get transaction by id (header_signature) from REMChain
+     * @example
+     * ```typescript
+     * const transaction = await remme.blockchainInfo.getTransactionById(
+     *      "f32fc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef543fe"
+     * );
+     * console.log("transaction:", transaction); // Block
+     * ```
+     * @param {string} id
+     * @returns {Promise<Transaction>}
+     */
+    /* tslint:enable */
+    RemmeBlockchainInfo.prototype.getTransactionById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this._checkId(id);
+                        return [4 /*yield*/, this._remmeApi
+                                .sendRequest(remme_api_1.RemmeMethods.fetchTransaction, { id: id })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /* tslint:disable */
+    /**
+     * Parse transaction payload. Take transaction and return object with payload and type
+     * @example
+     * ```typescript
+     * const transaction = await remme.blockchainInfo.getTransactionById(
+     *  "f32fc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef543fe"
+     * );
+     * console.log("transaction:", transaction);
+     * const parsedTransaction = remme.blockchainInfo.parseTransactionPayload(transaction.data);
+     * console.log("parsedTransaction:", parsedTransaction); // { payload: any, type: string }
+     * ```
+     * @param {Transaction} transaction
+     * @returns {object}
+     */
+    /* tslint:enable */
+    RemmeBlockchainInfo.prototype.parseTransactionPayload = function (transaction) {
+        var family_name = transaction.header.family_name;
+        if (family_name in RemmeBlockchainInfo.correspond) {
+            var _a = protobufs.TransactionPayload.decode(remme_utils_1.base64ToArrayBuffer(transaction.payload)), method = _a.method, data = _a.data;
+            var _b = RemmeBlockchainInfo.correspond[family_name][method], parser = _b.parser, type = _b.type;
+            return {
+                payload: parser.decode(data),
+                type: type,
+            };
+        }
+        else {
+            throw new Error("This family name (" + family_name + ") don't supported for parsing");
+        }
+    };
+    /**
+     * Get network status for node.
+     * @example
+     * ```typescript
+     * const networkStatus = await remme.blockchainInfo.getNetworkStatus();
+     * console.log(networkStatus); // INetworkStatus
+     * ```
+     * @returns {Promise<INetworkStatus>}
+     */
     RemmeBlockchainInfo.prototype.getNetworkStatus = function () {
         return __awaiter(this, void 0, void 0, function () {
             var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._remmeRest
-                            .getRequest(remme_rest_1.RemmeMethods.networkStatus)];
+                    case 0: return [4 /*yield*/, this._remmeApi
+                            .sendRequest(remme_api_1.RemmeMethods.networkStatus)];
                     case 1:
                         apiResult = _a.sent();
                         return [2 /*return*/, new models_1.NetworkStatus(apiResult)];
@@ -273,83 +578,85 @@ var RemmeBlockchainInfo = /** @class */ (function () {
             });
         });
     };
-    RemmeBlockchainInfo.prototype.getBlockInfo = function (query) {
+    /**
+     * Get peers that connected to this node.
+     * @example
+     * ```typescript
+     * const peers = await remme.blockchainInfo.getPeers();
+     * console.log(peers); // string[]
+     * ```
+     * @returns {Promise<string[]>}
+     */
+    RemmeBlockchainInfo.prototype.getPeers = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var apiResult;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._remmeRest
-                            .getRequest(remme_rest_1.RemmeMethods.blockInfo, "", query)];
-                    case 1:
-                        apiResult = _a.sent();
-                        if (!apiResult.blocks) {
-                            throw new Error("Unknown error occurs in the server");
-                        }
-                        return [2 /*return*/, apiResult.blocks.map(function (item) { return new models_1.BlockInfo(item); })];
+                    case 0: return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.peers)];
+                    case 1: return [2 /*return*/, (_a.sent()).data];
                 }
             });
         });
     };
-    RemmeBlockchainInfo.address = {
-        "78173b": {
+    RemmeBlockchainInfo.address = (_a = {},
+        _a[remme_utils_1.RemmeNamespace.Swap] = {
             type: "info atomic swap",
             parser: protobufs.AtomicSwapInfo,
         },
-        "112007": {
+        _a[remme_utils_1.RemmeNamespace.Account] = {
             type: "account",
             parser: protobufs.Account,
         },
-        "a23be1": {
+        _a[remme_utils_1.RemmeNamespace.PublicKey] = {
             type: "storage public key",
             parser: protobufs.PubKeyStorage,
         },
-    };
-    RemmeBlockchainInfo.correspond = {
-        account: (_a = {},
-            _a[protobufs.AccountMethod.Method.TRANSFER] = {
+        _a);
+    RemmeBlockchainInfo.correspond = (_b = {},
+        _b[remme_utils_1.RemmeFamilyName.Account] = (_c = {},
+            _c[protobufs.AccountMethod.Method.TRANSFER] = {
                 type: "transfer token",
                 parser: protobufs.TransferPayload,
             },
-            _a[protobufs.AccountMethod.Method.GENESIS] = {
+            _c[protobufs.AccountMethod.Method.GENESIS] = {
                 type: "genesis",
                 parser: protobufs.GenesisPayload,
             },
-            _a),
-        AtomicSwap: (_b = {},
-            _b[protobufs.AtomicSwapMethod.Method.INIT] = {
+            _c),
+        _b[remme_utils_1.RemmeFamilyName.Swap] = (_d = {},
+            _d[protobufs.AtomicSwapMethod.Method.INIT] = {
                 type: "atomic-swap-init",
                 parser: protobufs.AtomicSwapInitPayload,
             },
-            _b[protobufs.AtomicSwapMethod.Method.APPROVE] = {
+            _d[protobufs.AtomicSwapMethod.Method.APPROVE] = {
                 type: "atomic-swap-approve",
                 parser: protobufs.AtomicSwapApprovePayload,
             },
-            _b[protobufs.AtomicSwapMethod.Method.EXPIRE] = {
+            _d[protobufs.AtomicSwapMethod.Method.EXPIRE] = {
                 type: "atomic-swap-expire",
                 parser: protobufs.AtomicSwapExpirePayload,
             },
-            _b[protobufs.AtomicSwapMethod.Method.SET_SECRET_LOCK] = {
+            _d[protobufs.AtomicSwapMethod.Method.SET_SECRET_LOCK] = {
                 type: "atomic-swap-set-secret-lock",
                 parser: protobufs.AtomicSwapSetSecretLockPayload,
             },
-            _b[protobufs.AtomicSwapMethod.Method.CLOSE] = {
+            _d[protobufs.AtomicSwapMethod.Method.CLOSE] = {
                 type: "atomic-swap-close",
                 parser: protobufs.AtomicSwapClosePayload,
             },
-            _b),
-        pub_key: (_c = {},
-            _c[protobufs.PubKeyMethod.Method.STORE] = {
+            _d),
+        _b[remme_utils_1.RemmeFamilyName.PublicKey] = (_e = {},
+            _e[protobufs.PubKeyMethod.Method.STORE] = {
                 type: "store public key",
                 parser: protobufs.NewPubKeyPayload,
             },
-            _c[protobufs.PubKeyMethod.Method.REVOKE] = {
+            _e[protobufs.PubKeyMethod.Method.REVOKE] = {
                 type: "revoke public key",
                 parser: protobufs.RevokePubKeyPayload,
             },
-            _c),
-    };
+            _e),
+        _b);
     return RemmeBlockchainInfo;
 }());
 exports.RemmeBlockchainInfo = RemmeBlockchainInfo;
-var _a, _b, _c;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=index.js.map

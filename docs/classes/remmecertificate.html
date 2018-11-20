@@ -64,6 +64,54 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class for working with certificates, such as create, store, revoke, check, getInfo.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>example</dt>
+						<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client();
+<span class="hljs-keyword">const</span> certificateTransactionResult = <span class="hljs-keyword">await</span> remme.certificate.createAndStore({
+  commonName: <span class="hljs-string">"userName"</span>,
+  email: <span class="hljs-string">"user@email.com"</span>,
+  name: <span class="hljs-string">"John"</span>,
+  surname: <span class="hljs-string">"Smith"</span>,
+  countryName: <span class="hljs-string">"US"</span>,
+  validity: <span class="hljs-number">360</span>,
+  serial: <span class="hljs-string">`<span class="hljs-subst">${Date.now()}</span>`</span>
+});
+
+<span class="hljs-keyword">const</span> certificateTransactionCallback = <span class="hljs-keyword">async</span> (err, response) =&gt; {
+  <span class="hljs-keyword">if</span> (err) {
+    <span class="hljs-built_in">console</span>.log(err);
+  }
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"store"</span>, response);
+  <span class="hljs-keyword">if</span> (response.status === <span class="hljs-string">"COMMITTED"</span>) {
+    certificateTransactionResult.closeWebSocket();
+    <span class="hljs-keyword">const</span> status = <span class="hljs-keyword">await</span> remme.certificate.check(certificateTransactionResult.certificate);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'status:'</span>, status); <span class="hljs-comment">// true</span>
+    <span class="hljs-keyword">const</span> info = <span class="hljs-keyword">await</span> remme.certificate.getInfo(certificateTransactionResult.certificate);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"info:"</span>, info);
+    <span class="hljs-keyword">const</span> revoke = <span class="hljs-keyword">await</span> remme.certificate.revoke(certificateTransactionResult.certificate);
+    revoke.connectToWebSocket(<span class="hljs-keyword">async</span> (err, response) =&gt; {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"error"</span>, err);
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"revoke"</span>, response);
+      <span class="hljs-keyword">if</span> (res.status === <span class="hljs-string">"COMMITTED"</span>) {
+         revoke.closeWebSocket();
+         <span class="hljs-keyword">const</span> status = <span class="hljs-keyword">await</span> remme.certificate.check(certificateTransactionResult.certificate);
+         <span class="hljs-built_in">console</span>.log(status); <span class="hljs-comment">// false;</span>
+      }
+    })
+  }
+};
+
+certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
+</code></pre>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -77,6 +125,15 @@
 				<ul class="tsd-hierarchy">
 					<li><a href="../interfaces/iremmecertificate.html" class="tsd-signature-type">IRemmeCertificate</a></li>
 				</ul>
+			</section>
+			<section class="tsd-panel tsd-kind-class tsd-is-not-exported">
+				<h3 class="tsd-before-signature">Indexable</h3>
+				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class for working with certificates, such as create, store, revoke, check, getInfo.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -92,9 +149,13 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmecertificate.html#check" class="tsd-kind-icon">check</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmecertificate.html#create" class="tsd-kind-icon">create</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmecertificate.html#createandstore" class="tsd-kind-icon">create<wbr>And<wbr>Store</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmecertificate.html#getinfo" class="tsd-kind-icon">get<wbr>Info</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmecertificate.html#revoke" class="tsd-kind-icon">revoke</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmecertificate.html#sign" class="tsd-kind-icon">sign</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmecertificate.html#store" class="tsd-kind-icon">store</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmecertificate.html#verify" class="tsd-kind-icon">verify</a></li>
 							</ul>
 						</section>
 					</div>
@@ -112,13 +173,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-certificate/src/index.ts#L14">remme-certificate/src/index.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L125">remme-certificate/src/index.ts:125</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>Usage without remme main package</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> rest = <span class="hljs-keyword">new</span> RemmeRest();
+<span class="hljs-keyword">const</span> account = <span class="hljs-keyword">new</span> RemmeAccount();
+<span class="hljs-keyword">const</span> transaction = <span class="hljs-keyword">new</span> RemmeTransactionService(rest, account);
+<span class="hljs-keyword">const</span> publicKeyStorage = <span class="hljs-keyword">new</span> RemmePublicKeyStorage(rest, account, transaction);
+<span class="hljs-keyword">const</span> certificate = <span class="hljs-keyword">new</span> RemmeCertificate(publicKeyStorage);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>remmePublicKeyStorage: <span class="tsd-signature-type">IRemmePublicKeyStorage</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="remmecertificate.html" class="tsd-signature-type">RemmeCertificate</a></h4>
@@ -132,23 +210,79 @@
 					<a name="check" class="tsd-anchor"></a>
 					<h3>check</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">check<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">PublicKeyStorageCheckResult</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">check<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#check">check</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-certificate/src/index.ts#L51">remme-certificate/src/index.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L259">remme-certificate/src/index.ts:259</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check certificate&#39;s public key on validity and revocation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> isValid = <span class="hljs-keyword">await</span> remme.certificate.check(certificate);
+<span class="hljs-built_in">console</span>.log(isValid); <span class="hljs-comment">// true or false</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>certificate: <span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">PublicKeyStorageCheckResult</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="create" class="tsd-anchor"></a>
+					<h3>create</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>certificateDataToCreate<span class="tsd-signature-symbol">: </span><a href="createcertificatedto.html" class="tsd-signature-type">CreateCertificateDto</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#create">create</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L161">remme-certificate/src/index.ts:161</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create certificate.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"> <span class="hljs-keyword">const</span> certificate = <span class="hljs-keyword">await</span> remme.certificate.create({
+  commonName: <span class="hljs-string">"userName"</span>,
+  email: <span class="hljs-string">"user@email.com"</span>,
+  name: <span class="hljs-string">"John"</span>,
+  surname: <span class="hljs-string">"Smith"</span>,
+  countryName: <span class="hljs-string">"US"</span>,
+  validity: <span class="hljs-number">360</span>,
+  serial: <span class="hljs-string">`<span class="hljs-subst">${Date.now()}</span>`</span>
+});
+<span class="hljs-built_in">console</span>.log(certificate);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>certificateDataToCreate: <a href="createcertificatedto.html" class="tsd-signature-type">CreateCertificateDto</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -156,23 +290,87 @@
 					<a name="createandstore" class="tsd-anchor"></a>
 					<h3>create<wbr>And<wbr>Store</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>And<wbr>Store<span class="tsd-signature-symbol">(</span>certificateDataToCreate<span class="tsd-signature-symbol">: </span><a href="certificatecreatedto.html" class="tsd-signature-type">CertificateCreateDto</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/icertificatetransactionresponse.html" class="tsd-signature-type">ICertificateTransactionResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>And<wbr>Store<span class="tsd-signature-symbol">(</span>certificateDataToCreate<span class="tsd-signature-symbol">: </span><a href="createcertificatedto.html" class="tsd-signature-type">CreateCertificateDto</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/icertificatetransactionresponse.html" class="tsd-signature-type">ICertificateTransactionResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#createandstore">createAndStore</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-certificate/src/index.ts#L20">remme-certificate/src/index.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L193">remme-certificate/src/index.ts:193</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Method that creates certificate and stores it in to REMChain.
+									Send transaction to chain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client();
+<span class="hljs-keyword">const</span> certificateTransactionResult = <span class="hljs-keyword">await</span> remme.certificate.createAndStore({
+  commonName: <span class="hljs-string">"userName"</span>,
+  email: <span class="hljs-string">"user@email.com"</span>,
+  name: <span class="hljs-string">"John"</span>,
+  surname: <span class="hljs-string">"Smith"</span>,
+  countryName: <span class="hljs-string">"US"</span>,
+  validity: <span class="hljs-number">360</span>,
+  serial: <span class="hljs-string">`<span class="hljs-subst">${Date.now()}</span>`</span>
+});
+
+<span class="hljs-keyword">const</span> certificateTransactionCallback = <span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span>, response: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (err) {
+    <span class="hljs-built_in">console</span>.log(err);
+  }
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"store"</span>, response);
+}
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>certificateDataToCreate: <a href="certificatecreatedto.html" class="tsd-signature-type">CertificateCreateDto</a></h5>
+									<h5>certificateDataToCreate: <a href="createcertificatedto.html" class="tsd-signature-type">CreateCertificateDto</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/icertificatetransactionresponse.html" class="tsd-signature-type">ICertificateTransactionResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="getinfo" class="tsd-anchor"></a>
+					<h3>get<wbr>Info</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Info<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">PublicKeyInfo</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#getinfo">getInfo</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L282">remme-certificate/src/index.ts:282</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get info about certificate&#39;s public key.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> isValid = <span class="hljs-keyword">await</span> remme.certificate.getInfo(certificate);
+<span class="hljs-built_in">console</span>.log(info); <span class="hljs-comment">// PublicKeyInfo</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>certificate: <span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">PublicKeyInfo</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -187,9 +385,28 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#revoke">revoke</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-certificate/src/index.ts#L70">remme-certificate/src/index.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L312">remme-certificate/src/index.ts:312</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Revoke certificate&#39;s public key into REMChain.
+									Send transaction to chain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> revokeResponse = <span class="hljs-keyword">await</span> remme.certificate.revoke(certificate);
+revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span>, res: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+     <span class="hljs-keyword">if</span> (err) {
+         <span class="hljs-built_in">console</span>.log(err);
+         <span class="hljs-keyword">return</span>;
+     }
+     <span class="hljs-built_in">console</span>.log(res);
+})
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -201,26 +418,121 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="sign" class="tsd-anchor"></a>
+					<h3>sign</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">sign<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, rsaSignaturePadding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RSASignaturePadding</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L328">remme-certificate/src/index.ts:328</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sign data with a certificate&#39;s private key and output DigestInfo DER-encoded bytes
+									(defaults to PSS)</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>certificate: <span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> rsaSignaturePadding: <span class="tsd-signature-type">RSASignaturePadding</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 					<a name="store" class="tsd-anchor"></a>
 					<h3>store</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">store<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">store<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/icertificatetransactionresponse.html" class="tsd-signature-type">ICertificateTransactionResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#store">store</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-certificate/src/index.ts#L34">remme-certificate/src/index.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L219">remme-certificate/src/index.ts:219</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Store your certificate public key and hash of certificate into REMChain.
+										Your certificate should contains private and public keys.
+									Send transaction to chain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> certificate = <span class="hljs-keyword">await</span> remme.certificate.create({
+  commonName: <span class="hljs-string">"userName"</span>,
+  email: <span class="hljs-string">"user@email.com"</span>,
+  name: <span class="hljs-string">"John"</span>,
+  surname: <span class="hljs-string">"Smith"</span>,
+  countryName: <span class="hljs-string">"US"</span>,
+  validity: <span class="hljs-number">360</span>,
+  serial: <span class="hljs-string">`<span class="hljs-subst">${Date.now()}</span>`</span>
+});
+<span class="hljs-keyword">const</span> storeResponse = <span class="hljs-keyword">await</span> remme.certificate.store(certificate);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>certificate: <span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/icertificatetransactionresponse.html" class="tsd-signature-type">ICertificateTransactionResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="verify" class="tsd-anchor"></a>
+					<h3>verify</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">verify<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, signature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, rsaSignaturePadding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RSASignaturePadding</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L355">remme-certificate/src/index.ts:355</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>verify data with a public key
+									(defaults to PSS)</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>certificate: <span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>signature: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> rsaSignaturePadding: <span class="tsd-signature-type">RSASignaturePadding</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -248,13 +560,25 @@
 								<a href="remmecertificate.html#check" class="tsd-kind-icon">check</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="remmecertificate.html#create" class="tsd-kind-icon">create</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 								<a href="remmecertificate.html#createandstore" class="tsd-kind-icon">create<wbr>And<wbr>Store</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="remmecertificate.html#getinfo" class="tsd-kind-icon">get<wbr>Info</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 								<a href="remmecertificate.html#revoke" class="tsd-kind-icon">revoke</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="remmecertificate.html#sign" class="tsd-kind-icon">sign</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 								<a href="remmecertificate.html#store" class="tsd-kind-icon">store</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="remmecertificate.html#verify" class="tsd-kind-icon">verify</a>
 							</li>
 						</ul>
 					</li>

@@ -19,7 +19,7 @@ var BaseQuery = /** @class */ (function () {
             this.head = query.head;
         }
         if (query.start) {
-            if (typeof query.start === "string" && (query.start.search(/^0x[0-9]{16}/) !== -1 || query.start.search(/[a-f0-9]{128}/) !== -1) || typeof query.start === "number") {
+            if (typeof query.start === "string" && (query.start.search(/^0x[a-f0-9]{16}$/) !== -1 || query.start.search(/^[a-f0-9]{128}$/) !== -1) || typeof query.start === "number") {
                 this.start = query.start.toString();
             }
             else {
@@ -36,7 +36,7 @@ var StateQuery = /** @class */ (function (_super) {
     __extends(StateQuery, _super);
     function StateQuery(query) {
         var _this = _super.call(this, query) || this;
-        if (typeof query.address === "string" && query.address.search(/[a-f0-9]{70}/) === -1) {
+        if (typeof query.address === "string" && query.address.search(/^[a-f0-9]{70}$/) === -1) {
             throw new Error("Parameter \"address\" need to a valid");
         }
         else {

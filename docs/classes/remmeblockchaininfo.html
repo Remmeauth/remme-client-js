@@ -64,6 +64,46 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Main class that works with blockchain data. Blocks, batches, transactions, addresses, peers.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>example</dt>
+						<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> blockInfo = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlockInfo();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"blockInfo:"</span>, blockInfo);
+<span class="hljs-keyword">const</span> network = <span class="hljs-keyword">await</span> remme.blockchainInfo.getNetworkStatus();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"network:"</span>, network);
+<span class="hljs-keyword">const</span> blocks = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlocks();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"blocks:"</span>, blocks);
+<span class="hljs-keyword">const</span> block = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlockById(blocks.data[<span class="hljs-number">1</span>].header_signature);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"block:"</span>, block);
+<span class="hljs-keyword">const</span> batches = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBatches();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"batches:"</span>, batches);
+<span class="hljs-keyword">const</span> batch = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBatchById(batches.data[<span class="hljs-number">1</span>].header_signature);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"batch:"</span>, batch);
+<span class="hljs-keyword">const</span> transactions = <span class="hljs-keyword">await</span> remme.blockchainInfo.getTransactions();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"transactions:"</span>, transactions);
+<span class="hljs-keyword">const</span> transaction = <span class="hljs-keyword">await</span> remme.blockchainInfo.getTransactionById(transactions.data[<span class="hljs-number">2</span>].header_signature);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"transaction:"</span>, transaction);
+<span class="hljs-keyword">const</span> parsedTransaction = remme.blockchainInfo.parseTransactionPayload(transaction.data);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"parsedTransaction:"</span>, parsedTransaction);
+<span class="hljs-keyword">const</span> states = <span class="hljs-keyword">await</span> remme.blockchainInfo.getState();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"states:"</span>, states);
+<span class="hljs-keyword">const</span> state = <span class="hljs-keyword">await</span> remme.blockchainInfo.getStateByAddress(states.data[<span class="hljs-number">1</span>].address);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"state:"</span>, state);
+<span class="hljs-keyword">const</span> parsedState = remme.blockchainInfo.parseStateData(state);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"parsedState:"</span>, parsedState);
+<span class="hljs-keyword">const</span> batchStatus = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBatchStatus(batches.data[<span class="hljs-number">1</span>].header_signature);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"batchStatus:"</span>, batchStatus);
+<span class="hljs-keyword">const</span> peers = <span class="hljs-keyword">await</span> remme.blockchainInfo.getPeers();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"peers:"</span>, peers);
+</code></pre>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -81,6 +121,11 @@
 			<section class="tsd-panel tsd-kind-class tsd-is-not-exported">
 				<h3 class="tsd-before-signature">Indexable</h3>
 				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Main class that works with blockchain data. Blocks, batches, transactions, addresses, peers.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -96,17 +141,19 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#getbatchbyid" class="tsd-kind-icon">get<wbr>Batch<wbr>ById</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#getbatchstatus" class="tsd-kind-icon">get<wbr>Batch<wbr>Status</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#getbatches" class="tsd-kind-icon">get<wbr>Batches</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#getblockbyid" class="tsd-kind-icon">get<wbr>Block<wbr>ById</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#getblockinfo" class="tsd-kind-icon">get<wbr>Block<wbr>Info</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#getblocks" class="tsd-kind-icon">get<wbr>Blocks</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#getnetworkstatus" class="tsd-kind-icon">get<wbr>Network<wbr>Status</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#getpeers" class="tsd-kind-icon">get<wbr>Peers</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#getreceipts" class="tsd-kind-icon">get<wbr>Receipts</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#getstate" class="tsd-kind-icon">get<wbr>State</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#getstatebyaddress" class="tsd-kind-icon">get<wbr>State<wbr>ByAddress</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#gettransactionbyid" class="tsd-kind-icon">get<wbr>Transaction<wbr>ById</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#gettransactions" class="tsd-kind-icon">get<wbr>Transactions</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#parsestatedata" class="tsd-kind-icon">parse<wbr>State<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="remmeblockchaininfo.html#parsetransactionpayload" class="tsd-kind-icon">parse<wbr>Transaction<wbr>Payload</a></li>
 							</ul>
 						</section>
 					</div>
@@ -118,19 +165,33 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Blockchain<wbr>Info<span class="tsd-signature-symbol">(</span>remmeRest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeRest</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmeblockchaininfo.html" class="tsd-signature-type">RemmeBlockchainInfo</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Remme<wbr>Blockchain<wbr>Info<span class="tsd-signature-symbol">(</span>remmeApi<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeApi</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remmeblockchaininfo.html" class="tsd-signature-type">RemmeBlockchainInfo</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L154">remme-blockchain-info/src/index.ts:154</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L144">remme-blockchain-info/src/index.ts:144</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>Usage without remme main package</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> remmeApi = <span class="hljs-keyword">new</span> RemmeApi();
+<span class="hljs-keyword">const</span> remmeBlockchainInfo = <span class="hljs-keyword">new</span> RemmeBlockchainInfo(remmeApi);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>remmeRest: <span class="tsd-signature-type">IRemmeRest</span></h5>
+									<h5>remmeApi: <span class="tsd-signature-type">IRemmeApi</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="remmeblockchaininfo.html" class="tsd-signature-type">RemmeBlockchainInfo</a></h4>
@@ -151,9 +212,23 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#getbatchbyid">getBatchById</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L160">remme-blockchain-info/src/index.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L322">remme-blockchain-info/src/index.ts:322</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get batch by id (header_signature) from REMChain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> batch = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBatchById(
+     <span class="hljs-string">"9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"</span>
+);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"batch:"</span>, batch); <span class="hljs-comment">// Batch</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -161,6 +236,44 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="batch.html" class="tsd-signature-type">Batch</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="getbatchstatus" class="tsd-anchor"></a>
+					<h3>get<wbr>Batch<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Batch<wbr>Status<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#getbatchstatus">getBatchStatus</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L341">remme-blockchain-info/src/index.ts:341</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get status for batch.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> batchStatus = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBatchStatus(
+ <span class="hljs-string">"8e4dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef5fe5c"</span>
+);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"batchStatus:"</span>, batchStatus);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -175,9 +288,42 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#getbatches">getBatches</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L167">remme-blockchain-info/src/index.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L301">remme-blockchain-info/src/index.ts:301</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get all batches from REMChain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>Without parameters</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> batches = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBatches();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"batches:"</span>, batches); <span class="hljs-comment">// BatchList</span>
+</code></pre>
+										<p>Start from specifying batch header_signature (batch ID).</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> batches = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBatches({
+     start: <span class="hljs-string">"8e4dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef5fe5c"</span>
+});
+<span class="hljs-built_in">console</span>.log(batches); <span class="hljs-comment">// BatchList</span>
+</code></pre>
+										<p>Reverse output</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> batches = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBatches({ reverse: <span class="hljs-literal">true</span> });
+<span class="hljs-built_in">console</span>.log(batches); <span class="hljs-comment">// BatchList</span>
+</code></pre>
+										<p>Specify limit of output</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> batches = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBatches({ limit: <span class="hljs-number">2</span> });
+<span class="hljs-built_in">console</span>.log(batches); <span class="hljs-comment">// BatchList</span>
+</code></pre>
+										<p>Specify head of block for start</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> batches = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBatches({
+     head: <span class="hljs-string">"9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"</span>
+});
+<span class="hljs-built_in">console</span>.log(batches); <span class="hljs-comment">// BatchList</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -199,9 +345,23 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#getblockbyid">getBlockById</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L178">remme-blockchain-info/src/index.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L223">remme-blockchain-info/src/index.ts:223</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get block by id (header_signature) from REMChain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> block = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlockById(
+     <span class="hljs-string">"9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"</span>
+);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"block:"</span>, block); <span class="hljs-comment">// Block</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -223,9 +383,35 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#getblockinfo">getBlockInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L245">remme-blockchain-info/src/index.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L251">remme-blockchain-info/src/index.ts:251</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get information about block.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>Without parameters.</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> blockInfo = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlockInfo();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"blockInfo:"</span>, blockInfo); <span class="hljs-comment">// IBlockInfo[]</span>
+</code></pre>
+										<p>Start from specifying block number.</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> blockInfo = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlockInfo({
+     start: <span class="hljs-number">2</span>
+});
+<span class="hljs-built_in">console</span>.log(blockInfo); <span class="hljs-comment">// IBlockInfo[]</span>
+
+Specify limit of output
+<span class="hljs-string">``</span><span class="hljs-string">`typescript
+const blockInfo = await remme.blockchainInfo.getBlockInfo({ limit: 2 });
+console.log(blockInfo); // IBlockInfo[]</span>
+</code></pre>
+										<p>@param {IBaseQuery} query
+										@returns {Promise&lt;IBlockInfo[]&gt;}</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -247,9 +433,41 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#getblocks">getBlocks</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L185">remme-blockchain-info/src/index.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L199">remme-blockchain-info/src/index.ts:199</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get all blocks from REMChain.
+									You can specify one or more query parameters.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>Without query</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> blocks = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlocks();
+<span class="hljs-built_in">console</span>.log(blocks); <span class="hljs-comment">// BlockList</span>
+</code></pre>
+										<p>Start from specifying block number</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> blocks = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlocks({ start: <span class="hljs-number">4</span> });
+<span class="hljs-built_in">console</span>.log(blocks); <span class="hljs-comment">// BlockList</span>
+</code></pre>
+										<p>Reverse output</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> blocks = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlocks({ reverse: <span class="hljs-literal">true</span> });
+<span class="hljs-built_in">console</span>.log(blocks); <span class="hljs-comment">// BlockList</span>
+</code></pre>
+										<p>Specify limit of output</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> blocks = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlocks({ limit: <span class="hljs-number">2</span> });
+<span class="hljs-built_in">console</span>.log(blocks); <span class="hljs-comment">// BlockList</span>
+</code></pre>
+										<p>Specify head of block for start</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> blocks = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBlocks({
+     head: <span class="hljs-string">"9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"</span>
+});
+<span class="hljs-built_in">console</span>.log(blocks); <span class="hljs-comment">// BlockList</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -271,9 +489,21 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#getnetworkstatus">getNetworkStatus</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L239">remme-blockchain-info/src/index.ts:239</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L546">remme-blockchain-info/src/index.ts:546</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get network status for node.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> networkStatus = <span class="hljs-keyword">await</span> remme.blockchainInfo.getNetworkStatus();
+<span class="hljs-built_in">console</span>.log(networkStatus); <span class="hljs-comment">// INetworkStatus</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/inetworkstatus.html" class="tsd-signature-type">INetworkStatus</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -282,41 +512,29 @@
 					<a name="getpeers" class="tsd-anchor"></a>
 					<h3>get<wbr>Peers</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Peers<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/peerlist.html" class="tsd-signature-type">PeerList</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Peers<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#getpeers">getPeers</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L196">remme-blockchain-info/src/index.ts:196</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L561">remme-blockchain-info/src/index.ts:561</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/peerlist.html" class="tsd-signature-type">PeerList</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-					<a name="getreceipts" class="tsd-anchor"></a>
-					<h3>get<wbr>Receipts</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Receipts<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/receiptlist.html" class="tsd-signature-type">ReceiptList</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#getreceipts">getReceipts</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L200">remme-blockchain-info/src/index.ts:200</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>id: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/receiptlist.html" class="tsd-signature-type">ReceiptList</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get peers that connected to this node.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> peers = <span class="hljs-keyword">await</span> remme.blockchainInfo.getPeers();
+<span class="hljs-built_in">console</span>.log(peers); <span class="hljs-comment">// string[]</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -331,9 +549,42 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#getstate">getState</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L205">remme-blockchain-info/src/index.ts:205</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L385">remme-blockchain-info/src/index.ts:385</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get states in REMChain</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>Without parameters</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> states = <span class="hljs-keyword">await</span> remme.blockchainInfo.getState();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"states:"</span>, states); <span class="hljs-comment">// StateList</span>
+</code></pre>
+										<p>Start from specifying state address</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> states = <span class="hljs-keyword">await</span> remme.blockchainInfo.getState({
+ start: <span class="hljs-string">"6a437247a1c12c0fb03aa6e242e6ce988d1cdc7fcc8c2a62ab3ab1202325d7d677e84c"</span>
+});
+<span class="hljs-built_in">console</span>.log(states); <span class="hljs-comment">// StateList</span>
+</code></pre>
+										<p>Reverse output</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> states = <span class="hljs-keyword">await</span> remme.blockchainInfo.getState({ reverse: <span class="hljs-literal">true</span> });
+<span class="hljs-built_in">console</span>.log(states); <span class="hljs-comment">// StateList</span>
+</code></pre>
+										<p>Specify limit of output</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> states = <span class="hljs-keyword">await</span> remme.blockchainInfo.getState({ limit: <span class="hljs-number">2</span> });
+<span class="hljs-built_in">console</span>.log(states); <span class="hljs-comment">// StateList</span>
+</code></pre>
+										<p>Specify head of block for start</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> states = <span class="hljs-keyword">await</span> remme.blockchainInfo.getState({
+     address: <span class="hljs-string">"6a437247a1c12c0fb03aa6e242e6ce988d1cdc7fcc8c2a62ab3ab1202325d7d677e84c"</span>
+});
+<span class="hljs-built_in">console</span>.log(states); <span class="hljs-comment">// StateList</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -348,23 +599,37 @@
 					<a name="getstatebyaddress" class="tsd-anchor"></a>
 					<h3>get<wbr>State<wbr>ByAddress</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>State<wbr>ByAddress<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>State<wbr>ByAddress<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="state.html" class="tsd-signature-type">State</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#getstatebyaddress">getStateByAddress</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L214">remme-blockchain-info/src/index.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L404">remme-blockchain-info/src/index.ts:404</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get state by address</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> state = <span class="hljs-keyword">await</span> remme.blockchainInfo.getStateByAddress(
+     <span class="hljs-string">"6a437247a1c12c0fb03aa6e242e6ce988d1cdc7fcc8c2a62ab3ab1202325d7d677e84c"</span>
+);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"state:"</span>, state);
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>address: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="state.html" class="tsd-signature-type">State</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -379,9 +644,23 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#gettransactionbyid">getTransactionById</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L221">remme-blockchain-info/src/index.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L501">remme-blockchain-info/src/index.ts:501</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get transaction by id (header_signature) from REMChain</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> transaction = <span class="hljs-keyword">await</span> remme.blockchainInfo.getTransactionById(
+     <span class="hljs-string">"f32fc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef543fe"</span>
+);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"transaction:"</span>, transaction); <span class="hljs-comment">// Block</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -403,9 +682,42 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#gettransactions">getTransactions</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/b21ec57/packages/remme-blockchain-info/src/index.ts#L228">remme-blockchain-info/src/index.ts:228</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L479">remme-blockchain-info/src/index.ts:479</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get all transactions from REMChain.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>Without parameters</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> transactions = <span class="hljs-keyword">await</span> remme.blockchainInfo.getBatches();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"transactions:"</span>, transactions); <span class="hljs-comment">// TransactionList</span>
+</code></pre>
+										<p>Start from specifying transactions header_signature.</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> transactions = <span class="hljs-keyword">await</span> remme.blockchainInfo.getTransactions({
+     start: <span class="hljs-string">"f32fc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef543fe"</span>
+});
+<span class="hljs-built_in">console</span>.log(transactions); <span class="hljs-comment">// TransactionList</span>
+</code></pre>
+										<p>Reverse output</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> transactions = <span class="hljs-keyword">await</span> remme.blockchainInfo.getTransactions({ reverse: <span class="hljs-literal">true</span> });
+<span class="hljs-built_in">console</span>.log(transactions); <span class="hljs-comment">// TransactionList</span>
+</code></pre>
+										<p>Specify limit of output</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> transactions = <span class="hljs-keyword">await</span> remme.blockchainInfo.getTransactions({ limit: <span class="hljs-number">2</span> });
+<span class="hljs-built_in">console</span>.log(transactions); <span class="hljs-comment">// TransactionList</span>
+</code></pre>
+										<p>Specify head of block for start</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> transactions = <span class="hljs-keyword">await</span> remme.blockchainInfo.getTransactions({
+     head: <span class="hljs-string">"9d2dc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef57491"</span>
+});
+<span class="hljs-built_in">console</span>.log(transactions); <span class="hljs-comment">// TransactionList</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -413,6 +725,85 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="transactionlist.html" class="tsd-signature-type">TransactionList</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="parsestatedata" class="tsd-anchor"></a>
+					<h3>parse<wbr>State<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>State<wbr>Data<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="state.html" class="tsd-signature-type">State</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#parsestatedata">parseStateData</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L423">remme-blockchain-info/src/index.ts:423</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Parse state data.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> state = <span class="hljs-keyword">await</span> remme.blockchainInfo.getStateByAddress(
+     <span class="hljs-string">"6a437247a1c12c0fb03aa6e242e6ce988d1cdc7fcc8c2a62ab3ab1202325d7d677e84c"</span>
+);
+<span class="hljs-keyword">const</span> parsedState = remme.blockchainInfo.parseStateData(state);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"parsedState:"</span>, parsedState); <span class="hljs-comment">// { data: any, type: string }</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>state: <a href="state.html" class="tsd-signature-type">State</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="parsetransactionpayload" class="tsd-anchor"></a>
+					<h3>parse<wbr>Transaction<wbr>Payload</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Transaction<wbr>Payload<span class="tsd-signature-symbol">(</span>transaction<span class="tsd-signature-symbol">: </span><a href="../interfaces/transactiondata.html" class="tsd-signature-type">TransactionData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/iremmeblockchaininfo.html">IRemmeBlockchainInfo</a>.<a href="../interfaces/iremmeblockchaininfo.html#parsetransactionpayload">parseTransactionPayload</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-blockchain-info/src/index.ts#L523">remme-blockchain-info/src/index.ts:523</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Parse transaction payload. Take transaction and return object with payload and type</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript"><span class="hljs-keyword">const</span> transaction = <span class="hljs-keyword">await</span> remme.blockchainInfo.getTransactionById(
+ <span class="hljs-string">"f32fc2ab673d028bc1dd8b5be8d2d885e4383a827cd0261f58334252bf807c08113207eabbd12d0786d6bba5378a791129f9c520c17597b5504d4b547ef543fe"</span>
+);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"transaction:"</span>, transaction);
+<span class="hljs-keyword">const</span> parsedTransaction = remme.blockchainInfo.parseTransactionPayload(transaction.data);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"parsedTransaction:"</span>, parsedTransaction); <span class="hljs-comment">// { payload: any, type: string }</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>transaction: <a href="../interfaces/transactiondata.html" class="tsd-signature-type">TransactionData</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -440,6 +831,9 @@
 								<a href="remmeblockchaininfo.html#getbatchbyid" class="tsd-kind-icon">get<wbr>Batch<wbr>ById</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="remmeblockchaininfo.html#getbatchstatus" class="tsd-kind-icon">get<wbr>Batch<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 								<a href="remmeblockchaininfo.html#getbatches" class="tsd-kind-icon">get<wbr>Batches</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
@@ -458,9 +852,6 @@
 								<a href="remmeblockchaininfo.html#getpeers" class="tsd-kind-icon">get<wbr>Peers</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-								<a href="remmeblockchaininfo.html#getreceipts" class="tsd-kind-icon">get<wbr>Receipts</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 								<a href="remmeblockchaininfo.html#getstate" class="tsd-kind-icon">get<wbr>State</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
@@ -471,6 +862,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 								<a href="remmeblockchaininfo.html#gettransactions" class="tsd-kind-icon">get<wbr>Transactions</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="remmeblockchaininfo.html#parsestatedata" class="tsd-kind-icon">parse<wbr>State<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="remmeblockchaininfo.html#parsetransactionpayload" class="tsd-kind-icon">parse<wbr>Transaction<wbr>Payload</a>
 							</li>
 						</ul>
 					</li>
