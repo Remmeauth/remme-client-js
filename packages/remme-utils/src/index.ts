@@ -27,6 +27,7 @@ declare module "node-forge" {
             function generateKeyPair(obj?: any): any;
             function sign(obj: any): any;
             function verify(obj: any): any;
+            function publicKeyFromPrivateKey(obj: any): any;
         }
     }
 
@@ -53,6 +54,13 @@ declare module "node-forge" {
         namespace mgf1 {
             function create(any: any): any;
         }
+    }
+
+    /**
+     * @hidden
+     */
+    export namespace util {
+        function ByteBuffer(obj: any, str: string): void;
     }
 }
 

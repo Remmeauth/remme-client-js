@@ -6,13 +6,14 @@ import { IRemmeToken } from "./interface";
  * Transfer them and getting balance by public key.
  * @example
  * ```typescript
- * const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638";
+ * const someAccountPublicKeyInHex = "02926476095ea28904c11f22d0da20e999801a267cd3455a00570aa1153086eb13";
+ * const someRemmeAddress = generateAddress(RemmeFamilyName.Account, someAccountPublicKeyInHex);
  *
  * const receiverBalance = await remme.token.getBalance(someRemmeAddress);
  * console.log(`Account ${someRemmeAddress} as receiver, balance - ${receiverBalance} REM`);
  *
- * const balance = await remme.token.getBalance(remme.account.publicKeyHex);
- * console.log(`Account ${remme.account.publicKeyHex} as sender, balance - ${balance} REM`);
+ * const balance = await remme.token.getBalance(remme.account.address);
+ * console.log(`Account ${remme.account.address} as sender, balance - ${balance} REM`);
  *
  * const transactionResult = await remme.token.transfer(someRemmeAddress, 10);
  * console.log(`Sending tokens...BatchId: ${transactionResult.batchId}`);
@@ -57,7 +58,8 @@ declare class RemmeToken implements IRemmeToken {
      * Send transaction to REMChain.
      * @example
      * ```typescript
-     * const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638";
+     * const someAccountPublicKeyInHex = "02926476095ea28904c11f22d0da20e999801a267cd3455a00570aa1153086eb13";
+     * const someRemmeAddress = generateAddress(RemmeFamilyName.Account, someAccountPublicKeyInHex);
      *
      * const transactionResult = await remme.token.transfer(someRemmeAddress, 10);
      * console.log(`Sending tokens...BatchId: ${transactionResult.batchId}`);
@@ -83,11 +85,11 @@ declare class RemmeToken implements IRemmeToken {
      */
     transfer(addressTo: string, amount: number): Promise<IBaseTransactionResponse>;
     /**
-     * Get balance on given public key
+     * Get balance on given account address
      * @example
      * ```typescript
-     * const balance = await remme.token.getBalance(remme.account.publicKeyHex);
-     * console.log(`Account ${remme.account.publicKeyHex} as sender, balance - ${balance} REM`);
+     * const balance = await remme.token.getBalance(remme.account.address);
+     * console.log(`Account ${remme.account.address} as sender, balance - ${balance} REM`);
      * ```
      * @param {string} address
      * @returns {Promise<number>}

@@ -40,21 +40,13 @@ var remme_api_1 = require("remme-api");
 var remme_utils_1 = require("remme-utils");
 var models_1 = require("./models");
 exports.Batch = models_1.Batch;
-exports.BatchList = 
-// BatchData,
-models_1.BatchList;
+exports.BatchList = models_1.BatchList;
 exports.Block = models_1.Block;
-exports.BlockList = 
-// BlockData,
-models_1.BlockList;
+exports.BlockList = models_1.BlockList;
 exports.State = models_1.State;
-exports.StateList = 
-// StateData,
-models_1.StateList;
+exports.StateList = models_1.StateList;
 exports.Transaction = models_1.Transaction;
-exports.TransactionList = 
-// TransactionData,
-models_1.TransactionList;
+exports.TransactionList = models_1.TransactionList;
 /* tslint:disable */
 /**
  * Main class that works with blockchain data. Blocks, batches, transactions, addresses, peers.
@@ -92,47 +84,6 @@ models_1.TransactionList;
  */
 /* tslint:enable */
 var RemmeBlockchainInfo = /** @class */ (function () {
-    // private _prepareAddress(state: State): State {
-    //     if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
-    //         const { parser: protobuf, type: addressType } = RemmeBlockchainInfo.address[state.address.slice(0, 6)];
-    //         return {
-    //             ...state,
-    //             protobuf,
-    //             addressType,
-    //         };
-    //     }
-    //     return state;
-    // }
-    //
-    // private _prepareBlock(block: BlockData): BlockData {
-    //     block.batches = block.batches.map((batch) => {
-    //         return this._prepareBatch(batch);
-    //     });
-    //     return block;
-    // }
-    //
-    // private _prepareBatch(batch: BatchData): BatchData {
-    //     batch.transactions = batch.transactions.map((transaction) => this._prepareTransaction(transaction));
-    //     return batch;
-    // }
-    //
-    // private _prepareTransaction(transaction: TransactionData): TransactionData {
-    //     const { family_name } = transaction.header;
-    //     if (family_name in RemmeBlockchainInfo.correspond) {
-    //         const data = protobufs.TransactionPayload.decode(base64ToArrayBuffer(transaction.payload));
-    //         const {
-    //             parser: protobuf,
-    //             type: transactionType,
-    //         } = RemmeBlockchainInfo.correspond[family_name][data.method];
-    //         return {
-    //             ...transaction,
-    //             transactionProtobuf: protobufs.TransactionPayload,
-    //             protobuf,
-    //             transactionType,
-    //         };
-    //     }
-    //     return transaction;
-    // }
     /**
      * @example
      * Usage without remme main package
@@ -477,6 +428,9 @@ var RemmeBlockchainInfo = /** @class */ (function () {
      * @returns {object}
      */
     RemmeBlockchainInfo.prototype.parseStateData = function (state) {
+        if (!state.address) {
+            throw new Error("State should have address for parsing");
+        }
         if (RemmeBlockchainInfo.address[state.address.slice(0, 6)]) {
             var _a = RemmeBlockchainInfo.address[state.address.slice(0, 6)], parser = _a.parser, type = _a.type;
             return {

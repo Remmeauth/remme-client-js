@@ -10,12 +10,13 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var remme_protobuf_1 = require("remme-protobuf");
+// import {NewPubKeyPayload} from "remme-protobuf";
 var remme_utils_1 = require("remme-utils");
 var index_1 = require("./index");
 var EdDSA = /** @class */ (function (_super) {
     __extends(EdDSA, _super);
-    function EdDSA(privateKey, publicKey) {
+    function EdDSA(_a) {
+        var privateKey = _a.privateKey, publicKey = _a.publicKey;
         var _this = _super.call(this) || this;
         if (privateKey && publicKey) {
             _this._privateKey = privateKey;
@@ -25,8 +26,13 @@ var EdDSA = /** @class */ (function (_super) {
             _this._privateKey = privateKey;
             _this._publicKey = remme_utils_1.forge.pki.ed25519.publicKeyFromPrivateKey(_this._privateKey);
         }
+        else if (publicKey) {
+            _this._publicKey = publicKey;
+        }
         _this._publicKeyHex = remme_utils_1.bytesToHex(_this._publicKey);
-        _this._privateKeyHex = remme_utils_1.bytesToHex(_this._privateKey);
+        if (_this._privateKey) {
+            _this._privateKeyHex = remme_utils_1.bytesToHex(_this._privateKey);
+        }
         try {
             _this._publicKeyBase64 = btoa(_this._publicKeyHex);
         }
@@ -34,7 +40,7 @@ var EdDSA = /** @class */ (function (_super) {
             _this._publicKeyBase64 = Buffer.from(_this._publicKeyHex).toString("base64");
         }
         _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKeyBase64);
-        _this._keyType = remme_protobuf_1.NewPubKeyPayload.PubKeyType.EdDSA;
+        _this._keyType = index_1.KeyType.EdDSA;
         return _this;
     }
     EdDSA.generateKeyPair = function (_a) {
@@ -63,7 +69,7 @@ var EdDSA = /** @class */ (function (_super) {
         });
         return remme_utils_1.forge.util.bytesToHex(signature);
     };
-    EdDSA.prototype.verify = function (signature, data) {
+    EdDSA.prototype.verify = function (data, signature) {
         return remme_utils_1.forge.pki.ed25519.verify({
             message: data,
             encoding: "utf8",

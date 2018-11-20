@@ -1,12 +1,12 @@
 {
   "name": "remme-client",
   "namespace": "remme",
-  "version": "0.4.0-0",
+  "version": "0.5.0-0",
   "description": "REMME external package",
   "main": "./packages/remme/dist/index.js",
   "scripts": {
     "postinstall": "./node_modules/.bin/lerna bootstrap",
-    "publish": "npm run bootstrap && ./node_modules/.bin/lerna publish",
+    "publish": "npm run bootstrap && ./node_modules/.bin/gulp && ./node_modules/.bin/lerna publish",
     "bootstrap": "./node_modules/.bin/gulp prepublish && ./node_modules/.bin/lerna bootstrap",
     "build": "npm run bootstrap && ./node_modules/.bin/gulp",
     "build_all": "npm run bootstrap && ./node_modules/.bin/gulp build",

@@ -193,14 +193,7 @@ class RemmeCertificate implements IRemmeCertificate {
     public async createAndStore(certificateDataToCreate: CreateCertificateDto)
         : Promise<ICertificateTransactionResponse> {
         const certificate = await this.create(certificateDataToCreate);
-        const batchResponse = await this.store(certificate);
-        const certResponse = new CertificateTransactionResponse(
-            batchResponse.nodeAddress,
-            batchResponse.sslMode,
-            batchResponse.batchId,
-        );
-        certResponse.certificate = certificate;
-        return certResponse;
+        return await this.store(certificate);
     }
 
     /**
@@ -218,12 +211,12 @@ class RemmeCertificate implements IRemmeCertificate {
      *   validity: 360,
      *   serial: `${Date.now()}`
      * });
-     * const storeResponse = remme.certificate.store(certificate);
+     * const storeResponse = await remme.certificate.store(certificate);
      * ```
      * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
-     * @returns {Promise<IBaseTransactionResponse>}
+     * @returns {Promise<ICertificateTransactionResponse>}
      */
-    public async store(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<IBaseTransactionResponse> {
+    public async store(certificate: forge.pki.Certificate | forge.pki.PEM): Promise<ICertificateTransactionResponse> {
         if (typeof certificate === "string") {
             certificate = certificateFromPem(certificate);
         }
@@ -234,14 +227,23 @@ class RemmeCertificate implements IRemmeCertificate {
         }
         const validFrom = Math.floor(certificate.validity.notBefore.getTime() / 1000);
         const validTo = Math.floor(certificate.validity.notAfter.getTime()  / 1000);
-        return await this._remmePublicKeyStorage.store({
+        const batchResponse = await this._remmePublicKeyStorage.store({
             data: certificatePEM,
-            keys: new RemmeKeys(KeyType.RSA, privateKey, publicKey),
-            publicKeyType: KeyType.RSA,
+            keys: new RemmeKeys({
+                keyType: KeyType.RSA,
+                privateKey,
+                publicKey,
+            }),
             rsaSignaturePadding: RSASignaturePadding.PSS,
             validFrom,
             validTo,
         });
+        return new CertificateTransactionResponse(
+            batchResponse.nodeAddress,
+            batchResponse.sslMode,
+            batchResponse.batchId,
+            certificate,
+        );
     }
 
     /**
@@ -258,7 +260,7 @@ class RemmeCertificate implements IRemmeCertificate {
         if (typeof certificate === "string") {
             certificate = certificateFromPem(certificate);
         }
-        const address = RemmeKeys.getAddressFromPublicKey(certificate.publicKey, KeyType.RSA);
+        const address = RemmeKeys.getAddressFromPublicKey(KeyType.RSA, certificate.publicKey);
         const checkResult = await this._remmePublicKeyStorage.check(address);
         if (checkResult !== undefined) {
             return checkResult;
@@ -281,7 +283,7 @@ class RemmeCertificate implements IRemmeCertificate {
         if (typeof certificate === "string") {
             certificate = certificateFromPem(certificate);
         }
-        const address = RemmeKeys.getAddressFromPublicKey(certificate.publicKey, KeyType.RSA);
+        const address = RemmeKeys.getAddressFromPublicKey(KeyType.RSA, certificate.publicKey);
         const checkResult = await this._remmePublicKeyStorage.getInfo(address);
         if (checkResult !== undefined) {
             return checkResult;
@@ -311,46 +313,59 @@ class RemmeCertificate implements IRemmeCertificate {
         if (typeof certificate === "string") {
             certificate = certificateFromPem(certificate);
         }
-        const address = RemmeKeys.getAddressFromPublicKey(certificate.publicKey, KeyType.RSA);
+        const address = RemmeKeys.getAddressFromPublicKey(KeyType.RSA, certificate.publicKey);
         return await this._remmePublicKeyStorage.revoke(address);
     }
 
     /**
      * Sign data with a certificate's private key and output DigestInfo DER-encoded bytes
-     * (defaults to RSASSA PKCS#1 v1.5)
+     * (defaults to PSS)
      * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
      * @param {string} data
+     * @param {RSASignaturePadding} rsaSignaturePadding
      * @returns {string}
      */
-    public sign(certificate: forge.pki.Certificate | forge.pki.PEM, data: string): string {
+    public sign(
+        certificate: forge.pki.Certificate | forge.pki.PEM,
+        data: string,
+        rsaSignaturePadding?: RSASignaturePadding,
+    ): string {
         if (typeof certificate === "string") {
             certificate = certificateFromPem(certificate);
         }
         if (!certificate.privateKey) {
             throw new Error("Your certificate does not have private key");
         }
-        const md = forge.md.sha512.create().update(data, "utf8");
-        return certificate.privateKey.sign(md);
+        const keys = new RemmeKeys({
+            keyType: KeyType.RSA,
+            privateKey: certificate.privateKey,
+        });
+        return keys.sign(data, rsaSignaturePadding);
     }
 
     /**
      * verify data with a public key
-     * (defaults to RSASSA PKCS#1 v1.5)
+     * (defaults to PSS)
      * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
      * @param {string} data
      * @param {string} signature
+     * @param {RSASignaturePadding} rsaSignaturePadding
      * @returns {boolean}
      */
     public verify(
         certificate: forge.pki.Certificate | forge.pki.PEM,
         data: string,
         signature: string,
+        rsaSignaturePadding?: RSASignaturePadding,
     ): boolean {
         if (typeof certificate === "string") {
             certificate = certificateFromPem(certificate);
         }
-        data = forge.md.sha512.create().update(data, "utf8").digest().bytes();
-        return certificate.publicKey.verify(data, signature);
+        const keys = new RemmeKeys({
+            keyType: KeyType.RSA,
+            publicKey: certificate.publicKey,
+        });
+        return keys.verify(data, signature, rsaSignaturePadding);
     }
 
 }

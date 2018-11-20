@@ -1,6 +1,9 @@
-import { NewPubKeyPayload } from "remme-protobuf";
+// import { NewPubKeyPayload } from "remme-protobuf";
+import { RemmeFamilyName } from "remme-utils";
+import { KeyType } from "./index";
 
 class KeyDto {
+    protected _familyName: RemmeFamilyName = RemmeFamilyName.PublicKey;
     protected _address: string;
     protected _publicKey: any;
     protected _privateKey: any;
@@ -23,6 +26,9 @@ class KeyDto {
      * @returns {Buffer}
      */
     public get privateKey(): any {
+        if (!this._privateKey) {
+            throw new Error("You didn't provide private key");
+        }
         return this._privateKey;
     }
 
@@ -56,7 +62,7 @@ class KeyDto {
      */
     public get privateKeyPem(): string {
         if (!this._privateKeyPem) {
-            throw new Error(`Don't supported for this key type: ${this._keyType}`);
+            throw new Error(`Don't supported for this key type: ${this._keyType} or didn't provide private key`);
         }
         return this._privateKeyPem;
     }
@@ -78,7 +84,7 @@ class KeyDto {
      */
     public get privateKeyHex(): string {
         if (!this._privateKeyHex) {
-            throw new Error(`Don't supported for this key type: ${this._keyType}`);
+            throw new Error(`Don't supported for this key type: ${this._keyType} or didn't provide private key`);
         }
         return this._privateKeyHex;
     }
@@ -92,6 +98,14 @@ class KeyDto {
             throw new Error(`Don't supported for this key type: ${this._keyType}`);
         }
         return this._publicKeyHex;
+    }
+
+    /**
+     * Return family name.
+     * @returns {RemmeFamilyName}
+     */
+    public get familyName(): RemmeFamilyName {
+        return this._familyName;
     }
 }
 

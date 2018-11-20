@@ -215,18 +215,14 @@ var RemmeCertificate = /** @class */ (function () {
      */
     RemmeCertificate.prototype.createAndStore = function (certificateDataToCreate) {
         return __awaiter(this, void 0, void 0, function () {
-            var certificate, batchResponse, certResponse;
+            var certificate;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.create(certificateDataToCreate)];
                     case 1:
                         certificate = _a.sent();
                         return [4 /*yield*/, this.store(certificate)];
-                    case 2:
-                        batchResponse = _a.sent();
-                        certResponse = new models_1.CertificateTransactionResponse(batchResponse.nodeAddress, batchResponse.sslMode, batchResponse.batchId);
-                        certResponse.certificate = certificate;
-                        return [2 /*return*/, certResponse];
+                    case 2: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -246,14 +242,14 @@ var RemmeCertificate = /** @class */ (function () {
      *   validity: 360,
      *   serial: `${Date.now()}`
      * });
-     * const storeResponse = remme.certificate.store(certificate);
+     * const storeResponse = await remme.certificate.store(certificate);
      * ```
      * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
-     * @returns {Promise<IBaseTransactionResponse>}
+     * @returns {Promise<ICertificateTransactionResponse>}
      */
     RemmeCertificate.prototype.store = function (certificate) {
         return __awaiter(this, void 0, void 0, function () {
-            var certificatePEM, publicKey, privateKey, validFrom, validTo;
+            var certificatePEM, publicKey, privateKey, validFrom, validTo, batchResponse;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -269,13 +265,18 @@ var RemmeCertificate = /** @class */ (function () {
                         validTo = Math.floor(certificate.validity.notAfter.getTime() / 1000);
                         return [4 /*yield*/, this._remmePublicKeyStorage.store({
                                 data: certificatePEM,
-                                keys: new remme_keys_1.RemmeKeys(remme_keys_1.KeyType.RSA, privateKey, publicKey),
-                                publicKeyType: remme_keys_1.KeyType.RSA,
+                                keys: new remme_keys_1.RemmeKeys({
+                                    keyType: remme_keys_1.KeyType.RSA,
+                                    privateKey: privateKey,
+                                    publicKey: publicKey,
+                                }),
                                 rsaSignaturePadding: remme_keys_1.RSASignaturePadding.PSS,
                                 validFrom: validFrom,
                                 validTo: validTo,
                             })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        batchResponse = _a.sent();
+                        return [2 /*return*/, new models_1.CertificateTransactionResponse(batchResponse.nodeAddress, batchResponse.sslMode, batchResponse.batchId, certificate)];
                 }
             });
         });
@@ -299,7 +300,7 @@ var RemmeCertificate = /** @class */ (function () {
                         if (typeof certificate === "string") {
                             certificate = remme_utils_1.certificateFromPem(certificate);
                         }
-                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(certificate.publicKey, remme_keys_1.KeyType.RSA);
+                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(remme_keys_1.KeyType.RSA, certificate.publicKey);
                         return [4 /*yield*/, this._remmePublicKeyStorage.check(address)];
                     case 1:
                         checkResult = _a.sent();
@@ -333,7 +334,7 @@ var RemmeCertificate = /** @class */ (function () {
                         if (typeof certificate === "string") {
                             certificate = remme_utils_1.certificateFromPem(certificate);
                         }
-                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(certificate.publicKey, remme_keys_1.KeyType.RSA);
+                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(remme_keys_1.KeyType.RSA, certificate.publicKey);
                         return [4 /*yield*/, this._remmePublicKeyStorage.getInfo(address)];
                     case 1:
                         checkResult = _a.sent();
@@ -374,7 +375,7 @@ var RemmeCertificate = /** @class */ (function () {
                         if (typeof certificate === "string") {
                             certificate = remme_utils_1.certificateFromPem(certificate);
                         }
-                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(certificate.publicKey, remme_keys_1.KeyType.RSA);
+                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(remme_keys_1.KeyType.RSA, certificate.publicKey);
                         return [4 /*yield*/, this._remmePublicKeyStorage.revoke(address)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
@@ -383,35 +384,43 @@ var RemmeCertificate = /** @class */ (function () {
     };
     /**
      * Sign data with a certificate's private key and output DigestInfo DER-encoded bytes
-     * (defaults to RSASSA PKCS#1 v1.5)
+     * (defaults to PSS)
      * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
      * @param {string} data
+     * @param {RSASignaturePadding} rsaSignaturePadding
      * @returns {string}
      */
-    RemmeCertificate.prototype.sign = function (certificate, data) {
+    RemmeCertificate.prototype.sign = function (certificate, data, rsaSignaturePadding) {
         if (typeof certificate === "string") {
             certificate = remme_utils_1.certificateFromPem(certificate);
         }
         if (!certificate.privateKey) {
             throw new Error("Your certificate does not have private key");
         }
-        var md = remme_utils_1.forge.md.sha512.create().update(data, "utf8");
-        return certificate.privateKey.sign(md);
+        var keys = new remme_keys_1.RemmeKeys({
+            keyType: remme_keys_1.KeyType.RSA,
+            privateKey: certificate.privateKey,
+        });
+        return keys.sign(data, rsaSignaturePadding);
     };
     /**
      * verify data with a public key
-     * (defaults to RSASSA PKCS#1 v1.5)
+     * (defaults to PSS)
      * @param {module:node-forge.pki.Certificate | module:node-forge.pki.PEM} certificate
      * @param {string} data
      * @param {string} signature
+     * @param {RSASignaturePadding} rsaSignaturePadding
      * @returns {boolean}
      */
-    RemmeCertificate.prototype.verify = function (certificate, data, signature) {
+    RemmeCertificate.prototype.verify = function (certificate, data, signature, rsaSignaturePadding) {
         if (typeof certificate === "string") {
             certificate = remme_utils_1.certificateFromPem(certificate);
         }
-        data = remme_utils_1.forge.md.sha512.create().update(data, "utf8").digest().bytes();
-        return certificate.publicKey.verify(data, signature);
+        var keys = new remme_keys_1.RemmeKeys({
+            keyType: remme_keys_1.KeyType.RSA,
+            publicKey: certificate.publicKey,
+        });
+        return keys.verify(data, signature, rsaSignaturePadding);
     };
     return RemmeCertificate;
 }());

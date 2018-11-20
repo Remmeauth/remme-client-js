@@ -1,4 +1,3 @@
-/// <reference types="node" />
 export { BaseTransactionResponse, IBaseTransactionResponse } from "./BaseTransactionResponse";
 /**
  * DTO for send transaction
@@ -17,6 +16,6 @@ export declare class CreateTransactionDto {
     familyVersion: string;
     inputs: string[];
     outputs: string[];
-    payloadBytes: Buffer | Uint8Array;
-    constructor(familyName: string, familyVersion: string, inputs: string[], outputs: string[], payloadBytes: Buffer | Uint8Array);
+    payloadBytes: Uint8Array;
+    constructor(familyName: string, familyVersion: string, inputs: string[], outputs: string[], payloadBytes: Uint8Array);
 }

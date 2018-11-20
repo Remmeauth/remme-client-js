@@ -1,7 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// import { NewPubKeyPayload } from "remme-protobuf";
+var remme_utils_1 = require("remme-utils");
 var KeyDto = /** @class */ (function () {
     function KeyDto() {
+        this._familyName = remme_utils_1.RemmeFamilyName.PublicKey;
     }
     Object.defineProperty(KeyDto.prototype, "address", {
         /**
@@ -19,6 +22,9 @@ var KeyDto = /** @class */ (function () {
          * @returns {Buffer}
          */
         get: function () {
+            if (!this._privateKey) {
+                throw new Error("You didn't provide private key");
+            }
             return this._privateKey;
         },
         enumerable: true,
@@ -64,7 +70,7 @@ var KeyDto = /** @class */ (function () {
          */
         get: function () {
             if (!this._privateKeyPem) {
-                throw new Error("Don't supported for this key type: " + this._keyType);
+                throw new Error("Don't supported for this key type: " + this._keyType + " or didn't provide private key");
             }
             return this._privateKeyPem;
         },
@@ -92,7 +98,7 @@ var KeyDto = /** @class */ (function () {
          */
         get: function () {
             if (!this._privateKeyHex) {
-                throw new Error("Don't supported for this key type: " + this._keyType);
+                throw new Error("Don't supported for this key type: " + this._keyType + " or didn't provide private key");
             }
             return this._privateKeyHex;
         },
@@ -109,6 +115,17 @@ var KeyDto = /** @class */ (function () {
                 throw new Error("Don't supported for this key type: " + this._keyType);
             }
             return this._publicKeyHex;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(KeyDto.prototype, "familyName", {
+        /**
+         * Return family name.
+         * @returns {RemmeFamilyName}
+         */
+        get: function () {
+            return this._familyName;
         },
         enumerable: true,
         configurable: true

@@ -1,6 +1,6 @@
 import { IRemmeApi } from "remme-api";
 import { IRemmeBlockchainInfo } from "./interface";
-import { IBaseQuery, Batch, BatchList, Block, BlockList, State, StateList, Transaction, TransactionList, IStateQuery, INetworkStatus, IBlockInfo } from "./models";
+import { IBaseQuery, Batch, BatchList, Block, BlockList, State, StateList, Transaction, TransactionList, TransactionData, IStateQuery, INetworkStatus, IBlockInfo } from "./models";
 /**
  * Main class that works with blockchain data. Blocks, batches, transactions, addresses, peers.
  * @example
@@ -328,7 +328,7 @@ declare class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * @param {Transaction} transaction
      * @returns {object}
      */
-    parseTransactionPayload(transaction: Transaction): object;
+    parseTransactionPayload(transaction: TransactionData): object;
     /**
      * Get network status for node.
      * @example

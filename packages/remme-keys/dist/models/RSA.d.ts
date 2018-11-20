@@ -1,13 +1,12 @@
-import { NewPubKeyPayload } from "remme-protobuf";
-import { GenerateOptions, KeyDto } from "./index";
+import { GenerateOptions, IKeys, KeyDto, RSASignaturePadding } from "./index";
 import { IRemmeKeys } from "../interface";
 declare class RSA extends KeyDto implements IRemmeKeys {
     private readonly _rsaKeySize;
     private _calculateSaltLength(md);
-    constructor(privateKey: any, publicKey?: any);
+    constructor({privateKey, publicKey}: IKeys);
     static generateKeyPair({rsaKeySize}?: GenerateOptions): Promise<any>;
     static getAddressFromPublicKey(publicKey: any): string;
-    sign(data: string, rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding): string;
-    verify(signature: string, data: string, rsaSignaturePadding?: NewPubKeyPayload.RSASignaturePadding): boolean;
+    sign(data: string, rsaSignaturePadding?: RSASignaturePadding): string;
+    verify(data: string, signature: string, rsaSignaturePadding?: RSASignaturePadding): boolean;
 }
 export { RSA };

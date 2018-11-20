@@ -1,6 +1,6 @@
 import { RemmeMethods, IRemmeApi } from "remme-api";
 import { IRemmeAccount } from "remme-account";
-import { sha512, NodeConfigRequest } from "remme-utils";
+import { sha512, NodeConfigRequest, bytesToHex } from "remme-utils";
 import * as protobuf from "sawtooth-sdk/protobuf";
 
 import { IRemmeTransactionService } from "./interface";
@@ -66,7 +66,7 @@ class RemmeTransactionService implements IRemmeTransactionService {
      * const familyVersion = "0.1";
      * const inputs = [];
      * const outputs = [];
-     * const payloadBytes = new Buffer("my transaction");
+     * const payloadBytes = Uint8Array.from("my transaction");
      * const createDto = new CreateTransactionDto(
      *                         familyName,
      *                         familyVersion,

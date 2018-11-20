@@ -173,7 +173,7 @@ certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-certificate/src/index.ts#L125">remme-certificate/src/index.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L125">remme-certificate/src/index.ts:125</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -217,7 +217,7 @@ certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#check">check</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-certificate/src/index.ts#L257">remme-certificate/src/index.ts:257</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L259">remme-certificate/src/index.ts:259</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -253,7 +253,7 @@ certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#create">create</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-certificate/src/index.ts#L161">remme-certificate/src/index.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L161">remme-certificate/src/index.ts:161</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -297,7 +297,7 @@ certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#createandstore">createAndStore</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-certificate/src/index.ts#L193">remme-certificate/src/index.ts:193</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L193">remme-certificate/src/index.ts:193</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -349,7 +349,7 @@ certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#getinfo">getInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-certificate/src/index.ts#L280">remme-certificate/src/index.ts:280</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L282">remme-certificate/src/index.ts:282</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -385,7 +385,7 @@ certificateTransactionResult.connectToWebSocket(certificateTransactionCallback);
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#revoke">revoke</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-certificate/src/index.ts#L310">remme-certificate/src/index.ts:310</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L312">remme-certificate/src/index.ts:312</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -421,20 +421,19 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
 					<a name="sign" class="tsd-anchor"></a>
 					<h3>sign</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">sign<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">sign<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, rsaSignaturePadding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RSASignaturePadding</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#sign">sign</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-certificate/src/index.ts#L325">remme-certificate/src/index.ts:325</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L328">remme-certificate/src/index.ts:328</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Sign data with a certificate&#39;s private key and output DigestInfo DER-encoded bytes
-									(defaults to RSASSA PKCS#1 v1.5)</p>
+									(defaults to PSS)</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -445,6 +444,9 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
 								<li>
 									<h5>data: <span class="tsd-signature-type">string</span></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> rsaSignaturePadding: <span class="tsd-signature-type">RSASignaturePadding</span></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
@@ -454,14 +456,14 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
 					<a name="store" class="tsd-anchor"></a>
 					<h3>store</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">store<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">store<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/icertificatetransactionresponse.html" class="tsd-signature-type">ICertificateTransactionResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#store">store</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-certificate/src/index.ts#L226">remme-certificate/src/index.ts:226</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L219">remme-certificate/src/index.ts:219</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -481,7 +483,7 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
   validity: <span class="hljs-number">360</span>,
   serial: <span class="hljs-string">`<span class="hljs-subst">${Date.now()}</span>`</span>
 });
-<span class="hljs-keyword">const</span> storeResponse = remme.certificate.store(certificate);
+<span class="hljs-keyword">const</span> storeResponse = <span class="hljs-keyword">await</span> remme.certificate.store(certificate);
 </code></pre>
 									</dd>
 								</dl>
@@ -492,7 +494,7 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
 									<h5>certificate: <span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IBaseTransactionResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/icertificatetransactionresponse.html" class="tsd-signature-type">ICertificateTransactionResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -500,20 +502,19 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
 					<a name="verify" class="tsd-anchor"></a>
 					<h3>verify</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">verify<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, signature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">verify<span class="tsd-signature-symbol">(</span>certificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">forge.pki.PEM</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, signature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, rsaSignaturePadding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RSASignaturePadding</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/iremmecertificate.html">IRemmeCertificate</a>.<a href="../interfaces/iremmecertificate.html#verify">verify</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/e9c16a6/packages/remme-certificate/src/index.ts#L344">remme-certificate/src/index.ts:344</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/2b595ec/packages/remme-certificate/src/index.ts#L355">remme-certificate/src/index.ts:355</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>verify data with a public key
-									(defaults to RSASSA PKCS#1 v1.5)</p>
+									(defaults to PSS)</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -526,6 +527,9 @@ revokeResponse.connectToWebSocket(<span class="hljs-function">(<span class="hljs
 								</li>
 								<li>
 									<h5>signature: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> rsaSignaturePadding: <span class="tsd-signature-type">RSASignaturePadding</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>

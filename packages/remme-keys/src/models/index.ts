@@ -4,12 +4,30 @@ export interface GenerateOptions {
     rsaKeySize?: number;
 }
 
+/**
+ * All types of Key pair
+ */
 export enum KeyType {
     RSA,
     ECDSA,
     EdDSA,
 }
 
+export interface IKeys {
+    privateKey?: any;
+    publicKey?: any;
+}
+
+/**
+ * Params for creating key pair
+ */
+export interface IRemmeKeysParams extends IKeys {
+    keyType: KeyType;
+}
+
+/**
+ * All kind of RSASignature padding.
+ */
 export enum RSASignaturePadding {
     EMPTY,
     PSS,
