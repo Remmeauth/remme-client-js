@@ -127,11 +127,9 @@
 </code></pre>
 				<h2 id="examples">Examples</h2>
 				<h4 id="implement-remme-client">Implement Remme client</h4>
-				<pre><code class="lang-js"><span class="hljs-keyword">var</span> Remme = <span class="hljs-built_in">require</span>(<span class="hljs-string">"remme"</span>);
+				<pre><code class="lang-js"><span class="hljs-keyword">const</span> Remme = <span class="hljs-built_in">require</span>(<span class="hljs-string">"remme"</span>);
 <span class="hljs-comment">// import Remme from "remme";</span>
 
-<span class="hljs-keyword">const</span> nodeAddress = <span class="hljs-string">"192.168.0.1:8080"</span>; <span class="hljs-comment">// &lt;-- Address of your local node's REST API server (localhost:8080) by default</span>
-<span class="hljs-keyword">const</span> socketAddress = <span class="hljs-string">"192.168.0.1:9080"</span>; <span class="hljs-comment">// &lt;-- Address of local node's WebSocket server (localhost:9080) by default</span>
 <span class="hljs-keyword">const</span> privateKeyHex = <span class="hljs-string">"7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4f10"</span>;
 <span class="hljs-keyword">const</span> networkConfig = {
     <span class="hljs-attr">nodeAddress</span>: <span class="hljs-string">"localhost"</span>,
@@ -141,8 +139,9 @@
 <span class="hljs-keyword">const</span> remme = <span class="hljs-keyword">new</span> Remme.Client({ privateKeyHex, networkConfig });
 </code></pre>
 				<h4 id="tokens">Tokens</h4>
-				<pre><code class="lang-js"><span class="hljs-keyword">const</span> someRemmeAddress = <span class="hljs-string">"0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759"</span>;
-<span class="hljs-keyword">const</span> balance = <span class="hljs-keyword">await</span> remme.token.getBalance(someRemmeAddress);
+				<pre><code class="lang-js"><span class="hljs-keyword">const</span> { RemmeFamilyName } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"remme-utils"</span>);
+<span class="hljs-keyword">const</span> someAccountPublicKeyInHexFormat = <span class="hljs-string">"0306796698d9b14a0ba313acc7fb14f69d8717393af5b02cc292d72009b97d8759"</span>;
+<span class="hljs-keyword">const</span> someRemmeAddress = generateAddress(RemmeFamilyName.Account, someAccountPublicKeyInHexFormat);
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account <span class="hljs-subst">${someRemmeAddress}</span> balance - <span class="hljs-subst">${balance}</span> REM`</span>);
 
 <span class="hljs-keyword">const</span> transactionResult = <span class="hljs-keyword">await</span> remme.token.transfer(someRemmeAddress, <span class="hljs-number">100</span>);
@@ -157,7 +156,6 @@
 };
 
 transactionResult.connectToWebSocket(transactionCallback);
-
 </code></pre>
 				<h4 id="certificates">Certificates</h4>
 				<pre><code class="lang-js"><span class="hljs-keyword">const</span> certificateTransactionResult = <span class="hljs-keyword">await</span> remme.certificate.createAndStore({
