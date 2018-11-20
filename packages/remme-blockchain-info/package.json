@@ -1,6 +1,6 @@
 {
   "name": "remme-blockchain-info",
-  "version": "0.5.0-0",
+  "version": "0.5.0-alfa",
   "description": "REMME blockchain info internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,7 +13,7 @@
   "dependencies": {
     "remme-api": "^0.4.0",
     "remme-protobuf": "^0.4.0",
-    "remme-utils": "^0.5.0-0"
+    "remme-utils": "^0.5.0-alfa"
   },
   "devDependencies": {
     "typescript": "^2.8.3"
