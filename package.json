@@ -1,7 +1,7 @@
 {
   "name": "remme-client",
   "namespace": "remme",
-  "version": "0.5.0-0",
+  "version": "0.5.0",
   "description": "REMME external package",
   "main": "./packages/remme/dist/index.js",
   "scripts": {
