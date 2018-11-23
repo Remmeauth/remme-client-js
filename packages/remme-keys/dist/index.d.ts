@@ -80,7 +80,7 @@ declare class RemmeKeys implements IRemmeKeys {
      */
     static getAddressFromPublicKey(keyType: KeyType, publicKey: any): string;
     /**
-     *  @example
+     * @example
      * If you have private key. You can construct RemmeKeys based on private key.
      * ```typescript
      * import { KeyType } from "remme-keys";
