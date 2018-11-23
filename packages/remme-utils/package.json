@@ -1,6 +1,6 @@
 {
   "name": "remme-utils",
-  "version": "0.5.0-alfa",
+  "version": "0.5.0",
   "description": "REMME utils internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
