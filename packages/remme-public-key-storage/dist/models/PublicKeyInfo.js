@@ -13,7 +13,7 @@ var PublicKeyInfo = /** @class */ (function () {
         this.validTo = data.valid_to;
         this.entityHash = data.entity_hash;
         this.entityHashSignature = data.entity_hash_signature;
-        this.type = data.type;
+        this.type = data.type || "RSA";
     }
     return PublicKeyInfo;
 }());
