@@ -20,8 +20,7 @@ var CertificateTransactionResponse = /** @class */ (function (_super) {
     function CertificateTransactionResponse(socketAddress, sslMode, batchId, certificate) {
         var _this = _super.call(this, socketAddress, sslMode, batchId) || this;
         _this.certificate = certificate;
-        _this.keys = new remme_keys_1.RemmeKeys({
-            keyType: remme_keys_1.KeyType.RSA,
+        _this.keys = new remme_keys_1.RSA({
             privateKey: _this.certificate.privateKey,
             publicKey: _this.certificate.publicKey,
         });

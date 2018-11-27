@@ -265,8 +265,7 @@ var RemmeCertificate = /** @class */ (function () {
                         validTo = Math.floor(certificate.validity.notAfter.getTime() / 1000);
                         return [4 /*yield*/, this._remmePublicKeyStorage.store({
                                 data: certificatePEM,
-                                keys: new remme_keys_1.RemmeKeys({
-                                    keyType: remme_keys_1.KeyType.RSA,
+                                keys: new remme_keys_1.RSA({
                                     privateKey: privateKey,
                                     publicKey: publicKey,
                                 }),
@@ -397,8 +396,7 @@ var RemmeCertificate = /** @class */ (function () {
         if (!certificate.privateKey) {
             throw new Error("Your certificate does not have private key");
         }
-        var keys = new remme_keys_1.RemmeKeys({
-            keyType: remme_keys_1.KeyType.RSA,
+        var keys = new remme_keys_1.RSA({
             privateKey: certificate.privateKey,
         });
         return keys.sign(data, rsaSignaturePadding);
@@ -416,8 +414,7 @@ var RemmeCertificate = /** @class */ (function () {
         if (typeof certificate === "string") {
             certificate = remme_utils_1.certificateFromPem(certificate);
         }
-        var keys = new remme_keys_1.RemmeKeys({
-            keyType: remme_keys_1.KeyType.RSA,
+        var keys = new remme_keys_1.RSA({
             publicKey: certificate.publicKey,
         });
         return keys.verify(data, signature, rsaSignaturePadding);
