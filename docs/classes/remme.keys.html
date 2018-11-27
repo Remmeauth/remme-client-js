@@ -127,42 +127,14 @@
 					</li>
 				</ul>
 			</section>
-			<section class="tsd-panel">
-				<h3>Implements</h3>
-				<ul class="tsd-hierarchy">
-					<li><span class="tsd-signature-type">IRemmeKeys</span></li>
-				</ul>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-inherited">
-							<h3>Constructors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section tsd-is-inherited">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#address" class="tsd-kind-icon">address</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#familyname" class="tsd-kind-icon">family<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#keytype" class="tsd-kind-icon">key<wbr>Type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#privatekey" class="tsd-kind-icon">private<wbr>Key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#privatekeyhex" class="tsd-kind-icon">private<wbr>Key<wbr>Hex</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#privatekeypem" class="tsd-kind-icon">private<wbr>Key<wbr>Pem</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#publickey" class="tsd-kind-icon">public<wbr>Key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#publickeybase64" class="tsd-kind-icon">public<wbr>Key<wbr>Base64</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#publickeyhex" class="tsd-kind-icon">public<wbr>Key<wbr>Hex</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#publickeypem" class="tsd-kind-icon">public<wbr>Key<wbr>Pem</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#sign" class="tsd-kind-icon">sign</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="remme.keys.html#verify" class="tsd-kind-icon">verify</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="remme.keys.html#construct" class="tsd-kind-icon">construct</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="remme.keys.html#generatekeypair" class="tsd-kind-icon">generate<wbr>Key<wbr>Pair</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="remme.keys.html#getaddressfrompublickey" class="tsd-kind-icon">get<wbr>Address<wbr>From<wbr>Public<wbr>Key</a></li>
 							</ul>
@@ -171,19 +143,19 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
-				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-					<a name="constructor" class="tsd-anchor"></a>
-					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Keys<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="remme.keys.html" class="tsd-signature-type">Keys</a></li>
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="construct" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> construct</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">construct<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RSA</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">EdDSA</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ECDSA</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from RemmeKeys.__constructor</p>
+								<p>Inherited from RemmeKeys.construct</p>
 								<ul>
-									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:81</li>
+									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:128</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -194,7 +166,7 @@
 <span class="hljs-keyword">import</span> { privateKeyFromPem, publicKeyFromPem } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-utils"</span>;
 
 <span class="hljs-keyword">const</span> privateKey = <span class="hljs-string">"-----BEGIN RSA PRIVATE KEY-----\r\nMIIEowIBAAKCAQEAkhdw64WKrvXCWtGsNeVTPKDPpcHN0kcF4acvfPauDE8TpIFu\r\n8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZze6YAsi7VUggO+5kDuJnKrg0VJ5s\r\nwfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6DgobdtWM/VpVYsbBcMT4XXpzmuv0qk\r\nEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y06wr0BXqYWWQTnGC3DJf2iqu68Ceo\r\nZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//KHUlnD3Oa1TyWzjF6NcMWv0PgDg6u\r\n8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7DQIDAQABAoIBADRnHCYfXMOte+2/\r\n0Bn1DIpu1I0Mm5uVxlJO+gXFJmFb7BvSIc4ENGyIDF896A+u3eNl1G5QXsBDV2Ps\r\nh9HdNKddskEtZ6ULniRhOprsMz1rnbnMqg5Y1SbrXTXVUdmB/bND53PGQ6OIX42B\r\n6vS7jFf1x89XnbcU1hJfohbUV6qvwr+hyrvrV859LM80rErCKGXXi6gtiRBiTYA3\r\n2qgO+F/ntmoU638XDzeIhKNjCP+KcWcQX1TRlrcuKfPKfCttHTb1MCGWnrOqy56w\r\nU628Iz4lKfjCOOdAXvyDRBEFSPKfriuB5JQQ67cZ9w783/2ZChhAY4wzBqvgnnlo\r\np6cPXDECgYEA+shoBswhqkA81RHxdkMoM9/iGwfkdFwxr9TqHGN7+L0hRXJlysKP\r\npBFX7Wg6GWF3BDHQzLoWQCEox0NgHbAVTC5DBxjIEjRemmlYEeAPqVRTub1lfp37\r\nYcK8BqsllDgXsqlQQNKqqVj4V2y/PO6NzlHWN9inJrp8ZZKSKPSamq8CgYEAlSF7\r\nDB0STde20E+ZPzQZi7zLWl59yM29mlKujlRktp2vl3foRJgQsndOAIc6k4+ImXR8\r\ngtfwpCYrXTQhJE4GHO/E/52vuwkVVz9qN5ZmgzR13yzlicCVmfZ7aaZ6jblNiQ1G\r\ngnIx1chcb8Vl5fncmaoa9SgefwWciPERNg31RQMCgYEApH1SjjLSWgMsY20Tfchq\r\n1Cui+Kviktft1zDGJbyzEeGrswtn7OhUov6lN5jHkuI02FF8bOwZsBKP1rNAlfhq\r\n377wQ/VjNV2YN5ulIoRegWhISmoJ6lThD6xU++LCEUgBczRO6VXEjrNGoME5ZlPq\r\nO0u+QH8gk+x5r33F1Isr5Q0CgYBHrmEjsHGU4wPnWutROuywgx3HoTWaqHHjVKy8\r\nkwoZ0O+Owb7uAZ28+qWOkXFxbgN9p0UV60+qxwH++ciYV7yOeh1ZtGS8ZSBR4JRg\r\nhbVeiX/CtyTZsqz15Ujqvm+X4aLIJo5msxcLKBRuURaqlRAY+G+euRr3eS4FkMHy\r\nFoF3GwKBgFDNeJc7VfbQq2toRSxCNuUTLXoZPrPfQrV+mA9umGCep44Ea02xIKQu\r\nbYpYghpdbASOp6fJvBlwjI8LNX3dC/PfUpbIG84bVCokgBCMNJQ+/DBuPBt7L29A\r\n7Ra1poXMbXt0nF3LgAtZHveRmVDtcr52dZ/6Yd2km5mAHj+4yPZo\r\n-----END RSA PRIVATE KEY-----\r\n"</span>
-<span class="hljs-keyword">const</span> keys = <span class="hljs-keyword">new</span> Remme.Keys({
+<span class="hljs-keyword">const</span> keys = <span class="hljs-keyword">await</span> Remme.Keys.contsruct({
      keyType: KeyType.RSA,
      privateKey: privateKeyFromPem(privateKey),
 }); <span class="hljs-comment">// Our chain works only with RSA now.</span>
@@ -204,10 +176,22 @@
 <span class="hljs-keyword">import</span> { privateKeyFromPem, publicKeyFromPem } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-utils"</span>;
 
 <span class="hljs-keyword">const</span> publicKey = <span class="hljs-string">"-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkhdw64WKrvXCWtGsNeVT\r\nPKDPpcHN0kcF4acvfPauDE8TpIFu8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZ\r\nze6YAsi7VUggO+5kDuJnKrg0VJ5swfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6Dg\r\nobdtWM/VpVYsbBcMT4XXpzmuv0qkEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y0\r\n6wr0BXqYWWQTnGC3DJf2iqu68CeoZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//K\r\nHUlnD3Oa1TyWzjF6NcMWv0PgDg6u8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7\r\nDQIDAQAB\r\n-----END PUBLIC KEY-----\r\n"</span>;
-<span class="hljs-keyword">const</span> keys = <span class="hljs-keyword">new</span> Remme.Keys({
+<span class="hljs-keyword">const</span> keys = <span class="hljs-keyword">await</span> Remme.Keys.construct({
      keyType: KeyType.RSA,
      publicKey: publicKeyFromPem(publicKey),
 }); <span class="hljs-comment">// Our chain works only with RSA now.</span>
+</code></pre>
+										<p>If you don&#39;t have any key. You can construct RemmeKeys without keys and it generate keys for you with default generation options.</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { KeyType } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-keys"</span>;
+
+<span class="hljs-keyword">const</span> keys = <span class="hljs-keyword">await</span> Remme.Keys.construct({
+     keyType: KeyType.RSA,
+}); <span class="hljs-comment">// Our chain works only with RSA now.</span>
+</code></pre>
+										<p>Also you can construct RemmeKeys without any params so keyType will be RSA by default.</p>
+										<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { KeyType } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-keys"</span>;
+
+<span class="hljs-keyword">const</span> keys = <span class="hljs-keyword">await</span> Remme.Keys.construct();
 </code></pre>
 									</dd>
 								</dl>
@@ -231,315 +215,7 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="remme.keys.html" class="tsd-signature-type">Keys</a></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="address" class="tsd-anchor"></a>
-					<h3>address</h3>
-					<div class="tsd-signature tsd-kind-icon">address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from RemmeKeys.address</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:163</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Address of this key in blockchain. (<a href="https://docs.remme.io/remme-core/docs/family-account.html#addressing">https://docs.remme.io/remme-core/docs/family-account.html#addressing</a>)</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="familyname" class="tsd-anchor"></a>
-					<h3>family<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">family<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RemmeFamilyName</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from RemmeKeys.familyName</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:208</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Return public key in pem format.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd></dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="keytype" class="tsd-anchor"></a>
-					<h3>key<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">key<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from RemmeKeys.keyType</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:178</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Return key type.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd></dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="privatekey" class="tsd-anchor"></a>
-					<h3>private<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">private<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from RemmeKeys.privateKey</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:168</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Return private key.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd></dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="privatekeyhex" class="tsd-anchor"></a>
-					<h3>private<wbr>Key<wbr>Hex</h3>
-					<div class="tsd-signature tsd-kind-icon">private<wbr>Key<wbr>Hex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from RemmeKeys.privateKeyHex</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:198</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Return private key in pem format.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd></dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="privatekeypem" class="tsd-anchor"></a>
-					<h3>private<wbr>Key<wbr>Pem</h3>
-					<div class="tsd-signature tsd-kind-icon">private<wbr>Key<wbr>Pem<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from RemmeKeys.privateKeyPem</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:188</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Return private key in pem format.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd></dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="publickey" class="tsd-anchor"></a>
-					<h3>public<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from RemmeKeys.publicKey</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:173</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Return public key.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd></dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="publickeybase64" class="tsd-anchor"></a>
-					<h3>public<wbr>Key<wbr>Base64</h3>
-					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<wbr>Base64<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from RemmeKeys.publicKeyBase64</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:183</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Return base 64 of public key.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd></dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="publickeyhex" class="tsd-anchor"></a>
-					<h3>public<wbr>Key<wbr>Hex</h3>
-					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<wbr>Hex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from RemmeKeys.publicKeyHex</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:203</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Return public key in pem format.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd></dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="publickeypem" class="tsd-anchor"></a>
-					<h3>public<wbr>Key<wbr>Pem</h3>
-					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<wbr>Pem<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from RemmeKeys.publicKeyPem</p>
-						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:193</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Return public key in pem format.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd></dd>
-						</dl>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="sign" class="tsd-anchor"></a>
-					<h3>sign</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">sign<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, rsaSignaturePadding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RSASignaturePadding</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from RemmeKeys.sign</p>
-								<ul>
-									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:137</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>You can sign data based on private key.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><p><code>`</code>typescript
-										import { KeyType } from &quot;remme-keys&quot;;</p>
-										<p>// If don&#39;t have private key you can generate it.
-										const keys = Remme.Keys.generateKeyPair(KeyType.RSA); // Our chain works only with RSA now.</p>
-										<p>// If you have private key you can construct RemmeKeys based on it.
-											const utils = await import(&quot;remme-utils&quot;);
-											const privateKey = &quot;-----BEGIN RSA PRIVATE KEY-----\r\nMIIEowIBAAKCAQEAkhdw64WKrvXCWtGsNeVTPKDPpcHN0kcF4acvfPauDE8TpIFu\r\n8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZze6YAsi7VUggO+5kDuJnKrg0VJ5s\r\nwfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6DgobdtWM/VpVYsbBcMT4XXpzmuv0qk\r\nEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y06wr0BXqYWWQTnGC3DJf2iqu68Ceo\r\nZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//KHUlnD3Oa1TyWzjF6NcMWv0PgDg6u\r\n8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7DQIDAQABAoIBADRnHCYfXMOte+2/\r\n0Bn1DIpu1I0Mm5uVxlJO+gXFJmFb7BvSIc4ENGyIDF896A+u3eNl1G5QXsBDV2Ps\r\nh9HdNKddskEtZ6ULniRhOprsMz1rnbnMqg5Y1SbrXTXVUdmB/bND53PGQ6OIX42B\r\n6vS7jFf1x89XnbcU1hJfohbUV6qvwr+hyrvrV859LM80rErCKGXXi6gtiRBiTYA3\r\n2qgO+F/ntmoU638XDzeIhKNjCP+KcWcQX1TRlrcuKfPKfCttHTb1MCGWnrOqy56w\r\nU628Iz4lKfjCOOdAXvyDRBEFSPKfriuB5JQQ67cZ9w783/2ZChhAY4wzBqvgnnlo\r\np6cPXDECgYEA+shoBswhqkA81RHxdkMoM9/iGwfkdFwxr9TqHGN7+L0hRXJlysKP\r\npBFX7Wg6GWF3BDHQzLoWQCEox0NgHbAVTC5DBxjIEjRemmlYEeAPqVRTub1lfp37\r\nYcK8BqsllDgXsqlQQNKqqVj4V2y/PO6NzlHWN9inJrp8ZZKSKPSamq8CgYEAlSF7\r\nDB0STde20E+ZPzQZi7zLWl59yM29mlKujlRktp2vl3foRJgQsndOAIc6k4+ImXR8\r\ngtfwpCYrXTQhJE4GHO/E/52vuwkVVz9qN5ZmgzR13yzlicCVmfZ7aaZ6jblNiQ1G\r\ngnIx1chcb8Vl5fncmaoa9SgefwWciPERNg31RQMCgYEApH1SjjLSWgMsY20Tfchq\r\n1Cui+Kviktft1zDGJbyzEeGrswtn7OhUov6lN5jHkuI02FF8bOwZsBKP1rNAlfhq\r\n377wQ/VjNV2YN5ulIoRegWhISmoJ6lThD6xU++LCEUgBczRO6VXEjrNGoME5ZlPq\r\nO0u+QH8gk+x5r33F1Isr5Q0CgYBHrmEjsHGU4wPnWutROuywgx3HoTWaqHHjVKy8\r\nkwoZ0O+Owb7uAZ28+qWOkXFxbgN9p0UV60+qxwH++ciYV7yOeh1ZtGS8ZSBR4JRg\r\nhbVeiX/CtyTZsqz15Ujqvm+X4aLIJo5msxcLKBRuURaqlRAY+G+euRr3eS4FkMHy\r\nFoF3GwKBgFDNeJc7VfbQq2toRSxCNuUTLXoZPrPfQrV+mA9umGCep44Ea02xIKQu\r\nbYpYghpdbASOp6fJvBlwjI8LNX3dC/PfUpbIG84bVCokgBCMNJQ+/DBuPBt7L29A\r\n7Ra1poXMbXt0nF3LgAtZHveRmVDtcr52dZ/6Yd2km5mAHj+4yPZo\r\n-----END RSA PRIVATE KEY-----\r\n&quot;
-											const keys = new Remme.Keys({
-											keyType: KeyType.RSA,
-											privateKey: utils.privateKeyFromPem(privateKey),
-										}); // Our chain works only with RSA now.</p>
-										<p>// then you can sign some data. For rsa key type you should provide RSASignaturePadding (by default PSS)
-											const signature = keys.sign(&quot;some data&quot;);
-										console.log(keys.verify(signature, &quot;some data&quot;)); // true</p>
-										<p>@param {string} data
-											@param {RSASignaturePadding} rsaSignaturePadding
-										@returns {string}</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>data: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> rsaSignaturePadding: <span class="tsd-signature-type">RSASignaturePadding</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="verify" class="tsd-anchor"></a>
-					<h3>verify</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">verify<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, signature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, rsaSignaturePadding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RSASignaturePadding</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from RemmeKeys.verify</p>
-								<ul>
-									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:159</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>You can verify signature for data based on public key.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><p><code>`</code>typescript
-										import { KeyType } from &quot;remme-keys&quot;;</p>
-										<p>// If you have public key from private key that is signed this data you can construct RemmeKeys based on it.
-											const utils = await import(&quot;remme-utils&quot;);
-											const publicKey = &quot;-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkhdw64WKrvXCWtGsNeVT\r\nPKDPpcHN0kcF4acvfPauDE8TpIFu8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZ\r\nze6YAsi7VUggO+5kDuJnKrg0VJ5swfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6Dg\r\nobdtWM/VpVYsbBcMT4XXpzmuv0qkEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y0\r\n6wr0BXqYWWQTnGC3DJf2iqu68CeoZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//K\r\nHUlnD3Oa1TyWzjF6NcMWv0PgDg6u8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7\r\nDQIDAQAB\r\n-----END PUBLIC KEY-----\r\n&quot;;
-											const keys = new Remme.Keys({
-											keyType: KeyType.RSA,
-											publicKey: publicKeyFromPem(publicKey),
-										}); // Our chain works only with RSA now.</p>
-										<p>console.log(keys.verify(signature, &quot;some data&quot;)); // true if private key for this public key is signed data else false</p>
-										<p>@param {string} signature
-											@param {string} data
-											@param {RSASignaturePadding} rsaSignaturePadding
-										@returns {boolean}</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>data: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>signature: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> rsaSignaturePadding: <span class="tsd-signature-type">RSASignaturePadding</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RSA</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">EdDSA</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ECDSA</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -547,14 +223,14 @@
 					<a name="generatekeypair" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> generate<wbr>Key<wbr>Pair</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Key<wbr>Pair<span class="tsd-signature-symbol">(</span>keyType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">KeyType</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">GenerateOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IRemmeKeys</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Key<wbr>Pair<span class="tsd-signature-symbol">(</span>keyType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">KeyType</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">GenerateOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from RemmeKeys.generateKeyPair</p>
 								<ul>
-									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:65</li>
+									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:63</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -580,7 +256,7 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">GenerateOptions</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IRemmeKeys</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -595,7 +271,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from RemmeKeys.getAddressFromPublicKey</p>
 								<ul>
-									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:81</li>
+									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-account/node_modules/remme-keys/dist/index.d.ts:82</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -650,44 +326,8 @@
 					<li class="current tsd-kind-class tsd-parent-kind-module">
 						<a href="remme.keys.html" class="tsd-kind-icon">Keys</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#address" class="tsd-kind-icon">address</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#familyname" class="tsd-kind-icon">family<wbr>Name</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#keytype" class="tsd-kind-icon">key<wbr>Type</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#privatekey" class="tsd-kind-icon">private<wbr>Key</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#privatekeyhex" class="tsd-kind-icon">private<wbr>Key<wbr>Hex</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#privatekeypem" class="tsd-kind-icon">private<wbr>Key<wbr>Pem</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#publickey" class="tsd-kind-icon">public<wbr>Key</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#publickeybase64" class="tsd-kind-icon">public<wbr>Key<wbr>Base64</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#publickeyhex" class="tsd-kind-icon">public<wbr>Key<wbr>Hex</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#publickeypem" class="tsd-kind-icon">public<wbr>Key<wbr>Pem</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#sign" class="tsd-kind-icon">sign</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="remme.keys.html#verify" class="tsd-kind-icon">verify</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="remme.keys.html#construct" class="tsd-kind-icon">construct</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 								<a href="remme.keys.html#generatekeypair" class="tsd-kind-icon">generate<wbr>Key<wbr>Pair</a>

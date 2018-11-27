@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 // import { NewPubKeyPayload } from "remme-protobuf";
 var remme_utils_1 = require("remme-utils");
+var index_1 = require("./index");
 var KeyDto = /** @class */ (function () {
     function KeyDto() {
         this._familyName = remme_utils_1.RemmeFamilyName.PublicKey;
@@ -47,7 +48,7 @@ var KeyDto = /** @class */ (function () {
          * @returns {string}
          */
         get: function () {
-            return this._keyType;
+            return index_1.KeyType[this._keyType];
         },
         enumerable: true,
         configurable: true

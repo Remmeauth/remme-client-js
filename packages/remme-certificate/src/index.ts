@@ -13,6 +13,7 @@ import {
 } from "remme-public-key-storage";
 import {
     RemmeKeys,
+    RSA,
     KeyType,
     RSASignaturePadding,
 } from "remme-keys";
@@ -229,8 +230,7 @@ class RemmeCertificate implements IRemmeCertificate {
         const validTo = Math.floor(certificate.validity.notAfter.getTime()  / 1000);
         const batchResponse = await this._remmePublicKeyStorage.store({
             data: certificatePEM,
-            keys: new RemmeKeys({
-                keyType: KeyType.RSA,
+            keys: new RSA({
                 privateKey,
                 publicKey,
             }),
@@ -336,8 +336,7 @@ class RemmeCertificate implements IRemmeCertificate {
         if (!certificate.privateKey) {
             throw new Error("Your certificate does not have private key");
         }
-        const keys = new RemmeKeys({
-            keyType: KeyType.RSA,
+        const keys = new RSA({
             privateKey: certificate.privateKey,
         });
         return keys.sign(data, rsaSignaturePadding);
@@ -361,8 +360,7 @@ class RemmeCertificate implements IRemmeCertificate {
         if (typeof certificate === "string") {
             certificate = certificateFromPem(certificate);
         }
-        const keys = new RemmeKeys({
-            keyType: KeyType.RSA,
+        const keys = new RSA({
             publicKey: certificate.publicKey,
         });
         return keys.verify(data, signature, rsaSignaturePadding);

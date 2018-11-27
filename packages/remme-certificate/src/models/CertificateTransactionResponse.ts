@@ -1,5 +1,5 @@
 import { forge } from "remme-utils";
-import { RemmeKeys, IRemmeKeys, KeyType, RSASignaturePadding } from "remme-keys";
+import { RSA, IRemmeKeys, RSASignaturePadding } from "remme-keys";
 import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-transaction-service";
 
 export interface ICertificateTransactionResponse extends IBaseTransactionResponse {
@@ -25,8 +25,7 @@ export class CertificateTransactionResponse extends BaseTransactionResponse impl
     ) {
         super(socketAddress, sslMode, batchId);
         this.certificate = certificate;
-        this.keys = new RemmeKeys({
-            keyType: KeyType.RSA,
+        this.keys = new RSA({
             privateKey: this.certificate.privateKey,
             publicKey: this.certificate.publicKey,
         });

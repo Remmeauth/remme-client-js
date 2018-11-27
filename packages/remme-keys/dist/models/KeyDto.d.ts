@@ -29,7 +29,7 @@ declare class KeyDto {
      * Return key type.
      * @returns {string}
      */
-    readonly keyType: number;
+    readonly keyType: string;
     /**
      * Return base 64 of public key.
      * @returns {string}
