@@ -107,38 +107,62 @@ class RemmeSwap implements IRemmeSwap {
         }).finish();
     }
 
-    private _getAddresses(method: AtomicSwapMethod.Method, swapId: string, receiverAddress?: string): string[] {
+    private _getAddresses(method: AtomicSwapMethod.Method, swapId: string, receiverAddress?: string)
+        : { inputs: string[], outputs: string[] } {
         const addresses: string[] = [ generateAddress(this._familyName, swapId) ];
         const methodToAddresses = {
-            [AtomicSwapMethod.Method.INIT]: [
-                generateSettingsAddress("remme.settings.swap_comission"),
-                this._zeroAddress,
-                this._blockInfoNamespaceAddress,
-                this._blockInfoConfigAddress,
-                this._settingsKeyGenesisOwners,
-            ],
-            [AtomicSwapMethod.Method.EXPIRE]: [
-                this._zeroAddress,
-                this._blockInfoNamespaceAddress,
-                this._blockInfoConfigAddress,
-                this._settingsKeyGenesisOwners,
-            ],
-            [AtomicSwapMethod.Method.CLOSE]: [
-                receiverAddress,
-                this._zeroAddress,
-                this._settingsKeyGenesisOwners,
-            ],
+            [AtomicSwapMethod.Method.INIT]: {
+                inputs: [
+                    generateSettingsAddress("remme.settings.swap_comission"),
+                    this._zeroAddress,
+                    this._blockInfoNamespaceAddress,
+                    this._blockInfoConfigAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+                outputs: [
+                    generateSettingsAddress("remme.settings.swap_comission"),
+                    this._zeroAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+            },
+            [AtomicSwapMethod.Method.EXPIRE]: {
+                inputs: [
+                    this._zeroAddress,
+                    this._blockInfoNamespaceAddress,
+                    this._blockInfoConfigAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+                outputs: [
+                    this._zeroAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+            },
+            [AtomicSwapMethod.Method.CLOSE]: {
+                inputs: [
+                    receiverAddress,
+                    this._zeroAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+                outputs: [
+                    receiverAddress,
+                    this._zeroAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+            },
         };
-        return methodToAddresses[method] ? [...addresses, ...methodToAddresses[method]] : addresses;
+        return {
+            inputs: methodToAddresses[method] ? [...addresses, ...methodToAddresses[method].inputs] : addresses,
+            outputs: methodToAddresses[method] ? [...addresses, ...methodToAddresses[method].outputs] : addresses,
+        };
     }
 
-    private async _createAndSendTransaction(transactionPayload: Uint8Array, inputsOutputs: string[])
+    private async _createAndSendTransaction(transactionPayload: Uint8Array, inputs: string[], outputs: string[])
         : Promise<IBaseTransactionResponse> {
         const transaction = await this._remmeTransactionService.create({
             familyName: this._familyName,
             familyVersion: this._familyVersion,
-            inputs: inputsOutputs,
-            outputs: inputsOutputs,
+            inputs,
+            outputs,
             payloadBytes: transactionPayload,
         });
         return await this._remmeTransactionService.send(transaction);
@@ -191,8 +215,8 @@ class RemmeSwap implements IRemmeSwap {
             swapId,
         }).finish();
         const transactionPayload = this._generateTransactionPayload(AtomicSwapMethod.Method.APPROVE, payload);
-        const inputsOutputs = this._getAddresses(AtomicSwapMethod.Method.APPROVE, swapId);
-        return await this._createAndSendTransaction(transactionPayload, inputsOutputs);
+        const { inputs, outputs } = this._getAddresses(AtomicSwapMethod.Method.APPROVE, swapId);
+        return await this._createAndSendTransaction(transactionPayload, inputs, outputs);
     }
 
     /**
@@ -215,8 +239,8 @@ class RemmeSwap implements IRemmeSwap {
             secretKey,
         }).finish();
         const transactionPayload = this._generateTransactionPayload(AtomicSwapMethod.Method.CLOSE, payload);
-        const inputsOutputs = this._getAddresses(AtomicSwapMethod.Method.CLOSE, swapId, receiverAddress);
-        return await this._createAndSendTransaction(transactionPayload, inputsOutputs);
+        const { inputs, outputs } = this._getAddresses(AtomicSwapMethod.Method.CLOSE, swapId, receiverAddress);
+        return await this._createAndSendTransaction(transactionPayload, inputs, outputs);
     }
 
     /**
@@ -236,8 +260,8 @@ class RemmeSwap implements IRemmeSwap {
             swapId,
         }).finish();
         const transactionPayload = this._generateTransactionPayload(AtomicSwapMethod.Method.EXPIRE, payload);
-        const inputsOutputs = this._getAddresses(AtomicSwapMethod.Method.EXPIRE, swapId);
-        return await this._createAndSendTransaction(transactionPayload, inputsOutputs);
+        const { inputs, outputs } = this._getAddresses(AtomicSwapMethod.Method.EXPIRE, swapId);
+        return await this._createAndSendTransaction(transactionPayload, inputs, outputs);
     }
 
     /**
@@ -299,8 +323,8 @@ class RemmeSwap implements IRemmeSwap {
         const { swapId } = swapInitData;
         const payload = AtomicSwapInitPayload.encode(swapInitData).finish();
         const transactionPayload = this._generateTransactionPayload(AtomicSwapMethod.Method.INIT, payload);
-        const inputsOutputs = this._getAddresses(AtomicSwapMethod.Method.INIT, swapId);
-        return await this._createAndSendTransaction(transactionPayload, inputsOutputs);
+        const { inputs, outputs } = this._getAddresses(AtomicSwapMethod.Method.INIT, swapId);
+        return await this._createAndSendTransaction(transactionPayload, inputs, outputs);
     }
 
     /**
@@ -324,8 +348,8 @@ class RemmeSwap implements IRemmeSwap {
             secretLock,
         }).finish();
         const transactionPayload = this._generateTransactionPayload(AtomicSwapMethod.Method.SET_SECRET_LOCK, payload);
-        const inputsOutputs = this._getAddresses(AtomicSwapMethod.Method.SET_SECRET_LOCK, swapId);
-        return await this._createAndSendTransaction(transactionPayload, inputsOutputs);
+        const { inputs, outputs } = this._getAddresses(AtomicSwapMethod.Method.SET_SECRET_LOCK, swapId);
+        return await this._createAndSendTransaction(transactionPayload, inputs, outputs);
     }
 
 }
