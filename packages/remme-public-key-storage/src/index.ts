@@ -76,13 +76,13 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         }).finish();
     }
 
-    private async _createAndSendTransaction(inputsOutputs: string[], payloadBytes: Uint8Array)
+    private async _createAndSendTransaction(inputs: string[], outputs: string[], payloadBytes: Uint8Array)
         : Promise<IBaseTransactionResponse> {
         const transaction = await this._remmeTransaction.create({
             familyName: this._familyName,
             familyVersion: this._familyVersion,
-            inputs: inputsOutputs,
-            outputs: inputsOutputs,
+            inputs,
+            outputs,
             payloadBytes,
         });
         return await this._remmeTransaction.send(transaction);
@@ -195,12 +195,17 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         const settingAddress = generateSettingsAddress("remme.economy_enabled");
         const storageAddress = generateAddress(this._remmeAccount.familyName, storagePublicKey);
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
-        return await this._createAndSendTransaction([
+        const inputs = [
             pubKeyAddress,
             storagePublicKeyAddress,
             settingAddress,
             storageAddress,
-        ], payloadBytes);
+        ];
+        const outputs = [
+            pubKeyAddress,
+            storageAddress,
+        ];
+        return await this._createAndSendTransaction(inputs, outputs, payloadBytes);
     }
 
     /**
@@ -258,7 +263,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             address,
         }).finish();
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.REVOKE, revokePayload);
-        return await this._createAndSendTransaction([address], payloadBytes);
+        return await this._createAndSendTransaction([address], [address], payloadBytes);
     }
 
     /**
