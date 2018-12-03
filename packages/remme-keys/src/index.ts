@@ -177,7 +177,7 @@ class RemmeKeys {
             keyType = KeyType.RSA,
             privateKey,
             publicKey,
-        }: IRemmeKeysParams = { keyType: KeyType.RSA }) {
+        }: IRemmeKeysParams = { keyType: KeyType.RSA }): Promise<IRemmeKeys> {
 
         if (!privateKey && !publicKey) {
             const keys = await RemmeKeys.generateKeyPair(keyType);

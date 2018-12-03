@@ -125,6 +125,6 @@ declare class RemmeKeys {
      * @param {any} privateKey
      * @param {any} publicKey
      */
-    static construct({keyType, privateKey, publicKey}?: IRemmeKeysParams): Promise<RSA | EdDSA | ECDSA>;
+    static construct({keyType, privateKey, publicKey}?: IRemmeKeysParams): Promise<IRemmeKeys>;
 }
 export { RemmeKeys, IRemmeKeys, KeyType, RSASignaturePadding, IRemmeKeysParams, RSA, ECDSA, EdDSA };
