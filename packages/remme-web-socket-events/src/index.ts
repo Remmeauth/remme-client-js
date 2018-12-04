@@ -1,12 +1,6 @@
-import { RemmeWebSocket } from "remme-web-socket";
+import { IRemmeRequestParams, RemmeEvents, RemmeRequestParams, RemmeWebSocket } from "remme-web-socket";
 
 import { IRemmeWebSocketsEvents } from "./interface";
-import {
-    IRemmeEventsData,
-    RemmeEventsData,
-    RemmeEventsEntity,
-    RemmeEvents,
-} from "./models";
 
 /**
  * Class for subscribing to events from WebSocket.
@@ -26,36 +20,6 @@ import {
  * ```
  */
 class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEvents  {
-
-    private _prepareEvents(events: RemmeEvents | RemmeEvents[]): RemmeEvents[] {
-        if (typeof events !== "object") {
-            if (events === RemmeEvents.SwapAll) {
-                events = [
-                    RemmeEvents.SwapInit,
-                    RemmeEvents.SwapSetSecretLock,
-                    RemmeEvents.SwapApprove,
-                    RemmeEvents.SwapExpire,
-                    RemmeEvents.SwapClose,
-                ];
-            } else {
-                events = [ events ];
-            }
-        } else {
-            events = events.filter((item) => item !== RemmeEvents.SwapAll);
-        }
-        return events;
-    }
-
-    private _generateData({ events, lastKnownBlockId }: IRemmeEventsData): RemmeEventsData {
-        const data = new RemmeEventsData();
-        data.entity = RemmeEventsEntity.Events;
-        data.events = this._prepareEvents(events);
-        if (lastKnownBlockId) {
-            data.last_known_block_id = lastKnownBlockId;
-        }
-        return data;
-    }
-
     /**
      * Implementation of RemmeWebSocketsEvents;
      * @example
@@ -102,12 +66,22 @@ class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEv
      * });
      * ```
      */
-    public subscribe(data: IRemmeEventsData, callback: (err: Error, res: any) => void): void {
+    public subscribe(data: IRemmeRequestParams, callback: (err: Error, res: any) => void): void {
         if (this._socket) {
             super.closeWebSocket();
         }
-        this.isEvent = true;
-        this.data = this._generateData(data);
+        switch (data.events) {
+            case RemmeEvents.Batch && !data.id: {
+                throw new Error("BatchID is required");
+            }
+            case RemmeEvents.Transfer && !data.address: {
+                throw new Error("Address is required");
+            }
+            case RemmeEvents.AtomicSwap && !data.id: {
+                throw new Error("Atomic SwapId is required");
+            }
+        }
+        this.data = new RemmeRequestParams(data);
         super.connectToWebSocket(callback);
     }
 
@@ -133,5 +107,4 @@ export {
     RemmeWebSocketsEvents,
     IRemmeWebSocketsEvents,
     RemmeEvents,
-    IRemmeEventsData,
 };
