@@ -11,8 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_web_socket_1 = require("remme-web-socket");
-var models_1 = require("./models");
-exports.RemmeEvents = models_1.RemmeEvents;
+exports.RemmeEvents = remme_web_socket_1.RemmeEvents;
 /**
  * Class for subscribing to events from WebSocket.
  * Available types for subscribing is covered in
@@ -44,36 +43,6 @@ var RemmeWebSocketsEvents = /** @class */ (function (_super) {
     function RemmeWebSocketsEvents(nodeAddress, sslMode) {
         return _super.call(this, nodeAddress, sslMode) || this;
     }
-    RemmeWebSocketsEvents.prototype._prepareEvents = function (events) {
-        if (typeof events !== "object") {
-            if (events === models_1.RemmeEvents.SwapAll) {
-                events = [
-                    models_1.RemmeEvents.SwapInit,
-                    models_1.RemmeEvents.SwapSetSecretLock,
-                    models_1.RemmeEvents.SwapApprove,
-                    models_1.RemmeEvents.SwapExpire,
-                    models_1.RemmeEvents.SwapClose,
-                ];
-            }
-            else {
-                events = [events];
-            }
-        }
-        else {
-            events = events.filter(function (item) { return item !== models_1.RemmeEvents.SwapAll; });
-        }
-        return events;
-    };
-    RemmeWebSocketsEvents.prototype._generateData = function (_a) {
-        var events = _a.events, lastKnownBlockId = _a.lastKnownBlockId;
-        var data = new models_1.RemmeEventsData();
-        data.entity = models_1.RemmeEventsEntity.Events;
-        data.events = this._prepareEvents(events);
-        if (lastKnownBlockId) {
-            data.last_known_block_id = lastKnownBlockId;
-        }
-        return data;
-    };
     /**
      * Subscribing to events from WebSocket.
      * Available types for subscribing is covered in
@@ -111,8 +80,18 @@ var RemmeWebSocketsEvents = /** @class */ (function (_super) {
         if (this._socket) {
             _super.prototype.closeWebSocket.call(this);
         }
-        this.isEvent = true;
-        this.data = this._generateData(data);
+        switch (data.events) {
+            case remme_web_socket_1.RemmeEvents.Batch && !data.id: {
+                throw new Error("BatchID is required");
+            }
+            case remme_web_socket_1.RemmeEvents.Transfer && !data.address: {
+                throw new Error("Address is required");
+            }
+            case remme_web_socket_1.RemmeEvents.AtomicSwap && !data.id: {
+                throw new Error("Atomic SwapId is required");
+            }
+        }
+        this.data = new remme_web_socket_1.RemmeRequestParams(data);
         _super.prototype.connectToWebSocket.call(this, callback);
     };
     /**

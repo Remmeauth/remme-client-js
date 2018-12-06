@@ -130,6 +130,7 @@ var RemmeSwap = /** @class */ (function () {
         this._blockInfoNamespaceAddress = "00b10c00";
         this._blockInfoConfigAddress = "00b10c01" + "0".repeat(62);
         this._settingsKeyGenesisOwners = remme_utils_1.generateSettingsAddress("remme.settings.genesis_owners");
+        this._settingsSwapComission = remme_utils_1.generateSettingsAddress("remme.settings.swap_comission");
         this._remmeApi = remmeApi;
         this._remmeTransactionService = remmeTransactionService;
     }
@@ -142,29 +143,52 @@ var RemmeSwap = /** @class */ (function () {
     RemmeSwap.prototype._getAddresses = function (method, swapId, receiverAddress) {
         var addresses = [remme_utils_1.generateAddress(this._familyName, swapId)];
         var methodToAddresses = (_a = {},
-            _a[remme_protobuf_1.AtomicSwapMethod.Method.INIT] = [
-                remme_utils_1.generateSettingsAddress("remme.settings.swap_comission"),
-                this._zeroAddress,
-                this._blockInfoNamespaceAddress,
-                this._blockInfoConfigAddress,
-                this._settingsKeyGenesisOwners,
-            ],
-            _a[remme_protobuf_1.AtomicSwapMethod.Method.EXPIRE] = [
-                this._zeroAddress,
-                this._blockInfoNamespaceAddress,
-                this._blockInfoConfigAddress,
-                this._settingsKeyGenesisOwners,
-            ],
-            _a[remme_protobuf_1.AtomicSwapMethod.Method.CLOSE] = [
-                receiverAddress,
-                this._zeroAddress,
-                this._settingsKeyGenesisOwners,
-            ],
+            _a[remme_protobuf_1.AtomicSwapMethod.Method.INIT] = {
+                inputs: [
+                    this._settingsSwapComission,
+                    this._zeroAddress,
+                    this._blockInfoNamespaceAddress,
+                    this._blockInfoConfigAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+                outputs: [
+                    this._settingsSwapComission,
+                    this._zeroAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+            },
+            _a[remme_protobuf_1.AtomicSwapMethod.Method.EXPIRE] = {
+                inputs: [
+                    this._zeroAddress,
+                    this._blockInfoNamespaceAddress,
+                    this._blockInfoConfigAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+                outputs: [
+                    this._zeroAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+            },
+            _a[remme_protobuf_1.AtomicSwapMethod.Method.CLOSE] = {
+                inputs: [
+                    receiverAddress,
+                    this._zeroAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+                outputs: [
+                    receiverAddress,
+                    this._zeroAddress,
+                    this._settingsKeyGenesisOwners,
+                ],
+            },
             _a);
-        return methodToAddresses[method] ? addresses.concat(methodToAddresses[method]) : addresses;
+        return {
+            inputs: methodToAddresses[method] ? addresses.concat(methodToAddresses[method].inputs) : addresses,
+            outputs: methodToAddresses[method] ? addresses.concat(methodToAddresses[method].outputs) : addresses,
+        };
         var _a;
     };
-    RemmeSwap.prototype._createAndSendTransaction = function (transactionPayload, inputsOutputs) {
+    RemmeSwap.prototype._createAndSendTransaction = function (transactionPayload, inputs, outputs) {
         return __awaiter(this, void 0, void 0, function () {
             var transaction;
             return __generator(this, function (_a) {
@@ -172,8 +196,8 @@ var RemmeSwap = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this._remmeTransactionService.create({
                             familyName: this._familyName,
                             familyVersion: this._familyVersion,
-                            inputs: inputsOutputs,
-                            outputs: inputsOutputs,
+                            inputs: inputs,
+                            outputs: outputs,
                             payloadBytes: transactionPayload,
                         })];
                     case 1:
@@ -208,18 +232,18 @@ var RemmeSwap = /** @class */ (function () {
      */
     RemmeSwap.prototype.approve = function (swapId) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, transactionPayload, inputsOutputs;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var payload, transactionPayload, _a, inputs, outputs;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         this._checkParameters({ swapId: swapId });
                         payload = remme_protobuf_1.AtomicSwapApprovePayload.encode({
                             swapId: swapId,
                         }).finish();
                         transactionPayload = this._generateTransactionPayload(remme_protobuf_1.AtomicSwapMethod.Method.APPROVE, payload);
-                        inputsOutputs = this._getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.APPROVE, swapId);
-                        return [4 /*yield*/, this._createAndSendTransaction(transactionPayload, inputsOutputs)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                        _a = this._getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.APPROVE, swapId), inputs = _a.inputs, outputs = _a.outputs;
+                        return [4 /*yield*/, this._createAndSendTransaction(transactionPayload, inputs, outputs)];
+                    case 1: return [2 /*return*/, _b.sent()];
                 }
             });
         });
@@ -238,22 +262,22 @@ var RemmeSwap = /** @class */ (function () {
      */
     RemmeSwap.prototype.close = function (swapId, secretKey) {
         return __awaiter(this, void 0, void 0, function () {
-            var receiverAddress, payload, transactionPayload, inputsOutputs;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var receiverAddress, payload, transactionPayload, _a, inputs, outputs;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         this._checkParameters({ swapId: swapId, secretKey: secretKey });
                         return [4 /*yield*/, this.getInfo(swapId)];
                     case 1:
-                        receiverAddress = (_a.sent()).receiverAddress;
+                        receiverAddress = (_b.sent()).receiverAddress;
                         payload = remme_protobuf_1.AtomicSwapClosePayload.encode({
                             swapId: swapId,
                             secretKey: secretKey,
                         }).finish();
                         transactionPayload = this._generateTransactionPayload(remme_protobuf_1.AtomicSwapMethod.Method.CLOSE, payload);
-                        inputsOutputs = this._getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.CLOSE, swapId, receiverAddress);
-                        return [4 /*yield*/, this._createAndSendTransaction(transactionPayload, inputsOutputs)];
-                    case 2: return [2 /*return*/, _a.sent()];
+                        _a = this._getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.CLOSE, swapId, receiverAddress), inputs = _a.inputs, outputs = _a.outputs;
+                        return [4 /*yield*/, this._createAndSendTransaction(transactionPayload, inputs, outputs)];
+                    case 2: return [2 /*return*/, _b.sent()];
                 }
             });
         });
@@ -271,18 +295,18 @@ var RemmeSwap = /** @class */ (function () {
      */
     RemmeSwap.prototype.expire = function (swapId) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, transactionPayload, inputsOutputs;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var payload, transactionPayload, _a, inputs, outputs;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         this._checkParameters({ swapId: swapId });
                         payload = remme_protobuf_1.AtomicSwapExpirePayload.encode({
                             swapId: swapId,
                         }).finish();
                         transactionPayload = this._generateTransactionPayload(remme_protobuf_1.AtomicSwapMethod.Method.EXPIRE, payload);
-                        inputsOutputs = this._getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.EXPIRE, swapId);
-                        return [4 /*yield*/, this._createAndSendTransaction(transactionPayload, inputsOutputs)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                        _a = this._getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.EXPIRE, swapId), inputs = _a.inputs, outputs = _a.outputs;
+                        return [4 /*yield*/, this._createAndSendTransaction(transactionPayload, inputs, outputs)];
+                    case 1: return [2 /*return*/, _b.sent()];
                 }
             });
         });
@@ -358,17 +382,17 @@ var RemmeSwap = /** @class */ (function () {
      */
     RemmeSwap.prototype.init = function (data) {
         return __awaiter(this, void 0, void 0, function () {
-            var swapInitData, swapId, payload, transactionPayload, inputsOutputs;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var swapInitData, swapId, payload, transactionPayload, _a, inputs, outputs;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         swapInitData = new models_1.SwapInitDto(data);
                         swapId = swapInitData.swapId;
                         payload = remme_protobuf_1.AtomicSwapInitPayload.encode(swapInitData).finish();
                         transactionPayload = this._generateTransactionPayload(remme_protobuf_1.AtomicSwapMethod.Method.INIT, payload);
-                        inputsOutputs = this._getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.INIT, swapId);
-                        return [4 /*yield*/, this._createAndSendTransaction(transactionPayload, inputsOutputs)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                        _a = this._getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.INIT, swapId), inputs = _a.inputs, outputs = _a.outputs;
+                        return [4 /*yield*/, this._createAndSendTransaction(transactionPayload, inputs, outputs)];
+                    case 1: return [2 /*return*/, _b.sent()];
                 }
             });
         });
@@ -389,9 +413,9 @@ var RemmeSwap = /** @class */ (function () {
      */
     RemmeSwap.prototype.setSecretLock = function (swapId, secretLock) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, transactionPayload, inputsOutputs;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var payload, transactionPayload, _a, inputs, outputs;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         this._checkParameters({ swapId: swapId, secretLock: secretLock });
                         payload = remme_protobuf_1.AtomicSwapSetSecretLockPayload.encode({
@@ -399,9 +423,9 @@ var RemmeSwap = /** @class */ (function () {
                             secretLock: secretLock,
                         }).finish();
                         transactionPayload = this._generateTransactionPayload(remme_protobuf_1.AtomicSwapMethod.Method.SET_SECRET_LOCK, payload);
-                        inputsOutputs = this._getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.SET_SECRET_LOCK, swapId);
-                        return [4 /*yield*/, this._createAndSendTransaction(transactionPayload, inputsOutputs)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                        _a = this._getAddresses(remme_protobuf_1.AtomicSwapMethod.Method.SET_SECRET_LOCK, swapId), inputs = _a.inputs, outputs = _a.outputs;
+                        return [4 /*yield*/, this._createAndSendTransaction(transactionPayload, inputs, outputs)];
+                    case 1: return [2 /*return*/, _b.sent()];
                 }
             });
         });

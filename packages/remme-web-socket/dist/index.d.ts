@@ -1,6 +1,6 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { IRemmeWebSocket } from "./interface";
-import { BatchInfoDto, BatchStatus } from "./models";
+import { BatchInfoDto, IJsonRpcRequest, JsonRpcRequest, RemmeEvents, RemmeRequestParams, IRemmeRequestParams, BatchStatus } from "./models";
 /**
  * @hidden
  */
@@ -73,9 +73,9 @@ declare class RemmeWebSocket implements IRemmeWebSocket {
     [key: string]: any;
     private readonly _nodeAddress;
     private readonly _sslMode;
+    private readonly _map;
     protected _socket: W3CWebSocket;
-    protected isEvent: boolean;
-    protected data: object;
+    protected data: RemmeRequestParams;
     private _sendAnError(error, callback);
     private _getSubscribeUrl();
     private _getSocketQuery(isSubscribe?);
@@ -120,4 +120,4 @@ declare class RemmeWebSocket implements IRemmeWebSocket {
      */
     closeWebSocket(): void;
 }
-export { RemmeWebSocket, IRemmeWebSocket, BatchStatus, BatchInfoDto };
+export { RemmeWebSocket, IRemmeWebSocket, BatchStatus, BatchInfoDto, RemmeEvents, IJsonRpcRequest, JsonRpcRequest, RemmeRequestParams, IRemmeRequestParams };

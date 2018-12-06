@@ -1,6 +1,5 @@
-import { RemmeWebSocket } from "remme-web-socket";
+import { IRemmeRequestParams, RemmeEvents, RemmeWebSocket } from "remme-web-socket";
 import { IRemmeWebSocketsEvents } from "./interface";
-import { IRemmeEventsData, RemmeEvents } from "./models";
 /**
  * Class for subscribing to events from WebSocket.
  * Available types for subscribing is covered in
@@ -19,8 +18,6 @@ import { IRemmeEventsData, RemmeEvents } from "./models";
  * ```
  */
 declare class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEvents {
-    private _prepareEvents(events);
-    private _generateData({events, lastKnownBlockId});
     /**
      * Implementation of RemmeWebSocketsEvents;
      * @example
@@ -64,7 +61,7 @@ declare class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebS
      * });
      * ```
      */
-    subscribe(data: IRemmeEventsData, callback: (err: Error, res: any) => void): void;
+    subscribe(data: IRemmeRequestParams, callback: (err: Error, res: any) => void): void;
     /**
      * Unsubscribing from events.
      * Regardless of how many events you subscribed to, you always unsubscribe from all
@@ -75,4 +72,4 @@ declare class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebS
      */
     unsubscribe(): void;
 }
-export { RemmeWebSocketsEvents, IRemmeWebSocketsEvents, RemmeEvents, IRemmeEventsData };
+export { RemmeWebSocketsEvents, IRemmeWebSocketsEvents, RemmeEvents };

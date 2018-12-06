@@ -78,9 +78,10 @@ declare class RemmeSwap implements IRemmeSwap {
     private readonly _blockInfoNamespaceAddress;
     private readonly _blockInfoConfigAddress;
     private readonly _settingsKeyGenesisOwners;
+    private readonly _settingsSwapComission;
     private _generateTransactionPayload(method, data);
     private _getAddresses(method, swapId, receiverAddress?);
-    private _createAndSendTransaction(transactionPayload, inputsOutputs);
+    private _createAndSendTransaction(transactionPayload, inputs, outputs);
     private _checkParameters(parameters);
     /**
      * @example

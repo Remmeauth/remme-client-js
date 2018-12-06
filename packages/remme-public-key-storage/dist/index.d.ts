@@ -47,7 +47,7 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _familyName;
     private readonly _familyVersion;
     private _generateTransactionPayload(method, data);
-    private _createAndSendTransaction(inputsOutputs, payloadBytes);
+    private _createAndSendTransaction(inputs, outputs, payloadBytes);
     private _getInfoByPublicKey(address);
     private _generateMessage(data);
     private _generateEntityHash(message);

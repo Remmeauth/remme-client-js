@@ -99,7 +99,7 @@ class RemmeSwap implements IRemmeSwap {
     private readonly _blockInfoNamespaceAddress = "00b10c00";
     private readonly _blockInfoConfigAddress = "00b10c01" + "0".repeat(62);
     private readonly _settingsKeyGenesisOwners = generateSettingsAddress("remme.settings.genesis_owners");
-    private readonly _settingsSwapComission = generateSettingsAddress("remme.settings.swap_comission"),
+    private readonly _settingsSwapComission = generateSettingsAddress("remme.settings.swap_comission");
 
     private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
         return TransactionPayload.encode({

@@ -3,6 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var websocket_1 = require("websocket");
 var models_1 = require("./models");
 exports.BatchInfoDto = models_1.BatchInfoDto;
+exports.JsonRpcRequest = models_1.JsonRpcRequest;
+exports.RemmeEvents = models_1.RemmeEvents;
+exports.RemmeRequestParams = models_1.RemmeRequestParams;
 exports.BatchStatus = models_1.BatchStatus;
 /**
  * @hidden
@@ -85,9 +88,15 @@ var RemmeWebSocket = /** @class */ (function () {
      * @param {boolean} sslMode
      */
     function RemmeWebSocket(nodeAddress, sslMode) {
-        this.isEvent = false;
+        this._map = (_a = {},
+            _a[models_1.RemmeEvents.Batch] = function (data) { return new models_1.BatchInfoDto(data); },
+            _a[models_1.RemmeEvents.AtomicSwap] = function (data) { return new models_1.AtomicSwapInfoDto(data); },
+            _a[models_1.RemmeEvents.Blocks] = function (data) { return new models_1.BlockInfoDto(data); },
+            _a[models_1.RemmeEvents.Transfer] = function (data) { return new models_1.TransferInfoDto(data); },
+            _a);
         this._nodeAddress = nodeAddress;
         this._sslMode = sslMode;
+        var _a;
     }
     RemmeWebSocket.prototype._sendAnError = function (error, callback) {
         this.closeWebSocket();
@@ -95,24 +104,15 @@ var RemmeWebSocket = /** @class */ (function () {
     };
     RemmeWebSocket.prototype._getSubscribeUrl = function () {
         var protocol = this.sslMode ? "wss://" : "ws://";
-        return "" + protocol + this.nodeAddress + "/ws" + (this.isEvent ? "/events" : "");
+        return "" + protocol + this.nodeAddress + "/";
     };
     RemmeWebSocket.prototype._getSocketQuery = function (isSubscribe) {
         if (isSubscribe === void 0) { isSubscribe = true; }
         if (!this.data) {
             throw new Error("Data for subscribe was not provided");
         }
-        var query = this.isEvent ? {
-            action: isSubscribe ? "subscribe" : "unsubscribe",
-            data: this.data,
-        } : {
-            type: "request",
-            action: isSubscribe ? "subscribe" : "unsubscribe",
-            entity: "batch_state",
-            id: Math.floor(Math.random() * 1000),
-            parameters: this.data,
-        };
-        return JSON.stringify(query);
+        var method = isSubscribe ? models_1.RemmeMethods.Subscribe : models_1.RemmeMethods.Unsubscribe;
+        return JSON.stringify(new models_1.JsonRpcRequest(method, this.data));
     };
     Object.defineProperty(RemmeWebSocket.prototype, "nodeAddress", {
         /**
@@ -162,20 +162,19 @@ var RemmeWebSocket = /** @class */ (function () {
         };
         this._socket.onmessage = function (e) {
             var response = JSON.parse(e.data);
-            if (response.type === "message"
-                &&
-                    Object.getOwnPropertyNames(response.data).length !== 0) {
-                if (response.data.batch_statuses &&
-                    response.data.batch_statuses.invalid_transactions &&
-                    response.data.batch_statuses.invalid_transactions.length) {
-                    _this._sendAnError(new models_1.ErrorMessage(response.data.batch_statuses.invalid_transactions[0]), callback);
+            var result = response.result, error = response.error;
+            console.log("RESPONSE: ", response);
+            if (error) {
+                _this._sendAnError(new models_1.ErrorFromEvent(response.error), callback);
+                return;
+            }
+            if (typeof result !== "string") {
+                if (result.event_type === models_1.RemmeEvents.Batch &&
+                    result.attributes.status === models_1.BatchStatus.Invalid) {
+                    _this._sendAnError(new models_1.ErrorMessage(result.attributes), callback);
                     return;
                 }
-                callback(null, _this.isEvent ? response.data : new models_1.BatchInfoDto(response.data.batch_statuses));
-            }
-            else if (response.type === "error") {
-                _this._sendAnError(new models_1.ErrorFromEvent(response.data), callback);
-                return;
+                callback(null, _this._map[result.event_type](result.attributes));
             }
         };
         this._socket.onclose = function (e) {
