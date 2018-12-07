@@ -14,8 +14,7 @@
     "remme-api": "^0.4.0",
     "remme-protobuf": "^0.4.0",
     "remme-transaction-service": "^0.5.3",
-    "remme-utils": "^0.5.0",
-    "remme-web-socket": "^0.4.0"
+    "remme-utils": "^0.5.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

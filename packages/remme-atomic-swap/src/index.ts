@@ -361,4 +361,5 @@ export {
     SwapInfo,
     SwapState,
     SwapInitDto,
+    SwapInfoDto,
 };

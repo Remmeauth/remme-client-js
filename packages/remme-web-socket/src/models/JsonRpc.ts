@@ -7,7 +7,7 @@ import { RemmeRequestParams } from "./RemmeRequestParams";
 import { ITransfer } from "./TransferInfoDto";
 import { IBatch } from "./BatchStateUpdateDto";
 import { IBlock } from "./BlockInfoDto";
-import { IAtomicSwap } from "./AtomicSwapInfoDto";
+import {   } from "remme-atomic-swap";
 
 export interface IJsonRpcRequest {
     jsonrpc: string;
@@ -18,7 +18,7 @@ export interface IJsonRpcRequest {
 
 export interface IJSonRpcResult {
     event_type: RemmeEvents;
-    attributes: IAtomicSwap | IBatch | IBlock | ITransfer;
+    attributes: SwapInfoDto | IBatch | IBlock | ITransfer;
 }
 
 export interface IJsonRpcError {
