@@ -1,4 +1,6 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { SwapInfo } from "remme-atomic-swap";
+
 import { IRemmeWebSocket } from "./interface";
 import {
     BatchInfoDto,
@@ -11,7 +13,6 @@ import {
     RemmeMethods,
     RemmeRequestParams,
     IRemmeRequestParams,
-    AtomicSwapInfoDto,
     TransferInfoDto,
     BatchStatus,
     IBatch,
@@ -106,7 +107,7 @@ class RemmeWebSocket implements IRemmeWebSocket {
     private readonly _sslMode: boolean;
     private readonly _map = {
         [RemmeEvents.Batch]: (data) => new BatchInfoDto(data),
-        [RemmeEvents.AtomicSwap]: (data) => new AtomicSwapInfoDto(data),
+        [RemmeEvents.AtomicSwap]: (data) => new SwapInfo(data),
         [RemmeEvents.Blocks]: (data) => new BlockInfoDto(data),
         [RemmeEvents.Transfer]: (data) => new TransferInfoDto(data),
     };

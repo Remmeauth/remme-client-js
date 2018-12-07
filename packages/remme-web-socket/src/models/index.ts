@@ -1,5 +1,4 @@
 export { BatchStateUpdateDto, BatchInfo, BatchInfoDto, IBatch, BatchStatus } from "./BatchStateUpdateDto";
-export { AtomicSwapState, IAtomicSwap, AtomicSwapInfoDto } from "./AtomicSwapInfoDto";
 export { IBlock, BlockInfoDto } from  "./BlockInfoDto";
 export { ITransfer, ITransferClientInfo, TransferInfoDto } from "./TransferInfoDto";
 
