@@ -1,6 +1,4 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { SwapInfo } from "remme-atomic-swap";
-
 import { IRemmeWebSocket } from "./interface";
 import {
     BatchInfoDto,
@@ -17,6 +15,11 @@ import {
     BatchStatus,
     IBatch,
     BlockInfoDto,
+    SwapInfoDto,
+    SwapInitDto,
+    SwapState,
+    SwapInfo,
+    SwapRequest,
 } from "./models";
 /**
  * @hidden
@@ -206,6 +209,7 @@ class RemmeWebSocket implements IRemmeWebSocket {
                 callback(null, this._map[result.event_type](result.attributes));
             }
         };
+
         this._socket.onclose = (e: CloseEvent) => {
             if (e.code !== 1000) {
                 callback(new Error(e.reason));
@@ -240,4 +244,9 @@ export {
     JsonRpcRequest,
     RemmeRequestParams,
     IRemmeRequestParams,
+    SwapInfo,
+    SwapInfoDto,
+    SwapInitDto,
+    SwapState,
+    SwapRequest,
 };

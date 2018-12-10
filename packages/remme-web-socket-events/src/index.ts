@@ -71,14 +71,22 @@ class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEv
             super.closeWebSocket();
         }
         switch (data.events) {
-            case RemmeEvents.Batch && !data.id: {
-                throw new Error("BatchID is required");
+            case RemmeEvents.Batch: {
+                if (!data.id) {
+                    throw new Error("BatchID is required");
+                }
+                break;
             }
-            case RemmeEvents.Transfer && !data.address: {
-                throw new Error("Address is required");
+            case RemmeEvents.Transfer: {
+                if (!data.address) {
+                    throw new Error("Address is required");
+                }
+                break;
             }
-            case RemmeEvents.AtomicSwap && !data.id: {
-                throw new Error("Atomic SwapId is required");
+            case RemmeEvents.AtomicSwap: {
+                if (!data.id) {
+                    throw new Error("Atomic SwapId is required");
+                }
             }
         }
         this.data = new RemmeRequestParams(data);

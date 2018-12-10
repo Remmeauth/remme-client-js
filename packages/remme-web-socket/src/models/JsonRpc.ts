@@ -7,7 +7,7 @@ import { RemmeRequestParams } from "./RemmeRequestParams";
 import { ITransfer } from "./TransferInfoDto";
 import { IBatch } from "./BatchStateUpdateDto";
 import { IBlock } from "./BlockInfoDto";
-import {   } from "remme-atomic-swap";
+import {SwapInfoDto} from "./SwapInfoDto";
 
 export interface IJsonRpcRequest {
     jsonrpc: string;

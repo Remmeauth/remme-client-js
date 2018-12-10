@@ -13,12 +13,11 @@ import {
 
 import { IRemmeSwap } from "./interface";
 import {
+    SwapInfo,
     SwapInitDto,
     SwapInfoDto,
-    SwapInfo,
     SwapRequest,
-    SwapState,
-} from "./models";
+} from "remme-web-socket";
 
 /**
  * Main class for working with atomic swap
@@ -358,8 +357,4 @@ class RemmeSwap implements IRemmeSwap {
 export {
     RemmeSwap,
     IRemmeSwap,
-    SwapInfo,
-    SwapState,
-    SwapInitDto,
-    SwapInfoDto,
 };
