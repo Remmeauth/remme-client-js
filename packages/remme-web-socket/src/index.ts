@@ -1,5 +1,4 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { SwapInfo } from "remme-atomic-swap";
 
 import { IRemmeWebSocket } from "./interface";
 import {
@@ -17,6 +16,10 @@ import {
     BatchStatus,
     IBatch,
     BlockInfoDto,
+    SwapState,
+    SwapInfoDto,
+    SwapInfo,
+    W3CSocket,
 } from "./models";
 /**
  * @hidden
@@ -52,10 +55,10 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
  * const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638";
  * const transactionResult = await remme.token.transfer(someRemmeAddress, 10);
  *
- * /* transactionResult is inherit from RemmeWebSocket and this.data = {
- *          batch_ids: [
- *             transactionResult.batchId,
- *          ],
+ * /* transactionResult is inherit from RemmeWebSocket and
+ *      this.data = {
+ *          event_type: "batch",
+ *          id: transactionResult.batchId,
  *      };
  * *\/ so you can connectToWebSocket easy. Just:
  *
@@ -82,10 +85,9 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
  *      nodeAddress: "localhost:8080",
  *      sslMode: false,
  *      data: {
- *          batch_ids: [
- *             transactionResult.batchId,
- *          ],
- *      }
+ *          event_type: "batch",
+ *          id: transactionResult.batchId,
+ *      };
  * });
  *
  * mySocketConnection.connectToWebSocket((err: Error, res: any) => {
@@ -112,7 +114,7 @@ class RemmeWebSocket implements IRemmeWebSocket {
         [RemmeEvents.Transfer]: (data) => new TransferInfoDto(data),
     };
 
-    protected _socket: W3CWebSocket;
+    protected _socket: W3CSocket;
     protected data: RemmeRequestParams;
 
     private _sendAnError(error: ErrorMessage | ErrorFromEvent, callback: any) {
@@ -187,6 +189,7 @@ class RemmeWebSocket implements IRemmeWebSocket {
             this._socket.send(this._getSocketQuery());
         };
         this._socket.onmessage = (e) => {
+
             const response: IJsonRpcResponse = JSON.parse(e.data);
             const { result, error }  = response;
 
@@ -240,4 +243,7 @@ export {
     JsonRpcRequest,
     RemmeRequestParams,
     IRemmeRequestParams,
+    SwapInfoDto,
+    SwapInfo,
+    SwapState,
 };

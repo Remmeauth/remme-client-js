@@ -11,7 +11,7 @@ import { IRemmeWebSocketsEvents } from "./interface";
  * import { RemmeWebSocketsEvents, RemmeEvents } from "remme-web-socket-events";
  * const remmeEvents = new RemmeWebSocketsEvents("localhost:8080", false);
  * remmeEvents.subscribe({
- *      events: RemmeEvents.SwapInit
+ *      events: RemmeEvents.AtomicSwap
  * }, (err: Error, res: any) => {
  *      console.log(err);
  *      console.log(res);
@@ -38,28 +38,19 @@ class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEv
      * Available types for subscribing is covered in
      * https://docs.remme.io/remme-core/docs/remme-ws-events.html#registered-events
      * @example
-     * You can subscribe on all events about swap
+     * You can subscribe on events about Swap
      * ```typescript
      * remmeEvents.subscribe({
-     *      events: RemmeEvents.SwapAll
+     *      events: RemmeEvents.AtomicSwap
      * }, (err: Error, res: any) => {
      *      console.log(err);
      *      console.log(res);
      * });
      * ```
-     * You can subscribe on one event
+     * You can subscribe on events about Batch
      * ```typescript
      * remmeEvents.subscribe({
-     *      events: RemmeEvents.SwapInit
-     * }, (err: Error, res: any) => {
-     *      console.log(err);
-     *      console.log(res);
-     * });
-     * ```
-     * Also you can subscribe on several events
-     * ```typescript
-     * remmeEvents.subscribe({
-     *      events: [ RemmeEvents.SwapInit, RemmeEvents.SwapClose ]
+     *      events: RemmeEvents.Batch
      * }, (err: Error, res: any) => {
      *      console.log(err);
      *      console.log(res);
@@ -71,14 +62,17 @@ class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEv
             super.closeWebSocket();
         }
         switch (data.events) {
-            case RemmeEvents.Batch && !data.id: {
-                throw new Error("BatchID is required");
+            case RemmeEvents.Batch: {
+                if (data.id) {
+                    throw new Error("BatchID is required");
+                }
+                break;
             }
-            case RemmeEvents.Transfer && !data.address: {
-                throw new Error("Address is required");
-            }
-            case RemmeEvents.AtomicSwap && !data.id: {
-                throw new Error("Atomic SwapId is required");
+            case RemmeEvents.Transfer: {
+                if (!data.address) {
+                    throw new Error("Address is required");
+                }
+                break;
             }
         }
         this.data = new RemmeRequestParams(data);
