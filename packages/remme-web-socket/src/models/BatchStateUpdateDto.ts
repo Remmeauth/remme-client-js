@@ -8,13 +8,26 @@ export interface Data {
     batch_statuses: BatchInfo;
 }
 
+export enum BatchStatus {
+    Unknown = "UNKNOWN",
+    Pending = "PENDING",
+    Invalid = "INVALID",
+    Committed = "COMMITTED",
+}
+
+export interface IBatch {
+    id: string;
+    status: BatchStatus;
+    error?: string;
+}
+
 export class BatchInfoDto {
     public status: BatchStatus;
     public batchId: string;
 
-    constructor(data: BatchInfo) {
-        this.status = BatchStatus[data.status];
-        this.batchId = data.batch_id;
+    constructor(data: IBatch) {
+        this.status = data.status;
+        this.batchId = data.id;
     }
 }
 
@@ -28,11 +41,4 @@ export interface InvalidTransactions {
     transaction_id: string;
     message: string;
     extended_data: string;
-}
-
-export enum BatchStatus {
-    UNKNOWN = "UNKNOWN",
-    INVALID = "INVALID",
-    PENDING = "PENDING",
-    COMMITTED = "COMMITTED",
 }

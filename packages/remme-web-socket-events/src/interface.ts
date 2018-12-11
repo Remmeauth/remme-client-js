@@ -1,7 +1,6 @@
-import { IRemmeWebSocket } from "remme-web-socket";
-import { IRemmeEventsData } from "./models";
+import { IRemmeRequestParams, IRemmeWebSocket } from "remme-web-socket";
 
 export interface IRemmeWebSocketsEvents extends IRemmeWebSocket {
-    subscribe(data: IRemmeEventsData, callback: (err: Error, res: any) => void): void;
+    subscribe(data: IRemmeRequestParams, callback: (err: Error, res: any) => void): void;
     unsubscribe(): void;
 }
