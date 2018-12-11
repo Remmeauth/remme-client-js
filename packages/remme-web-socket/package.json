@@ -1,6 +1,6 @@
 {
   "name": "remme-web-socket",
-  "version": "0.4.0",
+  "version": "0.5.4",
   "description": "REMME web socket internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,11 +11,11 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "websocket": "^1.0.26",
-    "remme-utils": "^0.5.0"
+    "remme-utils": "^0.5.0",
+    "websocket": "^1.0.26"
   },
   "devDependencies": {
-    "typescript": "^2.8.3",
-    "@types/websocket": "^0.0.40"
+    "@types/websocket": "^0.0.40",
+    "typescript": "^2.8.3"
   }
 }
