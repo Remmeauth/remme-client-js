@@ -1,4 +1,4 @@
-import { RemmeWebSocket, IRemmeWebSocket } from "remme-web-socket";
+import { RemmeWebSocket, IRemmeWebSocket, RemmeRequestParams, RemmeEvents } from "remme-web-socket";
 import { PATTERNS } from "remme-utils";
 
 /**
@@ -17,11 +17,10 @@ export class BaseTransactionResponse extends RemmeWebSocket implements IBaseTran
     public constructor(nodeAddress: string, sslMode: boolean, batchId: string) {
         super(nodeAddress, sslMode);
         this._batchId = batchId;
-        this.data = {
-          batch_ids: [
-              batchId,
-          ],
-        };
+        this.data = new RemmeRequestParams({
+            events: RemmeEvents.Batch,
+            id: batchId,
+        });
     }
 
     /**
@@ -45,11 +44,7 @@ export class BaseTransactionResponse extends RemmeWebSocket implements IBaseTran
             super.closeWebSocket();
         }
         this._batchId = value;
-        this.data = {
-            batch_ids: [
-                value,
-            ],
-        };
+        this.data.id = value;
     }
 }
 

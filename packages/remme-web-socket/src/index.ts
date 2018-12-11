@@ -1,14 +1,26 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+
 import { IRemmeWebSocket } from "./interface";
 import {
-    BatchStateUpdateDto,
-    BatchInfo,
     BatchInfoDto,
-    BatchStatus,
-    ErrorMessage,
     ErrorFromEvent,
+    ErrorMessage,
+    IJsonRpcRequest,
+    IJsonRpcResponse,
+    JsonRpcRequest,
+    RemmeEvents,
+    RemmeMethods,
+    RemmeRequestParams,
+    IRemmeRequestParams,
+    TransferInfoDto,
+    BatchStatus,
+    IBatch,
+    BlockInfoDto,
+    SwapState,
+    SwapInfoDto,
+    SwapInfo,
+    W3CSocket,
 } from "./models";
-
 /**
  * @hidden
  */
@@ -43,10 +55,10 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
  * const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638";
  * const transactionResult = await remme.token.transfer(someRemmeAddress, 10);
  *
- * /* transactionResult is inherit from RemmeWebSocket and this.data = {
- *          batch_ids: [
- *             transactionResult.batchId,
- *          ],
+ * /* transactionResult is inherit from RemmeWebSocket and
+ *      this.data = {
+ *          event_type: "batch",
+ *          id: transactionResult.batchId,
  *      };
  * *\/ so you can connectToWebSocket easy. Just:
  *
@@ -73,10 +85,9 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
  *      nodeAddress: "localhost:8080",
  *      sslMode: false,
  *      data: {
- *          batch_ids: [
- *             transactionResult.batchId,
- *          ],
- *      }
+ *          event_type: "batch",
+ *          id: transactionResult.batchId,
+ *      };
  * });
  *
  * mySocketConnection.connectToWebSocket((err: Error, res: any) => {
@@ -96,10 +107,15 @@ class RemmeWebSocket implements IRemmeWebSocket {
 
     private readonly _nodeAddress: string;
     private readonly _sslMode: boolean;
+    private readonly _map = {
+        [RemmeEvents.Batch]: (data) => new BatchInfoDto(data),
+        [RemmeEvents.AtomicSwap]: (data) => new SwapInfo(data),
+        [RemmeEvents.Blocks]: (data) => new BlockInfoDto(data),
+        [RemmeEvents.Transfer]: (data) => new TransferInfoDto(data),
+    };
 
-    protected _socket: W3CWebSocket;
-    protected isEvent: boolean = false;
-    protected data: object;
+    protected _socket: W3CSocket;
+    protected data: RemmeRequestParams;
 
     private _sendAnError(error: ErrorMessage | ErrorFromEvent, callback: any) {
         this.closeWebSocket();
@@ -108,25 +124,15 @@ class RemmeWebSocket implements IRemmeWebSocket {
 
     private _getSubscribeUrl(): string {
         const protocol = this.sslMode ? "wss://" : "ws://";
-        return `${protocol}${this.nodeAddress}/ws${this.isEvent ? "/events" : ""}`;
+        return `${protocol}${this.nodeAddress}/`;
     }
 
     private _getSocketQuery(isSubscribe: boolean = true): string {
         if (!this.data) {
             throw new Error("Data for subscribe was not provided");
         }
-
-        const query = this.isEvent ? {
-            action: isSubscribe ? "subscribe" : "unsubscribe",
-            data: this.data,
-        } : {
-            type: "request",
-            action: isSubscribe ? "subscribe" : "unsubscribe",
-            entity: "batch_state",
-            id: Math.floor(Math.random() * 1000),
-            parameters: this.data,
-        };
-        return JSON.stringify(query);
+        const method = isSubscribe ? RemmeMethods.Subscribe : RemmeMethods.Unsubscribe;
+        return JSON.stringify(new JsonRpcRequest(method, this.data));
     }
 
     /**
@@ -183,22 +189,24 @@ class RemmeWebSocket implements IRemmeWebSocket {
             this._socket.send(this._getSocketQuery());
         };
         this._socket.onmessage = (e) => {
-            const response: BatchStateUpdateDto = JSON.parse(e.data);
-            if (
-                response.type === "message"
-                &&
-                Object.getOwnPropertyNames(response.data).length !== 0
-            ) {
-                if (response.data.batch_statuses &&
-                    response.data.batch_statuses.invalid_transactions &&
-                    response.data.batch_statuses.invalid_transactions.length) {
-                    this._sendAnError(new ErrorMessage(response.data.batch_statuses.invalid_transactions[0]), callback);
+
+            const response: IJsonRpcResponse = JSON.parse(e.data);
+            const { result, error }  = response;
+
+            if (error) {
+                this._sendAnError(new ErrorFromEvent(response.error), callback);
+                return;
+            }
+
+            if (typeof result !== "string") {
+                if (
+                    result.event_type === RemmeEvents.Batch &&
+                    (result.attributes as IBatch).status === BatchStatus.Invalid
+                ) {
+                    this._sendAnError(new ErrorMessage((result.attributes as IBatch)), callback);
                     return;
                 }
-                callback(null, this.isEvent ? response.data : new BatchInfoDto(response.data.batch_statuses));
-            } else if (response.type === "error") {
-                this._sendAnError(new ErrorFromEvent(response.data), callback);
-                return;
+                callback(null, this._map[result.event_type](result.attributes));
             }
         };
         this._socket.onclose = (e: CloseEvent) => {
@@ -230,4 +238,12 @@ export {
     IRemmeWebSocket,
     BatchStatus,
     BatchInfoDto,
+    RemmeEvents,
+    IJsonRpcRequest,
+    JsonRpcRequest,
+    RemmeRequestParams,
+    IRemmeRequestParams,
+    SwapInfoDto,
+    SwapInfo,
+    SwapState,
 };
