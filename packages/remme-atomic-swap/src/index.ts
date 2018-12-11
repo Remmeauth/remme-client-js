@@ -10,14 +10,16 @@ import {
     AtomicSwapClosePayload,
     TransactionPayload,
 } from "remme-protobuf";
+import {
+    SwapInfoDto,
+    SwapInfo,
+    SwapState,
+} from "remme-web-socket";
 
 import { IRemmeSwap } from "./interface";
 import {
     SwapInitDto,
-    SwapInfoDto,
-    SwapInfo,
     SwapRequest,
-    SwapState,
 } from "./models";
 
 /**

@@ -18,3 +18,7 @@ export {
 } from "./JsonRpc";
 export { ErrorMessage } from "./ErrorMessage";
 export { ErrorFromEvent } from "./ErrorFromEvent";
+export * from "./SwapInfoDto";
+export * from "./SwapState";
+export * from "./SwapInfo";
+export * from "./W3CSocket";
