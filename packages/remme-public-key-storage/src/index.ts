@@ -1,25 +1,23 @@
 import {
-    sha512,
-    generateAddress,
-    generateSettingsAddress,
-    RemmeFamilyName,
-    PublicKeyRequest,
     bytesToHex,
     checkAddress,
+    generateAddress,
+    generateSettingsAddress,
     NodeConfigRequest,
+    PublicKeyRequest,
+    RemmeFamilyName,
+    sha512,
 } from "remme-utils";
-import { RemmeMethods, IRemmeApi } from "remme-api";
-import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
-import { TransactionPayload, NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload } from "remme-protobuf";
-import { IRemmeAccount } from "remme-account";
-import { KeyType, RSASignaturePadding } from "remme-keys";
+import {IRemmeApi, RemmeMethods} from "remme-api";
+import {IBaseTransactionResponse, IRemmeTransactionService} from "remme-transaction-service";
+import {NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload, TransactionPayload} from "remme-protobuf";
+import {IRemmeAccount} from "remme-account";
+import {KeyType, RSASignaturePadding} from "remme-keys";
 
-import { IRemmePublicKeyStorage } from "./interface";
-import {
-    PublicKeyInfo,
-    IPublicKeyInfo,
-    IPublicKeyStore,
-} from "./models";
+import {IRemmePublicKeyStorage} from "./interface";
+import {IPublicKeyInfo, IPublicKeyStore, PublicKeyInfo} from "./models";
+import Padding = NewPubKeyPayload.RSAConfiguration.Padding;
+import EC = NewPubKeyPayload.ECDSAConfiguration.EC;
 
 // const { PubKeyType: PublicKeyType } = NewPubKeyPayload;
 // const { RSASignaturePadding } = NewPubKeyPayload;
@@ -106,6 +104,20 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         return sha512(data);
     }
 
+    private _getKeyTypeConfiguration(keyType: KeyType): string {
+        switch (keyType) {
+            case KeyType.RSA: {
+                return "rsa";
+            }
+            case KeyType.EdDSA: {
+                return "ed25519";
+            }
+            case KeyType.ECDSA: {
+                return "ecdsa";
+            }
+        }
+    }
+
     private _generateEntityHash(message: string): string {
         const entityHashBytes = Buffer.from(message);
         return bytesToHex(entityHashBytes);
@@ -169,17 +181,26 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            validTo,
                            rsaSignaturePadding = RSASignaturePadding.EMPTY,
                        }: IPublicKeyStore): Promise<IBaseTransactionResponse> {
-        if (KeyType[keys.keyType] !== KeyType.RSA) {
-            throw new Error("Only RSA key can be stored in REMChain at now");
-        }
 
+        const { publicKey: key, keyType: keyTypePayload } = keys;
+
+        const keyType = KeyType[keyTypePayload];
         const message = this._generateMessage(data);
-        const entityHash = this._generateEntityHash(message);
-        const entityHashSignature = keys.sign(message, rsaSignaturePadding);
+        const entityHash = Buffer.from(this._generateEntityHash(message));
+        const entityHashSignature = Buffer.from(keys.sign(message, rsaSignaturePadding));
+
+        const paddingType: string = RSASignaturePadding[rsaSignaturePadding];
+
+        const keyTypeConfiguration = this._getKeyTypeConfiguration(keyType);
+
+        const mapKeysByType = {
+            [KeyType.RSA]: new NewPubKeyPayload.RSAConfiguration({ key, padding: Padding[paddingType]}),
+            [KeyType.ECDSA]: new NewPubKeyPayload.ECDSAConfiguration({ key, ec: EC.SECP256k1 }),
+            [KeyType.EdDSA]: new NewPubKeyPayload.ECDSAConfiguration(key),
+        };
 
         const payload =  NewPubKeyPayload.encode({
-            publicKey: keys.publicKeyPem,
-            publicKeyType: KeyType[keys.keyType],
+            [keyTypeConfiguration]: mapKeysByType[keyType],
             entityHash,
             entityHashSignature,
             validFrom,
@@ -191,13 +212,15 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         } = await this._remmeApi.sendRequest<NodeConfigRequest>(RemmeMethods.nodeConfig);
 
         const pubKeyAddress = keys.address;
-        const storagePublicKeyAddress = generateSettingsAddress("remme.settings.storage_pub_key");
+
+        const storageSettingsAddress = generateSettingsAddress("remme.settings.storage_pub_key");
         const settingAddress = generateSettingsAddress("remme.economy_enabled");
-        const storageAddress = generateAddress(this._remmeAccount.familyName, storagePublicKey);
+        const storageAddress = generateAddress(RemmeFamilyName.PublicKey, storagePublicKey);
+
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
         const inputs = [
             pubKeyAddress,
-            storagePublicKeyAddress,
+            storageSettingsAddress,
             settingAddress,
             storageAddress,
         ];

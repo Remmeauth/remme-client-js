@@ -1,4 +1,3 @@
-// import {NewPubKeyPayload} from "remme-protobuf";
 import {forge, generateAddress, bytesToHex, RemmeFamilyName} from "remme-utils";
 
 import {IRemmeKeys} from "../interface";
@@ -71,7 +70,7 @@ class EdDSA extends KeyDto implements IRemmeKeys {
         return forge.pki.ed25519.verify({
             message: data,
             encoding: "utf8",
-            signature,
+            signature: forge.util.hexToBytes(signature),
             publicKey: this._publicKey,
         });
     }
