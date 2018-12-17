@@ -1,5 +1,3 @@
-// import { NewPubKeyPayload } from "remme-protobuf";
-
 import { IRemmeKeys } from "./interface";
 import {
     RSA,
@@ -10,9 +8,6 @@ import {
     IRemmeKeysParams,
     RSASignaturePadding,
 } from "./models";
-
-// const { PubKeyType: KeyType } = NewPubKeyPayload;
-// const { RSASignaturePadding } = NewPubKeyPayload;
 /* tslint:disable */
 
 /**
@@ -77,7 +72,7 @@ class RemmeKeys {
      * @returns {Promise<IRemmeKeys>}
      */
     public static async generateKeyPair(
-        keyType: KeyType,
+        keyType: string,
         options?: GenerateOptions,
     ): Promise<{privateKey: any, publicKey: any}> {
         switch (keyType) {

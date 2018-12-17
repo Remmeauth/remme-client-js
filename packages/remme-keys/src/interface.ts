@@ -6,7 +6,7 @@ export interface IRemmeKeys {
     address: string;
     publicKey: any;
     familyName: RemmeFamilyName;
-    keyType: string | number;
+    keyType: string;
     privateKey?: any;
     publicKeyBase64: string;
     privateKeyHex?: string;

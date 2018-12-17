@@ -10,17 +10,16 @@ import {
 } from "remme-utils";
 import { IRemmeApi, RemmeMethods } from "remme-api";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
-import {
-    NewPubKeyPayload,
-    PubKeyMethod,
-    RevokePubKeyPayload,
-    TransactionPayload,
-} from "remme-protobuf";
-import { IRemmeAccount } from "remme-account";
+import { NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload, TransactionPayload } from "remme-protobuf";
+import { IRemmeAccount} from "remme-account";
 import { KeyType, RSASignaturePadding } from "remme-keys";
 
 import { IRemmePublicKeyStorage } from "./interface";
 import { IPublicKeyInfo, IPublicKeyStore, PublicKeyInfo } from "./models";
+import IRSAConfiguration = NewPubKeyPayload.IRSAConfiguration;
+import IECDSAConfiguration = NewPubKeyPayload.IECDSAConfiguration;
+import IEd25519Configuration = NewPubKeyPayload.IEd25519Configuration;
+import EC = NewPubKeyPayload.ECDSAConfiguration.EC;
 
 /**
  * Class for working with public key storage.
@@ -110,10 +109,13 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         return bytesToHex(entityHashBytes);
     }
 
-    private _mapKeysByTypes = {
-        [KeyType.RSA]: (data: any) => new NewPubKeyPayload.RSAConfiguration(data),
-        [KeyType.ECDSA]: (data: any) => new NewPubKeyPayload.ECDSAConfiguration(data),
-        [KeyType.EdDSA]: (data: any) => new NewPubKeyPayload.ECDSAConfiguration(data),
+    private _KeyType = {
+        [KeyType.RSA]: (data: IRSAConfiguration) => new NewPubKeyPayload.RSAConfiguration(data),
+        [KeyType.ECDSA]: (data: IECDSAConfiguration) => new NewPubKeyPayload.ECDSAConfiguration({
+            ...data,
+            ec: EC.SECP256k1,
+        }),
+        [KeyType.EdDSA]: (data: IEd25519Configuration) => new NewPubKeyPayload.Ed25519Configuration(data),
     };
     /**
      * @example
@@ -174,15 +176,30 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            rsaSignaturePadding = RSASignaturePadding.PSS,
                        }: IPublicKeyStore): Promise<IBaseTransactionResponse> {
 
-        const { publicKey: key, keyType: keyTypePayload } = keys;
+        const { publicKey: key, keyType } = keys;
 
-        const keyType = KeyType[keyTypePayload];
         const message = this._generateMessage(data);
         const entityHash = Buffer.from(this._generateEntityHash(message));
         const entityHashSignature = Buffer.from(keys.sign(message, rsaSignaturePadding));
 
+        const payloadTest =  {
+            [keyType]: this._KeyType[keyType]({
+                key,
+                padding: keyType === KeyType.RSA ? rsaSignaturePadding : undefined,
+            }),
+            entityHash,
+            entityHashSignature,
+            validFrom,
+            validTo,
+        };
+
+        console.log(payloadTest);
+
         const payload =  NewPubKeyPayload.encode({
-            [key.KeyType]: this._mapKeysByTypes[keyType]({ key: key, padding: rsaSignaturePadding}),
+            [keyType]: this._KeyType[keyType]({
+                key,
+                padding: keyType === KeyType.RSA ? rsaSignaturePadding : undefined,
+            }),
             entityHash,
             entityHashSignature,
             validFrom,
