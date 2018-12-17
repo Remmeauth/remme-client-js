@@ -1,5 +1,3 @@
-import {extends} from "tslint/lib/configs/latest";
-
 export { KeyDto } from "./KeyDto";
 export interface GenerateOptions {
     seed?: string;
@@ -24,7 +22,7 @@ export interface IKeys {
  * Params for creating key pair
  */
 export interface IRemmeKeysParams extends IKeys {
-    keyType: KeyType;
+    keyType: string;
 }
 
 /**
