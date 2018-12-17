@@ -1,3 +1,5 @@
+import {extends} from "tslint/lib/configs/latest";
+
 export { KeyDto } from "./KeyDto";
 export interface GenerateOptions {
     seed?: string;
@@ -8,9 +10,9 @@ export interface GenerateOptions {
  * All types of Key pair
  */
 export enum KeyType {
-    RSA,
-    ECDSA,
-    EdDSA,
+    RSA = "rsa",
+    ECDSA = "ecdsa",
+    EdDSA = "ed25519",
 }
 
 export interface IKeys {
@@ -29,9 +31,8 @@ export interface IRemmeKeysParams extends IKeys {
  * All kind of RSASignature padding.
  */
 export enum RSASignaturePadding {
-    EMPTY,
-    PSS,
-    PKCS1v15,
+    PSS = 0,
+    PKCS1v15 = 1,
 }
 
 export { RSA } from "./RSA";
