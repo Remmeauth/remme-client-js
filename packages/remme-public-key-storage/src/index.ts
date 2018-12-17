@@ -8,19 +8,20 @@ import {
     RemmeFamilyName,
     sha512,
 } from "remme-utils";
-import {IRemmeApi, RemmeMethods} from "remme-api";
-import {IBaseTransactionResponse, IRemmeTransactionService} from "remme-transaction-service";
-import {NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload, TransactionPayload} from "remme-protobuf";
-import {IRemmeAccount} from "remme-account";
-import {KeyType, RSASignaturePadding} from "remme-keys";
+import { IRemmeApi, RemmeMethods } from "remme-api";
+import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
+import {
+    NewPubKeyPayload,
+    PubKeyMethod,
+    RevokePubKeyPayload,
+    TransactionPayload,
+} from "remme-protobuf";
+import { IRemmeAccount } from "remme-account";
+import { KeyType, RSASignaturePadding } from "remme-keys";
 
-import {IRemmePublicKeyStorage} from "./interface";
-import {IPublicKeyInfo, IPublicKeyStore, PublicKeyInfo} from "./models";
-import Padding = NewPubKeyPayload.RSAConfiguration.Padding;
-import EC = NewPubKeyPayload.ECDSAConfiguration.EC;
+import { IRemmePublicKeyStorage } from "./interface";
+import { IPublicKeyInfo, IPublicKeyStore, PublicKeyInfo } from "./models";
 
-// const { PubKeyType: PublicKeyType } = NewPubKeyPayload;
-// const { RSASignaturePadding } = NewPubKeyPayload;
 /**
  * Class for working with public key storage.
  * @example
@@ -58,7 +59,7 @@ import EC = NewPubKeyPayload.ECDSAConfiguration.EC;
  * ```
  */
 class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
-    // index signature
+
     [key: string]: any;
 
     private readonly _remmeApi: IRemmeApi;
@@ -104,25 +105,16 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         return sha512(data);
     }
 
-    private _getKeyTypeConfiguration(keyType: KeyType): string {
-        switch (keyType) {
-            case KeyType.RSA: {
-                return "rsa";
-            }
-            case KeyType.EdDSA: {
-                return "ed25519";
-            }
-            case KeyType.ECDSA: {
-                return "ecdsa";
-            }
-        }
-    }
-
     private _generateEntityHash(message: string): string {
         const entityHashBytes = Buffer.from(message);
         return bytesToHex(entityHashBytes);
     }
 
+    private _mapKeysByTypes = {
+        [KeyType.RSA]: (data: any) => new NewPubKeyPayload.RSAConfiguration(data),
+        [KeyType.ECDSA]: (data: any) => new NewPubKeyPayload.ECDSAConfiguration(data),
+        [KeyType.EdDSA]: (data: any) => new NewPubKeyPayload.ECDSAConfiguration(data),
+    };
     /**
      * @example
      * Usage without remme main package
@@ -179,7 +171,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            keys,
                            validFrom,
                            validTo,
-                           rsaSignaturePadding = RSASignaturePadding.EMPTY,
+                           rsaSignaturePadding = RSASignaturePadding.PSS,
                        }: IPublicKeyStore): Promise<IBaseTransactionResponse> {
 
         const { publicKey: key, keyType: keyTypePayload } = keys;
@@ -189,18 +181,8 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         const entityHash = Buffer.from(this._generateEntityHash(message));
         const entityHashSignature = Buffer.from(keys.sign(message, rsaSignaturePadding));
 
-        const paddingType: string = RSASignaturePadding[rsaSignaturePadding];
-
-        const keyTypeConfiguration = this._getKeyTypeConfiguration(keyType);
-
-        const mapKeysByType = {
-            [KeyType.RSA]: new NewPubKeyPayload.RSAConfiguration({ key, padding: Padding[paddingType]}),
-            [KeyType.ECDSA]: new NewPubKeyPayload.ECDSAConfiguration({ key, ec: EC.SECP256k1 }),
-            [KeyType.EdDSA]: new NewPubKeyPayload.ECDSAConfiguration(key),
-        };
-
         const payload =  NewPubKeyPayload.encode({
-            [keyTypeConfiguration]: mapKeysByType[keyType],
+            [key.KeyType]: this._mapKeysByTypes[keyType]({ key: key, padding: rsaSignaturePadding}),
             entityHash,
             entityHashSignature,
             validFrom,
