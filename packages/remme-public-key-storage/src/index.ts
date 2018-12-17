@@ -182,19 +182,6 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         const entityHash = Buffer.from(this._generateEntityHash(message));
         const entityHashSignature = Buffer.from(keys.sign(message, rsaSignaturePadding));
 
-        const payloadTest =  {
-            [keyType]: this._KeyType[keyType]({
-                key,
-                padding: keyType === KeyType.RSA ? rsaSignaturePadding : undefined,
-            }),
-            entityHash,
-            entityHashSignature,
-            validFrom,
-            validTo,
-        };
-
-        console.log(payloadTest);
-
         const payload =  NewPubKeyPayload.encode({
             [keyType]: this._KeyType[keyType]({
                 key,
