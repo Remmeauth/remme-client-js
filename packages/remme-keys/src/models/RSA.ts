@@ -1,5 +1,11 @@
 // import {NewPubKeyPayload} from "remme-protobuf";
-import {forge, generateAddress, privateKeyToPem, publicKeyToPem, RemmeFamilyName} from "remme-utils";
+import {
+    forge,
+    generateAddress,
+    privateKeyToPem,
+    publicKeyToPem,
+    RemmeFamilyName,
+} from "remme-utils";
 
 import {GenerateOptions, IKeys, KeyDto, KeyType, RSASignaturePadding} from "./index";
 import {IRemmeKeys} from "../interface";
@@ -36,7 +42,7 @@ class RSA extends KeyDto implements IRemmeKeys {
             this._publicKeyBase64 = Buffer.from(this._publicKeyPem).toString("base64");
         }
 
-        this._address = generateAddress(RemmeFamilyName.PublicKey, this._publicKeyPem);
+        this._address = generateAddress(RemmeFamilyName.PublicKey, forge.pki.pemToDer(this._publicKeyPem).data);
         this._keyType = KeyType.RSA;
     }
 

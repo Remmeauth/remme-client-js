@@ -16,10 +16,12 @@ import { KeyType, RSASignaturePadding } from "remme-keys";
 
 import { IRemmePublicKeyStorage } from "./interface";
 import { IPublicKeyInfo, IPublicKeyStore, PublicKeyInfo } from "./models";
-import IRSAConfiguration = NewPubKeyPayload.IRSAConfiguration;
-import IECDSAConfiguration = NewPubKeyPayload.IECDSAConfiguration;
-import IEd25519Configuration = NewPubKeyPayload.IEd25519Configuration;
-import EC = NewPubKeyPayload.ECDSAConfiguration.EC;
+
+type IRSAConfiguration = NewPubKeyPayload.IRSAConfiguration;
+type IECDSAConfiguration = NewPubKeyPayload.IECDSAConfiguration;
+type IEd25519Configuration = NewPubKeyPayload.IEd25519Configuration;
+
+const EC = NewPubKeyPayload.ECDSAConfiguration.EC;
 
 /**
  * Class for working with public key storage.

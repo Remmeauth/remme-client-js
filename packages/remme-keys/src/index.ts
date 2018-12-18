@@ -72,7 +72,7 @@ class RemmeKeys {
      * @returns {Promise<IRemmeKeys>}
      */
     public static async generateKeyPair(
-        keyType: string,
+        keyType: KeyType,
         options?: GenerateOptions,
     ): Promise<{privateKey: any, publicKey: any}> {
         switch (keyType) {
