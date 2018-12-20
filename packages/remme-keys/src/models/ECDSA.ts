@@ -35,7 +35,7 @@ class ECDSA extends KeyDto implements IRemmeKeys {
     }
 
     public static generateKeyPair() {
-        let privateKey: any;
+        let privateKey: Buffer;
         do {
             privateKey = randomBytes(32);
         } while (!secp256k1.privateKeyVerify(privateKey));
@@ -47,16 +47,8 @@ class ECDSA extends KeyDto implements IRemmeKeys {
         };
     }
 
-    public static getAddressFromPublicKey(publicKey: any): string {
-        let publicKeyBase64 = bytesToHex(publicKey);
-
-        try {
-            publicKeyBase64 = btoa(publicKeyBase64);
-        } catch (e) {
-            publicKeyBase64 = Buffer.from(publicKeyBase64).toString("base64");
-        }
-
-        return generateAddress(RemmeFamilyName.PublicKey, publicKeyBase64);
+    public static getAddressFromPublicKey(publicKey: Buffer): string {
+        return generateAddress(RemmeFamilyName.PublicKey, bytesToHex(publicKey));
     }
 
     public sign(

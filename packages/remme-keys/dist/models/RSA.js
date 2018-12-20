@@ -45,7 +45,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import {NewPubKeyPayload} from "remme-protobuf";
 var remme_utils_1 = require("remme-utils");
 var index_1 = require("./index");
 var RSA = /** @class */ (function (_super) {
@@ -66,16 +65,13 @@ var RSA = /** @class */ (function (_super) {
             _this._publicKey = publicKey;
         }
         _this._publicKeyPem = remme_utils_1.publicKeyToPem(_this._publicKey);
+        _this._publicKeyHex = remme_utils_1.forge.pki.pemToDer(_this._publicKeyPem).toHex();
+        _this._publicKey = Buffer.from(remme_utils_1.forge.pki.pemToDer(_this._publicKeyPem).getBytes(), "binary");
         if (_this._privateKey) {
             _this._privateKeyPem = remme_utils_1.privateKeyToPem(_this._privateKey);
+            _this._privateKeyHex = remme_utils_1.forge.pki.pemToDer(_this._privateKeyPem).toHex();
         }
-        try {
-            _this._publicKeyBase64 = btoa(_this._publicKeyPem);
-        }
-        catch (e) {
-            _this._publicKeyBase64 = Buffer.from(_this._publicKeyPem).toString("base64");
-        }
-        _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKeyPem);
+        _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKey);
         _this._keyType = index_1.KeyType.RSA;
         return _this;
     }
@@ -95,22 +91,10 @@ var RSA = /** @class */ (function (_super) {
         });
     };
     RSA.getAddressFromPublicKey = function (publicKey) {
-        // let publicKeyBase64 = publicKeyToPem(publicKey);
-        //
-        // try {
-        //     publicKeyBase64 = btoa(publicKeyBase64);
-        // } catch (e) {
-        //     publicKeyBase64 = Buffer.from(publicKeyBase64).toString("base64");
-        // }
-        // return generateAddress(RemmeFamilyName.PublicKey, publicKeyBase64);
-        return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, remme_utils_1.publicKeyToPem(publicKey));
+        return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, remme_utils_1.forge.pki.pemToDer(remme_utils_1.publicKeyToPem(publicKey)).toHex());
     };
-    RSA.prototype.sign = function (data, 
-    // rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS,
-    rsaSignaturePadding) {
-        if (rsaSignaturePadding === void 0) { 
-        // rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS,
-        rsaSignaturePadding = index_1.RSASignaturePadding.PSS; }
+    RSA.prototype.sign = function (data, rsaSignaturePadding) {
+        if (rsaSignaturePadding === void 0) { rsaSignaturePadding = index_1.RSASignaturePadding.PSS; }
         var md = remme_utils_1.forge.md.sha512.create();
         md.update(data, "utf8");
         var signature;
@@ -130,12 +114,8 @@ var RSA = /** @class */ (function (_super) {
         }
         return remme_utils_1.forge.util.bytesToHex(signature);
     };
-    RSA.prototype.verify = function (data, signature, 
-    // rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS,
-    rsaSignaturePadding) {
-        if (rsaSignaturePadding === void 0) { 
-        // rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS,
-        rsaSignaturePadding = index_1.RSASignaturePadding.PSS; }
+    RSA.prototype.verify = function (data, signature, rsaSignaturePadding) {
+        if (rsaSignaturePadding === void 0) { rsaSignaturePadding = index_1.RSASignaturePadding.PSS; }
         var md = remme_utils_1.forge.md.sha512.create();
         md.update(data, "utf8");
         signature = remme_utils_1.forge.util.hexToBytes(signature);

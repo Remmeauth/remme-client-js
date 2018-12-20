@@ -15,5 +15,5 @@ export interface IRemmeKeys {
     publicKeyPem?: string;
 
     sign(data: string, rsaSignaturePadding?: RSASignaturePadding): string;
-    verify(signature: string, data: string): boolean;
+    verify(data: string, signature: string): boolean;
 }

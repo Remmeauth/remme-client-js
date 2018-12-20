@@ -1,6 +1,5 @@
-import { InvalidTransactions } from "./BatchStateUpdateDto";
+import { IBatch } from "./BatchStateUpdateDto";
 export declare class ErrorMessage extends Error {
-    extendedData: string;
     transactionId: string;
-    constructor(data: InvalidTransactions);
+    constructor(data: IBatch);
 }

@@ -1,6 +1,5 @@
-import { RemmeWebSocket } from "remme-web-socket";
+import { IRemmeRequestParams, RemmeEvents, RemmeWebSocket } from "remme-web-socket";
 import { IRemmeWebSocketsEvents } from "./interface";
-import { IRemmeEventsData, RemmeEvents } from "./models";
 /**
  * Class for subscribing to events from WebSocket.
  * Available types for subscribing is covered in
@@ -10,7 +9,7 @@ import { IRemmeEventsData, RemmeEvents } from "./models";
  * import { RemmeWebSocketsEvents, RemmeEvents } from "remme-web-socket-events";
  * const remmeEvents = new RemmeWebSocketsEvents("localhost:8080", false);
  * remmeEvents.subscribe({
- *      events: RemmeEvents.SwapInit
+ *      events: RemmeEvents.AtomicSwap
  * }, (err: Error, res: any) => {
  *      console.log(err);
  *      console.log(res);
@@ -19,8 +18,6 @@ import { IRemmeEventsData, RemmeEvents } from "./models";
  * ```
  */
 declare class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEvents {
-    private _prepareEvents(events);
-    private _generateData({events, lastKnownBlockId});
     /**
      * Implementation of RemmeWebSocketsEvents;
      * @example
@@ -36,35 +33,26 @@ declare class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebS
      * Available types for subscribing is covered in
      * https://docs.remme.io/remme-core/docs/remme-ws-events.html#registered-events
      * @example
-     * You can subscribe on all events about swap
+     * You can subscribe on events about Swap
      * ```typescript
      * remmeEvents.subscribe({
-     *      events: RemmeEvents.SwapAll
+     *      events: RemmeEvents.AtomicSwap
      * }, (err: Error, res: any) => {
      *      console.log(err);
      *      console.log(res);
      * });
      * ```
-     * You can subscribe on one event
+     * You can subscribe on events about Batch
      * ```typescript
      * remmeEvents.subscribe({
-     *      events: RemmeEvents.SwapInit
-     * }, (err: Error, res: any) => {
-     *      console.log(err);
-     *      console.log(res);
-     * });
-     * ```
-     * Also you can subscribe on several events
-     * ```typescript
-     * remmeEvents.subscribe({
-     *      events: [ RemmeEvents.SwapInit, RemmeEvents.SwapClose ]
+     *      events: RemmeEvents.Batch
      * }, (err: Error, res: any) => {
      *      console.log(err);
      *      console.log(res);
      * });
      * ```
      */
-    subscribe(data: IRemmeEventsData, callback: (err: Error, res: any) => void): void;
+    subscribe(data: IRemmeRequestParams, callback: (err: Error, res: any) => void): void;
     /**
      * Unsubscribing from events.
      * Regardless of how many events you subscribed to, you always unsubscribe from all
@@ -75,4 +63,4 @@ declare class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebS
      */
     unsubscribe(): void;
 }
-export { RemmeWebSocketsEvents, IRemmeWebSocketsEvents, RemmeEvents, IRemmeEventsData };
+export { RemmeWebSocketsEvents, IRemmeWebSocketsEvents, RemmeEvents };

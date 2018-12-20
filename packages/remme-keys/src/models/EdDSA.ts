@@ -41,15 +41,7 @@ class EdDSA extends KeyDto implements IRemmeKeys {
     }
 
     public static getAddressFromPublicKey(publicKey: any): string {
-        let publicKeyBase64 = bytesToHex(publicKey);
-
-        try {
-            publicKeyBase64 = btoa(publicKeyBase64);
-        } catch (e) {
-            publicKeyBase64 = Buffer.from(publicKeyBase64).toString("base64");
-        }
-
-        return generateAddress(RemmeFamilyName.PublicKey, publicKeyBase64);
+        return generateAddress(RemmeFamilyName.PublicKey, bytesToHex(publicKey));
     }
 
     public sign(
