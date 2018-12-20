@@ -76,7 +76,7 @@
 						<dd><pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { RemmeWebSocketsEvents, RemmeEvents } <span class="hljs-keyword">from</span> <span class="hljs-string">"remme-web-socket-events"</span>;
 <span class="hljs-keyword">const</span> remmeEvents = <span class="hljs-keyword">new</span> RemmeWebSocketsEvents(<span class="hljs-string">"localhost:8080"</span>, <span class="hljs-literal">false</span>);
 remmeEvents.subscribe({
-     events: RemmeEvents.SwapInit
+     events: RemmeEvents.AtomicSwap
 }, <span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span>, res: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
      <span class="hljs-built_in">console</span>.log(err);
      <span class="hljs-built_in">console</span>.log(res);
@@ -160,7 +160,7 @@ remmeEvents.subscribe({
 							<aside class="tsd-sources">
 								<p>Overrides RemmeWebSocket.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/39e5e51/packages/remme-web-socket-events/src/index.ts#L57">remme-web-socket-events/src/index.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5f4b117/packages/remme-web-socket-events/src/index.ts#L22">remme-web-socket-events/src/index.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -202,7 +202,7 @@ remmeEvents.subscribe({
 						<p>Implementation of <a href="../interfaces/iremmewebsocketsevents.html">IRemmeWebSocketsEvents</a>.<a href="../interfaces/iremmewebsocketsevents.html#nodeaddress">nodeAddress</a></p>
 						<p>Inherited from RemmeWebSocket.nodeAddress</p>
 						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:96</li>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:94</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -223,7 +223,7 @@ remmeEvents.subscribe({
 						<p>Implementation of <a href="../interfaces/iremmewebsocketsevents.html">IRemmeWebSocketsEvents</a>.<a href="../interfaces/iremmewebsocketsevents.html#sslmode">sslMode</a></p>
 						<p>Inherited from RemmeWebSocket.sslMode</p>
 						<ul>
-							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:101</li>
+							<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:99</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -251,7 +251,7 @@ remmeEvents.subscribe({
 								<p>Implementation of <a href="../interfaces/iremmewebsocketsevents.html">IRemmeWebSocketsEvents</a>.<a href="../interfaces/iremmewebsocketsevents.html#closewebsocket">closeWebSocket</a></p>
 								<p>Inherited from RemmeWebSocket.closeWebSocket</p>
 								<ul>
-									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:121</li>
+									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:119</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -274,7 +274,7 @@ remmeEvents.subscribe({
 							<aside class="tsd-sources">
 								<p>Inherited from RemmeWebSocket.connectToWebSocket</p>
 								<ul>
-									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:117</li>
+									<li>Defined in remme/node_modules/remme-transaction-service/node_modules/remme-web-socket/dist/index.d.ts:115</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -330,13 +330,13 @@ remmeEvents.subscribe({
 					<a name="subscribe" class="tsd-anchor"></a>
 					<h3>subscribe</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">subscribe<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="../interfaces/iremmeeventsdata.html" class="tsd-signature-type">IRemmeEventsData</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">subscribe<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRemmeRequestParams</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/39e5e51/packages/remme-web-socket-events/src/index.ts#L105">remme-web-socket-events/src/index.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5f4b117/packages/remme-web-socket-events/src/index.ts#L60">remme-web-socket-events/src/index.ts:60</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -347,25 +347,17 @@ remmeEvents.subscribe({
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><p>You can subscribe on all events about swap</p>
+									<dd><p>You can subscribe on events about Swap</p>
 										<pre><code class="lang-typescript">remmeEvents.subscribe({
-     events: RemmeEvents.SwapAll
+     events: RemmeEvents.AtomicSwap
 }, <span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span>, res: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
      <span class="hljs-built_in">console</span>.log(err);
      <span class="hljs-built_in">console</span>.log(res);
 });
 </code></pre>
-										<p>You can subscribe on one event</p>
+										<p>You can subscribe on events about Batch</p>
 										<pre><code class="lang-typescript">remmeEvents.subscribe({
-     events: RemmeEvents.SwapInit
-}, <span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span>, res: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
-     <span class="hljs-built_in">console</span>.log(err);
-     <span class="hljs-built_in">console</span>.log(res);
-});
-</code></pre>
-										<p>Also you can subscribe on several events</p>
-										<pre><code class="lang-typescript">remmeEvents.subscribe({
-     events: [ RemmeEvents.SwapInit, RemmeEvents.SwapClose ]
+     events: RemmeEvents.Batch
 }, <span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span>, res: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
      <span class="hljs-built_in">console</span>.log(err);
      <span class="hljs-built_in">console</span>.log(res);
@@ -377,7 +369,7 @@ remmeEvents.subscribe({
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>data: <a href="../interfaces/iremmeeventsdata.html" class="tsd-signature-type">IRemmeEventsData</a></h5>
+									<h5>data: <span class="tsd-signature-type">IRemmeRequestParams</span></h5>
 								</li>
 								<li>
 									<h5>callback: <span class="tsd-signature-type">function</span></h5>
@@ -419,7 +411,7 @@ remmeEvents.subscribe({
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmewebsocketsevents.html">IRemmeWebSocketsEvents</a>.<a href="../interfaces/iremmewebsocketsevents.html#unsubscribe">unsubscribe</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/39e5e51/packages/remme-web-socket-events/src/index.ts#L122">remme-web-socket-events/src/index.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5f4b117/packages/remme-web-socket-events/src/index.ts#L90">remme-web-socket-events/src/index.ts:90</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

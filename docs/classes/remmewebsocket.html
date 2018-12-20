@@ -78,10 +78,10 @@
 <span class="hljs-keyword">const</span> someRemmeAddress = <span class="hljs-string">"03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638"</span>;
 <span class="hljs-keyword">const</span> transactionResult = <span class="hljs-keyword">await</span> remme.token.transfer(someRemmeAddress, <span class="hljs-number">10</span>);
 
-<span class="hljs-comment">/* transactionResult is inherit from RemmeWebSocket and this.data = {
-         batch_ids: [
-            transactionResult.batchId,
-         ],
+<span class="hljs-comment">/* transactionResult is inherit from RemmeWebSocket and
+     this.data = {
+         event_type: "batch",
+         id: transactionResult.batchId,
      };
 *\/ so you can connectToWebSocket easy. Just:
 
@@ -106,10 +106,9 @@ transactionResult.connectToWebSocket((err: Error, res: any) =&gt; {
      nodeAddress: <span class="hljs-string">"localhost:8080"</span>,
      sslMode: <span class="hljs-literal">false</span>,
      data: {
-         batch_ids: [
-            transactionResult.batchId,
-         ],
-     }
+         event_type: <span class="hljs-string">"batch"</span>,
+         id: transactionResult.batchId,
+     };
 });
 
 mySocketConnection.connectToWebSocket(<span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span>, res: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
@@ -190,7 +189,7 @@ mySocketConnection.connectToWebSocket(<span class="hljs-function">(<span class="
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/39e5e51/packages/remme-web-socket/src/index.ts#L130">remme-web-socket/src/index.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5f4b117/packages/remme-web-socket/src/index.ts#L136">remme-web-socket/src/index.ts:136</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -234,7 +233,7 @@ mySocketConnection.connectToWebSocket(<span class="hljs-function">(<span class="
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/39e5e51/packages/remme-web-socket/src/index.ts#L150">remme-web-socket/src/index.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5f4b117/packages/remme-web-socket/src/index.ts#L156">remme-web-socket/src/index.ts:156</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -256,7 +255,7 @@ mySocketConnection.connectToWebSocket(<span class="hljs-function">(<span class="
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/39e5e51/packages/remme-web-socket/src/index.ts#L158">remme-web-socket/src/index.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5f4b117/packages/remme-web-socket/src/index.ts#L164">remme-web-socket/src/index.ts:164</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -282,7 +281,7 @@ mySocketConnection.connectToWebSocket(<span class="hljs-function">(<span class="
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/iremmewebsocket.html">IRemmeWebSocket</a>.<a href="../interfaces/iremmewebsocket.html#closewebsocket">closeWebSocket</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/39e5e51/packages/remme-web-socket/src/index.ts#L215">remme-web-socket/src/index.ts:215</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5f4b117/packages/remme-web-socket/src/index.ts#L223">remme-web-socket/src/index.ts:223</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -304,7 +303,7 @@ mySocketConnection.connectToWebSocket(<span class="hljs-function">(<span class="
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/39e5e51/packages/remme-web-socket/src/index.ts#L177">remme-web-socket/src/index.ts:177</a></li>
+									<li>Defined in <a href="https://github.com/Remmeauth/remme-client-js/blob/5f4b117/packages/remme-web-socket/src/index.ts#L183">remme-web-socket/src/index.ts:183</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
