@@ -106,7 +106,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             data: data,
         }).finish();
     };
-    RemmePublicKeyStorage.prototype._createAndSendTransaction = function (inputsOutputs, payloadBytes) {
+    RemmePublicKeyStorage.prototype._createAndSendTransaction = function (inputs, outputs, payloadBytes) {
         return __awaiter(this, void 0, void 0, function () {
             var transaction;
             return __generator(this, function (_a) {
@@ -114,8 +114,8 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this._remmeTransaction.create({
                             familyName: this._familyName,
                             familyVersion: this._familyVersion,
-                            inputs: inputsOutputs,
-                            outputs: inputsOutputs,
+                            inputs: inputs,
+                            outputs: outputs,
                             payloadBytes: payloadBytes,
                         })];
                     case 1:
@@ -192,7 +192,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
     RemmePublicKeyStorage.prototype.store = function (_a) {
         var data = _a.data, keys = _a.keys, validFrom = _a.validFrom, validTo = _a.validTo, _b = _a.rsaSignaturePadding, rsaSignaturePadding = _b === void 0 ? remme_keys_1.RSASignaturePadding.EMPTY : _b;
         return __awaiter(this, void 0, void 0, function () {
-            var message, entityHash, entityHashSignature, payload, storagePublicKey, pubKeyAddress, storagePublicKeyAddress, settingAddress, storageAddress, payloadBytes;
+            var message, entityHash, entityHashSignature, payload, storagePublicKey, pubKeyAddress, storagePublicKeyAddress, settingAddress, storageAddress, payloadBytes, inputs, outputs;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -218,12 +218,17 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                         settingAddress = remme_utils_1.generateSettingsAddress("remme.economy_enabled");
                         storageAddress = remme_utils_1.generateAddress(this._remmeAccount.familyName, storagePublicKey);
                         payloadBytes = this._generateTransactionPayload(remme_protobuf_1.PubKeyMethod.Method.STORE, payload);
-                        return [4 /*yield*/, this._createAndSendTransaction([
-                                pubKeyAddress,
-                                storagePublicKeyAddress,
-                                settingAddress,
-                                storageAddress,
-                            ], payloadBytes)];
+                        inputs = [
+                            pubKeyAddress,
+                            storagePublicKeyAddress,
+                            settingAddress,
+                            storageAddress,
+                        ];
+                        outputs = [
+                            pubKeyAddress,
+                            storageAddress,
+                        ];
+                        return [4 /*yield*/, this._createAndSendTransaction(inputs, outputs, payloadBytes)];
                     case 2: return [2 /*return*/, _c.sent()];
                 }
             });
@@ -303,7 +308,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                             address: address,
                         }).finish();
                         payloadBytes = this._generateTransactionPayload(remme_protobuf_1.PubKeyMethod.Method.REVOKE, revokePayload);
-                        return [4 /*yield*/, this._createAndSendTransaction([address], payloadBytes)];
+                        return [4 /*yield*/, this._createAndSendTransaction([address], [address], payloadBytes)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

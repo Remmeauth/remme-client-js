@@ -1,6 +1,5 @@
-import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { IRemmeWebSocket } from "./interface";
-import { BatchInfoDto, BatchStatus } from "./models";
+import { BatchInfoDto, IJsonRpcRequest, JsonRpcRequest, RemmeEvents, RemmeRequestParams, IRemmeRequestParams, BatchStatus, SwapState, SwapInfoDto, SwapInfo, W3CSocket } from "./models";
 /**
  * @hidden
  */
@@ -23,10 +22,10 @@ declare global  {
  * const someRemmeAddress = "03c2e53acce583c8bb2382319f4dee3e816b67f3a733ef90fe3329062251d0c638";
  * const transactionResult = await remme.token.transfer(someRemmeAddress, 10);
  *
- * /* transactionResult is inherit from RemmeWebSocket and this.data = {
- *          batch_ids: [
- *             transactionResult.batchId,
- *          ],
+ * /* transactionResult is inherit from RemmeWebSocket and
+ *      this.data = {
+ *          event_type: "batch",
+ *          id: transactionResult.batchId,
  *      };
  * *\/ so you can connectToWebSocket easy. Just:
  *
@@ -53,10 +52,9 @@ declare global  {
  *      nodeAddress: "localhost:8080",
  *      sslMode: false,
  *      data: {
- *          batch_ids: [
- *             transactionResult.batchId,
- *          ],
- *      }
+ *          event_type: "batch",
+ *          id: transactionResult.batchId,
+ *      };
  * });
  *
  * mySocketConnection.connectToWebSocket((err: Error, res: any) => {
@@ -73,9 +71,9 @@ declare class RemmeWebSocket implements IRemmeWebSocket {
     [key: string]: any;
     private readonly _nodeAddress;
     private readonly _sslMode;
-    protected _socket: W3CWebSocket;
-    protected isEvent: boolean;
-    protected data: object;
+    private readonly _map;
+    protected _socket: W3CSocket;
+    protected data: RemmeRequestParams;
     private _sendAnError(error, callback);
     private _getSubscribeUrl();
     private _getSocketQuery(isSubscribe?);
@@ -120,4 +118,4 @@ declare class RemmeWebSocket implements IRemmeWebSocket {
      */
     closeWebSocket(): void;
 }
-export { RemmeWebSocket, IRemmeWebSocket, BatchStatus, BatchInfoDto };
+export { RemmeWebSocket, IRemmeWebSocket, BatchStatus, BatchInfoDto, RemmeEvents, IJsonRpcRequest, JsonRpcRequest, RemmeRequestParams, IRemmeRequestParams, SwapInfoDto, SwapInfo, SwapState };
