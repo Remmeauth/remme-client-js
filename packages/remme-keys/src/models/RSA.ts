@@ -56,7 +56,7 @@ class RSA extends KeyDto implements IRemmeKeys {
         data: string,
         rsaSignaturePadding: RSASignaturePadding = RSASignaturePadding.PSS,
     ): string {
-        const md = forge.md.sha512.create();
+        const md = forge.md.sha256.create();
         md.update(data, "utf8");
         let signature: string;
         switch (rsaSignaturePadding) {
@@ -66,8 +66,8 @@ class RSA extends KeyDto implements IRemmeKeys {
             }
             case RSASignaturePadding.PSS: {
                 const pss = forge.pss.create({
-                    md: forge.md.sha512.create(),
-                    mgf: forge.mgf.mgf1.create(forge.md.sha512.create()),
+                    md: forge.md.sha256.create(),
+                    mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
                     saltLength: this._calculateSaltLength(md),
                 });
                 signature = this._privateKey.sign(md, pss);
@@ -81,7 +81,7 @@ class RSA extends KeyDto implements IRemmeKeys {
         signature: string,
         rsaSignaturePadding: RSASignaturePadding = RSASignaturePadding.PSS,
     ): boolean {
-        const md = forge.md.sha512.create();
+        const md = forge.md.sha256.create();
         md.update(data, "utf8");
 
         signature = forge.util.hexToBytes(signature);
@@ -92,8 +92,8 @@ class RSA extends KeyDto implements IRemmeKeys {
             }
             case RSASignaturePadding.PSS: {
                 const pss = forge.pss.create({
-                    md: forge.md.sha512.create(),
-                    mgf: forge.mgf.mgf1.create(forge.md.sha512.create()),
+                    md: forge.md.sha256.create(),
+                    mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
                     saltLength: this._calculateSaltLength(md),
                 });
                 return this._publicKey.verify(md.digest().bytes(), signature, pss);

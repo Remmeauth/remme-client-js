@@ -163,9 +163,6 @@ var RemmePublicKeyStorage = /** @class */ (function () {
             });
         });
     };
-    RemmePublicKeyStorage.prototype._generateMessage = function (data) {
-        return remme_utils_1.sha512(data);
-    };
     /**
      * Store public key with its data into REMChain.
      * Send transaction to chain.
@@ -206,7 +203,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                 switch (_d.label) {
                     case 0:
                         publicKey = keys.publicKey, keyType = keys.keyType;
-                        message = this._generateMessage(data);
+                        message = remme_utils_1.sha512(data);
                         entityHash = Buffer.from(message);
                         entityHashSignature = remme_utils_1.hexToBytes(keys.sign(message, rsaSignaturePadding));
                         payload = remme_protobuf_1.NewPubKeyPayload.encode((_c = {},
@@ -214,6 +211,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                                 key: publicKey,
                                 padding: keyType === remme_keys_1.KeyType.RSA ? rsaSignaturePadding : undefined,
                             }),
+                            _c.hashingAlgorithm = remme_protobuf_1.NewPubKeyPayload.HashingAlgorithm.SHA256,
                             _c.entityHash = entityHash,
                             _c.entityHashSignature = entityHashSignature,
                             _c.validFrom = validFrom,

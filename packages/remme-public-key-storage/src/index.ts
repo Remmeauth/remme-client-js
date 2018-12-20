@@ -103,10 +103,6 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         }
     }
 
-    private _generateMessage(data: string): string {
-        return sha512(data);
-    }
-
     private _KeyType = {
         [KeyType.RSA]: (data: IRSAConfiguration) => new NewPubKeyPayload.RSAConfiguration(data),
         [KeyType.ECDSA]: (data: IECDSAConfiguration) => new NewPubKeyPayload.ECDSAConfiguration({
@@ -176,24 +172,21 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
 
         const { publicKey, keyType } = keys;
 
-        const message = this._generateMessage(data);
+        const message = sha512(data);
         const entityHash = Buffer.from(message);
         const entityHashSignature = hexToBytes(keys.sign(message, rsaSignaturePadding));
-
-        // console.log(keys.verify(message, bytesToHex(entityHashSignature)));
 
         const payload = NewPubKeyPayload.encode({
             [keyType]: this._KeyType[keyType]({
                 key: publicKey,
                 padding: keyType === KeyType.RSA ? rsaSignaturePadding : undefined,
             }),
+            hashingAlgorithm: NewPubKeyPayload.HashingAlgorithm.SHA256,
             entityHash,
             entityHashSignature,
             validFrom,
             validTo,
         }).finish();
-
-        // console.log(payload.toString("base64"));
 
         const {
             storage_public_key: storagePublicKey,
