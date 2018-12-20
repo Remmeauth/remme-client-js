@@ -4,7 +4,7 @@ export interface IRemmeKeys {
     address: string;
     publicKey: any;
     familyName: RemmeFamilyName;
-    keyType: string | number;
+    keyType: string;
     privateKey?: any;
     publicKeyBase64: string;
     privateKeyHex?: string;
@@ -12,5 +12,5 @@ export interface IRemmeKeys {
     privateKeyPem?: string;
     publicKeyPem?: string;
     sign(data: string, rsaSignaturePadding?: RSASignaturePadding): string;
-    verify(signature: string, data: string): boolean;
+    verify(data: string, signature: string): boolean;
 }

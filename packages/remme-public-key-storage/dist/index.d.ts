@@ -1,8 +1,8 @@
 import { IRemmeApi } from "remme-api";
-import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
+import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
 import { IRemmeAccount } from "remme-account";
 import { IRemmePublicKeyStorage } from "./interface";
-import { PublicKeyInfo, IPublicKeyStore } from "./models";
+import { IPublicKeyStore, PublicKeyInfo } from "./models";
 /**
  * Class for working with public key storage.
  * @example
@@ -47,10 +47,10 @@ declare class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _familyName;
     private readonly _familyVersion;
     private _generateTransactionPayload(method, data);
-    private _createAndSendTransaction(inputsOutputs, payloadBytes);
+    private _createAndSendTransaction(inputs, outputs, payloadBytes);
     private _getInfoByPublicKey(address);
     private _generateMessage(data);
-    private _generateEntityHash(message);
+    private _KeyType;
     /**
      * @example
      * Usage without remme main package

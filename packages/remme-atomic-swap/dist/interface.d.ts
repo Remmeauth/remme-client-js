@@ -1,5 +1,6 @@
 import { IBaseTransactionResponse } from "remme-transaction-service";
-import { SwapInitDto, SwapInfo } from "./models";
+import { SwapInfo } from "remme-web-socket";
+import { SwapInitDto } from "./models";
 export interface IRemmeSwap {
     init(data: SwapInitDto): Promise<IBaseTransactionResponse>;
     approve(swapId: string): Promise<IBaseTransactionResponse>;

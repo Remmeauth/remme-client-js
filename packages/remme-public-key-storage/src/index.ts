@@ -1,5 +1,6 @@
 import {
     bytesToHex,
+    hexToBytes,
     checkAddress,
     generateAddress,
     generateSettingsAddress,
@@ -106,11 +107,6 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         return sha512(data);
     }
 
-    private _generateEntityHash(message: string): string {
-        const entityHashBytes = Buffer.from(message);
-        return bytesToHex(entityHashBytes);
-    }
-
     private _KeyType = {
         [KeyType.RSA]: (data: IRSAConfiguration) => new NewPubKeyPayload.RSAConfiguration(data),
         [KeyType.ECDSA]: (data: IECDSAConfiguration) => new NewPubKeyPayload.ECDSAConfiguration({
@@ -178,15 +174,17 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            rsaSignaturePadding = RSASignaturePadding.PSS,
                        }: IPublicKeyStore): Promise<IBaseTransactionResponse> {
 
-        const { publicKey: key, keyType } = keys;
+        const { publicKey, keyType } = keys;
 
         const message = this._generateMessage(data);
-        const entityHash = Buffer.from(this._generateEntityHash(message));
-        const entityHashSignature = Buffer.from(keys.sign(message, rsaSignaturePadding));
+        const entityHash = Buffer.from(message);
+        const entityHashSignature = hexToBytes(keys.sign(message, rsaSignaturePadding));
 
-        const payload =  NewPubKeyPayload.encode({
+        // console.log(keys.verify(message, bytesToHex(entityHashSignature)));
+
+        const payload = NewPubKeyPayload.encode({
             [keyType]: this._KeyType[keyType]({
-                key,
+                key: publicKey,
                 padding: keyType === KeyType.RSA ? rsaSignaturePadding : undefined,
             }),
             entityHash,
@@ -194,6 +192,8 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             validFrom,
             validTo,
         }).finish();
+
+        // console.log(payload.toString("base64"));
 
         const {
             storage_public_key: storagePublicKey,

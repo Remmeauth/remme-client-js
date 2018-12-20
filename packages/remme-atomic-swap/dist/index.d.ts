@@ -1,7 +1,8 @@
 import { IRemmeApi } from "remme-api";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
+import { SwapInfoDto, SwapInfo, SwapState } from "remme-web-socket";
 import { IRemmeSwap } from "./interface";
-import { SwapInitDto, SwapInfo, SwapState } from "./models";
+import { SwapInitDto } from "./models";
 /**
  * Main class for working with atomic swap
  * @example
@@ -78,9 +79,10 @@ declare class RemmeSwap implements IRemmeSwap {
     private readonly _blockInfoNamespaceAddress;
     private readonly _blockInfoConfigAddress;
     private readonly _settingsKeyGenesisOwners;
+    private readonly _settingsSwapComission;
     private _generateTransactionPayload(method, data);
     private _getAddresses(method, swapId, receiverAddress?);
-    private _createAndSendTransaction(transactionPayload, inputsOutputs);
+    private _createAndSendTransaction(transactionPayload, inputs, outputs);
     private _checkParameters(parameters);
     /**
      * @example
@@ -194,4 +196,4 @@ declare class RemmeSwap implements IRemmeSwap {
      */
     setSecretLock(swapId: string, secretLock: string): Promise<IBaseTransactionResponse>;
 }
-export { RemmeSwap, IRemmeSwap, SwapInfo, SwapState, SwapInitDto };
+export { RemmeSwap, IRemmeSwap, SwapInfo, SwapState, SwapInitDto, SwapInfoDto };

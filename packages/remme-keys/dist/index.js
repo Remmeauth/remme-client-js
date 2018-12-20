@@ -1,5 +1,4 @@
 "use strict";
-// import { NewPubKeyPayload } from "remme-protobuf";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -42,8 +41,6 @@ exports.EdDSA = models_1.EdDSA;
 exports.ECDSA = models_1.ECDSA;
 exports.KeyType = models_1.KeyType;
 exports.RSASignaturePadding = models_1.RSASignaturePadding;
-// const { PubKeyType: KeyType } = NewPubKeyPayload;
-// const { RSASignaturePadding } = NewPubKeyPayload;
 /* tslint:disable */
 /**
  * Class that works with different types of keys.

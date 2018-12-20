@@ -13,9 +13,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var ErrorMessage = /** @class */ (function (_super) {
     __extends(ErrorMessage, _super);
     function ErrorMessage(data) {
-        var _this = _super.call(this, data.message) || this;
-        _this.extendedData = data.extended_data;
-        _this.transactionId = data.transaction_id;
+        var _this = _super.call(this, data.error) || this;
+        _this.transactionId = data.id;
         return _this;
     }
     return ErrorMessage;

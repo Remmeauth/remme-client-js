@@ -1,5 +1,5 @@
-// import {NewPubKeyPayload} from "remme-protobuf";
 import {
+    bytesToHex,
     forge,
     generateAddress,
     privateKeyToPem,
@@ -31,18 +31,16 @@ class RSA extends KeyDto implements IRemmeKeys {
         }
 
         this._publicKeyPem = publicKeyToPem(this._publicKey);
+        this._publicKeyHex = forge.pki.pemToDer(this._publicKeyPem).toHex();
+
+        this._publicKey = Buffer.from(forge.pki.pemToDer(this._publicKeyPem).getBytes(), "binary");
 
         if (this._privateKey) {
             this._privateKeyPem = privateKeyToPem(this._privateKey);
+            this._privateKeyHex = forge.pki.pemToDer(this._privateKeyPem).toHex();
         }
 
-        try {
-            this._publicKeyBase64 = btoa(this._publicKeyPem);
-        } catch (e) {
-            this._publicKeyBase64 = Buffer.from(this._publicKeyPem).toString("base64");
-        }
-
-        this._address = generateAddress(RemmeFamilyName.PublicKey, forge.pki.pemToDer(this._publicKeyPem).data);
+        this._address = generateAddress(RemmeFamilyName.PublicKey, this._publicKey);
         this._keyType = KeyType.RSA;
     }
 
@@ -51,21 +49,11 @@ class RSA extends KeyDto implements IRemmeKeys {
     }
 
     public static getAddressFromPublicKey(publicKey: any): string {
-        // let publicKeyBase64 = publicKeyToPem(publicKey);
-        //
-        // try {
-        //     publicKeyBase64 = btoa(publicKeyBase64);
-        // } catch (e) {
-        //     publicKeyBase64 = Buffer.from(publicKeyBase64).toString("base64");
-        // }
-
-        // return generateAddress(RemmeFamilyName.PublicKey, publicKeyBase64);
-        return generateAddress(RemmeFamilyName.PublicKey, publicKeyToPem(publicKey));
+        return generateAddress(RemmeFamilyName.PublicKey, forge.pki.pemToDer(publicKeyToPem(publicKey)).toHex());
     }
 
     public sign(
         data: string,
-        // rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS,
         rsaSignaturePadding: RSASignaturePadding = RSASignaturePadding.PSS,
     ): string {
         const md = forge.md.sha512.create();
@@ -91,7 +79,6 @@ class RSA extends KeyDto implements IRemmeKeys {
     public verify(
         data: string,
         signature: string,
-        // rsaSignaturePadding: NewPubKeyPayload.RSASignaturePadding = NewPubKeyPayload.RSASignaturePadding.PSS,
         rsaSignaturePadding: RSASignaturePadding = RSASignaturePadding.PSS,
     ): boolean {
         const md = forge.md.sha512.create();
