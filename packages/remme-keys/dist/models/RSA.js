@@ -95,7 +95,7 @@ var RSA = /** @class */ (function (_super) {
     };
     RSA.prototype.sign = function (data, rsaSignaturePadding) {
         if (rsaSignaturePadding === void 0) { rsaSignaturePadding = index_1.RSASignaturePadding.PSS; }
-        var md = remme_utils_1.forge.md.sha512.create();
+        var md = remme_utils_1.forge.md.sha256.create();
         md.update(data, "utf8");
         var signature;
         switch (rsaSignaturePadding) {
@@ -105,8 +105,8 @@ var RSA = /** @class */ (function (_super) {
             }
             case index_1.RSASignaturePadding.PSS: {
                 var pss = remme_utils_1.forge.pss.create({
-                    md: remme_utils_1.forge.md.sha512.create(),
-                    mgf: remme_utils_1.forge.mgf.mgf1.create(remme_utils_1.forge.md.sha512.create()),
+                    md: remme_utils_1.forge.md.sha256.create(),
+                    mgf: remme_utils_1.forge.mgf.mgf1.create(remme_utils_1.forge.md.sha256.create()),
                     saltLength: this._calculateSaltLength(md),
                 });
                 signature = this._privateKey.sign(md, pss);
@@ -116,7 +116,7 @@ var RSA = /** @class */ (function (_super) {
     };
     RSA.prototype.verify = function (data, signature, rsaSignaturePadding) {
         if (rsaSignaturePadding === void 0) { rsaSignaturePadding = index_1.RSASignaturePadding.PSS; }
-        var md = remme_utils_1.forge.md.sha512.create();
+        var md = remme_utils_1.forge.md.sha256.create();
         md.update(data, "utf8");
         signature = remme_utils_1.forge.util.hexToBytes(signature);
         switch (rsaSignaturePadding) {
@@ -125,8 +125,8 @@ var RSA = /** @class */ (function (_super) {
             }
             case index_1.RSASignaturePadding.PSS: {
                 var pss = remme_utils_1.forge.pss.create({
-                    md: remme_utils_1.forge.md.sha512.create(),
-                    mgf: remme_utils_1.forge.mgf.mgf1.create(remme_utils_1.forge.md.sha512.create()),
+                    md: remme_utils_1.forge.md.sha256.create(),
+                    mgf: remme_utils_1.forge.mgf.mgf1.create(remme_utils_1.forge.md.sha256.create()),
                     saltLength: this._calculateSaltLength(md),
                 });
                 return this._publicKey.verify(md.digest().bytes(), signature, pss);
