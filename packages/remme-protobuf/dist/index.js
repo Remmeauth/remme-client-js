@@ -3434,6 +3434,508 @@ $root.BlockInfoConfig = (function() {
     return BlockInfoConfig;
 })();
 
+$root.ConsensusMessagePayload = (function() {
+
+    /**
+     * Properties of a ConsensusMessagePayload.
+     * @exports IConsensusMessagePayload
+     * @interface IConsensusMessagePayload
+     * @property {number|Long|null} [period] ConsensusMessagePayload period
+     * @property {string|null} [proposalId] ConsensusMessagePayload proposalId
+     * @property {string|null} [voterId] ConsensusMessagePayload voterId
+     */
+
+    /**
+     * Constructs a new ConsensusMessagePayload.
+     * @exports ConsensusMessagePayload
+     * @classdesc Represents a ConsensusMessagePayload.
+     * @implements IConsensusMessagePayload
+     * @constructor
+     * @param {IConsensusMessagePayload=} [properties] Properties to set
+     */
+    function ConsensusMessagePayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * ConsensusMessagePayload period.
+     * @member {number|Long} period
+     * @memberof ConsensusMessagePayload
+     * @instance
+     */
+    ConsensusMessagePayload.prototype.period = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * ConsensusMessagePayload proposalId.
+     * @member {string} proposalId
+     * @memberof ConsensusMessagePayload
+     * @instance
+     */
+    ConsensusMessagePayload.prototype.proposalId = "";
+
+    /**
+     * ConsensusMessagePayload voterId.
+     * @member {string} voterId
+     * @memberof ConsensusMessagePayload
+     * @instance
+     */
+    ConsensusMessagePayload.prototype.voterId = "";
+
+    /**
+     * Creates a new ConsensusMessagePayload instance using the specified properties.
+     * @function create
+     * @memberof ConsensusMessagePayload
+     * @static
+     * @param {IConsensusMessagePayload=} [properties] Properties to set
+     * @returns {ConsensusMessagePayload} ConsensusMessagePayload instance
+     */
+    ConsensusMessagePayload.create = function create(properties) {
+        return new ConsensusMessagePayload(properties);
+    };
+
+    /**
+     * Encodes the specified ConsensusMessagePayload message. Does not implicitly {@link ConsensusMessagePayload.verify|verify} messages.
+     * @function encode
+     * @memberof ConsensusMessagePayload
+     * @static
+     * @param {IConsensusMessagePayload} message ConsensusMessagePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusMessagePayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.period != null && message.hasOwnProperty("period"))
+            writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.period);
+        if (message.proposalId != null && message.hasOwnProperty("proposalId"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.proposalId);
+        if (message.voterId != null && message.hasOwnProperty("voterId"))
+            writer.uint32(/* id 3, wireType 2 =*/26).string(message.voterId);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ConsensusMessagePayload message, length delimited. Does not implicitly {@link ConsensusMessagePayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ConsensusMessagePayload
+     * @static
+     * @param {IConsensusMessagePayload} message ConsensusMessagePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusMessagePayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a ConsensusMessagePayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof ConsensusMessagePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ConsensusMessagePayload} ConsensusMessagePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusMessagePayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ConsensusMessagePayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.period = reader.uint64();
+                break;
+            case 2:
+                message.proposalId = reader.string();
+                break;
+            case 3:
+                message.voterId = reader.string();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a ConsensusMessagePayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ConsensusMessagePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ConsensusMessagePayload} ConsensusMessagePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusMessagePayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a ConsensusMessagePayload message.
+     * @function verify
+     * @memberof ConsensusMessagePayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ConsensusMessagePayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.period != null && message.hasOwnProperty("period"))
+            if (!$util.isInteger(message.period) && !(message.period && $util.isInteger(message.period.low) && $util.isInteger(message.period.high)))
+                return "period: integer|Long expected";
+        if (message.proposalId != null && message.hasOwnProperty("proposalId"))
+            if (!$util.isString(message.proposalId))
+                return "proposalId: string expected";
+        if (message.voterId != null && message.hasOwnProperty("voterId"))
+            if (!$util.isString(message.voterId))
+                return "voterId: string expected";
+        return null;
+    };
+
+    /**
+     * Creates a ConsensusMessagePayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ConsensusMessagePayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ConsensusMessagePayload} ConsensusMessagePayload
+     */
+    ConsensusMessagePayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.ConsensusMessagePayload)
+            return object;
+        var message = new $root.ConsensusMessagePayload();
+        if (object.period != null)
+            if ($util.Long)
+                (message.period = $util.Long.fromValue(object.period)).unsigned = true;
+            else if (typeof object.period === "string")
+                message.period = parseInt(object.period, 10);
+            else if (typeof object.period === "number")
+                message.period = object.period;
+            else if (typeof object.period === "object")
+                message.period = new $util.LongBits(object.period.low >>> 0, object.period.high >>> 0).toNumber(true);
+        if (object.proposalId != null)
+            message.proposalId = String(object.proposalId);
+        if (object.voterId != null)
+            message.voterId = String(object.voterId);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a ConsensusMessagePayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ConsensusMessagePayload
+     * @static
+     * @param {ConsensusMessagePayload} message ConsensusMessagePayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ConsensusMessagePayload.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.period = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.period = options.longs === String ? "0" : 0;
+            object.proposalId = "";
+            object.voterId = "";
+        }
+        if (message.period != null && message.hasOwnProperty("period"))
+            if (typeof message.period === "number")
+                object.period = options.longs === String ? String(message.period) : message.period;
+            else
+                object.period = options.longs === String ? $util.Long.prototype.toString.call(message.period) : options.longs === Number ? new $util.LongBits(message.period.low >>> 0, message.period.high >>> 0).toNumber(true) : message.period;
+        if (message.proposalId != null && message.hasOwnProperty("proposalId"))
+            object.proposalId = message.proposalId;
+        if (message.voterId != null && message.hasOwnProperty("voterId"))
+            object.voterId = message.voterId;
+        return object;
+    };
+
+    /**
+     * Converts this ConsensusMessagePayload to JSON.
+     * @function toJSON
+     * @memberof ConsensusMessagePayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ConsensusMessagePayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return ConsensusMessagePayload;
+})();
+
+$root.ConsensusMessage = (function() {
+
+    /**
+     * Properties of a ConsensusMessage.
+     * @exports IConsensusMessage
+     * @interface IConsensusMessage
+     * @property {ConsensusMessage.Type|null} [type] ConsensusMessage type
+     * @property {IConsensusMessagePayload|null} [payload] ConsensusMessage payload
+     */
+
+    /**
+     * Constructs a new ConsensusMessage.
+     * @exports ConsensusMessage
+     * @classdesc Represents a ConsensusMessage.
+     * @implements IConsensusMessage
+     * @constructor
+     * @param {IConsensusMessage=} [properties] Properties to set
+     */
+    function ConsensusMessage(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * ConsensusMessage type.
+     * @member {ConsensusMessage.Type} type
+     * @memberof ConsensusMessage
+     * @instance
+     */
+    ConsensusMessage.prototype.type = 0;
+
+    /**
+     * ConsensusMessage payload.
+     * @member {IConsensusMessagePayload|null|undefined} payload
+     * @memberof ConsensusMessage
+     * @instance
+     */
+    ConsensusMessage.prototype.payload = null;
+
+    /**
+     * Creates a new ConsensusMessage instance using the specified properties.
+     * @function create
+     * @memberof ConsensusMessage
+     * @static
+     * @param {IConsensusMessage=} [properties] Properties to set
+     * @returns {ConsensusMessage} ConsensusMessage instance
+     */
+    ConsensusMessage.create = function create(properties) {
+        return new ConsensusMessage(properties);
+    };
+
+    /**
+     * Encodes the specified ConsensusMessage message. Does not implicitly {@link ConsensusMessage.verify|verify} messages.
+     * @function encode
+     * @memberof ConsensusMessage
+     * @static
+     * @param {IConsensusMessage} message ConsensusMessage message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusMessage.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.type != null && message.hasOwnProperty("type"))
+            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
+        if (message.payload != null && message.hasOwnProperty("payload"))
+            $root.ConsensusMessagePayload.encode(message.payload, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ConsensusMessage message, length delimited. Does not implicitly {@link ConsensusMessage.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ConsensusMessage
+     * @static
+     * @param {IConsensusMessage} message ConsensusMessage message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusMessage.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a ConsensusMessage message from the specified reader or buffer.
+     * @function decode
+     * @memberof ConsensusMessage
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ConsensusMessage} ConsensusMessage
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusMessage.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ConsensusMessage();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.type = reader.int32();
+                break;
+            case 2:
+                message.payload = $root.ConsensusMessagePayload.decode(reader, reader.uint32());
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a ConsensusMessage message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ConsensusMessage
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ConsensusMessage} ConsensusMessage
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusMessage.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a ConsensusMessage message.
+     * @function verify
+     * @memberof ConsensusMessage
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ConsensusMessage.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.type != null && message.hasOwnProperty("type"))
+            switch (message.type) {
+            default:
+                return "type: enum value expected";
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                break;
+            }
+        if (message.payload != null && message.hasOwnProperty("payload")) {
+            var error = $root.ConsensusMessagePayload.verify(message.payload);
+            if (error)
+                return "payload." + error;
+        }
+        return null;
+    };
+
+    /**
+     * Creates a ConsensusMessage message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ConsensusMessage
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ConsensusMessage} ConsensusMessage
+     */
+    ConsensusMessage.fromObject = function fromObject(object) {
+        if (object instanceof $root.ConsensusMessage)
+            return object;
+        var message = new $root.ConsensusMessage();
+        switch (object.type) {
+        case "VALUE_PROPOSAL":
+        case 0:
+            message.type = 0;
+            break;
+        case "SOFT_VOTE":
+        case 1:
+            message.type = 1;
+            break;
+        case "CERT_VOTE":
+        case 2:
+            message.type = 2;
+            break;
+        case "NEXT_VOTE":
+        case 3:
+            message.type = 3;
+            break;
+        }
+        if (object.payload != null) {
+            if (typeof object.payload !== "object")
+                throw TypeError(".ConsensusMessage.payload: object expected");
+            message.payload = $root.ConsensusMessagePayload.fromObject(object.payload);
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a ConsensusMessage message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ConsensusMessage
+     * @static
+     * @param {ConsensusMessage} message ConsensusMessage
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ConsensusMessage.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.type = options.enums === String ? "VALUE_PROPOSAL" : 0;
+            object.payload = null;
+        }
+        if (message.type != null && message.hasOwnProperty("type"))
+            object.type = options.enums === String ? $root.ConsensusMessage.Type[message.type] : message.type;
+        if (message.payload != null && message.hasOwnProperty("payload"))
+            object.payload = $root.ConsensusMessagePayload.toObject(message.payload, options);
+        return object;
+    };
+
+    /**
+     * Converts this ConsensusMessage to JSON.
+     * @function toJSON
+     * @memberof ConsensusMessage
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ConsensusMessage.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Type enum.
+     * @name ConsensusMessage.Type
+     * @enum {string}
+     * @property {number} VALUE_PROPOSAL=0 VALUE_PROPOSAL value
+     * @property {number} SOFT_VOTE=1 SOFT_VOTE value
+     * @property {number} CERT_VOTE=2 CERT_VOTE value
+     * @property {number} NEXT_VOTE=3 NEXT_VOTE value
+     */
+    ConsensusMessage.Type = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "VALUE_PROPOSAL"] = 0;
+        values[valuesById[1] = "SOFT_VOTE"] = 1;
+        values[valuesById[2] = "CERT_VOTE"] = 2;
+        values[valuesById[3] = "NEXT_VOTE"] = 3;
+        return values;
+    })();
+
+    return ConsensusMessage;
+})();
+
 $root.PubKeyMethod = (function() {
 
     /**
@@ -3614,13 +4116,14 @@ $root.NewPubKeyPayload = (function() {
      * Properties of a NewPubKeyPayload.
      * @exports INewPubKeyPayload
      * @interface INewPubKeyPayload
-     * @property {string|null} [publicKey] NewPubKeyPayload publicKey
-     * @property {NewPubKeyPayload.PubKeyType|null} [publicKeyType] NewPubKeyPayload publicKeyType
-     * @property {NewPubKeyPayload.EntityType|null} [entityType] NewPubKeyPayload entityType
-     * @property {string|null} [entityHash] NewPubKeyPayload entityHash
-     * @property {string|null} [entityHashSignature] NewPubKeyPayload entityHashSignature
+     * @property {NewPubKeyPayload.HashingAlgorithm|null} [hashingAlgorithm] NewPubKeyPayload hashingAlgorithm
+     * @property {Uint8Array|null} [entityHash] NewPubKeyPayload entityHash
+     * @property {Uint8Array|null} [entityHashSignature] NewPubKeyPayload entityHashSignature
      * @property {number|null} [validFrom] NewPubKeyPayload validFrom
      * @property {number|null} [validTo] NewPubKeyPayload validTo
+     * @property {NewPubKeyPayload.IRSAConfiguration|null} [rsa] NewPubKeyPayload rsa
+     * @property {NewPubKeyPayload.IECDSAConfiguration|null} [ecdsa] NewPubKeyPayload ecdsa
+     * @property {NewPubKeyPayload.IEd25519Configuration|null} [ed25519] NewPubKeyPayload ed25519
      */
 
     /**
@@ -3639,44 +4142,28 @@ $root.NewPubKeyPayload = (function() {
     }
 
     /**
-     * NewPubKeyPayload publicKey.
-     * @member {string} publicKey
+     * NewPubKeyPayload hashingAlgorithm.
+     * @member {NewPubKeyPayload.HashingAlgorithm} hashingAlgorithm
      * @memberof NewPubKeyPayload
      * @instance
      */
-    NewPubKeyPayload.prototype.publicKey = "";
-
-    /**
-     * NewPubKeyPayload publicKeyType.
-     * @member {NewPubKeyPayload.PubKeyType} publicKeyType
-     * @memberof NewPubKeyPayload
-     * @instance
-     */
-    NewPubKeyPayload.prototype.publicKeyType = 0;
-
-    /**
-     * NewPubKeyPayload entityType.
-     * @member {NewPubKeyPayload.EntityType} entityType
-     * @memberof NewPubKeyPayload
-     * @instance
-     */
-    NewPubKeyPayload.prototype.entityType = 0;
+    NewPubKeyPayload.prototype.hashingAlgorithm = 0;
 
     /**
      * NewPubKeyPayload entityHash.
-     * @member {string} entityHash
+     * @member {Uint8Array} entityHash
      * @memberof NewPubKeyPayload
      * @instance
      */
-    NewPubKeyPayload.prototype.entityHash = "";
+    NewPubKeyPayload.prototype.entityHash = $util.newBuffer([]);
 
     /**
      * NewPubKeyPayload entityHashSignature.
-     * @member {string} entityHashSignature
+     * @member {Uint8Array} entityHashSignature
      * @memberof NewPubKeyPayload
      * @instance
      */
-    NewPubKeyPayload.prototype.entityHashSignature = "";
+    NewPubKeyPayload.prototype.entityHashSignature = $util.newBuffer([]);
 
     /**
      * NewPubKeyPayload validFrom.
@@ -3693,6 +4180,44 @@ $root.NewPubKeyPayload = (function() {
      * @instance
      */
     NewPubKeyPayload.prototype.validTo = 0;
+
+    /**
+     * NewPubKeyPayload rsa.
+     * @member {NewPubKeyPayload.IRSAConfiguration|null|undefined} rsa
+     * @memberof NewPubKeyPayload
+     * @instance
+     */
+    NewPubKeyPayload.prototype.rsa = null;
+
+    /**
+     * NewPubKeyPayload ecdsa.
+     * @member {NewPubKeyPayload.IECDSAConfiguration|null|undefined} ecdsa
+     * @memberof NewPubKeyPayload
+     * @instance
+     */
+    NewPubKeyPayload.prototype.ecdsa = null;
+
+    /**
+     * NewPubKeyPayload ed25519.
+     * @member {NewPubKeyPayload.IEd25519Configuration|null|undefined} ed25519
+     * @memberof NewPubKeyPayload
+     * @instance
+     */
+    NewPubKeyPayload.prototype.ed25519 = null;
+
+    // OneOf field names bound to virtual getters and setters
+    var $oneOfFields;
+
+    /**
+     * NewPubKeyPayload configuration.
+     * @member {"rsa"|"ecdsa"|"ed25519"|undefined} configuration
+     * @memberof NewPubKeyPayload
+     * @instance
+     */
+    Object.defineProperty(NewPubKeyPayload.prototype, "configuration", {
+        get: $util.oneOfGetter($oneOfFields = ["rsa", "ecdsa", "ed25519"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
 
     /**
      * Creates a new NewPubKeyPayload instance using the specified properties.
@@ -3718,20 +4243,22 @@ $root.NewPubKeyPayload = (function() {
     NewPubKeyPayload.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.publicKey != null && message.hasOwnProperty("publicKey"))
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.publicKey);
-        if (message.publicKeyType != null && message.hasOwnProperty("publicKeyType"))
-            writer.uint32(/* id 2, wireType 0 =*/16).int32(message.publicKeyType);
-        if (message.entityType != null && message.hasOwnProperty("entityType"))
-            writer.uint32(/* id 3, wireType 0 =*/24).int32(message.entityType);
+        if (message.hashingAlgorithm != null && message.hasOwnProperty("hashingAlgorithm"))
+            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.hashingAlgorithm);
         if (message.entityHash != null && message.hasOwnProperty("entityHash"))
-            writer.uint32(/* id 4, wireType 2 =*/34).string(message.entityHash);
+            writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.entityHash);
         if (message.entityHashSignature != null && message.hasOwnProperty("entityHashSignature"))
-            writer.uint32(/* id 5, wireType 2 =*/42).string(message.entityHashSignature);
+            writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.entityHashSignature);
         if (message.validFrom != null && message.hasOwnProperty("validFrom"))
-            writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.validFrom);
+            writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.validFrom);
         if (message.validTo != null && message.hasOwnProperty("validTo"))
-            writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.validTo);
+            writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.validTo);
+        if (message.rsa != null && message.hasOwnProperty("rsa"))
+            $root.NewPubKeyPayload.RSAConfiguration.encode(message.rsa, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+        if (message.ecdsa != null && message.hasOwnProperty("ecdsa"))
+            $root.NewPubKeyPayload.ECDSAConfiguration.encode(message.ecdsa, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+        if (message.ed25519 != null && message.hasOwnProperty("ed25519"))
+            $root.NewPubKeyPayload.Ed25519Configuration.encode(message.ed25519, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
         return writer;
     };
 
@@ -3767,25 +4294,28 @@ $root.NewPubKeyPayload = (function() {
             var tag = reader.uint32();
             switch (tag >>> 3) {
             case 1:
-                message.publicKey = reader.string();
+                message.hashingAlgorithm = reader.int32();
                 break;
             case 2:
-                message.publicKeyType = reader.int32();
+                message.entityHash = reader.bytes();
                 break;
             case 3:
-                message.entityType = reader.int32();
+                message.entityHashSignature = reader.bytes();
                 break;
             case 4:
-                message.entityHash = reader.string();
-                break;
-            case 5:
-                message.entityHashSignature = reader.string();
-                break;
-            case 6:
                 message.validFrom = reader.uint32();
                 break;
-            case 7:
+            case 5:
                 message.validTo = reader.uint32();
+                break;
+            case 6:
+                message.rsa = $root.NewPubKeyPayload.RSAConfiguration.decode(reader, reader.uint32());
+                break;
+            case 7:
+                message.ecdsa = $root.NewPubKeyPayload.ECDSAConfiguration.decode(reader, reader.uint32());
+                break;
+            case 8:
+                message.ed25519 = $root.NewPubKeyPayload.Ed25519Configuration.decode(reader, reader.uint32());
                 break;
             default:
                 reader.skipType(tag & 7);
@@ -3822,36 +4352,55 @@ $root.NewPubKeyPayload = (function() {
     NewPubKeyPayload.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
-        if (message.publicKey != null && message.hasOwnProperty("publicKey"))
-            if (!$util.isString(message.publicKey))
-                return "publicKey: string expected";
-        if (message.publicKeyType != null && message.hasOwnProperty("publicKeyType"))
-            switch (message.publicKeyType) {
+        var properties = {};
+        if (message.hashingAlgorithm != null && message.hasOwnProperty("hashingAlgorithm"))
+            switch (message.hashingAlgorithm) {
             default:
-                return "publicKeyType: enum value expected";
-            case 0:
-                break;
-            }
-        if (message.entityType != null && message.hasOwnProperty("entityType"))
-            switch (message.entityType) {
-            default:
-                return "entityType: enum value expected";
+                return "hashingAlgorithm: enum value expected";
             case 0:
             case 1:
                 break;
             }
         if (message.entityHash != null && message.hasOwnProperty("entityHash"))
-            if (!$util.isString(message.entityHash))
-                return "entityHash: string expected";
+            if (!(message.entityHash && typeof message.entityHash.length === "number" || $util.isString(message.entityHash)))
+                return "entityHash: buffer expected";
         if (message.entityHashSignature != null && message.hasOwnProperty("entityHashSignature"))
-            if (!$util.isString(message.entityHashSignature))
-                return "entityHashSignature: string expected";
+            if (!(message.entityHashSignature && typeof message.entityHashSignature.length === "number" || $util.isString(message.entityHashSignature)))
+                return "entityHashSignature: buffer expected";
         if (message.validFrom != null && message.hasOwnProperty("validFrom"))
             if (!$util.isInteger(message.validFrom))
                 return "validFrom: integer expected";
         if (message.validTo != null && message.hasOwnProperty("validTo"))
             if (!$util.isInteger(message.validTo))
                 return "validTo: integer expected";
+        if (message.rsa != null && message.hasOwnProperty("rsa")) {
+            properties.configuration = 1;
+            {
+                var error = $root.NewPubKeyPayload.RSAConfiguration.verify(message.rsa);
+                if (error)
+                    return "rsa." + error;
+            }
+        }
+        if (message.ecdsa != null && message.hasOwnProperty("ecdsa")) {
+            if (properties.configuration === 1)
+                return "configuration: multiple values";
+            properties.configuration = 1;
+            {
+                var error = $root.NewPubKeyPayload.ECDSAConfiguration.verify(message.ecdsa);
+                if (error)
+                    return "ecdsa." + error;
+            }
+        }
+        if (message.ed25519 != null && message.hasOwnProperty("ed25519")) {
+            if (properties.configuration === 1)
+                return "configuration: multiple values";
+            properties.configuration = 1;
+            {
+                var error = $root.NewPubKeyPayload.Ed25519Configuration.verify(message.ed25519);
+                if (error)
+                    return "ed25519." + error;
+            }
+        }
         return null;
     };
 
@@ -3867,32 +4416,45 @@ $root.NewPubKeyPayload = (function() {
         if (object instanceof $root.NewPubKeyPayload)
             return object;
         var message = new $root.NewPubKeyPayload();
-        if (object.publicKey != null)
-            message.publicKey = String(object.publicKey);
-        switch (object.publicKeyType) {
-        case "RSA":
+        switch (object.hashingAlgorithm) {
+        case "SHA256":
         case 0:
-            message.publicKeyType = 0;
+            message.hashingAlgorithm = 0;
             break;
-        }
-        switch (object.entityType) {
-        case "PERSONAL":
-        case 0:
-            message.entityType = 0;
-            break;
-        case "SERVER":
+        case "SHA512":
         case 1:
-            message.entityType = 1;
+            message.hashingAlgorithm = 1;
             break;
         }
         if (object.entityHash != null)
-            message.entityHash = String(object.entityHash);
+            if (typeof object.entityHash === "string")
+                $util.base64.decode(object.entityHash, message.entityHash = $util.newBuffer($util.base64.length(object.entityHash)), 0);
+            else if (object.entityHash.length)
+                message.entityHash = object.entityHash;
         if (object.entityHashSignature != null)
-            message.entityHashSignature = String(object.entityHashSignature);
+            if (typeof object.entityHashSignature === "string")
+                $util.base64.decode(object.entityHashSignature, message.entityHashSignature = $util.newBuffer($util.base64.length(object.entityHashSignature)), 0);
+            else if (object.entityHashSignature.length)
+                message.entityHashSignature = object.entityHashSignature;
         if (object.validFrom != null)
             message.validFrom = object.validFrom >>> 0;
         if (object.validTo != null)
             message.validTo = object.validTo >>> 0;
+        if (object.rsa != null) {
+            if (typeof object.rsa !== "object")
+                throw TypeError(".NewPubKeyPayload.rsa: object expected");
+            message.rsa = $root.NewPubKeyPayload.RSAConfiguration.fromObject(object.rsa);
+        }
+        if (object.ecdsa != null) {
+            if (typeof object.ecdsa !== "object")
+                throw TypeError(".NewPubKeyPayload.ecdsa: object expected");
+            message.ecdsa = $root.NewPubKeyPayload.ECDSAConfiguration.fromObject(object.ecdsa);
+        }
+        if (object.ed25519 != null) {
+            if (typeof object.ed25519 !== "object")
+                throw TypeError(".NewPubKeyPayload.ed25519: object expected");
+            message.ed25519 = $root.NewPubKeyPayload.Ed25519Configuration.fromObject(object.ed25519);
+        }
         return message;
     };
 
@@ -3910,28 +4472,37 @@ $root.NewPubKeyPayload = (function() {
             options = {};
         var object = {};
         if (options.defaults) {
-            object.publicKey = "";
-            object.publicKeyType = options.enums === String ? "RSA" : 0;
-            object.entityType = options.enums === String ? "PERSONAL" : 0;
-            object.entityHash = "";
-            object.entityHashSignature = "";
+            object.hashingAlgorithm = options.enums === String ? "SHA256" : 0;
+            object.entityHash = options.bytes === String ? "" : [];
+            object.entityHashSignature = options.bytes === String ? "" : [];
             object.validFrom = 0;
             object.validTo = 0;
         }
-        if (message.publicKey != null && message.hasOwnProperty("publicKey"))
-            object.publicKey = message.publicKey;
-        if (message.publicKeyType != null && message.hasOwnProperty("publicKeyType"))
-            object.publicKeyType = options.enums === String ? $root.NewPubKeyPayload.PubKeyType[message.publicKeyType] : message.publicKeyType;
-        if (message.entityType != null && message.hasOwnProperty("entityType"))
-            object.entityType = options.enums === String ? $root.NewPubKeyPayload.EntityType[message.entityType] : message.entityType;
+        if (message.hashingAlgorithm != null && message.hasOwnProperty("hashingAlgorithm"))
+            object.hashingAlgorithm = options.enums === String ? $root.NewPubKeyPayload.HashingAlgorithm[message.hashingAlgorithm] : message.hashingAlgorithm;
         if (message.entityHash != null && message.hasOwnProperty("entityHash"))
-            object.entityHash = message.entityHash;
+            object.entityHash = options.bytes === String ? $util.base64.encode(message.entityHash, 0, message.entityHash.length) : options.bytes === Array ? Array.prototype.slice.call(message.entityHash) : message.entityHash;
         if (message.entityHashSignature != null && message.hasOwnProperty("entityHashSignature"))
-            object.entityHashSignature = message.entityHashSignature;
+            object.entityHashSignature = options.bytes === String ? $util.base64.encode(message.entityHashSignature, 0, message.entityHashSignature.length) : options.bytes === Array ? Array.prototype.slice.call(message.entityHashSignature) : message.entityHashSignature;
         if (message.validFrom != null && message.hasOwnProperty("validFrom"))
             object.validFrom = message.validFrom;
         if (message.validTo != null && message.hasOwnProperty("validTo"))
             object.validTo = message.validTo;
+        if (message.rsa != null && message.hasOwnProperty("rsa")) {
+            object.rsa = $root.NewPubKeyPayload.RSAConfiguration.toObject(message.rsa, options);
+            if (options.oneofs)
+                object.configuration = "rsa";
+        }
+        if (message.ecdsa != null && message.hasOwnProperty("ecdsa")) {
+            object.ecdsa = $root.NewPubKeyPayload.ECDSAConfiguration.toObject(message.ecdsa, options);
+            if (options.oneofs)
+                object.configuration = "ecdsa";
+        }
+        if (message.ed25519 != null && message.hasOwnProperty("ed25519")) {
+            object.ed25519 = $root.NewPubKeyPayload.Ed25519Configuration.toObject(message.ed25519, options);
+            if (options.oneofs)
+                object.configuration = "ed25519";
+        }
         return object;
     };
 
@@ -3947,29 +4518,680 @@ $root.NewPubKeyPayload = (function() {
     };
 
     /**
-     * EntityType enum.
-     * @name NewPubKeyPayload.EntityType
+     * HashingAlgorithm enum.
+     * @name NewPubKeyPayload.HashingAlgorithm
      * @enum {string}
-     * @property {number} PERSONAL=0 PERSONAL value
-     * @property {number} SERVER=1 SERVER value
+     * @property {number} SHA256=0 SHA256 value
+     * @property {number} SHA512=1 SHA512 value
      */
-    NewPubKeyPayload.EntityType = (function() {
+    NewPubKeyPayload.HashingAlgorithm = (function() {
         var valuesById = {}, values = Object.create(valuesById);
-        values[valuesById[0] = "PERSONAL"] = 0;
-        values[valuesById[1] = "SERVER"] = 1;
+        values[valuesById[0] = "SHA256"] = 0;
+        values[valuesById[1] = "SHA512"] = 1;
         return values;
     })();
 
-    /**
-     * PubKeyType enum.
-     * @name NewPubKeyPayload.PubKeyType
-     * @enum {string}
-     * @property {number} RSA=0 RSA value
-     */
-    NewPubKeyPayload.PubKeyType = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
-        values[valuesById[0] = "RSA"] = 0;
-        return values;
+    NewPubKeyPayload.RSAConfiguration = (function() {
+
+        /**
+         * Properties of a RSAConfiguration.
+         * @memberof NewPubKeyPayload
+         * @interface IRSAConfiguration
+         * @property {Uint8Array|null} [key] RSAConfiguration key
+         * @property {NewPubKeyPayload.RSAConfiguration.Padding|null} [padding] RSAConfiguration padding
+         */
+
+        /**
+         * Constructs a new RSAConfiguration.
+         * @memberof NewPubKeyPayload
+         * @classdesc Represents a RSAConfiguration.
+         * @implements IRSAConfiguration
+         * @constructor
+         * @param {NewPubKeyPayload.IRSAConfiguration=} [properties] Properties to set
+         */
+        function RSAConfiguration(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * RSAConfiguration key.
+         * @member {Uint8Array} key
+         * @memberof NewPubKeyPayload.RSAConfiguration
+         * @instance
+         */
+        RSAConfiguration.prototype.key = $util.newBuffer([]);
+
+        /**
+         * RSAConfiguration padding.
+         * @member {NewPubKeyPayload.RSAConfiguration.Padding} padding
+         * @memberof NewPubKeyPayload.RSAConfiguration
+         * @instance
+         */
+        RSAConfiguration.prototype.padding = 0;
+
+        /**
+         * Creates a new RSAConfiguration instance using the specified properties.
+         * @function create
+         * @memberof NewPubKeyPayload.RSAConfiguration
+         * @static
+         * @param {NewPubKeyPayload.IRSAConfiguration=} [properties] Properties to set
+         * @returns {NewPubKeyPayload.RSAConfiguration} RSAConfiguration instance
+         */
+        RSAConfiguration.create = function create(properties) {
+            return new RSAConfiguration(properties);
+        };
+
+        /**
+         * Encodes the specified RSAConfiguration message. Does not implicitly {@link NewPubKeyPayload.RSAConfiguration.verify|verify} messages.
+         * @function encode
+         * @memberof NewPubKeyPayload.RSAConfiguration
+         * @static
+         * @param {NewPubKeyPayload.IRSAConfiguration} message RSAConfiguration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RSAConfiguration.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.key != null && message.hasOwnProperty("key"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.key);
+            if (message.padding != null && message.hasOwnProperty("padding"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.padding);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified RSAConfiguration message, length delimited. Does not implicitly {@link NewPubKeyPayload.RSAConfiguration.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof NewPubKeyPayload.RSAConfiguration
+         * @static
+         * @param {NewPubKeyPayload.IRSAConfiguration} message RSAConfiguration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RSAConfiguration.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a RSAConfiguration message from the specified reader or buffer.
+         * @function decode
+         * @memberof NewPubKeyPayload.RSAConfiguration
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {NewPubKeyPayload.RSAConfiguration} RSAConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RSAConfiguration.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.NewPubKeyPayload.RSAConfiguration();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.key = reader.bytes();
+                    break;
+                case 2:
+                    message.padding = reader.int32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a RSAConfiguration message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof NewPubKeyPayload.RSAConfiguration
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {NewPubKeyPayload.RSAConfiguration} RSAConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RSAConfiguration.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a RSAConfiguration message.
+         * @function verify
+         * @memberof NewPubKeyPayload.RSAConfiguration
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        RSAConfiguration.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.key != null && message.hasOwnProperty("key"))
+                if (!(message.key && typeof message.key.length === "number" || $util.isString(message.key)))
+                    return "key: buffer expected";
+            if (message.padding != null && message.hasOwnProperty("padding"))
+                switch (message.padding) {
+                default:
+                    return "padding: enum value expected";
+                case 0:
+                case 1:
+                    break;
+                }
+            return null;
+        };
+
+        /**
+         * Creates a RSAConfiguration message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof NewPubKeyPayload.RSAConfiguration
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {NewPubKeyPayload.RSAConfiguration} RSAConfiguration
+         */
+        RSAConfiguration.fromObject = function fromObject(object) {
+            if (object instanceof $root.NewPubKeyPayload.RSAConfiguration)
+                return object;
+            var message = new $root.NewPubKeyPayload.RSAConfiguration();
+            if (object.key != null)
+                if (typeof object.key === "string")
+                    $util.base64.decode(object.key, message.key = $util.newBuffer($util.base64.length(object.key)), 0);
+                else if (object.key.length)
+                    message.key = object.key;
+            switch (object.padding) {
+            case "PSS":
+            case 0:
+                message.padding = 0;
+                break;
+            case "PKCS1v15":
+            case 1:
+                message.padding = 1;
+                break;
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a RSAConfiguration message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof NewPubKeyPayload.RSAConfiguration
+         * @static
+         * @param {NewPubKeyPayload.RSAConfiguration} message RSAConfiguration
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        RSAConfiguration.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.key = options.bytes === String ? "" : [];
+                object.padding = options.enums === String ? "PSS" : 0;
+            }
+            if (message.key != null && message.hasOwnProperty("key"))
+                object.key = options.bytes === String ? $util.base64.encode(message.key, 0, message.key.length) : options.bytes === Array ? Array.prototype.slice.call(message.key) : message.key;
+            if (message.padding != null && message.hasOwnProperty("padding"))
+                object.padding = options.enums === String ? $root.NewPubKeyPayload.RSAConfiguration.Padding[message.padding] : message.padding;
+            return object;
+        };
+
+        /**
+         * Converts this RSAConfiguration to JSON.
+         * @function toJSON
+         * @memberof NewPubKeyPayload.RSAConfiguration
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        RSAConfiguration.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Padding enum.
+         * @name NewPubKeyPayload.RSAConfiguration.Padding
+         * @enum {string}
+         * @property {number} PSS=0 PSS value
+         * @property {number} PKCS1v15=1 PKCS1v15 value
+         */
+        RSAConfiguration.Padding = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "PSS"] = 0;
+            values[valuesById[1] = "PKCS1v15"] = 1;
+            return values;
+        })();
+
+        return RSAConfiguration;
+    })();
+
+    NewPubKeyPayload.ECDSAConfiguration = (function() {
+
+        /**
+         * Properties of a ECDSAConfiguration.
+         * @memberof NewPubKeyPayload
+         * @interface IECDSAConfiguration
+         * @property {Uint8Array|null} [key] ECDSAConfiguration key
+         * @property {NewPubKeyPayload.ECDSAConfiguration.EC|null} [ec] ECDSAConfiguration ec
+         */
+
+        /**
+         * Constructs a new ECDSAConfiguration.
+         * @memberof NewPubKeyPayload
+         * @classdesc Represents a ECDSAConfiguration.
+         * @implements IECDSAConfiguration
+         * @constructor
+         * @param {NewPubKeyPayload.IECDSAConfiguration=} [properties] Properties to set
+         */
+        function ECDSAConfiguration(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * ECDSAConfiguration key.
+         * @member {Uint8Array} key
+         * @memberof NewPubKeyPayload.ECDSAConfiguration
+         * @instance
+         */
+        ECDSAConfiguration.prototype.key = $util.newBuffer([]);
+
+        /**
+         * ECDSAConfiguration ec.
+         * @member {NewPubKeyPayload.ECDSAConfiguration.EC} ec
+         * @memberof NewPubKeyPayload.ECDSAConfiguration
+         * @instance
+         */
+        ECDSAConfiguration.prototype.ec = 0;
+
+        /**
+         * Creates a new ECDSAConfiguration instance using the specified properties.
+         * @function create
+         * @memberof NewPubKeyPayload.ECDSAConfiguration
+         * @static
+         * @param {NewPubKeyPayload.IECDSAConfiguration=} [properties] Properties to set
+         * @returns {NewPubKeyPayload.ECDSAConfiguration} ECDSAConfiguration instance
+         */
+        ECDSAConfiguration.create = function create(properties) {
+            return new ECDSAConfiguration(properties);
+        };
+
+        /**
+         * Encodes the specified ECDSAConfiguration message. Does not implicitly {@link NewPubKeyPayload.ECDSAConfiguration.verify|verify} messages.
+         * @function encode
+         * @memberof NewPubKeyPayload.ECDSAConfiguration
+         * @static
+         * @param {NewPubKeyPayload.IECDSAConfiguration} message ECDSAConfiguration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ECDSAConfiguration.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.key != null && message.hasOwnProperty("key"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.key);
+            if (message.ec != null && message.hasOwnProperty("ec"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.ec);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ECDSAConfiguration message, length delimited. Does not implicitly {@link NewPubKeyPayload.ECDSAConfiguration.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof NewPubKeyPayload.ECDSAConfiguration
+         * @static
+         * @param {NewPubKeyPayload.IECDSAConfiguration} message ECDSAConfiguration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ECDSAConfiguration.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a ECDSAConfiguration message from the specified reader or buffer.
+         * @function decode
+         * @memberof NewPubKeyPayload.ECDSAConfiguration
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {NewPubKeyPayload.ECDSAConfiguration} ECDSAConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ECDSAConfiguration.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.NewPubKeyPayload.ECDSAConfiguration();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.key = reader.bytes();
+                    break;
+                case 2:
+                    message.ec = reader.int32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a ECDSAConfiguration message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof NewPubKeyPayload.ECDSAConfiguration
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {NewPubKeyPayload.ECDSAConfiguration} ECDSAConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ECDSAConfiguration.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ECDSAConfiguration message.
+         * @function verify
+         * @memberof NewPubKeyPayload.ECDSAConfiguration
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ECDSAConfiguration.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.key != null && message.hasOwnProperty("key"))
+                if (!(message.key && typeof message.key.length === "number" || $util.isString(message.key)))
+                    return "key: buffer expected";
+            if (message.ec != null && message.hasOwnProperty("ec"))
+                switch (message.ec) {
+                default:
+                    return "ec: enum value expected";
+                case 0:
+                    break;
+                }
+            return null;
+        };
+
+        /**
+         * Creates a ECDSAConfiguration message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof NewPubKeyPayload.ECDSAConfiguration
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {NewPubKeyPayload.ECDSAConfiguration} ECDSAConfiguration
+         */
+        ECDSAConfiguration.fromObject = function fromObject(object) {
+            if (object instanceof $root.NewPubKeyPayload.ECDSAConfiguration)
+                return object;
+            var message = new $root.NewPubKeyPayload.ECDSAConfiguration();
+            if (object.key != null)
+                if (typeof object.key === "string")
+                    $util.base64.decode(object.key, message.key = $util.newBuffer($util.base64.length(object.key)), 0);
+                else if (object.key.length)
+                    message.key = object.key;
+            switch (object.ec) {
+            case "SECP256k1":
+            case 0:
+                message.ec = 0;
+                break;
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ECDSAConfiguration message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof NewPubKeyPayload.ECDSAConfiguration
+         * @static
+         * @param {NewPubKeyPayload.ECDSAConfiguration} message ECDSAConfiguration
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ECDSAConfiguration.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.key = options.bytes === String ? "" : [];
+                object.ec = options.enums === String ? "SECP256k1" : 0;
+            }
+            if (message.key != null && message.hasOwnProperty("key"))
+                object.key = options.bytes === String ? $util.base64.encode(message.key, 0, message.key.length) : options.bytes === Array ? Array.prototype.slice.call(message.key) : message.key;
+            if (message.ec != null && message.hasOwnProperty("ec"))
+                object.ec = options.enums === String ? $root.NewPubKeyPayload.ECDSAConfiguration.EC[message.ec] : message.ec;
+            return object;
+        };
+
+        /**
+         * Converts this ECDSAConfiguration to JSON.
+         * @function toJSON
+         * @memberof NewPubKeyPayload.ECDSAConfiguration
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ECDSAConfiguration.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * EC enum.
+         * @name NewPubKeyPayload.ECDSAConfiguration.EC
+         * @enum {string}
+         * @property {number} SECP256k1=0 SECP256k1 value
+         */
+        ECDSAConfiguration.EC = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "SECP256k1"] = 0;
+            return values;
+        })();
+
+        return ECDSAConfiguration;
+    })();
+
+    NewPubKeyPayload.Ed25519Configuration = (function() {
+
+        /**
+         * Properties of an Ed25519Configuration.
+         * @memberof NewPubKeyPayload
+         * @interface IEd25519Configuration
+         * @property {Uint8Array|null} [key] Ed25519Configuration key
+         */
+
+        /**
+         * Constructs a new Ed25519Configuration.
+         * @memberof NewPubKeyPayload
+         * @classdesc Represents an Ed25519Configuration.
+         * @implements IEd25519Configuration
+         * @constructor
+         * @param {NewPubKeyPayload.IEd25519Configuration=} [properties] Properties to set
+         */
+        function Ed25519Configuration(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Ed25519Configuration key.
+         * @member {Uint8Array} key
+         * @memberof NewPubKeyPayload.Ed25519Configuration
+         * @instance
+         */
+        Ed25519Configuration.prototype.key = $util.newBuffer([]);
+
+        /**
+         * Creates a new Ed25519Configuration instance using the specified properties.
+         * @function create
+         * @memberof NewPubKeyPayload.Ed25519Configuration
+         * @static
+         * @param {NewPubKeyPayload.IEd25519Configuration=} [properties] Properties to set
+         * @returns {NewPubKeyPayload.Ed25519Configuration} Ed25519Configuration instance
+         */
+        Ed25519Configuration.create = function create(properties) {
+            return new Ed25519Configuration(properties);
+        };
+
+        /**
+         * Encodes the specified Ed25519Configuration message. Does not implicitly {@link NewPubKeyPayload.Ed25519Configuration.verify|verify} messages.
+         * @function encode
+         * @memberof NewPubKeyPayload.Ed25519Configuration
+         * @static
+         * @param {NewPubKeyPayload.IEd25519Configuration} message Ed25519Configuration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Ed25519Configuration.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.key != null && message.hasOwnProperty("key"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.key);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Ed25519Configuration message, length delimited. Does not implicitly {@link NewPubKeyPayload.Ed25519Configuration.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof NewPubKeyPayload.Ed25519Configuration
+         * @static
+         * @param {NewPubKeyPayload.IEd25519Configuration} message Ed25519Configuration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Ed25519Configuration.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an Ed25519Configuration message from the specified reader or buffer.
+         * @function decode
+         * @memberof NewPubKeyPayload.Ed25519Configuration
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {NewPubKeyPayload.Ed25519Configuration} Ed25519Configuration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Ed25519Configuration.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.NewPubKeyPayload.Ed25519Configuration();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.key = reader.bytes();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an Ed25519Configuration message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof NewPubKeyPayload.Ed25519Configuration
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {NewPubKeyPayload.Ed25519Configuration} Ed25519Configuration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Ed25519Configuration.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an Ed25519Configuration message.
+         * @function verify
+         * @memberof NewPubKeyPayload.Ed25519Configuration
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        Ed25519Configuration.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.key != null && message.hasOwnProperty("key"))
+                if (!(message.key && typeof message.key.length === "number" || $util.isString(message.key)))
+                    return "key: buffer expected";
+            return null;
+        };
+
+        /**
+         * Creates an Ed25519Configuration message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof NewPubKeyPayload.Ed25519Configuration
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {NewPubKeyPayload.Ed25519Configuration} Ed25519Configuration
+         */
+        Ed25519Configuration.fromObject = function fromObject(object) {
+            if (object instanceof $root.NewPubKeyPayload.Ed25519Configuration)
+                return object;
+            var message = new $root.NewPubKeyPayload.Ed25519Configuration();
+            if (object.key != null)
+                if (typeof object.key === "string")
+                    $util.base64.decode(object.key, message.key = $util.newBuffer($util.base64.length(object.key)), 0);
+                else if (object.key.length)
+                    message.key = object.key;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from an Ed25519Configuration message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof NewPubKeyPayload.Ed25519Configuration
+         * @static
+         * @param {NewPubKeyPayload.Ed25519Configuration} message Ed25519Configuration
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Ed25519Configuration.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.key = options.bytes === String ? "" : [];
+            if (message.key != null && message.hasOwnProperty("key"))
+                object.key = options.bytes === String ? $util.base64.encode(message.key, 0, message.key.length) : options.bytes === Array ? Array.prototype.slice.call(message.key) : message.key;
+            return object;
+        };
+
+        /**
+         * Converts this Ed25519Configuration to JSON.
+         * @function toJSON
+         * @memberof NewPubKeyPayload.Ed25519Configuration
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        Ed25519Configuration.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Ed25519Configuration;
     })();
 
     return NewPubKeyPayload;
@@ -4170,7 +5392,7 @@ $root.PubKeyStorage = (function() {
      * @interface IPubKeyStorage
      * @property {string|null} [owner] PubKeyStorage owner
      * @property {INewPubKeyPayload|null} [payload] PubKeyStorage payload
-     * @property {boolean|null} [revoked] PubKeyStorage revoked
+     * @property {boolean|null} [isRevoked] PubKeyStorage isRevoked
      */
 
     /**
@@ -4205,12 +5427,12 @@ $root.PubKeyStorage = (function() {
     PubKeyStorage.prototype.payload = null;
 
     /**
-     * PubKeyStorage revoked.
-     * @member {boolean} revoked
+     * PubKeyStorage isRevoked.
+     * @member {boolean} isRevoked
      * @memberof PubKeyStorage
      * @instance
      */
-    PubKeyStorage.prototype.revoked = false;
+    PubKeyStorage.prototype.isRevoked = false;
 
     /**
      * Creates a new PubKeyStorage instance using the specified properties.
@@ -4240,8 +5462,8 @@ $root.PubKeyStorage = (function() {
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.owner);
         if (message.payload != null && message.hasOwnProperty("payload"))
             $root.NewPubKeyPayload.encode(message.payload, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-        if (message.revoked != null && message.hasOwnProperty("revoked"))
-            writer.uint32(/* id 3, wireType 0 =*/24).bool(message.revoked);
+        if (message.isRevoked != null && message.hasOwnProperty("isRevoked"))
+            writer.uint32(/* id 3, wireType 0 =*/24).bool(message.isRevoked);
         return writer;
     };
 
@@ -4283,7 +5505,7 @@ $root.PubKeyStorage = (function() {
                 message.payload = $root.NewPubKeyPayload.decode(reader, reader.uint32());
                 break;
             case 3:
-                message.revoked = reader.bool();
+                message.isRevoked = reader.bool();
                 break;
             default:
                 reader.skipType(tag & 7);
@@ -4328,9 +5550,9 @@ $root.PubKeyStorage = (function() {
             if (error)
                 return "payload." + error;
         }
-        if (message.revoked != null && message.hasOwnProperty("revoked"))
-            if (typeof message.revoked !== "boolean")
-                return "revoked: boolean expected";
+        if (message.isRevoked != null && message.hasOwnProperty("isRevoked"))
+            if (typeof message.isRevoked !== "boolean")
+                return "isRevoked: boolean expected";
         return null;
     };
 
@@ -4353,8 +5575,8 @@ $root.PubKeyStorage = (function() {
                 throw TypeError(".PubKeyStorage.payload: object expected");
             message.payload = $root.NewPubKeyPayload.fromObject(object.payload);
         }
-        if (object.revoked != null)
-            message.revoked = Boolean(object.revoked);
+        if (object.isRevoked != null)
+            message.isRevoked = Boolean(object.isRevoked);
         return message;
     };
 
@@ -4374,14 +5596,14 @@ $root.PubKeyStorage = (function() {
         if (options.defaults) {
             object.owner = "";
             object.payload = null;
-            object.revoked = false;
+            object.isRevoked = false;
         }
         if (message.owner != null && message.hasOwnProperty("owner"))
             object.owner = message.owner;
         if (message.payload != null && message.hasOwnProperty("payload"))
             object.payload = $root.NewPubKeyPayload.toObject(message.payload, options);
-        if (message.revoked != null && message.hasOwnProperty("revoked"))
-            object.revoked = message.revoked;
+        if (message.isRevoked != null && message.hasOwnProperty("isRevoked"))
+            object.isRevoked = message.isRevoked;
         return object;
     };
 

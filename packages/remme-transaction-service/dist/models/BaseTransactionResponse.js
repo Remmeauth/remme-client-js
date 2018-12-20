@@ -27,11 +27,10 @@ var BaseTransactionResponse = /** @class */ (function (_super) {
     function BaseTransactionResponse(nodeAddress, sslMode, batchId) {
         var _this = _super.call(this, nodeAddress, sslMode) || this;
         _this._batchId = batchId;
-        _this.data = {
-            batch_ids: [
-                batchId,
-            ],
-        };
+        _this.data = new remme_web_socket_1.RemmeRequestParams({
+            events: remme_web_socket_1.RemmeEvents.Batch,
+            id: batchId,
+        });
         return _this;
     }
     Object.defineProperty(BaseTransactionResponse.prototype, "batchId", {
@@ -55,11 +54,7 @@ var BaseTransactionResponse = /** @class */ (function (_super) {
                 _super.prototype.closeWebSocket.call(this);
             }
             this._batchId = value;
-            this.data = {
-                batch_ids: [
-                    value,
-                ],
-            };
+            this.data.id = value;
         },
         enumerable: true,
         configurable: true

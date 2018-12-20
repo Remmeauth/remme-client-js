@@ -6,10 +6,21 @@ export interface BatchStateUpdateDto {
 export interface Data {
     batch_statuses: BatchInfo;
 }
+export declare enum BatchStatus {
+    Unknown = "UNKNOWN",
+    Pending = "PENDING",
+    Invalid = "INVALID",
+    Committed = "COMMITTED",
+}
+export interface IBatch {
+    id: string;
+    status: BatchStatus;
+    error?: string;
+}
 export declare class BatchInfoDto {
     status: BatchStatus;
     batchId: string;
-    constructor(data: BatchInfo);
+    constructor(data: IBatch);
 }
 export interface BatchInfo {
     status: string;
@@ -20,10 +31,4 @@ export interface InvalidTransactions {
     transaction_id: string;
     message: string;
     extended_data: string;
-}
-export declare enum BatchStatus {
-    UNKNOWN = "UNKNOWN",
-    INVALID = "INVALID",
-    PENDING = "PENDING",
-    COMMITTED = "COMMITTED",
 }
