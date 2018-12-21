@@ -65,8 +65,8 @@ var RSA = /** @class */ (function (_super) {
         else if (publicKey) {
             _this._publicKey = publicKey;
         }
-        var f = remme_utils_1.forge.asn1.fromDer(_this._publicKey.toString("binary"));
-        _this._publicKeyObject = remme_utils_1.forge.pki.publicKeyFromAsn1(f);
+        var pk = new remme_utils_1.forge.util.ByteStringBuffer(_this._publicKey);
+        _this._publicKeyObject = remme_utils_1.forge.pki.publicKeyFromAsn1(remme_utils_1.forge.asn1.fromDer(pk));
         _this._publicKeyHex = remme_utils_1.bytesToHex(_this._publicKey);
         if (_this._privateKey) {
             if (!_this._privateKeyObject) {
@@ -79,7 +79,8 @@ var RSA = /** @class */ (function (_super) {
         return _this;
     }
     RSA.prototype._getPrivateKeyObject = function () {
-        return remme_utils_1.forge.pki.privateKeyFromAsn1(remme_utils_1.forge.asn1.fromDer(this._privateKey.toString("binary")));
+        var sk = new remme_utils_1.forge.util.ByteStringBuffer(this._privateKey);
+        return remme_utils_1.forge.pki.privateKeyFromAsn1(remme_utils_1.forge.asn1.fromDer(sk));
     };
     RSA.prototype._calculateSaltLength = function (md) {
         var emlen = Number(Math.ceil(this._rsaKeySize / 8));
