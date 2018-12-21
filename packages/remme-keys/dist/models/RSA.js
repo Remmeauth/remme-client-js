@@ -59,22 +59,28 @@ var RSA = /** @class */ (function (_super) {
         }
         else if (privateKey) {
             _this._privateKey = privateKey;
-            _this._publicKey = remme_utils_1.forge.pki.rsa.setPublicKey(_this._privateKey.n, _this._privateKey.e);
+            _this._privateKeyObject = _this._getPrivateKeyObject();
+            _this._publicKey = remme_utils_1.forge.pki.rsa.setPublicKey(_this._privateKeyObject.n, _this._privateKeyObject.e);
         }
         else if (publicKey) {
             _this._publicKey = publicKey;
         }
-        _this._publicKeyPem = remme_utils_1.publicKeyToPem(_this._publicKey);
-        _this._publicKeyHex = remme_utils_1.forge.pki.pemToDer(_this._publicKeyPem).toHex();
-        _this._publicKey = Buffer.from(remme_utils_1.forge.pki.pemToDer(_this._publicKeyPem).getBytes(), "binary");
+        var f = remme_utils_1.forge.asn1.fromDer(_this._publicKey.toString("binary"));
+        _this._publicKeyObject = remme_utils_1.forge.pki.publicKeyFromAsn1(f);
+        _this._publicKeyHex = remme_utils_1.bytesToHex(_this._publicKey);
         if (_this._privateKey) {
-            _this._privateKeyPem = remme_utils_1.privateKeyToPem(_this._privateKey);
-            _this._privateKeyHex = remme_utils_1.forge.pki.pemToDer(_this._privateKeyPem).toHex();
+            if (!_this._privateKeyObject) {
+                _this._privateKeyObject = _this._getPrivateKeyObject();
+            }
+            _this._privateKeyHex = remme_utils_1.bytesToHex(_this._privateKey);
         }
         _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKey);
         _this._keyType = index_1.KeyType.RSA;
         return _this;
     }
+    RSA.prototype._getPrivateKeyObject = function () {
+        return remme_utils_1.forge.pki.privateKeyFromAsn1(remme_utils_1.forge.asn1.fromDer(this._privateKey.toString("binary")));
+    };
     RSA.prototype._calculateSaltLength = function (md) {
         var emlen = Number(Math.ceil(this._rsaKeySize / 8));
         return emlen - md.digestLength - 2;
@@ -82,10 +88,16 @@ var RSA = /** @class */ (function (_super) {
     RSA.generateKeyPair = function (_a) {
         var _b = (_a === void 0 ? { rsaKeySize: 2048 } : _a).rsaKeySize, rsaKeySize = _b === void 0 ? 2048 : _b;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var _c, privateKey, publicKey;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0: return [4 /*yield*/, remme_utils_1.forge.pki.rsa.generateKeyPair(rsaKeySize)];
-                    case 1: return [2 /*return*/, _c.sent()];
+                    case 1:
+                        _c = _d.sent(), privateKey = _c.privateKey, publicKey = _c.publicKey;
+                        return [2 /*return*/, {
+                                privateKey: Buffer.from(remme_utils_1.forge.asn1.toDer(remme_utils_1.forge.pki.privateKeyToAsn1(privateKey)).getBytes(), "binary"),
+                                publicKey: Buffer.from(remme_utils_1.forge.asn1.toDer(remme_utils_1.forge.pki.publicKeyToAsn1(publicKey)).getBytes(), "binary"),
+                            }];
                 }
             });
         });
@@ -100,7 +112,7 @@ var RSA = /** @class */ (function (_super) {
         var signature;
         switch (rsaSignaturePadding) {
             case index_1.RSASignaturePadding.PKCS1v15: {
-                signature = this._privateKey.sign(md);
+                signature = this._privateKeyObject.sign(md);
                 break;
             }
             case index_1.RSASignaturePadding.PSS: {
@@ -109,7 +121,7 @@ var RSA = /** @class */ (function (_super) {
                     mgf: remme_utils_1.forge.mgf.mgf1.create(remme_utils_1.forge.md.sha256.create()),
                     saltLength: this._calculateSaltLength(md),
                 });
-                signature = this._privateKey.sign(md, pss);
+                signature = this._privateKeyObject.sign(md, pss);
             }
         }
         return remme_utils_1.forge.util.bytesToHex(signature);
@@ -121,7 +133,7 @@ var RSA = /** @class */ (function (_super) {
         signature = remme_utils_1.forge.util.hexToBytes(signature);
         switch (rsaSignaturePadding) {
             case index_1.RSASignaturePadding.PKCS1v15: {
-                return this._publicKey.verify(md);
+                return this._publicKeyObject.verify(md);
             }
             case index_1.RSASignaturePadding.PSS: {
                 var pss = remme_utils_1.forge.pss.create({
@@ -129,7 +141,7 @@ var RSA = /** @class */ (function (_super) {
                     mgf: remme_utils_1.forge.mgf.mgf1.create(remme_utils_1.forge.md.sha256.create()),
                     saltLength: this._calculateSaltLength(md),
                 });
-                return this._publicKey.verify(md.digest().bytes(), signature, pss);
+                return this._publicKeyObject.verify(md.digest().bytes(), signature, pss);
             }
         }
     };

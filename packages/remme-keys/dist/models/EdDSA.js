@@ -54,17 +54,19 @@ var EdDSA = /** @class */ (function (_super) {
         return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, remme_utils_1.bytesToHex(publicKey));
     };
     EdDSA.prototype.sign = function (data) {
+        var md = remme_utils_1.forge.md.sha256.create();
+        md.update(data, "utf8");
         var signature = remme_utils_1.forge.pki.ed25519.sign({
-            message: data,
-            encoding: "utf8",
+            md: md,
             privateKey: this._privateKey,
         });
         return remme_utils_1.forge.util.bytesToHex(signature);
     };
     EdDSA.prototype.verify = function (data, signature) {
+        var md = remme_utils_1.forge.md.sha256.create();
+        md.update(data, "utf8");
         return remme_utils_1.forge.pki.ed25519.verify({
-            message: data,
-            encoding: "utf8",
+            md: md,
             signature: remme_utils_1.forge.util.hexToBytes(signature),
             publicKey: this._publicKey,
         });
