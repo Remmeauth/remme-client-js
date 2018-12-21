@@ -63,14 +63,14 @@ class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEv
         }
         switch (data.events) {
             case RemmeEvents.Batch: {
-                if (data.id) {
-                    throw new Error("BatchID is required");
+                if (!data.id) {
+                    throw new Error("'id' is required");
                 }
                 break;
             }
             case RemmeEvents.Transfer: {
                 if (!data.address) {
-                    throw new Error("Address is required");
+                    throw new Error("'address' is required");
                 }
                 break;
             }

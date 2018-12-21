@@ -47,9 +47,10 @@ class EdDSA extends KeyDto implements IRemmeKeys {
     public sign(
         data: string,
     ): string {
+        const md = forge.md.sha256.create();
+        md.update(data, "utf8");
         const signature = forge.pki.ed25519.sign({
-            message: data,
-            encoding: "utf8",
+            md,
             privateKey: this._privateKey,
         });
         return forge.util.bytesToHex(signature);
@@ -59,9 +60,10 @@ class EdDSA extends KeyDto implements IRemmeKeys {
         data: string,
         signature: string,
     ): boolean {
+        const md = forge.md.sha256.create();
+        md.update(data, "utf8");
         return forge.pki.ed25519.verify({
-            message: data,
-            encoding: "utf8",
+            md,
             signature: forge.util.hexToBytes(signature),
             publicKey: this._publicKey,
         });

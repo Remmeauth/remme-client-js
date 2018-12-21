@@ -1,6 +1,6 @@
 const Remme = require("../packages/remme");
 const { RemmeEvents } = require("../packages/remme-web-socket-events");
-const { generateAddress, forge } = require("../packages/remme-utils");
+const { generateAddress, forge, hexToBytes } = require("../packages/remme-utils");
 const { RSASignaturePadding, KeyType } = require("../packages/remme-keys");
 
 //Initialize client
@@ -17,7 +17,7 @@ const remme = new Remme.Client({
   // const signature = account.sign("this");
   // console.log(account.verify("this", signature));
   //
-  // // Token Operations
+  // Token Operations
   // const receiverBalance = await remme.token.getBalance(someRemmeAddress);
   // console.log(`Account ${someRemmeAddress} as receiver, balance - ${receiverBalance} REM`);
   //
@@ -206,7 +206,10 @@ const remme = new Remme.Client({
   // });
 
   {
-    let keys = await Remme.Keys.construct({ keyType: KeyType.RSA });
+    const keyss = await Remme.Keys.generateKeyPair(KeyType.RSA);
+    console.log("keys:", keyss);
+    const keys = await Remme.Keys.construct({ keyType: KeyType.RSA, publicKey: keyss.publicKey, privateKey: keyss.privateKey });
+    console.log("keys:", keys);
     // const data = "sign data";
     // const signature = keys.sign(data);
     // const isVerify = keys.verify(data, signature);
@@ -227,6 +230,8 @@ const remme = new Remme.Client({
       console.log("res:", res);
       const info = await remme.publicKeyStorage.getInfo(keys.address);
       console.log("info:", info);
+      const keyss = await Remme.Keys.construct({ keyType: info.type, publicKey: hexToBytes(info.publicKey) });
+      console.log(keyss);
       const cinfo = await remme.publicKeyStorage.check(keys.address);
       console.log("cinfo:", cinfo);
       const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);

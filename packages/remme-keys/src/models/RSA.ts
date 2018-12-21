@@ -12,6 +12,14 @@ import {IRemmeKeys} from "../interface";
 
 class RSA extends KeyDto implements IRemmeKeys {
     private readonly _rsaKeySize: number = 2048;
+    private readonly _privateKeyObject: forge.pki.Key;
+    private readonly _publicKeyObject: forge.pki.Key;
+
+    private _getPrivateKeyObject(): forge.pki.Key {
+        return forge.pki.privateKeyFromAsn1(
+            forge.asn1.fromDer(this._privateKey.toString("binary")),
+        );
+    }
 
     private _calculateSaltLength(md: any): number {
         const emlen = Number(Math.ceil(this._rsaKeySize / 8));
@@ -25,19 +33,20 @@ class RSA extends KeyDto implements IRemmeKeys {
             this._publicKey = publicKey;
         } else if (privateKey) {
             this._privateKey = privateKey;
-            this._publicKey = forge.pki.rsa.setPublicKey(this._privateKey.n, this._privateKey.e);
+            this._privateKeyObject = this._getPrivateKeyObject();
+            this._publicKey = forge.pki.rsa.setPublicKey(this._privateKeyObject.n, this._privateKeyObject.e);
         } else if (publicKey) {
             this._publicKey = publicKey;
         }
-
-        this._publicKeyPem = publicKeyToPem(this._publicKey);
-        this._publicKeyHex = forge.pki.pemToDer(this._publicKeyPem).toHex();
-
-        this._publicKey = Buffer.from(forge.pki.pemToDer(this._publicKeyPem).getBytes(), "binary");
+        const f = forge.asn1.fromDer(this._publicKey.toString("binary"));
+        this._publicKeyObject = forge.pki.publicKeyFromAsn1(f);
+        this._publicKeyHex = bytesToHex(this._publicKey);
 
         if (this._privateKey) {
-            this._privateKeyPem = privateKeyToPem(this._privateKey);
-            this._privateKeyHex = forge.pki.pemToDer(this._privateKeyPem).toHex();
+            if (!this._privateKeyObject) {
+                this._privateKeyObject = this._getPrivateKeyObject();
+            }
+            this._privateKeyHex = bytesToHex(this._privateKey);
         }
 
         this._address = generateAddress(RemmeFamilyName.PublicKey, this._publicKey);
@@ -45,7 +54,11 @@ class RSA extends KeyDto implements IRemmeKeys {
     }
 
     public static async generateKeyPair({ rsaKeySize = 2048 }: GenerateOptions = { rsaKeySize: 2048 }) {
-        return await forge.pki.rsa.generateKeyPair(rsaKeySize);
+        const { privateKey, publicKey } = await forge.pki.rsa.generateKeyPair(rsaKeySize);
+        return {
+            privateKey: Buffer.from(forge.asn1.toDer(forge.pki.privateKeyToAsn1(privateKey)).getBytes(), "binary"),
+            publicKey:  Buffer.from(forge.asn1.toDer(forge.pki.publicKeyToAsn1(publicKey)).getBytes(), "binary"),
+        };
     }
 
     public static getAddressFromPublicKey(publicKey: any): string {
@@ -61,7 +74,7 @@ class RSA extends KeyDto implements IRemmeKeys {
         let signature: string;
         switch (rsaSignaturePadding) {
             case RSASignaturePadding.PKCS1v15: {
-                signature = this._privateKey.sign(md);
+                signature = this._privateKeyObject.sign(md);
                 break;
             }
             case RSASignaturePadding.PSS: {
@@ -70,7 +83,7 @@ class RSA extends KeyDto implements IRemmeKeys {
                     mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
                     saltLength: this._calculateSaltLength(md),
                 });
-                signature = this._privateKey.sign(md, pss);
+                signature = this._privateKeyObject.sign(md, pss);
             }
         }
         return forge.util.bytesToHex(signature);
@@ -88,7 +101,7 @@ class RSA extends KeyDto implements IRemmeKeys {
 
         switch (rsaSignaturePadding) {
             case RSASignaturePadding.PKCS1v15: {
-                return this._publicKey.verify(md);
+                return this._publicKeyObject.verify(md);
             }
             case RSASignaturePadding.PSS: {
                 const pss = forge.pss.create({
@@ -96,7 +109,7 @@ class RSA extends KeyDto implements IRemmeKeys {
                     mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
                     saltLength: this._calculateSaltLength(md),
                 });
-                return this._publicKey.verify(md.digest().bytes(), signature, pss);
+                return this._publicKeyObject.verify(md.digest().bytes(), signature, pss);
             }
         }
     }
