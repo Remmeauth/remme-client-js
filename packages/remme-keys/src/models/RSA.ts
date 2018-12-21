@@ -16,9 +16,8 @@ class RSA extends KeyDto implements IRemmeKeys {
     private readonly _publicKeyObject: forge.pki.Key;
 
     private _getPrivateKeyObject(): forge.pki.Key {
-        return forge.pki.privateKeyFromAsn1(
-            forge.asn1.fromDer(this._privateKey.toString("binary")),
-        );
+        const sk = new forge.util.ByteStringBuffer(this._privateKey);
+        return forge.pki.privateKeyFromAsn1(forge.asn1.fromDer(sk));
     }
 
     private _calculateSaltLength(md: any): number {
@@ -38,8 +37,9 @@ class RSA extends KeyDto implements IRemmeKeys {
         } else if (publicKey) {
             this._publicKey = publicKey;
         }
-        const f = forge.asn1.fromDer(this._publicKey.toString("binary"));
-        this._publicKeyObject = forge.pki.publicKeyFromAsn1(f);
+
+        const pk = new forge.util.ByteStringBuffer(this._publicKey);
+        this._publicKeyObject = forge.pki.publicKeyFromAsn1(forge.asn1.fromDer(pk));
         this._publicKeyHex = bytesToHex(this._publicKey);
 
         if (this._privateKey) {
