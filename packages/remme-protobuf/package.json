@@ -1,19 +1,11 @@
 {
   "name": "remme-protobuf",
-  "version": "0.5.5",
+  "version": "0.5.8",
   "description": "REMME protobuf internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "namespace": "remme",
   "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-protobuf",
-  "scripts": {
-    "transpile": "./node_modules/.bin/tsc"
-  },
-  "license": "Apache-2.0",
-  "dependencies": {
-    "protobufjs": "^6.8.6"
-  },
-  "devDependencies": {
-    "typescript": "^2.8.3"
-  }
+  "scripts": {},
+  "license": "Apache-2.0"
 }
