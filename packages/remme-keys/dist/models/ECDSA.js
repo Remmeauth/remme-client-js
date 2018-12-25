@@ -40,7 +40,7 @@ var ECDSA = /** @class */ (function (_super) {
         catch (e) {
             _this._publicKeyBase64 = Buffer.from(_this._publicKeyHex).toString("base64");
         }
-        _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKeyBase64);
+        _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKey);
         _this._keyType = index_1.KeyType.ECDSA;
         return _this;
     }
@@ -56,14 +56,7 @@ var ECDSA = /** @class */ (function (_super) {
         };
     };
     ECDSA.getAddressFromPublicKey = function (publicKey) {
-        var publicKeyBase64 = remme_utils_1.bytesToHex(publicKey);
-        try {
-            publicKeyBase64 = btoa(publicKeyBase64);
-        }
-        catch (e) {
-            publicKeyBase64 = Buffer.from(publicKeyBase64).toString("base64");
-        }
-        return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, publicKeyBase64);
+        return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, remme_utils_1.bytesToHex(publicKey));
     };
     ECDSA.prototype.sign = function (data) {
         var dataHash = crypto_1.createHash("sha256").update(data).digest();

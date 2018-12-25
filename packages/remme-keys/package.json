@@ -11,6 +11,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "elliptic": "^6.4.1",
     "remme-protobuf": "^0.5.5",
     "remme-utils": "^0.5.0",
     "secp256k1": "^3.5.2"

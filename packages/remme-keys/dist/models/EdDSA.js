@@ -10,7 +10,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-// import {NewPubKeyPayload} from "remme-protobuf";
 var remme_utils_1 = require("remme-utils");
 var index_1 = require("./index");
 var EdDSA = /** @class */ (function (_super) {
@@ -39,7 +38,7 @@ var EdDSA = /** @class */ (function (_super) {
         catch (e) {
             _this._publicKeyBase64 = Buffer.from(_this._publicKeyHex).toString("base64");
         }
-        _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKeyBase64);
+        _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKey);
         _this._keyType = index_1.KeyType.EdDSA;
         return _this;
     }
@@ -52,28 +51,23 @@ var EdDSA = /** @class */ (function (_super) {
         return remme_utils_1.forge.pki.ed25519.generateKeyPair();
     };
     EdDSA.getAddressFromPublicKey = function (publicKey) {
-        var publicKeyBase64 = remme_utils_1.bytesToHex(publicKey);
-        try {
-            publicKeyBase64 = btoa(publicKeyBase64);
-        }
-        catch (e) {
-            publicKeyBase64 = Buffer.from(publicKeyBase64).toString("base64");
-        }
-        return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, publicKeyBase64);
+        return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, remme_utils_1.bytesToHex(publicKey));
     };
     EdDSA.prototype.sign = function (data) {
+        var md = remme_utils_1.forge.md.sha256.create();
+        md.update(data, "utf8");
         var signature = remme_utils_1.forge.pki.ed25519.sign({
-            message: data,
-            encoding: "utf8",
+            md: md,
             privateKey: this._privateKey,
         });
         return remme_utils_1.forge.util.bytesToHex(signature);
     };
     EdDSA.prototype.verify = function (data, signature) {
+        var md = remme_utils_1.forge.md.sha256.create();
+        md.update(data, "utf8");
         return remme_utils_1.forge.pki.ed25519.verify({
-            message: data,
-            encoding: "utf8",
-            signature: signature,
+            md: md,
+            signature: remme_utils_1.forge.util.hexToBytes(signature),
             publicKey: this._publicKey,
         });
     };

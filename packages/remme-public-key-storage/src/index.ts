@@ -1,28 +1,29 @@
 import {
-    sha512,
+    bytesToHex,
+    hexToBytes,
+    checkAddress,
     generateAddress,
     generateSettingsAddress,
-    RemmeFamilyName,
-    PublicKeyRequest,
-    bytesToHex,
-    checkAddress,
     NodeConfigRequest,
+    PublicKeyRequest,
+    RemmeFamilyName,
+    sha512,
 } from "remme-utils";
-import { RemmeMethods, IRemmeApi } from "remme-api";
-import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
-import { TransactionPayload, NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload } from "remme-protobuf";
-import { IRemmeAccount } from "remme-account";
+import { IRemmeApi, RemmeMethods } from "remme-api";
+import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
+import { NewPubKeyPayload, PubKeyMethod, RevokePubKeyPayload, TransactionPayload } from "remme-protobuf";
+import { IRemmeAccount} from "remme-account";
 import { KeyType, RSASignaturePadding } from "remme-keys";
 
 import { IRemmePublicKeyStorage } from "./interface";
-import {
-    PublicKeyInfo,
-    IPublicKeyInfo,
-    IPublicKeyStore,
-} from "./models";
+import { IPublicKeyInfo, IPublicKeyStore, PublicKeyInfo } from "./models";
 
-// const { PubKeyType: PublicKeyType } = NewPubKeyPayload;
-// const { RSASignaturePadding } = NewPubKeyPayload;
+type IRSAConfiguration = NewPubKeyPayload.IRSAConfiguration;
+type IECDSAConfiguration = NewPubKeyPayload.IECDSAConfiguration;
+type IEd25519Configuration = NewPubKeyPayload.IEd25519Configuration;
+
+const EC = NewPubKeyPayload.ECDSAConfiguration.EC;
+
 /**
  * Class for working with public key storage.
  * @example
@@ -60,7 +61,7 @@ import {
  * ```
  */
 class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
-    // index signature
+
     [key: string]: any;
 
     private readonly _remmeApi: IRemmeApi;
@@ -102,15 +103,14 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         }
     }
 
-    private _generateMessage(data: string): string {
-        return sha512(data);
-    }
-
-    private _generateEntityHash(message: string): string {
-        const entityHashBytes = Buffer.from(message);
-        return bytesToHex(entityHashBytes);
-    }
-
+    private _KeyType = {
+        [KeyType.RSA]: (data: IRSAConfiguration) => new NewPubKeyPayload.RSAConfiguration(data),
+        [KeyType.ECDSA]: (data: IECDSAConfiguration) => new NewPubKeyPayload.ECDSAConfiguration({
+            ...data,
+            ec: EC.SECP256k1,
+        }),
+        [KeyType.EdDSA]: (data: IEd25519Configuration) => new NewPubKeyPayload.Ed25519Configuration(data),
+    };
     /**
      * @example
      * Usage without remme main package
@@ -167,19 +167,21 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            keys,
                            validFrom,
                            validTo,
-                           rsaSignaturePadding = RSASignaturePadding.EMPTY,
+                           rsaSignaturePadding = RSASignaturePadding.PSS,
                        }: IPublicKeyStore): Promise<IBaseTransactionResponse> {
-        if (KeyType[keys.keyType] !== KeyType.RSA) {
-            throw new Error("Only RSA key can be stored in REMChain at now");
-        }
 
-        const message = this._generateMessage(data);
-        const entityHash = this._generateEntityHash(message);
-        const entityHashSignature = keys.sign(message, rsaSignaturePadding);
+        const { publicKey, keyType } = keys;
 
-        const payload =  NewPubKeyPayload.encode({
-            publicKey: keys.publicKeyPem,
-            publicKeyType: KeyType[keys.keyType],
+        const message = sha512(data);
+        const entityHash = Buffer.from(message);
+        const entityHashSignature = hexToBytes(keys.sign(message, rsaSignaturePadding));
+
+        const payload = NewPubKeyPayload.encode({
+            [keyType]: this._KeyType[keyType]({
+                key: publicKey,
+                padding: keyType === KeyType.RSA ? rsaSignaturePadding : undefined,
+            }),
+            hashingAlgorithm: NewPubKeyPayload.HashingAlgorithm.SHA256,
             entityHash,
             entityHashSignature,
             validFrom,
@@ -191,13 +193,15 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         } = await this._remmeApi.sendRequest<NodeConfigRequest>(RemmeMethods.nodeConfig);
 
         const pubKeyAddress = keys.address;
-        const storagePublicKeyAddress = generateSettingsAddress("remme.settings.storage_pub_key");
+
+        const storageSettingsAddress = generateSettingsAddress("remme.settings.storage_pub_key");
         const settingAddress = generateSettingsAddress("remme.economy_enabled");
-        const storageAddress = generateAddress(this._remmeAccount.familyName, storagePublicKey);
+        const storageAddress = generateAddress(RemmeFamilyName.PublicKey, storagePublicKey);
+
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
         const inputs = [
             pubKeyAddress,
-            storagePublicKeyAddress,
+            storageSettingsAddress,
             settingAddress,
             storageAddress,
         ];

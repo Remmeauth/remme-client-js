@@ -73,14 +73,14 @@ var RemmeWebSocketsEvents = /** @class */ (function (_super) {
         }
         switch (data.events) {
             case remme_web_socket_1.RemmeEvents.Batch: {
-                if (data.id) {
-                    throw new Error("BatchID is required");
+                if (!data.id) {
+                    throw new Error("'id' is required");
                 }
                 break;
             }
             case remme_web_socket_1.RemmeEvents.Transfer: {
                 if (!data.address) {
-                    throw new Error("Address is required");
+                    throw new Error("'address' is required");
                 }
                 break;
             }
