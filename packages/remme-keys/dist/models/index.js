@@ -7,18 +7,17 @@ exports.KeyDto = KeyDto_1.KeyDto;
  */
 var KeyType;
 (function (KeyType) {
-    KeyType[KeyType["RSA"] = 0] = "RSA";
-    KeyType[KeyType["ECDSA"] = 1] = "ECDSA";
-    KeyType[KeyType["EdDSA"] = 2] = "EdDSA";
+    KeyType["RSA"] = "rsa";
+    KeyType["ECDSA"] = "ecdsa";
+    KeyType["EdDSA"] = "ed25519";
 })(KeyType = exports.KeyType || (exports.KeyType = {}));
 /**
  * All kind of RSASignature padding.
  */
 var RSASignaturePadding;
 (function (RSASignaturePadding) {
-    RSASignaturePadding[RSASignaturePadding["EMPTY"] = 0] = "EMPTY";
-    RSASignaturePadding[RSASignaturePadding["PSS"] = 1] = "PSS";
-    RSASignaturePadding[RSASignaturePadding["PKCS1v15"] = 2] = "PKCS1v15";
+    RSASignaturePadding[RSASignaturePadding["PSS"] = 0] = "PSS";
+    RSASignaturePadding[RSASignaturePadding["PKCS1v15"] = 1] = "PKCS1v15";
 })(RSASignaturePadding = exports.RSASignaturePadding || (exports.RSASignaturePadding = {}));
 var RSA_1 = require("./RSA");
 exports.RSA = RSA_1.RSA;
