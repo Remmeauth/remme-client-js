@@ -26,8 +26,8 @@ export class CertificateTransactionResponse extends BaseTransactionResponse impl
         super(socketAddress, sslMode, batchId);
         this.certificate = certificate;
         this.keys = new RSA({
-            privateKey: this.certificate.privateKey,
-            publicKey: this.certificate.publicKey,
+            privateKey: RSA.getPrivateKeyFromObject(this.certificate.privateKey),
+            publicKey: RSA.getPublicKeyFromObject(this.certificate.publicKey),
         });
     }
 

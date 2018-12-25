@@ -1,3 +1,4 @@
+/// <reference types="node" />
 export { KeyDto } from "./KeyDto";
 export interface GenerateOptions {
     seed?: string;
@@ -12,14 +13,14 @@ export declare enum KeyType {
     EdDSA = "ed25519",
 }
 export interface IKeys {
-    privateKey?: any;
-    publicKey?: any;
+    privateKey?: Buffer;
+    publicKey?: Buffer;
 }
 /**
  * Params for creating key pair
  */
 export interface IRemmeKeysParams extends IKeys {
-    keyType: string;
+    keyType: KeyType;
 }
 /**
  * All kind of RSASignature padding.

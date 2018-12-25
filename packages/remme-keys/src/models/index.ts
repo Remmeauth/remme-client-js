@@ -22,7 +22,7 @@ export interface IKeys {
  * Params for creating key pair
  */
 export interface IRemmeKeysParams extends IKeys {
-    keyType: string;
+    keyType: KeyType;
 }
 
 /**

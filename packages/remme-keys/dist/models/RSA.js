@@ -59,18 +59,17 @@ var RSA = /** @class */ (function (_super) {
         }
         else if (privateKey) {
             _this._privateKey = privateKey;
-            _this._privateKeyObject = _this._getPrivateKeyObject();
-            _this._publicKey = remme_utils_1.forge.pki.rsa.setPublicKey(_this._privateKeyObject.n, _this._privateKeyObject.e);
+            _this._privateKeyObject = RSA.getObjectFromPrivateKey(_this._privateKey);
+            _this._publicKey = RSA.getPublicKeyFromObject(remme_utils_1.forge.pki.rsa.setPublicKey(_this._privateKeyObject.n, _this._privateKeyObject.e));
         }
         else if (publicKey) {
             _this._publicKey = publicKey;
         }
-        var pk = new remme_utils_1.forge.util.ByteStringBuffer(_this._publicKey);
-        _this._publicKeyObject = remme_utils_1.forge.pki.publicKeyFromAsn1(remme_utils_1.forge.asn1.fromDer(pk));
+        _this._publicKeyObject = RSA.getObjectFromPublicKey(_this._publicKey);
         _this._publicKeyHex = remme_utils_1.bytesToHex(_this._publicKey);
         if (_this._privateKey) {
             if (!_this._privateKeyObject) {
-                _this._privateKeyObject = _this._getPrivateKeyObject();
+                _this._privateKeyObject = RSA.getObjectFromPrivateKey(_this._privateKey);
             }
             _this._privateKeyHex = remme_utils_1.bytesToHex(_this._privateKey);
         }
@@ -78,10 +77,6 @@ var RSA = /** @class */ (function (_super) {
         _this._keyType = index_1.KeyType.RSA;
         return _this;
     }
-    RSA.prototype._getPrivateKeyObject = function () {
-        var sk = new remme_utils_1.forge.util.ByteStringBuffer(this._privateKey);
-        return remme_utils_1.forge.pki.privateKeyFromAsn1(remme_utils_1.forge.asn1.fromDer(sk));
-    };
     RSA.prototype._calculateSaltLength = function (md) {
         var emlen = Number(Math.ceil(this._rsaKeySize / 8));
         return emlen - md.digestLength - 2;
@@ -96,15 +91,15 @@ var RSA = /** @class */ (function (_super) {
                     case 1:
                         _c = _d.sent(), privateKey = _c.privateKey, publicKey = _c.publicKey;
                         return [2 /*return*/, {
-                                privateKey: Buffer.from(remme_utils_1.forge.asn1.toDer(remme_utils_1.forge.pki.privateKeyToAsn1(privateKey)).getBytes(), "binary"),
-                                publicKey: Buffer.from(remme_utils_1.forge.asn1.toDer(remme_utils_1.forge.pki.publicKeyToAsn1(publicKey)).getBytes(), "binary"),
+                                privateKey: RSA.getPrivateKeyFromObject(privateKey),
+                                publicKey: RSA.getPublicKeyFromObject(publicKey),
                             }];
                 }
             });
         });
     };
     RSA.getAddressFromPublicKey = function (publicKey) {
-        return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, remme_utils_1.forge.pki.pemToDer(remme_utils_1.publicKeyToPem(publicKey)).toHex());
+        return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, publicKey);
     };
     RSA.prototype.sign = function (data, rsaSignaturePadding) {
         if (rsaSignaturePadding === void 0) { rsaSignaturePadding = index_1.RSASignaturePadding.PSS; }
@@ -145,6 +140,20 @@ var RSA = /** @class */ (function (_super) {
                 return this._publicKeyObject.verify(md.digest().bytes(), signature, pss);
             }
         }
+    };
+    RSA.getPublicKeyFromObject = function (publicKey) {
+        return Buffer.from(remme_utils_1.forge.asn1.toDer(remme_utils_1.forge.pki.publicKeyToAsn1(publicKey)).getBytes(), "binary");
+    };
+    RSA.getPrivateKeyFromObject = function (privateKey) {
+        return Buffer.from(remme_utils_1.forge.asn1.toDer(remme_utils_1.forge.pki.privateKeyToAsn1(privateKey)).getBytes(), "binary");
+    };
+    RSA.getObjectFromPublicKey = function (publicKey) {
+        var pk = new remme_utils_1.forge.util.ByteStringBuffer(publicKey);
+        return remme_utils_1.forge.pki.publicKeyFromAsn1(remme_utils_1.forge.asn1.fromDer(pk));
+    };
+    RSA.getObjectFromPrivateKey = function (privateKey) {
+        var sk = new remme_utils_1.forge.util.ByteStringBuffer(privateKey);
+        return remme_utils_1.forge.pki.privateKeyFromAsn1(remme_utils_1.forge.asn1.fromDer(sk));
     };
     return RSA;
 }(index_1.KeyDto));
