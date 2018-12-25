@@ -11,7 +11,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "protobufjs": "^6.8.6"
+    "protobufjs": "^6.7.3"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

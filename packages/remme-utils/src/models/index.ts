@@ -1,4 +1,3 @@
-import * as forge from "node-forge";
 export { oids } from "./oids";
 
 /**

@@ -1,7 +1,7 @@
 import { RemmeMethods, IRemmeApi } from "remme-api";
 import { IRemmeAccount } from "remme-account";
 import { sha512, NodeConfigRequest, bytesToHex } from "remme-utils";
-import * as protobuf from "sawtooth-sdk/protobuf";
+import * as protobuf from "remme-protobuf";
 
 import { IRemmeTransactionService } from "./interface";
 import {

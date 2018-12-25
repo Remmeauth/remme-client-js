@@ -25,7 +25,8 @@ const Karma = require('karma').Server;
 const lernaJSON = require('./lerna.json');
 
 const DEST = path.join(__dirname, 'dist/');
-const srcProtobuf = path.join(__dirname, 'remme-protobuf');
+const srcRemmeProtobuf = path.join(__dirname, 'remme-protobuf');
+const srcSawtoothProtobuf = path.join(__dirname, "sawtooth-protobuf");
 
 const packages = [{
   fileName: 'remme',
@@ -170,12 +171,21 @@ gulp.task('lint', function () {
 });
 
 gulp.task('protobuf-compile', function () {
-  const files = fs.readdirSync(srcProtobuf)
-    .map(f => path.resolve(srcProtobuf, f))
-    .filter(f => f.endsWith('.proto'));
-  const filesInString = files.join(" ");
+  const remmeFiles = fs.readdirSync(srcRemmeProtobuf)
+      .map(f => {
+        return path.resolve(srcRemmeProtobuf, f);
+      })
+      .filter(f => f.endsWith('.proto'));
+  const sawtoothFiles = fs.readdirSync(srcSawtoothProtobuf)
+      .map(f => {
+        return path.resolve(srcSawtoothProtobuf, f)
+      })
+      .filter(f => f.endsWith('.proto'));
+
+  const files = [...remmeFiles, ...sawtoothFiles].join(" ");
+
   exec('./node_modules/.bin/pbjs -t static-module -w commonjs -o ./packages/remme-protobuf/dist/index.js ' +
-    filesInString +
+    files +
     '; ./node_modules/.bin/pbts -o ./packages/remme-protobuf/dist/index.d.ts ./packages/remme-protobuf/dist/index.js');
 });
 
