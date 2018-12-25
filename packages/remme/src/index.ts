@@ -348,7 +348,9 @@ namespace Remme {
          */
 
         /* tslint:enable */
-        public events: IRemmeWebSocketsEvents;
+        public get events(): IRemmeWebSocketsEvents {
+            return new RemmeWebSocketsEvents(this._remmeApi.nodeAddress, this._remmeApi.sslMode);
+        }
 
         /**
          * @param clientInit.privateKeyHex - The hex of private key. Which is used for creating account in library
@@ -427,7 +429,6 @@ namespace Remme {
             this.token = new RemmeToken(this._remmeApi, this.transaction);
             this.swap = new RemmeSwap(this._remmeApi, this.transaction);
             this.blockchainInfo = new RemmeBlockchainInfo(this._remmeApi);
-            this.events = new RemmeWebSocketsEvents(this._remmeApi.nodeAddress, this._remmeApi.sslMode);
         }
 
         public set account(remmeAccount: IRemmeAccount) {

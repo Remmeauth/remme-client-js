@@ -1,6 +1,6 @@
 {
   "name": "remme-blockchain-info",
-  "version": "0.5.0",
+  "version": "0.5.5",
   "description": "REMME blockchain info internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "remme-api": "^0.4.0",
-    "remme-protobuf": "^0.4.0",
+    "remme-protobuf": "^0.5.5",
     "remme-utils": "^0.5.0"
   },
   "devDependencies": {

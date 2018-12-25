@@ -1,6 +1,6 @@
 {
   "name": "remme",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "REMME Javascipt API",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -27,16 +27,16 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-account": "^0.5.4",
+    "remme-account": "^0.5.5",
     "remme-api": "^0.4.0",
-    "remme-atomic-swap": "^0.5.4",
-    "remme-blockchain-info": "^0.5.0",
-    "remme-certificate": "^0.5.4",
-    "remme-keys": "^0.5.4",
-    "remme-public-key-storage": "^0.5.4",
-    "remme-token": "^0.5.4",
-    "remme-transaction-service": "^0.5.4",
-    "remme-web-socket-events": "^0.5.4"
+    "remme-atomic-swap": "^0.5.5",
+    "remme-blockchain-info": "^0.5.5",
+    "remme-certificate": "^0.5.5",
+    "remme-keys": "^0.5.5",
+    "remme-public-key-storage": "^0.5.5",
+    "remme-token": "^0.5.5",
+    "remme-transaction-service": "^0.5.5",
+    "remme-web-socket-events": "^0.5.5"
   },
   "devDependencies": {
     "typedoc": "^0.11.1",
