@@ -1,4 +1,3 @@
-// import {NewPubKeyPayload} from "remme-protobuf";
 import {forge, generateAddress, bytesToHex, RemmeFamilyName} from "remme-utils";
 
 import {IRemmeKeys} from "../interface";
@@ -29,7 +28,7 @@ class EdDSA extends KeyDto implements IRemmeKeys {
             this._publicKeyBase64 = Buffer.from(this._publicKeyHex).toString("base64");
         }
 
-        this._address = generateAddress(RemmeFamilyName.PublicKey, this._publicKeyBase64);
+        this._address = generateAddress(RemmeFamilyName.PublicKey, this._publicKey);
         this._keyType = KeyType.EdDSA;
     }
 
@@ -42,23 +41,16 @@ class EdDSA extends KeyDto implements IRemmeKeys {
     }
 
     public static getAddressFromPublicKey(publicKey: any): string {
-        let publicKeyBase64 = bytesToHex(publicKey);
-
-        try {
-            publicKeyBase64 = btoa(publicKeyBase64);
-        } catch (e) {
-            publicKeyBase64 = Buffer.from(publicKeyBase64).toString("base64");
-        }
-
-        return generateAddress(RemmeFamilyName.PublicKey, publicKeyBase64);
+        return generateAddress(RemmeFamilyName.PublicKey, bytesToHex(publicKey));
     }
 
     public sign(
         data: string,
     ): string {
+        const md = forge.md.sha256.create();
+        md.update(data, "utf8");
         const signature = forge.pki.ed25519.sign({
-            message: data,
-            encoding: "utf8",
+            md,
             privateKey: this._privateKey,
         });
         return forge.util.bytesToHex(signature);
@@ -68,10 +60,11 @@ class EdDSA extends KeyDto implements IRemmeKeys {
         data: string,
         signature: string,
     ): boolean {
+        const md = forge.md.sha256.create();
+        md.update(data, "utf8");
         return forge.pki.ed25519.verify({
-            message: data,
-            encoding: "utf8",
-            signature,
+            md,
+            signature: forge.util.hexToBytes(signature),
             publicKey: this._publicKey,
         });
     }

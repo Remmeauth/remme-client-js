@@ -7,6 +7,7 @@ export interface IPublicKeyInfo {
     valid_to: number;
     entity_hash: string;
     entity_hash_signature: string;
+    public_key: string;
     type: string;
 }
 
@@ -22,6 +23,7 @@ export class PublicKeyInfo {
     public validTo: number;
     public entityHash: string;
     public entityHashSignature: string;
+    public publicKey: string;
     public type: string;
 
     constructor(data: IPublicKeyInfo) {
@@ -33,6 +35,7 @@ export class PublicKeyInfo {
         this.validTo = data.valid_to;
         this.entityHash = data.entity_hash;
         this.entityHashSignature = data.entity_hash_signature;
-        this.type = data.type || "RSA";
+        this.publicKey = data.public_key;
+        this.type = data.type;
     }
 }

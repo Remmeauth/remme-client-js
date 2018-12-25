@@ -45,7 +45,7 @@ class KeyDto {
      * @returns {string}
      */
     public get keyType(): string {
-        return KeyType[this._keyType];
+        return this._keyType;
     }
 
     /**

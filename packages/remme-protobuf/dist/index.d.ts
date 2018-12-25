@@ -1749,26 +1749,29 @@ export namespace PubKeyMethod {
 /** Properties of a NewPubKeyPayload. */
 export interface INewPubKeyPayload {
 
-    /** NewPubKeyPayload publicKey */
-    publicKey?: (string|null);
-
-    /** NewPubKeyPayload publicKeyType */
-    publicKeyType?: (NewPubKeyPayload.PubKeyType|null);
-
-    /** NewPubKeyPayload entityType */
-    entityType?: (NewPubKeyPayload.EntityType|null);
+    /** NewPubKeyPayload hashingAlgorithm */
+    hashingAlgorithm?: (NewPubKeyPayload.HashingAlgorithm|null);
 
     /** NewPubKeyPayload entityHash */
-    entityHash?: (string|null);
+    entityHash?: (Uint8Array|null);
 
     /** NewPubKeyPayload entityHashSignature */
-    entityHashSignature?: (string|null);
+    entityHashSignature?: (Uint8Array|null);
 
     /** NewPubKeyPayload validFrom */
     validFrom?: (number|null);
 
     /** NewPubKeyPayload validTo */
     validTo?: (number|null);
+
+    /** NewPubKeyPayload rsa */
+    rsa?: (NewPubKeyPayload.IRSAConfiguration|null);
+
+    /** NewPubKeyPayload ecdsa */
+    ecdsa?: (NewPubKeyPayload.IECDSAConfiguration|null);
+
+    /** NewPubKeyPayload ed25519 */
+    ed25519?: (NewPubKeyPayload.IEd25519Configuration|null);
 }
 
 /** Represents a NewPubKeyPayload. */
@@ -1780,26 +1783,32 @@ export class NewPubKeyPayload implements INewPubKeyPayload {
      */
     constructor(properties?: INewPubKeyPayload);
 
-    /** NewPubKeyPayload publicKey. */
-    public publicKey: string;
-
-    /** NewPubKeyPayload publicKeyType. */
-    public publicKeyType: NewPubKeyPayload.PubKeyType;
-
-    /** NewPubKeyPayload entityType. */
-    public entityType: NewPubKeyPayload.EntityType;
+    /** NewPubKeyPayload hashingAlgorithm. */
+    public hashingAlgorithm: NewPubKeyPayload.HashingAlgorithm;
 
     /** NewPubKeyPayload entityHash. */
-    public entityHash: string;
+    public entityHash: Uint8Array;
 
     /** NewPubKeyPayload entityHashSignature. */
-    public entityHashSignature: string;
+    public entityHashSignature: Uint8Array;
 
     /** NewPubKeyPayload validFrom. */
     public validFrom: number;
 
     /** NewPubKeyPayload validTo. */
     public validTo: number;
+
+    /** NewPubKeyPayload rsa. */
+    public rsa?: (NewPubKeyPayload.IRSAConfiguration|null);
+
+    /** NewPubKeyPayload ecdsa. */
+    public ecdsa?: (NewPubKeyPayload.IECDSAConfiguration|null);
+
+    /** NewPubKeyPayload ed25519. */
+    public ed25519?: (NewPubKeyPayload.IEd25519Configuration|null);
+
+    /** NewPubKeyPayload configuration. */
+    public configuration?: ("rsa"|"ecdsa"|"ed25519");
 
     /**
      * Creates a new NewPubKeyPayload instance using the specified properties.
@@ -1874,15 +1883,309 @@ export class NewPubKeyPayload implements INewPubKeyPayload {
 
 export namespace NewPubKeyPayload {
 
-    /** EntityType enum. */
-    enum EntityType {
-        PERSONAL = 0,
-        SERVER = 1
+    /** HashingAlgorithm enum. */
+    enum HashingAlgorithm {
+        SHA256 = 0,
+        SHA512 = 1
     }
 
-    /** PubKeyType enum. */
-    enum PubKeyType {
-        RSA = 0
+    /** Properties of a RSAConfiguration. */
+    interface IRSAConfiguration {
+
+        /** RSAConfiguration key */
+        key?: (Uint8Array|null);
+
+        /** RSAConfiguration padding */
+        padding?: (NewPubKeyPayload.RSAConfiguration.Padding|null);
+    }
+
+    /** Represents a RSAConfiguration. */
+    class RSAConfiguration implements IRSAConfiguration {
+
+        /**
+         * Constructs a new RSAConfiguration.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: NewPubKeyPayload.IRSAConfiguration);
+
+        /** RSAConfiguration key. */
+        public key: Uint8Array;
+
+        /** RSAConfiguration padding. */
+        public padding: NewPubKeyPayload.RSAConfiguration.Padding;
+
+        /**
+         * Creates a new RSAConfiguration instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns RSAConfiguration instance
+         */
+        public static create(properties?: NewPubKeyPayload.IRSAConfiguration): NewPubKeyPayload.RSAConfiguration;
+
+        /**
+         * Encodes the specified RSAConfiguration message. Does not implicitly {@link NewPubKeyPayload.RSAConfiguration.verify|verify} messages.
+         * @param message RSAConfiguration message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: NewPubKeyPayload.IRSAConfiguration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified RSAConfiguration message, length delimited. Does not implicitly {@link NewPubKeyPayload.RSAConfiguration.verify|verify} messages.
+         * @param message RSAConfiguration message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: NewPubKeyPayload.IRSAConfiguration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a RSAConfiguration message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns RSAConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): NewPubKeyPayload.RSAConfiguration;
+
+        /**
+         * Decodes a RSAConfiguration message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns RSAConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): NewPubKeyPayload.RSAConfiguration;
+
+        /**
+         * Verifies a RSAConfiguration message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a RSAConfiguration message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns RSAConfiguration
+         */
+        public static fromObject(object: { [k: string]: any }): NewPubKeyPayload.RSAConfiguration;
+
+        /**
+         * Creates a plain object from a RSAConfiguration message. Also converts values to other types if specified.
+         * @param message RSAConfiguration
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: NewPubKeyPayload.RSAConfiguration, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this RSAConfiguration to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace RSAConfiguration {
+
+        /** Padding enum. */
+        enum Padding {
+            PSS = 0,
+            PKCS1v15 = 1
+        }
+    }
+
+    /** Properties of a ECDSAConfiguration. */
+    interface IECDSAConfiguration {
+
+        /** ECDSAConfiguration key */
+        key?: (Uint8Array|null);
+
+        /** ECDSAConfiguration ec */
+        ec?: (NewPubKeyPayload.ECDSAConfiguration.EC|null);
+    }
+
+    /** Represents a ECDSAConfiguration. */
+    class ECDSAConfiguration implements IECDSAConfiguration {
+
+        /**
+         * Constructs a new ECDSAConfiguration.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: NewPubKeyPayload.IECDSAConfiguration);
+
+        /** ECDSAConfiguration key. */
+        public key: Uint8Array;
+
+        /** ECDSAConfiguration ec. */
+        public ec: NewPubKeyPayload.ECDSAConfiguration.EC;
+
+        /**
+         * Creates a new ECDSAConfiguration instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ECDSAConfiguration instance
+         */
+        public static create(properties?: NewPubKeyPayload.IECDSAConfiguration): NewPubKeyPayload.ECDSAConfiguration;
+
+        /**
+         * Encodes the specified ECDSAConfiguration message. Does not implicitly {@link NewPubKeyPayload.ECDSAConfiguration.verify|verify} messages.
+         * @param message ECDSAConfiguration message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: NewPubKeyPayload.IECDSAConfiguration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ECDSAConfiguration message, length delimited. Does not implicitly {@link NewPubKeyPayload.ECDSAConfiguration.verify|verify} messages.
+         * @param message ECDSAConfiguration message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: NewPubKeyPayload.IECDSAConfiguration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ECDSAConfiguration message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ECDSAConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): NewPubKeyPayload.ECDSAConfiguration;
+
+        /**
+         * Decodes a ECDSAConfiguration message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ECDSAConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): NewPubKeyPayload.ECDSAConfiguration;
+
+        /**
+         * Verifies a ECDSAConfiguration message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ECDSAConfiguration message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ECDSAConfiguration
+         */
+        public static fromObject(object: { [k: string]: any }): NewPubKeyPayload.ECDSAConfiguration;
+
+        /**
+         * Creates a plain object from a ECDSAConfiguration message. Also converts values to other types if specified.
+         * @param message ECDSAConfiguration
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: NewPubKeyPayload.ECDSAConfiguration, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ECDSAConfiguration to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ECDSAConfiguration {
+
+        /** EC enum. */
+        enum EC {
+            SECP256k1 = 0
+        }
+    }
+
+    /** Properties of an Ed25519Configuration. */
+    interface IEd25519Configuration {
+
+        /** Ed25519Configuration key */
+        key?: (Uint8Array|null);
+    }
+
+    /** Represents an Ed25519Configuration. */
+    class Ed25519Configuration implements IEd25519Configuration {
+
+        /**
+         * Constructs a new Ed25519Configuration.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: NewPubKeyPayload.IEd25519Configuration);
+
+        /** Ed25519Configuration key. */
+        public key: Uint8Array;
+
+        /**
+         * Creates a new Ed25519Configuration instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Ed25519Configuration instance
+         */
+        public static create(properties?: NewPubKeyPayload.IEd25519Configuration): NewPubKeyPayload.Ed25519Configuration;
+
+        /**
+         * Encodes the specified Ed25519Configuration message. Does not implicitly {@link NewPubKeyPayload.Ed25519Configuration.verify|verify} messages.
+         * @param message Ed25519Configuration message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: NewPubKeyPayload.IEd25519Configuration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Ed25519Configuration message, length delimited. Does not implicitly {@link NewPubKeyPayload.Ed25519Configuration.verify|verify} messages.
+         * @param message Ed25519Configuration message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: NewPubKeyPayload.IEd25519Configuration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an Ed25519Configuration message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Ed25519Configuration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): NewPubKeyPayload.Ed25519Configuration;
+
+        /**
+         * Decodes an Ed25519Configuration message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Ed25519Configuration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): NewPubKeyPayload.Ed25519Configuration;
+
+        /**
+         * Verifies an Ed25519Configuration message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an Ed25519Configuration message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Ed25519Configuration
+         */
+        public static fromObject(object: { [k: string]: any }): NewPubKeyPayload.Ed25519Configuration;
+
+        /**
+         * Creates a plain object from an Ed25519Configuration message. Also converts values to other types if specified.
+         * @param message Ed25519Configuration
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: NewPubKeyPayload.Ed25519Configuration, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Ed25519Configuration to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
     }
 }
 
@@ -1985,8 +2288,8 @@ export interface IPubKeyStorage {
     /** PubKeyStorage payload */
     payload?: (INewPubKeyPayload|null);
 
-    /** PubKeyStorage revoked */
-    revoked?: (boolean|null);
+    /** PubKeyStorage isRevoked */
+    isRevoked?: (boolean|null);
 }
 
 /** Represents a PubKeyStorage. */
@@ -2004,8 +2307,8 @@ export class PubKeyStorage implements IPubKeyStorage {
     /** PubKeyStorage payload. */
     public payload?: (INewPubKeyPayload|null);
 
-    /** PubKeyStorage revoked. */
-    public revoked: boolean;
+    /** PubKeyStorage isRevoked. */
+    public isRevoked: boolean;
 
     /**
      * Creates a new PubKeyStorage instance using the specified properties.
