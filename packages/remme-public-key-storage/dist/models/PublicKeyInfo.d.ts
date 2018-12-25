@@ -7,6 +7,7 @@ export interface IPublicKeyInfo {
     valid_to: number;
     entity_hash: string;
     entity_hash_signature: string;
+    public_key: string;
     type: string;
 }
 /**
@@ -21,6 +22,7 @@ export declare class PublicKeyInfo {
     validTo: number;
     entityHash: string;
     entityHashSignature: string;
+    publicKey: string;
     type: string;
     constructor(data: IPublicKeyInfo);
 }

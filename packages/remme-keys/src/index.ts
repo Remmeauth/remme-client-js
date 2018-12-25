@@ -1,5 +1,3 @@
-// import { NewPubKeyPayload } from "remme-protobuf";
-
 import { IRemmeKeys } from "./interface";
 import {
     RSA,
@@ -7,12 +5,10 @@ import {
     ECDSA,
     GenerateOptions,
     KeyType,
+    IKeys,
     IRemmeKeysParams,
     RSASignaturePadding,
 } from "./models";
-
-// const { PubKeyType: KeyType } = NewPubKeyPayload;
-// const { RSASignaturePadding } = NewPubKeyPayload;
 /* tslint:disable */
 
 /**
@@ -24,17 +20,16 @@ import {
  * ```typescript
  * import { KeyType } from "remme-keys";
  *
- * const keys = Remme.Keys.generateKeyPair(KeyType.RSA); // Our chain works only with RSA now.
+ * const keys = Remme.Keys.generateKeyPair(KeyType.RSA); // KeyType.EdDSA, KeyType.ECDSA also work.
  *
  * // then you can sign some data. For rsa key type you should provide RSASignaturePadding (by default PSS)
  * const signature = keys.sign("some data");
  * console.log(keys.verify(signature, "some data")); // true
  *
- * // or you can store it in the chain. For rsa key type you should provide RSASignaturePadding (by default EMPTY)
+ * // or you can store it in the chain. For rsa key type you should provide RSASignaturePadding (by default PSS)
  *  const publicKeyStoring = await remme.publicKeyStorage.store({
  *       data: "store data",
  *       keys,
- *       rsaSignaturePadding: RSASignaturePadding.PSS
  *       validFrom: Math.round(Date.now() / 1000),
  *       validTo: Math.round(Date.now() / 1000 + 1000)
  *  });
@@ -43,22 +38,29 @@ import {
  * If you have private key. You can construct RemmeKeys based on private key.
  * ```typescript
  * import { KeyType } from "remme-keys";
- * import { privateKeyFromPem } from "remme-utils";
+ * import { hexToBytes } from "remme-utils";
  *
- * const privateKey = "-----BEGIN RSA PRIVATE KEY-----\r\nMIIEowIBAAKCAQEAkhdw64WKrvXCWtGsNeVTPKDPpcHN0kcF4acvfPauDE8TpIFu\r\n8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZze6YAsi7VUggO+5kDuJnKrg0VJ5s\r\nwfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6DgobdtWM/VpVYsbBcMT4XXpzmuv0qk\r\nEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y06wr0BXqYWWQTnGC3DJf2iqu68Ceo\r\nZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//KHUlnD3Oa1TyWzjF6NcMWv0PgDg6u\r\n8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7DQIDAQABAoIBADRnHCYfXMOte+2/\r\n0Bn1DIpu1I0Mm5uVxlJO+gXFJmFb7BvSIc4ENGyIDF896A+u3eNl1G5QXsBDV2Ps\r\nh9HdNKddskEtZ6ULniRhOprsMz1rnbnMqg5Y1SbrXTXVUdmB/bND53PGQ6OIX42B\r\n6vS7jFf1x89XnbcU1hJfohbUV6qvwr+hyrvrV859LM80rErCKGXXi6gtiRBiTYA3\r\n2qgO+F/ntmoU638XDzeIhKNjCP+KcWcQX1TRlrcuKfPKfCttHTb1MCGWnrOqy56w\r\nU628Iz4lKfjCOOdAXvyDRBEFSPKfriuB5JQQ67cZ9w783/2ZChhAY4wzBqvgnnlo\r\np6cPXDECgYEA+shoBswhqkA81RHxdkMoM9/iGwfkdFwxr9TqHGN7+L0hRXJlysKP\r\npBFX7Wg6GWF3BDHQzLoWQCEox0NgHbAVTC5DBxjIEjRemmlYEeAPqVRTub1lfp37\r\nYcK8BqsllDgXsqlQQNKqqVj4V2y/PO6NzlHWN9inJrp8ZZKSKPSamq8CgYEAlSF7\r\nDB0STde20E+ZPzQZi7zLWl59yM29mlKujlRktp2vl3foRJgQsndOAIc6k4+ImXR8\r\ngtfwpCYrXTQhJE4GHO/E/52vuwkVVz9qN5ZmgzR13yzlicCVmfZ7aaZ6jblNiQ1G\r\ngnIx1chcb8Vl5fncmaoa9SgefwWciPERNg31RQMCgYEApH1SjjLSWgMsY20Tfchq\r\n1Cui+Kviktft1zDGJbyzEeGrswtn7OhUov6lN5jHkuI02FF8bOwZsBKP1rNAlfhq\r\n377wQ/VjNV2YN5ulIoRegWhISmoJ6lThD6xU++LCEUgBczRO6VXEjrNGoME5ZlPq\r\nO0u+QH8gk+x5r33F1Isr5Q0CgYBHrmEjsHGU4wPnWutROuywgx3HoTWaqHHjVKy8\r\nkwoZ0O+Owb7uAZ28+qWOkXFxbgN9p0UV60+qxwH++ciYV7yOeh1ZtGS8ZSBR4JRg\r\nhbVeiX/CtyTZsqz15Ujqvm+X4aLIJo5msxcLKBRuURaqlRAY+G+euRr3eS4FkMHy\r\nFoF3GwKBgFDNeJc7VfbQq2toRSxCNuUTLXoZPrPfQrV+mA9umGCep44Ea02xIKQu\r\nbYpYghpdbASOp6fJvBlwjI8LNX3dC/PfUpbIG84bVCokgBCMNJQ+/DBuPBt7L29A\r\n7Ra1poXMbXt0nF3LgAtZHveRmVDtcr52dZ/6Yd2km5mAHj+4yPZo\r\n-----END RSA PRIVATE KEY-----\r\n"
- * const keys = new Remme.Keys({
-     *      keyType: KeyType.RSA,
-     *      privateKey: privateKeyFromPem(privateKey),
-     * }); // Our chain works only with RSA now.
+ * const privateKey = "30820122300d06092a864886f70d01010105000382010f003082010a0282010100ad37c7475fe9d987555f8d92f0a440ebbf7bb2a87feffa3e2f229b9b782c4f7a78a1c255a687b1355fb788bef89188832d594a8f4e72d6d009d1ee56e9ff2a7c4de17cab3786bf74c9045bc30dc9475514a296faac9264c265aa4496005d17925c78f324f73a55bdfb6de2109c8ea64d75f10aea31c12f8a226deba507a57d22ad22391c066c5ce2d0072b4f18ddf97214ae3334f7ddff08d92bb6325f8f7c4d9419e7acd23abd9b9b0a3153fef0a626033719f7a9052de822c97fc54007357c8aa3dd416153a670a060edf453e61227f4e2acbb6461bbf40a948c74c4436cf5c10c3c29a42eaf6a74c4124a0f9dade599243cd9420266701254a7f4a4461fbf0203010001";
+ * const keys = await Remme.Keys.construct({
+ *      keyType: KeyType.RSA,
+ *      privateKey: hexToBytes(privateKey),
+ * });
  * ```
  *
- * If you have public key. You can get an address for it.
+ * If you have public key. You can construct RemmeKeys based on public key.
  * ```typescript
  * import { KeyType } from "remme-keys";
- * import { publicKeyFromPem } from "remme-utils";
+ * import { hexToBytes } from "remme-utils";
  *
- * const publicKey = "-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkhdw64WKrvXCWtGsNeVT\r\nPKDPpcHN0kcF4acvfPauDE8TpIFu8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZ\r\nze6YAsi7VUggO+5kDuJnKrg0VJ5swfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6Dg\r\nobdtWM/VpVYsbBcMT4XXpzmuv0qkEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y0\r\n6wr0BXqYWWQTnGC3DJf2iqu68CeoZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//K\r\nHUlnD3Oa1TyWzjF6NcMWv0PgDg6u8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7\r\nDQIDAQAB\r\n-----END PUBLIC KEY-----\r\n";
- * const address = Remme.getAddressFromPublicKey(KeyType.RSA, publicKeyFromPem(publicKey)); // Our chain works only with RSA now.
+ * const publicKey = "30820122300d06092a864886f70d01010105000382010f003082010a0282010100ad37c7475fe9d987555f8d92f0a440ebbf7bb2a87feffa3e2f229b9b782c4f7a78a1c255a687b1355fb788bef89188832d594a8f4e72d6d009d1ee56e9ff2a7c4de17cab3786bf74c9045bc30dc9475514a296faac9264c265aa4496005d17925c78f324f73a55bdfb6de2109c8ea64d75f10aea31c12f8a226deba507a57d22ad22391c066c5ce2d0072b4f18ddf97214ae3334f7ddff08d92bb6325f8f7c4d9419e7acd23abd9b9b0a3153fef0a626033719f7a9052de822c97fc54007357c8aa3dd416153a670a060edf453e61227f4e2acbb6461bbf40a948c74c4436cf5c10c3c29a42eaf6a74c4124a0f9dade599243cd9420266701254a7f4a4461fbf0203010001";
+ * const keys = await Remme.Keys.construct({
+ *      keyType: KeyType.RSA,
+ *      publicKey: hexToBytes(publicKey),
+ * });
+ *
+ * // OR get an address for it.
+ * const address = Remme.getAddressFromPublicKey(KeyType.RSA, hexToBytes(publicKey));
+ *
  * ```
  */
 /* tslint:enable */
@@ -70,7 +72,7 @@ class RemmeKeys {
      * ```typescript
      * import { KeyType } from "remme-keys";
      *
-     * const keys = Remme.Keys.generateKeyPair(KeyType.RSA); // Our chain works only with RSA now.
+     * const keys = await Remme.Keys.generateKeyPair(KeyType.RSA); // KeyType.EdDSA, KeyType.ECDSA also work.
      * ```
      * @param {KeyType} keyType
      * @param {GenerateOptions} options
@@ -99,19 +101,19 @@ class RemmeKeys {
      * If you have public key. You can get an address for it.
      * ```typescript
      * import { KeyType } from "remme-keys";
-     * import { publicKeyFromPem } from "remme-utils";
+     * import { hexToBytes } from "remme-utils";
      *
-     * const publicKey = "-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkhdw64WKrvXCWtGsNeVT\r\nPKDPpcHN0kcF4acvfPauDE8TpIFu8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZ\r\nze6YAsi7VUggO+5kDuJnKrg0VJ5swfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6Dg\r\nobdtWM/VpVYsbBcMT4XXpzmuv0qkEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y0\r\n6wr0BXqYWWQTnGC3DJf2iqu68CeoZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//K\r\nHUlnD3Oa1TyWzjF6NcMWv0PgDg6u8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7\r\nDQIDAQAB\r\n-----END PUBLIC KEY-----\r\n";
-     * const address = Remme.getAddressFromPublicKey(KeyType.RSA, publicKeyFromPem(publicKey)); // Our chain works only with RSA now.
+     * const publicKey = "30820122300d06092a864886f70d01010105000382010f003082010a0282010100ad37c7475fe9d987555f8d92f0a440ebbf7bb2a87feffa3e2f229b9b782c4f7a78a1c255a687b1355fb788bef89188832d594a8f4e72d6d009d1ee56e9ff2a7c4de17cab3786bf74c9045bc30dc9475514a296faac9264c265aa4496005d17925c78f324f73a55bdfb6de2109c8ea64d75f10aea31c12f8a226deba507a57d22ad22391c066c5ce2d0072b4f18ddf97214ae3334f7ddff08d92bb6325f8f7c4d9419e7acd23abd9b9b0a3153fef0a626033719f7a9052de822c97fc54007357c8aa3dd416153a670a060edf453e61227f4e2acbb6461bbf40a948c74c4436cf5c10c3c29a42eaf6a74c4124a0f9dade599243cd9420266701254a7f4a4461fbf0203010001";
+     * const address = Remme.getAddressFromPublicKey(KeyType.RSA, hexToBytes(publicKey));
      * ```
      * @param {KeyType} keyType
-     * @param publicKey
+     * @param {Buffer} publicKey
      * @returns {string}
      */
     /* tslint:enable */
     public static getAddressFromPublicKey(
         keyType: KeyType,
-        publicKey: any,
+        publicKey: Buffer,
     ): string {
         switch (keyType) {
             case KeyType.RSA: {
@@ -132,25 +134,25 @@ class RemmeKeys {
      * If you have private key. You can construct RemmeKeys based on private key.
      * ```typescript
      * import { KeyType } from "remme-keys";
-     * import { privateKeyFromPem, publicKeyFromPem } from "remme-utils";
+     * import { hexToBytes } from "remme-utils";
      *
-     * const privateKey = "-----BEGIN RSA PRIVATE KEY-----\r\nMIIEowIBAAKCAQEAkhdw64WKrvXCWtGsNeVTPKDPpcHN0kcF4acvfPauDE8TpIFu\r\n8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZze6YAsi7VUggO+5kDuJnKrg0VJ5s\r\nwfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6DgobdtWM/VpVYsbBcMT4XXpzmuv0qk\r\nEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y06wr0BXqYWWQTnGC3DJf2iqu68Ceo\r\nZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//KHUlnD3Oa1TyWzjF6NcMWv0PgDg6u\r\n8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7DQIDAQABAoIBADRnHCYfXMOte+2/\r\n0Bn1DIpu1I0Mm5uVxlJO+gXFJmFb7BvSIc4ENGyIDF896A+u3eNl1G5QXsBDV2Ps\r\nh9HdNKddskEtZ6ULniRhOprsMz1rnbnMqg5Y1SbrXTXVUdmB/bND53PGQ6OIX42B\r\n6vS7jFf1x89XnbcU1hJfohbUV6qvwr+hyrvrV859LM80rErCKGXXi6gtiRBiTYA3\r\n2qgO+F/ntmoU638XDzeIhKNjCP+KcWcQX1TRlrcuKfPKfCttHTb1MCGWnrOqy56w\r\nU628Iz4lKfjCOOdAXvyDRBEFSPKfriuB5JQQ67cZ9w783/2ZChhAY4wzBqvgnnlo\r\np6cPXDECgYEA+shoBswhqkA81RHxdkMoM9/iGwfkdFwxr9TqHGN7+L0hRXJlysKP\r\npBFX7Wg6GWF3BDHQzLoWQCEox0NgHbAVTC5DBxjIEjRemmlYEeAPqVRTub1lfp37\r\nYcK8BqsllDgXsqlQQNKqqVj4V2y/PO6NzlHWN9inJrp8ZZKSKPSamq8CgYEAlSF7\r\nDB0STde20E+ZPzQZi7zLWl59yM29mlKujlRktp2vl3foRJgQsndOAIc6k4+ImXR8\r\ngtfwpCYrXTQhJE4GHO/E/52vuwkVVz9qN5ZmgzR13yzlicCVmfZ7aaZ6jblNiQ1G\r\ngnIx1chcb8Vl5fncmaoa9SgefwWciPERNg31RQMCgYEApH1SjjLSWgMsY20Tfchq\r\n1Cui+Kviktft1zDGJbyzEeGrswtn7OhUov6lN5jHkuI02FF8bOwZsBKP1rNAlfhq\r\n377wQ/VjNV2YN5ulIoRegWhISmoJ6lThD6xU++LCEUgBczRO6VXEjrNGoME5ZlPq\r\nO0u+QH8gk+x5r33F1Isr5Q0CgYBHrmEjsHGU4wPnWutROuywgx3HoTWaqHHjVKy8\r\nkwoZ0O+Owb7uAZ28+qWOkXFxbgN9p0UV60+qxwH++ciYV7yOeh1ZtGS8ZSBR4JRg\r\nhbVeiX/CtyTZsqz15Ujqvm+X4aLIJo5msxcLKBRuURaqlRAY+G+euRr3eS4FkMHy\r\nFoF3GwKBgFDNeJc7VfbQq2toRSxCNuUTLXoZPrPfQrV+mA9umGCep44Ea02xIKQu\r\nbYpYghpdbASOp6fJvBlwjI8LNX3dC/PfUpbIG84bVCokgBCMNJQ+/DBuPBt7L29A\r\n7Ra1poXMbXt0nF3LgAtZHveRmVDtcr52dZ/6Yd2km5mAHj+4yPZo\r\n-----END RSA PRIVATE KEY-----\r\n"
+     * const privateKey = "30820122300d06092a864886f70d01010105000382010f003082010a0282010100ad37c7475fe9d987555f8d92f0a440ebbf7bb2a87feffa3e2f229b9b782c4f7a78a1c255a687b1355fb788bef89188832d594a8f4e72d6d009d1ee56e9ff2a7c4de17cab3786bf74c9045bc30dc9475514a296faac9264c265aa4496005d17925c78f324f73a55bdfb6de2109c8ea64d75f10aea31c12f8a226deba507a57d22ad22391c066c5ce2d0072b4f18ddf97214ae3334f7ddff08d92bb6325f8f7c4d9419e7acd23abd9b9b0a3153fef0a626033719f7a9052de822c97fc54007357c8aa3dd416153a670a060edf453e61227f4e2acbb6461bbf40a948c74c4436cf5c10c3c29a42eaf6a74c4124a0f9dade599243cd9420266701254a7f4a4461fbf0203010001";
      * const keys = await Remme.Keys.contsruct({
      *      keyType: KeyType.RSA,
-     *      privateKey: privateKeyFromPem(privateKey),
-     * }); // Our chain works only with RSA now.
+     *      privateKey: hexToBytes(privateKey),
+     * });
      * ```
      *
      * If you public key. You can construct RemmeKeys based on public key.
      * ```typescript
      * import { KeyType } from "remme-keys";
-     * import { privateKeyFromPem, publicKeyFromPem } from "remme-utils";
+     * import { hexToBytes } from "remme-utils";
      *
-     * const publicKey = "-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkhdw64WKrvXCWtGsNeVT\r\nPKDPpcHN0kcF4acvfPauDE8TpIFu8rFQdnGdBldJMo+iHC4VkEc7SqP0Z7bynBXZ\r\nze6YAsi7VUggO+5kDuJnKrg0VJ5swfV/Jdvj9ev1iG1TeVTAyp1Uvjmek9uAh6Dg\r\nobdtWM/VpVYsbBcMT4XXpzmuv0qkEf9YmR3kJ5SBGdkb6jaOnjJWO0O6kOUO54y0\r\n6wr0BXqYWWQTnGC3DJf2iqu68CeoZsg/dRNs1zXP4x00GyOW7OdnmMUsySquf//K\r\nHUlnD3Oa1TyWzjF6NcMWv0PgDg6u8q4739X0ueBNDpXJyiMMpQUZ/8YbW/Ijdfv7\r\nDQIDAQAB\r\n-----END PUBLIC KEY-----\r\n";
+     * const publicKey = "30820122300d06092a864886f70d01010105000382010f003082010a0282010100ad37c7475fe9d987555f8d92f0a440ebbf7bb2a87feffa3e2f229b9b782c4f7a78a1c255a687b1355fb788bef89188832d594a8f4e72d6d009d1ee56e9ff2a7c4de17cab3786bf74c9045bc30dc9475514a296faac9264c265aa4496005d17925c78f324f73a55bdfb6de2109c8ea64d75f10aea31c12f8a226deba507a57d22ad22391c066c5ce2d0072b4f18ddf97214ae3334f7ddff08d92bb6325f8f7c4d9419e7acd23abd9b9b0a3153fef0a626033719f7a9052de822c97fc54007357c8aa3dd416153a670a060edf453e61227f4e2acbb6461bbf40a948c74c4436cf5c10c3c29a42eaf6a74c4124a0f9dade599243cd9420266701254a7f4a4461fbf0203010001";
      * const keys = await Remme.Keys.construct({
      *      keyType: KeyType.RSA,
-     *      publicKey: publicKeyFromPem(publicKey),
-     * }); // Our chain works only with RSA now.
+     *      publicKey: hexToBytes(publicKey),
+     * });
      * ```
      *
      * If you don't have any key. You can construct RemmeKeys without keys and it generate keys for you with default generation options.
@@ -159,7 +161,7 @@ class RemmeKeys {
      *
      * const keys = await Remme.Keys.construct({
      *      keyType: KeyType.RSA,
-     * }); // Our chain works only with RSA now.
+     * });
      * ```
      *
      * Also you can construct RemmeKeys without any params so keyType will be RSA by default.
@@ -169,15 +171,15 @@ class RemmeKeys {
      * const keys = await Remme.Keys.construct();
      * ```
      * @param {KeyType} keyType
-     * @param {any} privateKey
-     * @param {any} publicKey
+     * @param {Buffer} privateKey
+     * @param {Buffer} publicKey
      */
     /* tslint:enable */
     public static async construct({
-            keyType = KeyType.RSA,
-            privateKey,
-            publicKey,
-        }: IRemmeKeysParams = { keyType: KeyType.RSA }): Promise<IRemmeKeys> {
+        keyType = KeyType.RSA,
+        privateKey,
+        publicKey,
+    }: IRemmeKeysParams = { keyType: KeyType.RSA }): Promise<IRemmeKeys> {
 
         if (!privateKey && !publicKey) {
             const keys = await RemmeKeys.generateKeyPair(keyType);
@@ -208,4 +210,5 @@ export {
     RSA,
     ECDSA,
     EdDSA,
+    IKeys,
 };
