@@ -322,7 +322,7 @@ declare namespace Remme {
          * remme.events.unsubscribe();
          * ```
          */
-        events: IRemmeWebSocketsEvents;
+        readonly events: IRemmeWebSocketsEvents;
         /**
          * @param clientInit.privateKeyHex - The hex of private key. Which is used for creating account in library
          * which would sign transactions.
