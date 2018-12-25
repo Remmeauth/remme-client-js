@@ -74,7 +74,7 @@ const remme = new Remme.Client({
   // console.log("receipts:", receipts);
   //
   //
-  // // Certificates Operations
+  // Certificates Operations
   // const certificateTransactionResult = await remme.certificate.createAndStore({
   //   commonName: "userName",
   //   email: "user@email.com",
@@ -128,7 +128,7 @@ const remme = new Remme.Client({
   //   console.log("events", res);
   // });
   //
-  // const swapId = "033302fe1346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce6808";
+  // const swapId = "033402fe1346242476b15a3a7966eb5249271025fc7fb0b37ed3fdb4bcce6808";
   // const secret = "secretkey";
   // const secretKey = "039eaa877ff63694f8f09c8034403f8b5165a7418812a642396d5d539f90b170";
   // const secretLock = "b605112c2d7489034bbd7beab083fb65ba02af787786bb5e3d99bb26709f4f68";
@@ -136,7 +136,6 @@ const remme = new Remme.Client({
   // const init = await remme.swap.init({
   //   receiverAddress: "112007484def48e1c6b77cf784aeabcac51222e48ae14f3821697f4040247ba01558b1",
   //   senderAddressNonLocal: "0xe6ca0e7c974f06471759e9a05d18b538c5ced11e",
-  //   secretLockBySolicitor: secretLock,
   //   emailAddressEncryptedByInitiator: "0x6f4d5666332f5a575a714d4245624455612f2b4345424f704b4256704f564f63497270686b455a573370476252354a6c72612b6d6b43526b567931674638326445467735737849736e785a594e717367614b55377878353370714a5a4b3859613351715138397059634336427969397a707374465a6a4c4b597153315677543331397630426f324d704c524b68737144755776704d78536a466e647562322b7a652f6d7034534d75314f434e3674384163454466714a333562376669752f30516b6f3846773132775835304b485a384a346f4b78326c544e6656722b41376441714b655735704b6435475651352b70507935354e496d67306552626156684f572b354549686961476d374c626d4c5a2b7a306e544731774a49562b39487338482f43454e6f706d4e5455424e6e5a3266657a52456b6857365a753971556b613772664d7a646d7935773738776269674c4a6a785456413d3d",
   //   amount: 100,
   //   swapId,
@@ -174,30 +173,30 @@ const remme = new Remme.Client({
   //             const res = await remme.swap.getInfo(swapId);
   //             console.log("after approve", res);
   //             approve.closeWebSocket();
-  //             const expire = await remme.swap.expire(swapId);
-  //             expire.connectToWebSocket(async (err, data) => {
-  //               if (err) {
-  //                 console.log("err close", err);
-  //               }
-  //               console.log("data close", data);
-  //               if (data.status === "COMMITTED") {
-  //                 const res = await remme.swap.getInfo(swapId);
-  //                 console.log("after close info", res);
-  //                 expire.closeWebSocket();
-  //                 const close = await remme.swap.close(swapId, secretKey);
-  //                 close.connectToWebSocket(async (err, data) => {
-  //                   if (err) {
-  //                     console.log("err close", err);
-  //                   }
-  //                   console.log("data close", data);
-  //                   if (data.status === "COMMITTED") {
-  //                     const res = await remme.swap.getInfo(swapId);
-  //                     console.log("after close info", res);
-  //                     close.closeWebSocket();
-  //                   }
-  //                 });
-  //               }
-  //             });
+              // const expire = await remme.swap.expire(swapId);
+              // expire.connectToWebSocket(async (err, data) => {
+              //   if (err) {
+              //     console.log("err close", err);
+              //   }
+              //   console.log("data close", data);
+              //   if (data.status === "COMMITTED") {
+              //     const res = await remme.swap.getInfo(swapId);
+              //     console.log("after close info", res);
+              //     expire.closeWebSocket();
+              //     const close = await remme.swap.close(swapId, secretKey);
+              //     close.connectToWebSocket(async (err, data) => {
+              //       if (err) {
+              //         console.log("err close", err);
+              //       }
+              //       console.log("data close", data);
+              //       if (data.status === "COMMITTED") {
+              //         const res = await remme.swap.getInfo(swapId);
+              //         console.log("after close info", res);
+              //         close.closeWebSocket();
+              //       }
+              //     });
+              //   }
+              // });
   //           }
   //         });
   //       }
@@ -205,39 +204,39 @@ const remme = new Remme.Client({
   //   }
   // });
 
-  {
-    const keyss = await Remme.Keys.generateKeyPair(KeyType.RSA);
-    console.log("keys:", keyss);
-    const keys = await Remme.Keys.construct({ keyType: KeyType.RSA, publicKey: keyss.publicKey, privateKey: keyss.privateKey });
-    console.log("keys:", keys);
-    // const data = "sign data";
-    // const signature = keys.sign(data);
-    // const isVerify = keys.verify(data, signature);
-    // console.log("isVerify:", isVerify);
-    // const n = forge.pki.setRsaPublicKey(keys.publicKey.n.data, keys.publicKey.e.data);
-    const pubKey = await remme.publicKeyStorage.store({
-      data: "store data",
-      keys,
-      rsaSignaturePadding: RSASignaturePadding.PKCS1v15,
-      validFrom: Math.round(Date.now() / 1000),
-      validTo: Math.round(Date.now() / 1000 + 1000)
-    });
-    pubKey.connectToWebSocket(async (err, res) => {
-      if (err) {
-        console.log("err:", err);
-        return;
-      }
-      console.log("res:", res);
-      const info = await remme.publicKeyStorage.getInfo(keys.address);
-      console.log("info:", info);
-      const keyss = await Remme.Keys.construct({ keyType: info.type, publicKey: hexToBytes(info.publicKey) });
-      console.log(keyss);
-      const cinfo = await remme.publicKeyStorage.check(keys.address);
-      console.log("cinfo:", cinfo);
-      const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
-      console.log("cinfo:", ainfo);
-    });
-  }
+  // {
+  //   const keyss = await Remme.Keys.generateKeyPair(KeyType.RSA);
+  //   console.log("keys:", keyss);
+  //   const keys = await Remme.Keys.construct({ keyType: KeyType.RSA, publicKey: keyss.publicKey, privateKey: keyss.privateKey });
+  //   console.log("keys:", keys);
+  //   // const data = "sign data";
+  //   // const signature = keys.sign(data);
+  //   // const isVerify = keys.verify(data, signature);
+  //   // console.log("isVerify:", isVerify);
+  //   // const n = forge.pki.setRsaPublicKey(keys.publicKey.n.data, keys.publicKey.e.data);
+  //   const pubKey = await remme.publicKeyStorage.store({
+  //     data: "store data",
+  //     keys,
+  //     rsaSignaturePadding: RSASignaturePadding.PSS,
+  //     validFrom: Math.round(Date.now() / 1000),
+  //     validTo: Math.round(Date.now() / 1000 + 1000)
+  //   });
+  //   pubKey.connectToWebSocket(async (err, res) => {
+  //     if (err) {
+  //       console.log("err:", err);
+  //       return;
+  //     }
+  //     console.log("res:", res);
+  //     const info = await remme.publicKeyStorage.getInfo(keys.address);
+  //     console.log("info:", info);
+  //     const keyss = await Remme.Keys.construct({ keyType: info.type, publicKey: hexToBytes(info.publicKey) });
+  //     console.log(keyss.publicKeyHex);
+  //     const cinfo = await remme.publicKeyStorage.check(keys.address);
+  //     console.log("cinfo:", cinfo);
+  //     const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
+  //     console.log("cinfo:", ainfo);
+  //   });
+  // }
 
 })();
 

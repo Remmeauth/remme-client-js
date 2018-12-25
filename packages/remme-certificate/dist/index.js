@@ -144,8 +144,8 @@ var RemmeCertificate = /** @class */ (function () {
         var subject = this._createSubject(certificateDataToCreate);
         var cert = remme_utils_1.forge.pki.createCertificate();
         cert.setSubject(subject);
-        cert.publicKey = keys.publicKey;
-        cert.privateKey = keys.privateKey;
+        cert.publicKey = remme_keys_1.RSA.getObjectFromPublicKey(keys.publicKey);
+        cert.privateKey = remme_keys_1.RSA.getObjectFromPrivateKey(keys.privateKey);
         cert.serialNumber = certificateDataToCreate.serial;
         cert.validity.notBefore = new Date();
         cert.validity.notAfter = new Date();
@@ -153,7 +153,7 @@ var RemmeCertificate = /** @class */ (function () {
             cert.validity.notBefore.setDate(cert.validity.notBefore.getDate() + certificateDataToCreate.validAfter);
         }
         cert.validity.notAfter.setDate(cert.validity.notBefore.getDate() + certificateDataToCreate.validity);
-        cert.sign(keys.privateKey, remme_utils_1.forge.md.sha256.create());
+        cert.sign(cert.privateKey, remme_utils_1.forge.md.sha256.create());
         return cert;
     };
     /**
@@ -179,7 +179,7 @@ var RemmeCertificate = /** @class */ (function () {
             var keys;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, remme_utils_1.generateRSAKeyPair(this._rsaKeySize)];
+                    case 0: return [4 /*yield*/, remme_keys_1.RSA.generateKeyPair({ rsaKeySize: this._rsaKeySize })];
                     case 1:
                         keys = _a.sent();
                         return [2 /*return*/, this._createCertificate(keys, certificateDataToCreate)];
@@ -266,8 +266,8 @@ var RemmeCertificate = /** @class */ (function () {
                         return [4 /*yield*/, this._remmePublicKeyStorage.store({
                                 data: certificatePEM,
                                 keys: new remme_keys_1.RSA({
-                                    privateKey: privateKey,
-                                    publicKey: publicKey,
+                                    privateKey: remme_keys_1.RSA.getPrivateKeyFromObject(privateKey),
+                                    publicKey: remme_keys_1.RSA.getPublicKeyFromObject(publicKey),
                                 }),
                                 rsaSignaturePadding: remme_keys_1.RSASignaturePadding.PSS,
                                 validFrom: validFrom,
@@ -299,7 +299,7 @@ var RemmeCertificate = /** @class */ (function () {
                         if (typeof certificate === "string") {
                             certificate = remme_utils_1.certificateFromPem(certificate);
                         }
-                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(remme_keys_1.KeyType.RSA, certificate.publicKey);
+                        address = remme_keys_1.RSA.getAddressFromPublicKey(remme_keys_1.RSA.getPublicKeyFromObject(certificate.publicKey));
                         return [4 /*yield*/, this._remmePublicKeyStorage.check(address)];
                     case 1:
                         checkResult = _a.sent();
@@ -333,7 +333,7 @@ var RemmeCertificate = /** @class */ (function () {
                         if (typeof certificate === "string") {
                             certificate = remme_utils_1.certificateFromPem(certificate);
                         }
-                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(remme_keys_1.KeyType.RSA, certificate.publicKey);
+                        address = remme_keys_1.RSA.getAddressFromPublicKey(remme_keys_1.RSA.getPublicKeyFromObject(certificate.publicKey));
                         return [4 /*yield*/, this._remmePublicKeyStorage.getInfo(address)];
                     case 1:
                         checkResult = _a.sent();
@@ -374,7 +374,7 @@ var RemmeCertificate = /** @class */ (function () {
                         if (typeof certificate === "string") {
                             certificate = remme_utils_1.certificateFromPem(certificate);
                         }
-                        address = remme_keys_1.RemmeKeys.getAddressFromPublicKey(remme_keys_1.KeyType.RSA, certificate.publicKey);
+                        address = remme_keys_1.RSA.getAddressFromPublicKey(remme_keys_1.RSA.getPublicKeyFromObject(certificate.publicKey));
                         return [4 /*yield*/, this._remmePublicKeyStorage.revoke(address)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
@@ -397,7 +397,7 @@ var RemmeCertificate = /** @class */ (function () {
             throw new Error("Your certificate does not have private key");
         }
         var keys = new remme_keys_1.RSA({
-            privateKey: certificate.privateKey,
+            privateKey: remme_keys_1.RSA.getPrivateKeyFromObject(certificate.privateKey),
         });
         return keys.sign(data, rsaSignaturePadding);
     };
@@ -415,7 +415,7 @@ var RemmeCertificate = /** @class */ (function () {
             certificate = remme_utils_1.certificateFromPem(certificate);
         }
         var keys = new remme_keys_1.RSA({
-            publicKey: certificate.publicKey,
+            publicKey: remme_keys_1.RSA.getPublicKeyFromObject(certificate.publicKey),
         });
         return keys.verify(data, signature, rsaSignaturePadding);
     };
