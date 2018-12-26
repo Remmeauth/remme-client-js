@@ -172,17 +172,13 @@ gulp.task('lint', function () {
 
 gulp.task('protobuf-compile', function () {
   const remmeFiles = fs.readdirSync(srcRemmeProtobuf)
-      .map(f => {
-        return path.resolve(srcRemmeProtobuf, f);
-      })
-      .filter(f => f.endsWith('.proto'));
+      .map(f => path.resolve(srcRemmeProtobuf, f));
   const sawtoothFiles = fs.readdirSync(srcSawtoothProtobuf)
-      .map(f => {
-        return path.resolve(srcSawtoothProtobuf, f)
-      })
-      .filter(f => f.endsWith('.proto'));
+      .map(f => path.resolve(srcSawtoothProtobuf, f));
 
-  const files = [...remmeFiles, ...sawtoothFiles].join(" ");
+  const files = [...remmeFiles, ...sawtoothFiles]
+      .filter(f => f.endsWith('.proto'))
+      .join(" ");
 
   exec('./node_modules/.bin/pbjs -t static-module -w commonjs -o ./packages/remme-protobuf/dist/index.js ' +
     files +
