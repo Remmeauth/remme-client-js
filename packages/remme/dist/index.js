@@ -105,8 +105,39 @@ var Remme;
             this.token = new remme_token_1.RemmeToken(this._remmeApi, this.transaction);
             this.swap = new remme_atomic_swap_1.RemmeSwap(this._remmeApi, this.transaction);
             this.blockchainInfo = new remme_blockchain_info_1.RemmeBlockchainInfo(this._remmeApi);
-            this.events = new remme_web_socket_events_1.RemmeWebSocketsEvents(this._remmeApi.nodeAddress, this._remmeApi.sslMode);
         }
+        Object.defineProperty(Client.prototype, "events", {
+            /* tslint:disable */
+            /**
+             * This properties hold implementation of RemmeWebSocketEvents,
+             * which get a possibility to listen events from validator about transactions.
+             *
+             * @example
+             *
+             * Subscribe to event
+             * ```typescript
+             * import { RemmeEvents } from "remme-web-socket-events";
+             *
+             * remme.events.subscribe({
+             *     events: RemmeEvents.SwapAll,
+             *     // lastKnownBlockId <-- also can be set if you know it.
+             * }, (err, res) => {
+             *     console.log(res);
+             * });
+             * ```
+             *
+             * Unsubscribe
+             * ```typescript
+             * remme.events.unsubscribe();
+             * ```
+             */
+            /* tslint:enable */
+            get: function () {
+                return new remme_web_socket_events_1.RemmeWebSocketsEvents(this._remmeApi.nodeAddress, this._remmeApi.sslMode);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Client.prototype, "account", {
             /* tslint:disable */
             /**
