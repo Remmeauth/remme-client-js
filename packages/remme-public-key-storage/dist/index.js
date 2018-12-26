@@ -223,7 +223,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                         pubKeyAddress = keys.address;
                         storageSettingsAddress = remme_utils_1.generateSettingsAddress("remme.settings.storage_pub_key");
                         settingAddress = remme_utils_1.generateSettingsAddress("remme.economy_enabled");
-                        storageAddress = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, storagePublicKey);
+                        storageAddress = remme_utils_1.generateAddress(this._remmeAccount.familyName, storagePublicKey);
                         payloadBytes = this._generateTransactionPayload(remme_protobuf_1.PubKeyMethod.Method.STORE, payload);
                         inputs = [
                             pubKeyAddress,
