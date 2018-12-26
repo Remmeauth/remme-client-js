@@ -43,7 +43,7 @@ export const toHex = (str: string): string => {
     return hex;
 };
 
-export const generateAddress = (familyName: string, data: string): string => {
+export const generateAddress = (familyName: string, data: string | Buffer | Uint8Array): string => {
     return `${sha512(familyName).slice(0, 6)}${sha512(data).slice(0, 64)}`;
 };
 

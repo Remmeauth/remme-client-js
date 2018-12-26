@@ -14,8 +14,8 @@ export enum KeyType {
 }
 
 export interface IKeys {
-    privateKey?: Buffer;
-    publicKey?: Buffer;
+    privateKey?: Buffer | Uint8Array;
+    publicKey?: Buffer | Uint8Array;
 }
 
 /**

@@ -6,7 +6,7 @@ import {
 } from "remme-utils";
 import { createHash } from "crypto";
 import { ec as EC } from "elliptic";
-import BN = require("bn.js");
+import * as BN from "bn.js";
 
 import { IKeys, KeyDto, KeyType } from "./index";
 import { IRemmeKeys } from "../interface";
@@ -15,14 +15,15 @@ const ec = new EC("secp256k1");
 
 class ECDSA extends KeyDto implements IRemmeKeys {
 
-    constructor({ privateKey, publicKey }: any) {
+    constructor({ privateKey, publicKey }: IKeys) {
         super();
         if (privateKey && publicKey) {
             this._privateKey = privateKey;
             this._publicKey = publicKey;
         } else if (privateKey) {
             this._privateKey = privateKey;
-            this._publicKey = hexToBytes(ec.keyFromPrivate(privateKey).getPublic(true, "hex"));
+            this._publicKey = hexToBytes(ec.keyFromPrivate(privateKey)
+                .getPublic(true, "hex"));
         } else if (publicKey) {
             this._publicKey = publicKey;
         }
@@ -42,7 +43,7 @@ class ECDSA extends KeyDto implements IRemmeKeys {
 
         return {
             publicKey: hexToBytes(keys.getPublic(true, "hex")),
-            privateKey: hexToBytes(keys.getPrivate( "hex")),
+            privateKey: hexToBytes(keys.getPrivate( "hex") as string),
         };
     }
 
@@ -54,11 +55,12 @@ class ECDSA extends KeyDto implements IRemmeKeys {
         if (!this._privateKey) {
             throw new Error("No private key to sign");
         }
-
         const dataHash = createHash("sha256").update(data).digest("hex");
-        const signature = ec.sign(dataHash, this._privateKey, "hex", { canonical: true, pers: true });
+        const signature = ec.sign(dataHash, this._privateKey, "hex", {
+            canonical: true,
+        });
 
-        return signature.r.toString(16) + signature.s.toString(16);
+        return bytesToHex(signature.r.toBuffer()) + bytesToHex(signature.s.toBuffer());
     }
 
     public verify(data: string, signature: string): boolean {

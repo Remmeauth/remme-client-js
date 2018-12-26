@@ -6,14 +6,8 @@
   "types": "./dist/index.d.ts",
   "namespace": "remme",
   "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-protobuf",
-  "scripts": {
-    "transpile": "./node_modules/.bin/tsc"
-  },
   "license": "Apache-2.0",
   "dependencies": {
     "protobufjs": "^6.7.3"
-  },
-  "devDependencies": {
-    "typescript": "^2.8.3"
   }
 }
