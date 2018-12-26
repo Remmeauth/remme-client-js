@@ -5834,4 +5834,864 @@ $root.TransactionPayload = (function() {
     return TransactionPayload;
 })();
 
+$root.TransactionHeader = (function() {
+
+    /**
+     * Properties of a TransactionHeader.
+     * @exports ITransactionHeader
+     * @interface ITransactionHeader
+     * @property {string|null} [batcherPublicKey] TransactionHeader batcherPublicKey
+     * @property {Array.<string>|null} [dependencies] TransactionHeader dependencies
+     * @property {string|null} [familyName] TransactionHeader familyName
+     * @property {string|null} [familyVersion] TransactionHeader familyVersion
+     * @property {Array.<string>|null} [inputs] TransactionHeader inputs
+     * @property {string|null} [nonce] TransactionHeader nonce
+     * @property {Array.<string>|null} [outputs] TransactionHeader outputs
+     * @property {string|null} [payloadSha512] TransactionHeader payloadSha512
+     * @property {string|null} [signerPublicKey] TransactionHeader signerPublicKey
+     */
+
+    /**
+     * Constructs a new TransactionHeader.
+     * @exports TransactionHeader
+     * @classdesc Represents a TransactionHeader.
+     * @implements ITransactionHeader
+     * @constructor
+     * @param {ITransactionHeader=} [properties] Properties to set
+     */
+    function TransactionHeader(properties) {
+        this.dependencies = [];
+        this.inputs = [];
+        this.outputs = [];
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * TransactionHeader batcherPublicKey.
+     * @member {string} batcherPublicKey
+     * @memberof TransactionHeader
+     * @instance
+     */
+    TransactionHeader.prototype.batcherPublicKey = "";
+
+    /**
+     * TransactionHeader dependencies.
+     * @member {Array.<string>} dependencies
+     * @memberof TransactionHeader
+     * @instance
+     */
+    TransactionHeader.prototype.dependencies = $util.emptyArray;
+
+    /**
+     * TransactionHeader familyName.
+     * @member {string} familyName
+     * @memberof TransactionHeader
+     * @instance
+     */
+    TransactionHeader.prototype.familyName = "";
+
+    /**
+     * TransactionHeader familyVersion.
+     * @member {string} familyVersion
+     * @memberof TransactionHeader
+     * @instance
+     */
+    TransactionHeader.prototype.familyVersion = "";
+
+    /**
+     * TransactionHeader inputs.
+     * @member {Array.<string>} inputs
+     * @memberof TransactionHeader
+     * @instance
+     */
+    TransactionHeader.prototype.inputs = $util.emptyArray;
+
+    /**
+     * TransactionHeader nonce.
+     * @member {string} nonce
+     * @memberof TransactionHeader
+     * @instance
+     */
+    TransactionHeader.prototype.nonce = "";
+
+    /**
+     * TransactionHeader outputs.
+     * @member {Array.<string>} outputs
+     * @memberof TransactionHeader
+     * @instance
+     */
+    TransactionHeader.prototype.outputs = $util.emptyArray;
+
+    /**
+     * TransactionHeader payloadSha512.
+     * @member {string} payloadSha512
+     * @memberof TransactionHeader
+     * @instance
+     */
+    TransactionHeader.prototype.payloadSha512 = "";
+
+    /**
+     * TransactionHeader signerPublicKey.
+     * @member {string} signerPublicKey
+     * @memberof TransactionHeader
+     * @instance
+     */
+    TransactionHeader.prototype.signerPublicKey = "";
+
+    /**
+     * Creates a new TransactionHeader instance using the specified properties.
+     * @function create
+     * @memberof TransactionHeader
+     * @static
+     * @param {ITransactionHeader=} [properties] Properties to set
+     * @returns {TransactionHeader} TransactionHeader instance
+     */
+    TransactionHeader.create = function create(properties) {
+        return new TransactionHeader(properties);
+    };
+
+    /**
+     * Encodes the specified TransactionHeader message. Does not implicitly {@link TransactionHeader.verify|verify} messages.
+     * @function encode
+     * @memberof TransactionHeader
+     * @static
+     * @param {ITransactionHeader} message TransactionHeader message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    TransactionHeader.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.batcherPublicKey != null && message.hasOwnProperty("batcherPublicKey"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.batcherPublicKey);
+        if (message.dependencies != null && message.dependencies.length)
+            for (var i = 0; i < message.dependencies.length; ++i)
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.dependencies[i]);
+        if (message.familyName != null && message.hasOwnProperty("familyName"))
+            writer.uint32(/* id 3, wireType 2 =*/26).string(message.familyName);
+        if (message.familyVersion != null && message.hasOwnProperty("familyVersion"))
+            writer.uint32(/* id 4, wireType 2 =*/34).string(message.familyVersion);
+        if (message.inputs != null && message.inputs.length)
+            for (var i = 0; i < message.inputs.length; ++i)
+                writer.uint32(/* id 5, wireType 2 =*/42).string(message.inputs[i]);
+        if (message.nonce != null && message.hasOwnProperty("nonce"))
+            writer.uint32(/* id 6, wireType 2 =*/50).string(message.nonce);
+        if (message.outputs != null && message.outputs.length)
+            for (var i = 0; i < message.outputs.length; ++i)
+                writer.uint32(/* id 7, wireType 2 =*/58).string(message.outputs[i]);
+        if (message.payloadSha512 != null && message.hasOwnProperty("payloadSha512"))
+            writer.uint32(/* id 9, wireType 2 =*/74).string(message.payloadSha512);
+        if (message.signerPublicKey != null && message.hasOwnProperty("signerPublicKey"))
+            writer.uint32(/* id 10, wireType 2 =*/82).string(message.signerPublicKey);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified TransactionHeader message, length delimited. Does not implicitly {@link TransactionHeader.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof TransactionHeader
+     * @static
+     * @param {ITransactionHeader} message TransactionHeader message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    TransactionHeader.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a TransactionHeader message from the specified reader or buffer.
+     * @function decode
+     * @memberof TransactionHeader
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {TransactionHeader} TransactionHeader
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    TransactionHeader.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.TransactionHeader();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.batcherPublicKey = reader.string();
+                break;
+            case 2:
+                if (!(message.dependencies && message.dependencies.length))
+                    message.dependencies = [];
+                message.dependencies.push(reader.string());
+                break;
+            case 3:
+                message.familyName = reader.string();
+                break;
+            case 4:
+                message.familyVersion = reader.string();
+                break;
+            case 5:
+                if (!(message.inputs && message.inputs.length))
+                    message.inputs = [];
+                message.inputs.push(reader.string());
+                break;
+            case 6:
+                message.nonce = reader.string();
+                break;
+            case 7:
+                if (!(message.outputs && message.outputs.length))
+                    message.outputs = [];
+                message.outputs.push(reader.string());
+                break;
+            case 9:
+                message.payloadSha512 = reader.string();
+                break;
+            case 10:
+                message.signerPublicKey = reader.string();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a TransactionHeader message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof TransactionHeader
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {TransactionHeader} TransactionHeader
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    TransactionHeader.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a TransactionHeader message.
+     * @function verify
+     * @memberof TransactionHeader
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    TransactionHeader.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.batcherPublicKey != null && message.hasOwnProperty("batcherPublicKey"))
+            if (!$util.isString(message.batcherPublicKey))
+                return "batcherPublicKey: string expected";
+        if (message.dependencies != null && message.hasOwnProperty("dependencies")) {
+            if (!Array.isArray(message.dependencies))
+                return "dependencies: array expected";
+            for (var i = 0; i < message.dependencies.length; ++i)
+                if (!$util.isString(message.dependencies[i]))
+                    return "dependencies: string[] expected";
+        }
+        if (message.familyName != null && message.hasOwnProperty("familyName"))
+            if (!$util.isString(message.familyName))
+                return "familyName: string expected";
+        if (message.familyVersion != null && message.hasOwnProperty("familyVersion"))
+            if (!$util.isString(message.familyVersion))
+                return "familyVersion: string expected";
+        if (message.inputs != null && message.hasOwnProperty("inputs")) {
+            if (!Array.isArray(message.inputs))
+                return "inputs: array expected";
+            for (var i = 0; i < message.inputs.length; ++i)
+                if (!$util.isString(message.inputs[i]))
+                    return "inputs: string[] expected";
+        }
+        if (message.nonce != null && message.hasOwnProperty("nonce"))
+            if (!$util.isString(message.nonce))
+                return "nonce: string expected";
+        if (message.outputs != null && message.hasOwnProperty("outputs")) {
+            if (!Array.isArray(message.outputs))
+                return "outputs: array expected";
+            for (var i = 0; i < message.outputs.length; ++i)
+                if (!$util.isString(message.outputs[i]))
+                    return "outputs: string[] expected";
+        }
+        if (message.payloadSha512 != null && message.hasOwnProperty("payloadSha512"))
+            if (!$util.isString(message.payloadSha512))
+                return "payloadSha512: string expected";
+        if (message.signerPublicKey != null && message.hasOwnProperty("signerPublicKey"))
+            if (!$util.isString(message.signerPublicKey))
+                return "signerPublicKey: string expected";
+        return null;
+    };
+
+    /**
+     * Creates a TransactionHeader message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof TransactionHeader
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {TransactionHeader} TransactionHeader
+     */
+    TransactionHeader.fromObject = function fromObject(object) {
+        if (object instanceof $root.TransactionHeader)
+            return object;
+        var message = new $root.TransactionHeader();
+        if (object.batcherPublicKey != null)
+            message.batcherPublicKey = String(object.batcherPublicKey);
+        if (object.dependencies) {
+            if (!Array.isArray(object.dependencies))
+                throw TypeError(".TransactionHeader.dependencies: array expected");
+            message.dependencies = [];
+            for (var i = 0; i < object.dependencies.length; ++i)
+                message.dependencies[i] = String(object.dependencies[i]);
+        }
+        if (object.familyName != null)
+            message.familyName = String(object.familyName);
+        if (object.familyVersion != null)
+            message.familyVersion = String(object.familyVersion);
+        if (object.inputs) {
+            if (!Array.isArray(object.inputs))
+                throw TypeError(".TransactionHeader.inputs: array expected");
+            message.inputs = [];
+            for (var i = 0; i < object.inputs.length; ++i)
+                message.inputs[i] = String(object.inputs[i]);
+        }
+        if (object.nonce != null)
+            message.nonce = String(object.nonce);
+        if (object.outputs) {
+            if (!Array.isArray(object.outputs))
+                throw TypeError(".TransactionHeader.outputs: array expected");
+            message.outputs = [];
+            for (var i = 0; i < object.outputs.length; ++i)
+                message.outputs[i] = String(object.outputs[i]);
+        }
+        if (object.payloadSha512 != null)
+            message.payloadSha512 = String(object.payloadSha512);
+        if (object.signerPublicKey != null)
+            message.signerPublicKey = String(object.signerPublicKey);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a TransactionHeader message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof TransactionHeader
+     * @static
+     * @param {TransactionHeader} message TransactionHeader
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    TransactionHeader.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.arrays || options.defaults) {
+            object.dependencies = [];
+            object.inputs = [];
+            object.outputs = [];
+        }
+        if (options.defaults) {
+            object.batcherPublicKey = "";
+            object.familyName = "";
+            object.familyVersion = "";
+            object.nonce = "";
+            object.payloadSha512 = "";
+            object.signerPublicKey = "";
+        }
+        if (message.batcherPublicKey != null && message.hasOwnProperty("batcherPublicKey"))
+            object.batcherPublicKey = message.batcherPublicKey;
+        if (message.dependencies && message.dependencies.length) {
+            object.dependencies = [];
+            for (var j = 0; j < message.dependencies.length; ++j)
+                object.dependencies[j] = message.dependencies[j];
+        }
+        if (message.familyName != null && message.hasOwnProperty("familyName"))
+            object.familyName = message.familyName;
+        if (message.familyVersion != null && message.hasOwnProperty("familyVersion"))
+            object.familyVersion = message.familyVersion;
+        if (message.inputs && message.inputs.length) {
+            object.inputs = [];
+            for (var j = 0; j < message.inputs.length; ++j)
+                object.inputs[j] = message.inputs[j];
+        }
+        if (message.nonce != null && message.hasOwnProperty("nonce"))
+            object.nonce = message.nonce;
+        if (message.outputs && message.outputs.length) {
+            object.outputs = [];
+            for (var j = 0; j < message.outputs.length; ++j)
+                object.outputs[j] = message.outputs[j];
+        }
+        if (message.payloadSha512 != null && message.hasOwnProperty("payloadSha512"))
+            object.payloadSha512 = message.payloadSha512;
+        if (message.signerPublicKey != null && message.hasOwnProperty("signerPublicKey"))
+            object.signerPublicKey = message.signerPublicKey;
+        return object;
+    };
+
+    /**
+     * Converts this TransactionHeader to JSON.
+     * @function toJSON
+     * @memberof TransactionHeader
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    TransactionHeader.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return TransactionHeader;
+})();
+
+$root.Transaction = (function() {
+
+    /**
+     * Properties of a Transaction.
+     * @exports ITransaction
+     * @interface ITransaction
+     * @property {Uint8Array|null} [header] Transaction header
+     * @property {string|null} [headerSignature] Transaction headerSignature
+     * @property {Uint8Array|null} [payload] Transaction payload
+     */
+
+    /**
+     * Constructs a new Transaction.
+     * @exports Transaction
+     * @classdesc Represents a Transaction.
+     * @implements ITransaction
+     * @constructor
+     * @param {ITransaction=} [properties] Properties to set
+     */
+    function Transaction(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Transaction header.
+     * @member {Uint8Array} header
+     * @memberof Transaction
+     * @instance
+     */
+    Transaction.prototype.header = $util.newBuffer([]);
+
+    /**
+     * Transaction headerSignature.
+     * @member {string} headerSignature
+     * @memberof Transaction
+     * @instance
+     */
+    Transaction.prototype.headerSignature = "";
+
+    /**
+     * Transaction payload.
+     * @member {Uint8Array} payload
+     * @memberof Transaction
+     * @instance
+     */
+    Transaction.prototype.payload = $util.newBuffer([]);
+
+    /**
+     * Creates a new Transaction instance using the specified properties.
+     * @function create
+     * @memberof Transaction
+     * @static
+     * @param {ITransaction=} [properties] Properties to set
+     * @returns {Transaction} Transaction instance
+     */
+    Transaction.create = function create(properties) {
+        return new Transaction(properties);
+    };
+
+    /**
+     * Encodes the specified Transaction message. Does not implicitly {@link Transaction.verify|verify} messages.
+     * @function encode
+     * @memberof Transaction
+     * @static
+     * @param {ITransaction} message Transaction message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Transaction.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.header != null && message.hasOwnProperty("header"))
+            writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.header);
+        if (message.headerSignature != null && message.hasOwnProperty("headerSignature"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.headerSignature);
+        if (message.payload != null && message.hasOwnProperty("payload"))
+            writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.payload);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified Transaction message, length delimited. Does not implicitly {@link Transaction.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof Transaction
+     * @static
+     * @param {ITransaction} message Transaction message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Transaction.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a Transaction message from the specified reader or buffer.
+     * @function decode
+     * @memberof Transaction
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {Transaction} Transaction
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Transaction.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Transaction();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.header = reader.bytes();
+                break;
+            case 2:
+                message.headerSignature = reader.string();
+                break;
+            case 3:
+                message.payload = reader.bytes();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a Transaction message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof Transaction
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {Transaction} Transaction
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Transaction.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a Transaction message.
+     * @function verify
+     * @memberof Transaction
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    Transaction.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.header != null && message.hasOwnProperty("header"))
+            if (!(message.header && typeof message.header.length === "number" || $util.isString(message.header)))
+                return "header: buffer expected";
+        if (message.headerSignature != null && message.hasOwnProperty("headerSignature"))
+            if (!$util.isString(message.headerSignature))
+                return "headerSignature: string expected";
+        if (message.payload != null && message.hasOwnProperty("payload"))
+            if (!(message.payload && typeof message.payload.length === "number" || $util.isString(message.payload)))
+                return "payload: buffer expected";
+        return null;
+    };
+
+    /**
+     * Creates a Transaction message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof Transaction
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {Transaction} Transaction
+     */
+    Transaction.fromObject = function fromObject(object) {
+        if (object instanceof $root.Transaction)
+            return object;
+        var message = new $root.Transaction();
+        if (object.header != null)
+            if (typeof object.header === "string")
+                $util.base64.decode(object.header, message.header = $util.newBuffer($util.base64.length(object.header)), 0);
+            else if (object.header.length)
+                message.header = object.header;
+        if (object.headerSignature != null)
+            message.headerSignature = String(object.headerSignature);
+        if (object.payload != null)
+            if (typeof object.payload === "string")
+                $util.base64.decode(object.payload, message.payload = $util.newBuffer($util.base64.length(object.payload)), 0);
+            else if (object.payload.length)
+                message.payload = object.payload;
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a Transaction message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof Transaction
+     * @static
+     * @param {Transaction} message Transaction
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    Transaction.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.header = options.bytes === String ? "" : [];
+            object.headerSignature = "";
+            object.payload = options.bytes === String ? "" : [];
+        }
+        if (message.header != null && message.hasOwnProperty("header"))
+            object.header = options.bytes === String ? $util.base64.encode(message.header, 0, message.header.length) : options.bytes === Array ? Array.prototype.slice.call(message.header) : message.header;
+        if (message.headerSignature != null && message.hasOwnProperty("headerSignature"))
+            object.headerSignature = message.headerSignature;
+        if (message.payload != null && message.hasOwnProperty("payload"))
+            object.payload = options.bytes === String ? $util.base64.encode(message.payload, 0, message.payload.length) : options.bytes === Array ? Array.prototype.slice.call(message.payload) : message.payload;
+        return object;
+    };
+
+    /**
+     * Converts this Transaction to JSON.
+     * @function toJSON
+     * @memberof Transaction
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    Transaction.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return Transaction;
+})();
+
+$root.TransactionList = (function() {
+
+    /**
+     * Properties of a TransactionList.
+     * @exports ITransactionList
+     * @interface ITransactionList
+     * @property {Array.<ITransaction>|null} [transactions] TransactionList transactions
+     */
+
+    /**
+     * Constructs a new TransactionList.
+     * @exports TransactionList
+     * @classdesc Represents a TransactionList.
+     * @implements ITransactionList
+     * @constructor
+     * @param {ITransactionList=} [properties] Properties to set
+     */
+    function TransactionList(properties) {
+        this.transactions = [];
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * TransactionList transactions.
+     * @member {Array.<ITransaction>} transactions
+     * @memberof TransactionList
+     * @instance
+     */
+    TransactionList.prototype.transactions = $util.emptyArray;
+
+    /**
+     * Creates a new TransactionList instance using the specified properties.
+     * @function create
+     * @memberof TransactionList
+     * @static
+     * @param {ITransactionList=} [properties] Properties to set
+     * @returns {TransactionList} TransactionList instance
+     */
+    TransactionList.create = function create(properties) {
+        return new TransactionList(properties);
+    };
+
+    /**
+     * Encodes the specified TransactionList message. Does not implicitly {@link TransactionList.verify|verify} messages.
+     * @function encode
+     * @memberof TransactionList
+     * @static
+     * @param {ITransactionList} message TransactionList message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    TransactionList.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.transactions != null && message.transactions.length)
+            for (var i = 0; i < message.transactions.length; ++i)
+                $root.Transaction.encode(message.transactions[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified TransactionList message, length delimited. Does not implicitly {@link TransactionList.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof TransactionList
+     * @static
+     * @param {ITransactionList} message TransactionList message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    TransactionList.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a TransactionList message from the specified reader or buffer.
+     * @function decode
+     * @memberof TransactionList
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {TransactionList} TransactionList
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    TransactionList.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.TransactionList();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                if (!(message.transactions && message.transactions.length))
+                    message.transactions = [];
+                message.transactions.push($root.Transaction.decode(reader, reader.uint32()));
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a TransactionList message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof TransactionList
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {TransactionList} TransactionList
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    TransactionList.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a TransactionList message.
+     * @function verify
+     * @memberof TransactionList
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    TransactionList.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.transactions != null && message.hasOwnProperty("transactions")) {
+            if (!Array.isArray(message.transactions))
+                return "transactions: array expected";
+            for (var i = 0; i < message.transactions.length; ++i) {
+                var error = $root.Transaction.verify(message.transactions[i]);
+                if (error)
+                    return "transactions." + error;
+            }
+        }
+        return null;
+    };
+
+    /**
+     * Creates a TransactionList message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof TransactionList
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {TransactionList} TransactionList
+     */
+    TransactionList.fromObject = function fromObject(object) {
+        if (object instanceof $root.TransactionList)
+            return object;
+        var message = new $root.TransactionList();
+        if (object.transactions) {
+            if (!Array.isArray(object.transactions))
+                throw TypeError(".TransactionList.transactions: array expected");
+            message.transactions = [];
+            for (var i = 0; i < object.transactions.length; ++i) {
+                if (typeof object.transactions[i] !== "object")
+                    throw TypeError(".TransactionList.transactions: object expected");
+                message.transactions[i] = $root.Transaction.fromObject(object.transactions[i]);
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a TransactionList message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof TransactionList
+     * @static
+     * @param {TransactionList} message TransactionList
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    TransactionList.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.arrays || options.defaults)
+            object.transactions = [];
+        if (message.transactions && message.transactions.length) {
+            object.transactions = [];
+            for (var j = 0; j < message.transactions.length; ++j)
+                object.transactions[j] = $root.Transaction.toObject(message.transactions[j], options);
+        }
+        return object;
+    };
+
+    /**
+     * Converts this TransactionList to JSON.
+     * @function toJSON
+     * @memberof TransactionList
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    TransactionList.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return TransactionList;
+})();
+
 module.exports = $root;
