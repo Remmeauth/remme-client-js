@@ -89,7 +89,6 @@ class RemmeTransactionService implements IRemmeTransactionService {
             payloadBytes,
         } = settings;
 
-        // const batcherPublicKey = await this._remmeApi.sendRequest<string>(RemmeMethods.nodeKey);
         const {
             node_public_key: batcherPublicKey,
         } = await this._remmeApi.sendRequest<NodeConfigRequest>(RemmeMethods.nodeConfig);
