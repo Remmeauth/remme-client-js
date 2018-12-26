@@ -69,6 +69,7 @@
     "karma-typescript-preprocessor": "^0.3.1",
     "lerna": "^2.11.0",
     "mocha": "^5.1.1",
+    "protobufjs": "^6.7.3",
     "ts-node": "^6.0.3",
     "tsify": "^4.0.0",
     "tslint": "^5.10.0",
@@ -83,7 +84,6 @@
     "crypto": "^1.0.1",
     "docdash": "^0.4.0",
     "gulp-babel": "^7.0.1",
-    "jsdoc": "^3.5.5",
-    "sawtooth-sdk": "^1.0.4"
+    "jsdoc": "^3.5.5"
   }
 }

@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_api_1 = require("remme-api");
 var remme_utils_1 = require("remme-utils");
-var protobuf = require("sawtooth-sdk/protobuf");
+var protobuf = require("remme-protobuf");
 var models_1 = require("./models");
 exports.BaseTransactionResponse = models_1.BaseTransactionResponse;
 exports.CreateTransactionDto = models_1.CreateTransactionDto;

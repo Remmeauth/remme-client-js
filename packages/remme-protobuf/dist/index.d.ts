@@ -2476,3 +2476,333 @@ export class TransactionPayload implements ITransactionPayload {
      */
     public toJSON(): { [k: string]: any };
 }
+
+/** Properties of a TransactionHeader. */
+export interface ITransactionHeader {
+
+    /** TransactionHeader batcherPublicKey */
+    batcherPublicKey?: (string|null);
+
+    /** TransactionHeader dependencies */
+    dependencies?: (string[]|null);
+
+    /** TransactionHeader familyName */
+    familyName?: (string|null);
+
+    /** TransactionHeader familyVersion */
+    familyVersion?: (string|null);
+
+    /** TransactionHeader inputs */
+    inputs?: (string[]|null);
+
+    /** TransactionHeader nonce */
+    nonce?: (string|null);
+
+    /** TransactionHeader outputs */
+    outputs?: (string[]|null);
+
+    /** TransactionHeader payloadSha512 */
+    payloadSha512?: (string|null);
+
+    /** TransactionHeader signerPublicKey */
+    signerPublicKey?: (string|null);
+}
+
+/** Represents a TransactionHeader. */
+export class TransactionHeader implements ITransactionHeader {
+
+    /**
+     * Constructs a new TransactionHeader.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: ITransactionHeader);
+
+    /** TransactionHeader batcherPublicKey. */
+    public batcherPublicKey: string;
+
+    /** TransactionHeader dependencies. */
+    public dependencies: string[];
+
+    /** TransactionHeader familyName. */
+    public familyName: string;
+
+    /** TransactionHeader familyVersion. */
+    public familyVersion: string;
+
+    /** TransactionHeader inputs. */
+    public inputs: string[];
+
+    /** TransactionHeader nonce. */
+    public nonce: string;
+
+    /** TransactionHeader outputs. */
+    public outputs: string[];
+
+    /** TransactionHeader payloadSha512. */
+    public payloadSha512: string;
+
+    /** TransactionHeader signerPublicKey. */
+    public signerPublicKey: string;
+
+    /**
+     * Creates a new TransactionHeader instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns TransactionHeader instance
+     */
+    public static create(properties?: ITransactionHeader): TransactionHeader;
+
+    /**
+     * Encodes the specified TransactionHeader message. Does not implicitly {@link TransactionHeader.verify|verify} messages.
+     * @param message TransactionHeader message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: ITransactionHeader, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified TransactionHeader message, length delimited. Does not implicitly {@link TransactionHeader.verify|verify} messages.
+     * @param message TransactionHeader message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: ITransactionHeader, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a TransactionHeader message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns TransactionHeader
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): TransactionHeader;
+
+    /**
+     * Decodes a TransactionHeader message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns TransactionHeader
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): TransactionHeader;
+
+    /**
+     * Verifies a TransactionHeader message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a TransactionHeader message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns TransactionHeader
+     */
+    public static fromObject(object: { [k: string]: any }): TransactionHeader;
+
+    /**
+     * Creates a plain object from a TransactionHeader message. Also converts values to other types if specified.
+     * @param message TransactionHeader
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: TransactionHeader, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this TransactionHeader to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of a Transaction. */
+export interface ITransaction {
+
+    /** Transaction header */
+    header?: (Uint8Array|null);
+
+    /** Transaction headerSignature */
+    headerSignature?: (string|null);
+
+    /** Transaction payload */
+    payload?: (Uint8Array|null);
+}
+
+/** Represents a Transaction. */
+export class Transaction implements ITransaction {
+
+    /**
+     * Constructs a new Transaction.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: ITransaction);
+
+    /** Transaction header. */
+    public header: Uint8Array;
+
+    /** Transaction headerSignature. */
+    public headerSignature: string;
+
+    /** Transaction payload. */
+    public payload: Uint8Array;
+
+    /**
+     * Creates a new Transaction instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns Transaction instance
+     */
+    public static create(properties?: ITransaction): Transaction;
+
+    /**
+     * Encodes the specified Transaction message. Does not implicitly {@link Transaction.verify|verify} messages.
+     * @param message Transaction message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: ITransaction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified Transaction message, length delimited. Does not implicitly {@link Transaction.verify|verify} messages.
+     * @param message Transaction message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: ITransaction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a Transaction message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns Transaction
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Transaction;
+
+    /**
+     * Decodes a Transaction message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns Transaction
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Transaction;
+
+    /**
+     * Verifies a Transaction message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a Transaction message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns Transaction
+     */
+    public static fromObject(object: { [k: string]: any }): Transaction;
+
+    /**
+     * Creates a plain object from a Transaction message. Also converts values to other types if specified.
+     * @param message Transaction
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: Transaction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this Transaction to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of a TransactionList. */
+export interface ITransactionList {
+
+    /** TransactionList transactions */
+    transactions?: (ITransaction[]|null);
+}
+
+/** Represents a TransactionList. */
+export class TransactionList implements ITransactionList {
+
+    /**
+     * Constructs a new TransactionList.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: ITransactionList);
+
+    /** TransactionList transactions. */
+    public transactions: ITransaction[];
+
+    /**
+     * Creates a new TransactionList instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns TransactionList instance
+     */
+    public static create(properties?: ITransactionList): TransactionList;
+
+    /**
+     * Encodes the specified TransactionList message. Does not implicitly {@link TransactionList.verify|verify} messages.
+     * @param message TransactionList message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: ITransactionList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified TransactionList message, length delimited. Does not implicitly {@link TransactionList.verify|verify} messages.
+     * @param message TransactionList message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: ITransactionList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a TransactionList message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns TransactionList
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): TransactionList;
+
+    /**
+     * Decodes a TransactionList message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns TransactionList
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): TransactionList;
+
+    /**
+     * Verifies a TransactionList message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a TransactionList message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns TransactionList
+     */
+    public static fromObject(object: { [k: string]: any }): TransactionList;
+
+    /**
+     * Creates a plain object from a TransactionList message. Also converts values to other types if specified.
+     * @param message TransactionList
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: TransactionList, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this TransactionList to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}

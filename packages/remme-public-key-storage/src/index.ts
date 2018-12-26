@@ -196,7 +196,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
 
         const storageSettingsAddress = generateSettingsAddress("remme.settings.storage_pub_key");
         const settingAddress = generateSettingsAddress("remme.economy_enabled");
-        const storageAddress = generateAddress(RemmeFamilyName.PublicKey, storagePublicKey);
+        const storageAddress = generateAddress(this._remmeAccount.familyName, storagePublicKey);
 
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
         const inputs = [
