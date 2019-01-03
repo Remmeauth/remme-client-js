@@ -1,6 +1,11 @@
 import { HttpClient, AxiosRequestConfig } from "remme-http-client";
 import { IRemmeApi } from "./interface";
-import { RemmeMethods, INetworkConfig } from "./models";
+import {
+    RemmeMethods,
+    INetworkConfig,
+    nodeAddressValidator,
+    nodePortValidator,
+} from "./models";
 
 /**
  * Default config for creating url that passed to RemmeRest constructor;
@@ -41,6 +46,18 @@ class RemmeApi implements IRemmeApi {
 
     private readonly _nodeAddress: string;
     private readonly _sslMode: boolean;
+
+    private validateNodeConfig( nodeAddress,
+                                nodePort,
+                                sslMode ) {
+        if (!nodeAddressValidator.test(nodeAddress) && nodeAddress !== "localhost") {
+            throw new Error("You try construct with invalid nodeAddress");
+        } else if (typeof sslMode !== "boolean") {
+            throw new Error("You try construct with invalid sslMode");
+        } else if (!nodePortValidator.test(nodePort)) {
+            throw new Error("You try construct with invalid nodePort");
+        }
+    }
 
     private _getUrlForRequest(): string {
         return `${this._sslMode ? "https://" : "http://"}${this._nodeAddress}`;
@@ -101,6 +118,11 @@ class RemmeApi implements IRemmeApi {
                            nodePort = 8080,
                            sslMode = false,
     }: INetworkConfig = DEFAULT_NETWORK_CONFIG) {
+        try {
+            this.validateNodeConfig(nodeAddress, nodePort, sslMode);
+        } catch (e) {
+            throw e;
+        }
         this._nodeAddress = `${nodeAddress}:${nodePort}`;
         this._sslMode = sslMode;
     }

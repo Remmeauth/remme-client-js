@@ -1,4 +1,8 @@
 export { RemmeMethods } from "./remme-methods";
+export {
+    nodeAddressValidator,
+    nodePortValidator,
+} from "./validators";
 
 /**
  * Network configuration.
