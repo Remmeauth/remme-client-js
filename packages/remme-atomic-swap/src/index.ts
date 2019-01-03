@@ -130,25 +130,21 @@ class RemmeSwap implements IRemmeSwap {
             },
             [AtomicSwapMethod.Method.EXPIRE]: {
                 inputs: [
-                    this._zeroAddress,
                     this._blockInfoNamespaceAddress,
                     this._blockInfoConfigAddress,
                     this._settingsKeyGenesisOwners,
                 ],
                 outputs: [
-                    this._zeroAddress,
                     this._settingsKeyGenesisOwners,
                 ],
             },
             [AtomicSwapMethod.Method.CLOSE]: {
                 inputs: [
                     receiverAddress,
-                    this._zeroAddress,
                     this._settingsKeyGenesisOwners,
                 ],
                 outputs: [
                     receiverAddress,
-                    this._zeroAddress,
                     this._settingsKeyGenesisOwners,
                 ],
             },
