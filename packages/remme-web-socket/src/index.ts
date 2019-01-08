@@ -88,14 +88,14 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
  *          nodeAddress: "localhost",
  *          nodePort: "8080",
  *          sslMode: false
- *      }
+ *      },
  *      data: {
  *          event_type: "batch",
  *          id: transactionResult.batchId,
- *      };
+ *      }
  * });
  *
- * mySocketConnection.connectToWebSocket((err: Error, res: any) => {
+ * remmeWebSocket.connectToWebSocket((err: Error, res: any) => {
  *     if (err) {
  *         console.log(err);
  *         return;
@@ -110,9 +110,7 @@ class RemmeWebSocket implements IRemmeWebSocket {
     // index signature
     [key: string]: any;
 
-    private readonly _nodeAddress: string;
-    private readonly _nodePort: string | number;
-    private readonly _sslMode: boolean;
+    private readonly _networkConfig: INetworkConfig;
 
     private readonly _map = {
         [RemmeEvents.Batch]: (data) => new BatchInfoDto(data),
@@ -130,8 +128,9 @@ class RemmeWebSocket implements IRemmeWebSocket {
     }
 
     private _getSubscribeUrl(): string {
-        const protocol = this.sslMode ? "wss://" : "ws://";
-        return `${protocol}${this.nodeAddress}:${this.nodePort}/`;
+        const { nodeAddress, nodePort, sslMode } = this._networkConfig;
+        const protocol = sslMode ? "wss://" : "ws://";
+        return `${protocol}${nodeAddress}:${nodePort}/`;
     }
 
     private _getSocketQuery(isSubscribe: boolean = true): string {
@@ -151,42 +150,15 @@ class RemmeWebSocket implements IRemmeWebSocket {
      * @param {INetworkConfig} networkConfig
      */
     public constructor(networkConfig: INetworkConfig) {
-        const { nodeAddress, nodePort, sslMode } = networkConfig;
-        this._nodeAddress = nodeAddress;
-        this._nodePort = nodePort;
-        this._sslMode = sslMode;
+        this._networkConfig = networkConfig;
     }
 
     /**
-     * Get node address that was provided by user
-     * @returns {string}
+     * Get network config that was provided by user
+     * @returns {INetworkConfig}
      */
-    public get nodeAddress(): string {
-        return this._nodeAddress;
-    }
-
-    /**
-     * Get node address that was provided by user
-     * @returns {string|number}
-     */
-    public get nodePort(): string | number {
-        return this._nodePort;
-    }
-
-    /**
-     * Get ssl mode that was provided by user
-     * @returns {string}
-     */
-    public get sslMode(): boolean {
-        return this._sslMode;
-    }
-
     public get networkConfig(): INetworkConfig {
-        return {
-            nodeAddress: this._nodeAddress,
-            nodePort: this._nodePort,
-            sslMode: this._sslMode,
-        };
+        return this._networkConfig;
     }
 
     /**

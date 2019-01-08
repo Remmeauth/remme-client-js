@@ -39,12 +39,11 @@ class RemmeApi implements IRemmeApi {
     // index signature
     [key: string]: any;
 
-    private readonly _nodeAddress: string;
-    private readonly _sslMode: boolean;
     private readonly _networkConfig: INetworkConfig;
 
     private _getUrlForRequest(): string {
-        return `${this._sslMode ? "https://" : "http://"}${this._nodeAddress}`;
+        const { nodeAddress, nodePort, sslMode} = this._networkConfig;
+        return `${sslMode ? "https://" : "http://"}${nodeAddress}:${nodePort}`;
     }
 
     private _getRequestConfig<Input>(method: RemmeMethods, payload?: Input): AxiosRequestConfig {
@@ -107,8 +106,6 @@ class RemmeApi implements IRemmeApi {
             nodePort,
             sslMode,
         };
-        this._nodeAddress = `${nodeAddress}:${nodePort}`;
-        this._sslMode = sslMode;
     }
 
     /**
@@ -117,22 +114,6 @@ class RemmeApi implements IRemmeApi {
      */
     public get networkConfig(): INetworkConfig {
         return this._networkConfig;
-    }
-
-    /**
-     * Return node address which contain domain name and port.
-     * @returns {string}
-     */
-    public get nodeAddress(): string {
-        return this._nodeAddress;
-    }
-
-    /**
-     * Return ssl mode which was provided by user.
-     * @returns {boolean}
-     */
-    public get sslMode(): boolean {
-        return this._sslMode;
     }
 
     public async sendRequest<Output>(method: RemmeMethods): Promise<Output>;
