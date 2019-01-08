@@ -1,8 +1,11 @@
+import { RemmeFamilyName } from "remme-utils";
+
 export interface IBaseQuery {
     head?: string;
     start?: string | number;
     limit?: number;
     reverse?: string | boolean;
+    family_name?: RemmeFamilyName;
 }
 
 export interface IStateQuery extends IBaseQuery {
@@ -14,6 +17,7 @@ export class BaseQuery implements IBaseQuery {
     public start?: string | number;
     public limit?: number;
     public reverse?: string | boolean;
+    public family_name?: RemmeFamilyName;
 
     constructor(query: IBaseQuery) {
         if (query.head && query.head.search(/[a-f0-9]{128}/) === -1) {
@@ -30,6 +34,7 @@ export class BaseQuery implements IBaseQuery {
                 throw new Error(`Parameter "start" not a valid`);
             }
         }
+        this.family_name = query.family_name;
         this.limit = query.limit;
         this.reverse = query.reverse ? "" : "false";
     }
