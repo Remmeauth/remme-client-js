@@ -3,3 +3,4 @@ node_modules
 docs/
 docs.zip
 keys.txt
+examples/.env
