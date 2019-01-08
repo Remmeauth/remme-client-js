@@ -11,7 +11,8 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-web-socket": "^0.5.9"
+    "remme-web-socket": "^0.5.9",
+    "remme-api": "^0.4.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

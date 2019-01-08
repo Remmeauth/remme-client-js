@@ -1,3 +1,4 @@
+import { INetworkConfig } from "remme-api";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 import { IRemmeWebSocket } from "./interface";
@@ -21,6 +22,7 @@ import {
     SwapInfo,
     W3CSocket,
 } from "./models";
+
 /**
  * @hidden
  */
@@ -75,15 +77,18 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
  * But you also can use your class for work with WebSockets. Just inherit it from RemmeWebSocket, like this:
  * ```typescript
  * class mySocketConnection extends RemmeWebSocket {
- *      constructor({nodeAddress, sslMode, data}) {
- *          super(nodeAddress, sslMode);
+ *      constructor({networkConfig, data}) {
+ *          super(networkConfig);
  *          this.data = data;
  *      }
  * }
  *
  * const remmeWebSocket = new mySocketConnection({
- *      nodeAddress: "localhost:8080",
- *      sslMode: false,
+ *      networkConfig: {
+ *          nodeAddress: "localhost",
+ *          nodePort: "8080",
+ *          sslMode: false
+ *      }
  *      data: {
  *          event_type: "batch",
  *          id: transactionResult.batchId,
@@ -106,7 +111,9 @@ class RemmeWebSocket implements IRemmeWebSocket {
     [key: string]: any;
 
     private readonly _nodeAddress: string;
+    private readonly _nodePort: string | number;
     private readonly _sslMode: boolean;
+
     private readonly _map = {
         [RemmeEvents.Batch]: (data) => new BatchInfoDto(data),
         [RemmeEvents.AtomicSwap]: (data) => new SwapInfo(data),
@@ -124,7 +131,7 @@ class RemmeWebSocket implements IRemmeWebSocket {
 
     private _getSubscribeUrl(): string {
         const protocol = this.sslMode ? "wss://" : "ws://";
-        return `${protocol}${this.nodeAddress}/`;
+        return `${protocol}${this.nodeAddress}:${this.nodePort}/`;
     }
 
     private _getSocketQuery(isSubscribe: boolean = true): string {
@@ -139,13 +146,14 @@ class RemmeWebSocket implements IRemmeWebSocket {
      * Implement RemmeWebSocket by providing node address and ssl mode.
      * @example
      * ```typescript
-     * const remmeWebSocket = new RemmeWebSocket(nodeAddress, sslMode);
+     * const remmeWebSocket = new RemmeWebSocket(networkConfig);
      * ```
-     * @param {string} nodeAddress
-     * @param {boolean} sslMode
+     * @param {INetworkConfig} networkConfig
      */
-    public constructor(nodeAddress: string, sslMode: boolean) {
+    public constructor(networkConfig: INetworkConfig) {
+        const { nodeAddress, nodePort, sslMode } = networkConfig;
         this._nodeAddress = nodeAddress;
+        this._nodePort = nodePort;
         this._sslMode = sslMode;
     }
 
@@ -158,11 +166,27 @@ class RemmeWebSocket implements IRemmeWebSocket {
     }
 
     /**
+     * Get node address that was provided by user
+     * @returns {string|number}
+     */
+    public get nodePort(): string | number {
+        return this._nodePort;
+    }
+
+    /**
      * Get ssl mode that was provided by user
      * @returns {string}
      */
     public get sslMode(): boolean {
         return this._sslMode;
+    }
+
+    public get networkConfig(): INetworkConfig {
+        return {
+            nodeAddress: this._nodeAddress,
+            nodePort: this._nodePort,
+            sslMode: this._sslMode,
+        };
     }
 
     /**

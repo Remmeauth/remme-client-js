@@ -1,4 +1,5 @@
 import { IRemmeRequestParams, RemmeEvents, RemmeRequestParams, RemmeWebSocket } from "remme-web-socket";
+import { INetworkConfig } from "remme-api";
 
 import { IRemmeWebSocketsEvents } from "./interface";
 
@@ -24,13 +25,16 @@ class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEv
      * Implementation of RemmeWebSocketsEvents;
      * @example
      * ```typescript
-     * const remmeEvents = new RemmeWebSocketsEvents("localhost:8080", false);
+     * const remmeEvents = new RemmeWebSocketsEvents({
+     *     nodeAddress: "localhost",
+     *     nodePort: "8080",
+     *     sslMode: false
+     * });
      * ```
-     * @param {string} nodeAddress
-     * @param {boolean} sslMode
+     * @param {INetworkConfig} networkConfig
      */
-    public constructor(nodeAddress: string, sslMode: boolean) {
-        super(nodeAddress, sslMode);
+    public constructor(networkConfig: INetworkConfig) {
+        super(networkConfig);
     }
 
     /**

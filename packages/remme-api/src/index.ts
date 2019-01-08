@@ -41,6 +41,7 @@ class RemmeApi implements IRemmeApi {
 
     private readonly _nodeAddress: string;
     private readonly _sslMode: boolean;
+    private readonly _networkConfig: INetworkConfig;
 
     private _getUrlForRequest(): string {
         return `${this._sslMode ? "https://" : "http://"}${this._nodeAddress}`;
@@ -101,8 +102,21 @@ class RemmeApi implements IRemmeApi {
                            nodePort = 8080,
                            sslMode = false,
     }: INetworkConfig = DEFAULT_NETWORK_CONFIG) {
+        this._networkConfig = {
+            nodeAddress,
+            nodePort,
+            sslMode,
+        };
         this._nodeAddress = `${nodeAddress}:${nodePort}`;
         this._sslMode = sslMode;
+    }
+
+    /**
+     * Return network config object which contain domain name, port and ssl.
+     * @returns {INetworkConfig}
+     */
+    public get networkConfig(): INetworkConfig {
+        return this._networkConfig;
     }
 
     /**

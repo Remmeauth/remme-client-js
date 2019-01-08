@@ -1,6 +1,7 @@
 import { forge } from "remme-utils";
 import { RSA, IRemmeKeys, RSASignaturePadding } from "remme-keys";
 import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-transaction-service";
+import { INetworkConfig } from "remme-api";
 
 export interface ICertificateTransactionResponse extends IBaseTransactionResponse {
     certificate: forge.pki.Certificate;
@@ -18,12 +19,11 @@ export class CertificateTransactionResponse extends BaseTransactionResponse impl
     public certificate: forge.pki.Certificate;
 
     constructor(
-        socketAddress: string,
-        sslMode: boolean,
+        networkConfig: INetworkConfig,
         batchId: string,
         certificate: forge.pki.Certificate,
     ) {
-        super(socketAddress, sslMode, batchId);
+        super(networkConfig, batchId);
         this.certificate = certificate;
         this.keys = new RSA({
             privateKey: RSA.getPrivateKeyFromObject(this.certificate.privateKey),

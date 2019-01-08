@@ -3,7 +3,6 @@ import {
     oids,
     certificateToPem,
     certificateFromPem,
-    bytesToHex,
 } from "remme-utils";
 import { IBaseTransactionResponse } from "remme-transaction-service";
 import {
@@ -237,8 +236,7 @@ class RemmeCertificate implements IRemmeCertificate {
             validTo,
         });
         return new CertificateTransactionResponse(
-            batchResponse.nodeAddress,
-            batchResponse.sslMode,
+            batchResponse.networkConfig,
             batchResponse.batchId,
             certificate,
         );

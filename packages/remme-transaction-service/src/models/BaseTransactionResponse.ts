@@ -1,4 +1,6 @@
 import { RemmeWebSocket, IRemmeWebSocket, RemmeRequestParams, RemmeEvents } from "remme-web-socket";
+import { INetworkConfig } from "remme-api";
+
 import { PATTERNS } from "remme-utils";
 
 /**
@@ -10,12 +12,11 @@ export class BaseTransactionResponse extends RemmeWebSocket implements IBaseTran
     /**
      * Get address of node, ssl mode, and identifier of batch.
      * Then implement RemmeWebSocket class and provide data to it.
-     * @param {string} nodeAddress
-     * @param {boolean} sslMode
+     * @param {INetworkConfig} networkConfig;
      * @param {string} batchId
      */
-    public constructor(nodeAddress: string, sslMode: boolean, batchId: string) {
-        super(nodeAddress, sslMode);
+    public constructor(networkConfig: INetworkConfig, batchId: string) {
+        super(networkConfig);
         this._batchId = batchId;
         this.data = new RemmeRequestParams({
             events: RemmeEvents.Batch,
