@@ -69,6 +69,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _remmeTransaction: IRemmeTransactionService;
     private readonly _familyName = RemmeFamilyName.PublicKey;
     private readonly _familyVersion = "0.1";
+    private readonly _zeroAddress = "0".repeat(70);
 
     private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
         return TransactionPayload.encode({
@@ -188,26 +189,21 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             validTo,
         }).finish();
 
-        const {
-            storage_public_key: storagePublicKey,
-        } = await this._remmeApi.sendRequest<NodeConfigRequest>(RemmeMethods.nodeConfig);
-
         const pubKeyAddress = keys.address;
 
         const storageSettingsAddress = generateSettingsAddress("remme.settings.storage_pub_key");
         const settingAddress = generateSettingsAddress("remme.economy_enabled");
-        const storageAddress = generateAddress(this._remmeAccount.familyName, storagePublicKey);
 
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
         const inputs = [
             pubKeyAddress,
             storageSettingsAddress,
             settingAddress,
-            storageAddress,
+            this._zeroAddress,
         ];
         const outputs = [
             pubKeyAddress,
-            storageAddress,
+            this._zeroAddress,
         ];
         return await this._createAndSendTransaction(inputs, outputs, payloadBytes);
     }
