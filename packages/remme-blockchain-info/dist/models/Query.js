@@ -26,6 +26,7 @@ var BaseQuery = /** @class */ (function () {
                 throw new Error("Parameter \"start\" not a valid");
             }
         }
+        this.family_name = query.family_name;
         this.limit = query.limit;
         this.reverse = query.reverse ? "" : "false";
     }

@@ -32,12 +32,6 @@ var EdDSA = /** @class */ (function (_super) {
         if (_this._privateKey) {
             _this._privateKeyHex = remme_utils_1.bytesToHex(_this._privateKey);
         }
-        try {
-            _this._publicKeyBase64 = btoa(_this._publicKeyHex);
-        }
-        catch (e) {
-            _this._publicKeyBase64 = Buffer.from(_this._publicKeyHex).toString("base64");
-        }
         _this._address = remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, _this._publicKey);
         _this._keyType = index_1.KeyType.EdDSA;
         return _this;
@@ -51,7 +45,7 @@ var EdDSA = /** @class */ (function (_super) {
         return remme_utils_1.forge.pki.ed25519.generateKeyPair();
     };
     EdDSA.getAddressFromPublicKey = function (publicKey) {
-        return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, remme_utils_1.bytesToHex(publicKey));
+        return remme_utils_1.generateAddress(remme_utils_1.RemmeFamilyName.PublicKey, publicKey);
     };
     EdDSA.prototype.sign = function (data) {
         var md = remme_utils_1.forge.md.sha256.create();

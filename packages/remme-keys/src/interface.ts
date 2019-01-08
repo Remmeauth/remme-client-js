@@ -8,7 +8,6 @@ export interface IRemmeKeys {
     familyName: RemmeFamilyName;
     keyType: string;
     privateKey?: any;
-    publicKeyBase64: string;
     privateKeyHex?: string;
     publicKeyHex?: string;
     privateKeyPem?: string;

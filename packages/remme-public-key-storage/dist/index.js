@@ -103,6 +103,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
     function RemmePublicKeyStorage(remmeApi, remmeAccount, remmeTransaction) {
         this._familyName = remme_utils_1.RemmeFamilyName.PublicKey;
         this._familyVersion = "0.1";
+        this._zeroAddress = "0".repeat(70);
         this._KeyType = (_a = {},
             _a[remme_keys_1.KeyType.RSA] = function (data) { return new remme_protobuf_1.NewPubKeyPayload.RSAConfiguration(data); },
             _a[remme_keys_1.KeyType.ECDSA] = function (data) { return new remme_protobuf_1.NewPubKeyPayload.ECDSAConfiguration(__assign({}, data, { ec: EC.SECP256k1 })); },
@@ -198,7 +199,7 @@ var RemmePublicKeyStorage = /** @class */ (function () {
     RemmePublicKeyStorage.prototype.store = function (_a) {
         var data = _a.data, keys = _a.keys, validFrom = _a.validFrom, validTo = _a.validTo, _b = _a.rsaSignaturePadding, rsaSignaturePadding = _b === void 0 ? remme_keys_1.RSASignaturePadding.PSS : _b;
         return __awaiter(this, void 0, void 0, function () {
-            var publicKey, keyType, message, entityHash, entityHashSignature, payload, storagePublicKey, pubKeyAddress, storageSettingsAddress, settingAddress, storageAddress, payloadBytes, inputs, outputs, _c;
+            var publicKey, keyType, message, entityHash, entityHashSignature, payload, pubKeyAddress, storageSettingsAddress, settingAddress, payloadBytes, inputs, outputs, _c;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
@@ -217,26 +218,22 @@ var RemmePublicKeyStorage = /** @class */ (function () {
                             _c.validFrom = validFrom,
                             _c.validTo = validTo,
                             _c)).finish();
-                        return [4 /*yield*/, this._remmeApi.sendRequest(remme_api_1.RemmeMethods.nodeConfig)];
-                    case 1:
-                        storagePublicKey = (_d.sent()).storage_public_key;
                         pubKeyAddress = keys.address;
                         storageSettingsAddress = remme_utils_1.generateSettingsAddress("remme.settings.storage_pub_key");
                         settingAddress = remme_utils_1.generateSettingsAddress("remme.economy_enabled");
-                        storageAddress = remme_utils_1.generateAddress(this._remmeAccount.familyName, storagePublicKey);
                         payloadBytes = this._generateTransactionPayload(remme_protobuf_1.PubKeyMethod.Method.STORE, payload);
                         inputs = [
                             pubKeyAddress,
                             storageSettingsAddress,
                             settingAddress,
-                            storageAddress,
+                            this._zeroAddress,
                         ];
                         outputs = [
                             pubKeyAddress,
-                            storageAddress,
+                            this._zeroAddress,
                         ];
                         return [4 /*yield*/, this._createAndSendTransaction(inputs, outputs, payloadBytes)];
-                    case 2: return [2 /*return*/, _d.sent()];
+                    case 1: return [2 /*return*/, _d.sent()];
                 }
             });
         });

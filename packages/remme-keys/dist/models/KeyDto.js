@@ -52,17 +52,6 @@ var KeyDto = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(KeyDto.prototype, "publicKeyBase64", {
-        /**
-         * Return base 64 of public key.
-         * @returns {string}
-         */
-        get: function () {
-            return this._publicKeyBase64;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(KeyDto.prototype, "privateKeyPem", {
         /**
          * Return private key in pem format.

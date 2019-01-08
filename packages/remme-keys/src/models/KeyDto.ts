@@ -7,7 +7,6 @@ class KeyDto {
     protected _address: string;
     protected _publicKey: any;
     protected _privateKey: any;
-    protected _publicKeyBase64: string;
     protected _privateKeyPem: string;
     protected _publicKeyPem: string;
     protected _privateKeyHex: string;
@@ -46,14 +45,6 @@ class KeyDto {
      */
     public get keyType(): string {
         return this._keyType;
-    }
-
-    /**
-     * Return base 64 of public key.
-     * @returns {string}
-     */
-    public get publicKeyBase64(): string {
-        return this._publicKeyBase64;
     }
 
     /**

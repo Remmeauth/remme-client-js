@@ -5,7 +5,6 @@ declare class KeyDto {
     protected _address: string;
     protected _publicKey: any;
     protected _privateKey: any;
-    protected _publicKeyBase64: string;
     protected _privateKeyPem: string;
     protected _publicKeyPem: string;
     protected _privateKeyHex: string;
@@ -30,11 +29,6 @@ declare class KeyDto {
      * @returns {string}
      */
     readonly keyType: string;
-    /**
-     * Return base 64 of public key.
-     * @returns {string}
-     */
-    readonly publicKeyBase64: string;
     /**
      * Return private key in pem format.
      * @returns {string}

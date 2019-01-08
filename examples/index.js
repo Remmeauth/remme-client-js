@@ -4,7 +4,9 @@ const { generateAddress, forge, hexToBytes } = require("../packages/remme-utils"
 const { RSASignaturePadding, KeyType } = require("../packages/remme-keys");
 
 //Initialize client
-const remme = new Remme.Client();
+const remme = new Remme.Client({
+  privateKeyHex: "80cb7124ae81ceb7b0c19cf0801439b05f0f78e8f591d89f5e840bd2390f59b4",
+});
 
 // const someRemmeAddress = generateAddress("account", "034e6abbe2a36694e07a8e2b380a74dc8e98b4c30fcde129d5e91b18291ed89072");
 // const someRemmeAddress = "112007081971dec92814033df35188ce17c740d5e58d7632c9528b61a88a4b4cde51e1";
@@ -212,11 +214,11 @@ const remme = new Remme.Client();
   //   }
   // });
 
-  {
-    const keyss = await Remme.Keys.generateKeyPair(KeyType.ECDSA);
-    console.log("keys:", keyss);
-    const keys = await Remme.Keys.construct({ keyType: KeyType.ECDSA, publicKey: keyss.publicKey, privateKey: keyss.privateKey });
-    console.log("keys:", keys);
+  // {
+    // const keyss = await Remme.Keys.generateKeyPair(KeyType.ECDSA);
+    // console.log("keys:", keyss);
+    const keys = await Remme.Keys.construct({ keyType: KeyType.EdDSA });
+    // console.log("keys:", keys);
     // const data = "sign data";
     // const signature = keys.sign(data);
     // const isVerify = keys.verify(data, signature);
@@ -235,16 +237,18 @@ const remme = new Remme.Client();
         return;
       }
       console.log("res:", res);
-      const info = await remme.publicKeyStorage.getInfo(keys.address);
-      console.log("info:", info);
-      const keyss = await Remme.Keys.construct({ keyType: info.type, publicKey: hexToBytes(info.publicKey) });
-      console.log(keyss.publicKeyHex);
-      const cinfo = await remme.publicKeyStorage.check(keys.address);
-      console.log("cinfo:", cinfo);
-      const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
-      console.log("cinfo:", ainfo);
+      if (res.status === "COMMITTED") {
+        const info = await remme.publicKeyStorage.getInfo(keys.address);
+        console.log("info:", info);
+        const keyss = await Remme.Keys.construct({ keyType: info.type, publicKey: hexToBytes(info.publicKey) });
+        console.log(keyss.publicKeyHex);
+        const cinfo = await remme.publicKeyStorage.check(keys.address);
+        console.log("cinfo:", cinfo);
+        const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
+        console.log("cinfo:", ainfo);
+      }
     });
-  }
+  // }
 
 })();
 

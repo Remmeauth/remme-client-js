@@ -22,12 +22,6 @@ class EdDSA extends KeyDto implements IRemmeKeys {
             this._privateKeyHex = bytesToHex(this._privateKey);
         }
 
-        try {
-            this._publicKeyBase64 = btoa(this._publicKeyHex);
-        } catch (e) {
-            this._publicKeyBase64 = Buffer.from(this._publicKeyHex).toString("base64");
-        }
-
         this._address = generateAddress(RemmeFamilyName.PublicKey, this._publicKey);
         this._keyType = KeyType.EdDSA;
     }
@@ -40,8 +34,8 @@ class EdDSA extends KeyDto implements IRemmeKeys {
         return forge.pki.ed25519.generateKeyPair();
     }
 
-    public static getAddressFromPublicKey(publicKey: any): string {
-        return generateAddress(RemmeFamilyName.PublicKey, bytesToHex(publicKey));
+    public static getAddressFromPublicKey(publicKey: Buffer): string {
+        return generateAddress(RemmeFamilyName.PublicKey, publicKey);
     }
 
     public sign(
