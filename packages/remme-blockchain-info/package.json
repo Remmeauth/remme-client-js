@@ -1,6 +1,6 @@
 {
   "name": "remme-blockchain-info",
-  "version": "0.5.11",
+  "version": "0.5.12",
   "description": "REMME blockchain info internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -71,20 +71,6 @@ var RemmeWebSocketsEvents = /** @class */ (function (_super) {
         if (this._socket) {
             _super.prototype.closeWebSocket.call(this);
         }
-        switch (data.events) {
-            case remme_web_socket_1.RemmeEvents.Batch: {
-                if (!data.id) {
-                    throw new Error("'id' is required");
-                }
-                break;
-            }
-            case remme_web_socket_1.RemmeEvents.Transfer: {
-                if (!data.address) {
-                    throw new Error("'address' is required");
-                }
-                break;
-            }
-        }
         this.data = new remme_web_socket_1.RemmeRequestParams(data);
         _super.prototype.connectToWebSocket.call(this, callback);
     };
