@@ -253,7 +253,7 @@ gulp.task('prepublish', function () {
   packages.forEach(function (pckg) {
     if (pckg.fileName !== "remme-protobuf") {
       del([path.join(pckg.src, "dist")]).then(
-        exec("cd " + pckg.src + " && npm run transpile;")
+        exec("cd " + pckg.src + " && npm run transpile")
       )
     } else {
       exec("./node_modules/.bin/gulp protobuf-compile");

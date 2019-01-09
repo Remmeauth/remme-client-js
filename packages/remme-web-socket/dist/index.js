@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var websocket_1 = require("websocket");
+var remme_utils_1 = require("remme-utils");
 var models_1 = require("./models");
 exports.BatchInfoDto = models_1.BatchInfoDto;
 exports.JsonRpcRequest = models_1.JsonRpcRequest;
@@ -53,22 +54,25 @@ else {
  * But you also can use your class for work with WebSockets. Just inherit it from RemmeWebSocket, like this:
  * ```typescript
  * class mySocketConnection extends RemmeWebSocket {
- *      constructor({nodeAddress, sslMode, data}) {
- *          super(nodeAddress, sslMode);
+ *      constructor({networkConfig, data}) {
+ *          super(networkConfig);
  *          this.data = data;
  *      }
  * }
  *
  * const remmeWebSocket = new mySocketConnection({
- *      nodeAddress: "localhost:8080",
- *      sslMode: false,
+ *      networkConfig: {
+ *          nodeAddress: "localhost",
+ *          nodePort: "8080",
+ *          sslMode: false
+ *      },
  *      data: {
  *          event_type: "batch",
  *          id: transactionResult.batchId,
- *      };
+ *      }
  * });
  *
- * mySocketConnection.connectToWebSocket((err: Error, res: any) => {
+ * remmeWebSocket.connectToWebSocket((err: Error, res: any) => {
  *     if (err) {
  *         console.log(err);
  *         return;
@@ -84,20 +88,19 @@ var RemmeWebSocket = /** @class */ (function () {
      * Implement RemmeWebSocket by providing node address and ssl mode.
      * @example
      * ```typescript
-     * const remmeWebSocket = new RemmeWebSocket(nodeAddress, sslMode);
+     * const remmeWebSocket = new RemmeWebSocket(networkConfig);
      * ```
-     * @param {string} nodeAddress
-     * @param {boolean} sslMode
+     * @param {INetworkConfig} networkConfig
      */
-    function RemmeWebSocket(nodeAddress, sslMode) {
+    function RemmeWebSocket(networkConfig) {
         this._map = (_a = {},
             _a[models_1.RemmeEvents.Batch] = function (data) { return new models_1.BatchInfoDto(data); },
             _a[models_1.RemmeEvents.AtomicSwap] = function (data) { return new models_1.SwapInfo(data); },
             _a[models_1.RemmeEvents.Blocks] = function (data) { return new models_1.BlockInfoDto(data); },
             _a[models_1.RemmeEvents.Transfer] = function (data) { return new models_1.TransferInfoDto(data); },
             _a);
-        this._nodeAddress = nodeAddress;
-        this._sslMode = sslMode;
+        remme_utils_1.validateNodeConfig(networkConfig);
+        this._networkConfig = networkConfig;
         var _a;
     }
     RemmeWebSocket.prototype._sendAnError = function (error, callback) {
@@ -105,8 +108,9 @@ var RemmeWebSocket = /** @class */ (function () {
         callback(error);
     };
     RemmeWebSocket.prototype._getSubscribeUrl = function () {
-        var protocol = this.sslMode ? "wss://" : "ws://";
-        return "" + protocol + this.nodeAddress + "/";
+        var _a = this._networkConfig, nodeAddress = _a.nodeAddress, nodePort = _a.nodePort, sslMode = _a.sslMode;
+        var protocol = sslMode ? "wss://" : "ws://";
+        return "" + protocol + nodeAddress + ":" + nodePort + "/";
     };
     RemmeWebSocket.prototype._getSocketQuery = function (isSubscribe) {
         if (isSubscribe === void 0) { isSubscribe = true; }
@@ -116,24 +120,13 @@ var RemmeWebSocket = /** @class */ (function () {
         var method = isSubscribe ? models_1.RemmeMethods.Subscribe : models_1.RemmeMethods.Unsubscribe;
         return JSON.stringify(new models_1.JsonRpcRequest(method, this.data));
     };
-    Object.defineProperty(RemmeWebSocket.prototype, "nodeAddress", {
+    Object.defineProperty(RemmeWebSocket.prototype, "networkConfig", {
         /**
-         * Get node address that was provided by user
-         * @returns {string}
+         * Get network config that was provided by user
+         * @returns {INetworkConfig}
          */
         get: function () {
-            return this._nodeAddress;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RemmeWebSocket.prototype, "sslMode", {
-        /**
-         * Get ssl mode that was provided by user
-         * @returns {string}
-         */
-        get: function () {
-            return this._sslMode;
+            return this._networkConfig;
         },
         enumerable: true,
         configurable: true

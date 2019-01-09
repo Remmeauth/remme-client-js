@@ -189,4 +189,16 @@ exports.checkPublicKey = function (publicKey) {
         throw new Error("Given public key is not a valid");
     }
 };
+exports.validateNodeConfig = function (networkConfig) {
+    var nodeAddress = networkConfig.nodeAddress, nodePort = networkConfig.nodePort, sslMode = networkConfig.sslMode;
+    if (!constants_1.PATTERNS.NODE_ADDRESS.test(nodeAddress) && nodeAddress !== "localhost") {
+        throw new Error("You try construct with invalid nodeAddress");
+    }
+    else if (typeof sslMode !== "boolean") {
+        throw new Error("You try construct with invalid sslMode");
+    }
+    else if (!constants_1.PATTERNS.NODE_PORT.test("" + nodePort)) {
+        throw new Error("You try construct with invalid nodePort");
+    }
+};
 //# sourceMappingURL=index.js.map

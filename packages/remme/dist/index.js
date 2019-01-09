@@ -133,7 +133,7 @@ var Remme;
              */
             /* tslint:enable */
             get: function () {
-                return new remme_web_socket_events_1.RemmeWebSocketsEvents(this._remmeApi.nodeAddress, this._remmeApi.sslMode);
+                return new remme_web_socket_events_1.RemmeWebSocketsEvents(this._remmeApi.networkConfig);
             },
             enumerable: true,
             configurable: true

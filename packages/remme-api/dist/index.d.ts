@@ -1,5 +1,6 @@
+import { INetworkConfig } from "remme-utils";
 import { IRemmeApi } from "./interface";
-import { RemmeMethods, INetworkConfig } from "./models";
+import { RemmeMethods } from "./models";
 /**
  * Default config for creating url that passed to RemmeRest constructor;
  * @type {{nodeAddress: string; nodePort: string; sslMode: boolean}}
@@ -33,8 +34,7 @@ declare const DEFAULT_NETWORK_CONFIG: {
  */
 declare class RemmeApi implements IRemmeApi {
     [key: string]: any;
-    private readonly _nodeAddress;
-    private readonly _sslMode;
+    private readonly _networkConfig;
     private _getUrlForRequest();
     private _getRequestConfig<Input>(method, payload?);
     /**
@@ -72,15 +72,10 @@ declare class RemmeApi implements IRemmeApi {
      */
     constructor({nodeAddress, nodePort, sslMode}?: INetworkConfig);
     /**
-     * Return node address which contain domain name and port.
-     * @returns {string}
+     * Return network config object which contain domain name, port and ssl.
+     * @returns {INetworkConfig}
      */
-    readonly nodeAddress: string;
-    /**
-     * Return ssl mode which was provided by user.
-     * @returns {boolean}
-     */
-    readonly sslMode: boolean;
+    readonly networkConfig: INetworkConfig;
     sendRequest<Output>(method: RemmeMethods): Promise<Output>;
     sendRequest<Input, Output>(method: RemmeMethods, payload?: Input): Promise<Output>;
 }

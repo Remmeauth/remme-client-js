@@ -1,6 +1,6 @@
 {
   "name": "remme-keys",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "description": "REMME keys internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

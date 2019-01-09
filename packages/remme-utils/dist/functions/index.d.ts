@@ -1,6 +1,7 @@
 /// <reference types="node" />
 /// <reference types="node-forge" />
 import * as forge from "node-forge";
+import { INetworkConfig } from "../models";
 export declare const sha512: (value: string | Uint8Array | Buffer) => string;
 export declare const sha256: (value: string | Uint8Array | Buffer) => string;
 export declare const hexToBytes: (str: string) => Uint8Array;
@@ -40,3 +41,4 @@ export declare const generateRSAKeyPair: (rsaKeySize?: number) => Promise<forge.
 export declare const generateED25519KeyPair: (seed?: string) => forge.pki.KeyPair;
 export declare const checkAddress: (address: string) => void;
 export declare const checkPublicKey: (publicKey: string) => void;
+export declare const validateNodeConfig: (networkConfig: INetworkConfig) => void;

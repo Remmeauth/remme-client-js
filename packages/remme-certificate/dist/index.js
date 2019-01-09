@@ -275,7 +275,7 @@ var RemmeCertificate = /** @class */ (function () {
                             })];
                     case 1:
                         batchResponse = _a.sent();
-                        return [2 /*return*/, new models_1.CertificateTransactionResponse(batchResponse.nodeAddress, batchResponse.sslMode, batchResponse.batchId, certificate)];
+                        return [2 /*return*/, new models_1.CertificateTransactionResponse(batchResponse.networkConfig, batchResponse.batchId, certificate)];
                 }
             });
         });

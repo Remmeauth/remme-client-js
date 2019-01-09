@@ -1,17 +1,52 @@
 const Remme = require("../packages/remme");
+const { RemmeWebSocket } = require("../packages/remme-web-socket");
 const { RemmeEvents } = require("../packages/remme-web-socket-events");
 const { generateAddress, forge, hexToBytes } = require("../packages/remme-utils");
 const { RSASignaturePadding, KeyType } = require("../packages/remme-keys");
 
 //Initialize client
 const remme = new Remme.Client({
-  privateKeyHex: "80cb7124ae81ceb7b0c19cf0801439b05f0f78e8f591d89f5e840bd2390f59b4",
+  privateKeyHex: "2db81e607b09c82de76d768d47f6326d490e84f36bc71ab5a51efa51dec22429",
+  networkConfig: {
+    nodeAddress: "192.168.166.247",
+    sslMode: false,
+    nodePort: 8080
+  }
 });
 
 // const someRemmeAddress = generateAddress("account", "034e6abbe2a36694e07a8e2b380a74dc8e98b4c30fcde129d5e91b18291ed89072");
-// const someRemmeAddress = "112007081971dec92814033df35188ce17c740d5e58d7632c9528b61a88a4b4cde51e1";
+const someRemmeAddress = "112007081971dec92814033df35188ce17c740d5e58d7632c9528b61a88a4b4cde51e1";
 
 (async () => {
+  const transactionResult = await remme.token.transfer(someRemmeAddress, 1000);
+
+ class mySocketConnection extends RemmeWebSocket {
+          constructor({networkConfig, data}) {
+              super(networkConfig);
+              this.data = data;
+          }
+   }
+
+ const remmeWebSocket = new mySocketConnection({
+          networkConfig: {
+                nodeAddress: "localhost",
+                nodePort: "8080",
+                sslMode: "asdf"
+            },
+          data: {
+                event_type: "batch",
+                id: transactionResult.batchId,
+            }
+     });
+
+ remmeWebSocket.connectToWebSocket((err, res) => {
+       if (err) {
+             console.log(err);
+             return;
+         }
+       console.log(res);
+       // remmeWebSocket.closeWebSocket();
+   });
   // // Generate new account and set it to remme client
   // const account = Remme.Client.generateAccount();
   // const signature = account.sign("this");
@@ -24,7 +59,7 @@ const remme = new Remme.Client({
   // const balance = await remme.token.getBalance(remme.account.address);
   // console.log(`Account ${remme.account.address} as sender, balance - ${balance} REM`);
   //
-  // const transactionResult = await remme.token.transfer(someRemmeAddress, 1000);
+
   // console.log(`Sending tokens...BatchId: ${transactionResult.batchId}`);
   //
   // const transactionCallback = async (err, result) => {
@@ -217,37 +252,37 @@ const remme = new Remme.Client({
   // {
     // const keyss = await Remme.Keys.generateKeyPair(KeyType.ECDSA);
     // console.log("keys:", keyss);
-    const keys = await Remme.Keys.construct({ keyType: KeyType.EdDSA });
+    // const keys = await Remme.Keys.construct({ keyType: KeyType.EdDSA });
     // console.log("keys:", keys);
     // const data = "sign data";
     // const signature = keys.sign(data);
     // const isVerify = keys.verify(data, signature);
     // console.log("isVerify:", isVerify);
     // const n = forge.pki.setRsaPublicKey(keys.publicKey.n.data, keys.publicKey.e.data);
-    const pubKey = await remme.publicKeyStorage.store({
-      data: "store data",
-      keys,
-      rsaSignaturePadding: RSASignaturePadding.PSS,
-      validFrom: Math.round(Date.now() / 1000),
-      validTo: Math.round(Date.now() / 1000 + 1000)
-    });
-    pubKey.connectToWebSocket(async (err, res) => {
-      if (err) {
-        console.log("err:", err);
-        return;
-      }
-      console.log("res:", res);
-      if (res.status === "COMMITTED") {
-        const info = await remme.publicKeyStorage.getInfo(keys.address);
-        console.log("info:", info);
-        const keyss = await Remme.Keys.construct({ keyType: info.type, publicKey: hexToBytes(info.publicKey) });
-        console.log(keyss.publicKeyHex);
-        const cinfo = await remme.publicKeyStorage.check(keys.address);
-        console.log("cinfo:", cinfo);
-        const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
-        console.log("cinfo:", ainfo);
-      }
-    });
+    // const pubKey = await remme.publicKeyStorage.store({
+    //   data: "store data",
+    //   keys,
+    //   rsaSignaturePadding: RSASignaturePadding.PSS,
+    //   validFrom: Math.round(Date.now() / 1000),
+    //   validTo: Math.round(Date.now() / 1000 + 1000)
+    // });
+    // pubKey.connectToWebSocket(async (err, res) => {
+    //   if (err) {
+    //     console.log("err:", err);
+    //     return;
+    //   }
+    //   console.log("res:", res);
+    //   if (res.status === "COMMITTED") {
+    //     const info = await remme.publicKeyStorage.getInfo(keys.address);
+    //     console.log("info:", info);
+    //     const keyss = await Remme.Keys.construct({ keyType: info.type, publicKey: hexToBytes(info.publicKey) });
+    //     console.log(keyss.publicKeyHex);
+    //     const cinfo = await remme.publicKeyStorage.check(keys.address);
+    //     console.log("cinfo:", cinfo);
+    //     const ainfo = await remme.publicKeyStorage.getAccountPublicKeys(remme.account.address);
+    //     console.log("cinfo:", ainfo);
+    //   }
+    // });
   // }
 
 })();

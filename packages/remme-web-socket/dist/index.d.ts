@@ -1,3 +1,4 @@
+import { INetworkConfig } from "remme-utils";
 import { IRemmeWebSocket } from "./interface";
 import { BatchInfoDto, IJsonRpcRequest, JsonRpcRequest, RemmeEvents, RemmeRequestParams, IRemmeRequestParams, BatchStatus, SwapState, SwapInfoDto, SwapInfo, W3CSocket } from "./models";
 /**
@@ -42,22 +43,25 @@ declare global  {
  * But you also can use your class for work with WebSockets. Just inherit it from RemmeWebSocket, like this:
  * ```typescript
  * class mySocketConnection extends RemmeWebSocket {
- *      constructor({nodeAddress, sslMode, data}) {
- *          super(nodeAddress, sslMode);
+ *      constructor({networkConfig, data}) {
+ *          super(networkConfig);
  *          this.data = data;
  *      }
  * }
  *
  * const remmeWebSocket = new mySocketConnection({
- *      nodeAddress: "localhost:8080",
- *      sslMode: false,
+ *      networkConfig: {
+ *          nodeAddress: "localhost",
+ *          nodePort: "8080",
+ *          sslMode: false
+ *      },
  *      data: {
  *          event_type: "batch",
  *          id: transactionResult.batchId,
- *      };
+ *      }
  * });
  *
- * mySocketConnection.connectToWebSocket((err: Error, res: any) => {
+ * remmeWebSocket.connectToWebSocket((err: Error, res: any) => {
  *     if (err) {
  *         console.log(err);
  *         return;
@@ -69,8 +73,7 @@ declare global  {
  */
 declare class RemmeWebSocket implements IRemmeWebSocket {
     [key: string]: any;
-    private readonly _nodeAddress;
-    private readonly _sslMode;
+    private readonly _networkConfig;
     private readonly _map;
     protected _socket: W3CSocket;
     protected data: RemmeRequestParams;
@@ -81,22 +84,16 @@ declare class RemmeWebSocket implements IRemmeWebSocket {
      * Implement RemmeWebSocket by providing node address and ssl mode.
      * @example
      * ```typescript
-     * const remmeWebSocket = new RemmeWebSocket(nodeAddress, sslMode);
+     * const remmeWebSocket = new RemmeWebSocket(networkConfig);
      * ```
-     * @param {string} nodeAddress
-     * @param {boolean} sslMode
+     * @param {INetworkConfig} networkConfig
      */
-    constructor(nodeAddress: string, sslMode: boolean);
+    constructor(networkConfig: INetworkConfig);
     /**
-     * Get node address that was provided by user
-     * @returns {string}
+     * Get network config that was provided by user
+     * @returns {INetworkConfig}
      */
-    readonly nodeAddress: string;
-    /**
-     * Get ssl mode that was provided by user
-     * @returns {string}
-     */
-    readonly sslMode: boolean;
+    readonly networkConfig: INetworkConfig;
     /**
      * Method for connect to WebSocket.
      * In this method implement new WebSocket instance and provided some listeners for onopen, onmessage, onclose.
