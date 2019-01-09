@@ -349,7 +349,7 @@ namespace Remme {
 
         /* tslint:enable */
         public get events(): IRemmeWebSocketsEvents {
-            return new RemmeWebSocketsEvents(this._remmeApi.nodeAddress, this._remmeApi.sslMode);
+            return new RemmeWebSocketsEvents(this._remmeApi.networkConfig);
         }
 
         /**

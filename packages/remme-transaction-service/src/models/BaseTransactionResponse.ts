@@ -1,7 +1,5 @@
 import { RemmeWebSocket, IRemmeWebSocket, RemmeRequestParams, RemmeEvents } from "remme-web-socket";
-import { INetworkConfig } from "remme-api";
-
-import { PATTERNS } from "remme-utils";
+import { PATTERNS, INetworkConfig } from "remme-utils";
 
 /**
  * Main class for response on transaction request, which contain identifier of batch and communication with WebSockets.

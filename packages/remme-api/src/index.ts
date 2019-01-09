@@ -1,6 +1,7 @@
 import { HttpClient, AxiosRequestConfig } from "remme-http-client";
+import { INetworkConfig, validateNodeConfig } from "remme-utils";
 import { IRemmeApi } from "./interface";
-import { RemmeMethods, INetworkConfig } from "./models";
+import { RemmeMethods } from "./models";
 
 /**
  * Default config for creating url that passed to RemmeRest constructor;
@@ -101,11 +102,13 @@ class RemmeApi implements IRemmeApi {
                            nodePort = 8080,
                            sslMode = false,
     }: INetworkConfig = DEFAULT_NETWORK_CONFIG) {
-        this._networkConfig = {
+        const networkConfig: INetworkConfig = {
             nodeAddress,
             nodePort,
             sslMode,
         };
+        validateNodeConfig(networkConfig);
+        this._networkConfig = networkConfig;
     }
 
     /**

@@ -1,4 +1,5 @@
-import { INetworkConfig, RemmeMethods } from "./models";
+import { INetworkConfig } from "remme-utils";
+import { RemmeMethods } from "./models";
 
 export interface IRemmeApi {
     networkConfig: INetworkConfig;

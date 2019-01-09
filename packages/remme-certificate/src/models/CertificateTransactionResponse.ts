@@ -1,7 +1,6 @@
-import { forge } from "remme-utils";
+import { forge, INetworkConfig } from "remme-utils";
 import { RSA, IRemmeKeys, RSASignaturePadding } from "remme-keys";
 import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-transaction-service";
-import { INetworkConfig } from "remme-api";
 
 export interface ICertificateTransactionResponse extends IBaseTransactionResponse {
     certificate: forge.pki.Certificate;

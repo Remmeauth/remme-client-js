@@ -1,5 +1,6 @@
-import { INetworkConfig } from "remme-api";
+import { INetworkConfig } from "remme-utils";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { validateNodeConfig } from "remme-utils";
 
 import { IRemmeWebSocket } from "./interface";
 import {
@@ -101,7 +102,7 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
  *         return;
  *     }
  *     console.log(res);
- *     mySocketConnection.closeConnection();
+ *     mySocketConnection.closeWebSocket();
  * });
  * ```
  */
@@ -150,6 +151,7 @@ class RemmeWebSocket implements IRemmeWebSocket {
      * @param {INetworkConfig} networkConfig
      */
     public constructor(networkConfig: INetworkConfig) {
+        validateNodeConfig(networkConfig);
         this._networkConfig = networkConfig;
     }
 

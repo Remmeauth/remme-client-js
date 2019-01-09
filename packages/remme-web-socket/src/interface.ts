@@ -1,4 +1,4 @@
-import { INetworkConfig } from "remme-api";
+import { INetworkConfig } from "remme-utils";
 
 export interface IRemmeWebSocket {
     networkConfig: INetworkConfig;

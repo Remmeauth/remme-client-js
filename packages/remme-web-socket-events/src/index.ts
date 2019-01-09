@@ -1,5 +1,5 @@
 import { IRemmeRequestParams, RemmeEvents, RemmeRequestParams, RemmeWebSocket } from "remme-web-socket";
-import { INetworkConfig } from "remme-api";
+import { INetworkConfig } from "remme-utils";
 
 import { IRemmeWebSocketsEvents } from "./interface";
 

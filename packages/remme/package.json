@@ -33,6 +33,7 @@
     "remme-blockchain-info": "^0.5.10",
     "remme-certificate": "^0.5.10",
     "remme-keys": "^0.5.10",
+    "remme-utils": "^0.5.0",
     "remme-public-key-storage": "^0.5.10",
     "remme-token": "^0.5.10",
     "remme-transaction-service": "^0.5.10",

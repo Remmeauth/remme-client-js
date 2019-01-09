@@ -15,7 +15,6 @@
     "remme-public-key-storage": "^0.5.10",
     "remme-transaction-service": "^0.5.10",
     "remme-utils": "^0.5.9",
-    "remme-api": "^0.4.0",
     "remme-web-socket": "^0.5.9"
   },
   "devDependencies": {

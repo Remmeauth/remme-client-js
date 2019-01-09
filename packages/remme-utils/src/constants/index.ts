@@ -4,4 +4,6 @@ export const PATTERNS = {
     ADDRESS: /^[a-f0-9]{70}$/,
     SWAP_ID: /^[a-f0-9]{64}$/,
     HEADER_SIGNATURE: /^[a-f0-9]{128}$/,
+    NODE_ADDRESS: /^(?:(?:\w|\d)+\.)(?:(?:\w|\d)+\.?){1,255}$/,
+    NODE_PORT: /^(?:[0-9]{1,65535})$/,
 };
