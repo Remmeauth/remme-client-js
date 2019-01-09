@@ -1,4 +1,4 @@
-import { IRemmeKeys, KeyType, RemmeKeys, ECDSA } from "remme-keys";
+import { IRemmeKeys, ECDSA } from "remme-keys";
 import { generateAddress, hexToBytes, RemmeFamilyName } from "remme-utils";
 
 /**

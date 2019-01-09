@@ -85,8 +85,7 @@ const Remme = require("remme");
 
 const privateKeyHex = "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4f10";
 const networkConfig = {
-    nodeAddress: "localhost",
-    nodePort: "8080",
+    nodeAddress: "localhost:8080",
     sslMode: false,
 };
 const remme = new Remme.Client({ privateKeyHex, networkConfig });

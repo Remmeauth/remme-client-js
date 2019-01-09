@@ -1,6 +1,6 @@
 import { RemmeMethods, IRemmeApi } from "remme-api";
 import { IRemmeAccount } from "remme-account";
-import { sha512, NodeConfigRequest, bytesToHex } from "remme-utils";
+import { sha512, NodeConfigRequest } from "remme-utils";
 import * as protobuf from "remme-protobuf";
 
 import { IRemmeTransactionService } from "./interface";
@@ -135,8 +135,7 @@ class RemmeTransactionService implements IRemmeTransactionService {
         const batchId = await this._remmeApi
             .sendRequest<SendTransactionDto, string>(RemmeMethods.transaction, requestPayload);
         return new BaseTransactionResponse(
-            this._remmeApi.nodeAddress,
-            this._remmeApi.sslMode,
+            this._remmeApi.networkConfig,
             batchId,
         );
     }

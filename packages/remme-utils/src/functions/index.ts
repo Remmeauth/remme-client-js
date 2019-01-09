@@ -3,6 +3,7 @@ import * as b64 from "base64-js";
 import * as forge from "node-forge";
 
 import { PATTERNS } from "../constants";
+import { INetworkConfig } from "../models";
 
 export const sha512 = (value: Uint8Array | Buffer | string) =>
     createHash("sha512").update(value).digest("hex");
@@ -152,5 +153,14 @@ export const checkPublicKey = (publicKey: string): void => {
     }
     if (typeof publicKey !== "string" || publicKey.search(PATTERNS.PUBLIC_KEY) === -1) {
         throw new Error("Given public key is not a valid");
+    }
+};
+
+export const validateNodeConfig = (networkConfig: INetworkConfig): void => {
+    const { nodeAddress, sslMode } = networkConfig;
+    if (!PATTERNS.NODE_ADDRESS.test(nodeAddress)) {
+        throw new Error("You try construct with invalid nodeAddress");
+    } else if (typeof sslMode !== "boolean") {
+        throw new Error("You try construct with invalid sslMode");
     }
 };

@@ -5,8 +5,8 @@ import {
     RemmeFamilyName,
 } from "remme-utils";
 
-import {GenerateOptions, IKeys, KeyDto, KeyType, RSASignaturePadding} from "./index";
-import {IRemmeKeys} from "../interface";
+import { GenerateOptions, IKeys, KeyDto, KeyType, RSASignaturePadding } from "./index";
+import { IRemmeKeys } from "../interface";
 
 class RSA extends KeyDto implements IRemmeKeys {
     private readonly _rsaKeySize: number = 2048;

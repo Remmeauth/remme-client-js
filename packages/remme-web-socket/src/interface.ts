@@ -1,6 +1,7 @@
+import { INetworkConfig } from "remme-utils";
+
 export interface IRemmeWebSocket {
-    nodeAddress: string;
-    sslMode: boolean;
+    networkConfig: INetworkConfig;
 
     connectToWebSocket(callback: (err: Error, res: any) => void): void;
     closeWebSocket(): void;
