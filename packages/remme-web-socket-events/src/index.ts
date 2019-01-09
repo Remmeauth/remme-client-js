@@ -61,20 +61,6 @@ class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEv
         if (this._socket) {
             super.closeWebSocket();
         }
-        switch (data.events) {
-            case RemmeEvents.Batch: {
-                if (!data.id) {
-                    throw new Error("'id' is required");
-                }
-                break;
-            }
-            case RemmeEvents.Transfer: {
-                if (!data.address) {
-                    throw new Error("'address' is required");
-                }
-                break;
-            }
-        }
         this.data = new RemmeRequestParams(data);
         super.connectToWebSocket(callback);
     }
