@@ -100,7 +100,6 @@ class RemmeSwap implements IRemmeSwap {
     private readonly _zeroAddress = "0".repeat(70);
     private readonly _blockInfoNamespaceAddress = "00b10c00";
     private readonly _blockInfoConfigAddress = "00b10c01" + "0".repeat(62);
-    private readonly _settingsKeyGenesisOwners = generateSettingsAddress("remme.settings.zero_address_owners");
     private readonly _settingsSwapComission = generateSettingsAddress("remme.settings.swap_comission");
 
     private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
@@ -120,36 +119,24 @@ class RemmeSwap implements IRemmeSwap {
                     this._zeroAddress,
                     this._blockInfoNamespaceAddress,
                     this._blockInfoConfigAddress,
-                    this._settingsKeyGenesisOwners,
                 ],
                 outputs: [
                     this._settingsSwapComission,
                     this._zeroAddress,
-                    this._settingsKeyGenesisOwners,
                 ],
             },
             [AtomicSwapMethod.Method.EXPIRE]: {
                 inputs: [
-                    this._zeroAddress,
                     this._blockInfoNamespaceAddress,
                     this._blockInfoConfigAddress,
-                    this._settingsKeyGenesisOwners,
-                ],
-                outputs: [
-                    this._zeroAddress,
-                    this._settingsKeyGenesisOwners,
                 ],
             },
             [AtomicSwapMethod.Method.CLOSE]: {
                 inputs: [
-                    this._zeroAddress,
                     receiverAddress,
-                    this._settingsKeyGenesisOwners,
                 ],
                 outputs: [
-                    this._zeroAddress,
                     receiverAddress,
-                    this._settingsKeyGenesisOwners,
                 ],
             },
         };
