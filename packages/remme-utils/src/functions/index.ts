@@ -157,13 +157,10 @@ export const checkPublicKey = (publicKey: string): void => {
 };
 
 export const validateNodeConfig = (networkConfig: INetworkConfig): void => {
-    const { nodeAddress, nodePort, sslMode } = networkConfig;
-    if (!PATTERNS.NODE_ADDRESS.test(nodeAddress) && nodeAddress !== "localhost") {
+    const { nodeAddress, sslMode } = networkConfig;
+    if (!PATTERNS.NODE_ADDRESS.test(nodeAddress)) {
         throw new Error("You try construct with invalid nodeAddress");
     } else if (typeof sslMode !== "boolean") {
         throw new Error("You try construct with invalid sslMode");
-    } else if (!PATTERNS.NODE_PORT.test(`${nodePort}`)) {
-        throw new Error("You try construct with invalid nodePort");
     }
 };
-

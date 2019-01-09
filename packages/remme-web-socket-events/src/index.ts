@@ -26,8 +26,7 @@ class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebSocketsEv
      * @example
      * ```typescript
      * const remmeEvents = new RemmeWebSocketsEvents({
-     *     nodeAddress: "localhost",
-     *     nodePort: "8080",
+     *     nodeAddress: "localhost:8080",
      *     sslMode: false
      * });
      * ```

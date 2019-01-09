@@ -5,11 +5,10 @@ import { RemmeMethods } from "./models";
 
 /**
  * Default config for creating url that passed to RemmeRest constructor;
- * @type {{nodeAddress: string; nodePort: string; sslMode: boolean}}
+ * @type {{nodeAddress: string; sslMode: boolean}}
  */
 const DEFAULT_NETWORK_CONFIG = {
-    nodeAddress: "localhost",
-    nodePort: "8080",
+    nodeAddress: "localhost:8080",
     sslMode: false,
 };
 
@@ -18,7 +17,6 @@ const DEFAULT_NETWORK_CONFIG = {
  * Check JSON-RPC API specification:
  *      https://remmeio.atlassian.net/wiki/spaces/WikiREMME/pages/292814862/RPC+API+specification.
  * @param {string} nodeAddress
- * @param {string | number} nodePort
  * @param {boolean} sslMode
  *
  * @example
@@ -26,8 +24,7 @@ const DEFAULT_NETWORK_CONFIG = {
  * import { RemmeApi, RemmeMethods } from "remme-api";
  *
  * const remmeApi = new RemmeApi({
- *      nodeAddress: "localhost",
- *      nodePort: 8080,
+ *      nodeAddress: "localhost:8080",
  *      sslMode: false,
  * });
  *
@@ -43,8 +40,8 @@ class RemmeApi implements IRemmeApi {
     private readonly _networkConfig: INetworkConfig;
 
     private _getUrlForRequest(): string {
-        const { nodeAddress, nodePort, sslMode} = this._networkConfig;
-        return `${sslMode ? "https://" : "http://"}${nodeAddress}:${nodePort}`;
+        const { nodeAddress, sslMode } = this._networkConfig;
+        return `${ sslMode ? "https://" : "http://" }${ nodeAddress }`;
     }
 
     private _getRequestConfig<Input>(method: RemmeMethods, payload?: Input): AxiosRequestConfig {
@@ -66,8 +63,7 @@ class RemmeApi implements IRemmeApi {
 
     /**
      * Constructor can implement with different sets of params. By default params for constructor are:
-     * nodeAddress: "localhost"
-     * nodePort: 8080
+     * nodeAddress: "localhost:8080"
      * sslMode: false
      * @example
      * Implementation with all params.
@@ -75,8 +71,7 @@ class RemmeApi implements IRemmeApi {
      * import { RemmeRest, RemmeMethods } from "remme-rest";
      *
      * const remmeRest = new RemmeRest({
-     *      nodeAddress: "localhost",
-     *      nodePort: 8080,
+     *      nodeAddress: "localhost:8080",
      *      sslMode: false,
      * });
      * ```
@@ -86,7 +81,7 @@ class RemmeApi implements IRemmeApi {
      * import { RemmeRest, RemmeMethods } from "remme-rest";
      *
      * const remmeRest = new RemmeRest({
-     *      nodeAddress: "localhost"
+     *      nodeAddress: "localhost:8080"
      * });
      * ```
      *
@@ -98,13 +93,11 @@ class RemmeApi implements IRemmeApi {
      * ```
      */
     public constructor({
-                           nodeAddress = "localhost",
-                           nodePort = 8080,
+                           nodeAddress = "localhost:8080",
                            sslMode = false,
     }: INetworkConfig = DEFAULT_NETWORK_CONFIG) {
         const networkConfig: INetworkConfig = {
             nodeAddress,
-            nodePort,
             sslMode,
         };
         validateNodeConfig(networkConfig);

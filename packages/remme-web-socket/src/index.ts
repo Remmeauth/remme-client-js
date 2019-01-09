@@ -86,8 +86,7 @@ if (typeof window !== "undefined" && window.WebSocket !== "undefined") {
  *
  * const remmeWebSocket = new mySocketConnection({
  *      networkConfig: {
- *          nodeAddress: "localhost",
- *          nodePort: "8080",
+ *          nodeAddress: "localhost:8080",
  *          sslMode: false
  *      },
  *      data: {
@@ -129,9 +128,9 @@ class RemmeWebSocket implements IRemmeWebSocket {
     }
 
     private _getSubscribeUrl(): string {
-        const { nodeAddress, nodePort, sslMode } = this._networkConfig;
+        const { nodeAddress, sslMode } = this._networkConfig;
         const protocol = sslMode ? "wss://" : "ws://";
-        return `${protocol}${nodeAddress}:${nodePort}/`;
+        return `${protocol}${nodeAddress}/`;
     }
 
     private _getSocketQuery(isSubscribe: boolean = true): string {
