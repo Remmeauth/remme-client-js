@@ -41,7 +41,7 @@ class RemmeApi implements IRemmeApi {
 
     private _getUrlForRequest(): string {
         const { nodeAddress, sslMode } = this._networkConfig;
-        return `${ sslMode ? "https://" : "http://" }${ nodeAddress }`;
+        return `${sslMode ? "https://" : "http://"}${nodeAddress}`;
     }
 
     private _getRequestConfig<Input>(method: RemmeMethods, payload?: Input): AxiosRequestConfig {

@@ -1,7 +1,7 @@
-import {forge, generateAddress, bytesToHex, RemmeFamilyName} from "remme-utils";
+import { forge, generateAddress, bytesToHex, RemmeFamilyName } from "remme-utils";
 
-import {IRemmeKeys} from "../interface";
-import {GenerateOptions, IKeys, KeyDto, KeyType} from "./index";
+import { IRemmeKeys } from "../interface";
+import { GenerateOptions, IKeys, KeyDto, KeyType } from "./index";
 
 class EdDSA extends KeyDto implements IRemmeKeys {
     constructor({ privateKey, publicKey }: IKeys) {

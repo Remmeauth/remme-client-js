@@ -3,7 +3,7 @@ import * as b64 from "base64-js";
 import * as forge from "node-forge";
 
 import { PATTERNS } from "../constants";
-import {INetworkConfig} from "../models";
+import { INetworkConfig } from "../models";
 
 export const sha512 = (value: Uint8Array | Buffer | string) =>
     createHash("sha512").update(value).digest("hex");
