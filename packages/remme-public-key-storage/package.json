@@ -1,6 +1,6 @@
 {
   "name": "remme-public-key-storage",
-  "version": "0.5.12",
+  "version": "0.6.0",
   "description": "REMME public key storage internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,12 +11,12 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-account": "^0.5.12",
-    "remme-api": "^0.4.0",
-    "remme-keys": "^0.5.12",
+    "remme-account": "^0.6.0",
+    "remme-api": "^0.6.0",
+    "remme-keys": "^0.6.0",
     "remme-protobuf": "^0.5.9",
-    "remme-transaction-service": "^0.5.12",
-    "remme-utils": "^0.5.9"
+    "remme-transaction-service": "^0.6.0",
+    "remme-utils": "^0.6.0"
   },
   "devDependencies": {
     "typescript": "^2.8.3"
