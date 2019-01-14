@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to
 
+## [0.6.0]
+### Added
+- Block, Transfer and AtomicSwap with swap id events.
+Block event return block id and timestamp.
+Transfer event take address as argument for subscribing and return two objects from (sender info) and to (receiver info).
+AtomicSwap with swap id take identifier as argument and return swap info about this swap.
+- Storing different types of key pair. ECDSA (secp256k1), EdDSA (ED25519) and RSA are available for store in REMChain at now.
+- Provide filter by family name to getTransactions method in blockchainInfo instance.
+
+### Changed
+- Method store in publicKeyStorage at now accept keys object instead of public key and private key. This object is used for signing and getting address of key.
+- Remove nodePort from networkConfig. Now in nodeAddress we except full address to node.
+
+### Removed
+- Dependencies from sawtooth-sdk and secp256k1-node. For secp256k1 we use elliptic-js now.
+
 ## [0.5.0-alfa]
 ### Added
 - Class RemmeKeys that works with different types of keys. (RSA, EdDSA, ECDSA)

@@ -18,7 +18,7 @@ export class RemmeRequestParams {
 
         switch (true) {
             case this.event_type === RemmeEvents.Batch && !PATTERNS.HEADER_SIGNATURE.test(data.id):
-            case this.event_type === RemmeEvents.AtomicSwap && data.id && !PATTERNS.HEADER_SIGNATURE.test(data.id):
+            case this.event_type === RemmeEvents.AtomicSwap && data.id && !PATTERNS.SWAP_ID.test(data.id):
             case data.id && typeof data.id !== "string":
                 throw new Error("'id' is not correct or not provide");
         }

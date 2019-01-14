@@ -1,4 +1,5 @@
 import { IRemmeRequestParams, RemmeEvents, RemmeWebSocket } from "remme-web-socket";
+import { INetworkConfig } from "remme-utils";
 import { IRemmeWebSocketsEvents } from "./interface";
 /**
  * Class for subscribing to events from WebSocket.
@@ -22,12 +23,14 @@ declare class RemmeWebSocketsEvents extends RemmeWebSocket implements IRemmeWebS
      * Implementation of RemmeWebSocketsEvents;
      * @example
      * ```typescript
-     * const remmeEvents = new RemmeWebSocketsEvents("localhost:8080", false);
+     * const remmeEvents = new RemmeWebSocketsEvents({
+     *     nodeAddress: "localhost:8080",
+     *     sslMode: false
+     * });
      * ```
-     * @param {string} nodeAddress
-     * @param {boolean} sslMode
+     * @param {INetworkConfig} networkConfig
      */
-    constructor(nodeAddress: string, sslMode: boolean);
+    constructor(networkConfig: INetworkConfig);
     /**
      * Subscribing to events from WebSocket.
      * Available types for subscribing is covered in

@@ -86,9 +86,16 @@ exports.generateSettingsAddress = function (key) {
     }
     return "000000" + addressParts.join("");
 };
-exports.certificateToPem = function (certificate) {
+exports.certificateToPem = function (certificate, withPrivateKey) {
+    if (withPrivateKey === void 0) { withPrivateKey = false; }
     try {
-        return forge.pki.certificateToPem(certificate);
+        var pem = forge.pki.certificateToPem(certificate);
+        if (withPrivateKey) {
+            return pem + forge.pki.privateKeyToPem(certificate.privateKey);
+        }
+        else {
+            return pem;
+        }
     }
     catch (e) {
         throw new Error("Given certificate is not a valid");
@@ -187,6 +194,15 @@ exports.checkPublicKey = function (publicKey) {
     }
     if (typeof publicKey !== "string" || publicKey.search(constants_1.PATTERNS.PUBLIC_KEY) === -1) {
         throw new Error("Given public key is not a valid");
+    }
+};
+exports.validateNodeConfig = function (networkConfig) {
+    var nodeAddress = networkConfig.nodeAddress, sslMode = networkConfig.sslMode;
+    if (!constants_1.PATTERNS.NODE_ADDRESS.test(nodeAddress)) {
+        throw new Error("You try construct with invalid nodeAddress");
+    }
+    else if (typeof sslMode !== "boolean") {
+        throw new Error("You try construct with invalid sslMode");
     }
 };
 //# sourceMappingURL=index.js.map

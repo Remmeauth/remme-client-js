@@ -126,7 +126,7 @@ gulp.task('build_docs', function () {
       lib: [ "lib.esnext.full.d.ts" ],
 
       // TypeDoc options (see typedoc docs)
-      out: "./docs",
+      out: "./html",
       exclude: "**/*+(e2e|spec).ts",
       excludeExternals: true,
       excludePrivate: true,

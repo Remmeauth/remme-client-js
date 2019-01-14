@@ -334,8 +334,7 @@ declare namespace Remme {
          *
          * ```typescript
          * const networkConfig = {
-         *      nodeAddress: "localhost",
-         *      nodePort: "8080",
+         *      nodeAddress: "localhost:8080",
          *      sslMode: false,
          * };
          *
@@ -353,14 +352,13 @@ declare namespace Remme {
          * ```typescript
          * const remme = new Remme.Client({
          *      networkConfig: {
-         *          nodeAddress: "localhost",
+         *          nodeAddress: "localhost:8080",
          *      }
          * });
          * ```
          *
          * Also you can set only a privateKeyHex parameter. So networkConfig would be this: {
-         *      nodeAddress: "localhost",
-         *      nodePort: "8080",
+         *      nodeAddress: "localhost:8080",
          *      sslMode: false
          * }.
          *

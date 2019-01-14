@@ -1,6 +1,4 @@
 node_modules
 .idea/
-docs/
-docs.zip
-keys.txt
+html/
 examples/.env

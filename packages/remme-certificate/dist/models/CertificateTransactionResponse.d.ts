@@ -1,4 +1,4 @@
-import { forge } from "remme-utils";
+import { forge, INetworkConfig } from "remme-utils";
 import { IRemmeKeys, RSASignaturePadding } from "remme-keys";
 import { BaseTransactionResponse, IBaseTransactionResponse } from "remme-transaction-service";
 export interface ICertificateTransactionResponse extends IBaseTransactionResponse {
@@ -12,7 +12,7 @@ export interface ICertificateTransactionResponse extends IBaseTransactionRespons
 export declare class CertificateTransactionResponse extends BaseTransactionResponse implements ICertificateTransactionResponse {
     keys: IRemmeKeys;
     certificate: forge.pki.Certificate;
-    constructor(socketAddress: string, sslMode: boolean, batchId: string, certificate: forge.pki.Certificate);
+    constructor(networkConfig: INetworkConfig, batchId: string, certificate: forge.pki.Certificate);
     /**
      * Sign data with a certificate's private key and output DigestInfo DER-encoded bytes
      * (defaults to PSS)

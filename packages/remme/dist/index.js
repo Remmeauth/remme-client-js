@@ -47,8 +47,7 @@ var Remme;
          *
          * ```typescript
          * const networkConfig = {
-         *      nodeAddress: "localhost",
-         *      nodePort: "8080",
+         *      nodeAddress: "localhost:8080",
          *      sslMode: false,
          * };
          *
@@ -66,14 +65,13 @@ var Remme;
          * ```typescript
          * const remme = new Remme.Client({
          *      networkConfig: {
-         *          nodeAddress: "localhost",
+         *          nodeAddress: "localhost:8080",
          *      }
          * });
          * ```
          *
          * Also you can set only a privateKeyHex parameter. So networkConfig would be this: {
-         *      nodeAddress: "localhost",
-         *      nodePort: "8080",
+         *      nodeAddress: "localhost:8080",
          *      sslMode: false
          * }.
          *
@@ -133,7 +131,7 @@ var Remme;
              */
             /* tslint:enable */
             get: function () {
-                return new remme_web_socket_events_1.RemmeWebSocketsEvents(this._remmeApi.nodeAddress, this._remmeApi.sslMode);
+                return new remme_web_socket_events_1.RemmeWebSocketsEvents(this._remmeApi.networkConfig);
             },
             enumerable: true,
             configurable: true

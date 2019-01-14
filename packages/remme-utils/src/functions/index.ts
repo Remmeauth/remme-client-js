@@ -57,9 +57,15 @@ export const generateSettingsAddress = (key: string): string => {
     return `000000${addressParts.join("")}`;
 };
 
-export const certificateToPem = (certificate: forge.pki.Certificate): forge.pki.PEM => {
+export const certificateToPem = (certificate: forge.pki.Certificate, withPrivateKey: boolean = false)
+    : forge.pki.PEM => {
     try {
-        return forge.pki.certificateToPem(certificate);
+        const pem = forge.pki.certificateToPem(certificate);
+        if (withPrivateKey) {
+            return pem + forge.pki.privateKeyToPem(certificate.privateKey);
+        } else {
+            return pem;
+        }
     } catch (e) {
         throw new Error("Given certificate is not a valid");
     }

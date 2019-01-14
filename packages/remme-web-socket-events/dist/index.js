@@ -35,13 +35,15 @@ var RemmeWebSocketsEvents = /** @class */ (function (_super) {
      * Implementation of RemmeWebSocketsEvents;
      * @example
      * ```typescript
-     * const remmeEvents = new RemmeWebSocketsEvents("localhost:8080", false);
+     * const remmeEvents = new RemmeWebSocketsEvents({
+     *     nodeAddress: "localhost:8080",
+     *     sslMode: false
+     * });
      * ```
-     * @param {string} nodeAddress
-     * @param {boolean} sslMode
+     * @param {INetworkConfig} networkConfig
      */
-    function RemmeWebSocketsEvents(nodeAddress, sslMode) {
-        return _super.call(this, nodeAddress, sslMode) || this;
+    function RemmeWebSocketsEvents(networkConfig) {
+        return _super.call(this, networkConfig) || this;
     }
     /**
      * Subscribing to events from WebSocket.

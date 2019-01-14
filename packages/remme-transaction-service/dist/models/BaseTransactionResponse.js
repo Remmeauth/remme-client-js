@@ -20,12 +20,11 @@ var BaseTransactionResponse = /** @class */ (function (_super) {
     /**
      * Get address of node, ssl mode, and identifier of batch.
      * Then implement RemmeWebSocket class and provide data to it.
-     * @param {string} nodeAddress
-     * @param {boolean} sslMode
+     * @param {INetworkConfig} networkConfig;
      * @param {string} batchId
      */
-    function BaseTransactionResponse(nodeAddress, sslMode, batchId) {
-        var _this = _super.call(this, nodeAddress, sslMode) || this;
+    function BaseTransactionResponse(networkConfig, batchId) {
+        var _this = _super.call(this, networkConfig) || this;
         _this._batchId = batchId;
         _this.data = new remme_web_socket_1.RemmeRequestParams({
             events: remme_web_socket_1.RemmeEvents.Batch,

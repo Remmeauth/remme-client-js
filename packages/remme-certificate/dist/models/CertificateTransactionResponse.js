@@ -17,8 +17,8 @@ var remme_transaction_service_1 = require("remme-transaction-service");
  */
 var CertificateTransactionResponse = /** @class */ (function (_super) {
     __extends(CertificateTransactionResponse, _super);
-    function CertificateTransactionResponse(socketAddress, sslMode, batchId, certificate) {
-        var _this = _super.call(this, socketAddress, sslMode, batchId) || this;
+    function CertificateTransactionResponse(networkConfig, batchId, certificate) {
+        var _this = _super.call(this, networkConfig, batchId) || this;
         _this.certificate = certificate;
         _this.keys = new remme_keys_1.RSA({
             privateKey: remme_keys_1.RSA.getPrivateKeyFromObject(_this.certificate.privateKey),

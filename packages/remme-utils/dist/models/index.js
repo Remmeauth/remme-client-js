@@ -35,9 +35,8 @@ exports.PublicKeyRequest = PublicKeyRequest;
  * Model that define node config params into request
  */
 var NodeConfigRequest = /** @class */ (function () {
-    function NodeConfigRequest(node_public_key, storage_public_key) {
+    function NodeConfigRequest(node_public_key) {
         this.node_public_key = node_public_key;
-        this.storage_public_key = storage_public_key;
     }
     return NodeConfigRequest;
 }());

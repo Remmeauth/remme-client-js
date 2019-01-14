@@ -4,4 +4,5 @@ export declare const PATTERNS: {
     ADDRESS: RegExp;
     SWAP_ID: RegExp;
     HEADER_SIGNATURE: RegExp;
+    NODE_ADDRESS: RegExp;
 };

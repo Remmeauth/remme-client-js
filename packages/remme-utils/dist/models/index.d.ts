@@ -28,6 +28,15 @@ export declare class PublicKeyRequest {
  */
 export declare class NodeConfigRequest {
     node_public_key: string;
-    storage_public_key: string;
-    constructor(node_public_key: string, storage_public_key: string);
+    constructor(node_public_key: string);
+}
+/**
+ * Network configuration.
+ * By default: see DEFAULT_NETWORK_CONFIG
+ *  nodeAddress is localhost:8080,
+ *  sslMode is false
+ */
+export interface INetworkConfig {
+    nodeAddress?: string;
+    sslMode?: boolean;
 }

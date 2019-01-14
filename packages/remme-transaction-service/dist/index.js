@@ -160,7 +160,7 @@ var RemmeTransactionService = /** @class */ (function () {
                                 .sendRequest(remme_api_1.RemmeMethods.transaction, requestPayload)];
                     case 1:
                         batchId = _a.sent();
-                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeApi.nodeAddress, this._remmeApi.sslMode, batchId)];
+                        return [2 /*return*/, new models_1.BaseTransactionResponse(this._remmeApi.networkConfig, batchId)];
                 }
             });
         });

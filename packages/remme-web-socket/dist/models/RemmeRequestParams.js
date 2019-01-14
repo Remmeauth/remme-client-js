@@ -7,7 +7,7 @@ var RemmeRequestParams = /** @class */ (function () {
         this.event_type = data.events;
         switch (true) {
             case this.event_type === RemmeEvents_1.RemmeEvents.Batch && !remme_utils_1.PATTERNS.HEADER_SIGNATURE.test(data.id):
-            case this.event_type === RemmeEvents_1.RemmeEvents.AtomicSwap && data.id && !remme_utils_1.PATTERNS.HEADER_SIGNATURE.test(data.id):
+            case this.event_type === RemmeEvents_1.RemmeEvents.AtomicSwap && data.id && !remme_utils_1.PATTERNS.SWAP_ID.test(data.id):
             case data.id && typeof data.id !== "string":
                 throw new Error("'id' is not correct or not provide");
         }

@@ -36,15 +36,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var remme_http_client_1 = require("remme-http-client");
+var remme_utils_1 = require("remme-utils");
+exports.INetworkConfig = remme_utils_1.INetworkConfig;
 var models_1 = require("./models");
 exports.RemmeMethods = models_1.RemmeMethods;
 /**
  * Default config for creating url that passed to RemmeRest constructor;
- * @type {{nodeAddress: string; nodePort: string; sslMode: boolean}}
+ * @type {{nodeAddress: string; sslMode: boolean}}
  */
 var DEFAULT_NETWORK_CONFIG = {
-    nodeAddress: "localhost",
-    nodePort: "8080",
+    nodeAddress: "localhost:8080",
     sslMode: false,
 };
 exports.DEFAULT_NETWORK_CONFIG = DEFAULT_NETWORK_CONFIG;
@@ -53,7 +54,6 @@ exports.DEFAULT_NETWORK_CONFIG = DEFAULT_NETWORK_CONFIG;
  * Check JSON-RPC API specification:
  *      https://remmeio.atlassian.net/wiki/spaces/WikiREMME/pages/292814862/RPC+API+specification.
  * @param {string} nodeAddress
- * @param {string | number} nodePort
  * @param {boolean} sslMode
  *
  * @example
@@ -61,8 +61,7 @@ exports.DEFAULT_NETWORK_CONFIG = DEFAULT_NETWORK_CONFIG;
  * import { RemmeApi, RemmeMethods } from "remme-api";
  *
  * const remmeApi = new RemmeApi({
- *      nodeAddress: "localhost",
- *      nodePort: 8080,
+ *      nodeAddress: "localhost:8080",
  *      sslMode: false,
  * });
  *
@@ -73,8 +72,7 @@ exports.DEFAULT_NETWORK_CONFIG = DEFAULT_NETWORK_CONFIG;
 var RemmeApi = /** @class */ (function () {
     /**
      * Constructor can implement with different sets of params. By default params for constructor are:
-     * nodeAddress: "localhost"
-     * nodePort: 8080
+     * nodeAddress: "localhost:8080"
      * sslMode: false
      * @example
      * Implementation with all params.
@@ -82,8 +80,7 @@ var RemmeApi = /** @class */ (function () {
      * import { RemmeRest, RemmeMethods } from "remme-rest";
      *
      * const remmeRest = new RemmeRest({
-     *      nodeAddress: "localhost",
-     *      nodePort: 8080,
+     *      nodeAddress: "localhost:8080",
      *      sslMode: false,
      * });
      * ```
@@ -93,7 +90,7 @@ var RemmeApi = /** @class */ (function () {
      * import { RemmeRest, RemmeMethods } from "remme-rest";
      *
      * const remmeRest = new RemmeRest({
-     *      nodeAddress: "localhost"
+     *      nodeAddress: "localhost:8080"
      * });
      * ```
      *
@@ -105,12 +102,17 @@ var RemmeApi = /** @class */ (function () {
      * ```
      */
     function RemmeApi(_a) {
-        var _b = _a === void 0 ? DEFAULT_NETWORK_CONFIG : _a, _c = _b.nodeAddress, nodeAddress = _c === void 0 ? "localhost" : _c, _d = _b.nodePort, nodePort = _d === void 0 ? 8080 : _d, _e = _b.sslMode, sslMode = _e === void 0 ? false : _e;
-        this._nodeAddress = nodeAddress + ":" + nodePort;
-        this._sslMode = sslMode;
+        var _b = _a === void 0 ? DEFAULT_NETWORK_CONFIG : _a, _c = _b.nodeAddress, nodeAddress = _c === void 0 ? "localhost:8080" : _c, _d = _b.sslMode, sslMode = _d === void 0 ? false : _d;
+        var networkConfig = {
+            nodeAddress: nodeAddress,
+            sslMode: sslMode,
+        };
+        remme_utils_1.validateNodeConfig(networkConfig);
+        this._networkConfig = networkConfig;
     }
     RemmeApi.prototype._getUrlForRequest = function () {
-        return "" + (this._sslMode ? "https://" : "http://") + this._nodeAddress;
+        var _a = this._networkConfig, nodeAddress = _a.nodeAddress, sslMode = _a.sslMode;
+        return "" + (sslMode ? "https://" : "http://") + nodeAddress;
     };
     RemmeApi.prototype._getRequestConfig = function (method, payload) {
         var options = {
@@ -128,24 +130,13 @@ var RemmeApi = /** @class */ (function () {
         }
         return options;
     };
-    Object.defineProperty(RemmeApi.prototype, "nodeAddress", {
+    Object.defineProperty(RemmeApi.prototype, "networkConfig", {
         /**
-         * Return node address which contain domain name and port.
-         * @returns {string}
+         * Return network config object which contain domain name, port and ssl.
+         * @returns {INetworkConfig}
          */
         get: function () {
-            return this._nodeAddress;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RemmeApi.prototype, "sslMode", {
-        /**
-         * Return ssl mode which was provided by user.
-         * @returns {boolean}
-         */
-        get: function () {
-            return this._sslMode;
+            return this._networkConfig;
         },
         enumerable: true,
         configurable: true
