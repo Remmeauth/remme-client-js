@@ -6,6 +6,8 @@ import {
 } from "remme-utils";
 import { createHash } from "crypto";
 import { ec as EC } from "elliptic";
+
+// @ts-ignore
 import * as BN from "bn.js";
 
 import { IKeys, KeyDto, KeyType } from "./index";
@@ -22,7 +24,7 @@ class ECDSA extends KeyDto implements IRemmeKeys {
             this._publicKey = publicKey;
         } else if (privateKey) {
             this._privateKey = privateKey;
-            this._publicKey = hexToBytes(ec.keyFromPrivate(privateKey)
+            this._publicKey = hexToBytes(ec.keyFromPrivate(privateKey as Buffer)
                 .getPublic(true, "hex"));
         } else if (publicKey) {
             this._publicKey = publicKey;
@@ -58,6 +60,7 @@ class ECDSA extends KeyDto implements IRemmeKeys {
         const dataHash = createHash("sha256").update(data).digest("hex");
         const signature = ec.sign(dataHash, this._privateKey, "hex", {
             canonical: true,
+            pers: true
         });
 
         return bytesToHex(signature.r.toBuffer()) + bytesToHex(signature.s.toBuffer());

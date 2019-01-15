@@ -36,7 +36,8 @@
     "remme-public-key-storage": "^0.6.0",
     "remme-token": "^0.6.0",
     "remme-transaction-service": "^0.6.0",
-    "remme-web-socket-events": "^0.6.0"
+    "remme-web-socket-events": "^0.6.0",
+    "remme-utils": "^0.6.0"
   },
   "devDependencies": {
     "typedoc": "^0.11.1",

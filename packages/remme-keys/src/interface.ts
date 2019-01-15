@@ -13,6 +13,6 @@ export interface IRemmeKeys {
     privateKeyPem?: string;
     publicKeyPem?: string;
 
-    sign(data: string, rsaSignaturePadding?: RSASignaturePadding): string;
+    sign(data: string | Uint8Array, rsaSignaturePadding?: RSASignaturePadding): string;
     verify(data: string, signature: string): boolean;
 }

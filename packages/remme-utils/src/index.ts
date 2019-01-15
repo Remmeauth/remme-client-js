@@ -15,6 +15,9 @@ declare module "node-forge" {
         function certificationRequestFromPem(pem: PEM, computeHash?: boolean, strict?: boolean): Certificate;
         function createCertificationRequest(): Certificate;
         function publicKeyToAsn1(publicKey: Key): any;
+        function privateKeyToAsn1(privateKey: Key): any;
+        function publicKeyFromAsn1(asn1: any): any;
+        function privateKeyFromAsn1(asn1: any): any;
         function publicKeyToRSAPublicKey(publicKey: Key): any;
         namespace rsa {
             function setPublicKey(n: any, e: any): any;
