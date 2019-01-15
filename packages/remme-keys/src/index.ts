@@ -81,7 +81,7 @@ class RemmeKeys {
     public static async generateKeyPair(
         keyType: KeyType,
         options?: GenerateOptions,
-    ): Promise<{privateKey: any, publicKey: any}> {
+    ): Promise<IKeys> {
         switch (keyType) {
             case KeyType.RSA: {
                 return await RSA.generateKeyPair(options);

@@ -116,12 +116,14 @@ class RSA extends KeyDto implements IRemmeKeys {
         return Buffer.from(forge.asn1.toDer(forge.pki.privateKeyToAsn1(privateKey)).getBytes(), "binary");
     }
 
-    public static getObjectFromPublicKey(publicKey: Buffer): forge.pki.Key {
+    public static getObjectFromPublicKey(publicKey: Buffer | Uint8Array): forge.pki.Key {
+        // @ts-ignore
         const pk = new forge.util.ByteStringBuffer(publicKey);
         return forge.pki.publicKeyFromAsn1(forge.asn1.fromDer(pk));
     }
 
-    public static getObjectFromPrivateKey(privateKey: Buffer): forge.pki.Key {
+    public static getObjectFromPrivateKey(privateKey: Buffer | Uint8Array): forge.pki.Key {
+        // @ts-ignore
         const sk = new forge.util.ByteStringBuffer(privateKey);
         return forge.pki.privateKeyFromAsn1(forge.asn1.fromDer(sk));
     }

@@ -6,10 +6,10 @@ import { PATTERNS } from "../constants";
 import { INetworkConfig } from "../models";
 
 export const sha512 = (value: Uint8Array | Buffer | string) =>
-    createHash("sha512").update(value).digest("hex");
+    createHash("sha512").update(value as Buffer | string).digest("hex");
 
 export const sha256 = (value: Uint8Array | Buffer | string) =>
-    createHash("sha256").update(value).digest("hex");
+    createHash("sha256").update(value as Buffer | string).digest("hex");
 
 export const hexToBytes = (str: string): Uint8Array => {
     const arr = [];
