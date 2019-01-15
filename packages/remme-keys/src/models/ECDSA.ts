@@ -60,7 +60,7 @@ class ECDSA extends KeyDto implements IRemmeKeys {
         const dataHash = createHash("sha256").update(data).digest("hex");
         const signature = ec.sign(dataHash, this._privateKey, "hex", {
             canonical: true,
-            pers: true
+            pers: true,
         });
 
         return bytesToHex(signature.r.toBuffer()) + bytesToHex(signature.s.toBuffer());
