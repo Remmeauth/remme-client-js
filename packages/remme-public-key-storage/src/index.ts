@@ -169,16 +169,15 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            validTo,
                            rsaSignaturePadding = RSASignaturePadding.PSS,
                        }: IPublicKeyStore): Promise<IBaseTransactionResponse> {
-
-        const { publicKey, keyType } = keys;
-
-        const message = signature ? data : sha512(data);
-        const entityHash = Buffer.from(message);
-        const entityHashSignature = hexToBytes(signature || keys.sign(message, rsaSignaturePadding));
-
-        if (signature && !keys.verify(message, signature)) {
+        if (signature && !keys.verify(data, signature)) {
             throw new Error("Signature not valid");
         }
+
+        const { publicKey, keyType } = keys;
+        const message = signature ? data : sha512(data);
+        const entityHash = Buffer.from(message);
+
+        const entityHashSignature = hexToBytes(signature || keys.sign(message, rsaSignaturePadding));
 
         const payload = NewPubKeyPayload.encode({
             [keyType]: this._KeyType[keyType]({
