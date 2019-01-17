@@ -1,12 +1,11 @@
 import {
-    bytesToHex,
     hexToBytes,
     checkAddress,
     generateAddress,
     generateSettingsAddress,
-    NodeConfigRequest,
     PublicKeyRequest,
     RemmeFamilyName,
+    checkSha,
     sha512,
 } from "remme-utils";
 import { IRemmeApi, RemmeMethods } from "remme-api";
@@ -167,15 +166,22 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            data,
                            keys,
                            validFrom,
+                           signature,
                            validTo,
                            rsaSignaturePadding = RSASignaturePadding.PSS,
                        }: IPublicKeyStore): Promise<IBaseTransactionResponse> {
+        if (signature) {
+            checkSha(data);
+            if (!keys.verify(data, signature)) {
+                throw new Error("Signature not valid");
+            }
+        }
 
         const { publicKey, keyType } = keys;
-
-        const message = sha512(data);
+        const message = signature ? data : sha512(data);
         const entityHash = Buffer.from(message);
-        const entityHashSignature = hexToBytes(keys.sign(message, rsaSignaturePadding));
+
+        const entityHashSignature = hexToBytes(signature || keys.sign(message, rsaSignaturePadding));
 
         const payload = NewPubKeyPayload.encode({
             [keyType]: this._KeyType[keyType]({

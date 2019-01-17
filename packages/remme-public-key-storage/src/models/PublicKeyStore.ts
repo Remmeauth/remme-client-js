@@ -7,6 +7,7 @@ import { IRemmeKeys, RSASignaturePadding } from "remme-keys";
 export interface IPublicKeyStore {
     data: string;
     keys: IRemmeKeys;
+    signature?: string;
     validFrom: number;
     validTo: number;
     rsaSignaturePadding?: RSASignaturePadding;

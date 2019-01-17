@@ -106,7 +106,7 @@ class RemmeTransactionService implements IRemmeTransactionService {
 
         const signature = this._remmeAccount.sign(transactionHeaderBytes);
 
-        let transaction: string | Uint8Array = protobuf.Transaction.encode({
+        let transaction = protobuf.Transaction.encode({
             header: transactionHeaderBytes,
             headerSignature: signature,
             payload: payloadBytes,
@@ -116,9 +116,10 @@ class RemmeTransactionService implements IRemmeTransactionService {
             // @ts-ignore
             transaction = btoa(String.fromCharCode(...transaction));
         } catch (e) {
-            transaction = transaction.toString();
+            // @ts-ignore
+            transaction = transaction.toString("base64");
         }
-
+        // @ts-ignore
         return transaction;
     }
 
