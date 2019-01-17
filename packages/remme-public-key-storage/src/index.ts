@@ -5,6 +5,7 @@ import {
     generateSettingsAddress,
     PublicKeyRequest,
     RemmeFamilyName,
+    checkSha,
     sha512,
 } from "remme-utils";
 import { IRemmeApi, RemmeMethods } from "remme-api";
@@ -169,8 +170,11 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
                            validTo,
                            rsaSignaturePadding = RSASignaturePadding.PSS,
                        }: IPublicKeyStore): Promise<IBaseTransactionResponse> {
-        if (signature && !keys.verify(data, signature)) {
-            throw new Error("Signature not valid");
+        if (signature) {
+            checkSha(data);
+            if (!keys.verify(data, signature)) {
+                throw new Error("Signature not valid");
+            }
         }
 
         const { publicKey, keyType } = keys;

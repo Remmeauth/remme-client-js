@@ -162,6 +162,24 @@ export const checkPublicKey = (publicKey: string): void => {
     }
 };
 
+export const checkSha256 = (data: string): void => {
+    if (!PATTERNS.SHA256.test(data)) {
+        throw new Error("Value should be SHA-256");
+    }
+};
+
+export const checkSha512 = (data: string): void => {
+    if (!PATTERNS.SHA512.test(data)) {
+        throw new Error("Value should be SHA-512");
+    }
+};
+
+export const checkSha = (data: string): void => {
+    if (!PATTERNS.SHA256.test(data) && !PATTERNS.SHA512.test(data)) {
+        throw new Error("Value should be SHA-256 or SHA-512");
+    }
+};
+
 export const validateNodeConfig = (networkConfig: INetworkConfig): void => {
     const { nodeAddress, sslMode } = networkConfig;
     if (!PATTERNS.NODE_ADDRESS.test(nodeAddress)) {
