@@ -53,7 +53,7 @@ class ECDSA extends KeyDto implements IRemmeKeys {
         return generateAddress(RemmeFamilyName.PublicKey, publicKey);
     }
 
-    public sign(data: string): string {
+    public sign(data: string | Uint8Array): string {
         if (!this._privateKey) {
             throw new Error("No private key to sign");
         }
@@ -66,7 +66,7 @@ class ECDSA extends KeyDto implements IRemmeKeys {
         return bytesToHex(signature.r.toBuffer()) + bytesToHex(signature.s.toBuffer());
     }
 
-    public verify(data: string, signature: string): boolean {
+    public verify(data: string | Uint8Array, signature: string): boolean {
         const dataHash = createHash("sha256").update(data).digest("hex");
 
         const r = new BN(signature.slice(0, 64), 16);
