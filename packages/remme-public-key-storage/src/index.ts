@@ -23,7 +23,7 @@ import { IRemmeAccount } from "remme-account";
 import { KeyType, RemmeKeys, RSASignaturePadding } from "remme-keys";
 
 import { IRemmePublicKeyStorage } from "./interface";
-import { IPublicKeyInfo, IPublicKeyCreate,  PublicKeyInfo } from "./models";
+import { IPublicKeyCreate, IPublicKeyInfo, PublicKeyInfo } from "./models";
 
 type IRSAConfiguration = NewPubKeyPayload.IRSAConfiguration;
 type IECDSAConfiguration = NewPubKeyPayload.IECDSAConfiguration;
@@ -79,6 +79,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _familyName = RemmeFamilyName.PublicKey;
     private readonly _familyVersion = "0.1";
     private readonly _zeroAddress = "0".repeat(70);
+    private readonly _settingAddress = generateSettingsAddress("remme.economy_enabled");
 
     private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
         return TransactionPayload.encode({
@@ -113,17 +114,32 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         }
     }
 
-    private async _constructKeysFromPayload(
-        payload: NewPubKeyPayload | INewPubKeyPayload,
-    ): Promise<IRemmeAccount> {
-        const { rsa, ecdsa, ed25519 } = payload;
-        const { key } = rsa || ecdsa || ed25519;
-        return await RemmeKeys.construct({
-            keyType: rsa ? KeyType.RSA :
-                     ecdsa ? KeyType.ECDSA :
-                     ed25519 ? KeyType.EdDSA : undefined,
-            publicKey: key,
+    private async _constructAddressFromPayload(
+        payload: NewPubKeyPayload,
+    ): Promise<string> {
+        const { entityHashSignature, entityHash } = payload;
+        checkSha(entityHash.toString());
+        const keyType = payload.configuration;
+        const { key: publicKey } = payload[keyType];
+        // @ts-ignore
+        const keys = await RemmeKeys.construct({
+            keyType,
+            publicKey,
         });
+        if (!keys.verify(entityHash.toString(), bytesToHex(entityHashSignature))) {
+            throw new Error("Signature not valid");
+        }
+        return keys.address;
+    }
+
+    private async _verifyPayloadOwner({ ownerPublicKey, signatureByOwner, payload }) {
+        const accountKey = await RemmeKeys.construct({
+            keyType: KeyType.ECDSA,
+            publicKey: ownerPublicKey,
+        });
+        if (!accountKey.verify(payload, bytesToHex(signatureByOwner))) {
+            throw new Error("Owner signature not valid");
+        }
     }
 
     private _KeyType = {
@@ -212,15 +228,14 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             return NewPubKeyPayload.encode(pubKeyPayload).finish();
         }
 
-        const { publicKey: ownerPublicKey } = this._remmeAccount;
         const signatureByOwnerHex = this._remmeAccount.sign(
             NewPubKeyPayload.encode(pubKeyPayload).finish(),
         );
-        const signatureByOwner = hexToBytes(signatureByOwnerHex);
+
         return NewPubKeyStoreAndPayPayload.encode({
             pubKeyPayload,
-            ownerPublicKey,
-            signatureByOwner,
+            ownerPublicKey: this._remmeAccount.publicKey,
+            signatureByOwner: hexToBytes(signatureByOwnerHex),
         }).finish();
     }
 
@@ -259,59 +274,46 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
         let message: NewPubKeyPayload | NewPubKeyStoreAndPayPayload;
         let payload: Uint8Array;
         let pubKeyAddress: string;
+        let ownerAddress: string = null;
 
-        message = NewPubKeyStoreAndPayPayload.decode(data).pubKeyPayload.entityHash.byteLength
-            ? NewPubKeyStoreAndPayPayload.decode(data)
+        const ownerPayload = NewPubKeyStoreAndPayPayload.decode(data);
+
+        message = ownerPayload.pubKeyPayload.entityHash.byteLength
+            ? ownerPayload
             : NewPubKeyPayload.decode(data);
 
         if (message instanceof NewPubKeyPayload) {
-            const { entityHash, entityHashSignature } = message;
-
-            checkSha(entityHash.toString());
-
-            const keys = await this._constructKeysFromPayload(message);
-
-            if (!keys.verify(entityHash.toString(), bytesToHex(entityHashSignature))) {
-                throw new Error("Signature not valid");
-            }
-
-            pubKeyAddress = keys.address;
-            payload = data;
+            pubKeyAddress = await this._constructAddressFromPayload(message);
         } else if (message instanceof NewPubKeyStoreAndPayPayload) {
             const { ownerPublicKey, signatureByOwner, pubKeyPayload } = message;
-            const signedPayload = NewPubKeyPayload.encode(pubKeyPayload).finish();
 
-            const accountKey = await RemmeKeys.construct({
-                keyType: KeyType.ECDSA,
-                publicKey: ownerPublicKey,
-            });
+            const pubKeyPayloadData = NewPubKeyPayload.create(pubKeyPayload);
+            payload = NewPubKeyPayload.encode(pubKeyPayloadData).finish();
 
-            if (!accountKey.verify(signedPayload, bytesToHex(signatureByOwner))) {
-                throw new Error("Owner signature not valid");
-            }
+            await this._verifyPayloadOwner({ ownerPublicKey, payload, signatureByOwner});
+            pubKeyAddress = await this._constructAddressFromPayload(pubKeyPayloadData);
 
-            const { entityHash, entityHashSignature} = pubKeyPayload;
-            const keys = await this._constructKeysFromPayload(pubKeyPayload);
-
-            if (!keys.verify(entityHash.toString(), bytesToHex(entityHashSignature))) {
-                throw new Error("Signature not valid");
-            }
-            pubKeyAddress = keys.address;
-            payload = NewPubKeyPayload.encode(pubKeyPayload).finish();
+            ownerAddress = generateAddress(RemmeFamilyName.Account, bytesToHex(ownerPublicKey));
         } else {
             throw new Error("Invalid payload");
         }
 
-        const settingAddress = generateSettingsAddress("remme.economy_enabled");
-
         const inputsOutputs = [
             pubKeyAddress,
-            this._remmeAccount.address,
             this._zeroAddress,
-            settingAddress,
+            this._settingAddress,
         ];
 
-        const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.STORE, payload);
+        if (ownerAddress) {
+            inputsOutputs.push(ownerAddress);
+        }
+
+        const payloadBytes = this._generateTransactionPayload(
+            ownerAddress
+                ? PubKeyMethod.Method.STORE_AND_PAY
+                : PubKeyMethod.Method.STORE,
+            data,
+        );
 
         return await this._createAndSendTransaction(inputsOutputs, inputsOutputs, payloadBytes);
     }
