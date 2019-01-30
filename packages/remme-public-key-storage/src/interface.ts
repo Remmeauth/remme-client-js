@@ -3,11 +3,15 @@ import { IBaseTransactionResponse } from "remme-transaction-service";
 
 import {
     PublicKeyInfo,
-    IPublicKeyStore,
+    IPublicKeyCreate,
 } from "./models";
 
 export interface IRemmePublicKeyStorage {
-    store(data: IPublicKeyStore): Promise<IBaseTransactionResponse>;
+    create(data: IPublicKeyCreate): Uint8Array;
+
+    store(data: Uint8Array): Promise<IBaseTransactionResponse>;
+
+    createAndStore(data: IPublicKeyCreate): Promise<IBaseTransactionResponse>;
 
     check(publicKey: string | forge.pki.PEM | forge.pki.Key): Promise<boolean>;
 

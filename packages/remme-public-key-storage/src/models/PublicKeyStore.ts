@@ -1,14 +1,14 @@
-// import { NewPubKeyPayload } from "remme-protobuf";
 import { IRemmeKeys, RSASignaturePadding } from "remme-keys";
 
 /**
  * Interface that take method store in publicKeyStorage
  */
-export interface IPublicKeyStore {
+export interface IPublicKeyCreate {
     data: string;
     keys: IRemmeKeys;
-    signature?: string;
     validFrom: number;
     validTo: number;
     rsaSignaturePadding?: RSASignaturePadding;
+    signature?: string;
+    doOwnerPay?: boolean;
 }

@@ -60,11 +60,11 @@ class RSA extends KeyDto implements IRemmeKeys {
     }
 
     public sign(
-        data: string,
+        data: string | Uint8Array,
         rsaSignaturePadding: RSASignaturePadding = RSASignaturePadding.PSS,
     ): string {
         const md = forge.md.sha256.create();
-        md.update(data, "utf8");
+        md.update(data.toString(), "utf8");
         let signature: string;
         switch (rsaSignaturePadding) {
             case RSASignaturePadding.PKCS1v15: {
@@ -84,12 +84,12 @@ class RSA extends KeyDto implements IRemmeKeys {
     }
 
     public verify(
-        data: string,
+        data: string | Uint8Array,
         signature: string,
         rsaSignaturePadding: RSASignaturePadding = RSASignaturePadding.PSS,
     ): boolean {
         const md = forge.md.sha256.create();
-        md.update(data, "utf8");
+        md.update(data.toString(), "utf8");
 
         signature = forge.util.hexToBytes(signature);
 
