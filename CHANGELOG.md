@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to
 
+## [0.7.0]
+### Added
+- Pay for others owner keys registration;
+- Add Method create() in RemmePublicKeyStorage: creates signed by owner payload bytes to store in chain;
+- Add Method store() in RemmePublicKeyStorage: stores payload bytes with signed keys by owner;
+### Changed
+- RemmeKeys.sign and RemmeKeys.verify now accepts bytes to sign;
+- Renamed interface IPublicKeyStore to IPublicKeyCreate;
+- New optional param "doOwnerPay" added to IPublicKeyCreate;
+
+## [0.6.1]
+### Added
+- Store Keys to Chain with EntityHash Signature;
+### Changed
+- New optional params "signature" added to IPublicKeyStore;
+
 ## [0.6.0]
 ### Added
 - Block, Transfer and AtomicSwap with swap id events.
