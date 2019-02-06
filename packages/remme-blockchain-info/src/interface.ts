@@ -10,8 +10,6 @@ import {
     IStateQuery,
     StateList,
     State,
-    // PeerList,
-    // ReceiptList,
     INetworkStatus,
     IBlockInfo,
 } from "./models";

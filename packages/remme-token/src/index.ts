@@ -1,5 +1,5 @@
 import { RemmeMethods, IRemmeApi } from "remme-api";
-import { generateAddress, RemmeFamilyName, PublicKeyRequest, checkAddress, checkPublicKey } from "remme-utils";
+import { RemmeFamilyName, PublicKeyRequest, checkAddress } from "remme-utils";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
 import { TransferPayload, TransactionPayload, AccountMethod } from "remme-protobuf";
 

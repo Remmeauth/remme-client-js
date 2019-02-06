@@ -17,7 +17,6 @@ import {
     TransactionList,
     TransactionData,
     PeerList,
-    // ReceiptList,
     IStateQuery,
     INetworkStatusResponse,
     INetworkStatus,
