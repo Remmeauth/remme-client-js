@@ -1,4 +1,3 @@
-// import { NewPubKeyPayload } from "remme-protobuf";
 import { RemmeFamilyName } from "remme-utils";
 import { RSASignaturePadding } from "./models";
 
