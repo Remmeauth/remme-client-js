@@ -1,6 +1,6 @@
 clean:
 	rm -r ./node_modules && rm -r ./html
-tests:
+test:
 	npm run tests
 docs:
 	npm run generate-docs
