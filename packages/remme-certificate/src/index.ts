@@ -225,7 +225,7 @@ class RemmeCertificate implements IRemmeCertificate {
         }
         const validFrom = Math.floor(certificate.validity.notBefore.getTime() / 1000);
         const validTo = Math.floor(certificate.validity.notAfter.getTime()  / 1000);
-        const batchResponse = await this._remmePublicKeyStorage.store({
+        const batchResponse = await this._remmePublicKeyStorage.createAndStore({
             data: certificatePEM,
             keys: new RSA({
                 privateKey: RSA.getPrivateKeyFromObject(privateKey),

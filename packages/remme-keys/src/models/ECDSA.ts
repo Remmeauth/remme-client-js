@@ -57,6 +57,7 @@ class ECDSA extends KeyDto implements IRemmeKeys {
         if (!this._privateKey) {
             throw new Error("No private key to sign");
         }
+        // @ts-ignore
         const dataHash = createHash("sha256").update(data).digest("hex");
         const signature = ec.sign(dataHash, this._privateKey, "hex", {
             canonical: true,
@@ -67,6 +68,7 @@ class ECDSA extends KeyDto implements IRemmeKeys {
     }
 
     public verify(data: string | Uint8Array, signature: string): boolean {
+        // @ts-ignore
         const dataHash = createHash("sha256").update(data).digest("hex");
 
         const r = new BN(signature.slice(0, 64), 16);

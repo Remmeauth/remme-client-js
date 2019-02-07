@@ -24,7 +24,7 @@ import { KeyType, RemmeKeys, RSASignaturePadding } from "remme-keys";
 
 import { IRemmePublicKeyStorage } from "./interface";
 import { IPublicKeyCreate, IPublicKeyInfo, PublicKeyInfo } from "./models";
-import {Buffer} from "protobufjs";
+import { Buffer } from "protobufjs";
 
 type IRSAConfiguration = NewPubKeyPayload.IRSAConfiguration;
 type IECDSAConfiguration = NewPubKeyPayload.IECDSAConfiguration;
