@@ -238,11 +238,8 @@ packages.forEach(function (pckg, i) {
   });
 });
 
-function test(done) {
-  new Karma({
-    configFile: path.join(__dirname, "karma.conf.js"),
-    singleRun: true,
-  }, done).start();
+function test() {
+  exec("./node_modules/.bin/mocha ./tests --timeout=10000");
 }
 
 gulp.task('only_test', test);
