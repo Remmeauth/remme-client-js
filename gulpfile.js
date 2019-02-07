@@ -238,17 +238,6 @@ packages.forEach(function (pckg, i) {
   });
 });
 
-function test(done) {
-  new Karma({
-    configFile: path.join(__dirname, "karma.conf.js"),
-    singleRun: true,
-  }, done).start();
-}
-
-gulp.task('only_test', test);
-
-gulp.task('tests', ["build"], test);
-
 gulp.task('prepublish', function () {
   packages.forEach(function (pckg) {
     if (pckg.fileName !== "remme-protobuf") {
