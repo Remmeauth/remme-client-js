@@ -238,14 +238,6 @@ packages.forEach(function (pckg, i) {
   });
 });
 
-function test() {
-  exec("./node_modules/.bin/mocha ./tests --timeout=10000");
-}
-
-gulp.task('only_test', test);
-
-gulp.task('tests', ["build"], test);
-
 gulp.task('prepublish', function () {
   packages.forEach(function (pckg) {
     if (pckg.fileName !== "remme-protobuf") {
