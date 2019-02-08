@@ -1,6 +1,6 @@
 {
   "name": "remme-web-socket-events",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "REMME web socket events internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,8 +11,8 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-utils": "^0.7.0",
-    "remme-web-socket": "^0.7.0"
+    "remme-utils": "^0.7.1",
+    "remme-web-socket": "^0.7.1"
   },
   "devDependencies": {
     "typescript": "^2.8.3"
