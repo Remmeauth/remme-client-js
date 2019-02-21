@@ -75,8 +75,7 @@ export const certificateFromPem = (
     withPrivateKey: boolean = false,
 ): forge.pki.Certificate => {
     try {
-        let certificate: forge.pki.Certificate;
-        certificate = forge.pki.certificateFromPem(certificate_pem);
+        const certificate = forge.pki.certificateFromPem(certificate_pem);
         if (withPrivateKey) {
             const msg = forge.pem.decode(certificate_pem)[1];
             certificate.privateKey = forge.pki.privateKeyFromPem(forge.pem.encode(msg));
