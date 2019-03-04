@@ -127,6 +127,10 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
                 type: "revoke public key",
                 parser: protobufs.RevokePubKeyPayload,
             },
+            [protobufs.PubKeyMethod.Method.STORE_AND_PAY]: {
+                type: "store and pay public key",
+                parser: protobufs.NewPubKeyStoreAndPayPayload,
+            },
         },
     };
 
