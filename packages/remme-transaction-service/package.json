@@ -1,6 +1,6 @@
 {
   "name": "remme-transaction-service",
-  "version": "0.7.0",
+  "version": "0.7.4",
   "description": "REMME transaction service internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,11 +13,11 @@
   "dependencies": {
     "@types/js-base64": "^2.3.1",
     "js-base64": "^2.4.5",
-    "remme-account": "^0.7.0",
-    "remme-api": "^0.7.0",
-    "remme-protobuf": "^0.5.9",
-    "remme-utils": "^0.7.0",
-    "remme-web-socket": "^0.7.0"
+    "remme-account": "^0.7.4",
+    "remme-api": "^0.7.4",
+    "remme-protobuf": "^0.7.4",
+    "remme-utils": "^0.7.4",
+    "remme-web-socket": "^0.7.4"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

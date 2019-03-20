@@ -1,6 +1,6 @@
 {
   "name": "remme-keys",
-  "version": "0.7.0",
+  "version": "0.7.4",
   "description": "REMME keys internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,7 +13,7 @@
   "dependencies": {
     "elliptic": "^6.4.1",
     "remme-protobuf": "^0.4.0",
-    "remme-utils": "^0.7.0"
+    "remme-utils": "^0.7.4"
   },
   "devDependencies": {
     "@types/elliptic": "^6.4.0",
