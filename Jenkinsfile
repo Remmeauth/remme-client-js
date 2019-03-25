@@ -1,5 +1,10 @@
 pipeline {
-  agent any
+  agent {
+    label 'remme-tests-worker'
+  }
+  options {
+    timestamps()
+  }
   stages {
     stage('Install pkg') {
       steps {
@@ -23,12 +28,14 @@ pipeline {
     }
     stage('Generate protobufs in folder protobuf') {
       steps {
-	sh '(cd remme-protobuf; git checkout master; npm run generate-protobufs)'
+        sh '(cd remme-protobuf; git checkout master; npm run generate-protobufs)'
       }
     }
     stage('Run tests') {
       steps {
-        sh 'make test'
+        ansiColor('xterm') {
+            sh 'make test'
+        }
       }
     }
   }
