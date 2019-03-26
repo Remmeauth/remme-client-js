@@ -1,20 +1,20 @@
 {
-  "name": "remme-token",
+  "name": "remme-node-management",
   "version": "0.7.4",
-  "description": "REMME token internal package",
+  "description": "REMME node management internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "namespace": "remme",
-  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-token",
+  "repository": "https://github.com/Remmeauth/remme-client-js/tree/master/packages/remme-node-management",
   "scripts": {
     "transpile": "./node_modules/.bin/tsc"
   },
   "license": "Apache-2.0",
   "dependencies": {
     "remme-api": "^0.7.4",
-    "remme-account": "^0.7.4",
     "remme-protobuf": "^0.7.4",
     "remme-transaction-service": "^0.7.4",
+    "remme-account": "^0.7.4",
     "remme-utils": "^0.7.4"
   },
   "devDependencies": {

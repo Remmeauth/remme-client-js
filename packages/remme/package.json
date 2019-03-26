@@ -37,7 +37,8 @@
     "remme-token": "^0.7.4",
     "remme-transaction-service": "^0.7.4",
     "remme-utils": "^0.7.4",
-    "remme-web-socket-events": "^0.7.4"
+    "remme-web-socket-events": "^0.7.4",
+    "remme-node-management": "^0.7.4"
   },
   "devDependencies": {
     "typedoc": "^0.11.1",

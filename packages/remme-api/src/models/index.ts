@@ -1,1 +1,1 @@
-export { RemmeMethods } from "./remme-methods";
+export { RemmeMethods } from "./RemmeMethods";

@@ -1,6 +1,6 @@
 import { IRemmeCertificate } from "remme-certificate";
 import { IRemmeToken } from "remme-token";
-import { IRemmeAccount } from "remme-account";
+import { IRemmeAccount, IAccountConfig } from "remme-account";
 import { IRemmeSwap } from "remme-atomic-swap";
 import { IRemmeTransactionService } from "remme-transaction-service";
 import { IRemmePublicKeyStorage } from "remme-public-key-storage";
@@ -20,6 +20,6 @@ export interface IRemmeClient {
 }
 
 export interface IClientInit {
-    privateKeyHex?: string;
+    accountConfig?: IAccountConfig;
     networkConfig?: INetworkConfig;
 }

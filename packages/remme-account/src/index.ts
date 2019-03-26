@@ -1,5 +1,12 @@
-import { IRemmeKeys, ECDSA } from "remme-keys";
+import { ECDSA, IRemmeKeys } from "remme-keys";
 import { generateAddress, hexToBytes, RemmeFamilyName } from "remme-utils";
+
+import { AccountType, IAccountConfig } from "./models";
+
+const DEFAULT_ACCOUNT_CONFIG: IAccountConfig = {
+    privateKeyHex: "",
+    type: AccountType.User,
+};
 
 /**
  * Account that is used for signing transactions and storing public keys which he was signed.
@@ -25,7 +32,6 @@ class RemmeAccount extends ECDSA implements IRemmeKeys {
 
     // index signature
     [key: string]: any;
-
     /**
      * Get or generate private key, create signer by using private key,
      * generate public key from private key and generate account address by using public key and family name
@@ -43,12 +49,21 @@ class RemmeAccount extends ECDSA implements IRemmeKeys {
      * console.log(account.privateKeyHex); // "b5167700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d10783919129f";
      * ```
      * @param {string} privateKeyHex
+     * @param {AccountType} typeOfAccount
      */
-    constructor(privateKeyHex?: string) {
+    constructor({
+                    privateKeyHex,
+                    type,
+    }: IAccountConfig = DEFAULT_ACCOUNT_CONFIG) {
         super({
             privateKey: privateKeyHex ? hexToBytes(privateKeyHex) : ECDSA.generateKeyPair().privateKey,
         });
-        this._familyName = RemmeFamilyName.Account;
+        const isUser = type === AccountType.User;
+
+        this._familyName = isUser
+            ? RemmeFamilyName.Account
+            : RemmeFamilyName.NodeAccount;
+
         this._address = generateAddress(this._familyName, this.publicKeyHex);
     }
 
@@ -57,4 +72,7 @@ class RemmeAccount extends ECDSA implements IRemmeKeys {
 export {
     RemmeAccount,
     IRemmeKeys as IRemmeAccount,
+    IAccountConfig,
+    AccountType,
+    DEFAULT_ACCOUNT_CONFIG,
 };

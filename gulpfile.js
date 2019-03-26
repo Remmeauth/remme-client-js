@@ -99,6 +99,11 @@ const packages = [{
   src: path.join(__dirname, 'packages/remme-keys'),
   config: path.join(__dirname, 'packages/remme-keys/tsconfig.json')
 }, {
+  fileName: 'remme-node-management',
+  expose: 'RemmeNodeManagement',
+  src: path.join(__dirname, 'packages/remme-node-management'),
+  config: path.join(__dirname, 'packages/remme-node-management/tsconfig.json')
+}, {
   fileName: 'remme-protobuf',
   expose: 'RemmeProtobuf',
   src: path.join(__dirname, 'packages/remme-protobuf'),

@@ -14,6 +14,7 @@ export enum RemmeNamespace {
  * All family names that defined into remChain.
  */
 export enum RemmeFamilyName {
+    NodeAccount = "node_account",
     Account = "account",
     PublicKey = "pub_key",
     Swap = "AtomicSwap",
@@ -25,6 +26,15 @@ export enum RemmeFamilyName {
 export class PublicKeyRequest {
     constructor(
         public public_key_address: string,
+    ) {}
+}
+
+/**
+ * Model that define node account address params into request
+ */
+export class NodeAccountAddressRequest {
+    constructor(
+        public node_account_address: string,
     ) {}
 }
 
