@@ -4,7 +4,6 @@ import { RemmeFamilyName, PublicKeyRequest, checkAddress } from "remme-utils";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
 import {
     TransferPayload,
-    NodeAccountInternalTransferPayload,
     TransactionPayload,
     AccountMethod,
     NodeAccountMethod,
@@ -92,7 +91,7 @@ class RemmeToken implements IRemmeToken {
             data: transferPayload,
         }).finish();
         const transaction = await this._remmeTransaction.create({
-            familyName,
+            familyName: this._remmeAccount.familyName,
             familyVersion: this._familyVersion,
             inputs: [addressTo],
             outputs: [addressTo],
@@ -163,8 +162,8 @@ class RemmeToken implements IRemmeToken {
         }
 
         return this._generateAndSendTransferPayload(
-            amount,
             NodeAccountMethod.Method.TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL,
+            amount,
         );
     }
 
