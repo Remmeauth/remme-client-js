@@ -6,6 +6,7 @@ export { oids } from "./oids";
  */
 export enum RemmeNamespace {
     Account = "112007",
+    NodeAccount = "116829",
     PublicKey = "a23be1",
     Swap = "78173b",
 }
@@ -26,15 +27,6 @@ export enum RemmeFamilyName {
 export class PublicKeyRequest {
     constructor(
         public public_key_address: string,
-    ) {}
-}
-
-/**
- * Model that define node account address params into request
- */
-export class NodeAccountAddressRequest {
-    constructor(
-        public node_account_address: string,
     ) {}
 }
 

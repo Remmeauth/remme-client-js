@@ -1,6 +1,6 @@
 import { NodeAccountState } from "./NodeAccountState";
 
-export interface INodeAccountInfo {
+export interface INodeAccountResponse {
     node_state: NodeAccountState;
     balance: string;
     reputation: {

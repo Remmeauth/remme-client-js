@@ -416,9 +416,6 @@ namespace Remme {
         }) {
             let {
                 networkConfig = DEFAULT_NETWORK_CONFIG,
-            } = clientInit;
-
-            const {
                 accountConfig = DEFAULT_ACCOUNT_CONFIG,
             } = clientInit;
 
@@ -426,6 +423,12 @@ namespace Remme {
                 ...DEFAULT_NETWORK_CONFIG,
                 ...networkConfig,
             };
+
+            accountConfig = {
+                ...DEFAULT_ACCOUNT_CONFIG,
+                ...accountConfig,
+            };
+
             this._remmeApi = new RemmeApi(networkConfig);
             this._account = new RemmeAccount(accountConfig);
             this.transaction = new RemmeTransactionService(this._remmeApi, this._account);

@@ -79,6 +79,10 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
             type: "account",
             parser: protobufs.Account,
         },
+        [RemmeNamespace.NodeAccount]: {
+            type: "node account",
+            parser: protobufs.NodeAccount,
+        },
         [RemmeNamespace.PublicKey]: {
             type: "storage public key",
             parser: protobufs.PubKeyStorage,
@@ -94,6 +98,28 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
             [protobufs.AccountMethod.Method.GENESIS]: {
                 type: "genesis",
                 parser: protobufs.GenesisPayload,
+            },
+        },
+        [RemmeFamilyName.NodeAccount]: {
+            [protobufs.NodeAccountMethod.Method.INITIALIZE_MASTERNODE]: {
+                type: "initialize masternode",
+                parser: protobufs.NodeAccountInternalTransferPayload,
+            },
+            [protobufs.NodeAccountMethod.Method.CLOSE_MASTERNODE]: {
+                type: "close masternode",
+                parser: protobufs.CloseMasternodePayload,
+            },
+            [protobufs.NodeAccountMethod.Method.SET_BET]: {
+                type: "set bet",
+                parser: protobufs.SetBetPayload,
+            },
+            [protobufs.NodeAccountMethod.Method.TRANSFER_FROM_FROZEN_TO_UNFROZEN]: {
+                type: "transfer from frozen to unfrozen",
+                parser: protobufs.NodeAccountInternalTransferPayload,
+            },
+            [protobufs.NodeAccountMethod.Method.TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL]: {
+                type: "transfer from unfrozen to operational",
+                parser: protobufs.NodeAccountInternalTransferPayload,
             },
         },
         [RemmeFamilyName.Swap]: {
