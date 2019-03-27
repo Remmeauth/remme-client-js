@@ -6,6 +6,7 @@ export { oids } from "./oids";
  */
 export enum RemmeNamespace {
     Account = "112007",
+    NodeAccount = "116829",
     PublicKey = "a23be1",
     Swap = "78173b",
 }
@@ -14,6 +15,7 @@ export enum RemmeNamespace {
  * All family names that defined into remChain.
  */
 export enum RemmeFamilyName {
+    NodeAccount = "node_account",
     Account = "account",
     PublicKey = "pub_key",
     Swap = "AtomicSwap",

@@ -23,4 +23,5 @@ export enum RemmeMethods {
     fetchState = "fetch_state",
     peers = "fetch_peers",
     receipts = "list_receipts",
+    nodeAccount = "get_node_account",
 }

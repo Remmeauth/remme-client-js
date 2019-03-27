@@ -1,9 +1,17 @@
+import { IRemmeAccount, AccountType } from "remme-account";
 import { RemmeMethods, IRemmeApi } from "remme-api";
 import { RemmeFamilyName, PublicKeyRequest, checkAddress } from "remme-utils";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
-import { TransferPayload, TransactionPayload, AccountMethod } from "remme-protobuf";
+import {
+    TransferPayload,
+    TransactionPayload,
+    AccountMethod,
+    NodeAccountMethod,
+} from "remme-protobuf";
+import SenderAccountType = TransferPayload.SenderAccountType;
 
 import { IRemmeToken } from "./interface";
+import { INodeAccountInternalTransferPayload, NodeAccountInternalTransferPayload } from "../../remme-protobuf/dist";
 
 /**
  * Class that work with tokens.
@@ -43,8 +51,8 @@ class RemmeToken implements IRemmeToken {
     [key: string]: any;
 
     private readonly _remmeApi: IRemmeApi;
+    private readonly _remmeAccount: IRemmeAccount;
     private readonly _remmeTransaction: IRemmeTransactionService;
-    private readonly _familyName = RemmeFamilyName.Account;
     private readonly _familyVersion = "0.1";
 
     /**
@@ -58,10 +66,32 @@ class RemmeToken implements IRemmeToken {
      * ```
      * @param {IRemmeApi} remmeApi
      * @param {IRemmeTransactionService} remmeTransaction
+     * @param {IRemmeAccount} remmeAccount
      */
-    public constructor(remmeApi: IRemmeApi, remmeTransaction: IRemmeTransactionService) {
+    public constructor(
+        remmeApi: IRemmeApi,
+        remmeTransaction: IRemmeTransactionService,
+        remmeAccount: IRemmeAccount,
+    ) {
         this._remmeApi = remmeApi;
         this._remmeTransaction = remmeTransaction;
+        this._remmeAccount = remmeAccount;
+    }
+
+    private async _generateAndSendTransferPayload(method, data: Uint8Array, inputsOutputs: string[]) {
+        const { familyName } = this._remmeAccount;
+        const transactionPayload = TransactionPayload.encode({
+            method,
+            data,
+        }).finish();
+        const transaction = await this._remmeTransaction.create({
+            familyName,
+            familyVersion: this._familyVersion,
+            inputs: inputsOutputs,
+            outputs: inputsOutputs,
+            payloadBytes: transactionPayload,
+        });
+        return await this._remmeTransaction.send(transaction);
     }
 
     /**
@@ -96,7 +126,6 @@ class RemmeToken implements IRemmeToken {
      */
     public async transfer(addressTo: string, amount: number): Promise<IBaseTransactionResponse> {
         checkAddress(addressTo);
-        // checkPublicKey(addressTo);
         if (!amount) {
             throw new Error("Amount was not provided, please set the amount");
         }
@@ -104,25 +133,49 @@ class RemmeToken implements IRemmeToken {
             throw new Error("Amount must be higher than 0");
         }
 
-        // TODO: addresses
-        // addressTo = generateAddress(this._familyName, addressTo);
-
         const transferPayload = TransferPayload.encode({
             addressTo,
+            senderAccountType: this._remmeAccount.familyName === RemmeFamilyName.NodeAccount
+                ? SenderAccountType.NODE_ACCOUNT
+                : SenderAccountType.ACCOUNT,
             value: amount,
         }).finish();
-        const transactionPayload = TransactionPayload.encode({
-            method: AccountMethod.Method.TRANSFER,
-            data: transferPayload,
+
+        const inputsOutputs = [addressTo];
+
+        return this._generateAndSendTransferPayload(
+            AccountMethod.Method.TRANSFER,
+            transferPayload,
+            inputsOutputs,
+        );
+    }
+
+    public async transferFromUnfrozenToOperational(amount: number): Promise<IBaseTransactionResponse> {
+        if (this._remmeAccount.familyName !== RemmeFamilyName.NodeAccount) {
+            throw new Error(
+                `This operation is allowed under NodeAccount.
+                 Your account type is ${this._remmeAccount.familyName}
+                 and address is: ${this._remmeAccount.address}`,
+            );
+        }
+        if (!amount) {
+            throw new Error("Amount was not provided, please set the amount");
+        }
+        if (amount <= 0) {
+            throw new Error("Amount must be higher than 0");
+        }
+
+        const inputsOutputs = [];
+
+        const transferPayload = NodeAccountInternalTransferPayload.encode({
+            value: amount,
         }).finish();
-        const transaction = await this._remmeTransaction.create({
-            familyName: this._familyName,
-            familyVersion: this._familyVersion,
-            inputs: [addressTo],
-            outputs: [addressTo],
-            payloadBytes: transactionPayload,
-        });
-        return await this._remmeTransaction.send(transaction);
+
+        return this._generateAndSendTransferPayload(
+            NodeAccountMethod.Method.TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL,
+            transferPayload,
+            inputsOutputs,
+        );
     }
 
     /**

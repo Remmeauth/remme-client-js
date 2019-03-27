@@ -3,10 +3,15 @@ import { RemmeTransactionService, IRemmeTransactionService } from "remme-transac
 import { RemmeCertificate, IRemmeCertificate } from "remme-certificate";
 import { RemmePublicKeyStorage, IRemmePublicKeyStorage } from "remme-public-key-storage";
 import { RemmeToken, IRemmeToken } from "remme-token";
-import { RemmeAccount, IRemmeAccount } from "remme-account";
+import {
+    RemmeAccount,
+    IRemmeAccount,
+    DEFAULT_ACCOUNT_CONFIG,
+} from "remme-account";
 import { RemmeSwap, IRemmeSwap } from "remme-atomic-swap";
 import { RemmeBlockchainInfo, IRemmeBlockchainInfo} from "remme-blockchain-info";
 import { RemmeWebSocketsEvents, IRemmeWebSocketsEvents} from "remme-web-socket-events";
+import { IRemmeNodeManagement, RemmeNodeManagement } from "remme-node-management";
 import { RemmeKeys } from "remme-keys";
 
 import { IRemmeClient, IClientInit } from "./interface";
@@ -347,6 +352,8 @@ namespace Remme {
          * ```
          */
 
+        public nodeManagement: IRemmeNodeManagement;
+
         /* tslint:enable */
         public get events(): IRemmeWebSocketsEvents {
             return new RemmeWebSocketsEvents(this._remmeApi.networkConfig);
@@ -404,29 +411,33 @@ namespace Remme {
          * ```
          */
         public constructor(clientInit: IClientInit = {
-            privateKeyHex: "",
+            accountConfig: DEFAULT_ACCOUNT_CONFIG,
             networkConfig: DEFAULT_NETWORK_CONFIG,
         }) {
             let {
                 networkConfig = DEFAULT_NETWORK_CONFIG,
-            } = clientInit;
-
-            const {
-                privateKeyHex = "",
+                accountConfig = DEFAULT_ACCOUNT_CONFIG,
             } = clientInit;
 
             networkConfig = {
                 ...DEFAULT_NETWORK_CONFIG,
                 ...networkConfig,
             };
+
+            accountConfig = {
+                ...DEFAULT_ACCOUNT_CONFIG,
+                ...accountConfig,
+            };
+
             this._remmeApi = new RemmeApi(networkConfig);
-            this._account = new RemmeAccount(privateKeyHex);
+            this._account = new RemmeAccount(accountConfig);
             this.transaction = new RemmeTransactionService(this._remmeApi, this._account);
             this.publicKeyStorage = new RemmePublicKeyStorage(this._remmeApi, this._account, this.transaction);
             this.certificate = new RemmeCertificate(this.publicKeyStorage);
-            this.token = new RemmeToken(this._remmeApi, this.transaction);
+            this.token = new RemmeToken(this._remmeApi, this.transaction, this._account);
             this.swap = new RemmeSwap(this._remmeApi, this.transaction);
             this.blockchainInfo = new RemmeBlockchainInfo(this._remmeApi);
+            this.nodeManagement = new RemmeNodeManagement(this._remmeApi, this.transaction, this._account);
         }
 
         public set account(remmeAccount: IRemmeAccount) {

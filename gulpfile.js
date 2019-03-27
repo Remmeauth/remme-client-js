@@ -99,11 +99,21 @@ const packages = [{
   src: path.join(__dirname, 'packages/remme-keys'),
   config: path.join(__dirname, 'packages/remme-keys/tsconfig.json')
 }, {
+  fileName: 'remme-node-management',
+  expose: 'RemmeNodeManagement',
+  src: path.join(__dirname, 'packages/remme-node-management'),
+  config: path.join(__dirname, 'packages/remme-node-management/tsconfig.json')
+}, {
   fileName: 'remme-protobuf',
   expose: 'RemmeProtobuf',
   src: path.join(__dirname, 'packages/remme-protobuf'),
   config: path.join(__dirname, 'packages/remme-protobuf/tsconfig.json')
 }];
+
+const usedSawtoothProtobuf = {
+  setting: true,
+  transaction: true,
+};
 
 const uglifyOptions = {
   compress: {
@@ -174,8 +184,11 @@ gulp.task('protobuf-compile', function () {
   const remmeFiles = fs.readdirSync(srcRemmeProtobuf)
       .map(f => path.resolve(srcRemmeProtobuf, f));
   const sawtoothFiles = fs.readdirSync(srcSawtoothProtobuf)
+      .filter(f => {
+        const fName = f.replace('.proto', '');
+        return !!usedSawtoothProtobuf[fName];
+      })
       .map(f => path.resolve(srcSawtoothProtobuf, f));
-
   const files = [...remmeFiles, ...sawtoothFiles]
       .filter(f => f.endsWith('.proto'))
       .join(" ");

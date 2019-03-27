@@ -189,6 +189,7 @@ $root.TransferPayload = (function() {
      * Properties of a TransferPayload.
      * @exports ITransferPayload
      * @interface ITransferPayload
+     * @property {TransferPayload.SenderAccountType|null} [senderAccountType] TransferPayload senderAccountType
      * @property {string|null} [addressTo] TransferPayload addressTo
      * @property {number|Long|null} [value] TransferPayload value
      */
@@ -207,6 +208,14 @@ $root.TransferPayload = (function() {
                 if (properties[keys[i]] != null)
                     this[keys[i]] = properties[keys[i]];
     }
+
+    /**
+     * TransferPayload senderAccountType.
+     * @member {TransferPayload.SenderAccountType} senderAccountType
+     * @memberof TransferPayload
+     * @instance
+     */
+    TransferPayload.prototype.senderAccountType = 0;
 
     /**
      * TransferPayload addressTo.
@@ -248,10 +257,12 @@ $root.TransferPayload = (function() {
     TransferPayload.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
+        if (message.senderAccountType != null && message.hasOwnProperty("senderAccountType"))
+            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.senderAccountType);
         if (message.addressTo != null && message.hasOwnProperty("addressTo"))
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.addressTo);
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.addressTo);
         if (message.value != null && message.hasOwnProperty("value"))
-            writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.value);
+            writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.value);
         return writer;
     };
 
@@ -287,9 +298,12 @@ $root.TransferPayload = (function() {
             var tag = reader.uint32();
             switch (tag >>> 3) {
             case 1:
-                message.addressTo = reader.string();
+                message.senderAccountType = reader.int32();
                 break;
             case 2:
+                message.addressTo = reader.string();
+                break;
+            case 3:
                 message.value = reader.uint64();
                 break;
             default:
@@ -327,6 +341,14 @@ $root.TransferPayload = (function() {
     TransferPayload.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
+        if (message.senderAccountType != null && message.hasOwnProperty("senderAccountType"))
+            switch (message.senderAccountType) {
+            default:
+                return "senderAccountType: enum value expected";
+            case 0:
+            case 1:
+                break;
+            }
         if (message.addressTo != null && message.hasOwnProperty("addressTo"))
             if (!$util.isString(message.addressTo))
                 return "addressTo: string expected";
@@ -348,6 +370,16 @@ $root.TransferPayload = (function() {
         if (object instanceof $root.TransferPayload)
             return object;
         var message = new $root.TransferPayload();
+        switch (object.senderAccountType) {
+        case "ACCOUNT":
+        case 0:
+            message.senderAccountType = 0;
+            break;
+        case "NODE_ACCOUNT":
+        case 1:
+            message.senderAccountType = 1;
+            break;
+        }
         if (object.addressTo != null)
             message.addressTo = String(object.addressTo);
         if (object.value != null)
@@ -376,6 +408,7 @@ $root.TransferPayload = (function() {
             options = {};
         var object = {};
         if (options.defaults) {
+            object.senderAccountType = options.enums === String ? "ACCOUNT" : 0;
             object.addressTo = "";
             if ($util.Long) {
                 var long = new $util.Long(0, 0, true);
@@ -383,6 +416,8 @@ $root.TransferPayload = (function() {
             } else
                 object.value = options.longs === String ? "0" : 0;
         }
+        if (message.senderAccountType != null && message.hasOwnProperty("senderAccountType"))
+            object.senderAccountType = options.enums === String ? $root.TransferPayload.SenderAccountType[message.senderAccountType] : message.senderAccountType;
         if (message.addressTo != null && message.hasOwnProperty("addressTo"))
             object.addressTo = message.addressTo;
         if (message.value != null && message.hasOwnProperty("value"))
@@ -403,6 +438,20 @@ $root.TransferPayload = (function() {
     TransferPayload.prototype.toJSON = function toJSON() {
         return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
     };
+
+    /**
+     * SenderAccountType enum.
+     * @name TransferPayload.SenderAccountType
+     * @enum {string}
+     * @property {number} ACCOUNT=0 ACCOUNT value
+     * @property {number} NODE_ACCOUNT=1 NODE_ACCOUNT value
+     */
+    TransferPayload.SenderAccountType = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "ACCOUNT"] = 0;
+        values[valuesById[1] = "NODE_ACCOUNT"] = 1;
+        return values;
+    })();
 
     return TransferPayload;
 })();
@@ -3434,6 +3483,431 @@ $root.BlockInfoConfig = (function() {
     return BlockInfoConfig;
 })();
 
+$root.ClientSealRequest = (function() {
+
+    /**
+     * Properties of a ClientSealRequest.
+     * @exports IClientSealRequest
+     * @interface IClientSealRequest
+     */
+
+    /**
+     * Constructs a new ClientSealRequest.
+     * @exports ClientSealRequest
+     * @classdesc Represents a ClientSealRequest.
+     * @implements IClientSealRequest
+     * @constructor
+     * @param {IClientSealRequest=} [properties] Properties to set
+     */
+    function ClientSealRequest(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Creates a new ClientSealRequest instance using the specified properties.
+     * @function create
+     * @memberof ClientSealRequest
+     * @static
+     * @param {IClientSealRequest=} [properties] Properties to set
+     * @returns {ClientSealRequest} ClientSealRequest instance
+     */
+    ClientSealRequest.create = function create(properties) {
+        return new ClientSealRequest(properties);
+    };
+
+    /**
+     * Encodes the specified ClientSealRequest message. Does not implicitly {@link ClientSealRequest.verify|verify} messages.
+     * @function encode
+     * @memberof ClientSealRequest
+     * @static
+     * @param {IClientSealRequest} message ClientSealRequest message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ClientSealRequest.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ClientSealRequest message, length delimited. Does not implicitly {@link ClientSealRequest.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ClientSealRequest
+     * @static
+     * @param {IClientSealRequest} message ClientSealRequest message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ClientSealRequest.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a ClientSealRequest message from the specified reader or buffer.
+     * @function decode
+     * @memberof ClientSealRequest
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ClientSealRequest} ClientSealRequest
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ClientSealRequest.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ClientSealRequest();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a ClientSealRequest message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ClientSealRequest
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ClientSealRequest} ClientSealRequest
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ClientSealRequest.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a ClientSealRequest message.
+     * @function verify
+     * @memberof ClientSealRequest
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ClientSealRequest.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        return null;
+    };
+
+    /**
+     * Creates a ClientSealRequest message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ClientSealRequest
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ClientSealRequest} ClientSealRequest
+     */
+    ClientSealRequest.fromObject = function fromObject(object) {
+        if (object instanceof $root.ClientSealRequest)
+            return object;
+        return new $root.ClientSealRequest();
+    };
+
+    /**
+     * Creates a plain object from a ClientSealRequest message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ClientSealRequest
+     * @static
+     * @param {ClientSealRequest} message ClientSealRequest
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ClientSealRequest.toObject = function toObject() {
+        return {};
+    };
+
+    /**
+     * Converts this ClientSealRequest to JSON.
+     * @function toJSON
+     * @memberof ClientSealRequest
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ClientSealRequest.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return ClientSealRequest;
+})();
+
+$root.ClientSealResponse = (function() {
+
+    /**
+     * Properties of a ClientSealResponse.
+     * @exports IClientSealResponse
+     * @interface IClientSealResponse
+     * @property {ClientSealResponse.Status|null} [status] ClientSealResponse status
+     * @property {Array.<ISignedConsensusMessage>|null} [certVotes] ClientSealResponse certVotes
+     */
+
+    /**
+     * Constructs a new ClientSealResponse.
+     * @exports ClientSealResponse
+     * @classdesc Represents a ClientSealResponse.
+     * @implements IClientSealResponse
+     * @constructor
+     * @param {IClientSealResponse=} [properties] Properties to set
+     */
+    function ClientSealResponse(properties) {
+        this.certVotes = [];
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * ClientSealResponse status.
+     * @member {ClientSealResponse.Status} status
+     * @memberof ClientSealResponse
+     * @instance
+     */
+    ClientSealResponse.prototype.status = 0;
+
+    /**
+     * ClientSealResponse certVotes.
+     * @member {Array.<ISignedConsensusMessage>} certVotes
+     * @memberof ClientSealResponse
+     * @instance
+     */
+    ClientSealResponse.prototype.certVotes = $util.emptyArray;
+
+    /**
+     * Creates a new ClientSealResponse instance using the specified properties.
+     * @function create
+     * @memberof ClientSealResponse
+     * @static
+     * @param {IClientSealResponse=} [properties] Properties to set
+     * @returns {ClientSealResponse} ClientSealResponse instance
+     */
+    ClientSealResponse.create = function create(properties) {
+        return new ClientSealResponse(properties);
+    };
+
+    /**
+     * Encodes the specified ClientSealResponse message. Does not implicitly {@link ClientSealResponse.verify|verify} messages.
+     * @function encode
+     * @memberof ClientSealResponse
+     * @static
+     * @param {IClientSealResponse} message ClientSealResponse message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ClientSealResponse.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.status != null && message.hasOwnProperty("status"))
+            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.status);
+        if (message.certVotes != null && message.certVotes.length)
+            for (var i = 0; i < message.certVotes.length; ++i)
+                $root.SignedConsensusMessage.encode(message.certVotes[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ClientSealResponse message, length delimited. Does not implicitly {@link ClientSealResponse.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ClientSealResponse
+     * @static
+     * @param {IClientSealResponse} message ClientSealResponse message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ClientSealResponse.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a ClientSealResponse message from the specified reader or buffer.
+     * @function decode
+     * @memberof ClientSealResponse
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ClientSealResponse} ClientSealResponse
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ClientSealResponse.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ClientSealResponse();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.status = reader.int32();
+                break;
+            case 2:
+                if (!(message.certVotes && message.certVotes.length))
+                    message.certVotes = [];
+                message.certVotes.push($root.SignedConsensusMessage.decode(reader, reader.uint32()));
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a ClientSealResponse message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ClientSealResponse
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ClientSealResponse} ClientSealResponse
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ClientSealResponse.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a ClientSealResponse message.
+     * @function verify
+     * @memberof ClientSealResponse
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ClientSealResponse.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.status != null && message.hasOwnProperty("status"))
+            switch (message.status) {
+            default:
+                return "status: enum value expected";
+            case 0:
+            case 1:
+            case 2:
+                break;
+            }
+        if (message.certVotes != null && message.hasOwnProperty("certVotes")) {
+            if (!Array.isArray(message.certVotes))
+                return "certVotes: array expected";
+            for (var i = 0; i < message.certVotes.length; ++i) {
+                var error = $root.SignedConsensusMessage.verify(message.certVotes[i]);
+                if (error)
+                    return "certVotes." + error;
+            }
+        }
+        return null;
+    };
+
+    /**
+     * Creates a ClientSealResponse message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ClientSealResponse
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ClientSealResponse} ClientSealResponse
+     */
+    ClientSealResponse.fromObject = function fromObject(object) {
+        if (object instanceof $root.ClientSealResponse)
+            return object;
+        var message = new $root.ClientSealResponse();
+        switch (object.status) {
+        case "OK":
+        case 0:
+            message.status = 0;
+            break;
+        case "INTERNAL_ERROR":
+        case 1:
+            message.status = 1;
+            break;
+        case "NO_RESOURCE":
+        case 2:
+            message.status = 2;
+            break;
+        }
+        if (object.certVotes) {
+            if (!Array.isArray(object.certVotes))
+                throw TypeError(".ClientSealResponse.certVotes: array expected");
+            message.certVotes = [];
+            for (var i = 0; i < object.certVotes.length; ++i) {
+                if (typeof object.certVotes[i] !== "object")
+                    throw TypeError(".ClientSealResponse.certVotes: object expected");
+                message.certVotes[i] = $root.SignedConsensusMessage.fromObject(object.certVotes[i]);
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a ClientSealResponse message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ClientSealResponse
+     * @static
+     * @param {ClientSealResponse} message ClientSealResponse
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ClientSealResponse.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.arrays || options.defaults)
+            object.certVotes = [];
+        if (options.defaults)
+            object.status = options.enums === String ? "OK" : 0;
+        if (message.status != null && message.hasOwnProperty("status"))
+            object.status = options.enums === String ? $root.ClientSealResponse.Status[message.status] : message.status;
+        if (message.certVotes && message.certVotes.length) {
+            object.certVotes = [];
+            for (var j = 0; j < message.certVotes.length; ++j)
+                object.certVotes[j] = $root.SignedConsensusMessage.toObject(message.certVotes[j], options);
+        }
+        return object;
+    };
+
+    /**
+     * Converts this ClientSealResponse to JSON.
+     * @function toJSON
+     * @memberof ClientSealResponse
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ClientSealResponse.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Status enum.
+     * @name ClientSealResponse.Status
+     * @enum {string}
+     * @property {number} OK=0 OK value
+     * @property {number} INTERNAL_ERROR=1 INTERNAL_ERROR value
+     * @property {number} NO_RESOURCE=2 NO_RESOURCE value
+     */
+    ClientSealResponse.Status = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "OK"] = 0;
+        values[valuesById[1] = "INTERNAL_ERROR"] = 1;
+        values[valuesById[2] = "NO_RESOURCE"] = 2;
+        return values;
+    })();
+
+    return ClientSealResponse;
+})();
+
 $root.ConsensusMessagePayload = (function() {
 
     /**
@@ -3441,8 +3915,8 @@ $root.ConsensusMessagePayload = (function() {
      * @exports IConsensusMessagePayload
      * @interface IConsensusMessagePayload
      * @property {number|Long|null} [period] ConsensusMessagePayload period
-     * @property {string|null} [proposalId] ConsensusMessagePayload proposalId
-     * @property {string|null} [voterId] ConsensusMessagePayload voterId
+     * @property {Uint8Array|null} [proposalId] ConsensusMessagePayload proposalId
+     * @property {Uint8Array|null} [voterId] ConsensusMessagePayload voterId
      */
 
     /**
@@ -3470,19 +3944,19 @@ $root.ConsensusMessagePayload = (function() {
 
     /**
      * ConsensusMessagePayload proposalId.
-     * @member {string} proposalId
+     * @member {Uint8Array} proposalId
      * @memberof ConsensusMessagePayload
      * @instance
      */
-    ConsensusMessagePayload.prototype.proposalId = "";
+    ConsensusMessagePayload.prototype.proposalId = $util.newBuffer([]);
 
     /**
      * ConsensusMessagePayload voterId.
-     * @member {string} voterId
+     * @member {Uint8Array} voterId
      * @memberof ConsensusMessagePayload
      * @instance
      */
-    ConsensusMessagePayload.prototype.voterId = "";
+    ConsensusMessagePayload.prototype.voterId = $util.newBuffer([]);
 
     /**
      * Creates a new ConsensusMessagePayload instance using the specified properties.
@@ -3511,9 +3985,9 @@ $root.ConsensusMessagePayload = (function() {
         if (message.period != null && message.hasOwnProperty("period"))
             writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.period);
         if (message.proposalId != null && message.hasOwnProperty("proposalId"))
-            writer.uint32(/* id 2, wireType 2 =*/18).string(message.proposalId);
+            writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.proposalId);
         if (message.voterId != null && message.hasOwnProperty("voterId"))
-            writer.uint32(/* id 3, wireType 2 =*/26).string(message.voterId);
+            writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.voterId);
         return writer;
     };
 
@@ -3552,10 +4026,10 @@ $root.ConsensusMessagePayload = (function() {
                 message.period = reader.uint64();
                 break;
             case 2:
-                message.proposalId = reader.string();
+                message.proposalId = reader.bytes();
                 break;
             case 3:
-                message.voterId = reader.string();
+                message.voterId = reader.bytes();
                 break;
             default:
                 reader.skipType(tag & 7);
@@ -3596,11 +4070,11 @@ $root.ConsensusMessagePayload = (function() {
             if (!$util.isInteger(message.period) && !(message.period && $util.isInteger(message.period.low) && $util.isInteger(message.period.high)))
                 return "period: integer|Long expected";
         if (message.proposalId != null && message.hasOwnProperty("proposalId"))
-            if (!$util.isString(message.proposalId))
-                return "proposalId: string expected";
+            if (!(message.proposalId && typeof message.proposalId.length === "number" || $util.isString(message.proposalId)))
+                return "proposalId: buffer expected";
         if (message.voterId != null && message.hasOwnProperty("voterId"))
-            if (!$util.isString(message.voterId))
-                return "voterId: string expected";
+            if (!(message.voterId && typeof message.voterId.length === "number" || $util.isString(message.voterId)))
+                return "voterId: buffer expected";
         return null;
     };
 
@@ -3626,9 +4100,15 @@ $root.ConsensusMessagePayload = (function() {
             else if (typeof object.period === "object")
                 message.period = new $util.LongBits(object.period.low >>> 0, object.period.high >>> 0).toNumber(true);
         if (object.proposalId != null)
-            message.proposalId = String(object.proposalId);
+            if (typeof object.proposalId === "string")
+                $util.base64.decode(object.proposalId, message.proposalId = $util.newBuffer($util.base64.length(object.proposalId)), 0);
+            else if (object.proposalId.length)
+                message.proposalId = object.proposalId;
         if (object.voterId != null)
-            message.voterId = String(object.voterId);
+            if (typeof object.voterId === "string")
+                $util.base64.decode(object.voterId, message.voterId = $util.newBuffer($util.base64.length(object.voterId)), 0);
+            else if (object.voterId.length)
+                message.voterId = object.voterId;
         return message;
     };
 
@@ -3651,8 +4131,8 @@ $root.ConsensusMessagePayload = (function() {
                 object.period = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
             } else
                 object.period = options.longs === String ? "0" : 0;
-            object.proposalId = "";
-            object.voterId = "";
+            object.proposalId = options.bytes === String ? "" : [];
+            object.voterId = options.bytes === String ? "" : [];
         }
         if (message.period != null && message.hasOwnProperty("period"))
             if (typeof message.period === "number")
@@ -3660,9 +4140,9 @@ $root.ConsensusMessagePayload = (function() {
             else
                 object.period = options.longs === String ? $util.Long.prototype.toString.call(message.period) : options.longs === Number ? new $util.LongBits(message.period.low >>> 0, message.period.high >>> 0).toNumber(true) : message.period;
         if (message.proposalId != null && message.hasOwnProperty("proposalId"))
-            object.proposalId = message.proposalId;
+            object.proposalId = options.bytes === String ? $util.base64.encode(message.proposalId, 0, message.proposalId.length) : options.bytes === Array ? Array.prototype.slice.call(message.proposalId) : message.proposalId;
         if (message.voterId != null && message.hasOwnProperty("voterId"))
-            object.voterId = message.voterId;
+            object.voterId = options.bytes === String ? $util.base64.encode(message.voterId, 0, message.voterId.length) : options.bytes === Array ? Array.prototype.slice.call(message.voterId) : message.voterId;
         return object;
     };
 
@@ -3936,6 +4416,3281 @@ $root.ConsensusMessage = (function() {
     return ConsensusMessage;
 })();
 
+$root.SignedConsensusMessage = (function() {
+
+    /**
+     * Properties of a SignedConsensusMessage.
+     * @exports ISignedConsensusMessage
+     * @interface ISignedConsensusMessage
+     * @property {Uint8Array|null} [messageSignature] SignedConsensusMessage messageSignature
+     * @property {IConsensusMessage|null} [message] SignedConsensusMessage message
+     */
+
+    /**
+     * Constructs a new SignedConsensusMessage.
+     * @exports SignedConsensusMessage
+     * @classdesc Represents a SignedConsensusMessage.
+     * @implements ISignedConsensusMessage
+     * @constructor
+     * @param {ISignedConsensusMessage=} [properties] Properties to set
+     */
+    function SignedConsensusMessage(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * SignedConsensusMessage messageSignature.
+     * @member {Uint8Array} messageSignature
+     * @memberof SignedConsensusMessage
+     * @instance
+     */
+    SignedConsensusMessage.prototype.messageSignature = $util.newBuffer([]);
+
+    /**
+     * SignedConsensusMessage message.
+     * @member {IConsensusMessage|null|undefined} message
+     * @memberof SignedConsensusMessage
+     * @instance
+     */
+    SignedConsensusMessage.prototype.message = null;
+
+    /**
+     * Creates a new SignedConsensusMessage instance using the specified properties.
+     * @function create
+     * @memberof SignedConsensusMessage
+     * @static
+     * @param {ISignedConsensusMessage=} [properties] Properties to set
+     * @returns {SignedConsensusMessage} SignedConsensusMessage instance
+     */
+    SignedConsensusMessage.create = function create(properties) {
+        return new SignedConsensusMessage(properties);
+    };
+
+    /**
+     * Encodes the specified SignedConsensusMessage message. Does not implicitly {@link SignedConsensusMessage.verify|verify} messages.
+     * @function encode
+     * @memberof SignedConsensusMessage
+     * @static
+     * @param {ISignedConsensusMessage} message SignedConsensusMessage message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    SignedConsensusMessage.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.messageSignature != null && message.hasOwnProperty("messageSignature"))
+            writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.messageSignature);
+        if (message.message != null && message.hasOwnProperty("message"))
+            $root.ConsensusMessage.encode(message.message, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified SignedConsensusMessage message, length delimited. Does not implicitly {@link SignedConsensusMessage.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof SignedConsensusMessage
+     * @static
+     * @param {ISignedConsensusMessage} message SignedConsensusMessage message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    SignedConsensusMessage.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a SignedConsensusMessage message from the specified reader or buffer.
+     * @function decode
+     * @memberof SignedConsensusMessage
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {SignedConsensusMessage} SignedConsensusMessage
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    SignedConsensusMessage.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.SignedConsensusMessage();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.messageSignature = reader.bytes();
+                break;
+            case 2:
+                message.message = $root.ConsensusMessage.decode(reader, reader.uint32());
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a SignedConsensusMessage message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof SignedConsensusMessage
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {SignedConsensusMessage} SignedConsensusMessage
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    SignedConsensusMessage.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a SignedConsensusMessage message.
+     * @function verify
+     * @memberof SignedConsensusMessage
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    SignedConsensusMessage.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.messageSignature != null && message.hasOwnProperty("messageSignature"))
+            if (!(message.messageSignature && typeof message.messageSignature.length === "number" || $util.isString(message.messageSignature)))
+                return "messageSignature: buffer expected";
+        if (message.message != null && message.hasOwnProperty("message")) {
+            var error = $root.ConsensusMessage.verify(message.message);
+            if (error)
+                return "message." + error;
+        }
+        return null;
+    };
+
+    /**
+     * Creates a SignedConsensusMessage message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof SignedConsensusMessage
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {SignedConsensusMessage} SignedConsensusMessage
+     */
+    SignedConsensusMessage.fromObject = function fromObject(object) {
+        if (object instanceof $root.SignedConsensusMessage)
+            return object;
+        var message = new $root.SignedConsensusMessage();
+        if (object.messageSignature != null)
+            if (typeof object.messageSignature === "string")
+                $util.base64.decode(object.messageSignature, message.messageSignature = $util.newBuffer($util.base64.length(object.messageSignature)), 0);
+            else if (object.messageSignature.length)
+                message.messageSignature = object.messageSignature;
+        if (object.message != null) {
+            if (typeof object.message !== "object")
+                throw TypeError(".SignedConsensusMessage.message: object expected");
+            message.message = $root.ConsensusMessage.fromObject(object.message);
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a SignedConsensusMessage message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof SignedConsensusMessage
+     * @static
+     * @param {SignedConsensusMessage} message SignedConsensusMessage
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    SignedConsensusMessage.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.messageSignature = options.bytes === String ? "" : [];
+            object.message = null;
+        }
+        if (message.messageSignature != null && message.hasOwnProperty("messageSignature"))
+            object.messageSignature = options.bytes === String ? $util.base64.encode(message.messageSignature, 0, message.messageSignature.length) : options.bytes === Array ? Array.prototype.slice.call(message.messageSignature) : message.messageSignature;
+        if (message.message != null && message.hasOwnProperty("message"))
+            object.message = $root.ConsensusMessage.toObject(message.message, options);
+        return object;
+    };
+
+    /**
+     * Converts this SignedConsensusMessage to JSON.
+     * @function toJSON
+     * @memberof SignedConsensusMessage
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    SignedConsensusMessage.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return SignedConsensusMessage;
+})();
+
+$root.ConsensusSeal = (function() {
+
+    /**
+     * Properties of a ConsensusSeal.
+     * @exports IConsensusSeal
+     * @interface IConsensusSeal
+     * @property {Array.<ISignedConsensusMessage>|null} [previousCertVotes] ConsensusSeal previousCertVotes
+     */
+
+    /**
+     * Constructs a new ConsensusSeal.
+     * @exports ConsensusSeal
+     * @classdesc Represents a ConsensusSeal.
+     * @implements IConsensusSeal
+     * @constructor
+     * @param {IConsensusSeal=} [properties] Properties to set
+     */
+    function ConsensusSeal(properties) {
+        this.previousCertVotes = [];
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * ConsensusSeal previousCertVotes.
+     * @member {Array.<ISignedConsensusMessage>} previousCertVotes
+     * @memberof ConsensusSeal
+     * @instance
+     */
+    ConsensusSeal.prototype.previousCertVotes = $util.emptyArray;
+
+    /**
+     * Creates a new ConsensusSeal instance using the specified properties.
+     * @function create
+     * @memberof ConsensusSeal
+     * @static
+     * @param {IConsensusSeal=} [properties] Properties to set
+     * @returns {ConsensusSeal} ConsensusSeal instance
+     */
+    ConsensusSeal.create = function create(properties) {
+        return new ConsensusSeal(properties);
+    };
+
+    /**
+     * Encodes the specified ConsensusSeal message. Does not implicitly {@link ConsensusSeal.verify|verify} messages.
+     * @function encode
+     * @memberof ConsensusSeal
+     * @static
+     * @param {IConsensusSeal} message ConsensusSeal message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusSeal.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.previousCertVotes != null && message.previousCertVotes.length)
+            for (var i = 0; i < message.previousCertVotes.length; ++i)
+                $root.SignedConsensusMessage.encode(message.previousCertVotes[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ConsensusSeal message, length delimited. Does not implicitly {@link ConsensusSeal.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ConsensusSeal
+     * @static
+     * @param {IConsensusSeal} message ConsensusSeal message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusSeal.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a ConsensusSeal message from the specified reader or buffer.
+     * @function decode
+     * @memberof ConsensusSeal
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ConsensusSeal} ConsensusSeal
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusSeal.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ConsensusSeal();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                if (!(message.previousCertVotes && message.previousCertVotes.length))
+                    message.previousCertVotes = [];
+                message.previousCertVotes.push($root.SignedConsensusMessage.decode(reader, reader.uint32()));
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a ConsensusSeal message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ConsensusSeal
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ConsensusSeal} ConsensusSeal
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusSeal.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a ConsensusSeal message.
+     * @function verify
+     * @memberof ConsensusSeal
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ConsensusSeal.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.previousCertVotes != null && message.hasOwnProperty("previousCertVotes")) {
+            if (!Array.isArray(message.previousCertVotes))
+                return "previousCertVotes: array expected";
+            for (var i = 0; i < message.previousCertVotes.length; ++i) {
+                var error = $root.SignedConsensusMessage.verify(message.previousCertVotes[i]);
+                if (error)
+                    return "previousCertVotes." + error;
+            }
+        }
+        return null;
+    };
+
+    /**
+     * Creates a ConsensusSeal message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ConsensusSeal
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ConsensusSeal} ConsensusSeal
+     */
+    ConsensusSeal.fromObject = function fromObject(object) {
+        if (object instanceof $root.ConsensusSeal)
+            return object;
+        var message = new $root.ConsensusSeal();
+        if (object.previousCertVotes) {
+            if (!Array.isArray(object.previousCertVotes))
+                throw TypeError(".ConsensusSeal.previousCertVotes: array expected");
+            message.previousCertVotes = [];
+            for (var i = 0; i < object.previousCertVotes.length; ++i) {
+                if (typeof object.previousCertVotes[i] !== "object")
+                    throw TypeError(".ConsensusSeal.previousCertVotes: object expected");
+                message.previousCertVotes[i] = $root.SignedConsensusMessage.fromObject(object.previousCertVotes[i]);
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a ConsensusSeal message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ConsensusSeal
+     * @static
+     * @param {ConsensusSeal} message ConsensusSeal
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ConsensusSeal.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.arrays || options.defaults)
+            object.previousCertVotes = [];
+        if (message.previousCertVotes && message.previousCertVotes.length) {
+            object.previousCertVotes = [];
+            for (var j = 0; j < message.previousCertVotes.length; ++j)
+                object.previousCertVotes[j] = $root.SignedConsensusMessage.toObject(message.previousCertVotes[j], options);
+        }
+        return object;
+    };
+
+    /**
+     * Converts this ConsensusSeal to JSON.
+     * @function toJSON
+     * @memberof ConsensusSeal
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ConsensusSeal.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return ConsensusSeal;
+})();
+
+$root.ConsensusSealRequest = (function() {
+
+    /**
+     * Properties of a ConsensusSealRequest.
+     * @exports IConsensusSealRequest
+     * @interface IConsensusSealRequest
+     * @property {Uint8Array|null} [blockId] ConsensusSealRequest blockId
+     */
+
+    /**
+     * Constructs a new ConsensusSealRequest.
+     * @exports ConsensusSealRequest
+     * @classdesc Represents a ConsensusSealRequest.
+     * @implements IConsensusSealRequest
+     * @constructor
+     * @param {IConsensusSealRequest=} [properties] Properties to set
+     */
+    function ConsensusSealRequest(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * ConsensusSealRequest blockId.
+     * @member {Uint8Array} blockId
+     * @memberof ConsensusSealRequest
+     * @instance
+     */
+    ConsensusSealRequest.prototype.blockId = $util.newBuffer([]);
+
+    /**
+     * Creates a new ConsensusSealRequest instance using the specified properties.
+     * @function create
+     * @memberof ConsensusSealRequest
+     * @static
+     * @param {IConsensusSealRequest=} [properties] Properties to set
+     * @returns {ConsensusSealRequest} ConsensusSealRequest instance
+     */
+    ConsensusSealRequest.create = function create(properties) {
+        return new ConsensusSealRequest(properties);
+    };
+
+    /**
+     * Encodes the specified ConsensusSealRequest message. Does not implicitly {@link ConsensusSealRequest.verify|verify} messages.
+     * @function encode
+     * @memberof ConsensusSealRequest
+     * @static
+     * @param {IConsensusSealRequest} message ConsensusSealRequest message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusSealRequest.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.blockId != null && message.hasOwnProperty("blockId"))
+            writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.blockId);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ConsensusSealRequest message, length delimited. Does not implicitly {@link ConsensusSealRequest.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ConsensusSealRequest
+     * @static
+     * @param {IConsensusSealRequest} message ConsensusSealRequest message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusSealRequest.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a ConsensusSealRequest message from the specified reader or buffer.
+     * @function decode
+     * @memberof ConsensusSealRequest
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ConsensusSealRequest} ConsensusSealRequest
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusSealRequest.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ConsensusSealRequest();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.blockId = reader.bytes();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a ConsensusSealRequest message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ConsensusSealRequest
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ConsensusSealRequest} ConsensusSealRequest
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusSealRequest.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a ConsensusSealRequest message.
+     * @function verify
+     * @memberof ConsensusSealRequest
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ConsensusSealRequest.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.blockId != null && message.hasOwnProperty("blockId"))
+            if (!(message.blockId && typeof message.blockId.length === "number" || $util.isString(message.blockId)))
+                return "blockId: buffer expected";
+        return null;
+    };
+
+    /**
+     * Creates a ConsensusSealRequest message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ConsensusSealRequest
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ConsensusSealRequest} ConsensusSealRequest
+     */
+    ConsensusSealRequest.fromObject = function fromObject(object) {
+        if (object instanceof $root.ConsensusSealRequest)
+            return object;
+        var message = new $root.ConsensusSealRequest();
+        if (object.blockId != null)
+            if (typeof object.blockId === "string")
+                $util.base64.decode(object.blockId, message.blockId = $util.newBuffer($util.base64.length(object.blockId)), 0);
+            else if (object.blockId.length)
+                message.blockId = object.blockId;
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a ConsensusSealRequest message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ConsensusSealRequest
+     * @static
+     * @param {ConsensusSealRequest} message ConsensusSealRequest
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ConsensusSealRequest.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults)
+            object.blockId = options.bytes === String ? "" : [];
+        if (message.blockId != null && message.hasOwnProperty("blockId"))
+            object.blockId = options.bytes === String ? $util.base64.encode(message.blockId, 0, message.blockId.length) : options.bytes === Array ? Array.prototype.slice.call(message.blockId) : message.blockId;
+        return object;
+    };
+
+    /**
+     * Converts this ConsensusSealRequest to JSON.
+     * @function toJSON
+     * @memberof ConsensusSealRequest
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ConsensusSealRequest.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return ConsensusSealRequest;
+})();
+
+$root.ConsensusAccountMethod = (function() {
+
+    /**
+     * Properties of a ConsensusAccountMethod.
+     * @exports IConsensusAccountMethod
+     * @interface IConsensusAccountMethod
+     */
+
+    /**
+     * Constructs a new ConsensusAccountMethod.
+     * @exports ConsensusAccountMethod
+     * @classdesc Represents a ConsensusAccountMethod.
+     * @implements IConsensusAccountMethod
+     * @constructor
+     * @param {IConsensusAccountMethod=} [properties] Properties to set
+     */
+    function ConsensusAccountMethod(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Creates a new ConsensusAccountMethod instance using the specified properties.
+     * @function create
+     * @memberof ConsensusAccountMethod
+     * @static
+     * @param {IConsensusAccountMethod=} [properties] Properties to set
+     * @returns {ConsensusAccountMethod} ConsensusAccountMethod instance
+     */
+    ConsensusAccountMethod.create = function create(properties) {
+        return new ConsensusAccountMethod(properties);
+    };
+
+    /**
+     * Encodes the specified ConsensusAccountMethod message. Does not implicitly {@link ConsensusAccountMethod.verify|verify} messages.
+     * @function encode
+     * @memberof ConsensusAccountMethod
+     * @static
+     * @param {IConsensusAccountMethod} message ConsensusAccountMethod message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusAccountMethod.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ConsensusAccountMethod message, length delimited. Does not implicitly {@link ConsensusAccountMethod.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ConsensusAccountMethod
+     * @static
+     * @param {IConsensusAccountMethod} message ConsensusAccountMethod message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusAccountMethod.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a ConsensusAccountMethod message from the specified reader or buffer.
+     * @function decode
+     * @memberof ConsensusAccountMethod
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ConsensusAccountMethod} ConsensusAccountMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusAccountMethod.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ConsensusAccountMethod();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a ConsensusAccountMethod message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ConsensusAccountMethod
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ConsensusAccountMethod} ConsensusAccountMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusAccountMethod.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a ConsensusAccountMethod message.
+     * @function verify
+     * @memberof ConsensusAccountMethod
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ConsensusAccountMethod.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        return null;
+    };
+
+    /**
+     * Creates a ConsensusAccountMethod message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ConsensusAccountMethod
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ConsensusAccountMethod} ConsensusAccountMethod
+     */
+    ConsensusAccountMethod.fromObject = function fromObject(object) {
+        if (object instanceof $root.ConsensusAccountMethod)
+            return object;
+        return new $root.ConsensusAccountMethod();
+    };
+
+    /**
+     * Creates a plain object from a ConsensusAccountMethod message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ConsensusAccountMethod
+     * @static
+     * @param {ConsensusAccountMethod} message ConsensusAccountMethod
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ConsensusAccountMethod.toObject = function toObject() {
+        return {};
+    };
+
+    /**
+     * Converts this ConsensusAccountMethod to JSON.
+     * @function toJSON
+     * @memberof ConsensusAccountMethod
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ConsensusAccountMethod.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Method enum.
+     * @name ConsensusAccountMethod.Method
+     * @enum {string}
+     * @property {number} SEND_REWARD=0 SEND_REWARD value
+     */
+    ConsensusAccountMethod.Method = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "SEND_REWARD"] = 0;
+        return values;
+    })();
+
+    return ConsensusAccountMethod;
+})();
+
+$root.ConsensusBet = (function() {
+
+    /**
+     * Properties of a ConsensusBet.
+     * @exports IConsensusBet
+     * @interface IConsensusBet
+     * @property {string|null} [address] ConsensusBet address
+     * @property {number|Long|null} [value] ConsensusBet value
+     */
+
+    /**
+     * Constructs a new ConsensusBet.
+     * @exports ConsensusBet
+     * @classdesc Represents a ConsensusBet.
+     * @implements IConsensusBet
+     * @constructor
+     * @param {IConsensusBet=} [properties] Properties to set
+     */
+    function ConsensusBet(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * ConsensusBet address.
+     * @member {string} address
+     * @memberof ConsensusBet
+     * @instance
+     */
+    ConsensusBet.prototype.address = "";
+
+    /**
+     * ConsensusBet value.
+     * @member {number|Long} value
+     * @memberof ConsensusBet
+     * @instance
+     */
+    ConsensusBet.prototype.value = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * Creates a new ConsensusBet instance using the specified properties.
+     * @function create
+     * @memberof ConsensusBet
+     * @static
+     * @param {IConsensusBet=} [properties] Properties to set
+     * @returns {ConsensusBet} ConsensusBet instance
+     */
+    ConsensusBet.create = function create(properties) {
+        return new ConsensusBet(properties);
+    };
+
+    /**
+     * Encodes the specified ConsensusBet message. Does not implicitly {@link ConsensusBet.verify|verify} messages.
+     * @function encode
+     * @memberof ConsensusBet
+     * @static
+     * @param {IConsensusBet} message ConsensusBet message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusBet.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.address != null && message.hasOwnProperty("address"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.address);
+        if (message.value != null && message.hasOwnProperty("value"))
+            writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.value);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ConsensusBet message, length delimited. Does not implicitly {@link ConsensusBet.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ConsensusBet
+     * @static
+     * @param {IConsensusBet} message ConsensusBet message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusBet.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a ConsensusBet message from the specified reader or buffer.
+     * @function decode
+     * @memberof ConsensusBet
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ConsensusBet} ConsensusBet
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusBet.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ConsensusBet();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.address = reader.string();
+                break;
+            case 2:
+                message.value = reader.uint64();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a ConsensusBet message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ConsensusBet
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ConsensusBet} ConsensusBet
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusBet.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a ConsensusBet message.
+     * @function verify
+     * @memberof ConsensusBet
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ConsensusBet.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.address != null && message.hasOwnProperty("address"))
+            if (!$util.isString(message.address))
+                return "address: string expected";
+        if (message.value != null && message.hasOwnProperty("value"))
+            if (!$util.isInteger(message.value) && !(message.value && $util.isInteger(message.value.low) && $util.isInteger(message.value.high)))
+                return "value: integer|Long expected";
+        return null;
+    };
+
+    /**
+     * Creates a ConsensusBet message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ConsensusBet
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ConsensusBet} ConsensusBet
+     */
+    ConsensusBet.fromObject = function fromObject(object) {
+        if (object instanceof $root.ConsensusBet)
+            return object;
+        var message = new $root.ConsensusBet();
+        if (object.address != null)
+            message.address = String(object.address);
+        if (object.value != null)
+            if ($util.Long)
+                (message.value = $util.Long.fromValue(object.value)).unsigned = true;
+            else if (typeof object.value === "string")
+                message.value = parseInt(object.value, 10);
+            else if (typeof object.value === "number")
+                message.value = object.value;
+            else if (typeof object.value === "object")
+                message.value = new $util.LongBits(object.value.low >>> 0, object.value.high >>> 0).toNumber(true);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a ConsensusBet message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ConsensusBet
+     * @static
+     * @param {ConsensusBet} message ConsensusBet
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ConsensusBet.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.address = "";
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.value = options.longs === String ? "0" : 0;
+        }
+        if (message.address != null && message.hasOwnProperty("address"))
+            object.address = message.address;
+        if (message.value != null && message.hasOwnProperty("value"))
+            if (typeof message.value === "number")
+                object.value = options.longs === String ? String(message.value) : message.value;
+            else
+                object.value = options.longs === String ? $util.Long.prototype.toString.call(message.value) : options.longs === Number ? new $util.LongBits(message.value.low >>> 0, message.value.high >>> 0).toNumber(true) : message.value;
+        return object;
+    };
+
+    /**
+     * Converts this ConsensusBet to JSON.
+     * @function toJSON
+     * @memberof ConsensusBet
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ConsensusBet.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return ConsensusBet;
+})();
+
+$root.ConsensusAccount = (function() {
+
+    /**
+     * Properties of a ConsensusAccount.
+     * @exports IConsensusAccount
+     * @interface IConsensusAccount
+     * @property {number|Long|null} [obligatoryPayments] ConsensusAccount obligatoryPayments
+     * @property {number|Long|null} [blockCost] ConsensusAccount blockCost
+     * @property {Array.<IConsensusBet>|null} [bets] ConsensusAccount bets
+     */
+
+    /**
+     * Constructs a new ConsensusAccount.
+     * @exports ConsensusAccount
+     * @classdesc Represents a ConsensusAccount.
+     * @implements IConsensusAccount
+     * @constructor
+     * @param {IConsensusAccount=} [properties] Properties to set
+     */
+    function ConsensusAccount(properties) {
+        this.bets = [];
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * ConsensusAccount obligatoryPayments.
+     * @member {number|Long} obligatoryPayments
+     * @memberof ConsensusAccount
+     * @instance
+     */
+    ConsensusAccount.prototype.obligatoryPayments = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * ConsensusAccount blockCost.
+     * @member {number|Long} blockCost
+     * @memberof ConsensusAccount
+     * @instance
+     */
+    ConsensusAccount.prototype.blockCost = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * ConsensusAccount bets.
+     * @member {Array.<IConsensusBet>} bets
+     * @memberof ConsensusAccount
+     * @instance
+     */
+    ConsensusAccount.prototype.bets = $util.emptyArray;
+
+    /**
+     * Creates a new ConsensusAccount instance using the specified properties.
+     * @function create
+     * @memberof ConsensusAccount
+     * @static
+     * @param {IConsensusAccount=} [properties] Properties to set
+     * @returns {ConsensusAccount} ConsensusAccount instance
+     */
+    ConsensusAccount.create = function create(properties) {
+        return new ConsensusAccount(properties);
+    };
+
+    /**
+     * Encodes the specified ConsensusAccount message. Does not implicitly {@link ConsensusAccount.verify|verify} messages.
+     * @function encode
+     * @memberof ConsensusAccount
+     * @static
+     * @param {IConsensusAccount} message ConsensusAccount message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusAccount.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.obligatoryPayments != null && message.hasOwnProperty("obligatoryPayments"))
+            writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.obligatoryPayments);
+        if (message.blockCost != null && message.hasOwnProperty("blockCost"))
+            writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.blockCost);
+        if (message.bets != null && message.bets.length)
+            for (var i = 0; i < message.bets.length; ++i)
+                $root.ConsensusBet.encode(message.bets[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ConsensusAccount message, length delimited. Does not implicitly {@link ConsensusAccount.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ConsensusAccount
+     * @static
+     * @param {IConsensusAccount} message ConsensusAccount message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ConsensusAccount.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a ConsensusAccount message from the specified reader or buffer.
+     * @function decode
+     * @memberof ConsensusAccount
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ConsensusAccount} ConsensusAccount
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusAccount.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ConsensusAccount();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.obligatoryPayments = reader.uint64();
+                break;
+            case 2:
+                message.blockCost = reader.uint64();
+                break;
+            case 3:
+                if (!(message.bets && message.bets.length))
+                    message.bets = [];
+                message.bets.push($root.ConsensusBet.decode(reader, reader.uint32()));
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a ConsensusAccount message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ConsensusAccount
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ConsensusAccount} ConsensusAccount
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ConsensusAccount.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a ConsensusAccount message.
+     * @function verify
+     * @memberof ConsensusAccount
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ConsensusAccount.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.obligatoryPayments != null && message.hasOwnProperty("obligatoryPayments"))
+            if (!$util.isInteger(message.obligatoryPayments) && !(message.obligatoryPayments && $util.isInteger(message.obligatoryPayments.low) && $util.isInteger(message.obligatoryPayments.high)))
+                return "obligatoryPayments: integer|Long expected";
+        if (message.blockCost != null && message.hasOwnProperty("blockCost"))
+            if (!$util.isInteger(message.blockCost) && !(message.blockCost && $util.isInteger(message.blockCost.low) && $util.isInteger(message.blockCost.high)))
+                return "blockCost: integer|Long expected";
+        if (message.bets != null && message.hasOwnProperty("bets")) {
+            if (!Array.isArray(message.bets))
+                return "bets: array expected";
+            for (var i = 0; i < message.bets.length; ++i) {
+                var error = $root.ConsensusBet.verify(message.bets[i]);
+                if (error)
+                    return "bets." + error;
+            }
+        }
+        return null;
+    };
+
+    /**
+     * Creates a ConsensusAccount message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ConsensusAccount
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ConsensusAccount} ConsensusAccount
+     */
+    ConsensusAccount.fromObject = function fromObject(object) {
+        if (object instanceof $root.ConsensusAccount)
+            return object;
+        var message = new $root.ConsensusAccount();
+        if (object.obligatoryPayments != null)
+            if ($util.Long)
+                (message.obligatoryPayments = $util.Long.fromValue(object.obligatoryPayments)).unsigned = true;
+            else if (typeof object.obligatoryPayments === "string")
+                message.obligatoryPayments = parseInt(object.obligatoryPayments, 10);
+            else if (typeof object.obligatoryPayments === "number")
+                message.obligatoryPayments = object.obligatoryPayments;
+            else if (typeof object.obligatoryPayments === "object")
+                message.obligatoryPayments = new $util.LongBits(object.obligatoryPayments.low >>> 0, object.obligatoryPayments.high >>> 0).toNumber(true);
+        if (object.blockCost != null)
+            if ($util.Long)
+                (message.blockCost = $util.Long.fromValue(object.blockCost)).unsigned = true;
+            else if (typeof object.blockCost === "string")
+                message.blockCost = parseInt(object.blockCost, 10);
+            else if (typeof object.blockCost === "number")
+                message.blockCost = object.blockCost;
+            else if (typeof object.blockCost === "object")
+                message.blockCost = new $util.LongBits(object.blockCost.low >>> 0, object.blockCost.high >>> 0).toNumber(true);
+        if (object.bets) {
+            if (!Array.isArray(object.bets))
+                throw TypeError(".ConsensusAccount.bets: array expected");
+            message.bets = [];
+            for (var i = 0; i < object.bets.length; ++i) {
+                if (typeof object.bets[i] !== "object")
+                    throw TypeError(".ConsensusAccount.bets: object expected");
+                message.bets[i] = $root.ConsensusBet.fromObject(object.bets[i]);
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a ConsensusAccount message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ConsensusAccount
+     * @static
+     * @param {ConsensusAccount} message ConsensusAccount
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ConsensusAccount.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.arrays || options.defaults)
+            object.bets = [];
+        if (options.defaults) {
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.obligatoryPayments = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.obligatoryPayments = options.longs === String ? "0" : 0;
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.blockCost = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.blockCost = options.longs === String ? "0" : 0;
+        }
+        if (message.obligatoryPayments != null && message.hasOwnProperty("obligatoryPayments"))
+            if (typeof message.obligatoryPayments === "number")
+                object.obligatoryPayments = options.longs === String ? String(message.obligatoryPayments) : message.obligatoryPayments;
+            else
+                object.obligatoryPayments = options.longs === String ? $util.Long.prototype.toString.call(message.obligatoryPayments) : options.longs === Number ? new $util.LongBits(message.obligatoryPayments.low >>> 0, message.obligatoryPayments.high >>> 0).toNumber(true) : message.obligatoryPayments;
+        if (message.blockCost != null && message.hasOwnProperty("blockCost"))
+            if (typeof message.blockCost === "number")
+                object.blockCost = options.longs === String ? String(message.blockCost) : message.blockCost;
+            else
+                object.blockCost = options.longs === String ? $util.Long.prototype.toString.call(message.blockCost) : options.longs === Number ? new $util.LongBits(message.blockCost.low >>> 0, message.blockCost.high >>> 0).toNumber(true) : message.blockCost;
+        if (message.bets && message.bets.length) {
+            object.bets = [];
+            for (var j = 0; j < message.bets.length; ++j)
+                object.bets[j] = $root.ConsensusBet.toObject(message.bets[j], options);
+        }
+        return object;
+    };
+
+    /**
+     * Converts this ConsensusAccount to JSON.
+     * @function toJSON
+     * @memberof ConsensusAccount
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ConsensusAccount.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return ConsensusAccount;
+})();
+
+$root.NodeAccount = (function() {
+
+    /**
+     * Properties of a NodeAccount.
+     * @exports INodeAccount
+     * @interface INodeAccount
+     * @property {NodeAccount.NodeState|null} [nodeState] NodeAccount nodeState
+     * @property {number|Long|null} [balance] NodeAccount balance
+     * @property {NodeAccount.IReputation|null} [reputation] NodeAccount reputation
+     * @property {number|Long|null} [fixedAmount] NodeAccount fixedAmount
+     * @property {boolean|null} [min] NodeAccount min
+     * @property {boolean|null} [max] NodeAccount max
+     */
+
+    /**
+     * Constructs a new NodeAccount.
+     * @exports NodeAccount
+     * @classdesc Represents a NodeAccount.
+     * @implements INodeAccount
+     * @constructor
+     * @param {INodeAccount=} [properties] Properties to set
+     */
+    function NodeAccount(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * NodeAccount nodeState.
+     * @member {NodeAccount.NodeState} nodeState
+     * @memberof NodeAccount
+     * @instance
+     */
+    NodeAccount.prototype.nodeState = 0;
+
+    /**
+     * NodeAccount balance.
+     * @member {number|Long} balance
+     * @memberof NodeAccount
+     * @instance
+     */
+    NodeAccount.prototype.balance = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * NodeAccount reputation.
+     * @member {NodeAccount.IReputation|null|undefined} reputation
+     * @memberof NodeAccount
+     * @instance
+     */
+    NodeAccount.prototype.reputation = null;
+
+    /**
+     * NodeAccount fixedAmount.
+     * @member {number|Long} fixedAmount
+     * @memberof NodeAccount
+     * @instance
+     */
+    NodeAccount.prototype.fixedAmount = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * NodeAccount min.
+     * @member {boolean} min
+     * @memberof NodeAccount
+     * @instance
+     */
+    NodeAccount.prototype.min = false;
+
+    /**
+     * NodeAccount max.
+     * @member {boolean} max
+     * @memberof NodeAccount
+     * @instance
+     */
+    NodeAccount.prototype.max = false;
+
+    // OneOf field names bound to virtual getters and setters
+    var $oneOfFields;
+
+    /**
+     * NodeAccount bet.
+     * @member {"fixedAmount"|"min"|"max"|undefined} bet
+     * @memberof NodeAccount
+     * @instance
+     */
+    Object.defineProperty(NodeAccount.prototype, "bet", {
+        get: $util.oneOfGetter($oneOfFields = ["fixedAmount", "min", "max"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
+     * Creates a new NodeAccount instance using the specified properties.
+     * @function create
+     * @memberof NodeAccount
+     * @static
+     * @param {INodeAccount=} [properties] Properties to set
+     * @returns {NodeAccount} NodeAccount instance
+     */
+    NodeAccount.create = function create(properties) {
+        return new NodeAccount(properties);
+    };
+
+    /**
+     * Encodes the specified NodeAccount message. Does not implicitly {@link NodeAccount.verify|verify} messages.
+     * @function encode
+     * @memberof NodeAccount
+     * @static
+     * @param {INodeAccount} message NodeAccount message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NodeAccount.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.nodeState != null && message.hasOwnProperty("nodeState"))
+            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.nodeState);
+        if (message.balance != null && message.hasOwnProperty("balance"))
+            writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.balance);
+        if (message.reputation != null && message.hasOwnProperty("reputation"))
+            $root.NodeAccount.Reputation.encode(message.reputation, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+        if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount"))
+            writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.fixedAmount);
+        if (message.min != null && message.hasOwnProperty("min"))
+            writer.uint32(/* id 5, wireType 0 =*/40).bool(message.min);
+        if (message.max != null && message.hasOwnProperty("max"))
+            writer.uint32(/* id 6, wireType 0 =*/48).bool(message.max);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified NodeAccount message, length delimited. Does not implicitly {@link NodeAccount.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof NodeAccount
+     * @static
+     * @param {INodeAccount} message NodeAccount message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NodeAccount.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a NodeAccount message from the specified reader or buffer.
+     * @function decode
+     * @memberof NodeAccount
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {NodeAccount} NodeAccount
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NodeAccount.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.NodeAccount();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.nodeState = reader.int32();
+                break;
+            case 2:
+                message.balance = reader.uint64();
+                break;
+            case 3:
+                message.reputation = $root.NodeAccount.Reputation.decode(reader, reader.uint32());
+                break;
+            case 4:
+                message.fixedAmount = reader.uint64();
+                break;
+            case 5:
+                message.min = reader.bool();
+                break;
+            case 6:
+                message.max = reader.bool();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a NodeAccount message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof NodeAccount
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {NodeAccount} NodeAccount
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NodeAccount.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a NodeAccount message.
+     * @function verify
+     * @memberof NodeAccount
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    NodeAccount.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        var properties = {};
+        if (message.nodeState != null && message.hasOwnProperty("nodeState"))
+            switch (message.nodeState) {
+            default:
+                return "nodeState: enum value expected";
+            case 0:
+            case 1:
+            case 2:
+                break;
+            }
+        if (message.balance != null && message.hasOwnProperty("balance"))
+            if (!$util.isInteger(message.balance) && !(message.balance && $util.isInteger(message.balance.low) && $util.isInteger(message.balance.high)))
+                return "balance: integer|Long expected";
+        if (message.reputation != null && message.hasOwnProperty("reputation")) {
+            var error = $root.NodeAccount.Reputation.verify(message.reputation);
+            if (error)
+                return "reputation." + error;
+        }
+        if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount")) {
+            properties.bet = 1;
+            if (!$util.isInteger(message.fixedAmount) && !(message.fixedAmount && $util.isInteger(message.fixedAmount.low) && $util.isInteger(message.fixedAmount.high)))
+                return "fixedAmount: integer|Long expected";
+        }
+        if (message.min != null && message.hasOwnProperty("min")) {
+            if (properties.bet === 1)
+                return "bet: multiple values";
+            properties.bet = 1;
+            if (typeof message.min !== "boolean")
+                return "min: boolean expected";
+        }
+        if (message.max != null && message.hasOwnProperty("max")) {
+            if (properties.bet === 1)
+                return "bet: multiple values";
+            properties.bet = 1;
+            if (typeof message.max !== "boolean")
+                return "max: boolean expected";
+        }
+        return null;
+    };
+
+    /**
+     * Creates a NodeAccount message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof NodeAccount
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {NodeAccount} NodeAccount
+     */
+    NodeAccount.fromObject = function fromObject(object) {
+        if (object instanceof $root.NodeAccount)
+            return object;
+        var message = new $root.NodeAccount();
+        switch (object.nodeState) {
+        case "NEW":
+        case 0:
+            message.nodeState = 0;
+            break;
+        case "OPENED":
+        case 1:
+            message.nodeState = 1;
+            break;
+        case "CLOSED":
+        case 2:
+            message.nodeState = 2;
+            break;
+        }
+        if (object.balance != null)
+            if ($util.Long)
+                (message.balance = $util.Long.fromValue(object.balance)).unsigned = true;
+            else if (typeof object.balance === "string")
+                message.balance = parseInt(object.balance, 10);
+            else if (typeof object.balance === "number")
+                message.balance = object.balance;
+            else if (typeof object.balance === "object")
+                message.balance = new $util.LongBits(object.balance.low >>> 0, object.balance.high >>> 0).toNumber(true);
+        if (object.reputation != null) {
+            if (typeof object.reputation !== "object")
+                throw TypeError(".NodeAccount.reputation: object expected");
+            message.reputation = $root.NodeAccount.Reputation.fromObject(object.reputation);
+        }
+        if (object.fixedAmount != null)
+            if ($util.Long)
+                (message.fixedAmount = $util.Long.fromValue(object.fixedAmount)).unsigned = true;
+            else if (typeof object.fixedAmount === "string")
+                message.fixedAmount = parseInt(object.fixedAmount, 10);
+            else if (typeof object.fixedAmount === "number")
+                message.fixedAmount = object.fixedAmount;
+            else if (typeof object.fixedAmount === "object")
+                message.fixedAmount = new $util.LongBits(object.fixedAmount.low >>> 0, object.fixedAmount.high >>> 0).toNumber(true);
+        if (object.min != null)
+            message.min = Boolean(object.min);
+        if (object.max != null)
+            message.max = Boolean(object.max);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a NodeAccount message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof NodeAccount
+     * @static
+     * @param {NodeAccount} message NodeAccount
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    NodeAccount.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.nodeState = options.enums === String ? "NEW" : 0;
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.balance = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.balance = options.longs === String ? "0" : 0;
+            object.reputation = null;
+        }
+        if (message.nodeState != null && message.hasOwnProperty("nodeState"))
+            object.nodeState = options.enums === String ? $root.NodeAccount.NodeState[message.nodeState] : message.nodeState;
+        if (message.balance != null && message.hasOwnProperty("balance"))
+            if (typeof message.balance === "number")
+                object.balance = options.longs === String ? String(message.balance) : message.balance;
+            else
+                object.balance = options.longs === String ? $util.Long.prototype.toString.call(message.balance) : options.longs === Number ? new $util.LongBits(message.balance.low >>> 0, message.balance.high >>> 0).toNumber(true) : message.balance;
+        if (message.reputation != null && message.hasOwnProperty("reputation"))
+            object.reputation = $root.NodeAccount.Reputation.toObject(message.reputation, options);
+        if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount")) {
+            if (typeof message.fixedAmount === "number")
+                object.fixedAmount = options.longs === String ? String(message.fixedAmount) : message.fixedAmount;
+            else
+                object.fixedAmount = options.longs === String ? $util.Long.prototype.toString.call(message.fixedAmount) : options.longs === Number ? new $util.LongBits(message.fixedAmount.low >>> 0, message.fixedAmount.high >>> 0).toNumber(true) : message.fixedAmount;
+            if (options.oneofs)
+                object.bet = "fixedAmount";
+        }
+        if (message.min != null && message.hasOwnProperty("min")) {
+            object.min = message.min;
+            if (options.oneofs)
+                object.bet = "min";
+        }
+        if (message.max != null && message.hasOwnProperty("max")) {
+            object.max = message.max;
+            if (options.oneofs)
+                object.bet = "max";
+        }
+        return object;
+    };
+
+    /**
+     * Converts this NodeAccount to JSON.
+     * @function toJSON
+     * @memberof NodeAccount
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    NodeAccount.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * NodeState enum.
+     * @name NodeAccount.NodeState
+     * @enum {string}
+     * @property {number} NEW=0 NEW value
+     * @property {number} OPENED=1 OPENED value
+     * @property {number} CLOSED=2 CLOSED value
+     */
+    NodeAccount.NodeState = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "NEW"] = 0;
+        values[valuesById[1] = "OPENED"] = 1;
+        values[valuesById[2] = "CLOSED"] = 2;
+        return values;
+    })();
+
+    NodeAccount.Reputation = (function() {
+
+        /**
+         * Properties of a Reputation.
+         * @memberof NodeAccount
+         * @interface IReputation
+         * @property {number|Long|null} [frozen] Reputation frozen
+         * @property {number|Long|null} [unfrozen] Reputation unfrozen
+         */
+
+        /**
+         * Constructs a new Reputation.
+         * @memberof NodeAccount
+         * @classdesc Represents a Reputation.
+         * @implements IReputation
+         * @constructor
+         * @param {NodeAccount.IReputation=} [properties] Properties to set
+         */
+        function Reputation(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Reputation frozen.
+         * @member {number|Long} frozen
+         * @memberof NodeAccount.Reputation
+         * @instance
+         */
+        Reputation.prototype.frozen = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * Reputation unfrozen.
+         * @member {number|Long} unfrozen
+         * @memberof NodeAccount.Reputation
+         * @instance
+         */
+        Reputation.prototype.unfrozen = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * Creates a new Reputation instance using the specified properties.
+         * @function create
+         * @memberof NodeAccount.Reputation
+         * @static
+         * @param {NodeAccount.IReputation=} [properties] Properties to set
+         * @returns {NodeAccount.Reputation} Reputation instance
+         */
+        Reputation.create = function create(properties) {
+            return new Reputation(properties);
+        };
+
+        /**
+         * Encodes the specified Reputation message. Does not implicitly {@link NodeAccount.Reputation.verify|verify} messages.
+         * @function encode
+         * @memberof NodeAccount.Reputation
+         * @static
+         * @param {NodeAccount.IReputation} message Reputation message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Reputation.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.frozen != null && message.hasOwnProperty("frozen"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.frozen);
+            if (message.unfrozen != null && message.hasOwnProperty("unfrozen"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.unfrozen);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Reputation message, length delimited. Does not implicitly {@link NodeAccount.Reputation.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof NodeAccount.Reputation
+         * @static
+         * @param {NodeAccount.IReputation} message Reputation message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Reputation.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a Reputation message from the specified reader or buffer.
+         * @function decode
+         * @memberof NodeAccount.Reputation
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {NodeAccount.Reputation} Reputation
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Reputation.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.NodeAccount.Reputation();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.frozen = reader.uint64();
+                    break;
+                case 2:
+                    message.unfrozen = reader.uint64();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a Reputation message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof NodeAccount.Reputation
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {NodeAccount.Reputation} Reputation
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Reputation.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a Reputation message.
+         * @function verify
+         * @memberof NodeAccount.Reputation
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        Reputation.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.frozen != null && message.hasOwnProperty("frozen"))
+                if (!$util.isInteger(message.frozen) && !(message.frozen && $util.isInteger(message.frozen.low) && $util.isInteger(message.frozen.high)))
+                    return "frozen: integer|Long expected";
+            if (message.unfrozen != null && message.hasOwnProperty("unfrozen"))
+                if (!$util.isInteger(message.unfrozen) && !(message.unfrozen && $util.isInteger(message.unfrozen.low) && $util.isInteger(message.unfrozen.high)))
+                    return "unfrozen: integer|Long expected";
+            return null;
+        };
+
+        /**
+         * Creates a Reputation message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof NodeAccount.Reputation
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {NodeAccount.Reputation} Reputation
+         */
+        Reputation.fromObject = function fromObject(object) {
+            if (object instanceof $root.NodeAccount.Reputation)
+                return object;
+            var message = new $root.NodeAccount.Reputation();
+            if (object.frozen != null)
+                if ($util.Long)
+                    (message.frozen = $util.Long.fromValue(object.frozen)).unsigned = true;
+                else if (typeof object.frozen === "string")
+                    message.frozen = parseInt(object.frozen, 10);
+                else if (typeof object.frozen === "number")
+                    message.frozen = object.frozen;
+                else if (typeof object.frozen === "object")
+                    message.frozen = new $util.LongBits(object.frozen.low >>> 0, object.frozen.high >>> 0).toNumber(true);
+            if (object.unfrozen != null)
+                if ($util.Long)
+                    (message.unfrozen = $util.Long.fromValue(object.unfrozen)).unsigned = true;
+                else if (typeof object.unfrozen === "string")
+                    message.unfrozen = parseInt(object.unfrozen, 10);
+                else if (typeof object.unfrozen === "number")
+                    message.unfrozen = object.unfrozen;
+                else if (typeof object.unfrozen === "object")
+                    message.unfrozen = new $util.LongBits(object.unfrozen.low >>> 0, object.unfrozen.high >>> 0).toNumber(true);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a Reputation message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof NodeAccount.Reputation
+         * @static
+         * @param {NodeAccount.Reputation} message Reputation
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Reputation.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.frozen = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.frozen = options.longs === String ? "0" : 0;
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.unfrozen = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.unfrozen = options.longs === String ? "0" : 0;
+            }
+            if (message.frozen != null && message.hasOwnProperty("frozen"))
+                if (typeof message.frozen === "number")
+                    object.frozen = options.longs === String ? String(message.frozen) : message.frozen;
+                else
+                    object.frozen = options.longs === String ? $util.Long.prototype.toString.call(message.frozen) : options.longs === Number ? new $util.LongBits(message.frozen.low >>> 0, message.frozen.high >>> 0).toNumber(true) : message.frozen;
+            if (message.unfrozen != null && message.hasOwnProperty("unfrozen"))
+                if (typeof message.unfrozen === "number")
+                    object.unfrozen = options.longs === String ? String(message.unfrozen) : message.unfrozen;
+                else
+                    object.unfrozen = options.longs === String ? $util.Long.prototype.toString.call(message.unfrozen) : options.longs === Number ? new $util.LongBits(message.unfrozen.low >>> 0, message.unfrozen.high >>> 0).toNumber(true) : message.unfrozen;
+            return object;
+        };
+
+        /**
+         * Converts this Reputation to JSON.
+         * @function toJSON
+         * @memberof NodeAccount.Reputation
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        Reputation.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Reputation;
+    })();
+
+    return NodeAccount;
+})();
+
+$root.NodeState = (function() {
+
+    /**
+     * Properties of a NodeState.
+     * @exports INodeState
+     * @interface INodeState
+     * @property {Array.<string>|null} [masterNodes] NodeState masterNodes
+     */
+
+    /**
+     * Constructs a new NodeState.
+     * @exports NodeState
+     * @classdesc Represents a NodeState.
+     * @implements INodeState
+     * @constructor
+     * @param {INodeState=} [properties] Properties to set
+     */
+    function NodeState(properties) {
+        this.masterNodes = [];
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * NodeState masterNodes.
+     * @member {Array.<string>} masterNodes
+     * @memberof NodeState
+     * @instance
+     */
+    NodeState.prototype.masterNodes = $util.emptyArray;
+
+    /**
+     * Creates a new NodeState instance using the specified properties.
+     * @function create
+     * @memberof NodeState
+     * @static
+     * @param {INodeState=} [properties] Properties to set
+     * @returns {NodeState} NodeState instance
+     */
+    NodeState.create = function create(properties) {
+        return new NodeState(properties);
+    };
+
+    /**
+     * Encodes the specified NodeState message. Does not implicitly {@link NodeState.verify|verify} messages.
+     * @function encode
+     * @memberof NodeState
+     * @static
+     * @param {INodeState} message NodeState message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NodeState.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.masterNodes != null && message.masterNodes.length)
+            for (var i = 0; i < message.masterNodes.length; ++i)
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.masterNodes[i]);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified NodeState message, length delimited. Does not implicitly {@link NodeState.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof NodeState
+     * @static
+     * @param {INodeState} message NodeState message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NodeState.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a NodeState message from the specified reader or buffer.
+     * @function decode
+     * @memberof NodeState
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {NodeState} NodeState
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NodeState.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.NodeState();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                if (!(message.masterNodes && message.masterNodes.length))
+                    message.masterNodes = [];
+                message.masterNodes.push(reader.string());
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a NodeState message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof NodeState
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {NodeState} NodeState
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NodeState.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a NodeState message.
+     * @function verify
+     * @memberof NodeState
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    NodeState.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.masterNodes != null && message.hasOwnProperty("masterNodes")) {
+            if (!Array.isArray(message.masterNodes))
+                return "masterNodes: array expected";
+            for (var i = 0; i < message.masterNodes.length; ++i)
+                if (!$util.isString(message.masterNodes[i]))
+                    return "masterNodes: string[] expected";
+        }
+        return null;
+    };
+
+    /**
+     * Creates a NodeState message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof NodeState
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {NodeState} NodeState
+     */
+    NodeState.fromObject = function fromObject(object) {
+        if (object instanceof $root.NodeState)
+            return object;
+        var message = new $root.NodeState();
+        if (object.masterNodes) {
+            if (!Array.isArray(object.masterNodes))
+                throw TypeError(".NodeState.masterNodes: array expected");
+            message.masterNodes = [];
+            for (var i = 0; i < object.masterNodes.length; ++i)
+                message.masterNodes[i] = String(object.masterNodes[i]);
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a NodeState message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof NodeState
+     * @static
+     * @param {NodeState} message NodeState
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    NodeState.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.arrays || options.defaults)
+            object.masterNodes = [];
+        if (message.masterNodes && message.masterNodes.length) {
+            object.masterNodes = [];
+            for (var j = 0; j < message.masterNodes.length; ++j)
+                object.masterNodes[j] = message.masterNodes[j];
+        }
+        return object;
+    };
+
+    /**
+     * Converts this NodeState to JSON.
+     * @function toJSON
+     * @memberof NodeState
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    NodeState.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return NodeState;
+})();
+
+$root.NodeAccountMethod = (function() {
+
+    /**
+     * Properties of a NodeAccountMethod.
+     * @exports INodeAccountMethod
+     * @interface INodeAccountMethod
+     */
+
+    /**
+     * Constructs a new NodeAccountMethod.
+     * @exports NodeAccountMethod
+     * @classdesc Represents a NodeAccountMethod.
+     * @implements INodeAccountMethod
+     * @constructor
+     * @param {INodeAccountMethod=} [properties] Properties to set
+     */
+    function NodeAccountMethod(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Creates a new NodeAccountMethod instance using the specified properties.
+     * @function create
+     * @memberof NodeAccountMethod
+     * @static
+     * @param {INodeAccountMethod=} [properties] Properties to set
+     * @returns {NodeAccountMethod} NodeAccountMethod instance
+     */
+    NodeAccountMethod.create = function create(properties) {
+        return new NodeAccountMethod(properties);
+    };
+
+    /**
+     * Encodes the specified NodeAccountMethod message. Does not implicitly {@link NodeAccountMethod.verify|verify} messages.
+     * @function encode
+     * @memberof NodeAccountMethod
+     * @static
+     * @param {INodeAccountMethod} message NodeAccountMethod message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NodeAccountMethod.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified NodeAccountMethod message, length delimited. Does not implicitly {@link NodeAccountMethod.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof NodeAccountMethod
+     * @static
+     * @param {INodeAccountMethod} message NodeAccountMethod message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NodeAccountMethod.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a NodeAccountMethod message from the specified reader or buffer.
+     * @function decode
+     * @memberof NodeAccountMethod
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {NodeAccountMethod} NodeAccountMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NodeAccountMethod.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.NodeAccountMethod();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a NodeAccountMethod message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof NodeAccountMethod
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {NodeAccountMethod} NodeAccountMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NodeAccountMethod.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a NodeAccountMethod message.
+     * @function verify
+     * @memberof NodeAccountMethod
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    NodeAccountMethod.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        return null;
+    };
+
+    /**
+     * Creates a NodeAccountMethod message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof NodeAccountMethod
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {NodeAccountMethod} NodeAccountMethod
+     */
+    NodeAccountMethod.fromObject = function fromObject(object) {
+        if (object instanceof $root.NodeAccountMethod)
+            return object;
+        return new $root.NodeAccountMethod();
+    };
+
+    /**
+     * Creates a plain object from a NodeAccountMethod message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof NodeAccountMethod
+     * @static
+     * @param {NodeAccountMethod} message NodeAccountMethod
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    NodeAccountMethod.toObject = function toObject() {
+        return {};
+    };
+
+    /**
+     * Converts this NodeAccountMethod to JSON.
+     * @function toJSON
+     * @memberof NodeAccountMethod
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    NodeAccountMethod.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Method enum.
+     * @name NodeAccountMethod.Method
+     * @enum {string}
+     * @property {number} TRANSFER_FROM_FROZEN_TO_UNFROZEN=0 TRANSFER_FROM_FROZEN_TO_UNFROZEN value
+     * @property {number} TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL=1 TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL value
+     * @property {number} INITIALIZE_MASTERNODE=2 INITIALIZE_MASTERNODE value
+     * @property {number} CLOSE_MASTERNODE=3 CLOSE_MASTERNODE value
+     * @property {number} GENESIS_NODE=4 GENESIS_NODE value
+     * @property {number} SET_BET=5 SET_BET value
+     * @property {number} DO_BET=6 DO_BET value
+     */
+    NodeAccountMethod.Method = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "TRANSFER_FROM_FROZEN_TO_UNFROZEN"] = 0;
+        values[valuesById[1] = "TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL"] = 1;
+        values[valuesById[2] = "INITIALIZE_MASTERNODE"] = 2;
+        values[valuesById[3] = "CLOSE_MASTERNODE"] = 3;
+        values[valuesById[4] = "GENESIS_NODE"] = 4;
+        values[valuesById[5] = "SET_BET"] = 5;
+        values[valuesById[6] = "DO_BET"] = 6;
+        return values;
+    })();
+
+    return NodeAccountMethod;
+})();
+
+$root.NodeAccountInternalTransferPayload = (function() {
+
+    /**
+     * Properties of a NodeAccountInternalTransferPayload.
+     * @exports INodeAccountInternalTransferPayload
+     * @interface INodeAccountInternalTransferPayload
+     * @property {number|Long|null} [value] NodeAccountInternalTransferPayload value
+     */
+
+    /**
+     * Constructs a new NodeAccountInternalTransferPayload.
+     * @exports NodeAccountInternalTransferPayload
+     * @classdesc Represents a NodeAccountInternalTransferPayload.
+     * @implements INodeAccountInternalTransferPayload
+     * @constructor
+     * @param {INodeAccountInternalTransferPayload=} [properties] Properties to set
+     */
+    function NodeAccountInternalTransferPayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * NodeAccountInternalTransferPayload value.
+     * @member {number|Long} value
+     * @memberof NodeAccountInternalTransferPayload
+     * @instance
+     */
+    NodeAccountInternalTransferPayload.prototype.value = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * Creates a new NodeAccountInternalTransferPayload instance using the specified properties.
+     * @function create
+     * @memberof NodeAccountInternalTransferPayload
+     * @static
+     * @param {INodeAccountInternalTransferPayload=} [properties] Properties to set
+     * @returns {NodeAccountInternalTransferPayload} NodeAccountInternalTransferPayload instance
+     */
+    NodeAccountInternalTransferPayload.create = function create(properties) {
+        return new NodeAccountInternalTransferPayload(properties);
+    };
+
+    /**
+     * Encodes the specified NodeAccountInternalTransferPayload message. Does not implicitly {@link NodeAccountInternalTransferPayload.verify|verify} messages.
+     * @function encode
+     * @memberof NodeAccountInternalTransferPayload
+     * @static
+     * @param {INodeAccountInternalTransferPayload} message NodeAccountInternalTransferPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NodeAccountInternalTransferPayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.value != null && message.hasOwnProperty("value"))
+            writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.value);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified NodeAccountInternalTransferPayload message, length delimited. Does not implicitly {@link NodeAccountInternalTransferPayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof NodeAccountInternalTransferPayload
+     * @static
+     * @param {INodeAccountInternalTransferPayload} message NodeAccountInternalTransferPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NodeAccountInternalTransferPayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a NodeAccountInternalTransferPayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof NodeAccountInternalTransferPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {NodeAccountInternalTransferPayload} NodeAccountInternalTransferPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NodeAccountInternalTransferPayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.NodeAccountInternalTransferPayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.value = reader.uint64();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a NodeAccountInternalTransferPayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof NodeAccountInternalTransferPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {NodeAccountInternalTransferPayload} NodeAccountInternalTransferPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NodeAccountInternalTransferPayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a NodeAccountInternalTransferPayload message.
+     * @function verify
+     * @memberof NodeAccountInternalTransferPayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    NodeAccountInternalTransferPayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.value != null && message.hasOwnProperty("value"))
+            if (!$util.isInteger(message.value) && !(message.value && $util.isInteger(message.value.low) && $util.isInteger(message.value.high)))
+                return "value: integer|Long expected";
+        return null;
+    };
+
+    /**
+     * Creates a NodeAccountInternalTransferPayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof NodeAccountInternalTransferPayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {NodeAccountInternalTransferPayload} NodeAccountInternalTransferPayload
+     */
+    NodeAccountInternalTransferPayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.NodeAccountInternalTransferPayload)
+            return object;
+        var message = new $root.NodeAccountInternalTransferPayload();
+        if (object.value != null)
+            if ($util.Long)
+                (message.value = $util.Long.fromValue(object.value)).unsigned = true;
+            else if (typeof object.value === "string")
+                message.value = parseInt(object.value, 10);
+            else if (typeof object.value === "number")
+                message.value = object.value;
+            else if (typeof object.value === "object")
+                message.value = new $util.LongBits(object.value.low >>> 0, object.value.high >>> 0).toNumber(true);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a NodeAccountInternalTransferPayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof NodeAccountInternalTransferPayload
+     * @static
+     * @param {NodeAccountInternalTransferPayload} message NodeAccountInternalTransferPayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    NodeAccountInternalTransferPayload.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults)
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.value = options.longs === String ? "0" : 0;
+        if (message.value != null && message.hasOwnProperty("value"))
+            if (typeof message.value === "number")
+                object.value = options.longs === String ? String(message.value) : message.value;
+            else
+                object.value = options.longs === String ? $util.Long.prototype.toString.call(message.value) : options.longs === Number ? new $util.LongBits(message.value.low >>> 0, message.value.high >>> 0).toNumber(true) : message.value;
+        return object;
+    };
+
+    /**
+     * Converts this NodeAccountInternalTransferPayload to JSON.
+     * @function toJSON
+     * @memberof NodeAccountInternalTransferPayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    NodeAccountInternalTransferPayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return NodeAccountInternalTransferPayload;
+})();
+
+$root.CloseMasternodePayload = (function() {
+
+    /**
+     * Properties of a CloseMasternodePayload.
+     * @exports ICloseMasternodePayload
+     * @interface ICloseMasternodePayload
+     */
+
+    /**
+     * Constructs a new CloseMasternodePayload.
+     * @exports CloseMasternodePayload
+     * @classdesc Represents a CloseMasternodePayload.
+     * @implements ICloseMasternodePayload
+     * @constructor
+     * @param {ICloseMasternodePayload=} [properties] Properties to set
+     */
+    function CloseMasternodePayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Creates a new CloseMasternodePayload instance using the specified properties.
+     * @function create
+     * @memberof CloseMasternodePayload
+     * @static
+     * @param {ICloseMasternodePayload=} [properties] Properties to set
+     * @returns {CloseMasternodePayload} CloseMasternodePayload instance
+     */
+    CloseMasternodePayload.create = function create(properties) {
+        return new CloseMasternodePayload(properties);
+    };
+
+    /**
+     * Encodes the specified CloseMasternodePayload message. Does not implicitly {@link CloseMasternodePayload.verify|verify} messages.
+     * @function encode
+     * @memberof CloseMasternodePayload
+     * @static
+     * @param {ICloseMasternodePayload} message CloseMasternodePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    CloseMasternodePayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified CloseMasternodePayload message, length delimited. Does not implicitly {@link CloseMasternodePayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof CloseMasternodePayload
+     * @static
+     * @param {ICloseMasternodePayload} message CloseMasternodePayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    CloseMasternodePayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a CloseMasternodePayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof CloseMasternodePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {CloseMasternodePayload} CloseMasternodePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    CloseMasternodePayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CloseMasternodePayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a CloseMasternodePayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof CloseMasternodePayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {CloseMasternodePayload} CloseMasternodePayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    CloseMasternodePayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a CloseMasternodePayload message.
+     * @function verify
+     * @memberof CloseMasternodePayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    CloseMasternodePayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        return null;
+    };
+
+    /**
+     * Creates a CloseMasternodePayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof CloseMasternodePayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {CloseMasternodePayload} CloseMasternodePayload
+     */
+    CloseMasternodePayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.CloseMasternodePayload)
+            return object;
+        return new $root.CloseMasternodePayload();
+    };
+
+    /**
+     * Creates a plain object from a CloseMasternodePayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof CloseMasternodePayload
+     * @static
+     * @param {CloseMasternodePayload} message CloseMasternodePayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    CloseMasternodePayload.toObject = function toObject() {
+        return {};
+    };
+
+    /**
+     * Converts this CloseMasternodePayload to JSON.
+     * @function toJSON
+     * @memberof CloseMasternodePayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    CloseMasternodePayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return CloseMasternodePayload;
+})();
+
+$root.SetBetPayload = (function() {
+
+    /**
+     * Properties of a SetBetPayload.
+     * @exports ISetBetPayload
+     * @interface ISetBetPayload
+     * @property {number|Long|null} [fixedAmount] SetBetPayload fixedAmount
+     * @property {boolean|null} [min] SetBetPayload min
+     * @property {boolean|null} [max] SetBetPayload max
+     */
+
+    /**
+     * Constructs a new SetBetPayload.
+     * @exports SetBetPayload
+     * @classdesc Represents a SetBetPayload.
+     * @implements ISetBetPayload
+     * @constructor
+     * @param {ISetBetPayload=} [properties] Properties to set
+     */
+    function SetBetPayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * SetBetPayload fixedAmount.
+     * @member {number|Long} fixedAmount
+     * @memberof SetBetPayload
+     * @instance
+     */
+    SetBetPayload.prototype.fixedAmount = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * SetBetPayload min.
+     * @member {boolean} min
+     * @memberof SetBetPayload
+     * @instance
+     */
+    SetBetPayload.prototype.min = false;
+
+    /**
+     * SetBetPayload max.
+     * @member {boolean} max
+     * @memberof SetBetPayload
+     * @instance
+     */
+    SetBetPayload.prototype.max = false;
+
+    // OneOf field names bound to virtual getters and setters
+    var $oneOfFields;
+
+    /**
+     * SetBetPayload bet.
+     * @member {"fixedAmount"|"min"|"max"|undefined} bet
+     * @memberof SetBetPayload
+     * @instance
+     */
+    Object.defineProperty(SetBetPayload.prototype, "bet", {
+        get: $util.oneOfGetter($oneOfFields = ["fixedAmount", "min", "max"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
+     * Creates a new SetBetPayload instance using the specified properties.
+     * @function create
+     * @memberof SetBetPayload
+     * @static
+     * @param {ISetBetPayload=} [properties] Properties to set
+     * @returns {SetBetPayload} SetBetPayload instance
+     */
+    SetBetPayload.create = function create(properties) {
+        return new SetBetPayload(properties);
+    };
+
+    /**
+     * Encodes the specified SetBetPayload message. Does not implicitly {@link SetBetPayload.verify|verify} messages.
+     * @function encode
+     * @memberof SetBetPayload
+     * @static
+     * @param {ISetBetPayload} message SetBetPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    SetBetPayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount"))
+            writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.fixedAmount);
+        if (message.min != null && message.hasOwnProperty("min"))
+            writer.uint32(/* id 2, wireType 0 =*/16).bool(message.min);
+        if (message.max != null && message.hasOwnProperty("max"))
+            writer.uint32(/* id 3, wireType 0 =*/24).bool(message.max);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified SetBetPayload message, length delimited. Does not implicitly {@link SetBetPayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof SetBetPayload
+     * @static
+     * @param {ISetBetPayload} message SetBetPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    SetBetPayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a SetBetPayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof SetBetPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {SetBetPayload} SetBetPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    SetBetPayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.SetBetPayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.fixedAmount = reader.uint64();
+                break;
+            case 2:
+                message.min = reader.bool();
+                break;
+            case 3:
+                message.max = reader.bool();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a SetBetPayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof SetBetPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {SetBetPayload} SetBetPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    SetBetPayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a SetBetPayload message.
+     * @function verify
+     * @memberof SetBetPayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    SetBetPayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        var properties = {};
+        if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount")) {
+            properties.bet = 1;
+            if (!$util.isInteger(message.fixedAmount) && !(message.fixedAmount && $util.isInteger(message.fixedAmount.low) && $util.isInteger(message.fixedAmount.high)))
+                return "fixedAmount: integer|Long expected";
+        }
+        if (message.min != null && message.hasOwnProperty("min")) {
+            if (properties.bet === 1)
+                return "bet: multiple values";
+            properties.bet = 1;
+            if (typeof message.min !== "boolean")
+                return "min: boolean expected";
+        }
+        if (message.max != null && message.hasOwnProperty("max")) {
+            if (properties.bet === 1)
+                return "bet: multiple values";
+            properties.bet = 1;
+            if (typeof message.max !== "boolean")
+                return "max: boolean expected";
+        }
+        return null;
+    };
+
+    /**
+     * Creates a SetBetPayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof SetBetPayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {SetBetPayload} SetBetPayload
+     */
+    SetBetPayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.SetBetPayload)
+            return object;
+        var message = new $root.SetBetPayload();
+        if (object.fixedAmount != null)
+            if ($util.Long)
+                (message.fixedAmount = $util.Long.fromValue(object.fixedAmount)).unsigned = true;
+            else if (typeof object.fixedAmount === "string")
+                message.fixedAmount = parseInt(object.fixedAmount, 10);
+            else if (typeof object.fixedAmount === "number")
+                message.fixedAmount = object.fixedAmount;
+            else if (typeof object.fixedAmount === "object")
+                message.fixedAmount = new $util.LongBits(object.fixedAmount.low >>> 0, object.fixedAmount.high >>> 0).toNumber(true);
+        if (object.min != null)
+            message.min = Boolean(object.min);
+        if (object.max != null)
+            message.max = Boolean(object.max);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a SetBetPayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof SetBetPayload
+     * @static
+     * @param {SetBetPayload} message SetBetPayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    SetBetPayload.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount")) {
+            if (typeof message.fixedAmount === "number")
+                object.fixedAmount = options.longs === String ? String(message.fixedAmount) : message.fixedAmount;
+            else
+                object.fixedAmount = options.longs === String ? $util.Long.prototype.toString.call(message.fixedAmount) : options.longs === Number ? new $util.LongBits(message.fixedAmount.low >>> 0, message.fixedAmount.high >>> 0).toNumber(true) : message.fixedAmount;
+            if (options.oneofs)
+                object.bet = "fixedAmount";
+        }
+        if (message.min != null && message.hasOwnProperty("min")) {
+            object.min = message.min;
+            if (options.oneofs)
+                object.bet = "min";
+        }
+        if (message.max != null && message.hasOwnProperty("max")) {
+            object.max = message.max;
+            if (options.oneofs)
+                object.bet = "max";
+        }
+        return object;
+    };
+
+    /**
+     * Converts this SetBetPayload to JSON.
+     * @function toJSON
+     * @memberof SetBetPayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    SetBetPayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return SetBetPayload;
+})();
+
+$root.ObligatoryPaymentPayload = (function() {
+
+    /**
+     * Properties of an ObligatoryPaymentPayload.
+     * @exports IObligatoryPaymentPayload
+     * @interface IObligatoryPaymentPayload
+     */
+
+    /**
+     * Constructs a new ObligatoryPaymentPayload.
+     * @exports ObligatoryPaymentPayload
+     * @classdesc Represents an ObligatoryPaymentPayload.
+     * @implements IObligatoryPaymentPayload
+     * @constructor
+     * @param {IObligatoryPaymentPayload=} [properties] Properties to set
+     */
+    function ObligatoryPaymentPayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Creates a new ObligatoryPaymentPayload instance using the specified properties.
+     * @function create
+     * @memberof ObligatoryPaymentPayload
+     * @static
+     * @param {IObligatoryPaymentPayload=} [properties] Properties to set
+     * @returns {ObligatoryPaymentPayload} ObligatoryPaymentPayload instance
+     */
+    ObligatoryPaymentPayload.create = function create(properties) {
+        return new ObligatoryPaymentPayload(properties);
+    };
+
+    /**
+     * Encodes the specified ObligatoryPaymentPayload message. Does not implicitly {@link ObligatoryPaymentPayload.verify|verify} messages.
+     * @function encode
+     * @memberof ObligatoryPaymentPayload
+     * @static
+     * @param {IObligatoryPaymentPayload} message ObligatoryPaymentPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ObligatoryPaymentPayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ObligatoryPaymentPayload message, length delimited. Does not implicitly {@link ObligatoryPaymentPayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ObligatoryPaymentPayload
+     * @static
+     * @param {IObligatoryPaymentPayload} message ObligatoryPaymentPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ObligatoryPaymentPayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an ObligatoryPaymentPayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof ObligatoryPaymentPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ObligatoryPaymentPayload} ObligatoryPaymentPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ObligatoryPaymentPayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ObligatoryPaymentPayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an ObligatoryPaymentPayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ObligatoryPaymentPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ObligatoryPaymentPayload} ObligatoryPaymentPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ObligatoryPaymentPayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an ObligatoryPaymentPayload message.
+     * @function verify
+     * @memberof ObligatoryPaymentPayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ObligatoryPaymentPayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        return null;
+    };
+
+    /**
+     * Creates an ObligatoryPaymentPayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ObligatoryPaymentPayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ObligatoryPaymentPayload} ObligatoryPaymentPayload
+     */
+    ObligatoryPaymentPayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.ObligatoryPaymentPayload)
+            return object;
+        return new $root.ObligatoryPaymentPayload();
+    };
+
+    /**
+     * Creates a plain object from an ObligatoryPaymentPayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ObligatoryPaymentPayload
+     * @static
+     * @param {ObligatoryPaymentPayload} message ObligatoryPaymentPayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ObligatoryPaymentPayload.toObject = function toObject() {
+        return {};
+    };
+
+    /**
+     * Converts this ObligatoryPaymentPayload to JSON.
+     * @function toJSON
+     * @memberof ObligatoryPaymentPayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ObligatoryPaymentPayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return ObligatoryPaymentPayload;
+})();
+
+$root.ObligatoryPaymentMethod = (function() {
+
+    /**
+     * Properties of an ObligatoryPaymentMethod.
+     * @exports IObligatoryPaymentMethod
+     * @interface IObligatoryPaymentMethod
+     */
+
+    /**
+     * Constructs a new ObligatoryPaymentMethod.
+     * @exports ObligatoryPaymentMethod
+     * @classdesc Represents an ObligatoryPaymentMethod.
+     * @implements IObligatoryPaymentMethod
+     * @constructor
+     * @param {IObligatoryPaymentMethod=} [properties] Properties to set
+     */
+    function ObligatoryPaymentMethod(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Creates a new ObligatoryPaymentMethod instance using the specified properties.
+     * @function create
+     * @memberof ObligatoryPaymentMethod
+     * @static
+     * @param {IObligatoryPaymentMethod=} [properties] Properties to set
+     * @returns {ObligatoryPaymentMethod} ObligatoryPaymentMethod instance
+     */
+    ObligatoryPaymentMethod.create = function create(properties) {
+        return new ObligatoryPaymentMethod(properties);
+    };
+
+    /**
+     * Encodes the specified ObligatoryPaymentMethod message. Does not implicitly {@link ObligatoryPaymentMethod.verify|verify} messages.
+     * @function encode
+     * @memberof ObligatoryPaymentMethod
+     * @static
+     * @param {IObligatoryPaymentMethod} message ObligatoryPaymentMethod message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ObligatoryPaymentMethod.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified ObligatoryPaymentMethod message, length delimited. Does not implicitly {@link ObligatoryPaymentMethod.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof ObligatoryPaymentMethod
+     * @static
+     * @param {IObligatoryPaymentMethod} message ObligatoryPaymentMethod message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    ObligatoryPaymentMethod.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an ObligatoryPaymentMethod message from the specified reader or buffer.
+     * @function decode
+     * @memberof ObligatoryPaymentMethod
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {ObligatoryPaymentMethod} ObligatoryPaymentMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ObligatoryPaymentMethod.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ObligatoryPaymentMethod();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an ObligatoryPaymentMethod message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof ObligatoryPaymentMethod
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {ObligatoryPaymentMethod} ObligatoryPaymentMethod
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    ObligatoryPaymentMethod.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an ObligatoryPaymentMethod message.
+     * @function verify
+     * @memberof ObligatoryPaymentMethod
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    ObligatoryPaymentMethod.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        return null;
+    };
+
+    /**
+     * Creates an ObligatoryPaymentMethod message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof ObligatoryPaymentMethod
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {ObligatoryPaymentMethod} ObligatoryPaymentMethod
+     */
+    ObligatoryPaymentMethod.fromObject = function fromObject(object) {
+        if (object instanceof $root.ObligatoryPaymentMethod)
+            return object;
+        return new $root.ObligatoryPaymentMethod();
+    };
+
+    /**
+     * Creates a plain object from an ObligatoryPaymentMethod message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof ObligatoryPaymentMethod
+     * @static
+     * @param {ObligatoryPaymentMethod} message ObligatoryPaymentMethod
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    ObligatoryPaymentMethod.toObject = function toObject() {
+        return {};
+    };
+
+    /**
+     * Converts this ObligatoryPaymentMethod to JSON.
+     * @function toJSON
+     * @memberof ObligatoryPaymentMethod
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    ObligatoryPaymentMethod.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Method enum.
+     * @name ObligatoryPaymentMethod.Method
+     * @enum {string}
+     * @property {number} PAY_OBLIGATORY_PAYMENT=0 PAY_OBLIGATORY_PAYMENT value
+     */
+    ObligatoryPaymentMethod.Method = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "PAY_OBLIGATORY_PAYMENT"] = 0;
+        return values;
+    })();
+
+    return ObligatoryPaymentMethod;
+})();
+
 $root.PubKeyMethod = (function() {
 
     /**
@@ -4099,11 +7854,13 @@ $root.PubKeyMethod = (function() {
      * @enum {string}
      * @property {number} STORE=0 STORE value
      * @property {number} REVOKE=1 REVOKE value
+     * @property {number} STORE_AND_PAY=2 STORE_AND_PAY value
      */
     PubKeyMethod.Method = (function() {
         var valuesById = {}, values = Object.create(valuesById);
         values[valuesById[0] = "STORE"] = 0;
         values[valuesById[1] = "REVOKE"] = 1;
+        values[valuesById[2] = "STORE_AND_PAY"] = 2;
         return values;
     })();
 
@@ -5197,6 +8954,249 @@ $root.NewPubKeyPayload = (function() {
     return NewPubKeyPayload;
 })();
 
+$root.NewPubKeyStoreAndPayPayload = (function() {
+
+    /**
+     * Properties of a NewPubKeyStoreAndPayPayload.
+     * @exports INewPubKeyStoreAndPayPayload
+     * @interface INewPubKeyStoreAndPayPayload
+     * @property {INewPubKeyPayload|null} [pubKeyPayload] NewPubKeyStoreAndPayPayload pubKeyPayload
+     * @property {Uint8Array|null} [ownerPublicKey] NewPubKeyStoreAndPayPayload ownerPublicKey
+     * @property {Uint8Array|null} [signatureByOwner] NewPubKeyStoreAndPayPayload signatureByOwner
+     */
+
+    /**
+     * Constructs a new NewPubKeyStoreAndPayPayload.
+     * @exports NewPubKeyStoreAndPayPayload
+     * @classdesc Represents a NewPubKeyStoreAndPayPayload.
+     * @implements INewPubKeyStoreAndPayPayload
+     * @constructor
+     * @param {INewPubKeyStoreAndPayPayload=} [properties] Properties to set
+     */
+    function NewPubKeyStoreAndPayPayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * NewPubKeyStoreAndPayPayload pubKeyPayload.
+     * @member {INewPubKeyPayload|null|undefined} pubKeyPayload
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @instance
+     */
+    NewPubKeyStoreAndPayPayload.prototype.pubKeyPayload = null;
+
+    /**
+     * NewPubKeyStoreAndPayPayload ownerPublicKey.
+     * @member {Uint8Array} ownerPublicKey
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @instance
+     */
+    NewPubKeyStoreAndPayPayload.prototype.ownerPublicKey = $util.newBuffer([]);
+
+    /**
+     * NewPubKeyStoreAndPayPayload signatureByOwner.
+     * @member {Uint8Array} signatureByOwner
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @instance
+     */
+    NewPubKeyStoreAndPayPayload.prototype.signatureByOwner = $util.newBuffer([]);
+
+    /**
+     * Creates a new NewPubKeyStoreAndPayPayload instance using the specified properties.
+     * @function create
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @static
+     * @param {INewPubKeyStoreAndPayPayload=} [properties] Properties to set
+     * @returns {NewPubKeyStoreAndPayPayload} NewPubKeyStoreAndPayPayload instance
+     */
+    NewPubKeyStoreAndPayPayload.create = function create(properties) {
+        return new NewPubKeyStoreAndPayPayload(properties);
+    };
+
+    /**
+     * Encodes the specified NewPubKeyStoreAndPayPayload message. Does not implicitly {@link NewPubKeyStoreAndPayPayload.verify|verify} messages.
+     * @function encode
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @static
+     * @param {INewPubKeyStoreAndPayPayload} message NewPubKeyStoreAndPayPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NewPubKeyStoreAndPayPayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.pubKeyPayload != null && message.hasOwnProperty("pubKeyPayload"))
+            $root.NewPubKeyPayload.encode(message.pubKeyPayload, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+        if (message.ownerPublicKey != null && message.hasOwnProperty("ownerPublicKey"))
+            writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.ownerPublicKey);
+        if (message.signatureByOwner != null && message.hasOwnProperty("signatureByOwner"))
+            writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.signatureByOwner);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified NewPubKeyStoreAndPayPayload message, length delimited. Does not implicitly {@link NewPubKeyStoreAndPayPayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @static
+     * @param {INewPubKeyStoreAndPayPayload} message NewPubKeyStoreAndPayPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    NewPubKeyStoreAndPayPayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a NewPubKeyStoreAndPayPayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {NewPubKeyStoreAndPayPayload} NewPubKeyStoreAndPayPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NewPubKeyStoreAndPayPayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.NewPubKeyStoreAndPayPayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.pubKeyPayload = $root.NewPubKeyPayload.decode(reader, reader.uint32());
+                break;
+            case 2:
+                message.ownerPublicKey = reader.bytes();
+                break;
+            case 3:
+                message.signatureByOwner = reader.bytes();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a NewPubKeyStoreAndPayPayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {NewPubKeyStoreAndPayPayload} NewPubKeyStoreAndPayPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    NewPubKeyStoreAndPayPayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a NewPubKeyStoreAndPayPayload message.
+     * @function verify
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    NewPubKeyStoreAndPayPayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.pubKeyPayload != null && message.hasOwnProperty("pubKeyPayload")) {
+            var error = $root.NewPubKeyPayload.verify(message.pubKeyPayload);
+            if (error)
+                return "pubKeyPayload." + error;
+        }
+        if (message.ownerPublicKey != null && message.hasOwnProperty("ownerPublicKey"))
+            if (!(message.ownerPublicKey && typeof message.ownerPublicKey.length === "number" || $util.isString(message.ownerPublicKey)))
+                return "ownerPublicKey: buffer expected";
+        if (message.signatureByOwner != null && message.hasOwnProperty("signatureByOwner"))
+            if (!(message.signatureByOwner && typeof message.signatureByOwner.length === "number" || $util.isString(message.signatureByOwner)))
+                return "signatureByOwner: buffer expected";
+        return null;
+    };
+
+    /**
+     * Creates a NewPubKeyStoreAndPayPayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {NewPubKeyStoreAndPayPayload} NewPubKeyStoreAndPayPayload
+     */
+    NewPubKeyStoreAndPayPayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.NewPubKeyStoreAndPayPayload)
+            return object;
+        var message = new $root.NewPubKeyStoreAndPayPayload();
+        if (object.pubKeyPayload != null) {
+            if (typeof object.pubKeyPayload !== "object")
+                throw TypeError(".NewPubKeyStoreAndPayPayload.pubKeyPayload: object expected");
+            message.pubKeyPayload = $root.NewPubKeyPayload.fromObject(object.pubKeyPayload);
+        }
+        if (object.ownerPublicKey != null)
+            if (typeof object.ownerPublicKey === "string")
+                $util.base64.decode(object.ownerPublicKey, message.ownerPublicKey = $util.newBuffer($util.base64.length(object.ownerPublicKey)), 0);
+            else if (object.ownerPublicKey.length)
+                message.ownerPublicKey = object.ownerPublicKey;
+        if (object.signatureByOwner != null)
+            if (typeof object.signatureByOwner === "string")
+                $util.base64.decode(object.signatureByOwner, message.signatureByOwner = $util.newBuffer($util.base64.length(object.signatureByOwner)), 0);
+            else if (object.signatureByOwner.length)
+                message.signatureByOwner = object.signatureByOwner;
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a NewPubKeyStoreAndPayPayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @static
+     * @param {NewPubKeyStoreAndPayPayload} message NewPubKeyStoreAndPayPayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    NewPubKeyStoreAndPayPayload.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.pubKeyPayload = null;
+            object.ownerPublicKey = options.bytes === String ? "" : [];
+            object.signatureByOwner = options.bytes === String ? "" : [];
+        }
+        if (message.pubKeyPayload != null && message.hasOwnProperty("pubKeyPayload"))
+            object.pubKeyPayload = $root.NewPubKeyPayload.toObject(message.pubKeyPayload, options);
+        if (message.ownerPublicKey != null && message.hasOwnProperty("ownerPublicKey"))
+            object.ownerPublicKey = options.bytes === String ? $util.base64.encode(message.ownerPublicKey, 0, message.ownerPublicKey.length) : options.bytes === Array ? Array.prototype.slice.call(message.ownerPublicKey) : message.ownerPublicKey;
+        if (message.signatureByOwner != null && message.hasOwnProperty("signatureByOwner"))
+            object.signatureByOwner = options.bytes === String ? $util.base64.encode(message.signatureByOwner, 0, message.signatureByOwner.length) : options.bytes === Array ? Array.prototype.slice.call(message.signatureByOwner) : message.signatureByOwner;
+        return object;
+    };
+
+    /**
+     * Converts this NewPubKeyStoreAndPayPayload to JSON.
+     * @function toJSON
+     * @memberof NewPubKeyStoreAndPayPayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    NewPubKeyStoreAndPayPayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return NewPubKeyStoreAndPayPayload;
+})();
+
 $root.RevokePubKeyPayload = (function() {
 
     /**
@@ -5832,6 +9832,917 @@ $root.TransactionPayload = (function() {
     };
 
     return TransactionPayload;
+})();
+
+$root.MessageError = (function() {
+
+    /**
+     * Properties of a MessageError.
+     * @exports IMessageError
+     * @interface IMessageError
+     * @property {string|null} [description] MessageError description
+     * @property {number|Long|null} [code] MessageError code
+     */
+
+    /**
+     * Constructs a new MessageError.
+     * @exports MessageError
+     * @classdesc Represents a MessageError.
+     * @implements IMessageError
+     * @constructor
+     * @param {IMessageError=} [properties] Properties to set
+     */
+    function MessageError(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * MessageError description.
+     * @member {string} description
+     * @memberof MessageError
+     * @instance
+     */
+    MessageError.prototype.description = "";
+
+    /**
+     * MessageError code.
+     * @member {number|Long} code
+     * @memberof MessageError
+     * @instance
+     */
+    MessageError.prototype.code = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * Creates a new MessageError instance using the specified properties.
+     * @function create
+     * @memberof MessageError
+     * @static
+     * @param {IMessageError=} [properties] Properties to set
+     * @returns {MessageError} MessageError instance
+     */
+    MessageError.create = function create(properties) {
+        return new MessageError(properties);
+    };
+
+    /**
+     * Encodes the specified MessageError message. Does not implicitly {@link MessageError.verify|verify} messages.
+     * @function encode
+     * @memberof MessageError
+     * @static
+     * @param {IMessageError} message MessageError message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    MessageError.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.description != null && message.hasOwnProperty("description"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.description);
+        if (message.code != null && message.hasOwnProperty("code"))
+            writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.code);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified MessageError message, length delimited. Does not implicitly {@link MessageError.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof MessageError
+     * @static
+     * @param {IMessageError} message MessageError message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    MessageError.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a MessageError message from the specified reader or buffer.
+     * @function decode
+     * @memberof MessageError
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {MessageError} MessageError
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    MessageError.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.MessageError();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.description = reader.string();
+                break;
+            case 2:
+                message.code = reader.uint64();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a MessageError message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof MessageError
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {MessageError} MessageError
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    MessageError.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a MessageError message.
+     * @function verify
+     * @memberof MessageError
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    MessageError.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.description != null && message.hasOwnProperty("description"))
+            if (!$util.isString(message.description))
+                return "description: string expected";
+        if (message.code != null && message.hasOwnProperty("code"))
+            if (!$util.isInteger(message.code) && !(message.code && $util.isInteger(message.code.low) && $util.isInteger(message.code.high)))
+                return "code: integer|Long expected";
+        return null;
+    };
+
+    /**
+     * Creates a MessageError message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof MessageError
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {MessageError} MessageError
+     */
+    MessageError.fromObject = function fromObject(object) {
+        if (object instanceof $root.MessageError)
+            return object;
+        var message = new $root.MessageError();
+        if (object.description != null)
+            message.description = String(object.description);
+        if (object.code != null)
+            if ($util.Long)
+                (message.code = $util.Long.fromValue(object.code)).unsigned = true;
+            else if (typeof object.code === "string")
+                message.code = parseInt(object.code, 10);
+            else if (typeof object.code === "number")
+                message.code = object.code;
+            else if (typeof object.code === "object")
+                message.code = new $util.LongBits(object.code.low >>> 0, object.code.high >>> 0).toNumber(true);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a MessageError message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof MessageError
+     * @static
+     * @param {MessageError} message MessageError
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    MessageError.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.description = "";
+            if ($util.Long) {
+                var long = new $util.Long(0, 0, true);
+                object.code = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+            } else
+                object.code = options.longs === String ? "0" : 0;
+        }
+        if (message.description != null && message.hasOwnProperty("description"))
+            object.description = message.description;
+        if (message.code != null && message.hasOwnProperty("code"))
+            if (typeof message.code === "number")
+                object.code = options.longs === String ? String(message.code) : message.code;
+            else
+                object.code = options.longs === String ? $util.Long.prototype.toString.call(message.code) : options.longs === Number ? new $util.LongBits(message.code.low >>> 0, message.code.high >>> 0).toNumber(true) : message.code;
+        return object;
+    };
+
+    /**
+     * Converts this MessageError to JSON.
+     * @function toJSON
+     * @memberof MessageError
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    MessageError.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return MessageError;
+})();
+
+$root.Message = (function() {
+
+    /**
+     * Properties of a Message.
+     * @exports IMessage
+     * @interface IMessage
+     * @property {Message.MessageType|null} [messageType] Message messageType
+     * @property {string|null} [correlationId] Message correlationId
+     * @property {Uint8Array|null} [content] Message content
+     */
+
+    /**
+     * Constructs a new Message.
+     * @exports Message
+     * @classdesc Represents a Message.
+     * @implements IMessage
+     * @constructor
+     * @param {IMessage=} [properties] Properties to set
+     */
+    function Message(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Message messageType.
+     * @member {Message.MessageType} messageType
+     * @memberof Message
+     * @instance
+     */
+    Message.prototype.messageType = 0;
+
+    /**
+     * Message correlationId.
+     * @member {string} correlationId
+     * @memberof Message
+     * @instance
+     */
+    Message.prototype.correlationId = "";
+
+    /**
+     * Message content.
+     * @member {Uint8Array} content
+     * @memberof Message
+     * @instance
+     */
+    Message.prototype.content = $util.newBuffer([]);
+
+    /**
+     * Creates a new Message instance using the specified properties.
+     * @function create
+     * @memberof Message
+     * @static
+     * @param {IMessage=} [properties] Properties to set
+     * @returns {Message} Message instance
+     */
+    Message.create = function create(properties) {
+        return new Message(properties);
+    };
+
+    /**
+     * Encodes the specified Message message. Does not implicitly {@link Message.verify|verify} messages.
+     * @function encode
+     * @memberof Message
+     * @static
+     * @param {IMessage} message Message message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Message.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.messageType != null && message.hasOwnProperty("messageType"))
+            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.messageType);
+        if (message.correlationId != null && message.hasOwnProperty("correlationId"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.correlationId);
+        if (message.content != null && message.hasOwnProperty("content"))
+            writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.content);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified Message message, length delimited. Does not implicitly {@link Message.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof Message
+     * @static
+     * @param {IMessage} message Message message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Message.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a Message message from the specified reader or buffer.
+     * @function decode
+     * @memberof Message
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {Message} Message
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Message.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Message();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.messageType = reader.int32();
+                break;
+            case 2:
+                message.correlationId = reader.string();
+                break;
+            case 3:
+                message.content = reader.bytes();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a Message message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof Message
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {Message} Message
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Message.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a Message message.
+     * @function verify
+     * @memberof Message
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    Message.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.messageType != null && message.hasOwnProperty("messageType"))
+            switch (message.messageType) {
+            default:
+                return "messageType: enum value expected";
+            case 0:
+            case 1:
+            case 2:
+                break;
+            }
+        if (message.correlationId != null && message.hasOwnProperty("correlationId"))
+            if (!$util.isString(message.correlationId))
+                return "correlationId: string expected";
+        if (message.content != null && message.hasOwnProperty("content"))
+            if (!(message.content && typeof message.content.length === "number" || $util.isString(message.content)))
+                return "content: buffer expected";
+        return null;
+    };
+
+    /**
+     * Creates a Message message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof Message
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {Message} Message
+     */
+    Message.fromObject = function fromObject(object) {
+        if (object instanceof $root.Message)
+            return object;
+        var message = new $root.Message();
+        switch (object.messageType) {
+        case "CLIENT_SEAL_REQUEST":
+        case 0:
+            message.messageType = 0;
+            break;
+        case "CLIENT_SEAL_RESPONSE":
+        case 1:
+            message.messageType = 1;
+            break;
+        case "INVALID_MESSAGE":
+        case 2:
+            message.messageType = 2;
+            break;
+        }
+        if (object.correlationId != null)
+            message.correlationId = String(object.correlationId);
+        if (object.content != null)
+            if (typeof object.content === "string")
+                $util.base64.decode(object.content, message.content = $util.newBuffer($util.base64.length(object.content)), 0);
+            else if (object.content.length)
+                message.content = object.content;
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a Message message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof Message
+     * @static
+     * @param {Message} message Message
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    Message.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.messageType = options.enums === String ? "CLIENT_SEAL_REQUEST" : 0;
+            object.correlationId = "";
+            object.content = options.bytes === String ? "" : [];
+        }
+        if (message.messageType != null && message.hasOwnProperty("messageType"))
+            object.messageType = options.enums === String ? $root.Message.MessageType[message.messageType] : message.messageType;
+        if (message.correlationId != null && message.hasOwnProperty("correlationId"))
+            object.correlationId = message.correlationId;
+        if (message.content != null && message.hasOwnProperty("content"))
+            object.content = options.bytes === String ? $util.base64.encode(message.content, 0, message.content.length) : options.bytes === Array ? Array.prototype.slice.call(message.content) : message.content;
+        return object;
+    };
+
+    /**
+     * Converts this Message to JSON.
+     * @function toJSON
+     * @memberof Message
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    Message.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * MessageType enum.
+     * @name Message.MessageType
+     * @enum {string}
+     * @property {number} CLIENT_SEAL_REQUEST=0 CLIENT_SEAL_REQUEST value
+     * @property {number} CLIENT_SEAL_RESPONSE=1 CLIENT_SEAL_RESPONSE value
+     * @property {number} INVALID_MESSAGE=2 INVALID_MESSAGE value
+     */
+    Message.MessageType = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "CLIENT_SEAL_REQUEST"] = 0;
+        values[valuesById[1] = "CLIENT_SEAL_RESPONSE"] = 1;
+        values[valuesById[2] = "INVALID_MESSAGE"] = 2;
+        return values;
+    })();
+
+    return Message;
+})();
+
+$root.Setting = (function() {
+
+    /**
+     * Properties of a Setting.
+     * @exports ISetting
+     * @interface ISetting
+     * @property {Array.<Setting.IEntry>|null} [entries] Setting entries
+     */
+
+    /**
+     * Constructs a new Setting.
+     * @exports Setting
+     * @classdesc Represents a Setting.
+     * @implements ISetting
+     * @constructor
+     * @param {ISetting=} [properties] Properties to set
+     */
+    function Setting(properties) {
+        this.entries = [];
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Setting entries.
+     * @member {Array.<Setting.IEntry>} entries
+     * @memberof Setting
+     * @instance
+     */
+    Setting.prototype.entries = $util.emptyArray;
+
+    /**
+     * Creates a new Setting instance using the specified properties.
+     * @function create
+     * @memberof Setting
+     * @static
+     * @param {ISetting=} [properties] Properties to set
+     * @returns {Setting} Setting instance
+     */
+    Setting.create = function create(properties) {
+        return new Setting(properties);
+    };
+
+    /**
+     * Encodes the specified Setting message. Does not implicitly {@link Setting.verify|verify} messages.
+     * @function encode
+     * @memberof Setting
+     * @static
+     * @param {ISetting} message Setting message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Setting.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.entries != null && message.entries.length)
+            for (var i = 0; i < message.entries.length; ++i)
+                $root.Setting.Entry.encode(message.entries[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified Setting message, length delimited. Does not implicitly {@link Setting.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof Setting
+     * @static
+     * @param {ISetting} message Setting message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Setting.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a Setting message from the specified reader or buffer.
+     * @function decode
+     * @memberof Setting
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {Setting} Setting
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Setting.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Setting();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                if (!(message.entries && message.entries.length))
+                    message.entries = [];
+                message.entries.push($root.Setting.Entry.decode(reader, reader.uint32()));
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a Setting message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof Setting
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {Setting} Setting
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Setting.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a Setting message.
+     * @function verify
+     * @memberof Setting
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    Setting.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.entries != null && message.hasOwnProperty("entries")) {
+            if (!Array.isArray(message.entries))
+                return "entries: array expected";
+            for (var i = 0; i < message.entries.length; ++i) {
+                var error = $root.Setting.Entry.verify(message.entries[i]);
+                if (error)
+                    return "entries." + error;
+            }
+        }
+        return null;
+    };
+
+    /**
+     * Creates a Setting message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof Setting
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {Setting} Setting
+     */
+    Setting.fromObject = function fromObject(object) {
+        if (object instanceof $root.Setting)
+            return object;
+        var message = new $root.Setting();
+        if (object.entries) {
+            if (!Array.isArray(object.entries))
+                throw TypeError(".Setting.entries: array expected");
+            message.entries = [];
+            for (var i = 0; i < object.entries.length; ++i) {
+                if (typeof object.entries[i] !== "object")
+                    throw TypeError(".Setting.entries: object expected");
+                message.entries[i] = $root.Setting.Entry.fromObject(object.entries[i]);
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a Setting message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof Setting
+     * @static
+     * @param {Setting} message Setting
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    Setting.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.arrays || options.defaults)
+            object.entries = [];
+        if (message.entries && message.entries.length) {
+            object.entries = [];
+            for (var j = 0; j < message.entries.length; ++j)
+                object.entries[j] = $root.Setting.Entry.toObject(message.entries[j], options);
+        }
+        return object;
+    };
+
+    /**
+     * Converts this Setting to JSON.
+     * @function toJSON
+     * @memberof Setting
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    Setting.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    Setting.Entry = (function() {
+
+        /**
+         * Properties of an Entry.
+         * @memberof Setting
+         * @interface IEntry
+         * @property {string|null} [key] Entry key
+         * @property {string|null} [value] Entry value
+         */
+
+        /**
+         * Constructs a new Entry.
+         * @memberof Setting
+         * @classdesc Represents an Entry.
+         * @implements IEntry
+         * @constructor
+         * @param {Setting.IEntry=} [properties] Properties to set
+         */
+        function Entry(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Entry key.
+         * @member {string} key
+         * @memberof Setting.Entry
+         * @instance
+         */
+        Entry.prototype.key = "";
+
+        /**
+         * Entry value.
+         * @member {string} value
+         * @memberof Setting.Entry
+         * @instance
+         */
+        Entry.prototype.value = "";
+
+        /**
+         * Creates a new Entry instance using the specified properties.
+         * @function create
+         * @memberof Setting.Entry
+         * @static
+         * @param {Setting.IEntry=} [properties] Properties to set
+         * @returns {Setting.Entry} Entry instance
+         */
+        Entry.create = function create(properties) {
+            return new Entry(properties);
+        };
+
+        /**
+         * Encodes the specified Entry message. Does not implicitly {@link Setting.Entry.verify|verify} messages.
+         * @function encode
+         * @memberof Setting.Entry
+         * @static
+         * @param {Setting.IEntry} message Entry message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Entry.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.key != null && message.hasOwnProperty("key"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.key);
+            if (message.value != null && message.hasOwnProperty("value"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.value);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Entry message, length delimited. Does not implicitly {@link Setting.Entry.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof Setting.Entry
+         * @static
+         * @param {Setting.IEntry} message Entry message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Entry.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an Entry message from the specified reader or buffer.
+         * @function decode
+         * @memberof Setting.Entry
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {Setting.Entry} Entry
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Entry.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Setting.Entry();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.key = reader.string();
+                    break;
+                case 2:
+                    message.value = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an Entry message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof Setting.Entry
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {Setting.Entry} Entry
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Entry.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an Entry message.
+         * @function verify
+         * @memberof Setting.Entry
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        Entry.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.key != null && message.hasOwnProperty("key"))
+                if (!$util.isString(message.key))
+                    return "key: string expected";
+            if (message.value != null && message.hasOwnProperty("value"))
+                if (!$util.isString(message.value))
+                    return "value: string expected";
+            return null;
+        };
+
+        /**
+         * Creates an Entry message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof Setting.Entry
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {Setting.Entry} Entry
+         */
+        Entry.fromObject = function fromObject(object) {
+            if (object instanceof $root.Setting.Entry)
+                return object;
+            var message = new $root.Setting.Entry();
+            if (object.key != null)
+                message.key = String(object.key);
+            if (object.value != null)
+                message.value = String(object.value);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from an Entry message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof Setting.Entry
+         * @static
+         * @param {Setting.Entry} message Entry
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Entry.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.key = "";
+                object.value = "";
+            }
+            if (message.key != null && message.hasOwnProperty("key"))
+                object.key = message.key;
+            if (message.value != null && message.hasOwnProperty("value"))
+                object.value = message.value;
+            return object;
+        };
+
+        /**
+         * Converts this Entry to JSON.
+         * @function toJSON
+         * @memberof Setting.Entry
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        Entry.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Entry;
+    })();
+
+    return Setting;
 })();
 
 $root.TransactionHeader = (function() {
