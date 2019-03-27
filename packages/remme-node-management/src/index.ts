@@ -20,11 +20,11 @@ import {
     NodeAccountDTO,
     NodeAccountState,
     NodeInfoDTO,
+    INodeConfigResponse,
+    IStateResponse,
+    StateRequest,
+    NodeConfigDTO,
 } from "./models";
-import { NodeConfigDTO } from "./models/NodeConfigDTO";
-import { INodeConfigResponse } from "./models/NodeConfigResponse";
-import { IStateResponse } from "./models/StateResponse";
-import { StateRequest } from "./models/StateRequest";
 
 class RemmeNodeManagement implements IRemmeNodeManagement {
 
