@@ -110,6 +110,11 @@ const packages = [{
   config: path.join(__dirname, 'packages/remme-protobuf/tsconfig.json')
 }];
 
+const usedSawtoothProtobuf = {
+  setting: true,
+  transaction: true,
+};
+
 const uglifyOptions = {
   compress: {
     dead_code: true,
@@ -179,8 +184,11 @@ gulp.task('protobuf-compile', function () {
   const remmeFiles = fs.readdirSync(srcRemmeProtobuf)
       .map(f => path.resolve(srcRemmeProtobuf, f));
   const sawtoothFiles = fs.readdirSync(srcSawtoothProtobuf)
+      .filter(f => {
+        const fName = f.replace('.proto', '');
+        return !!usedSawtoothProtobuf[fName];
+      })
       .map(f => path.resolve(srcSawtoothProtobuf, f));
-
   const files = [...remmeFiles, ...sawtoothFiles]
       .filter(f => f.endsWith('.proto'))
       .join(" ");
