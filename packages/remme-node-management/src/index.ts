@@ -159,7 +159,7 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
     ): Promise<NodeAccountDTO> {
         const data: INodeAccountResponse = await this._remmeApi
             .sendRequest<NodeAccountAddressRequest, INodeAccountResponse>(
-                RemmeMethods.nodeAccount, new NodeAccountAddressRequest(this._remmeAccount.address),
+                RemmeMethods.nodeAccount, new NodeAccountAddressRequest(nodeAccountAddress),
             );
         return new NodeAccountDTO(data);
     }
