@@ -27,7 +27,14 @@ export class NodeAccount {
             ...nodeAccountResponse,
         };
 
-        const { reputation, balance, node_state } = nodeAccount;
+        let { reputation } = nodeAccount;
+
+        reputation = {
+            ...DEFAULT_NODE_ACCOUNT_INFO.reputation,
+            ...reputation,
+        };
+
+        const { node_state, balance } = nodeAccount;
 
         this.state = node_state;
         this.reputation = {
