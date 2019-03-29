@@ -1,6 +1,6 @@
 import { INodeConfigResponse } from "./NodeConfigResponse";
 
-export class NodeConfigDTO {
+export class NodeConfig {
     public nodePublicKey: string;
 
     constructor({ node_public_key }: INodeConfigResponse) {

@@ -17,13 +17,13 @@ import {
     INodeAccountResponse,
     INodeInfoResponse,
     NodeAccountAddressRequest,
-    NodeAccountDTO,
+    NodeAccount,
     NodeAccountState,
-    NodeInfoDTO,
+    NodeInfo,
     INodeConfigResponse,
     IStateResponse,
     StateRequest,
-    NodeConfigDTO,
+    NodeConfig,
 } from "./models";
 
 class RemmeNodeManagement implements IRemmeNodeManagement {
@@ -164,29 +164,32 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
 
     public async getNodeAccount(
         nodeAccountAddress: string = this._remmeAccount.address,
-    ): Promise<NodeAccountDTO> {
+    ): Promise<NodeAccount> {
         const data: INodeAccountResponse = await this._remmeApi
             .sendRequest<NodeAccountAddressRequest, INodeAccountResponse>(
                 RemmeMethods.nodeAccount, new NodeAccountAddressRequest(nodeAccountAddress),
             );
-        return new NodeAccountDTO(data);
+        return new NodeAccount(data);
     }
 
-    public async getNodeInfo(): Promise<NodeInfoDTO> {
+    public async getNodeInfo(): Promise<NodeInfo> {
         const apiResult = await this._remmeApi
             .sendRequest<INodeInfoResponse>(RemmeMethods.networkStatus);
-        return new NodeInfoDTO(apiResult);
+        return new NodeInfo(apiResult);
     }
 
-    public async getNodeConfig(): Promise<NodeConfigDTO> {
+    public async getNodeConfig(): Promise<NodeConfig> {
         const apiResult = await this._remmeApi
             .sendRequest<INodeConfigResponse>(RemmeMethods.nodeConfig);
-        return new NodeConfigDTO(apiResult);
+        return new NodeConfig(apiResult);
     }
 }
 
 export {
     NodeAccountAddressRequest,
+    NodeAccount,
+    NodeInfo,
+    NodeConfig,
     RemmeNodeManagement,
     IRemmeNodeManagement,
 };
