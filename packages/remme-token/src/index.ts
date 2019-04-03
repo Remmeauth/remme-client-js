@@ -1,4 +1,4 @@
-import { IRemmeAccount, AccountType } from "remme-account";
+import { IRemmeAccount } from "remme-account";
 import { RemmeMethods, IRemmeApi } from "remme-api";
 import { RemmeFamilyName, PublicKeyRequest, checkAddress } from "remme-utils";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
@@ -6,12 +6,12 @@ import {
     TransferPayload,
     TransactionPayload,
     AccountMethod,
+    NodeAccountInternalTransferPayload,
     NodeAccountMethod,
 } from "remme-protobuf";
 import SenderAccountType = TransferPayload.SenderAccountType;
 
 import { IRemmeToken } from "./interface";
-import { INodeAccountInternalTransferPayload, NodeAccountInternalTransferPayload } from "../../remme-protobuf/dist";
 
 /**
  * Class that work with tokens.
@@ -53,6 +53,8 @@ class RemmeToken implements IRemmeToken {
     private readonly _remmeApi: IRemmeApi;
     private readonly _remmeAccount: IRemmeAccount;
     private readonly _remmeTransaction: IRemmeTransactionService;
+    private readonly _accountFamilyName = RemmeFamilyName.Account;
+    private readonly _nodeFamilyName = RemmeFamilyName.NodeAccount;
     private readonly _familyVersion = "0.1";
 
     /**
@@ -78,8 +80,12 @@ class RemmeToken implements IRemmeToken {
         this._remmeAccount = remmeAccount;
     }
 
-    private async _generateAndSendTransferPayload(method, data: Uint8Array, inputsOutputs: string[]) {
-        const { familyName } = this._remmeAccount;
+    private async _generateAndSendTransferPayload(
+        method: AccountMethod.Method | NodeAccountMethod.Method,
+        familyName: RemmeFamilyName,
+        data: Uint8Array,
+        inputsOutputs: string[],
+    ) {
         const transactionPayload = TransactionPayload.encode({
             method,
             data,
@@ -145,6 +151,7 @@ class RemmeToken implements IRemmeToken {
 
         return this._generateAndSendTransferPayload(
             AccountMethod.Method.TRANSFER,
+            this._accountFamilyName,
             transferPayload,
             inputsOutputs,
         );
@@ -173,6 +180,7 @@ class RemmeToken implements IRemmeToken {
 
         return this._generateAndSendTransferPayload(
             NodeAccountMethod.Method.TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL,
+            this._nodeFamilyName,
             transferPayload,
             inputsOutputs,
         );
