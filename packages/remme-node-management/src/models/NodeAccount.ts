@@ -1,23 +1,51 @@
 import { INodeAccountResponse } from "./NodeAccountResponse";
 import { NodeAccountState } from "./NodeAccountState";
+import {BetType} from "./BetType";
 
 const DEFAULT_NODE_ACCOUNT_INFO: INodeAccountResponse = {
     node_state: NodeAccountState.New,
-    balance: "0",
+    balance: "0.0000",
     reputation: {
-        frozen: "0",
-        unfrozen: "0",
+        frozen: "0.0000",
+        unfrozen: "0.0000",
     },
 };
-
 export class NodeAccount {
 
     public state: NodeAccountState;
-    public balance: number;
+    public balance: string;
     public reputation: {
-        frozen: number;
-        unfrozen: number;
+        frozen: string;
+        unfrozen: string;
     };
+    public bet: {
+        type: string;
+        value?: string;
+    };
+
+    private _getBetValue(res: INodeAccountResponse) {
+        switch (true) {
+            case res[BetType.MIN.toLowerCase()]: {
+                return {
+                    type: BetType.MIN,
+                };
+            }
+            case res[BetType.MAX.toLowerCase()]: {
+                return {
+                    type: BetType.MAX,
+                };
+            }
+            case !!res[BetType.FIXED_AMOUNT.toLowerCase()]: {
+                return {
+                    type: BetType.FIXED_AMOUNT,
+                    value: res[BetType.FIXED_AMOUNT],
+                };
+            }
+            default: {
+                throw new Error("No bet set");
+            }
+        }
+    }
 
     constructor(
         nodeAccountResponse: INodeAccountResponse = DEFAULT_NODE_ACCOUNT_INFO,
@@ -38,9 +66,10 @@ export class NodeAccount {
 
         this.state = node_state;
         this.reputation = {
-            frozen: parseInt(reputation.frozen, 10),
-            unfrozen: parseInt(reputation.unfrozen, 10),
+            frozen: reputation.frozen,
+            unfrozen: reputation.unfrozen,
         };
-        this.balance = parseInt(balance, 10);
+        this.balance = balance;
+        this.bet = this._getBetValue(nodeAccountResponse);
     }
 }

@@ -8,3 +8,4 @@ export * from "./NodeInfo";
 export * from "./NodeInfoResponse";
 export * from "./StateRequest";
 export * from "./StateResponse";
+export * from "./BetType";

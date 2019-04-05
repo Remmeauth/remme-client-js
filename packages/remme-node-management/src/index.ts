@@ -2,7 +2,6 @@ import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transa
 import { IRemmeAccount } from "remme-account";
 import { IRemmeApi, RemmeMethods } from "remme-api";
 import {
-    CloseMasternodePayload,
     ISetBetPayload,
     NodeAccountInternalTransferPayload,
     NodeAccountMethod,
@@ -23,8 +22,10 @@ import {
     INodeConfigResponse,
     IStateResponse,
     StateRequest,
+    BetType,
     NodeConfig,
 } from "./models";
+import {EmptyPayload} from "../../remme-protobuf/dist";
 
 class RemmeNodeManagement implements IRemmeNodeManagement {
 
@@ -84,7 +85,20 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         return await this._remmeTransaction.send(transaction);
     }
 
-    public async open(amount: number): Promise<IBaseTransactionResponse> {
+    public async openNode(): Promise<IBaseTransactionResponse> {
+        const openNodePayloadData = EmptyPayload.create();
+        const openNodePayload = EmptyPayload.encode(openNodePayloadData).finish();
+
+        const inputsOutputs = [];
+
+        return await this._createAndSendTransaction(
+            NodeAccountMethod.Method.INITIALIZE_NODE,
+            openNodePayload,
+            inputsOutputs,
+        );
+    }
+
+    public async openMasterNode(amount: number): Promise<IBaseTransactionResponse> {
         if (this._remmeAccount.familyName !== this._familyName) {
             throw Error(
                 `This operation is allowed under NodeAccount.
@@ -95,7 +109,7 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         await this._checkNode();
         await this._checkAmount(amount);
 
-        const openPayload = NodeAccountInternalTransferPayload.encode({
+        const openMasterNodePayload = NodeAccountInternalTransferPayload.encode({
             value: amount,
         }).finish();
 
@@ -106,12 +120,12 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
 
         return await this._createAndSendTransaction(
             NodeAccountMethod.Method.INITIALIZE_MASTERNODE,
-            openPayload,
+            openMasterNodePayload,
             inputsOutputs,
         );
     }
 
-    public async close(): Promise<IBaseTransactionResponse> {
+    public async closeMasterNode(): Promise<IBaseTransactionResponse> {
         if (this._remmeAccount.familyName !== RemmeFamilyName.NodeAccount) {
             throw Error(
                 `This operation is allowed under NodeAccount.
@@ -120,8 +134,8 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
             );
         }
 
-        const closePayloadData = CloseMasternodePayload.create();
-        const closePayload = CloseMasternodePayload.encode(closePayloadData).finish();
+        const closePayloadData = EmptyPayload.create();
+        const closePayload = EmptyPayload.encode(closePayloadData).finish();
 
         const inputsOutputs = [
             this._masterNodeListAddress,
@@ -192,4 +206,5 @@ export {
     NodeConfig,
     RemmeNodeManagement,
     IRemmeNodeManagement,
+    BetType,
 };

@@ -7,4 +7,7 @@ export interface INodeAccountResponse {
         frozen: string;
         unfrozen: string;
     };
+    min?: boolean;
+    max?: boolean;
+    fixed_amount?: string;
 }

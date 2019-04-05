@@ -26,13 +26,10 @@ export class BaseQuery implements IBaseQuery {
             this.head = query.head;
         }
         if (query.start) {
-            if (typeof query.start === "string" && (
-                query.start.search(/^0x[a-f0-9]{16}$/) !== -1 || query.start.search(/^[a-f0-9]{128}$/) !== -1
-            ) || typeof query.start === "number") {
-                this.start = query.start.toString();
-            } else {
-                throw new Error(`Parameter "start" not a valid`);
+            if (typeof query.start !== "number") {
+                throw new Error(`Parameter "start" should be a number`);
             }
+            this.start = query.start;
         }
         this.family_name = query.family_name;
         this.limit = query.limit;

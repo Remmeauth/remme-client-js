@@ -2222,108 +2222,16 @@ export namespace ConsensusAccountMethod {
 
     /** Method enum. */
     enum Method {
-        SEND_REWARD = 0
+        SEND_REWARD = 0,
+        GENESIS = 1
     }
-}
-
-/** Properties of a ConsensusBet. */
-export interface IConsensusBet {
-
-    /** ConsensusBet address */
-    address?: (string|null);
-
-    /** ConsensusBet value */
-    value?: (number|Long|null);
-}
-
-/** Represents a ConsensusBet. */
-export class ConsensusBet implements IConsensusBet {
-
-    /**
-     * Constructs a new ConsensusBet.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IConsensusBet);
-
-    /** ConsensusBet address. */
-    public address: string;
-
-    /** ConsensusBet value. */
-    public value: (number|Long);
-
-    /**
-     * Creates a new ConsensusBet instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns ConsensusBet instance
-     */
-    public static create(properties?: IConsensusBet): ConsensusBet;
-
-    /**
-     * Encodes the specified ConsensusBet message. Does not implicitly {@link ConsensusBet.verify|verify} messages.
-     * @param message ConsensusBet message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IConsensusBet, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified ConsensusBet message, length delimited. Does not implicitly {@link ConsensusBet.verify|verify} messages.
-     * @param message ConsensusBet message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IConsensusBet, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes a ConsensusBet message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns ConsensusBet
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): ConsensusBet;
-
-    /**
-     * Decodes a ConsensusBet message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns ConsensusBet
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): ConsensusBet;
-
-    /**
-     * Verifies a ConsensusBet message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates a ConsensusBet message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns ConsensusBet
-     */
-    public static fromObject(object: { [k: string]: any }): ConsensusBet;
-
-    /**
-     * Creates a plain object from a ConsensusBet message. Also converts values to other types if specified.
-     * @param message ConsensusBet
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: ConsensusBet, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this ConsensusBet to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
 }
 
 /** Properties of a ConsensusAccount. */
 export interface IConsensusAccount {
+
+    /** ConsensusAccount publicKey */
+    publicKey?: (string|null);
 
     /** ConsensusAccount obligatoryPayments */
     obligatoryPayments?: (number|Long|null);
@@ -2332,7 +2240,7 @@ export interface IConsensusAccount {
     blockCost?: (number|Long|null);
 
     /** ConsensusAccount bets */
-    bets?: (IConsensusBet[]|null);
+    bets?: ({ [k: string]: (number|Long) }|null);
 }
 
 /** Represents a ConsensusAccount. */
@@ -2344,6 +2252,9 @@ export class ConsensusAccount implements IConsensusAccount {
      */
     constructor(properties?: IConsensusAccount);
 
+    /** ConsensusAccount publicKey. */
+    public publicKey: string;
+
     /** ConsensusAccount obligatoryPayments. */
     public obligatoryPayments: (number|Long);
 
@@ -2351,7 +2262,7 @@ export class ConsensusAccount implements IConsensusAccount {
     public blockCost: (number|Long);
 
     /** ConsensusAccount bets. */
-    public bets: IConsensusBet[];
+    public bets: { [k: string]: (number|Long) };
 
     /**
      * Creates a new ConsensusAccount instance using the specified properties.
@@ -2427,17 +2338,17 @@ export class ConsensusAccount implements IConsensusAccount {
 /** Properties of a NodeAccount. */
 export interface INodeAccount {
 
-    /** NodeAccount nodeState */
-    nodeState?: (NodeAccount.NodeState|null);
-
     /** NodeAccount balance */
     balance?: (number|Long|null);
+
+    /** NodeAccount nodeState */
+    nodeState?: (NodeAccount.NodeState|null);
 
     /** NodeAccount reputation */
     reputation?: (NodeAccount.IReputation|null);
 
     /** NodeAccount fixedAmount */
-    fixedAmount?: (number|Long|null);
+    fixedAmount?: (number|null);
 
     /** NodeAccount min */
     min?: (boolean|null);
@@ -2455,17 +2366,17 @@ export class NodeAccount implements INodeAccount {
      */
     constructor(properties?: INodeAccount);
 
-    /** NodeAccount nodeState. */
-    public nodeState: NodeAccount.NodeState;
-
     /** NodeAccount balance. */
     public balance: (number|Long);
+
+    /** NodeAccount nodeState. */
+    public nodeState: NodeAccount.NodeState;
 
     /** NodeAccount reputation. */
     public reputation?: (NodeAccount.IReputation|null);
 
     /** NodeAccount fixedAmount. */
-    public fixedAmount: (number|Long);
+    public fixedAmount: number;
 
     /** NodeAccount min. */
     public min: boolean;
@@ -2835,7 +2746,7 @@ export namespace NodeAccountMethod {
         TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL = 1,
         INITIALIZE_MASTERNODE = 2,
         CLOSE_MASTERNODE = 3,
-        GENESIS_NODE = 4,
+        INITIALIZE_NODE = 4,
         SET_BET = 5,
         DO_BET = 6
     }
@@ -2931,95 +2842,11 @@ export class NodeAccountInternalTransferPayload implements INodeAccountInternalT
     public toJSON(): { [k: string]: any };
 }
 
-/** Properties of a CloseMasternodePayload. */
-export interface ICloseMasternodePayload {
-}
-
-/** Represents a CloseMasternodePayload. */
-export class CloseMasternodePayload implements ICloseMasternodePayload {
-
-    /**
-     * Constructs a new CloseMasternodePayload.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: ICloseMasternodePayload);
-
-    /**
-     * Creates a new CloseMasternodePayload instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns CloseMasternodePayload instance
-     */
-    public static create(properties?: ICloseMasternodePayload): CloseMasternodePayload;
-
-    /**
-     * Encodes the specified CloseMasternodePayload message. Does not implicitly {@link CloseMasternodePayload.verify|verify} messages.
-     * @param message CloseMasternodePayload message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: ICloseMasternodePayload, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified CloseMasternodePayload message, length delimited. Does not implicitly {@link CloseMasternodePayload.verify|verify} messages.
-     * @param message CloseMasternodePayload message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: ICloseMasternodePayload, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes a CloseMasternodePayload message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns CloseMasternodePayload
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): CloseMasternodePayload;
-
-    /**
-     * Decodes a CloseMasternodePayload message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns CloseMasternodePayload
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): CloseMasternodePayload;
-
-    /**
-     * Verifies a CloseMasternodePayload message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates a CloseMasternodePayload message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns CloseMasternodePayload
-     */
-    public static fromObject(object: { [k: string]: any }): CloseMasternodePayload;
-
-    /**
-     * Creates a plain object from a CloseMasternodePayload message. Also converts values to other types if specified.
-     * @param message CloseMasternodePayload
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: CloseMasternodePayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this CloseMasternodePayload to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
 /** Properties of a SetBetPayload. */
 export interface ISetBetPayload {
 
     /** SetBetPayload fixedAmount */
-    fixedAmount?: (number|Long|null);
+    fixedAmount?: (number|null);
 
     /** SetBetPayload min */
     min?: (boolean|null);
@@ -3038,7 +2865,7 @@ export class SetBetPayload implements ISetBetPayload {
     constructor(properties?: ISetBetPayload);
 
     /** SetBetPayload fixedAmount. */
-    public fixedAmount: (number|Long);
+    public fixedAmount: number;
 
     /** SetBetPayload min. */
     public min: boolean;
@@ -4218,6 +4045,90 @@ export class TransactionPayload implements ITransactionPayload {
 
     /**
      * Converts this TransactionPayload to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of an EmptyPayload. */
+export interface IEmptyPayload {
+}
+
+/** Represents an EmptyPayload. */
+export class EmptyPayload implements IEmptyPayload {
+
+    /**
+     * Constructs a new EmptyPayload.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IEmptyPayload);
+
+    /**
+     * Creates a new EmptyPayload instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns EmptyPayload instance
+     */
+    public static create(properties?: IEmptyPayload): EmptyPayload;
+
+    /**
+     * Encodes the specified EmptyPayload message. Does not implicitly {@link EmptyPayload.verify|verify} messages.
+     * @param message EmptyPayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IEmptyPayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified EmptyPayload message, length delimited. Does not implicitly {@link EmptyPayload.verify|verify} messages.
+     * @param message EmptyPayload message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IEmptyPayload, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an EmptyPayload message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns EmptyPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): EmptyPayload;
+
+    /**
+     * Decodes an EmptyPayload message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns EmptyPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): EmptyPayload;
+
+    /**
+     * Verifies an EmptyPayload message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an EmptyPayload message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns EmptyPayload
+     */
+    public static fromObject(object: { [k: string]: any }): EmptyPayload;
+
+    /**
+     * Creates a plain object from an EmptyPayload message. Also converts values to other types if specified.
+     * @param message EmptyPayload
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: EmptyPayload, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this EmptyPayload to JSON.
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };

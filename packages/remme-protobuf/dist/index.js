@@ -5194,238 +5194,16 @@ $root.ConsensusAccountMethod = (function() {
      * @name ConsensusAccountMethod.Method
      * @enum {string}
      * @property {number} SEND_REWARD=0 SEND_REWARD value
+     * @property {number} GENESIS=1 GENESIS value
      */
     ConsensusAccountMethod.Method = (function() {
         var valuesById = {}, values = Object.create(valuesById);
         values[valuesById[0] = "SEND_REWARD"] = 0;
+        values[valuesById[1] = "GENESIS"] = 1;
         return values;
     })();
 
     return ConsensusAccountMethod;
-})();
-
-$root.ConsensusBet = (function() {
-
-    /**
-     * Properties of a ConsensusBet.
-     * @exports IConsensusBet
-     * @interface IConsensusBet
-     * @property {string|null} [address] ConsensusBet address
-     * @property {number|Long|null} [value] ConsensusBet value
-     */
-
-    /**
-     * Constructs a new ConsensusBet.
-     * @exports ConsensusBet
-     * @classdesc Represents a ConsensusBet.
-     * @implements IConsensusBet
-     * @constructor
-     * @param {IConsensusBet=} [properties] Properties to set
-     */
-    function ConsensusBet(properties) {
-        if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                if (properties[keys[i]] != null)
-                    this[keys[i]] = properties[keys[i]];
-    }
-
-    /**
-     * ConsensusBet address.
-     * @member {string} address
-     * @memberof ConsensusBet
-     * @instance
-     */
-    ConsensusBet.prototype.address = "";
-
-    /**
-     * ConsensusBet value.
-     * @member {number|Long} value
-     * @memberof ConsensusBet
-     * @instance
-     */
-    ConsensusBet.prototype.value = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-
-    /**
-     * Creates a new ConsensusBet instance using the specified properties.
-     * @function create
-     * @memberof ConsensusBet
-     * @static
-     * @param {IConsensusBet=} [properties] Properties to set
-     * @returns {ConsensusBet} ConsensusBet instance
-     */
-    ConsensusBet.create = function create(properties) {
-        return new ConsensusBet(properties);
-    };
-
-    /**
-     * Encodes the specified ConsensusBet message. Does not implicitly {@link ConsensusBet.verify|verify} messages.
-     * @function encode
-     * @memberof ConsensusBet
-     * @static
-     * @param {IConsensusBet} message ConsensusBet message or plain object to encode
-     * @param {$protobuf.Writer} [writer] Writer to encode to
-     * @returns {$protobuf.Writer} Writer
-     */
-    ConsensusBet.encode = function encode(message, writer) {
-        if (!writer)
-            writer = $Writer.create();
-        if (message.address != null && message.hasOwnProperty("address"))
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.address);
-        if (message.value != null && message.hasOwnProperty("value"))
-            writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.value);
-        return writer;
-    };
-
-    /**
-     * Encodes the specified ConsensusBet message, length delimited. Does not implicitly {@link ConsensusBet.verify|verify} messages.
-     * @function encodeDelimited
-     * @memberof ConsensusBet
-     * @static
-     * @param {IConsensusBet} message ConsensusBet message or plain object to encode
-     * @param {$protobuf.Writer} [writer] Writer to encode to
-     * @returns {$protobuf.Writer} Writer
-     */
-    ConsensusBet.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer).ldelim();
-    };
-
-    /**
-     * Decodes a ConsensusBet message from the specified reader or buffer.
-     * @function decode
-     * @memberof ConsensusBet
-     * @static
-     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @param {number} [length] Message length if known beforehand
-     * @returns {ConsensusBet} ConsensusBet
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    ConsensusBet.decode = function decode(reader, length) {
-        if (!(reader instanceof $Reader))
-            reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ConsensusBet();
-        while (reader.pos < end) {
-            var tag = reader.uint32();
-            switch (tag >>> 3) {
-            case 1:
-                message.address = reader.string();
-                break;
-            case 2:
-                message.value = reader.uint64();
-                break;
-            default:
-                reader.skipType(tag & 7);
-                break;
-            }
-        }
-        return message;
-    };
-
-    /**
-     * Decodes a ConsensusBet message from the specified reader or buffer, length delimited.
-     * @function decodeDelimited
-     * @memberof ConsensusBet
-     * @static
-     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @returns {ConsensusBet} ConsensusBet
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    ConsensusBet.decodeDelimited = function decodeDelimited(reader) {
-        if (!(reader instanceof $Reader))
-            reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
-    };
-
-    /**
-     * Verifies a ConsensusBet message.
-     * @function verify
-     * @memberof ConsensusBet
-     * @static
-     * @param {Object.<string,*>} message Plain object to verify
-     * @returns {string|null} `null` if valid, otherwise the reason why it is not
-     */
-    ConsensusBet.verify = function verify(message) {
-        if (typeof message !== "object" || message === null)
-            return "object expected";
-        if (message.address != null && message.hasOwnProperty("address"))
-            if (!$util.isString(message.address))
-                return "address: string expected";
-        if (message.value != null && message.hasOwnProperty("value"))
-            if (!$util.isInteger(message.value) && !(message.value && $util.isInteger(message.value.low) && $util.isInteger(message.value.high)))
-                return "value: integer|Long expected";
-        return null;
-    };
-
-    /**
-     * Creates a ConsensusBet message from a plain object. Also converts values to their respective internal types.
-     * @function fromObject
-     * @memberof ConsensusBet
-     * @static
-     * @param {Object.<string,*>} object Plain object
-     * @returns {ConsensusBet} ConsensusBet
-     */
-    ConsensusBet.fromObject = function fromObject(object) {
-        if (object instanceof $root.ConsensusBet)
-            return object;
-        var message = new $root.ConsensusBet();
-        if (object.address != null)
-            message.address = String(object.address);
-        if (object.value != null)
-            if ($util.Long)
-                (message.value = $util.Long.fromValue(object.value)).unsigned = true;
-            else if (typeof object.value === "string")
-                message.value = parseInt(object.value, 10);
-            else if (typeof object.value === "number")
-                message.value = object.value;
-            else if (typeof object.value === "object")
-                message.value = new $util.LongBits(object.value.low >>> 0, object.value.high >>> 0).toNumber(true);
-        return message;
-    };
-
-    /**
-     * Creates a plain object from a ConsensusBet message. Also converts values to other types if specified.
-     * @function toObject
-     * @memberof ConsensusBet
-     * @static
-     * @param {ConsensusBet} message ConsensusBet
-     * @param {$protobuf.IConversionOptions} [options] Conversion options
-     * @returns {Object.<string,*>} Plain object
-     */
-    ConsensusBet.toObject = function toObject(message, options) {
-        if (!options)
-            options = {};
-        var object = {};
-        if (options.defaults) {
-            object.address = "";
-            if ($util.Long) {
-                var long = new $util.Long(0, 0, true);
-                object.value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-            } else
-                object.value = options.longs === String ? "0" : 0;
-        }
-        if (message.address != null && message.hasOwnProperty("address"))
-            object.address = message.address;
-        if (message.value != null && message.hasOwnProperty("value"))
-            if (typeof message.value === "number")
-                object.value = options.longs === String ? String(message.value) : message.value;
-            else
-                object.value = options.longs === String ? $util.Long.prototype.toString.call(message.value) : options.longs === Number ? new $util.LongBits(message.value.low >>> 0, message.value.high >>> 0).toNumber(true) : message.value;
-        return object;
-    };
-
-    /**
-     * Converts this ConsensusBet to JSON.
-     * @function toJSON
-     * @memberof ConsensusBet
-     * @instance
-     * @returns {Object.<string,*>} JSON object
-     */
-    ConsensusBet.prototype.toJSON = function toJSON() {
-        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-    };
-
-    return ConsensusBet;
 })();
 
 $root.ConsensusAccount = (function() {
@@ -5434,9 +5212,10 @@ $root.ConsensusAccount = (function() {
      * Properties of a ConsensusAccount.
      * @exports IConsensusAccount
      * @interface IConsensusAccount
+     * @property {string|null} [publicKey] ConsensusAccount publicKey
      * @property {number|Long|null} [obligatoryPayments] ConsensusAccount obligatoryPayments
      * @property {number|Long|null} [blockCost] ConsensusAccount blockCost
-     * @property {Array.<IConsensusBet>|null} [bets] ConsensusAccount bets
+     * @property {Object.<string,number|Long>|null} [bets] ConsensusAccount bets
      */
 
     /**
@@ -5448,12 +5227,20 @@ $root.ConsensusAccount = (function() {
      * @param {IConsensusAccount=} [properties] Properties to set
      */
     function ConsensusAccount(properties) {
-        this.bets = [];
+        this.bets = {};
         if (properties)
             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                 if (properties[keys[i]] != null)
                     this[keys[i]] = properties[keys[i]];
     }
+
+    /**
+     * ConsensusAccount publicKey.
+     * @member {string} publicKey
+     * @memberof ConsensusAccount
+     * @instance
+     */
+    ConsensusAccount.prototype.publicKey = "";
 
     /**
      * ConsensusAccount obligatoryPayments.
@@ -5473,11 +5260,11 @@ $root.ConsensusAccount = (function() {
 
     /**
      * ConsensusAccount bets.
-     * @member {Array.<IConsensusBet>} bets
+     * @member {Object.<string,number|Long>} bets
      * @memberof ConsensusAccount
      * @instance
      */
-    ConsensusAccount.prototype.bets = $util.emptyArray;
+    ConsensusAccount.prototype.bets = $util.emptyObject;
 
     /**
      * Creates a new ConsensusAccount instance using the specified properties.
@@ -5503,13 +5290,15 @@ $root.ConsensusAccount = (function() {
     ConsensusAccount.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
+        if (message.publicKey != null && message.hasOwnProperty("publicKey"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.publicKey);
         if (message.obligatoryPayments != null && message.hasOwnProperty("obligatoryPayments"))
-            writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.obligatoryPayments);
+            writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.obligatoryPayments);
         if (message.blockCost != null && message.hasOwnProperty("blockCost"))
-            writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.blockCost);
-        if (message.bets != null && message.bets.length)
-            for (var i = 0; i < message.bets.length; ++i)
-                $root.ConsensusBet.encode(message.bets[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.blockCost);
+        if (message.bets != null && message.hasOwnProperty("bets"))
+            for (var keys = Object.keys(message.bets), i = 0; i < keys.length; ++i)
+                writer.uint32(/* id 4, wireType 2 =*/34).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 0 =*/16).uint64(message.bets[keys[i]]).ldelim();
         return writer;
     };
 
@@ -5540,20 +5329,26 @@ $root.ConsensusAccount = (function() {
     ConsensusAccount.decode = function decode(reader, length) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ConsensusAccount();
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ConsensusAccount(), key;
         while (reader.pos < end) {
             var tag = reader.uint32();
             switch (tag >>> 3) {
             case 1:
-                message.obligatoryPayments = reader.uint64();
+                message.publicKey = reader.string();
                 break;
             case 2:
-                message.blockCost = reader.uint64();
+                message.obligatoryPayments = reader.uint64();
                 break;
             case 3:
-                if (!(message.bets && message.bets.length))
-                    message.bets = [];
-                message.bets.push($root.ConsensusBet.decode(reader, reader.uint32()));
+                message.blockCost = reader.uint64();
+                break;
+            case 4:
+                reader.skip().pos++;
+                if (message.bets === $util.emptyObject)
+                    message.bets = {};
+                key = reader.string();
+                reader.pos++;
+                message.bets[key] = reader.uint64();
                 break;
             default:
                 reader.skipType(tag & 7);
@@ -5590,6 +5385,9 @@ $root.ConsensusAccount = (function() {
     ConsensusAccount.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
+        if (message.publicKey != null && message.hasOwnProperty("publicKey"))
+            if (!$util.isString(message.publicKey))
+                return "publicKey: string expected";
         if (message.obligatoryPayments != null && message.hasOwnProperty("obligatoryPayments"))
             if (!$util.isInteger(message.obligatoryPayments) && !(message.obligatoryPayments && $util.isInteger(message.obligatoryPayments.low) && $util.isInteger(message.obligatoryPayments.high)))
                 return "obligatoryPayments: integer|Long expected";
@@ -5597,13 +5395,12 @@ $root.ConsensusAccount = (function() {
             if (!$util.isInteger(message.blockCost) && !(message.blockCost && $util.isInteger(message.blockCost.low) && $util.isInteger(message.blockCost.high)))
                 return "blockCost: integer|Long expected";
         if (message.bets != null && message.hasOwnProperty("bets")) {
-            if (!Array.isArray(message.bets))
-                return "bets: array expected";
-            for (var i = 0; i < message.bets.length; ++i) {
-                var error = $root.ConsensusBet.verify(message.bets[i]);
-                if (error)
-                    return "bets." + error;
-            }
+            if (!$util.isObject(message.bets))
+                return "bets: object expected";
+            var key = Object.keys(message.bets);
+            for (var i = 0; i < key.length; ++i)
+                if (!$util.isInteger(message.bets[key[i]]) && !(message.bets[key[i]] && $util.isInteger(message.bets[key[i]].low) && $util.isInteger(message.bets[key[i]].high)))
+                    return "bets: integer|Long{k:string} expected";
         }
         return null;
     };
@@ -5620,6 +5417,8 @@ $root.ConsensusAccount = (function() {
         if (object instanceof $root.ConsensusAccount)
             return object;
         var message = new $root.ConsensusAccount();
+        if (object.publicKey != null)
+            message.publicKey = String(object.publicKey);
         if (object.obligatoryPayments != null)
             if ($util.Long)
                 (message.obligatoryPayments = $util.Long.fromValue(object.obligatoryPayments)).unsigned = true;
@@ -5639,14 +5438,18 @@ $root.ConsensusAccount = (function() {
             else if (typeof object.blockCost === "object")
                 message.blockCost = new $util.LongBits(object.blockCost.low >>> 0, object.blockCost.high >>> 0).toNumber(true);
         if (object.bets) {
-            if (!Array.isArray(object.bets))
-                throw TypeError(".ConsensusAccount.bets: array expected");
-            message.bets = [];
-            for (var i = 0; i < object.bets.length; ++i) {
-                if (typeof object.bets[i] !== "object")
-                    throw TypeError(".ConsensusAccount.bets: object expected");
-                message.bets[i] = $root.ConsensusBet.fromObject(object.bets[i]);
-            }
+            if (typeof object.bets !== "object")
+                throw TypeError(".ConsensusAccount.bets: object expected");
+            message.bets = {};
+            for (var keys = Object.keys(object.bets), i = 0; i < keys.length; ++i)
+                if ($util.Long)
+                    (message.bets[keys[i]] = $util.Long.fromValue(object.bets[keys[i]])).unsigned = true;
+                else if (typeof object.bets[keys[i]] === "string")
+                    message.bets[keys[i]] = parseInt(object.bets[keys[i]], 10);
+                else if (typeof object.bets[keys[i]] === "number")
+                    message.bets[keys[i]] = object.bets[keys[i]];
+                else if (typeof object.bets[keys[i]] === "object")
+                    message.bets[keys[i]] = new $util.LongBits(object.bets[keys[i]].low >>> 0, object.bets[keys[i]].high >>> 0).toNumber(true);
         }
         return message;
     };
@@ -5664,9 +5467,10 @@ $root.ConsensusAccount = (function() {
         if (!options)
             options = {};
         var object = {};
-        if (options.arrays || options.defaults)
-            object.bets = [];
+        if (options.objects || options.defaults)
+            object.bets = {};
         if (options.defaults) {
+            object.publicKey = "";
             if ($util.Long) {
                 var long = new $util.Long(0, 0, true);
                 object.obligatoryPayments = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
@@ -5678,6 +5482,8 @@ $root.ConsensusAccount = (function() {
             } else
                 object.blockCost = options.longs === String ? "0" : 0;
         }
+        if (message.publicKey != null && message.hasOwnProperty("publicKey"))
+            object.publicKey = message.publicKey;
         if (message.obligatoryPayments != null && message.hasOwnProperty("obligatoryPayments"))
             if (typeof message.obligatoryPayments === "number")
                 object.obligatoryPayments = options.longs === String ? String(message.obligatoryPayments) : message.obligatoryPayments;
@@ -5688,10 +5494,14 @@ $root.ConsensusAccount = (function() {
                 object.blockCost = options.longs === String ? String(message.blockCost) : message.blockCost;
             else
                 object.blockCost = options.longs === String ? $util.Long.prototype.toString.call(message.blockCost) : options.longs === Number ? new $util.LongBits(message.blockCost.low >>> 0, message.blockCost.high >>> 0).toNumber(true) : message.blockCost;
-        if (message.bets && message.bets.length) {
-            object.bets = [];
-            for (var j = 0; j < message.bets.length; ++j)
-                object.bets[j] = $root.ConsensusBet.toObject(message.bets[j], options);
+        var keys2;
+        if (message.bets && (keys2 = Object.keys(message.bets)).length) {
+            object.bets = {};
+            for (var j = 0; j < keys2.length; ++j)
+                if (typeof message.bets[keys2[j]] === "number")
+                    object.bets[keys2[j]] = options.longs === String ? String(message.bets[keys2[j]]) : message.bets[keys2[j]];
+                else
+                    object.bets[keys2[j]] = options.longs === String ? $util.Long.prototype.toString.call(message.bets[keys2[j]]) : options.longs === Number ? new $util.LongBits(message.bets[keys2[j]].low >>> 0, message.bets[keys2[j]].high >>> 0).toNumber(true) : message.bets[keys2[j]];
         }
         return object;
     };
@@ -5716,10 +5526,10 @@ $root.NodeAccount = (function() {
      * Properties of a NodeAccount.
      * @exports INodeAccount
      * @interface INodeAccount
-     * @property {NodeAccount.NodeState|null} [nodeState] NodeAccount nodeState
      * @property {number|Long|null} [balance] NodeAccount balance
+     * @property {NodeAccount.NodeState|null} [nodeState] NodeAccount nodeState
      * @property {NodeAccount.IReputation|null} [reputation] NodeAccount reputation
-     * @property {number|Long|null} [fixedAmount] NodeAccount fixedAmount
+     * @property {number|null} [fixedAmount] NodeAccount fixedAmount
      * @property {boolean|null} [min] NodeAccount min
      * @property {boolean|null} [max] NodeAccount max
      */
@@ -5740,20 +5550,20 @@ $root.NodeAccount = (function() {
     }
 
     /**
-     * NodeAccount nodeState.
-     * @member {NodeAccount.NodeState} nodeState
-     * @memberof NodeAccount
-     * @instance
-     */
-    NodeAccount.prototype.nodeState = 0;
-
-    /**
      * NodeAccount balance.
      * @member {number|Long} balance
      * @memberof NodeAccount
      * @instance
      */
     NodeAccount.prototype.balance = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+    /**
+     * NodeAccount nodeState.
+     * @member {NodeAccount.NodeState} nodeState
+     * @memberof NodeAccount
+     * @instance
+     */
+    NodeAccount.prototype.nodeState = 0;
 
     /**
      * NodeAccount reputation.
@@ -5765,11 +5575,11 @@ $root.NodeAccount = (function() {
 
     /**
      * NodeAccount fixedAmount.
-     * @member {number|Long} fixedAmount
+     * @member {number} fixedAmount
      * @memberof NodeAccount
      * @instance
      */
-    NodeAccount.prototype.fixedAmount = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    NodeAccount.prototype.fixedAmount = 0;
 
     /**
      * NodeAccount min.
@@ -5825,14 +5635,14 @@ $root.NodeAccount = (function() {
     NodeAccount.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.nodeState != null && message.hasOwnProperty("nodeState"))
-            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.nodeState);
         if (message.balance != null && message.hasOwnProperty("balance"))
-            writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.balance);
+            writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.balance);
+        if (message.nodeState != null && message.hasOwnProperty("nodeState"))
+            writer.uint32(/* id 2, wireType 0 =*/16).int32(message.nodeState);
         if (message.reputation != null && message.hasOwnProperty("reputation"))
             $root.NodeAccount.Reputation.encode(message.reputation, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
         if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount"))
-            writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.fixedAmount);
+            writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.fixedAmount);
         if (message.min != null && message.hasOwnProperty("min"))
             writer.uint32(/* id 5, wireType 0 =*/40).bool(message.min);
         if (message.max != null && message.hasOwnProperty("max"))
@@ -5872,16 +5682,16 @@ $root.NodeAccount = (function() {
             var tag = reader.uint32();
             switch (tag >>> 3) {
             case 1:
-                message.nodeState = reader.int32();
+                message.balance = reader.uint64();
                 break;
             case 2:
-                message.balance = reader.uint64();
+                message.nodeState = reader.int32();
                 break;
             case 3:
                 message.reputation = $root.NodeAccount.Reputation.decode(reader, reader.uint32());
                 break;
             case 4:
-                message.fixedAmount = reader.uint64();
+                message.fixedAmount = reader.uint32();
                 break;
             case 5:
                 message.min = reader.bool();
@@ -5925,6 +5735,9 @@ $root.NodeAccount = (function() {
         if (typeof message !== "object" || message === null)
             return "object expected";
         var properties = {};
+        if (message.balance != null && message.hasOwnProperty("balance"))
+            if (!$util.isInteger(message.balance) && !(message.balance && $util.isInteger(message.balance.low) && $util.isInteger(message.balance.high)))
+                return "balance: integer|Long expected";
         if (message.nodeState != null && message.hasOwnProperty("nodeState"))
             switch (message.nodeState) {
             default:
@@ -5934,9 +5747,6 @@ $root.NodeAccount = (function() {
             case 2:
                 break;
             }
-        if (message.balance != null && message.hasOwnProperty("balance"))
-            if (!$util.isInteger(message.balance) && !(message.balance && $util.isInteger(message.balance.low) && $util.isInteger(message.balance.high)))
-                return "balance: integer|Long expected";
         if (message.reputation != null && message.hasOwnProperty("reputation")) {
             var error = $root.NodeAccount.Reputation.verify(message.reputation);
             if (error)
@@ -5944,8 +5754,8 @@ $root.NodeAccount = (function() {
         }
         if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount")) {
             properties.bet = 1;
-            if (!$util.isInteger(message.fixedAmount) && !(message.fixedAmount && $util.isInteger(message.fixedAmount.low) && $util.isInteger(message.fixedAmount.high)))
-                return "fixedAmount: integer|Long expected";
+            if (!$util.isInteger(message.fixedAmount))
+                return "fixedAmount: integer expected";
         }
         if (message.min != null && message.hasOwnProperty("min")) {
             if (properties.bet === 1)
@@ -5976,6 +5786,15 @@ $root.NodeAccount = (function() {
         if (object instanceof $root.NodeAccount)
             return object;
         var message = new $root.NodeAccount();
+        if (object.balance != null)
+            if ($util.Long)
+                (message.balance = $util.Long.fromValue(object.balance)).unsigned = true;
+            else if (typeof object.balance === "string")
+                message.balance = parseInt(object.balance, 10);
+            else if (typeof object.balance === "number")
+                message.balance = object.balance;
+            else if (typeof object.balance === "object")
+                message.balance = new $util.LongBits(object.balance.low >>> 0, object.balance.high >>> 0).toNumber(true);
         switch (object.nodeState) {
         case "NEW":
         case 0:
@@ -5990,29 +5809,13 @@ $root.NodeAccount = (function() {
             message.nodeState = 2;
             break;
         }
-        if (object.balance != null)
-            if ($util.Long)
-                (message.balance = $util.Long.fromValue(object.balance)).unsigned = true;
-            else if (typeof object.balance === "string")
-                message.balance = parseInt(object.balance, 10);
-            else if (typeof object.balance === "number")
-                message.balance = object.balance;
-            else if (typeof object.balance === "object")
-                message.balance = new $util.LongBits(object.balance.low >>> 0, object.balance.high >>> 0).toNumber(true);
         if (object.reputation != null) {
             if (typeof object.reputation !== "object")
                 throw TypeError(".NodeAccount.reputation: object expected");
             message.reputation = $root.NodeAccount.Reputation.fromObject(object.reputation);
         }
         if (object.fixedAmount != null)
-            if ($util.Long)
-                (message.fixedAmount = $util.Long.fromValue(object.fixedAmount)).unsigned = true;
-            else if (typeof object.fixedAmount === "string")
-                message.fixedAmount = parseInt(object.fixedAmount, 10);
-            else if (typeof object.fixedAmount === "number")
-                message.fixedAmount = object.fixedAmount;
-            else if (typeof object.fixedAmount === "object")
-                message.fixedAmount = new $util.LongBits(object.fixedAmount.low >>> 0, object.fixedAmount.high >>> 0).toNumber(true);
+            message.fixedAmount = object.fixedAmount >>> 0;
         if (object.min != null)
             message.min = Boolean(object.min);
         if (object.max != null)
@@ -6034,28 +5837,25 @@ $root.NodeAccount = (function() {
             options = {};
         var object = {};
         if (options.defaults) {
-            object.nodeState = options.enums === String ? "NEW" : 0;
             if ($util.Long) {
                 var long = new $util.Long(0, 0, true);
                 object.balance = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
             } else
                 object.balance = options.longs === String ? "0" : 0;
+            object.nodeState = options.enums === String ? "NEW" : 0;
             object.reputation = null;
         }
-        if (message.nodeState != null && message.hasOwnProperty("nodeState"))
-            object.nodeState = options.enums === String ? $root.NodeAccount.NodeState[message.nodeState] : message.nodeState;
         if (message.balance != null && message.hasOwnProperty("balance"))
             if (typeof message.balance === "number")
                 object.balance = options.longs === String ? String(message.balance) : message.balance;
             else
                 object.balance = options.longs === String ? $util.Long.prototype.toString.call(message.balance) : options.longs === Number ? new $util.LongBits(message.balance.low >>> 0, message.balance.high >>> 0).toNumber(true) : message.balance;
+        if (message.nodeState != null && message.hasOwnProperty("nodeState"))
+            object.nodeState = options.enums === String ? $root.NodeAccount.NodeState[message.nodeState] : message.nodeState;
         if (message.reputation != null && message.hasOwnProperty("reputation"))
             object.reputation = $root.NodeAccount.Reputation.toObject(message.reputation, options);
         if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount")) {
-            if (typeof message.fixedAmount === "number")
-                object.fixedAmount = options.longs === String ? String(message.fixedAmount) : message.fixedAmount;
-            else
-                object.fixedAmount = options.longs === String ? $util.Long.prototype.toString.call(message.fixedAmount) : options.longs === Number ? new $util.LongBits(message.fixedAmount.low >>> 0, message.fixedAmount.high >>> 0).toNumber(true) : message.fixedAmount;
+            object.fixedAmount = message.fixedAmount;
             if (options.oneofs)
                 object.bet = "fixedAmount";
         }
@@ -6708,7 +6508,7 @@ $root.NodeAccountMethod = (function() {
      * @property {number} TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL=1 TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL value
      * @property {number} INITIALIZE_MASTERNODE=2 INITIALIZE_MASTERNODE value
      * @property {number} CLOSE_MASTERNODE=3 CLOSE_MASTERNODE value
-     * @property {number} GENESIS_NODE=4 GENESIS_NODE value
+     * @property {number} INITIALIZE_NODE=4 INITIALIZE_NODE value
      * @property {number} SET_BET=5 SET_BET value
      * @property {number} DO_BET=6 DO_BET value
      */
@@ -6718,7 +6518,7 @@ $root.NodeAccountMethod = (function() {
         values[valuesById[1] = "TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL"] = 1;
         values[valuesById[2] = "INITIALIZE_MASTERNODE"] = 2;
         values[valuesById[3] = "CLOSE_MASTERNODE"] = 3;
-        values[valuesById[4] = "GENESIS_NODE"] = 4;
+        values[valuesById[4] = "INITIALIZE_NODE"] = 4;
         values[valuesById[5] = "SET_BET"] = 5;
         values[valuesById[6] = "DO_BET"] = 6;
         return values;
@@ -6928,173 +6728,13 @@ $root.NodeAccountInternalTransferPayload = (function() {
     return NodeAccountInternalTransferPayload;
 })();
 
-$root.CloseMasternodePayload = (function() {
-
-    /**
-     * Properties of a CloseMasternodePayload.
-     * @exports ICloseMasternodePayload
-     * @interface ICloseMasternodePayload
-     */
-
-    /**
-     * Constructs a new CloseMasternodePayload.
-     * @exports CloseMasternodePayload
-     * @classdesc Represents a CloseMasternodePayload.
-     * @implements ICloseMasternodePayload
-     * @constructor
-     * @param {ICloseMasternodePayload=} [properties] Properties to set
-     */
-    function CloseMasternodePayload(properties) {
-        if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                if (properties[keys[i]] != null)
-                    this[keys[i]] = properties[keys[i]];
-    }
-
-    /**
-     * Creates a new CloseMasternodePayload instance using the specified properties.
-     * @function create
-     * @memberof CloseMasternodePayload
-     * @static
-     * @param {ICloseMasternodePayload=} [properties] Properties to set
-     * @returns {CloseMasternodePayload} CloseMasternodePayload instance
-     */
-    CloseMasternodePayload.create = function create(properties) {
-        return new CloseMasternodePayload(properties);
-    };
-
-    /**
-     * Encodes the specified CloseMasternodePayload message. Does not implicitly {@link CloseMasternodePayload.verify|verify} messages.
-     * @function encode
-     * @memberof CloseMasternodePayload
-     * @static
-     * @param {ICloseMasternodePayload} message CloseMasternodePayload message or plain object to encode
-     * @param {$protobuf.Writer} [writer] Writer to encode to
-     * @returns {$protobuf.Writer} Writer
-     */
-    CloseMasternodePayload.encode = function encode(message, writer) {
-        if (!writer)
-            writer = $Writer.create();
-        return writer;
-    };
-
-    /**
-     * Encodes the specified CloseMasternodePayload message, length delimited. Does not implicitly {@link CloseMasternodePayload.verify|verify} messages.
-     * @function encodeDelimited
-     * @memberof CloseMasternodePayload
-     * @static
-     * @param {ICloseMasternodePayload} message CloseMasternodePayload message or plain object to encode
-     * @param {$protobuf.Writer} [writer] Writer to encode to
-     * @returns {$protobuf.Writer} Writer
-     */
-    CloseMasternodePayload.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer).ldelim();
-    };
-
-    /**
-     * Decodes a CloseMasternodePayload message from the specified reader or buffer.
-     * @function decode
-     * @memberof CloseMasternodePayload
-     * @static
-     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @param {number} [length] Message length if known beforehand
-     * @returns {CloseMasternodePayload} CloseMasternodePayload
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    CloseMasternodePayload.decode = function decode(reader, length) {
-        if (!(reader instanceof $Reader))
-            reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CloseMasternodePayload();
-        while (reader.pos < end) {
-            var tag = reader.uint32();
-            switch (tag >>> 3) {
-            default:
-                reader.skipType(tag & 7);
-                break;
-            }
-        }
-        return message;
-    };
-
-    /**
-     * Decodes a CloseMasternodePayload message from the specified reader or buffer, length delimited.
-     * @function decodeDelimited
-     * @memberof CloseMasternodePayload
-     * @static
-     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @returns {CloseMasternodePayload} CloseMasternodePayload
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    CloseMasternodePayload.decodeDelimited = function decodeDelimited(reader) {
-        if (!(reader instanceof $Reader))
-            reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
-    };
-
-    /**
-     * Verifies a CloseMasternodePayload message.
-     * @function verify
-     * @memberof CloseMasternodePayload
-     * @static
-     * @param {Object.<string,*>} message Plain object to verify
-     * @returns {string|null} `null` if valid, otherwise the reason why it is not
-     */
-    CloseMasternodePayload.verify = function verify(message) {
-        if (typeof message !== "object" || message === null)
-            return "object expected";
-        return null;
-    };
-
-    /**
-     * Creates a CloseMasternodePayload message from a plain object. Also converts values to their respective internal types.
-     * @function fromObject
-     * @memberof CloseMasternodePayload
-     * @static
-     * @param {Object.<string,*>} object Plain object
-     * @returns {CloseMasternodePayload} CloseMasternodePayload
-     */
-    CloseMasternodePayload.fromObject = function fromObject(object) {
-        if (object instanceof $root.CloseMasternodePayload)
-            return object;
-        return new $root.CloseMasternodePayload();
-    };
-
-    /**
-     * Creates a plain object from a CloseMasternodePayload message. Also converts values to other types if specified.
-     * @function toObject
-     * @memberof CloseMasternodePayload
-     * @static
-     * @param {CloseMasternodePayload} message CloseMasternodePayload
-     * @param {$protobuf.IConversionOptions} [options] Conversion options
-     * @returns {Object.<string,*>} Plain object
-     */
-    CloseMasternodePayload.toObject = function toObject() {
-        return {};
-    };
-
-    /**
-     * Converts this CloseMasternodePayload to JSON.
-     * @function toJSON
-     * @memberof CloseMasternodePayload
-     * @instance
-     * @returns {Object.<string,*>} JSON object
-     */
-    CloseMasternodePayload.prototype.toJSON = function toJSON() {
-        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-    };
-
-    return CloseMasternodePayload;
-})();
-
 $root.SetBetPayload = (function() {
 
     /**
      * Properties of a SetBetPayload.
      * @exports ISetBetPayload
      * @interface ISetBetPayload
-     * @property {number|Long|null} [fixedAmount] SetBetPayload fixedAmount
+     * @property {number|null} [fixedAmount] SetBetPayload fixedAmount
      * @property {boolean|null} [min] SetBetPayload min
      * @property {boolean|null} [max] SetBetPayload max
      */
@@ -7116,11 +6756,11 @@ $root.SetBetPayload = (function() {
 
     /**
      * SetBetPayload fixedAmount.
-     * @member {number|Long} fixedAmount
+     * @member {number} fixedAmount
      * @memberof SetBetPayload
      * @instance
      */
-    SetBetPayload.prototype.fixedAmount = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    SetBetPayload.prototype.fixedAmount = 0;
 
     /**
      * SetBetPayload min.
@@ -7177,7 +6817,7 @@ $root.SetBetPayload = (function() {
         if (!writer)
             writer = $Writer.create();
         if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount"))
-            writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.fixedAmount);
+            writer.uint32(/* id 1, wireType 5 =*/13).float(message.fixedAmount);
         if (message.min != null && message.hasOwnProperty("min"))
             writer.uint32(/* id 2, wireType 0 =*/16).bool(message.min);
         if (message.max != null && message.hasOwnProperty("max"))
@@ -7217,7 +6857,7 @@ $root.SetBetPayload = (function() {
             var tag = reader.uint32();
             switch (tag >>> 3) {
             case 1:
-                message.fixedAmount = reader.uint64();
+                message.fixedAmount = reader.float();
                 break;
             case 2:
                 message.min = reader.bool();
@@ -7263,8 +6903,8 @@ $root.SetBetPayload = (function() {
         var properties = {};
         if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount")) {
             properties.bet = 1;
-            if (!$util.isInteger(message.fixedAmount) && !(message.fixedAmount && $util.isInteger(message.fixedAmount.low) && $util.isInteger(message.fixedAmount.high)))
-                return "fixedAmount: integer|Long expected";
+            if (typeof message.fixedAmount !== "number")
+                return "fixedAmount: number expected";
         }
         if (message.min != null && message.hasOwnProperty("min")) {
             if (properties.bet === 1)
@@ -7296,14 +6936,7 @@ $root.SetBetPayload = (function() {
             return object;
         var message = new $root.SetBetPayload();
         if (object.fixedAmount != null)
-            if ($util.Long)
-                (message.fixedAmount = $util.Long.fromValue(object.fixedAmount)).unsigned = true;
-            else if (typeof object.fixedAmount === "string")
-                message.fixedAmount = parseInt(object.fixedAmount, 10);
-            else if (typeof object.fixedAmount === "number")
-                message.fixedAmount = object.fixedAmount;
-            else if (typeof object.fixedAmount === "object")
-                message.fixedAmount = new $util.LongBits(object.fixedAmount.low >>> 0, object.fixedAmount.high >>> 0).toNumber(true);
+            message.fixedAmount = Number(object.fixedAmount);
         if (object.min != null)
             message.min = Boolean(object.min);
         if (object.max != null)
@@ -7325,10 +6958,7 @@ $root.SetBetPayload = (function() {
             options = {};
         var object = {};
         if (message.fixedAmount != null && message.hasOwnProperty("fixedAmount")) {
-            if (typeof message.fixedAmount === "number")
-                object.fixedAmount = options.longs === String ? String(message.fixedAmount) : message.fixedAmount;
-            else
-                object.fixedAmount = options.longs === String ? $util.Long.prototype.toString.call(message.fixedAmount) : options.longs === Number ? new $util.LongBits(message.fixedAmount.low >>> 0, message.fixedAmount.high >>> 0).toNumber(true) : message.fixedAmount;
+            object.fixedAmount = options.json && !isFinite(message.fixedAmount) ? String(message.fixedAmount) : message.fixedAmount;
             if (options.oneofs)
                 object.bet = "fixedAmount";
         }
@@ -9832,6 +9462,166 @@ $root.TransactionPayload = (function() {
     };
 
     return TransactionPayload;
+})();
+
+$root.EmptyPayload = (function() {
+
+    /**
+     * Properties of an EmptyPayload.
+     * @exports IEmptyPayload
+     * @interface IEmptyPayload
+     */
+
+    /**
+     * Constructs a new EmptyPayload.
+     * @exports EmptyPayload
+     * @classdesc Represents an EmptyPayload.
+     * @implements IEmptyPayload
+     * @constructor
+     * @param {IEmptyPayload=} [properties] Properties to set
+     */
+    function EmptyPayload(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Creates a new EmptyPayload instance using the specified properties.
+     * @function create
+     * @memberof EmptyPayload
+     * @static
+     * @param {IEmptyPayload=} [properties] Properties to set
+     * @returns {EmptyPayload} EmptyPayload instance
+     */
+    EmptyPayload.create = function create(properties) {
+        return new EmptyPayload(properties);
+    };
+
+    /**
+     * Encodes the specified EmptyPayload message. Does not implicitly {@link EmptyPayload.verify|verify} messages.
+     * @function encode
+     * @memberof EmptyPayload
+     * @static
+     * @param {IEmptyPayload} message EmptyPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    EmptyPayload.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified EmptyPayload message, length delimited. Does not implicitly {@link EmptyPayload.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof EmptyPayload
+     * @static
+     * @param {IEmptyPayload} message EmptyPayload message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    EmptyPayload.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an EmptyPayload message from the specified reader or buffer.
+     * @function decode
+     * @memberof EmptyPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {EmptyPayload} EmptyPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    EmptyPayload.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.EmptyPayload();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an EmptyPayload message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof EmptyPayload
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {EmptyPayload} EmptyPayload
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    EmptyPayload.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an EmptyPayload message.
+     * @function verify
+     * @memberof EmptyPayload
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    EmptyPayload.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        return null;
+    };
+
+    /**
+     * Creates an EmptyPayload message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof EmptyPayload
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {EmptyPayload} EmptyPayload
+     */
+    EmptyPayload.fromObject = function fromObject(object) {
+        if (object instanceof $root.EmptyPayload)
+            return object;
+        return new $root.EmptyPayload();
+    };
+
+    /**
+     * Creates a plain object from an EmptyPayload message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof EmptyPayload
+     * @static
+     * @param {EmptyPayload} message EmptyPayload
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    EmptyPayload.toObject = function toObject() {
+        return {};
+    };
+
+    /**
+     * Converts this EmptyPayload to JSON.
+     * @function toJSON
+     * @memberof EmptyPayload
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    EmptyPayload.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return EmptyPayload;
 })();
 
 $root.MessageError = (function() {
