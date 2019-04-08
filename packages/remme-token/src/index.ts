@@ -57,6 +57,7 @@ class RemmeToken implements IRemmeToken {
     private readonly _accountFamilyName = RemmeFamilyName.Account;
     private readonly _nodeFamilyName = RemmeFamilyName.NodeAccount;
     private readonly _familyVersion = "0.1";
+    private readonly _stakeSettingsAddress = "remme.settings.minimum_stake";
 
     /**
      * @example
@@ -196,7 +197,9 @@ class RemmeToken implements IRemmeToken {
             );
         }
 
-        const inputsOutputs = [];
+        const inputsOutputs = [
+            this._stakeSettingsAddress,
+        ];
 
         const transferPayload = EmptyPayload.encode({}).finish();
 
