@@ -9,6 +9,7 @@ const DEFAULT_NODE_ACCOUNT_INFO: INodeAccountResponse = {
         frozen: "0.0000",
         unfrozen: "0.0000",
     },
+    min: true,
 };
 export class NodeAccount {
 

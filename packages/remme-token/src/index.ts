@@ -8,6 +8,7 @@ import {
     AccountMethod,
     NodeAccountInternalTransferPayload,
     NodeAccountMethod,
+    EmptyPayload,
 } from "remme-protobuf";
 import SenderAccountType = TransferPayload.SenderAccountType;
 
@@ -180,6 +181,27 @@ class RemmeToken implements IRemmeToken {
 
         return this._generateAndSendTransferPayload(
             NodeAccountMethod.Method.TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL,
+            this._nodeFamilyName,
+            transferPayload,
+            inputsOutputs,
+        );
+    }
+
+    public async transferFromFrozenToUnfrozen(): Promise<IBaseTransactionResponse> {
+        if (this._remmeAccount.familyName !== RemmeFamilyName.NodeAccount) {
+            throw new Error(
+                `This operation is allowed under NodeAccount.
+                 Your account type is ${this._remmeAccount.familyName}
+                 and address is: ${this._remmeAccount.address}`,
+            );
+        }
+
+        const inputsOutputs = [];
+
+        const transferPayload = EmptyPayload.encode({}).finish();
+
+        return this._generateAndSendTransferPayload(
+            NodeAccountMethod.Method.TRANSFER_FROM_FROZEN_TO_UNFROZEN,
             this._nodeFamilyName,
             transferPayload,
             inputsOutputs,

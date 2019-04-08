@@ -8,6 +8,7 @@ import {
     SetBetPayload,
     Setting,
     TransactionPayload,
+    EmptyPayload,
 } from "remme-protobuf";
 import { generateSettingsAddress, RemmeFamilyName, base64ToArrayBuffer } from "remme-utils";
 
@@ -25,7 +26,6 @@ import {
     BetType,
     NodeConfig,
 } from "./models";
-import {EmptyPayload} from "../../remme-protobuf/dist";
 
 class RemmeNodeManagement implements IRemmeNodeManagement {
 
