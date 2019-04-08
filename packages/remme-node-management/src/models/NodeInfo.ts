@@ -1,6 +1,6 @@
 import { INodeInfoResponse } from "./NodeInfoResponse";
 
-export class NodeInfoDTO {
+export class NodeInfo {
     public isSynced: boolean;
     public peerCount: number;
 

@@ -6,6 +6,8 @@ export interface IRemmeToken {
 
     transferFromUnfrozenToOperational(amount: number): Promise<IBaseTransactionResponse>;
 
+    transferFromFrozenToUnfrozen(): Promise<IBaseTransactionResponse>;
+
     getBalance(address: string): Promise<number>;
 
 }

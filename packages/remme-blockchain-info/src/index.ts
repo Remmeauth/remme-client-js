@@ -107,7 +107,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
             },
             [protobufs.NodeAccountMethod.Method.CLOSE_MASTERNODE]: {
                 type: "close masternode",
-                parser: protobufs.CloseMasternodePayload,
+                parser: protobufs.EmptyPayload,
             },
             [protobufs.NodeAccountMethod.Method.SET_BET]: {
                 type: "set bet",
@@ -227,9 +227,6 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
     /* tslint:enable */
     public async getBlocks(query?: IBaseQuery): Promise<BlockList> {
         if (query) {
-            if (typeof query.start === "number") {
-                query.start = `0x${("0000000000000000" + query.start.toString(16)).slice(-16)}`;
-            }
             query = new BaseQuery(query);
         }
         return await this._remmeApi.sendRequest<BaseQuery, BlockList>(RemmeMethods.blocks, query);

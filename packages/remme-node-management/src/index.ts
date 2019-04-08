@@ -2,13 +2,13 @@ import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transa
 import { IRemmeAccount } from "remme-account";
 import { IRemmeApi, RemmeMethods } from "remme-api";
 import {
-    CloseMasternodePayload,
     ISetBetPayload,
     NodeAccountInternalTransferPayload,
     NodeAccountMethod,
     SetBetPayload,
     Setting,
     TransactionPayload,
+    EmptyPayload,
 } from "remme-protobuf";
 import { generateSettingsAddress, RemmeFamilyName, base64ToArrayBuffer } from "remme-utils";
 
@@ -17,13 +17,14 @@ import {
     INodeAccountResponse,
     INodeInfoResponse,
     NodeAccountAddressRequest,
-    NodeAccountDTO,
+    NodeAccount,
     NodeAccountState,
-    NodeInfoDTO,
+    NodeInfo,
     INodeConfigResponse,
     IStateResponse,
     StateRequest,
-    NodeConfigDTO,
+    BetType,
+    NodeConfig,
 } from "./models";
 
 class RemmeNodeManagement implements IRemmeNodeManagement {
@@ -35,9 +36,9 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
     private readonly _remmeAccount: IRemmeAccount;
     private readonly _remmeTransaction: IRemmeTransactionService;
     private readonly _stakeSettingsAddress = generateSettingsAddress("remme.settings.minimum_stake");
+    private readonly _masterNodeListAddress = "0".repeat(69) + "2";
     private readonly _familyName = RemmeFamilyName.NodeAccount;
     private readonly _familyVersion = "0.1";
-    private readonly _masterNodeListAddress = "0".repeat(69) + "2";
 
     constructor(
         remmeApi: IRemmeApi,
@@ -67,17 +68,11 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         }
     }
 
-    private async _createAndSendTransaction(method, data: Uint8Array) {
+    private async _createAndSendTransaction(method, data: Uint8Array, inputsOutputs: string[]) {
         const transactionPayload = TransactionPayload.encode({
             method,
             data,
         }).finish();
-
-        const inputsOutputs = method !== NodeAccountMethod.Method.SET_BET
-            ? [this._masterNodeListAddress]
-            : [];
-
-        console.log(inputsOutputs);
 
         const transaction = await this._remmeTransaction.create({
             familyName: this._familyName,
@@ -90,7 +85,20 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         return await this._remmeTransaction.send(transaction);
     }
 
-    public async open(amount: number): Promise<IBaseTransactionResponse> {
+    public async openNode(): Promise<IBaseTransactionResponse> {
+        const openNodePayloadData = EmptyPayload.create();
+        const openNodePayload = EmptyPayload.encode(openNodePayloadData).finish();
+
+        const inputsOutputs = [];
+
+        return await this._createAndSendTransaction(
+            NodeAccountMethod.Method.INITIALIZE_NODE,
+            openNodePayload,
+            inputsOutputs,
+        );
+    }
+
+    public async openMasterNode(amount: number): Promise<IBaseTransactionResponse> {
         if (this._remmeAccount.familyName !== this._familyName) {
             throw Error(
                 `This operation is allowed under NodeAccount.
@@ -101,17 +109,23 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         await this._checkNode();
         await this._checkAmount(amount);
 
-        const openPayload = NodeAccountInternalTransferPayload.encode({
+        const openMasterNodePayload = NodeAccountInternalTransferPayload.encode({
             value: amount,
         }).finish();
 
+        const inputsOutputs = [
+            this._masterNodeListAddress,
+            this._stakeSettingsAddress,
+        ];
+
         return await this._createAndSendTransaction(
             NodeAccountMethod.Method.INITIALIZE_MASTERNODE,
-            openPayload,
+            openMasterNodePayload,
+            inputsOutputs,
         );
     }
 
-    public async close(): Promise<IBaseTransactionResponse> {
+    public async closeMasterNode(): Promise<IBaseTransactionResponse> {
         if (this._remmeAccount.familyName !== RemmeFamilyName.NodeAccount) {
             throw Error(
                 `This operation is allowed under NodeAccount.
@@ -120,12 +134,17 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
             );
         }
 
-        const closePayloadData = CloseMasternodePayload.create();
-        const closePayload = CloseMasternodePayload.encode(closePayloadData).finish();
+        const closePayloadData = EmptyPayload.create();
+        const closePayload = EmptyPayload.encode(closePayloadData).finish();
+
+        const inputsOutputs = [
+            this._masterNodeListAddress,
+        ];
 
         return await this._createAndSendTransaction(
             NodeAccountMethod.Method.CLOSE_MASTERNODE,
             closePayload,
+            inputsOutputs,
         );
     }
 
@@ -139,9 +158,12 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         }
         const betPayload = SetBetPayload.encode(payload).finish();
 
+        const inputsOutputs = [];
+
         return await this._createAndSendTransaction(
             NodeAccountMethod.Method.SET_BET,
             betPayload,
+            inputsOutputs,
         );
     }
 
@@ -156,29 +178,33 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
 
     public async getNodeAccount(
         nodeAccountAddress: string = this._remmeAccount.address,
-    ): Promise<NodeAccountDTO> {
+    ): Promise<NodeAccount> {
         const data: INodeAccountResponse = await this._remmeApi
             .sendRequest<NodeAccountAddressRequest, INodeAccountResponse>(
-                RemmeMethods.nodeAccount, new NodeAccountAddressRequest(this._remmeAccount.address),
+                RemmeMethods.nodeAccount, new NodeAccountAddressRequest(nodeAccountAddress),
             );
-        return new NodeAccountDTO(data);
+        return new NodeAccount(data);
     }
 
-    public async getNodeInfo(): Promise<NodeInfoDTO> {
+    public async getNodeInfo(): Promise<NodeInfo> {
         const apiResult = await this._remmeApi
             .sendRequest<INodeInfoResponse>(RemmeMethods.networkStatus);
-        return new NodeInfoDTO(apiResult);
+        return new NodeInfo(apiResult);
     }
 
-    public async getNodeConfig(): Promise<NodeConfigDTO> {
+    public async getNodeConfig(): Promise<NodeConfig> {
         const apiResult = await this._remmeApi
             .sendRequest<INodeConfigResponse>(RemmeMethods.nodeConfig);
-        return new NodeConfigDTO(apiResult);
+        return new NodeConfig(apiResult);
     }
 }
 
 export {
     NodeAccountAddressRequest,
+    NodeAccount,
+    NodeInfo,
+    NodeConfig,
     RemmeNodeManagement,
     IRemmeNodeManagement,
+    BetType,
 };
