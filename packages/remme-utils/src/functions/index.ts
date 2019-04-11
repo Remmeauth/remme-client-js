@@ -189,7 +189,7 @@ export const checkSha = (data: string): void => {
 
 export const validateNodeConfig = (networkConfig: INetworkConfig): void => {
     const { nodeAddress, sslMode } = networkConfig;
-    if (!PATTERNS.NODE_ADDRESS.test(nodeAddress)) {
+    if (PATTERNS.PROTOCOL.test(nodeAddress)) {
         throw new Error("You try construct with invalid nodeAddress");
     } else if (typeof sslMode !== "boolean") {
         throw new Error("You try construct with invalid sslMode");
