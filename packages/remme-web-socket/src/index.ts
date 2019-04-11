@@ -130,7 +130,7 @@ class RemmeWebSocket implements IRemmeWebSocket {
     private _getSubscribeUrl(): string {
         const { nodeAddress, sslMode } = this._networkConfig;
         const protocol = sslMode ? "wss://" : "ws://";
-        return `${protocol}${nodeAddress}/`;
+        return `${protocol}${nodeAddress}`;
     }
 
     private _getSocketQuery(isSubscribe: boolean = true): string {

@@ -7,5 +7,5 @@ export const PATTERNS = {
     SHA256: /^[a-f0-9]{64}$/,
     SHA512: /^[a-f0-9]{128}$/,
     /* tslint:disable */
-    NODE_ADDRESS: /^(!(http|https):\/\/)?(([\w\d\-+%=~&@#?!;*,\._\(\)|$\/\\\]\[-]*)(\.|\:))+([\w\d\-+%=~&@#?!;*,\._\(\)|$\/\\\]\[-]+)$/,
+    NODE_ADDRESS: /^(?!(http|https|ws|wss):\/\/)\S+$/,
 };

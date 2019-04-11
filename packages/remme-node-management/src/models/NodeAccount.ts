@@ -39,7 +39,7 @@ export class NodeAccount {
             case !!res[BetType.FIXED_AMOUNT.toLowerCase()]: {
                 return {
                     type: BetType.FIXED_AMOUNT,
-                    value: res[BetType.FIXED_AMOUNT],
+                    value: res[BetType.FIXED_AMOUNT.toLowerCase()],
                 };
             }
             default: {
