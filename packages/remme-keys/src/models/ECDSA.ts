@@ -64,7 +64,7 @@ class ECDSA extends KeyDto implements IRemmeKeys {
             pers: true,
         });
 
-        return bytesToHex(signature.r.toBuffer()) + bytesToHex(signature.s.toBuffer());
+        return signature.r.toString(16) + signature.s.toString(16);
     }
 
     public verify(data: string | Uint8Array, signature: string): boolean {

@@ -6,6 +6,5 @@ export const PATTERNS = {
     HEADER_SIGNATURE: /^[a-f0-9]{128}$/,
     SHA256: /^[a-f0-9]{64}$/,
     SHA512: /^[a-f0-9]{128}$/,
-    /* tslint:disable */
-    NODE_ADDRESS: /^(!(http|https):\/\/)?(([\w\d\-+%=~&@#?!;*,\._\(\)|$\/\\\]\[-]*)(\.|\:))+([\w\d\-+%=~&@#?!;*,\._\(\)|$\/\\\]\[-]+)$/,
+    PROTOCOL: /^(?!(http|https|ws|wss):\/\/)\S+$/,
 };

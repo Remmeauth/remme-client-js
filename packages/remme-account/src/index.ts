@@ -53,7 +53,7 @@ class RemmeAccount extends ECDSA implements IRemmeKeys {
      */
     constructor({
                     privateKeyHex,
-                    type,
+                    type = AccountType.User,
     }: IAccountConfig = DEFAULT_ACCOUNT_CONFIG) {
         super({
             privateKey: privateKeyHex ? hexToBytes(privateKeyHex) : ECDSA.generateKeyPair().privateKey,

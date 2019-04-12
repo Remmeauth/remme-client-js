@@ -115,7 +115,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
             },
             [protobufs.NodeAccountMethod.Method.TRANSFER_FROM_FROZEN_TO_UNFROZEN]: {
                 type: "transfer from frozen to unfrozen",
-                parser: protobufs.NodeAccountInternalTransferPayload,
+                parser: protobufs.EmptyPayload,
             },
             [protobufs.NodeAccountMethod.Method.TRANSFER_FROM_UNFROZEN_TO_OPERATIONAL]: {
                 type: "transfer from unfrozen to operational",
