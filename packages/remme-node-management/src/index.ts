@@ -2,29 +2,29 @@ import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transa
 import { IRemmeAccount } from "remme-account";
 import { IRemmeApi, RemmeMethods } from "remme-api";
 import {
+    EmptyPayload,
     ISetBetPayload,
     NodeAccountInternalTransferPayload,
     NodeAccountMethod,
     SetBetPayload,
     Setting,
     TransactionPayload,
-    EmptyPayload,
 } from "remme-protobuf";
-import { generateSettingsAddress, RemmeFamilyName, base64ToArrayBuffer } from "remme-utils";
+import { base64ToArrayBuffer, generateSettingsAddress, RemmeFamilyName } from "remme-utils";
 
 import { IRemmeNodeManagement } from "./interface";
 import {
-    INodeAccountResponse,
-    INodeInfoResponse,
-    NodeAccountAddressRequest,
-    NodeAccount,
-    NodeAccountState,
-    NodeInfo,
-    INodeConfigResponse,
-    IStateResponse,
-    StateRequest,
     BetType,
+    INodeAccountResponse,
+    INodeConfigResponse,
+    INodeInfoResponse,
+    IStateResponse,
+    NodeAccount,
+    NodeAccountAddressRequest,
+    NodeAccountState,
     NodeConfig,
+    NodeInfo,
+    StateRequest,
 } from "./models";
 
 class RemmeNodeManagement implements IRemmeNodeManagement {
@@ -148,7 +148,7 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         );
     }
 
-    public async setBet(payload: ISetBetPayload): Promise<IBaseTransactionResponse> {
+    public async setBet(betType: BetType | number): Promise<IBaseTransactionResponse> {
         if (this._remmeAccount.familyName !== RemmeFamilyName.NodeAccount) {
             throw Error(
                 `This operation is allowed under NodeAccount.
@@ -156,7 +156,18 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
                 and address is: ${this._remmeAccount.address}`,
             );
         }
-        const betPayload = SetBetPayload.encode(payload).finish();
+
+        const bet: ISetBetPayload = {};
+
+        if (typeof betType === "number") {
+            bet.fixedAmount = betType;
+        } else if (betType === BetType.MAX || betType === BetType.MIN) {
+            bet[betType.toLowerCase()] = true;
+        } else {
+            throw new Error("Unknown betting behaviour.");
+        }
+
+        const betPayload = SetBetPayload.encode(bet).finish();
 
         const inputsOutputs = [];
 
@@ -202,6 +213,7 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
 export {
     NodeAccountAddressRequest,
     NodeAccount,
+    NodeAccountState,
     NodeInfo,
     NodeConfig,
     RemmeNodeManagement,

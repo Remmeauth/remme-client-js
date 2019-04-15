@@ -6,9 +6,9 @@ describe("Remme", function() {
     expect(() => {
         new Remme.Client({
           networkConfig: {
-            nodeAddress: "test"
-          }
+            nodeAddress: "http://test",
+          },
         });
-    }).throw("You try construct with invalid nodeAddress")
+    }).throw("You try construct with invalid nodeAddress");
   });
 });

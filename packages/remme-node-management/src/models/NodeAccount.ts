@@ -1,6 +1,6 @@
-import { INodeAccountResponse } from "./NodeAccountResponse";
+import { INodeAccountResponse, IShares } from "./NodeAccountResponse";
 import { NodeAccountState } from "./NodeAccountState";
-import {BetType} from "./BetType";
+import { BetType } from "./BetType";
 
 const DEFAULT_NODE_ACCOUNT_INFO: INodeAccountResponse = {
     node_state: NodeAccountState.New,
@@ -9,8 +9,11 @@ const DEFAULT_NODE_ACCOUNT_INFO: INodeAccountResponse = {
         frozen: "0.0000",
         unfrozen: "0.0000",
     },
+    last_defrost_timestamp: 0,
+    shares: [],
     min: true,
 };
+
 export class NodeAccount {
 
     public state: NodeAccountState;
@@ -19,10 +22,12 @@ export class NodeAccount {
         frozen: string;
         unfrozen: string;
     };
+    public shares: IShares[];
     public bet: {
         type: string;
         value?: string;
     };
+    public lastDefrostTimestamp: number;
 
     private _getBetValue(res: INodeAccountResponse) {
         switch (true) {
@@ -63,7 +68,7 @@ export class NodeAccount {
             ...reputation,
         };
 
-        const { node_state, balance } = nodeAccount;
+        const { node_state, balance, shares, last_defrost_timestamp } = nodeAccount;
 
         this.state = node_state;
         this.reputation = {
@@ -71,6 +76,8 @@ export class NodeAccount {
             unfrozen: reputation.unfrozen,
         };
         this.balance = balance;
+        this.shares = shares;
         this.bet = this._getBetValue(nodeAccountResponse);
+        this.lastDefrostTimestamp = last_defrost_timestamp;
     }
 }
