@@ -36,6 +36,7 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
     private readonly _remmeAccount: IRemmeAccount;
     private readonly _remmeTransaction: IRemmeTransactionService;
     private readonly _stakeSettingsAddress = generateSettingsAddress("remme.settings.minimum_stake");
+    private readonly _genesisOwnersAddress = generateSettingsAddress("remme.settings.genesis_owners");
     private readonly _masterNodeListAddress = "0".repeat(69) + "2";
     private readonly _familyName = RemmeFamilyName.NodeAccount;
     private readonly _familyVersion = "0.1";
@@ -68,17 +69,32 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         }
     }
 
-    private async _createAndSendTransaction(method, data: Uint8Array, inputsOutputs: string[]) {
+    private async _createAndSendTransaction(
+            method,
+            data: Uint8Array,
+            inputsOutputs: { inputs: string[], outputs: string[] } | string[],
+        ) {
         const transactionPayload = TransactionPayload.encode({
             method,
             data,
         }).finish();
 
+        let inputs: string[];
+        let outputs: string[];
+
+        if (Array.isArray(inputsOutputs)) {
+            inputs = outputs = inputsOutputs;
+        } else {
+            const { inputs: i, outputs: o } = inputsOutputs;
+            inputs = i;
+            outputs = o;
+        }
+
         const transaction = await this._remmeTransaction.create({
             familyName: this._familyName,
             familyVersion: this._familyVersion,
-            inputs: inputsOutputs,
-            outputs: inputsOutputs,
+            inputs,
+            outputs,
             payloadBytes: transactionPayload,
         });
 
@@ -137,14 +153,19 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         const closePayloadData = EmptyPayload.create();
         const closePayload = EmptyPayload.encode(closePayloadData).finish();
 
-        const inputsOutputs = [
+        const inputs = [
+            this._masterNodeListAddress,
+            this._genesisOwnersAddress,
+        ];
+
+        const outputs = [
             this._masterNodeListAddress,
         ];
 
         return await this._createAndSendTransaction(
             NodeAccountMethod.Method.CLOSE_MASTERNODE,
             closePayload,
-            inputsOutputs,
+            {  inputs, outputs },
         );
     }
 
