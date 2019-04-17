@@ -1,6 +1,6 @@
 {
   "name": "remme-account",
-  "version": "1.0.7-2",
+  "version": "1.0.7-3",
   "description": "REMME account internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,8 +11,8 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-keys": "^1.0.7-2",
-    "remme-utils": "^1.0.7-2"
+    "remme-keys": "^1.0.7-3",
+    "remme-utils": "^1.0.7-3"
   },
   "devDependencies": {
     "typescript": "^2.8.3"
