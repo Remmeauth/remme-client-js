@@ -4,8 +4,8 @@ import {
     checkSha,
     generateAddress,
     generateSettingsAddress,
-    generateConsensusAddress,
     hexToBytes,
+    ConsensusAddress,
     PublicKeyRequest,
     RemmeFamilyName,
     sha512,
@@ -80,7 +80,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _remmeTransaction: IRemmeTransactionService;
     private readonly _familyName = RemmeFamilyName.PublicKey;
     private readonly _familyVersion = "0.1";
-    private readonly _consensusAddress = generateConsensusAddress();
+    private readonly _consensusAddress = ConsensusAddress;
     private readonly _settingAddress = generateSettingsAddress("remme.economy_enabled");
 
     private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {

@@ -48,10 +48,6 @@ export const generateAddress = (familyName: string, data: string | Buffer | Uint
     return `${sha512(familyName).slice(0, 6)}${sha512(data).slice(0, 64)}`;
 };
 
-export const generateConsensusAddress = (): string => {
-    return `${sha512(RemmeFamilyName.ConsensusAccount).slice(0, 6)}${"0".repeat(64)}`;
-};
-
 export const generateSettingsAddress = (key: string): string => {
     const keyParts = key.split(".", 4);
     const addressParts = keyParts.map((v) => createHash("sha256").update(v).digest("hex").slice(0, 16));
