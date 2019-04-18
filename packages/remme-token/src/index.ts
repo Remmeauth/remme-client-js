@@ -1,6 +1,6 @@
 import { IRemmeAccount } from "remme-account";
 import { RemmeMethods, IRemmeApi } from "remme-api";
-import { RemmeFamilyName, PublicKeyRequest, checkAddress } from "remme-utils";
+import { RemmeFamilyName, PublicKeyRequest, checkAddress, generateSettingsAddress } from "remme-utils";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
 import {
     TransferPayload,
@@ -57,7 +57,7 @@ class RemmeToken implements IRemmeToken {
     private readonly _accountFamilyName = RemmeFamilyName.Account;
     private readonly _nodeFamilyName = RemmeFamilyName.NodeAccount;
     private readonly _familyVersion = "0.1";
-    private readonly _stakeSettingsAddress = "remme.settings.minimum_stake";
+    private readonly _stakeSettingsAddress = generateSettingsAddress("remme.settings.minimum_stake");
 
     /**
      * @example
