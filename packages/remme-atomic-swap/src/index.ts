@@ -1,5 +1,11 @@
 import { RemmeMethods, IRemmeApi } from "remme-api";
-import { generateAddress, RemmeFamilyName, generateSettingsAddress, PATTERNS } from "remme-utils";
+import {
+    generateAddress,
+    RemmeFamilyName,
+    generateSettingsAddress,
+    generateConsensusAddress,
+    PATTERNS,
+} from "remme-utils";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
 import {
     AtomicSwapMethod,
@@ -97,7 +103,7 @@ class RemmeSwap implements IRemmeSwap {
     private readonly _remmeTransactionService: IRemmeTransactionService;
     private readonly _familyName = RemmeFamilyName.Swap;
     private readonly _familyVersion = "0.1";
-    private readonly _zeroAddress = "0".repeat(70);
+    private readonly _consensusAddress = generateConsensusAddress();
     private readonly _blockInfoNamespaceAddress = "00b10c00";
     private readonly _blockInfoConfigAddress = "00b10c01" + "0".repeat(62);
     private readonly _settingsSwapComission = generateSettingsAddress("remme.settings.swap_comission");
@@ -116,13 +122,13 @@ class RemmeSwap implements IRemmeSwap {
             [AtomicSwapMethod.Method.INIT]: {
                 inputs: [
                     this._settingsSwapComission,
-                    this._zeroAddress,
+                    this._consensusAddress,
                     this._blockInfoNamespaceAddress,
                     this._blockInfoConfigAddress,
                 ],
                 outputs: [
                     this._settingsSwapComission,
-                    this._zeroAddress,
+                    this._consensusAddress,
                 ],
             },
             [AtomicSwapMethod.Method.EXPIRE]: {

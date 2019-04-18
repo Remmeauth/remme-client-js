@@ -3,7 +3,7 @@ import * as b64 from "base64-js";
 import * as forge from "node-forge";
 
 import { PATTERNS } from "../constants";
-import { INetworkConfig } from "../models";
+import { INetworkConfig, RemmeFamilyName } from "../models";
 
 export const sha512 = (value: Uint8Array | Buffer | string) =>
     createHash("sha512").update(value as Buffer | string).digest("hex");
@@ -46,6 +46,10 @@ export const toHex = (str: string): string => {
 
 export const generateAddress = (familyName: string, data: string | Buffer | Uint8Array): string => {
     return `${sha512(familyName).slice(0, 6)}${sha512(data).slice(0, 64)}`;
+};
+
+export const generateConsensusAddress = (): string => {
+    return `${sha512(RemmeFamilyName.ConsensusAccount).slice(0, 6)}${"0".repeat(64)}`;
 };
 
 export const generateSettingsAddress = (key: string): string => {
