@@ -5,6 +5,7 @@ import {
     generateAddress,
     generateSettingsAddress,
     hexToBytes,
+    ConsensusAddress,
     PublicKeyRequest,
     RemmeFamilyName,
     sha512,
@@ -79,7 +80,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _remmeTransaction: IRemmeTransactionService;
     private readonly _familyName = RemmeFamilyName.PublicKey;
     private readonly _familyVersion = "0.1";
-    private readonly _zeroAddress = "0".repeat(70);
+    private readonly _consensusAddress = ConsensusAddress;
     private readonly _settingAddress = generateSettingsAddress("remme.economy_enabled");
 
     private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
@@ -339,7 +340,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
 
         const inputsOutputs = [
             pubKeyAddress,
-            this._zeroAddress,
+            this._consensusAddress,
             this._settingAddress,
         ];
 
