@@ -24,11 +24,6 @@ export enum RemmeFamilyName {
 }
 
 /**
- * Defines consensus address;
- */
-export const ConsensusAddress = `${RemmeNamespace.ConsensusAccount}${"0".repeat(64)}`;
-
-/**
  * Model that define public key params into request
  */
 export class PublicKeyRequest {

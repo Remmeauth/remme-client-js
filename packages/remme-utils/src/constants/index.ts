@@ -1,3 +1,5 @@
+import { RemmeNamespace } from "../models";
+
 export const PATTERNS = {
     PRIVATE_KEY: /^[a-f0-9]{64}$/,
     PUBLIC_KEY: /^[a-f0-9]{66}$/,
@@ -8,3 +10,8 @@ export const PATTERNS = {
     SHA512: /^[a-f0-9]{128}$/,
     PROTOCOL: /^(?!(http|https|ws|wss):\/\/)\S+$/,
 };
+
+/**
+ * Defines consensus address;
+ */
+export const ConsensusAddress = `${RemmeNamespace.ConsensusAccount}${"0".repeat(64)}`;
