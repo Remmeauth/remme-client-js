@@ -39,7 +39,10 @@ class RemmeAccount extends ECDSA implements IRemmeKeys {
      * @example
      * Get private key;
      * ```typescript
-     * const account = new RemmeAccount("ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9");
+     * const account = new RemmeAccount({
+     *     privateKeyHex: "ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9",
+     *     type: AccountType.User
+     * });
      * console.log(account.privateKeyHex); // "ac124700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d1078391934f9";
      * ```
      *
@@ -49,7 +52,7 @@ class RemmeAccount extends ECDSA implements IRemmeKeys {
      * console.log(account.privateKeyHex); // "b5167700cc4325cc2a78b22b9acb039d9efe859ef673b871d55d10783919129f";
      * ```
      * @param {string} privateKeyHex
-     * @param {AccountType} typeOfAccount
+     * @param {AccountType} type
      */
     constructor({
                     privateKeyHex,

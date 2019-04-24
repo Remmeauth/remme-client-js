@@ -8,6 +8,13 @@ export interface IBaseQuery {
     family_name?: RemmeFamilyName;
 }
 
+export interface IBlockQuery {
+    head?: string;
+    limit?: number;
+    reverse?: string | boolean;
+    family_name?: RemmeFamilyName;
+}
+
 export interface IStateQuery extends IBaseQuery {
     address?: string;
 }
@@ -25,11 +32,24 @@ export class BaseQuery implements IBaseQuery {
         } else {
             this.head = query.head;
         }
-        if (query.start) {
-            if (typeof query.start !== "number") {
-                throw new Error(`Parameter "start" should be a number`);
-            }
-            this.start = query.start;
+        this.start = query.start;
+        this.family_name = query.family_name;
+        this.limit = query.limit;
+        this.reverse = query.reverse ? "" : "false";
+    }
+}
+
+export class BlockQuery implements IBlockQuery {
+    public head?: string;
+    public limit?: number;
+    public reverse?: string | boolean;
+    public family_name?: RemmeFamilyName;
+
+    constructor(query: IBlockQuery) {
+        if (query.head && query.head.search(/[a-f0-9]{128}/) === -1) {
+            throw new Error(`Parameter "head" not a valid`);
+        } else {
+            this.head = query.head;
         }
         this.family_name = query.family_name;
         this.limit = query.limit;

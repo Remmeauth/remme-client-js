@@ -27,6 +27,29 @@ import {
     StateRequest,
 } from "./models";
 
+/**
+ * Class to operate with node and master node;
+ * Class provides methods for node management such as openNode, openMasterNode, closeMasterNode, setBet,
+ * getInitialStake, getNodeAccount, getNodeInfo, getNodeConfig.
+ * Methods works only with AccountType.Node.
+ * * @example
+ * ```typescript
+ * const remme = new Remme.Client({
+ *     privateKeyHex: "PRIVATE_KEY_HEX",
+ *     accountType: AccountType.Node
+ * });
+ * const nodeManagementTransactionResult = await remme.nodeManagement.openNode();
+ *
+ * const nodeManagementTransactionCallback = async (err, response) => {
+ *   if (err) {
+ *     console.log(err);
+ *   }
+ *   console.log("nodeManagement", response);
+ * };
+ *
+ * nodeManagementTransactionResult.connectToWebSocket(nodeManagementTransactionCallBack);
+ * ```
+ */
 class RemmeNodeManagement implements IRemmeNodeManagement {
 
     // index signature
@@ -101,6 +124,26 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         return await this._remmeTransaction.send(transaction);
     }
 
+    /**
+     * Open node account
+     * @example
+     * ```typescript
+     * const openNodeTransactionResult = remme.nodeManagement.openNode();
+     *
+     * const openNodeTransactionCallback = async (err, response) => {
+     *   if (err) {
+     *     console.log(err);
+     *   }
+     *   if (res.status === "COMMITTED") {
+     *       const nodeAccount = await remme.nodeManagement.getNodeAccount();
+     *       console.log("nodeAccount: ", nodeAccount)
+     *   }
+     * };
+     *
+     * openNodeTransactionResult.connectToWebSocket(openNodeTransactionCallback);
+     * ```
+     * @returns {Promise<IBaseTransactionResponse>}
+     */
     public async openNode(): Promise<IBaseTransactionResponse> {
         const openNodePayloadData = EmptyPayload.create();
         const openNodePayload = EmptyPayload.encode(openNodePayloadData).finish();
@@ -114,6 +157,27 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         );
     }
 
+    /**
+     * Open master node;
+     * @example
+     * ```typescript
+     * const openMasterNodeTransactionResult = remme.nodeManagement.openMasterNode(250000);
+     *
+     * const openMasterNodeTransactionCallback = async (err, response) => {
+     *   if (err) {
+     *     console.log(err);
+     *   }
+     *   if (res.status === "COMMITTED") {
+     *       const nodeAccount = await remme.nodeManagement.getNodeAccount();
+     *       console.log("nodeAccount: ", nodeAccount)
+     *   }
+     * };
+     *
+     * openMasterNodeTransactionResult.connectToWebSocket(openMAsterNodeTransactionCallback);
+     * ```
+     * @param {number} amount;
+     * @returns {Promise<IBaseTransactionResponse>};
+     */
     public async openMasterNode(amount: number): Promise<IBaseTransactionResponse> {
         if (this._remmeAccount.familyName !== this._familyName) {
             throw Error(
@@ -141,6 +205,27 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         );
     }
 
+    /**
+     * Close master node
+     * @example
+     * ```typescript
+     * const closeMasterNodeTransactionResult = remme.nodeManagement.closeMasterNode();
+     *
+     * const closeMasterNodeTransactionCallback = async (err, response) => {
+     *   if (err) {
+     *     console.log(err);
+     *   }
+     *   if (res.status === "COMMITTED") {
+     *       const nodeAccount = await remme.nodeManagement.getNodeAccount();
+     *       console.log("nodeAccount: ", nodeAccount)
+     *   }
+     * };
+     *
+     * closeMasterNodeTransactionResult.connectToWebSocket(closeMasterNodeTransactionCallback);
+     * ```
+     *
+     * @returns {Promise<IBaseTransactionResponse>};
+     */
     public async closeMasterNode(): Promise<IBaseTransactionResponse> {
         if (this._remmeAccount.familyName !== RemmeFamilyName.NodeAccount) {
             throw Error(
@@ -168,7 +253,28 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
             {  inputs, outputs },
         );
     }
-
+    /**
+     * Set bet for master node account;
+     * Bet type can be BetType.MIN, BetType.Max or fixed amount;
+     * @example
+     * ```typescript
+     * const setBetTransactionResult = remme.nodeManagement.setBet(BetType.MAX);
+     *
+     * const setBetTransactionCallback = async (err, response) => {
+     *   if (err) {
+     *     console.log(err);
+     *   }
+     *   if (res.status === "COMMITTED") {
+     *       const nodeAccount = await remme.nodeManagement.getNodeAccount();
+     *       console.log("nodeAccount: ", nodeAccount)
+     *   }
+     * };
+     *
+     * setBetTransactionResult.connectToWebSocket(setBetTransactionCallback);
+     * ```
+     * @param {BetType | number} betType;
+     * @return {Promise<IBaseTransactionResponse>};
+     */
     public async setBet(betType: BetType | number): Promise<IBaseTransactionResponse> {
         if (this._remmeAccount.familyName !== RemmeFamilyName.NodeAccount) {
             throw Error(
@@ -199,6 +305,28 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         );
     }
 
+    /**
+     * Method that returns current initial stake for opening master node;
+     * @example
+     * ```typescript
+     * const initialStake = await remme.nodeManagement.getInitialStake();
+     * console.log("initialStake: ", initialStake)
+     * const openMasterNodeTransactionResult = remme.nodeManagement.openMasterNode(initialStake);
+     *
+     * const openMasterNodeTransactionCallback = async (err, response) => {
+     *   if (err) {
+     *     console.log(err);
+     *   }
+     *   if (res.status === "COMMITTED") {
+     *       const nodeAccount = await remme.nodeManagement.getNodeAccount();
+     *       console.log("nodeAccount: ", nodeAccount)
+     *   }
+     * };
+     *
+     * openMasterNodeTransactionResult.connectToWebSocket(openMAsterNodeTransactionCallback);
+     * ```
+     * @return {number};
+     */
     public async getInitialStake(): Promise<number> {
         const data: IStateResponse = await this._remmeApi.sendRequest<StateRequest, IStateResponse>(
             RemmeMethods.fetchState,
@@ -208,6 +336,21 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         return parseInt(value, 10);
     }
 
+    /**
+     * Method to get node account settings;
+     * @example
+     * ```typescript
+     * const { bet, balance, reputation, shares, lastDefrostTimestamp } = await remme.nodeManagement.getNodeAccount();
+     *
+     * console.log("betType: ", bet.type);
+     * console.log("nodeBalance: ", balance);
+     * console.log("reputation: ", reputation);
+     * console.log("shares: ", shares);
+     * console.log("lastDefrostTimestamp: ", lastDefrostTimestamp);
+     * ```
+     * @param {string} nodeAccountAddress;
+     * @return {Promise<NodeAccount>};
+     */
     public async getNodeAccount(
         nodeAccountAddress: string = this._remmeAccount.address,
     ): Promise<NodeAccount> {
@@ -218,12 +361,33 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         return new NodeAccount(data);
     }
 
+    /**
+     * Method to get node info;
+     * @example
+     * ```typescript
+     * const { isSynced, peerCount } = await remme.nodeManagement.getNodeInfo();
+     *
+     * console.log("isSynced: ", isSynced);
+     * console.log("peerCount: ", peerCount);
+     * ```
+     * @return {Promise<NodeInfo>};
+     */
     public async getNodeInfo(): Promise<NodeInfo> {
         const apiResult = await this._remmeApi
             .sendRequest<INodeInfoResponse>(RemmeMethods.networkStatus);
         return new NodeInfo(apiResult);
     }
 
+    /**
+     * Method to get current node config;
+     * @example
+     * ```typescript
+     * const { nodePublicKey } = await remme.nodeManagement.getNodeConfig();
+     *
+     * console.log("nodePublicKey: ", nodePublicKey);
+     * ```
+     * @return {Promise<NodeConfig>};
+     */
     public async getNodeConfig(): Promise<NodeConfig> {
         const apiResult = await this._remmeApi
             .sendRequest<INodeConfigResponse>(RemmeMethods.nodeConfig);
