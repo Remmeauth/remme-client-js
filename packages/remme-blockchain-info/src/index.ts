@@ -25,6 +25,8 @@ import {
     IBlockInfo,
     BlockInfo,
     IAddress,
+    IBlockQuery,
+    BlockQuery,
 } from "./models";
 
 /* tslint:disable */
@@ -195,13 +197,6 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * const blocks = await remme.blockchainInfo.getBlocks();
      * console.log(blocks); // BlockList
      * ```
-     *
-     * Start from specifying block number
-     * ```typescript
-     * const blocks = await remme.blockchainInfo.getBlocks({ start: 4 });
-     * console.log(blocks); // BlockList
-     * ```
-     *
      * Reverse output
      * ```typescript
      * const blocks = await remme.blockchainInfo.getBlocks({ reverse: true });
@@ -221,15 +216,15 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * });
      * console.log(blocks); // BlockList
      * ```
-     * @param {IBaseQuery} query
+     * @param {IBlockQuery} query
      * @returns {Promise<BlockList>}
      */
     /* tslint:enable */
-    public async getBlocks(query?: IBaseQuery): Promise<BlockList> {
+    public async getBlocks(query?: IBlockQuery): Promise<BlockList> {
         if (query) {
             query = new BaseQuery(query);
         }
-        return await this._remmeApi.sendRequest<BaseQuery, BlockList>(RemmeMethods.blocks, query);
+        return await this._remmeApi.sendRequest<BlockQuery, BlockList>(RemmeMethods.blocks, query);
     }
 
     /* tslint:disable */
@@ -613,6 +608,8 @@ export {
     TransactionList,
     INetworkStatus,
     IBlockInfo,
+    IBlockQuery,
+    IBaseQuery,
     State,
     StateList,
 };

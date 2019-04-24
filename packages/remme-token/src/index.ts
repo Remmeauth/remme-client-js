@@ -159,6 +159,39 @@ class RemmeToken implements IRemmeToken {
         );
     }
 
+    /**
+     * Transfer tokens from unfozen to operational node balance.
+     * Account type should be Node.
+     * Send transaction to REMChain.
+     * @example
+     * ```typescript
+     * const remmeNode = new Remme.Client({
+     *     accountConfig: {
+     *         type: AccountType.Node,
+     *         privateKeyHex: "PRIVATE_KEY_HEX"
+     *     },
+     * })
+     *
+     * const transactionResult = await remme.token.transferFromUnfrozenToOperational(1000);
+     *
+     * const transactionCallback = async (err, result) => {
+     *   if (err) {
+     *     console.log(err);
+     *     return;
+     *   }
+     *   console.log("token", result);
+     *   if (result.status === "COMMITTED") {
+     *     const nodeAccount = await remme.nodeManagement.getNodeAccount();
+     *     console.log("node account: ", nodeAccount);
+     *     transactionResult.closeWebSocket();
+     *   }
+     * };
+     *
+     * transactionResult.connectToWebSocket(transactionCallback);
+     * ```
+     * @param {number} amount
+     * @returns {Promise<IBaseTransactionResponse>}
+     */
     public async transferFromUnfrozenToOperational(amount: number): Promise<IBaseTransactionResponse> {
         if (this._remmeAccount.familyName !== RemmeFamilyName.NodeAccount) {
             throw new Error(
@@ -188,6 +221,38 @@ class RemmeToken implements IRemmeToken {
         );
     }
 
+    /**
+     * Transfer tokens from frozen to unfrozen node balance.
+     * Account type should be Node.
+     * Send transaction to REMChain.
+     * @example
+     * ```typescript
+     * const remmeNode = new Remme.Client({
+     *     accountConfig: {
+     *         type: AccountType.Node,
+     *         privateKeyHex: "PRIVATE_KEY_HEX"
+     *     },
+     * })
+     *
+     * const transactionResult = await remme.token.transferFromUnfrozenToOperational();
+     *
+     * const transactionCallback = async (err, result) => {
+     *   if (err) {
+     *     console.log(err);
+     *     return;
+     *   }
+     *   console.log("token", result);
+     *   if (result.status === "COMMITTED") {
+     *     const nodeAccount = await remme.nodeManagement.getNodeAccount();
+     *     console.log("node account: ", nodeAccount);
+     *     transactionResult.closeWebSocket();
+     *   }
+     * };
+     *
+     * transactionResult.connectToWebSocket(transactionCallback);
+     * ```
+     * @returns {Promise<IBaseTransactionResponse>}
+     */
     public async transferFromFrozenToUnfrozen(): Promise<IBaseTransactionResponse> {
         if (this._remmeAccount.familyName !== RemmeFamilyName.NodeAccount) {
             throw new Error(

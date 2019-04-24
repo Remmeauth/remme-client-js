@@ -360,8 +360,7 @@ namespace Remme {
         }
 
         /**
-         * @param clientInit.privateKeyHex - The hex of private key. Which is used for creating account in library
-         * which would sign transactions.
+         * @param clientInit.accountConfig - The config of account
          * @param clientInit.networkConfig - The config of network.
          *
          * @example
@@ -374,10 +373,14 @@ namespace Remme {
          *      sslMode: false,
          * };
          *
-         * const privateKeyHex = "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4ff5";
+         * const accountConfig = {
+         *     privateKeyHex = "7f752a99bbaf6755dc861bb4a7bb19acb913948d75f3b718ff4545d01d9d4ff5",
+         *     type: AccountType.User,
+         * }
+         *
          *
          * const remme = new Remme.Client({
-         *      privateKeyHex,
+         *      accountConfig,
          *      newtworkConfig,
          * });
          * ```
@@ -393,14 +396,14 @@ namespace Remme {
          * });
          * ```
          *
-         * Also you can set only a privateKeyHex parameter. So networkConfig would be this: {
+         * Also you can set only a accountConfig parameter. So networkConfig would be this: {
          *      nodeAddress: "localhost:8080",
          *      sslMode: false
          * }.
          *
          * ```typescript
          * const remme = new Remme.Client({
-         *      privateKeyHex,
+         *      accountConfig,
          * });
          * ```
          *

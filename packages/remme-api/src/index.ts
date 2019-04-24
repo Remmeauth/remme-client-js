@@ -126,7 +126,9 @@ class RemmeApi implements IRemmeApi {
         const options = this._getRequestConfig(method, payload);
         const response = await HttpClient.send(options);
         if (response) {
-            if (response.data.error) {
+            if (response.status === 404) {
+                throw new Error("Node response with: 404 Not fount. Please provide valid network configuration.");
+            } else if (response.data.error) {
                 throw new Error(response.data.error.message);
             } else {
                 return response.data.result;

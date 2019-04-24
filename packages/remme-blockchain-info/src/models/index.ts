@@ -1,4 +1,4 @@
-export { IBaseQuery, BaseQuery, IStateQuery, StateQuery, IAddress } from "./Query";
+export { IBaseQuery, BaseQuery, IStateQuery, StateQuery, IAddress, IBlockQuery, BlockQuery } from "./Query";
 export { Block, BlockData, BlockList } from "./Blocks";
 export { Batch, BatchData, BatchList } from "./Batches";
 export { Transaction, TransactionData, TransactionList } from "./Transactions";
