@@ -4,6 +4,7 @@ import {
     RemmeFamilyName,
     generateSettingsAddress,
     ConsensusAddress,
+    ZeroAddress,
     PATTERNS,
 } from "remme-utils";
 import { IRemmeTransactionService, IBaseTransactionResponse } from "remme-transaction-service";
@@ -103,7 +104,6 @@ class RemmeSwap implements IRemmeSwap {
     private readonly _remmeTransactionService: IRemmeTransactionService;
     private readonly _familyName = RemmeFamilyName.Swap;
     private readonly _familyVersion = "0.1";
-    private readonly _consensusAddress = ConsensusAddress;
     private readonly _blockInfoNamespaceAddress = "00b10c00";
     private readonly _blockInfoConfigAddress = "00b10c01" + "0".repeat(62);
     private readonly _settingsSwapComission = generateSettingsAddress("remme.settings.swap_comission");
@@ -122,27 +122,55 @@ class RemmeSwap implements IRemmeSwap {
             [AtomicSwapMethod.Method.INIT]: {
                 inputs: [
                     this._settingsSwapComission,
-                    this._consensusAddress,
+                    ConsensusAddress,
+                    ZeroAddress,
                     this._blockInfoNamespaceAddress,
                     this._blockInfoConfigAddress,
                 ],
                 outputs: [
                     this._settingsSwapComission,
-                    this._consensusAddress,
+                    ConsensusAddress,
+                    ZeroAddress,
                 ],
             },
             [AtomicSwapMethod.Method.EXPIRE]: {
                 inputs: [
+                    ConsensusAddress,
+                    ZeroAddress,
                     this._blockInfoNamespaceAddress,
                     this._blockInfoConfigAddress,
+                ],
+                outputs: [
+                    ZeroAddress,
+                    ConsensusAddress,
                 ],
             },
             [AtomicSwapMethod.Method.CLOSE]: {
                 inputs: [
+                    ConsensusAddress,
+                    ZeroAddress,
                     receiverAddress,
                 ],
                 outputs: [
+                    ConsensusAddress,
+                    ZeroAddress,
                     receiverAddress,
+                ],
+            },
+            [AtomicSwapMethod.Method.SET_SECRET_LOCK]: {
+                inputs: [
+                    ConsensusAddress,
+                ],
+                outputs: [
+                    ConsensusAddress,
+                ],
+            },
+            [AtomicSwapMethod.Method.APPROVE]: {
+                inputs: [
+                    ConsensusAddress,
+                ],
+                outputs: [
+                    ConsensusAddress,
                 ],
             },
         };

@@ -10,7 +10,12 @@ import {
     Setting,
     TransactionPayload,
 } from "remme-protobuf";
-import { base64ToArrayBuffer, generateSettingsAddress, RemmeFamilyName } from "remme-utils";
+import {
+    base64ToArrayBuffer,
+    generateSettingsAddress,
+    RemmeFamilyName,
+    ConsensusAddress,
+} from "remme-utils";
 
 import { IRemmeNodeManagement } from "./interface";
 import {
@@ -196,6 +201,7 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         const inputsOutputs = [
             this._masterNodeListAddress,
             this._stakeSettingsAddress,
+            ConsensusAddress,
         ];
 
         return await this._createAndSendTransaction(
@@ -241,10 +247,12 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
         const inputs = [
             this._masterNodeListAddress,
             this._genesisOwnersAddress,
+            ConsensusAddress,
         ];
 
         const outputs = [
             this._masterNodeListAddress,
+            ConsensusAddress,
         ];
 
         return await this._createAndSendTransaction(
@@ -296,7 +304,7 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
 
         const betPayload = SetBetPayload.encode(bet).finish();
 
-        const inputsOutputs = [];
+        const inputsOutputs = [ConsensusAddress];
 
         return await this._createAndSendTransaction(
             NodeAccountMethod.Method.SET_BET,

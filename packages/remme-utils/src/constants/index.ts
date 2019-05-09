@@ -15,3 +15,4 @@ export const PATTERNS = {
  * Defines consensus address;
  */
 export const ConsensusAddress = `${RemmeNamespace.ConsensusAccount}${"0".repeat(64)}`;
+export const ZeroAddress = "0".repeat(70);
