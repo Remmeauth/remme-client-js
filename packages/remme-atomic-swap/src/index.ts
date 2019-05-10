@@ -42,7 +42,6 @@ import {
  *    senderAddressNonLocal: "0xe6ca0e7c974f06471759e9a05d18b538c5ced11e",
  *    amount: 100,
  *    swapId,
- *    createdAt: Math.floor(Date.now() / 1000)
  * });
  *
  * init.connectToWebSocket(async (err, data) => {
@@ -335,7 +334,6 @@ class RemmeSwap implements IRemmeSwap {
      *      // or you can set it separately in remme.swap.setSecretLock
      *
      *      swapId,
-     *      createdAt: Math.floor(Date.now() / 1000)
      * });
      * console.log(init.batchId); // SwapInfo
      * ```
