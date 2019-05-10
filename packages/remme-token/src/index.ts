@@ -64,6 +64,8 @@ class RemmeToken implements IRemmeToken {
     private readonly _nodeFamilyName = RemmeFamilyName.NodeAccount;
     private readonly _familyVersion = "0.1";
     private readonly _stakeSettingsAddress = generateSettingsAddress("remme.settings.minimum_stake");
+    private readonly _blockInfoNamespaceAddress = "00b10c00";
+    private readonly _blockInfoConfigAddress = "00b10c01" + "0".repeat(62);
 
     /**
      * @example
@@ -270,6 +272,8 @@ class RemmeToken implements IRemmeToken {
 
         const inputsOutputs = [
             ConsensusAddress,
+            this._blockInfoConfigAddress,
+            this._blockInfoNamespaceAddress,
             this._stakeSettingsAddress,
         ];
 
