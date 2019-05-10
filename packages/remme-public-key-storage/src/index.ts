@@ -80,7 +80,6 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _remmeTransaction: IRemmeTransactionService;
     private readonly _familyName = RemmeFamilyName.PublicKey;
     private readonly _familyVersion = "0.1";
-    private readonly _consensusAddress = ConsensusAddress;
     private readonly _settingAddress = generateSettingsAddress("remme.economy_enabled");
 
     private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
@@ -340,7 +339,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
 
         const inputsOutputs = [
             pubKeyAddress,
-            this._consensusAddress,
+            ConsensusAddress,
             this._settingAddress,
         ];
 
@@ -488,7 +487,8 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             address,
         }).finish();
         const payloadBytes = this._generateTransactionPayload(PubKeyMethod.Method.REVOKE, revokePayload);
-        return await this._createAndSendTransaction([address], [address], payloadBytes);
+        const inputsOutputs = [address, ConsensusAddress];
+        return await this._createAndSendTransaction(inputsOutputs, inputsOutputs, payloadBytes);
     }
 
     /**

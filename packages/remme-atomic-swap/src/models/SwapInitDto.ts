@@ -5,7 +5,6 @@ export class SwapInitDto {
     public swapId: string;
     public secretLockBySolicitor?: string;
     public emailAddressEncryptedByInitiator?: string;
-    public createdAt: number;
 
     constructor(data: SwapInitDto) {
         if (data.receiverAddress && data.receiverAddress.search(/^[0-9a-f]{70}$/) !== -1) {
@@ -34,11 +33,6 @@ export class SwapInitDto {
             this.senderAddressNonLocal = data.senderAddressNonLocal;
         } else {
             throw new Error("senderAddressNonLocal is not specified");
-        }
-        if (data.createdAt) {
-            this.createdAt = data.createdAt;
-        } else {
-            throw new Error("createdAt is not specified");
         }
     }
 }

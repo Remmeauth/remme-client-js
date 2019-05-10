@@ -1,6 +1,12 @@
 import { IRemmeAccount } from "remme-account";
 import { RemmeMethods, IRemmeApi } from "remme-api";
-import { RemmeFamilyName, PublicKeyRequest, checkAddress, generateSettingsAddress } from "remme-utils";
+import {
+    RemmeFamilyName,
+    PublicKeyRequest,
+    checkAddress,
+    generateSettingsAddress,
+    ConsensusAddress,
+} from "remme-utils";
 import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
 import {
     TransferPayload,
@@ -149,7 +155,7 @@ class RemmeToken implements IRemmeToken {
             value: amount,
         }).finish();
 
-        const inputsOutputs = [addressTo];
+        const inputsOutputs = [addressTo, ConsensusAddress];
 
         return this._generateAndSendTransferPayload(
             AccountMethod.Method.TRANSFER,
@@ -207,7 +213,7 @@ class RemmeToken implements IRemmeToken {
             throw new Error("Amount must be higher than 0");
         }
 
-        const inputsOutputs = [];
+        const inputsOutputs = [ConsensusAddress];
 
         const transferPayload = NodeAccountInternalTransferPayload.encode({
             value: amount,
@@ -263,6 +269,7 @@ class RemmeToken implements IRemmeToken {
         }
 
         const inputsOutputs = [
+            ConsensusAddress,
             this._stakeSettingsAddress,
         ];
 
