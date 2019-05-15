@@ -25,8 +25,6 @@ import {
     IBlockInfo,
     BlockInfo,
     IAddress,
-    IBlockQuery,
-    BlockQuery,
 } from "./models";
 
 /* tslint:disable */
@@ -220,11 +218,11 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * @returns {Promise<BlockList>}
      */
     /* tslint:enable */
-    public async getBlocks(query?: IBlockQuery): Promise<BlockList> {
+    public async getBlocks(query?: IBaseQuery): Promise<BlockList> {
         if (query) {
             query = new BaseQuery(query);
         }
-        return await this._remmeApi.sendRequest<BlockQuery, BlockList>(RemmeMethods.blocks, query);
+        return await this._remmeApi.sendRequest<IBaseQuery, BlockList>(RemmeMethods.blocks, query);
     }
 
     /* tslint:disable */
@@ -323,7 +321,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         if (query) {
             query = new BaseQuery(query);
         }
-        return await this._remmeApi.sendRequest<BaseQuery, BatchList>(RemmeMethods.batches, query);
+        return await this._remmeApi.sendRequest<IBaseQuery, BatchList>(RemmeMethods.batches, query);
     }
 
     /* tslint:disable */
@@ -407,7 +405,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
         if (query) {
             query = new StateQuery(query);
         }
-        return await this._remmeApi.sendRequest<StateQuery, StateList>(RemmeMethods.state, query);
+        return await this._remmeApi.sendRequest<IStateQuery, StateList>(RemmeMethods.state, query);
     }
 
     /**
@@ -502,7 +500,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
             query = new BaseQuery(query);
         }
         return await this._remmeApi
-            .sendRequest<BaseQuery, TransactionList>(RemmeMethods.transactions, query);
+            .sendRequest<IBaseQuery, TransactionList>(RemmeMethods.transactions, query);
     }
 
     /* tslint:disable */
@@ -608,7 +606,6 @@ export {
     TransactionList,
     INetworkStatus,
     IBlockInfo,
-    IBlockQuery,
     IBaseQuery,
     State,
     StateList,

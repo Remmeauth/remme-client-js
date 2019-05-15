@@ -596,9 +596,6 @@ export interface IAtomicSwapInitPayload {
 
     /** AtomicSwapInitPayload emailAddressEncryptedByInitiator */
     emailAddressEncryptedByInitiator?: (string|null);
-
-    /** AtomicSwapInitPayload createdAt */
-    createdAt?: (number|null);
 }
 
 /** Represents an AtomicSwapInitPayload. */
@@ -627,9 +624,6 @@ export class AtomicSwapInitPayload implements IAtomicSwapInitPayload {
 
     /** AtomicSwapInitPayload emailAddressEncryptedByInitiator. */
     public emailAddressEncryptedByInitiator: string;
-
-    /** AtomicSwapInitPayload createdAt. */
-    public createdAt: number;
 
     /**
      * Creates a new AtomicSwapInitPayload instance using the specified properties.
@@ -2335,6 +2329,120 @@ export class ConsensusAccount implements IConsensusAccount {
     public toJSON(): { [k: string]: any };
 }
 
+/** Properties of a ShareInfo. */
+export interface IShareInfo {
+
+    /** ShareInfo blockNum */
+    blockNum?: (number|Long|null);
+
+    /** ShareInfo frozenShare */
+    frozenShare?: (number|Long|null);
+
+    /** ShareInfo reward */
+    reward?: (number|Long|null);
+
+    /** ShareInfo blockTimestamp */
+    blockTimestamp?: (number|Long|null);
+
+    /** ShareInfo defrostMonths */
+    defrostMonths?: (number|null);
+}
+
+/** Represents a ShareInfo. */
+export class ShareInfo implements IShareInfo {
+
+    /**
+     * Constructs a new ShareInfo.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IShareInfo);
+
+    /** ShareInfo blockNum. */
+    public blockNum: (number|Long);
+
+    /** ShareInfo frozenShare. */
+    public frozenShare: (number|Long);
+
+    /** ShareInfo reward. */
+    public reward: (number|Long);
+
+    /** ShareInfo blockTimestamp. */
+    public blockTimestamp: (number|Long);
+
+    /** ShareInfo defrostMonths. */
+    public defrostMonths: number;
+
+    /**
+     * Creates a new ShareInfo instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns ShareInfo instance
+     */
+    public static create(properties?: IShareInfo): ShareInfo;
+
+    /**
+     * Encodes the specified ShareInfo message. Does not implicitly {@link ShareInfo.verify|verify} messages.
+     * @param message ShareInfo message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IShareInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified ShareInfo message, length delimited. Does not implicitly {@link ShareInfo.verify|verify} messages.
+     * @param message ShareInfo message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IShareInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a ShareInfo message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns ShareInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): ShareInfo;
+
+    /**
+     * Decodes a ShareInfo message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns ShareInfo
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): ShareInfo;
+
+    /**
+     * Verifies a ShareInfo message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a ShareInfo message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns ShareInfo
+     */
+    public static fromObject(object: { [k: string]: any }): ShareInfo;
+
+    /**
+     * Creates a plain object from a ShareInfo message. Also converts values to other types if specified.
+     * @param message ShareInfo
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: ShareInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this ShareInfo to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
 /** Properties of a NodeAccount. */
 export interface INodeAccount {
 
@@ -2355,6 +2463,12 @@ export interface INodeAccount {
 
     /** NodeAccount max */
     max?: (boolean|null);
+
+    /** NodeAccount lastDefrostTimestamp */
+    lastDefrostTimestamp?: (number|Long|null);
+
+    /** NodeAccount shares */
+    shares?: (IShareInfo[]|null);
 }
 
 /** Represents a NodeAccount. */
@@ -2383,6 +2497,12 @@ export class NodeAccount implements INodeAccount {
 
     /** NodeAccount max. */
     public max: boolean;
+
+    /** NodeAccount lastDefrostTimestamp. */
+    public lastDefrostTimestamp: (number|Long);
+
+    /** NodeAccount shares. */
+    public shares: IShareInfo[];
 
     /** NodeAccount bet. */
     public bet?: ("fixedAmount"|"min"|"max");
