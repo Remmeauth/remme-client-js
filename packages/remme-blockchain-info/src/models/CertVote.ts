@@ -50,8 +50,7 @@ export class CertVoteMessage implements ICertVoteMessage {
     }
 }
 
-export class CertVoteMessagePayload implements ICertVoteMessagePayload{
-
+export class CertVoteMessagePayload implements ICertVoteMessagePayload {
     public period: string;
     public proposalId: string;
     public voterId: string;
