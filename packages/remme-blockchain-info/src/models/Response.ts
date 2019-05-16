@@ -23,6 +23,7 @@ export class BaseResponse<T> implements IBaseResponse<T> {
 export interface IPaging {
     limit: number;
     start: number;
+    next: string;
 }
 
 export interface BaseHeader {

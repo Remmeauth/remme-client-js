@@ -1,9 +1,12 @@
+import { CertVote, ICertVoteResponse } from "./CertVote";
+
 export interface IBlockInfo {
     blockNum: number;
     timestamp: number;
     previousHeaderSignature: string;
     headerSignature: string;
     signerPublicKey: string;
+    certVotes: CertVote[];
 }
 
 export interface IBlockInfoResponse {
@@ -12,6 +15,7 @@ export interface IBlockInfoResponse {
     previous_header_signature: string;
     header_signature: string;
     signer_public_key: string;
+    cert_votes: ICertVoteResponse[];
 }
 
 export class BlockInfo implements IBlockInfo {
@@ -20,6 +24,7 @@ export class BlockInfo implements IBlockInfo {
     public previousHeaderSignature: string;
     public headerSignature: string;
     public signerPublicKey: string;
+    public certVotes: CertVote[];
 
     constructor(data: IBlockInfoResponse) {
         this.blockNum = data.block_number;
@@ -27,5 +32,6 @@ export class BlockInfo implements IBlockInfo {
         this.previousHeaderSignature = data.previous_header_signature;
         this.headerSignature = data.header_signature;
         this.signerPublicKey = data.signer_public_key;
+        this.certVotes = data.cert_votes.map((res) => new CertVote(res));
     }
 }

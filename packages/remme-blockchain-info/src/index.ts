@@ -25,6 +25,12 @@ import {
     IBlockInfo,
     BlockInfo,
     IAddress,
+    ICertVoteResponse,
+    ICertVoteMessage,
+    ICertVote,
+    CertVote,
+    CertVoteMessage,
+    CertVoteMessagePayload,
 } from "./models";
 
 /* tslint:disable */
@@ -609,4 +615,10 @@ export {
     IBaseQuery,
     State,
     StateList,
+    ICertVoteResponse,
+    ICertVoteMessage,
+    ICertVote,
+    CertVote,
+    CertVoteMessage,
+    CertVoteMessagePayload,
 };
