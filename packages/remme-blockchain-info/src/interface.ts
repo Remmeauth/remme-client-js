@@ -12,7 +12,6 @@ import {
     State,
     INetworkStatus,
     IBlockInfo,
-    IBlockQuery,
 } from "./models";
 
 export interface IRemmeBlockchainInfo {
@@ -20,7 +19,7 @@ export interface IRemmeBlockchainInfo {
     getTransactionById(id: string): Promise<Transaction>;
     parseTransactionPayload(transaction: TransactionData): object;
 
-    getBlocks(query?: IBlockQuery): Promise<BlockList>;
+    getBlocks(query?: IBaseQuery): Promise<BlockList>;
     getBlockById(id: string): Promise<Block>;
     getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]>;
 

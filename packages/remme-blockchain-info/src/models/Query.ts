@@ -1,15 +1,9 @@
-import { RemmeFamilyName } from "remme-utils";
+import { PATTERNS, RemmeFamilyName } from "remme-utils";
 
 export interface IBaseQuery {
+    ids?: string[];
     head?: string;
     start?: string | number;
-    limit?: number;
-    reverse?: string | boolean;
-    family_name?: RemmeFamilyName;
-}
-
-export interface IBlockQuery {
-    head?: string;
     limit?: number;
     reverse?: string | boolean;
     family_name?: RemmeFamilyName;
@@ -20,40 +14,54 @@ export interface IStateQuery extends IBaseQuery {
 }
 
 export class BaseQuery implements IBaseQuery {
+    public ids?: string[];
     public head?: string;
     public start?: string | number;
     public limit?: number;
     public reverse?: string | boolean;
     public family_name?: RemmeFamilyName;
 
-    constructor(query: IBaseQuery) {
-        if (query.head && query.head.search(/[a-f0-9]{128}/) === -1) {
+    constructor({
+                    start,
+                    ids,
+                    family_name,
+                    head,
+                    limit,
+                    reverse,
+                }: IBaseQuery) {
+        if (head && head.search(/[a-f0-9]{128}/) === -1) {
             throw new Error(`Parameter "head" not a valid`);
         } else {
-            this.head = query.head;
+            this.head = head;
         }
-        this.start = query.start;
-        this.family_name = query.family_name;
-        this.limit = query.limit;
-        this.reverse = query.reverse ? "" : "false";
+
+        if (ids && !this._checkIDs(ids)) {
+            throw new Error("Parameter ids not valid");
+        } else {
+            this.ids = ids;
+        }
+
+        if (start && !this._checkStart(start)) {
+           throw new Error("Parameter `start` not a valid.");
+        } else {
+            this.start = start;
+        }
+
+        this.family_name = family_name;
+        this.limit = limit;
+        this.reverse = reverse ? "" : "false";
     }
-}
 
-export class BlockQuery implements IBlockQuery {
-    public head?: string;
-    public limit?: number;
-    public reverse?: string | boolean;
-    public family_name?: RemmeFamilyName;
-
-    constructor(query: IBlockQuery) {
-        if (query.head && query.head.search(/[a-f0-9]{128}/) === -1) {
-            throw new Error(`Parameter "head" not a valid`);
+    private _checkStart(start: string | number): boolean {
+        if (typeof start === "string") {
+            return PATTERNS.HEADER_SIGNATURE.test(start) || PATTERNS.BLOCK_NUMBER.test(start);
         } else {
-            this.head = query.head;
+            return true;
         }
-        this.family_name = query.family_name;
-        this.limit = query.limit;
-        this.reverse = query.reverse ? "" : "false";
+    }
+
+    private _checkIDs(ids: string[]): boolean {
+        return ids.every((id) => PATTERNS.HEADER_SIGNATURE.test(id));
     }
 }
 
