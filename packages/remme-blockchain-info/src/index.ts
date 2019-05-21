@@ -220,7 +220,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * });
      * console.log(blocks); // BlockList
      * ```
-     * @param {IBlockQuery} query
+     * @param {IBaseQuery} query
      * @returns {Promise<BlockList>}
      */
     /* tslint:enable */
