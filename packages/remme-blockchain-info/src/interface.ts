@@ -11,7 +11,7 @@ import {
     StateList,
     State,
     INetworkStatus,
-    IBlockInfo,
+    BlockInfo,
 } from "./models";
 
 export interface IRemmeBlockchainInfo {
@@ -21,7 +21,7 @@ export interface IRemmeBlockchainInfo {
 
     getBlocks(query?: IBaseQuery): Promise<BlockList>;
     getBlockById(id: string): Promise<Block>;
-    getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]>;
+    getBlockInfo(query?: IBaseQuery): Promise<BlockInfo>;
 
     getBatches(query?: IBaseQuery): Promise<BatchList>;
     getBatchById(id: string): Promise<Batch>;
