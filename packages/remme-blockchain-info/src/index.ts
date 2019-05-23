@@ -21,8 +21,6 @@ import {
     INetworkStatusResponse,
     INetworkStatus,
     NetworkStatus,
-    IBlockInfoResponse,
-    IBlockInfo,
     BlockInfo,
     IAddress,
     ICertVoteResponse,
@@ -31,6 +29,8 @@ import {
     CertVote,
     CertVoteMessage,
     CertVoteMessagePayload,
+    IBaseResponse,
+    IBlockInfoResponse,
 } from "./models";
 
 /* tslint:disable */
@@ -220,7 +220,7 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * });
      * console.log(blocks); // BlockList
      * ```
-     * @param {IBlockQuery} query
+     * @param {IBaseQuery} query
      * @returns {Promise<BlockList>}
      */
     /* tslint:enable */
@@ -255,31 +255,35 @@ class RemmeBlockchainInfo implements IRemmeBlockchainInfo {
      * @example
      * Without parameters.
      * ```typescript
-     * const blockInfo = await remme.blockchainInfo.getBlockInfo();
-     * console.log("blockInfo:", blockInfo); // IBlockInfo[]
+     * const blocksInfo = await remme.blockchainInfo.getBlockInfo();
+     * console.log("blockInfo:", blockInfo); // BlockInfo
      * ```
      * Start from specifying block number.
      * ```typescript
      * const blockInfo = await remme.blockchainInfo.getBlockInfo({
      *      start: 2
      * });
-     * console.log(blockInfo); // IBlockInfo[]
+     * console.log(blockInfo); // BlockInfo
      *
      * Specify limit of output
      * ```typescript
      * const blockInfo = await remme.blockchainInfo.getBlockInfo({ limit: 2 });
-     * console.log(blockInfo); // IBlockInfo[]
+     * console.log(blockInfo); // BlockInfo
+     * ```
+     * BlockInfo get next page
+     * ```typescript
+     * const blockInfo = await remme.blockchainInfo.getBlockInfo();
+     * console.log(blockInfo.data); // BlockInfoData[]
+     * const blockInfoNextPage = await remme.blockchainInfo.getBlockInfo({ next: blockInfo.paging.next });
+     * console.log(blockInfoNextPage.data); // BlockInfoData[]
      * ```
      * @param {IBaseQuery} query
-     * @returns {Promise<IBlockInfo[]>}
+     * @returns {Promise<BlockInfo>}
      */
-    public async getBlockInfo(query?: IBaseQuery): Promise<IBlockInfo[]> {
-        const blocks = await this._remmeApi
-            .sendRequest<IBaseQuery, IBlockInfoResponse[]>(RemmeMethods.blockInfo, query);
-        if (!blocks) {
-            throw new Error("Unknown error occurs in the server");
-        }
-        return blocks.map((item) => new BlockInfo(item));
+    public async getBlockInfo(query?: IBaseQuery): Promise<BlockInfo> {
+        const res = await this._remmeApi
+            .sendRequest<IBaseQuery, IBaseResponse<IBlockInfoResponse[]>>(RemmeMethods.blockInfo, query);
+        return new BlockInfo(res);
     }
 
     /* tslint:disable */
@@ -611,7 +615,7 @@ export {
     Transaction,
     TransactionList,
     INetworkStatus,
-    IBlockInfo,
+    BlockInfo,
     IBaseQuery,
     State,
     StateList,
