@@ -1,6 +1,6 @@
 {
   "name": "remme-blockchain-info",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "REMME blockchain info internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,9 +11,9 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "remme-api": "^1.1.2",
-    "remme-protobuf": "^1.1.2",
-    "remme-utils": "^1.1.2"
+    "remme-api": "^1.1.3",
+    "remme-protobuf": "^1.1.3",
+    "remme-utils": "^1.1.3"
   },
   "devDependencies": {
     "typescript": "^2.8.3"

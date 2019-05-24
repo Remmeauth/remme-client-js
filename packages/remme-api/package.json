@@ -1,6 +1,6 @@
 {
   "name": "remme-api",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "REMME api internal package",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,7 +14,7 @@
     "typescript": "^2.8.3"
   },
   "dependencies": {
-    "remme-http-client": "^1.1.2",
-    "remme-utils": "^1.1.2"
+    "remme-http-client": "^1.1.3",
+    "remme-utils": "^1.1.3"
   }
 }
