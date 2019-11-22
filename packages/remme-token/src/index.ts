@@ -1,24 +1,17 @@
-import { IRemmeAccount } from "remme-account";
-import { RemmeMethods, IRemmeApi } from "remme-api";
+import {IRemmeAccount} from "remme-account";
+import {IRemmeApi, RemmeMethods} from "remme-api";
+import {checkAddress, ConsensusAddress, generateSettingsAddress, PublicKeyRequest, RemmeFamilyName,} from "remme-utils";
+import {IBaseTransactionResponse, IRemmeTransactionService} from "remme-transaction-service";
 import {
-    RemmeFamilyName,
-    PublicKeyRequest,
-    checkAddress,
-    generateSettingsAddress,
-    ConsensusAddress,
-} from "remme-utils";
-import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
-import {
-    TransferPayload,
-    TransactionPayload,
     AccountMethod,
+    EmptyPayload,
     NodeAccountInternalTransferPayload,
     NodeAccountMethod,
-    EmptyPayload,
+    TransferPayload,
 } from "remme-protobuf";
-import SenderAccountType = TransferPayload.SenderAccountType;
 
-import { IRemmeToken } from "./interface";
+import {IRemmeToken} from "./interface";
+import SenderAccountType = TransferPayload.SenderAccountType;
 
 /**
  * Class that work with tokens.
@@ -96,10 +89,8 @@ class RemmeToken implements IRemmeToken {
         data: Uint8Array,
         inputsOutputs: string[],
     ) {
-        const transactionPayload = TransactionPayload.encode({
-            method,
-            data,
-        }).finish();
+        const transactionPayload = this._remmeTransaction.generateTransactionPayload(method, data);
+
         const transaction = await this._remmeTransaction.create({
             familyName,
             familyVersion: this._familyVersion,

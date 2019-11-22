@@ -34,6 +34,13 @@ import {
  */
 class RemmeTransactionService implements IRemmeTransactionService {
 
+    public generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
+        return protobuf.TransactionPayload.encode({
+            method,
+            data,
+        }).finish();
+    }
+
     // index signature
     [key: string]: any;
 

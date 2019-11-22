@@ -1,4 +1,4 @@
-import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
+import {IBaseTransactionResponse, IRemmeTransactionService, RemmeTransactionService} from "remme-transaction-service";
 import { IRemmeAccount } from "remme-account";
 import { IRemmeApi, RemmeMethods } from "remme-api";
 import {
@@ -8,7 +8,6 @@ import {
     NodeAccountMethod,
     SetBetPayload,
     Setting,
-    TransactionPayload,
 } from "remme-protobuf";
 import {
     base64ToArrayBuffer,
@@ -102,10 +101,7 @@ class RemmeNodeManagement implements IRemmeNodeManagement {
             data: Uint8Array,
             inputsOutputs: { inputs: string[], outputs: string[] } | string[],
         ) {
-        const transactionPayload = TransactionPayload.encode({
-            method,
-            data,
-        }).finish();
+        const transactionPayload = this._remmeTransaction.generateTransactionPayload(method, data);
 
         let inputs: string[];
         let outputs: string[];

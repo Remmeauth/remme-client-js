@@ -11,14 +11,13 @@ import {
     sha512,
 } from "remme-utils";
 import { IRemmeApi, RemmeMethods } from "remme-api";
-import { IBaseTransactionResponse, IRemmeTransactionService } from "remme-transaction-service";
+import {IBaseTransactionResponse, IRemmeTransactionService,} from "remme-transaction-service";
 import {
     INewPubKeyPayload,
     NewPubKeyPayload,
     NewPubKeyStoreAndPayPayload,
     PubKeyMethod,
     RevokePubKeyPayload,
-    TransactionPayload,
 } from "remme-protobuf";
 import { IRemmeAccount } from "remme-account";
 import { KeyType, RemmeKeys, RSASignaturePadding } from "remme-keys";
@@ -82,12 +81,6 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
     private readonly _familyVersion = "0.1";
     private readonly _settingAddress = generateSettingsAddress("remme.economy_enabled");
 
-    private _generateTransactionPayload(method: number, data: Uint8Array): Uint8Array {
-        return TransactionPayload.encode({
-            method,
-            data,
-        }).finish();
-    }
 
     private async _createAndSendTransaction(inputs: string[], outputs: string[], payloadBytes: Uint8Array)
         : Promise<IBaseTransactionResponse> {
@@ -347,7 +340,7 @@ class RemmePublicKeyStorage implements IRemmePublicKeyStorage {
             inputsOutputs.push(ownerAddress);
         }
 
-        const payloadBytes = this._generateTransactionPayload(
+        const payloadBytes = this._remmeTransaction.generateTransactionPayload(
             ownerAddress
                 ? PubKeyMethod.Method.STORE_AND_PAY
                 : PubKeyMethod.Method.STORE,

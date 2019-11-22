@@ -6,4 +6,6 @@ export interface IRemmeTransactionService {
 
     send(transaction: string): Promise<IBaseTransactionResponse>;
 
+    generateTransactionPayload(method: number, data: Uint8Array): Uint8Array;
+
 }
